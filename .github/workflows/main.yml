@@ -1,3 +1,14 @@
-              - name: Github Action for LaTeX
-                uses: xu-cheng/latex-action@3.1.0
-            
+name: Build LaTeX document and Release PDF
+on: [push]
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v3
+      - name: Github Action for LaTeX
+        uses: xu-cheng/latex-action@3.1.0
+        with:
+          root_file: main.tex
+          continue_on_error: true
+
