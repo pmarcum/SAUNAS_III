@@ -13,6 +13,9 @@ jobs:
   #   how-to-automatically-update-resume-on-your-personal-site-from-overleaf-1fld
   build_latex:
     runs-on: ubuntu-latest
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
     steps:        
       - name: Set up Git repository
         uses: actions/checkout@v3
