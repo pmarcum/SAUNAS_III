@@ -24,7 +24,6 @@ jobs:
         uses: xu-cheng/latex-action@3.1.0
         with:
           root_file: "${{ github.event.inputs.file2compile }}.tex"
-          compiler: pdflatex
           continue_on_error: true 
       - name: Upload PDF file
         uses: actions/upload-artifact@v3
