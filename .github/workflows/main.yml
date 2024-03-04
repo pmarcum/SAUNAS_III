@@ -4,23 +4,10 @@ name: Build LaTeX document and Release PDF
   # https://mrturkmen.com/posts/build-release-latex/
 on:
   push:
-    workflow_dispatch:
-       # parameters passed to this workflow through the API call
-       inputs:
-         # the name of the .tex file to be compiled is one of the parameters. To pass the parameters
-         # in the call, here's an example curl:
-         # curl -X POST -H "Accept: application/vnd/github.v3+json" 
-         #   -H "authorization: Bearer <token>" https://api.github.com/repos/{owner}/{repo}/dispatches 
-         #       -d '{"ref":"ref"}
-         maintex:
-           description: "The .tex file to be compiled"
-           required: true
-           type: "string"
-           default: "main"
     branches: 
       - main
     paths:
-      - ${{ inputs.maintex }}.tex
+      - main.tex
 jobs:
   build_latex:
     runs-on: ubuntu-latest
@@ -37,13 +24,13 @@ jobs:
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@3.1.0
         with:
-          root_file: ${{ inputs.maintex }}.tex
+          root_file: main.tex
           continue_on_error: true 
       - name: Uploading artifact
         uses: actions/upload-artifact@v3
         with: 
           name: PDF
-          path: ${{ inputs.maintex }}.pdf
+          path: main.pdf
       - name: Get Time
         id: time
         uses: nanzm/get-time-action@v2.0
@@ -63,7 +50,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./${{ inputs.maintex }}.pdf
-          asset_name: ${{ inputs.maintex }}.pdf
+          asset_path: ./main.pdf
+          asset_name: main.pdf
           asset_content_type: application/pdf
 
