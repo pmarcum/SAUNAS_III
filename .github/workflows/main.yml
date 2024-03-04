@@ -21,7 +21,7 @@ jobs:
         with:
           root_file: main.tex
           continue_on_error: true 
-      - name: Uploading artifact
+      - name: Upload PDF file
         uses: actions/upload-artifact@v3
         with: 
           name: PDF
@@ -32,20 +32,10 @@ jobs:
         with: 
           timeZone: 0
           format: 'YYYY-MM-DD-HH-mm-ss'
-      - name: Create Release
+      - name: Publish PDF to repo
         id: create_release
-        uses: softprops/action-gh-release@v0.1.15
+        uses: stefanzweifel/git-auto-commit-action@v5.0.0
         with:
-          name: Document compiled on ${{ steps.time.outputs.time }}
-          tag_name: ${{ steps.time.outputs.time }}
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: softprops/action-gh-release@v0.1.15
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./main.pdf
-          asset_name: main.pdf
-          asset_content_type: application/pdf
+          file_pattern: '*.pdf'
+          commit_message: 'Changed files'
 
