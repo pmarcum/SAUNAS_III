@@ -4,11 +4,11 @@ name: Build LaTeX document and Release PDF
   # https://mrturkmen.com/posts/build-release-latex/
 on:
   workflow_dispatch:
-    inputs: 
-      file2compile:
-         description: "Name of .tex file to compile, without the .tex part"
-         required: true
-         default: "main"
+  #  inputs: 
+  #    file2compile:
+  #       description: "Name of .tex file to compile, without the .tex part"
+  #       required: true
+  #       default: "main"
 jobs:
   # followed: https://dev.to/dessygil/
   #   how-to-automatically-update-resume-on-your-personal-site-from-overleaf-1fld
@@ -23,14 +23,16 @@ jobs:
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@3.1.0
         with:
-          root_file: "${{ github.event.inputs.file2compile }}.tex"
+        #  root_file: "${{ github.event.inputs.file2compile }}.tex"
+          root_file: "main.tex"
           compiler: pdflatex
           continue_on_error: true 
       - name: Upload PDF file
         uses: actions/upload-artifact@v3
         with: 
           name: PDF
-          path: "${{ github.event.inputs.file2compile }}.pdf"
+        #  path: "${{ github.event.inputs.file2compile }}.pdf"
+          path: "main.pdf"
       - name: Publish PDF to repo
         id: create_release
         uses: stefanzweifel/git-auto-commit-action@v5.0.0
