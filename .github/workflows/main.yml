@@ -4,6 +4,7 @@ name: Build LaTeX document and Release PDF
   # https://mrturkmen.com/posts/build-release-latex/
 on:
   push:
+    batch: true # when pipeline running, system waits until run is done
     branches: 
       - main
     paths:
@@ -17,24 +18,19 @@ jobs:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
     steps:        
-      - name: Set up Git repository
+      - name: Clone repo
         uses: actions/checkout@v3
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@3.1.0
         with:
           root_file: main.tex
+          compiler: pdflatex
           continue_on_error: true 
       - name: Upload PDF file
         uses: actions/upload-artifact@v3
         with: 
           name: PDF
           path: main.pdf
-      - name: Get Time
-        id: time
-        uses: nanzm/get-time-action@v2.0
-        with: 
-          timeZone: 0
-          format: 'YYYY-MM-DD-HH-mm-ss'
       - name: Publish PDF to repo
         id: create_release
         uses: stefanzweifel/git-auto-commit-action@v5.0.0
