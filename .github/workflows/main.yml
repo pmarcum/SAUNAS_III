@@ -30,11 +30,11 @@ jobs:
         with: 
           name: PDF
           path: "${{ github.event.inputs.file2compile }}.pdf"
-      - uses: GuillaueFalourd/command-output-file-action@v1.1
-        with:
-          command_line: ls -lha
-          output_file_name: output.txt
-          display_file_content: YES
+  #    - uses: GuillaueFalourd/command-output-file-action@v1.1
+  #      with:
+  #        command_line: ls -lha
+  #        output_file_name: output.txt
+  #        display_file_content: YES
       - name: Publish PDF to repository
         id: create_release
         uses: stefanzweifel/git-auto-commit-action@v5.0.0
