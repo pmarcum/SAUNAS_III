@@ -20,7 +20,7 @@ jobs:
           # https://stackoverflow.com/questions/64076798/
           #     how-to-trigger-a-github-actions-workflow-on-push-to-another-branch
           # https://dev.to/dessygil/how-to-automatically-update-resume-on-your-personal-site-from-overleaf-1fld
-          token: ${{ secrets.PAT }}
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@3.1.0
         with:
