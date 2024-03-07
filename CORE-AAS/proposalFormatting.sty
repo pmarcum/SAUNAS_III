@@ -1,0 +1,51 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%% FREQUENTLY USED formatting
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   Consolidates the formatting applied to our documents in a single file
+%   Note that one-off changes are best put durectly in the document's preamble
+%
+%  To incorporate these formatting commands, in the preamble of your 
+%  document, simply type:  
+%  \usepackage{FUformatting}
+% -------------------------------------------
+\usepackage[toc,page]{appendix}
+\usepackage{tikz}  % tikz for NOTANONschedule.tex
+\usetikzlibrary{shapes.multipart,arrows.meta, positioning, fit, shapes.misc,tikzmark,overlay-beamer-styles,bending} 
+% Set the page margins (for proposals):
+\usepackage[top=1.0in, left=1in, right=1in, bottom=1.0in]{geometry} % Set the page margins
+\newcolumntype{M}[1]{>{\begin{varwidth}[t]{#1}}l<{\end{varwidth}}} % allow for wrapping long text strings inside a cell within a table
+\definecolor{mediumelectricblue}{rgb}{0.01, 0.31, 0.59}
+\definecolor{WatermarkColor}{HTML}{8887AD} \pagestyle{fancy} \fancyhf{} \fancyfoot[C]{\thepage} % place a line at the top with title to the right and the program name to the left
+% make the section titles appear in color to stand out
+%\titleformat{\section}{\centering\color{NavyBlue}\normalfont\large\bfseries}{\thesection}{1em}{}
+%\titleformat{\subsection}{\centering\color{NavyBlue}\normalfont\large\itshape}{\thesubsection}{1em}{}
+%\titleformat{\subsubsection}{\centering\color{NavyBlue}\normalfont\normalsize}{\thesubsubsection}{1em}{}
+\interfootnotelinepenalty=10000 \crefformat{footnote}{#2\footnotemark[#1]#3}
+\setlength\parindent{0pt} % suppress new paragraph indentation
+\raggedbottom % put any extra white space appearing on a page at the bottom of the page
+\newtcolorbox{callout}[4][] {colback=#3!5!white,colframe=#3!75!black,fonttitle=\bfseries,title={#4},#2,}
+\makeatletter \def\expinput#1{\@@input#1} \makeatother % needed when a partial table (without the top part) is inserted by \input
+\setcitestyle{square} \setcitestyle{citesep={,}} % make the references appear as "blah blah blah [1,3] instead of (1;3)
+\setlength\cftparskip{2pt} \setlength\cftbeforesecskip{2pt} \setlength\cftaftertoctitleskip{2pt} % Controls the spacing between lines in the Table of Contents
+\captionsetup[table]{font={stretch=1}}     %% change 1.2 as you like
+\captionsetup[figure]{font={stretch=1}}    %% change 1.2 as you like
+\parskip =12pt plus 1pt minus 2pt % Set up the spacing between paragraphs.  The first number below is the  preferred spacing, and the plus 1pt minus 2pt is the amount of flexibility given to the code to make the best use of the available space
+\newcommand{\nosection}[1]{\refstepcounter{section}\markright{#1}} % generate a section that increments the section number counter but does not put a number by the section label nor lists the "fake" section in the table of contents.
+
+%\addtolength{\parskip}{-5pt} % make the vertical space between paragraphs smaller than default
+%%%\newcommand{\noDollarIcon}[4][-0.3][0.4mm][0.2][0.15]{{\raisebox{#1\normalbaselineskip}[0pt][0pt]{
+%%\begin{tikzpicture} 
+%%   \draw[fill=white,draw=red,line width=#2] (0,0) circle[radius=#3];
+%%   \draw[line width=#2,red] node[midway,black]{\faDollar} (#4,#4) -- (-#4,-#4);
+%%   \draw[line width=#2,red] (#4,#4) -- (-#4,-#4);
+%%   \end{tikzpicture}}}}  % create the no-dollar sign to use in NOTANONschedule.tex to represent FTEs not covered in the proposal budget -- missing \being{document}, illegal parameter number, tikzpicture environment undefined
+%%%%\newfloatcommand{capbtabbox}{table}[][\FBwidth]  % Table float box with bottom caption, box width adjusted to content  undefined control sequence, missing begin{document}
+%%%%\usepackage{parfill}{parskip} %% parfill.sty not found 
+%%%%\usepackage{figuresright}{rotating}  % for sidewaystableks.tex  %% figuresright.sty nt founod
+%%%%\usepackage{titlesec} % caused the AAS formatting header stuff on front page like title, authors to disappear
+%%%%\usepackage{caption}  % already redefined by a document class or package which is unknown to caption package
+%%%%\usepackage{dvipsnames}  % when used with tikz, get dvipsnames.sty not found
+
+
+
+
