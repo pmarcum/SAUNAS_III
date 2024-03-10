@@ -1,0 +1,33 @@
+name: store_docker_image
+  # https://github.com/orgs/community/discussions/26330
+on:
+  workflow_dispatch:
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+    steps:        
+      - name: Clone repo
+        uses: actions/checkout@v3
+      - run: mkdie -p ~/imaee-cache
+      - id: image-cache
+        uses: actions/cache@v1
+        with:
+          path: ~/image-cache
+          # Adjust key to meet your cache time requirements e.g., 
+          # ${{ hashFiles(*) }} can be useful here to invalidate 
+          # cache on file changes
+          key: image-cache-${{ runner.os }}
+      - if: steps.image-cache.outputs.cache-hit != 'true'
+        run: 
+          docker pull texlive
+          docker save -o ~/image-cache/texlive.tar texlive
+      - if: steps.image-cache.outputs.cache-hit == 'true'
+        run: docker load -i ~/image-cache/texlive.tar
+      - name: 'Run tests on image'
+        uses: whatever/structure-tests-action@master
+        with:
+          image:texlive
+          configFile: 'test/structure-tests.yaml'
