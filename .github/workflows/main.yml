@@ -17,9 +17,20 @@ jobs:
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
-    steps:        
+    steps:
+      # the below cache idea is to cache the latex build rather than building every time
+      # not sure it will work, idea from https://github.com/actions/checkout/issues/1314
+      - name: Cache git folder
+        uses: actions/cache@v3
+        with:
+          path: checkout_path/.git
+          key: git-folder
       - name: Clone repo
         uses: actions/checkout@v4
+        with:
+          path: checkout_path
+          submodules: recursive
+      # Not sure what will happen below if things get cached
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@3.2.0
         with:
