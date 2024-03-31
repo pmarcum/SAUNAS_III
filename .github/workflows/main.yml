@@ -21,7 +21,7 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
       - name: Compile LaTeX document
-        uses: xu-cheng/latex-action@3.1.0
+        uses: xu-cheng/latex-action@3.2.0
         with:
           root_file: "${{ github.event.inputs.file2compile }}.tex"
           continue_on_error: true 
