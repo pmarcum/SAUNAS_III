@@ -19,7 +19,7 @@ jobs:
       contents: write
     steps:        
       - name: Clone repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@3.1.0
         with:
