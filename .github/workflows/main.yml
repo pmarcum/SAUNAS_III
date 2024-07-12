@@ -23,6 +23,7 @@ jobs:
       - uses: actions/cache@v3
         name: Tectonic Cache
         # https://github.com/marketplace/actions/setup-tectonic
+        # https://tectonic-typesetting.github.io/en-US/
         with:
           path: ~/.cache/Tectonic
           key: ${{ runner.od }}-tectonic-${{ hashFiles('**/*.tex') }}
