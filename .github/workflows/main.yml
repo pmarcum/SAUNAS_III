@@ -20,15 +20,19 @@ jobs:
     steps:
       - name: Clone repo
         uses: actions/checkout@v4
-      - name: Install TeX Live  packages
-        run: sudo apt install -y texlive-base latexmk
-      - name: Compile the LaTeX document
-        run: latexmk -interaction=nonstopmode -file-line-error "${{ github.event.inputs.file2compile }}.tex"
-#      - name: Compile LaTeX document
-#        uses: xu-cheng/latex-action@3.2.0
-#        with:
-#          root_file: "${{ github.event.inputs.file2compile }}.tex"
-#          continue_on_error: true 
+      - uses: actions/cache@v3
+        name: Tectonic Cache
+        # https://github.com/marketplace/actions/setup-tectonic
+        with:
+          path: ~/.cache/Tectonic
+          key: ${{ runner.od }}-tectonic-${{ hashFiles('**/*.tex') }}
+          restore-keys: |
+            ${{ runner.os }}-tectonic-
+      - uses: wtfjoke/setup-tectonic@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run Tectonic
+        run: tectonic ${{ github.event.inputs.file2compile }}.tex
       - name: Upload PDF file
         uses: actions/upload-artifact@v4
         with: 
