@@ -40,11 +40,12 @@ jobs:
       - name: Run Tectonic
         id: compilation
         run: |
-           tectonic ${{ github.event.inputs.file2compile }}.tex > ${{ github.event.inputs.file2compile }}_out.txt
+           tectonic ${{ github.event.inputs.file2compile }}.tex
+#           tectonic ${{ github.event.inputs.file2compile }}.tex > ${{ github.event.inputs.file2compile }}_out.txt
 
       - name: Get compilation output
         run: |
-          echo ${{ steps.compilation }}
+          echo ${{ steps.compilation.outputs }}
           
       - name: Upload PDF file
         uses: actions/upload-artifact@v4
@@ -52,11 +53,11 @@ jobs:
           name: PDF
           path: "${{ github.event.inputs.file2compile }}.pdf"
           
-      - name: Upload compilation output file
-        uses: actions/upload-artifact@v4
-        with: 
-          name: compileOutput
-          path: "${{ github.event.inputs.file2compile }}_out.txt"
+#      - name: Upload compilation output file
+#        uses: actions/upload-artifact@v4
+#        with: 
+#          name: compileOutput
+#          path: "${{ github.event.inputs.file2compile }}_out.txt"
           
       - name: Publish PDF to repo
         id: create_release
