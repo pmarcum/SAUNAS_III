@@ -26,7 +26,7 @@ jobs:
         # https://tectonic-typesetting.github.io/en-US/
         with:
           path: ~/.cache/Tectonic
-          key: ${{ runner.od }}-tectonic-${{ hashFiles('**/*.tex') }}
+          key: ${{ runner.os }}-tectonic-${{ hashFiles('**/*.tex') }}
           restore-keys: |
             ${{ runner.os }}-tectonic-
       - uses: wtfjoke/setup-tectonic@v3
