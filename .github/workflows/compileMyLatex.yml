@@ -26,9 +26,10 @@ jobs:
         # https://tectonic-typesetting.github.io/en-US/
         with:
           path: ~/.cache/Tectonic
-          key: ${{ runner.os }}-tectonic-${{ hashFiles('**/*.tex') }}
+          # can add ${{ hashFiles('**/*.tex') }} to invalidate cache on file changes
+          key: ${{ runner.os }}-tectonic
           restore-keys: |
-            ${{ runner.os }}-tectonic-
+            ${{ runner.os }}-tectonic
       - uses: wtfjoke/setup-tectonic@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
