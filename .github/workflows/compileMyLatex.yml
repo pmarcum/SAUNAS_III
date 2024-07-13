@@ -38,7 +38,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Run Tectonic
-        if: compilation
+        id: compilation
         run: |
            tectonic ${{ github.event.inputs.file2compile }}.tex > ${{ github.event.inputs.file2compile }}_out.txt
 
