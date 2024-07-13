@@ -40,11 +40,7 @@ jobs:
       - name: Run Tectonic
         id: compilation
         run: |
-           tectonic ${{ github.event.inputs.file2compile }}.tex &> ${{ github.event.inputs.file2compile }}_out.txt
-
-      - name: Get compilation output
-        run: |
-          echo ${{ steps.compilation.outputs }}
+           tectonic ${{ github.event.inputs.file2compile }}.tex &> grep "\: *{{github.event.inputs.file2compile }}" | ${{ github.event.inputs.file2compile }}_out.txt
           
       - name: Upload PDF file
         uses: actions/upload-artifact@v4
