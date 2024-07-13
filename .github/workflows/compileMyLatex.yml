@@ -38,7 +38,11 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Run Tectonic
-        run: tectonic ${{ github.event.inputs.file2compile }}.tex
+        run: |
+           tectonic ${{ github.event.inputs.file2compile }}.tex > latex.out
+           pwd
+           ls
+           more latex.out
         
       - name: Upload PDF file
         uses: actions/upload-artifact@v4
