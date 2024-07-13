@@ -38,7 +38,7 @@ jobs:
  #         github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: see if latex is automatically in the OS distribution
-        runs: |
+        run: |
             which pdflatex
             ls ~/.cache
           
