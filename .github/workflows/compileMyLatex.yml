@@ -39,10 +39,7 @@ jobs:
           
       - name: Run Tectonic
         run: |
-           tectonic ${{ github.event.inputs.file2compile }}.tex > latex.out
-           pwd
-           ls
-           more latex.out
+           tectonic ${{ github.event.inputs.file2compile }}.tex > ${{ github.event.inputs.file2compile }}_out.txt
         
       - name: Upload PDF file
         uses: actions/upload-artifact@v4
@@ -50,9 +47,22 @@ jobs:
           name: PDF
           path: "${{ github.event.inputs.file2compile }}.pdf"
           
-      - name: Publish PDF to repo
+#      - name: Publish PDF to repo
+#        id: create_release
+#        uses: stefanzweifel/git-auto-commit-action@v5.0.0
+#        with:
+#          file_pattern: '*.pdf'
+#          commit_message: 'Changed files'
+
+      - name: Upload compilation output file
+        uses: actions/upload-artifact@v4
+        with: 
+          name: compileOutput
+          path: "${{ github.event.inputs.file2compile }}_out.txt"
+          
+      - name: Publish output to repo
         id: create_release
         uses: stefanzweifel/git-auto-commit-action@v5.0.0
         with:
-          file_pattern: '*.pdf'
+          file_pattern: '${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}_out.txt'
           commit_message: 'Changed files'
