@@ -54,9 +54,9 @@ jobs:
            sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt | \
               sed -r 's/\. *\x0+([a-zA-Z]+) *\:/\.\n\1\:/g' | \
               sed -r 's/\x0+//g' > tmptmpout.txt
-           mv -rf tmptmpout.txt tmpout.txt
+           mv -f tmptmpout.txt tmpout.txt
            grep ".tex" tmpout.txt > tmptmpout.txt
-           mv -rf tmptmpout.txt ${{ github.event.inputs.file2compile }}_out.txt
+           mv -f tmptmpout.txt ${{ github.event.inputs.file2compile }}_out.txt
            
       - name: Upload PDF file
         uses: actions/upload-artifact@v4
