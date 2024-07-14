@@ -62,6 +62,8 @@ jobs:
            mv -f tmptmpout.txt tmpout.txt
            grep ".tex" tmpout.txt > tmptmpout.txt
            mv -f tmptmpout.txt ${{ github.event.inputs.file2compile }}_out.txt
+           echo ===> the final out file
+           cat ${{ github.event.inputs.file2compile }}_out.txt
            
       - name: Upload PDF file
         uses: actions/upload-artifact@v4
