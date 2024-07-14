@@ -1,7 +1,15 @@
 name: Build LaTeX document and Release PDF
-  # Controls when the action will run.
-  # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
-  # https://mrturkmen.com/posts/build-release-latex/
+# Version: 07142024
+#
+# Is executed at gooTeX script's prompt. 
+# ############################
+#      Pamela M. Marcum      #
+#  first created: 07/14/2024 #
+# ############################
+# Controls when the action will run.
+# https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
+# https://mrturkmen.com/posts/build-release-latex/
+
 on:
   workflow_dispatch:
     inputs: 
@@ -40,8 +48,16 @@ jobs:
       - name: Run Tectonic
         id: compilation
         run: |
-           tectonic ${{ github.event.inputs.file2compile }}.tex &> grep "\: *{{github.event.inputs.file2compile }}" > ${{ github.event.inputs.file2compile }}_out.txt
-          
+           tectonic ${{ github.event.inputs.file2compile }}.tex &> tmpout.txt
+           # remove lines in the output that are unrelated to the latex compilation itself
+           # First, move lines that should have been the ending of the previous line, to the end of that previous line
+           sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt | \
+              sed -r 's/\. *\x0+([a-zA-Z]+) *\:/\.\n\1\:/g' | \
+              sed -r 's/\x0+//g' > tmptmpout.txt
+           mv -rf tmptmpout.txt tmpout.txt
+           grep ".tex" tmpout.txt > tmptmpout.txt
+           mv -rf tmptmpout.txt ${{ github.event.inputs.file2compile }}_out.txt
+           
       - name: Upload PDF file
         uses: actions/upload-artifact@v4
         with: 
