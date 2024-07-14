@@ -59,7 +59,7 @@ jobs:
               sed -r 's/\.\x0+([a-zA-Z]+)\:/\.\n\1\:/g' | \
               sed -r 's/\x0+/\n/g' > tmptmpout.txt
            mv -f tmptmpout.txt tmpout.txt
-           grep ".tex" tmpout.txt > tmptmpout.txt
+           grep "\.tex" tmpout.txt > tmptmpout.txt
            mv -f tmptmpout.txt tmpout.txt
            sort tmpout.txt | uniq > tmptmpout.txt
            mv -f tmptmpout.txt ${{ github.event.inputs.file2compile }}_out.txt
