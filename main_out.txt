@@ -1,8 +1,2 @@
-warning:main.tex:21:Overfull \hbox (15.35304pt too wide) in paragraph at lines 21--21
 note:Rerunning TeX because bibtex was run ...
-warning:main.tex:21:Overfull \hbox (15.35304pt too wide) in paragraph at lines 21--21
-warning:main.tex:21:Overfull \hbox (15.35304pt too wide) in paragraph at lines 21--21
-warning:main.tex:21:Overfull \hbox (15.35304pt too wide) in paragraph at lines 21--21
-warning:main.tex:21:Overfull \hbox (15.35304pt too wide) in paragraph at lines 21--21
-warning:main.tex:21:Overfull \hbox (15.35304pt too wide) in paragraph at lines 21--21
 warning:main.tex:21:Overfull \hbox (15.35304pt too wide) in paragraph at lines 21--21
