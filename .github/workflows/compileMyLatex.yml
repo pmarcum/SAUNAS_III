@@ -56,7 +56,6 @@ jobs:
         # remove lines in the output that are unrelated to the latex compilation itself
         # First, move lines that should have been the ending of the previous line, to the end of that previous line
         run: |
-           cat tmpout.txt 
            sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt | \
               sed -r 's/\x0+/\x0/g' | \
               sed -r 's/ *\x0 */\x0/g' | \
