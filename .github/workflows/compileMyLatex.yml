@@ -73,10 +73,12 @@ jobs:
         uses: awalsh128/cache-apt-pkgs-action@latest
         with:
           packages: libreoffice
+          execute_install_scripts: true
         
       - name: Turn failed compilation error to pdf
         if: steps.compilation.outcome != 'success'
         run: |
+          ls
           cat tmpout.txt
           echo "getting ready to convert the txt file to pdf file"
           libreoffice --convert-to "pdf" tmpout.txt
