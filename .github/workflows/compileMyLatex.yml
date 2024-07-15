@@ -77,7 +77,10 @@ jobs:
       - name: Turn failed compilation error to pdf
         if: steps.compilation.outcome != 'success'
         run: |
+          cat tmpout.txt
+          echo "getting ready to convert the txt file to pdf file"
           libreoffice --convert-to "pdf" tmpout.txt
+          ls
           mv tmpout.pdf ${{ github.event.inputs.file2compile }}.pdf 
 #          sudo apt-get install -y libreoffice
 #          libreoffice --convert-to "pdf" ${{ github.event.inputs.file2compile }}_out.txt
