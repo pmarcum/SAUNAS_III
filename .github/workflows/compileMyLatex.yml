@@ -71,9 +71,8 @@ jobs:
 
       - name: Turn failed compilation error to pdf
         if: steps.compilation.outcome != 'success'
-        uses: docker://pandoc/core:2.9
-        with:
-          args: --output=${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}_out.txt
+        run: |
+          pandoc ${{ github.event.inputs.file2compile }}_out.txt -o ${{ github.event.inputs.file2compile }}.pdf
            
       - name: Upload PDF file
         uses: actions/upload-artifact@v4
