@@ -72,7 +72,7 @@ jobs:
       - name: Turn failed compilation error to pdf
         if: steps.compilation.outcome != 'success'
         run: |
-          pandoc ${{ github.event.inputs.file2compile }}_out.txt -o ${{ github.event.inputs.file2compile }}.pdf
+          libreoffice --convert-to "pdf" ${{ github.event.inputs.file2compile }}_out.txt
            
       - name: Upload PDF file
         uses: actions/upload-artifact@v4
