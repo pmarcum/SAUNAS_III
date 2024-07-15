@@ -49,22 +49,21 @@ jobs:
       - name: Run Tectonic
         id: compilation
         run: |
-            tectonic ${{ github.event.inputs.file2compile }}.tex 
-  #         tectonic ${{ github.event.inputs.file2compile }}.tex &> tmpout.txt
-  #         # remove lines in the output that are unrelated to the latex compilation itself
-  #         # First, move lines that should have been the ending of the previous line, to the end of that previous line
-  #         cat tmpout.txt 
-  #         sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt | \
-  #            sed -r 's/\x0+/\x0/g' | \
-  #            sed -r 's/ *\x0 */\x0/g' | \
-  #            sed -r 's/\ *\: */\:/g' | \
-  #            sed -r 's/\.\x0+([a-zA-Z]+)\:/\.\n\1\:/g' | \
-  #            sed -r 's/\x0+/\n/g' > tmptmpout.txt
-  #         mv -f tmptmpout.txt tmpout.txt
-  #         grep "\.tex" tmpout.txt > tmptmpout.txt
-  #         mv -f tmptmpout.txt tmpout.txt
-  #         sort tmpout.txt | uniq > tmptmpout.txt
-  #         mv -f tmptmpout.txt ${{ github.event.inputs.file2compile }}_out.txt
+           tectonic ${{ github.event.inputs.file2compile }}.tex &> tmpout.txt
+           # remove lines in the output that are unrelated to the latex compilation itself
+           # First, move lines that should have been the ending of the previous line, to the end of that previous line
+           cat tmpout.txt 
+           sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt | \
+              sed -r 's/\x0+/\x0/g' | \
+              sed -r 's/ *\x0 */\x0/g' | \
+              sed -r 's/\ *\: */\:/g' | \
+              sed -r 's/\.\x0+([a-zA-Z]+)\:/\.\n\1\:/g' | \
+              sed -r 's/\x0+/\n/g' > tmptmpout.txt
+           mv -f tmptmpout.txt tmpout.txt
+           grep "\.tex" tmpout.txt > tmptmpout.txt
+           mv -f tmptmpout.txt tmpout.txt
+           sort tmpout.txt | uniq > tmptmpout.txt
+           mv -f tmptmpout.txt ${{ github.event.inputs.file2compile }}_out.txt
 
       - name: Upload PDF file
         uses: actions/upload-artifact@v4
