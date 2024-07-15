@@ -69,10 +69,7 @@ jobs:
            sort tmpout.txt | uniq > tmptmpout.txt
            mv -f tmptmpout.txt tmpout.txt
            cp ${{ github.event.inputs.file2compile }}.tex tmptmp.tex
-           touch newout.txt
-           #while read -r line; echo line>>newout.txt; linenumber=$(echo $line | sed -n -E -e 's/\:([0-9]+)\:/\1/p'); (sed -n '${{ linenumber }}p' < tmptmp.tex)>>newout.txt; done < tmpout.txt
            while read line; echo "$line"; done<tmpout.txt
-           more newout.txt
     
       - name: Turn failed compilation error to pdf
         if: steps.compilation.outcome != 'success'
