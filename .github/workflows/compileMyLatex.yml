@@ -71,8 +71,9 @@ jobs:
            touch tout.txt
            while IFS= read -r line; do
               echo "$line">>tout.txt
-              linenum=${$(echo "$line" | sed 's/\:[0-9]+\:')//:/}              
-              echo "$linenum">>tout.txt
+              # squash.io/extracting=numbers-from-strings-in-bash
+              linenum=$(echo "$line" | sed -e 's/[^0-9]/ /g' -e 's/^ *//g' -e 's/ *$//g' -e 's/ *[0-9]*//g')
+              echo "$linenum"
            done<tmpout.txt
            more tout.txt
     
