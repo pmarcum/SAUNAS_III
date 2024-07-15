@@ -69,8 +69,13 @@ jobs:
            sort tmpout.txt | uniq > tmptmpout.txt
            mv -f tmptmpout.txt ${{ github.event.inputs.file2compile }}_out.txt
 
+      - name: Turn failed compilation error to pdf
+        if: steps.compilation.outcome != 'success'
+        uses: docker://pandoc/core:2.9
+        with:
+          args: --output=${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}_out.txt
+           
       - name: Upload PDF file
-        if: steps.compilation.outcome = 'success'
         uses: actions/upload-artifact@v4
         with: 
           name: PDF
@@ -84,15 +89,8 @@ jobs:
           
       - name: Publish PDF to repo
         id: release_pdf
-        if: steps.compilation.outcome = 'success'
         uses: stefanzweifel/git-auto-commit-action@v5.0.0
         with:
-          file_pattern: '${{ github.event.inputs.file2compile }}.pdf'
+          file_pattern: '${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}_out.txt'
           commit_message: 'Newly compiled PDF'
           
-      - name: Publish compilation output to repo
-        id: release_output
-        uses: stefanzweifel/git-auto-commit-action@v5.0.0
-        with:
-          file_pattern: '${{ github.event.inputs.file2compile }}_out.txt'
-          commit_message: 'Compilation output'
