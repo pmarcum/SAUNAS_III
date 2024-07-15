@@ -64,6 +64,7 @@ jobs:
 #           mv -f tmptmpout.txt tmpout.txt
 #           sort tmpout.txt | uniq > tmptmpout.txt
 #           mv -f tmptmpout.txt ${{ github.event.inputs.file2compile }}_out.txt
+        continue-on-error: true
 
       - name: Check for compilation error
         if: steps.compilation.outcome != 'success'
