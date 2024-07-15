@@ -50,44 +50,50 @@ jobs:
         id: compilation
         run: |
            tectonic ${{ github.event.inputs.file2compile }}.tex &> tmpout.txt
-           # remove lines in the output that are unrelated to the latex compilation itself
-           # First, move lines that should have been the ending of the previous line, to the end of that previous line           
-#           cat tmpout.txt 
-#           sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt | \
-#              sed -r 's/\x0+/\x0/g' | \
-#              sed -r 's/ *\x0 */\x0/g' | \
-#              sed -r 's/\ *\: */\:/g' | \
-#              sed -r 's/\.\x0+([a-zA-Z]+)\:/\.\n\1\:/g' | \
-#              sed -r 's/\x0+/\n/g' > tmptmpout.txt
-#           mv -f tmptmpout.txt tmpout.txt
-#           grep "\.tex" tmpout.txt > tmptmpout.txt
-#           mv -f tmptmpout.txt tmpout.txt
-#           sort tmpout.txt | uniq > tmptmpout.txt
-#           mv -f tmptmpout.txt ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
-
-      - name: Check for compilation error
-        if: steps.compilation.outcome != 'success'
+        
+      - name: Capture compilation output
+        # remove lines in the output that are unrelated to the latex compilation itself
+        # First, move lines that should have been the ending of the previous line, to the end of that previous line
         run: |
-           ls
            cat tmpout.txt 
+           sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt | \
+              sed -r 's/\x0+/\x0/g' | \
+              sed -r 's/ *\x0 */\x0/g' | \
+              sed -r 's/\ *\: */\:/g' | \
+              sed -r 's/\.\x0+([a-zA-Z]+)\:/\.\n\1\:/g' | \
+              sed -r 's/\x0+/\n/g' > tmptmpout.txt
+           mv -f tmptmpout.txt tmpout.txt
+           grep "\.tex" tmpout.txt > tmptmpout.txt
+           mv -f tmptmpout.txt tmpout.txt
+           sort tmpout.txt | uniq > tmptmpout.txt
+           mv -f tmptmpout.txt ${{ github.event.inputs.file2compile }}_out.txt
 
       - name: Upload PDF file
+        if: steps.compilation.outcome = 'success'
         uses: actions/upload-artifact@v4
         with: 
           name: PDF
           path: "${{ github.event.inputs.file2compile }}.pdf"
           
-  #    - name: Upload compilation output file
-  #      uses: actions/upload-artifact@v4
-  #      with: 
-  #        name: compileOutput
-  #        path: "${{ github.event.inputs.file2compile }}_out.txt"
+      - name: Upload compilation output file
+        uses: actions/upload-artifact@v4
+        with: 
+          name: compileOutput
+          path: "${{ github.event.inputs.file2compile }}_out.txt"
           
       - name: Publish PDF to repo
-        id: create_release
+        id: release_pdf
+        if: steps.compilation.outcome = 'success'
         uses: stefanzweifel/git-auto-commit-action@v5.0.0
         with:
+          if: steps.compilation.outcome = 'success'
           file_pattern: '${{ github.event.inputs.file2compile }}.pdf'
-  #        file_pattern: '${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}_out.txt'
-          commit_message: 'Changed files'
+          commit_message: 'Newly compiled PDF'
+          
+      - name: Publish compilation output to repo
+        id: release_output
+        uses: stefanzweifel/git-auto-commit-action@v5.0.0
+        with:
+          file_pattern: '${{ github.event.inputs.file2compile }}_out.txt'
+          commit_message: 'Compilation output'
