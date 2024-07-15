@@ -74,6 +74,7 @@ jobs:
         run: |
           sudo apt-get install -y libreoffice
           libreoffice --convert-to "pdf" ${{ github.event.inputs.file2compile }}_out.txt
+          mv ${{ github.event.inputs.file2compile }}_out.pdf ${{ github.event.inputs.file2compile }}.pdf
            
       - name: Upload PDF file
         uses: actions/upload-artifact@v4
