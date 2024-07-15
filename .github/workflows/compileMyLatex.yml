@@ -68,7 +68,9 @@ jobs:
            sort tmpout.txt | uniq > tmptmpout.txt
            mv -f tmptmpout.txt tmpout.txt
            cp ${{ github.event.inputs.file2compile }}.tex tmptmp.tex
-           while read line;do echo "$line";done<tmpout.txt
+           touch tout.txt
+           while read line;do echo "$line">>tout.txt;done<tmpout.txt
+           more tout.txt
     
       - name: Turn failed compilation error to pdf
         if: steps.compilation.outcome != 'success'
