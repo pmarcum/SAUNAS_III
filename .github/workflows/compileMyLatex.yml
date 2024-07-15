@@ -52,7 +52,7 @@ jobs:
            tectonic ${{ github.event.inputs.file2compile }}.tex &> tmpout.txt
            # remove lines in the output that are unrelated to the latex compilation itself
            # First, move lines that should have been the ending of the previous line, to the end of that previous line
-           cat tmpout.txt 
+#           cat tmpout.txt 
            sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt | \
               sed -r 's/\x0+/\x0/g' | \
               sed -r 's/ *\x0 */\x0/g' | \
@@ -64,6 +64,11 @@ jobs:
            mv -f tmptmpout.txt tmpout.txt
            sort tmpout.txt | uniq > tmptmpout.txt
            mv -f tmptmpout.txt ${{ github.event.inputs.file2compile }}_out.txt
+
+      - name: Check for compilation error
+        if: steps.compilation.outcome != 'success'
+        run: |
+           cat tmpout.txt 
 
       - name: Upload PDF file
         uses: actions/upload-artifact@v4
