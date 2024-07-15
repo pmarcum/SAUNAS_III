@@ -72,8 +72,7 @@ jobs:
            while IFS= read -r line; do
               echo "$line">>tout.txt
               # squash.io/extracting=numbers-from-strings-in-bash
-              echo "$line" | sed -e 's/[^0-9]/ /g'
-              linenum=$(echo "$line" | sed -e 's/[^0-9]/ /g')
+              linenum=$(echo "$line" | sed -e 's/[^0-9]/ /g' -e 's/^ *//')
               echo "$linenum"
            done<tmpout.txt
            more tout.txt
