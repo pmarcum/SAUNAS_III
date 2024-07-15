@@ -73,7 +73,7 @@ jobs:
               echo "$line">>tout.txt
               # squash.io/extracting=numbers-from-strings-in-bash
               # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
-              linenum=$(echo "$line" | sed -e 's/[^0-9]/ /g' -e 's/^ *//' -e 's/ *$//' -e 's/ +[0-9]+//g')
+              linenum=$(echo "$line" | sed -e 's/[^0-9]/ /g' -e 's/^ *//' -e 's/ *$//' -e 's/ +/ /g' -e 's/ +[0-9]+/ /g' -e 's/ *$//')
               echo "$linenum"
            done<tmpout.txt
            more tout.txt
