@@ -68,13 +68,17 @@ jobs:
            mv -f tmptmpout.txt tmpout.txt
            sort tmpout.txt | uniq > tmptmpout.txt
            mv -f tmptmpout.txt ${{ github.event.inputs.file2compile }}_out.txt
-          
+
+      - name: Libreoffice cache
+        uses: tecolicom/actions-use-apt-tools@v1
+        with:
+          tools: libreoffice
+        
       - name: Turn failed compilation error to pdf
         if: steps.compilation.outcome != 'success'
         run: |
-           sudo apt-get install asciidoc
-           a2x -f pdf ${{ github.event.inputs.file2compile }}_out.txt
-           ls
+          libreoffice --convert-to "pdf" ${{ github.event.inputs.file2compile }}_out.txt
+          mv ${{ github.event.inputs.file2compile }}_out.pdf ${{ github.event.inputs.file2compile }}.pdf 
 #           mv ${{ github.event.inputs.file2compile }}_out.pdf ${{ github.event.inputs.file2compile }}.pdf
 #          sudo apt-get install -y libreoffice
 #          libreoffice --convert-to "pdf" ${{ github.event.inputs.file2compile }}_out.txt
