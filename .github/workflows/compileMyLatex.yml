@@ -70,7 +70,7 @@ jobs:
            mv -f tmptmpout.txt ${{ github.event.inputs.file2compile }}_out.txt
 
       - name: Libreoffice cache
-        uses: tecolicom/actions-use-apt-tools@v1
+        uses: awalsh128/cache-apt-pkgs-action@latest
         with:
           tools: libreoffice
         
