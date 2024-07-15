@@ -71,7 +71,7 @@ jobs:
            touch tout.txt
            while IFS= read -r line; do
               echo "$line">>tout.txt
-              linenum=$(echo $line | sed -n -E -e 's/\:([0-9]+)\:/\1/p')
+              linenum=${$(echo "$line" | sed 's/\:[0-9]+\:')//:/}              
               echo "$linenum">>tout.txt
            done<tmpout.txt
            more tout.txt
