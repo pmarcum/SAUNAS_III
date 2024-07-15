@@ -67,7 +67,7 @@ jobs:
            grep "\.tex" tmpout.txt > tmptmpout.txt
            mv -f tmptmpout.txt tmpout.txt
            sort tmpout.txt | uniq > tmptmpout.txt
-           mv -f tmptmpout.txt ${{ github.event.inputs.file2compile }}_out.txt
+           mv -f tmptmpout.txt tmpout.txt
 
       - name: Libreoffice cache
         uses: awalsh128/cache-apt-pkgs-action@latest
@@ -77,13 +77,16 @@ jobs:
       - name: Turn failed compilation error to pdf
         if: steps.compilation.outcome != 'success'
         run: |
-          libreoffice --convert-to "pdf" ${{ github.event.inputs.file2compile }}_out.txt
-          mv ${{ github.event.inputs.file2compile }}_out.pdf ${{ github.event.inputs.file2compile }}.pdf 
-#           mv ${{ github.event.inputs.file2compile }}_out.pdf ${{ github.event.inputs.file2compile }}.pdf
+          libreoffice --convert-to "pdf" tmpout.txt
+          mv tmpout.pdf ${{ github.event.inputs.file2compile }}.pdf 
 #          sudo apt-get install -y libreoffice
 #          libreoffice --convert-to "pdf" ${{ github.event.inputs.file2compile }}_out.txt
 #          mv ${{ github.event.inputs.file2compile }}_out.pdf ${{ github.event.inputs.file2compile }}.pdf
-           
+        
+      - name: Rename output text file
+        run: |
+          mv tmpout.txt ${{ github.event.inputs.file2compile }}_out.txt
+          
       - name: Upload PDF file
         uses: actions/upload-artifact@v4
         with: 
