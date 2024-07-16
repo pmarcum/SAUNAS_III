@@ -70,7 +70,7 @@ jobs:
            cp ${{ github.event.inputs.file2compile }}.tex tmptmp.tex
            touch tout.txt
            while IFS= read -r line; do
-              echo "$line">>tout.txt
+              echo "$line" >> tout.txt
               # squash.io/extracting=numbers-from-strings-in-bash
               # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
               # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
@@ -78,19 +78,21 @@ jobs:
               sed -n "${linenum}p" tmptmp.tex >> tout.txt
               echo "-------------------------------------------------------------------------" >> tout.txt
            done<tmpout.txt
-           rm tmtmp.tex
-           mv tout.txt tmpout.txt
+           rm -f tmptmp.tex
+           mv -f tout.txt tmpout.txt
     
       - name: Turn failed compilation error to pdf
         if: steps.compilation.outcome != 'success'
         run: |         
           sudo apt-get install -y libreoffice
-          libreoffice --convert-to "pdf" tmpout.txt
-          mv tmpout.pdf ${{ github.event.inputs.file2compile }}.pdf 
+          cp tmpout.txt tmppdf.txt
+          libreoffice --convert-to "pdf" tmppdf.txt
+          rm -f tmppdf.txt
+          mv -f tmpout.pdf ${{ github.event.inputs.file2compile }}.pdf 
         
       - name: Rename output text file
         run: |
-          mv tmpout.txt ${{ github.event.inputs.file2compile }}_out.txt
+          mv -f tmpout.txt ${{ github.event.inputs.file2compile }}_out.txt
           
       - name: Upload PDF file
         uses: actions/upload-artifact@v4
