@@ -76,8 +76,7 @@ jobs:
               # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
               linenum=$(echo "$line" | sed 's/^.*:\([0-9]*\):.*/\1/')
               echo "$linenum"
-              thisline = $(sed "${linenum}p" tmptmp.tex)
-              echo "$thisline"
+              sed -n '21p' tmptmp.tex
            done<tmpout.txt
            more tout.txt
     
