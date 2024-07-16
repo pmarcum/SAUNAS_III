@@ -78,7 +78,8 @@ jobs:
               sed -n "${linenum}p" tmptmp.tex >> tout.txt
               echo "-------------------------------------------------------------------------" >> tout.txt
            done<tmpout.txt
-           more tout.txt
+           rm tmtmp.tex
+           mv tout.txt tmpout.txt
     
       - name: Turn failed compilation error to pdf
         if: steps.compilation.outcome != 'success'
