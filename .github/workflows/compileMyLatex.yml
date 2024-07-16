@@ -70,15 +70,20 @@ jobs:
            cp ${{ github.event.inputs.file2compile }}.tex tmptmp.tex
            touch tout.txt
            while IFS= read -r line; do
-              echo "$line">>tout.txt
-              # squash.io/extracting=numbers-from-strings-in-bash
-              # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
-              # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
-              linenum=$(echo "$line" | sed 's/^.*:\([0-9]*\):.*/\1/')
+              ltmp = "warning:main.tex:21:Overfull \\hbox \(15.35304pt too wide\) in paragraph at lines 21--21"
+              echo "$ltmp">>tout.txt
+              linenum=$(echo "$ltmp" | sed 's/^.*:\([0-9]*\):.*/\1/')
               echo "$linenum"
            done<tmpout.txt
            more tout.txt
-           # linenum=$(echo "$line" | sed -n -e 's/.*\([^0-9]/ /g' -e 's/^ *//g' -e 's/ *$//g' -e 's/ *[0-9]*//g')
+     #         echo "$line">>tout.txt
+     #         # squash.io/extracting=numbers-from-strings-in-bash
+     #         # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
+     #         # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
+     #         linenum=$(echo "$line" | sed 's/^.*:\([0-9]*\):.*/\1/')
+     #         echo "$linenum"
+     #      done<tmpout.txt
+     #      more tout.txt
     
       - name: Turn failed compilation error to pdf
         if: steps.compilation.outcome != 'success'
