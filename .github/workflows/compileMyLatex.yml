@@ -71,6 +71,7 @@ jobs:
            touch tout.txt
            while IFS= read -r line; do
               ltmp = "warning:main.tex:21:Overfull \\hbox \(15.35304pt too wide\) in paragraph at lines 21--21"
+              echo "$ltmp"
               echo "$ltmp">>tout.txt
               linenum=$(echo "$ltmp" | sed 's/^.*:\([0-9]*\):.*/\1/')
               echo "$linenum"
