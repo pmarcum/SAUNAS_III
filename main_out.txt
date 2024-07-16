@@ -1,6 +1,3 @@
-error:main.tex:30:Undefined control sequence
-\sbsctn{a big mistake}
--------------------------------------------------------------------------
 warning:main.tex:21:Overfull \hbox (15.35304pt too wide) in paragraph at lines 21--21
 \section{Background}
 -------------------------------------------------------------------------
