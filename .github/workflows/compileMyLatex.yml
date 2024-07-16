@@ -74,7 +74,7 @@ jobs:
               # squash.io/extracting=numbers-from-strings-in-bash
               # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
               # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
-              linenum=$(echo "$line" | sed -n -e 's/^.*:([0-9]+):.*$/\1/p')
+              linenum=$(sed 's/^.*:\([0-9]*\):.*/\1/' line)
               echo "$linenum"
            done<tmpout.txt
            more tout.txt
