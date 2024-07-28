@@ -30,11 +30,12 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
 
-      - name: connect with google
-        uses: google-github-actions/setup-gcloud@v2
-
-      - name: use gcloud CLI
-        uses: gcloud info
+      - name: Test Google WebApp
+        id: googleTest
+        run: |
+          curl -s \
+          --request POST \
+          https://script.google.com/macros/s/AKfycbyvhHEkF2zoNR_Xfa8e_guyYZ_APawZjR0TyRlXx6EC8Zlv-bxD48YnQ7h7ChtL2Ho/exec?mode=test
         
       - name: Tectonic Cache
         uses: actions/cache@v3
