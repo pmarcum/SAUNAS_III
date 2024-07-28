@@ -29,6 +29,12 @@ jobs:
     steps:
       - name: Clone repo
         uses: actions/checkout@v4
+
+      - name: connect with google
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: use gcloud CLI
+        uses: gcloud info
         
       - name: Tectonic Cache
         uses: actions/cache@v3
