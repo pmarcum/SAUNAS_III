@@ -30,12 +30,22 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
 
-      - name: Test Google WebApp
-        id: googleTest
+      - name: test putting status in other repo
         run: |
-          curl -s \
-          --request POST \
-          https://script.google.com/macros/s/AKfycbyvhHEkF2zoNR_Xfa8e_guyYZ_APawZjR0TyRlXx6EC8Zlv-bxD48YnQ7h7ChtL2Ho/exec?mode=test
+          touch text.txt
+          
+      - name: Upload status file
+        uses: actions/upload-artifact@v4
+        with: 
+          name: statusOutput
+          path: "${{ github.event.inputs.file2compile }}_status.txt"
+          
+      - name: Publish PDF to repo
+        id: release_status
+        uses: stefanzweifel/git-auto-commit-action@v5.0.0
+        with:
+          file_pattern: '${{ github.event.inputs.file2compile }}_status.txt'
+          commit_message: 'Newly compiled PDF status'
         
       - name: Tectonic Cache
         uses: actions/cache@v3
