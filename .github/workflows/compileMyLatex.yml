@@ -124,8 +124,10 @@ jobs:
       - name: Commit status file
         run: |
            cd status
+           git config user.name "${{ github.actor }}"
+           git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
            git add -A
-           git commit -m "statusNotification"
+           git commit -m "status notification by gooTeX"
 
       - name: Push status file
         uses: cpina/github-action-push-to-another-repository@main
