@@ -138,6 +138,8 @@ jobs:
           cd status
           ls
           more ${{ github.event.inputs.file2compile }}_status.txt
+          git config user.name "GitHub Actions"
+          git config user.email "<>"
           git add .
           git diff-index --quiet HEAD || git commit -m "status posted by gooTeX"
           git push status main 
