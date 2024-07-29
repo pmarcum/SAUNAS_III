@@ -27,8 +27,7 @@ warning: fc-english.def:10:
 Invalid UTF-8 byte or sequence at line 10 replaced by U+FFFD.
 warning: fc-english.def:22: Invalid UTF-8 byte or sequence at line 22 replaced by U+FFFD.
 warning: main.tex:21: Overfull \hbox (15.35304pt too wide) in paragraph at lines 21--21
-warning: internal consistency problem when checking if main.bbl changed
-note: Rerunning TeX because "main.bbl" changed ...
+note: Rerunning TeX because "main.aux" changed ...
 warning: fmtcount.sty:10: 
 Invalid UTF-8 byte or sequence at line 10 replaced by U+FFFD.
 warning: fmtcount.sty:22: Invalid UTF-8 byte or sequence at line 22 replaced by U+FFFD.
@@ -106,5 +105,5 @@ warning: internal consistency problem when checking if main.bbl changed
 warning: TeX rerun seems needed, but stopping at 6 passes
 warning: warnings were issued by the TeX engine; use --print and/or --keep-logs for details.
 note: Running xdvipdfmx ...
-note: Writing `main.pdf` (43.37 KiB)
+note: Writing `main.pdf` (43.36 KiB)
 note: Skipped writing 3 intermediate files (use --keep-intermediates to keep them)
