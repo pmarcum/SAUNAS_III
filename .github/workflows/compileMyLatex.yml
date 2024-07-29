@@ -56,9 +56,7 @@ jobs:
         id: compilation
         run: |
           tectonic ${{ github.event.inputs.file2compile }}.tex &> tmpout.txt
-          echo ${{ steps.removeOldStatus.outcome }}
-          ls *txt*
-          ls *pdf*
+          cat tmpout.txt
         
       - name: Capture compilation output
         id: compileWarnings
@@ -71,26 +69,26 @@ jobs:
         #      sed -r 's/\ *\: */\:/g' | \
         #      sed -r 's/\.\x0+([a-zA-Z]+)\:/\.\n\1\:/g' | \
         #      sed -r 's/\x0+/\n/g' > tmptmpout.txt
+        #      mv -f tmptmpout.txt tmpout.txt
+        #      grep "\.tex" tmpout.txt > tmptmpout.txt
+        #  mv -f tmptmpout.txt tmpout.txt
+        #  sort tmpout.txt | uniq > tmptmpout.txt
+        #  mv -f tmptmpout.txt tmpout.txt
+        #  cp ${{ github.event.inputs.file2compile }}.tex tmptmp.tex
+        #  touch tout.txt
+        #  while IFS= read -r line; do
+        #    echo "$line" >> tout.txt
+        #    # squash.io/extracting=numbers-from-strings-in-bash
+        #    # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
+        #    # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
+        #    linenum=$(echo "$line" | sed 's/^.*:\([0-9]*\):.*/\1/')
+        #    sed -n "${linenum}p" tmptmp.tex >> tout.txt
+        #    echo "-------------------------------------------------------------------------" >> tout.txt
+        #  done<tmpout.txt
+        #  rm -f tmptmp.tex
+        #  mv -f tout.txt ${{ github.event.inputs.file2compile }}_out.txt
         run: |
-          sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt
-          mv -f tmptmpout.txt tmpout.txt
-          grep "\.tex" tmpout.txt > tmptmpout.txt
-          mv -f tmptmpout.txt tmpout.txt
-          sort tmpout.txt | uniq > tmptmpout.txt
-          mv -f tmptmpout.txt tmpout.txt
-          cp ${{ github.event.inputs.file2compile }}.tex tmptmp.tex
-          touch tout.txt
-          while IFS= read -r line; do
-            echo "$line" >> tout.txt
-            # squash.io/extracting=numbers-from-strings-in-bash
-            # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
-            # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
-            linenum=$(echo "$line" | sed 's/^.*:\([0-9]*\):.*/\1/')
-            sed -n "${linenum}p" tmptmp.tex >> tout.txt
-            echo "-------------------------------------------------------------------------" >> tout.txt
-          done<tmpout.txt
-          rm -f tmptmp.tex
-          mv -f tout.txt ${{ github.event.inputs.file2compile }}_out.txt
+          sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
         
       - name: Turn failed compilation error to pdf
