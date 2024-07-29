@@ -62,20 +62,21 @@ jobs:
         # remove lines in the output that are unrelated to the latex compilation itself
         # First, move lines that should have been the ending of the previous line, to the end of that previous line
         run: |
-           sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt | \
-              sed -r 's/\x0+/\x0/g' | \
-              sed -r 's/ *\x0 */\x0/g' | \
-              sed -r 's/\ *\: */\:/g' | \
-              sed -r 's/\.\x0+([a-zA-Z]+)\:/\.\n\1\:/g' | \
-              sed -r 's/\x0+/\n/g' > tmptmpout.txt
-           mv -f tmptmpout.txt tmpout.txt
-           grep "\.tex" tmpout.txt > tmptmpout.txt
-           mv -f tmptmpout.txt tmpout.txt
-           sort tmpout.txt | uniq > tmptmpout.txt
-           mv -f tmptmpout.txt tmpout.txt
-           cp ${{ github.event.inputs.file2compile }}.tex tmptmp.tex
-           touch tout.txt
-           while IFS= read -r line; do
+          sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt
+        #   sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt | \
+        #      sed -r 's/\x0+/\x0/g' | \
+        #      sed -r 's/ *\x0 */\x0/g' | \
+        #      sed -r 's/\ *\: */\:/g' | \
+        #      sed -r 's/\.\x0+([a-zA-Z]+)\:/\.\n\1\:/g' | \
+        #      sed -r 's/\x0+/\n/g' > tmptmpout.txt
+          mv -f tmptmpout.txt tmpout.txt
+          grep "\.tex" tmpout.txt > tmptmpout.txt
+          mv -f tmptmpout.txt tmpout.txt
+          sort tmpout.txt | uniq > tmptmpout.txt
+          mv -f tmptmpout.txt tmpout.txt
+          cp ${{ github.event.inputs.file2compile }}.tex tmptmp.tex
+          touch tout.txt
+          while IFS= read -r line; do
               echo "$line" >> tout.txt
               # squash.io/extracting=numbers-from-strings-in-bash
               # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
@@ -83,9 +84,9 @@ jobs:
               linenum=$(echo "$line" | sed 's/^.*:\([0-9]*\):.*/\1/')
               sed -n "${linenum}p" tmptmp.tex >> tout.txt
               echo "-------------------------------------------------------------------------" >> tout.txt
-           done<tmpout.txt
-           rm -f tmptmp.tex
-           mv -f tout.txt ${{ github.event.inputs.file2compile }}_out.txt
+          done<tmpout.txt
+          rm -f tmptmp.tex
+          mv -f tout.txt ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
         
       - name: Turn failed compilation error to pdf
