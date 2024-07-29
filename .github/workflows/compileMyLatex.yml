@@ -33,7 +33,7 @@ jobs:
       - name: Clone the public repo where status will be posted
         uses: actions/checkout@v4
         with:
-          repository: "${{ github.event.respository.name }}_STATUS"
+          repository: ${{ github.event.repository.name }}_STATUS
           path: './status'
           run: |
             pwd
