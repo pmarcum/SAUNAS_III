@@ -87,7 +87,12 @@ jobs:
         #  rm -f tmptmp.tex
         #  mv -f tout.txt ${{ github.event.inputs.file2compile }}_out.txt
         run: |
-          sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt
+          sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt | \
+          sed -r 's/\x0+/\x0/g' | \
+          sed -r 's/ *\x0 */\x0/g'  | \
+          sed -r 's/\ *\: */\:/g'  | \
+          sed -r 's/\.\x0+([a-zA-Z]+)\:/\.\n\1\:/g' | \
+          sed -r 's/\x0+/\n/g'
           cp tmpout.txt  ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
         
