@@ -136,7 +136,7 @@ jobs:
         if: steps.date.outcome == 'success'
         run: | 
           # Make a status file that the Google Script (gooTeX) can ping on to know when the compilation is finished
-          echo ${{ steps.date.outputs.date }}(${{ steps.compilation.outcome }})[${{ steps.turnErrorIntoPdf.outcome }}] > ${{ github.event.inputs.file2compile }}_status.txt
+          echo "${{ steps.date.outputs.date }} ${{ steps.compilation.outcome }} ${{ steps.turnErrorIntoPdf.outcome }}" > ${{ github.event.inputs.file2compile }}_status.txt
         continue-on-error: true
 
       - name: Upload compilation output file
