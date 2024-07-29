@@ -121,16 +121,24 @@ jobs:
      #     name: compileOutput
      #     path: "${{ github.event.inputs.file2compile }}_out.txt"
 
-      - name: Upload status file
-        uses: actions/upload-artifact@v4
-        with: 
-          name: statusOutput
-          path: status/${{ github.event.inputs.file2compile }}_status.txt
-     
-      - name: Publish PDF to repo
-        id: release_pdf
-        uses: stefanzweifel/git-auto-commit-action@v5
+      - name: Commit status file
+        run: |
+           cd status
+           git add -A
+           git commit -m "statusNotification"
+
+      - name: Push status file
+        uses: cpina/github-action-push-to-another-repository@main
         with:
-          file_pattern: '${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}_out.txt status/${{ github.event.inputs.file2compile }}_status.txt'
-          commit_message: 'Newly compiled PDF'
+          source-directory: 'status'
+          destination-github-username: ${{ github.repository_owner }}
+          destination-repository-name: ${{ github.event.repository.name }}
+          target-branch: main
+     
+     # - name: Publish PDF to repo
+     #   id: release_pdf
+     #   uses: stefanzweifel/git-auto-commit-action@v5
+     #   with:
+     #     file_pattern: '${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}_out.txt'
+     #     commit_message: 'Newly compiled PDF'
           
