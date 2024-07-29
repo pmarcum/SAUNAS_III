@@ -56,7 +56,6 @@ jobs:
         id: compilation
         run: |
           tectonic ${{ github.event.inputs.file2compile }}.tex &> tmpout.txt
-          cat tmpout.txt
         
       - name: Capture compilation output
         id: compileWarnings
@@ -88,7 +87,8 @@ jobs:
         #  rm -f tmptmp.tex
         #  mv -f tout.txt ${{ github.event.inputs.file2compile }}_out.txt
         run: |
-          sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}_out.txt
+          sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt
+          cp tmpout.txt  ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
         
       - name: Turn failed compilation error to pdf
