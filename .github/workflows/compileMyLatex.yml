@@ -98,9 +98,9 @@ jobs:
         
       - name: Rename output text file
         run: |
-          echo "NOW=$(date + '%Y-%m-%dT%H:%M:%S')" > status/${{ github.event.inputs.file2compile }}_status.txt
+          echo $(date "+%Y-%m-%dT%H:%M:%S") > status/${{ github.event.inputs.file2compile }}_status.txt
           ls
-          ls ./status
+          ls status
        #   mv -f tmpout.txt ${{ github.event.inputs.file2compile }}_out.txt
        #   # Make a status file and put into the public repository
        #   touch ./status/${{ github.event.inputs.file2compile }}_status.txt
@@ -123,7 +123,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with: 
           name: statusOutput
-          path: "./status/${{ github.event.inputs.file2compile }}_status.txt"
+          path: status/${{ github.event.inputs.file2compile }}_status.txt
      
       - name: Publish PDF to repo
         id: release_pdf
