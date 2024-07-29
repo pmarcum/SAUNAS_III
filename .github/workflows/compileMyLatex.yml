@@ -33,7 +33,7 @@ jobs:
       - name: Clone the public repo where status will be posted
         uses: actions/checkout@v4
         with:
-          repository: ${GITHUB_REPOSITORY}_STATUS
+          repository: ${{ github.repository }}_STATUS
           path: './status'
 
       - name: See what is in the folder
