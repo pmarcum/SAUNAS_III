@@ -128,6 +128,10 @@ jobs:
           FILENAME: ${{ github.event.inputs.file2compile }}_status.txt
           TIMESTAMP: $(date "+%Y-%m-%dT%H:%M:%S")
         run: |
+           echo $DEST_REPO
+           echo $REPO_OWNER
+           echo $FILENAME
+           echo $TIMESTAMP
            curl -s -X POST https://api.github.com/repos/$REPO_OWNER/$DEST_REPO/$FILENAME \
              -d '{"body":"$TIMESTAMP"}'
              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"
