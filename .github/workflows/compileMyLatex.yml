@@ -30,11 +30,11 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         
-      - name: Clone the public repo where status will be posted
-        uses: actions/checkout@v4
-        with:
-          repository: ${{ github.repository }}_STATUS
-          path: './status'
+    #  - name: Clone the public repo where status will be posted
+    #    uses: actions/checkout@v4
+    #    with:
+    #      repository: ${{ github.repository }}_STATUS
+    #      path: './status'
         
      # - name: Tectonic Cache
      #   uses: actions/cache@v3
@@ -96,13 +96,13 @@ jobs:
        #   rm -f tmppdf.txt
        #   mv -f tmppdf.pdf ${{ github.event.inputs.file2compile }}.pdf 
         
-      - name: Rename output text file
-        run: |
-          echo $(date "+%Y-%m-%dT%H:%M:%S")
-          echo $(date "+%Y-%m-%dT%H:%M:%S") > status/${{ github.event.inputs.file2compile }}_status.txt
-          ls
-          ls status
-          more status/main_status.txt
+     # - name: Rename output text file
+     #   run: |
+     #     echo $(date "+%Y-%m-%dT%H:%M:%S")
+     #     echo $(date "+%Y-%m-%dT%H:%M:%S") > status/${{ github.event.inputs.file2compile }}_status.txt
+     #     ls
+     #     ls status
+     #     more status/main_status.txt
        #   mv -f tmpout.txt ${{ github.event.inputs.file2compile }}_out.txt
        #   # Make a status file and put into the public repository
        #   touch ./status/${{ github.event.inputs.file2compile }}_status.txt
@@ -122,23 +122,16 @@ jobs:
      #     path: "${{ github.event.inputs.file2compile }}_out.txt"
 
       - name: Commit status file
-        run: |
-           cd status
-           git config user.name "${{ github.actor }}"
-           git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
-           git add -A
-           git commit -m "status notification by gooTeX"
-
-      - name: Push status file
-        uses: cpina/github-action-push-to-another-repository@main
         env:
-          SSH_DEPLOY_KEY: ${{ secrets.DOCS_UPDATE_KEY }}
-        with:
-          source-directory: 'status'
-          destination-github-username: ${{ github.repository_owner }}
-          destination-repository-name: ${{ github.event.repository.name }}
-          target-branch: main
-     
+          DEST_REPO: ${{ github.event.repository.name }}_STATUS
+          REPO_OWNER: ${{ github.event.repository.owner.login }}
+          FILENAME: ${{ github.event.inputs.file2compile }}_status.txt
+          TIMESTAMP: $(date "+%Y-%m-%dT%H:%M:%S")
+        run: |
+           curl -s -X POST https://api.github.com/repos/$REPO_OWNER/$DEST_REPO/$FILENAME \
+             -d '{"body":"$TIMESTAMP"}'
+             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"
+             
      # - name: Publish PDF to repo
      #   id: release_pdf
      #   uses: stefanzweifel/git-auto-commit-action@v5
