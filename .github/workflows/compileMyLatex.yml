@@ -138,11 +138,11 @@ jobs:
           cd status
           ls
           more ${{ github.event.inputs.file2compile }}_status.txt
-          git config user.name "GitHub Actions"
+          git config user.name ${{ github.event.repository.owner.login }}
           git config user.email "<>"
-          git add .
+          git add ${{ github.event.inputs.file2compile }}_status.txt
           git diff-index --quiet HEAD || git commit -m "status posted by gooTeX"
-          git push status main 
+          git push --force
              
      # - name: Publish PDF to repo
      #   id: release_pdf
