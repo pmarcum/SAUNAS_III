@@ -132,6 +132,7 @@ jobs:
            echo $REPO_OWNER
            echo $FILENAME
            echo $TIMESTAMP
+           echo ${{ secrets.GITHUB_TOKEN }}
            curl -L \
              -X PUT \
              -H "Accept: application/vnd.github+json" \
