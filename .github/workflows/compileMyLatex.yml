@@ -98,7 +98,9 @@ jobs:
         
       - name: Rename output text file
         run: |
-          echo "NOW=$(date + '%Y-%m-%dT%H:%M:%S')" > ./status/${{ github.event.inputs.file2compile }}_status.txt
+          echo "NOW=$(date + '%Y-%m-%dT%H:%M:%S')" > status/${{ github.event.inputs.file2compile }}_status.txt
+          ls
+          ls ./status
        #   mv -f tmpout.txt ${{ github.event.inputs.file2compile }}_out.txt
        #   # Make a status file and put into the public repository
        #   touch ./status/${{ github.event.inputs.file2compile }}_status.txt
@@ -125,8 +127,8 @@ jobs:
      
       - name: Publish PDF to repo
         id: release_pdf
-        uses: stefanzweifel/git-auto-commit-action@v5.0.0
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          file_pattern: '${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}_out.txt ./status/${{ github.event.inputs.file2compile }}_status.txt'
+          file_pattern: '${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}_out.txt status/${{ github.event.inputs.file2compile }}_status.txt'
           commit_message: 'Newly compiled PDF'
           
