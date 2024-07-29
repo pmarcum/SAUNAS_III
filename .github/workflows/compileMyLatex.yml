@@ -98,9 +98,11 @@ jobs:
         
       - name: Rename output text file
         run: |
+          echo $(date "+%Y-%m-%dT%H:%M:%S")
           echo $(date "+%Y-%m-%dT%H:%M:%S") > status/${{ github.event.inputs.file2compile }}_status.txt
           ls
           ls status
+          more status/main_status.txt
        #   mv -f tmpout.txt ${{ github.event.inputs.file2compile }}_out.txt
        #   # Make a status file and put into the public repository
        #   touch ./status/${{ github.event.inputs.file2compile }}_status.txt
