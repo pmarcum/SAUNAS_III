@@ -35,9 +35,11 @@ jobs:
         with:
           repository: ${{ github.event.repository.name }}_STATUS
           path: './status'
-          run: |
-            pwd
-            ls
+
+      - name: See what is in the folder
+        run: |
+          pwd
+          ls
         
       - name: Tectonic Cache
         uses: actions/cache@v3
