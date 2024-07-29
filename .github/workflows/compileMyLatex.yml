@@ -131,6 +131,8 @@ jobs:
 
       - name: Push status file
         uses: cpina/github-action-push-to-another-repository@main
+        env:
+          SSH_DEPLOY_KEY: ${{ secrets.DOCS_UPDATE_KEY }}
         with:
           source-directory: 'status'
           destination-github-username: ${{ github.repository_owner }}
