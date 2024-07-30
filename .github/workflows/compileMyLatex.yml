@@ -35,7 +35,13 @@ jobs:
         uses: JesseTG/rm@v1.0.3
         with:
           path: "${{ github.event.inputs.file2compile }}_status.txt"
-                
+          
+      - name: update archives
+        run: |
+          sudo apt-get update
+          sudo apt-get upgrade --fix-missing
+        continue-on-error: true
+        
       - name: Tectonic Cache
         uses: actions/cache@v3
         # https://github.com/marketplace/actions/setup-tectonic
@@ -97,8 +103,8 @@ jobs:
       - name: Turn failed compilation error to pdf
         id: turnErrorIntoPdf
         if: always() && steps.compilation.outcome != 'success' && steps.compileWarnings.outcome == 'success'
-        run: |   
-          sudo apt-get install -y libreoffice
+        run: |
+          sudo apt-get install -y libreoffice --fix-missing
           cp ${{ github.event.inputs.file2compile }}_out.txt tmppdf.txt
           libreoffice --convert-to "pdf" tmppdf.txt
           rm -f tmppdf.txt
