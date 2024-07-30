@@ -105,9 +105,6 @@ jobs:
           libreoffice --convert-to "pdf" tmppdf.txt
           rm -f tmppdf.txt
           mv -f tmppdf.pdf ${{ github.event.inputs.file2compile }}.pdf 
-          echo "=================="
-          echo "=================="
-          cat ${{ github.event.inputs.file2compile }}_out.txt 
         continue-on-error: true
           
       - name: Upload PDF file
@@ -145,6 +142,9 @@ jobs:
         id: statusNote
         if: steps.date.outcome == 'success'
         run: | 
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+          more ${{ github.event.inputs.file2compile }}_out.txt
+          echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
           # Make a status file that the Google Script (gooTeX) can ping on to know when the compilation is finished
           echo "${{ steps.date.outputs.date }} ${{ steps.compilation.outcome }} ${{ steps.turnErrorIntoPdf.outcome }} ${{ steps.compileWarnings.outcome }}" > ${{ github.event.inputs.file2compile }}_status.txt
         continue-on-error: true
