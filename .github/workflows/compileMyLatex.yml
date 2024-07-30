@@ -103,12 +103,15 @@ jobs:
       - name: Turn failed compilation error to pdf
         id: turnErrorIntoPdf
         if: always() && steps.compilation.outcome != 'success' && steps.compileWarnings.outcome == 'success'
+        #run: |
+        #  sudo apt-get install -y libreoffice --fix-missing
+        #  cp ${{ github.event.inputs.file2compile }}_out.txt tmppdf.txt
+        #  libreoffice --convert-to "pdf" tmppdf.txt
+        #  rm -f tmppdf.txt
+        #  mv -f tmppdf.pdf ${{ github.event.inputs.file2compile }}.pdf 
         run: |
-          sudo apt-get install -y libreoffice --fix-missing
-          cp ${{ github.event.inputs.file2compile }}_out.txt tmppdf.txt
-          libreoffice --convert-to "pdf" tmppdf.txt
-          rm -f tmppdf.txt
-          mv -f tmppdf.pdf ${{ github.event.inputs.file2compile }}.pdf 
+          rm -f ${{ github.event.inputs.file2compile }}.pdf
+          enscript --output=- /${{ github.event.inputs.file2compile }}_out.txt | ps2pdf - /${{ github.event.inputs.file2compile }}.pdf
         continue-on-error: true
           
       - name: Upload PDF file
