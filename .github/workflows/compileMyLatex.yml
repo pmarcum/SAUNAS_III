@@ -61,6 +61,7 @@ jobs:
       - name: Run Tectonic
         id: compilation
         run: |
+          ls /usr/bin
           tectonic ${{ github.event.inputs.file2compile }}.tex &> tmpout.txt
           ls *.txt
         continue-on-error: true
