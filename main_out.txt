@@ -1,3 +1,6 @@
+error:main.tex:42:Undefined control sequence
+\pmm
+-------------------------------------------------------------------------
 warning:main.tex:21:Overfull \hbox (15.35304pt too wide) in paragraph at lines 21--21
 \section{Background}
 -------------------------------------------------------------------------
