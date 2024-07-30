@@ -111,7 +111,7 @@ jobs:
         #  mv -f tmppdf.pdf ${{ github.event.inputs.file2compile }}.pdf 
         run: |
           rm -f ${{ github.event.inputs.file2compile }}.pdf
-          apt-get install -y enscript --fix-missing
+          sudo apt-get install -y enscript --fix-missing
           enscript --output=- /${{ github.event.inputs.file2compile }}_out.txt | ps2pdf - /${{ github.event.inputs.file2compile }}.pdf
         continue-on-error: true
           
