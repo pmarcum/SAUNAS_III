@@ -36,11 +36,11 @@ jobs:
         with:
           path: "${{ github.event.inputs.file2compile }}_status.txt"
           
-      - name: update archives
-        run: |
-          sudo apt-get update
-          sudo apt-get upgrade --fix-missing
-        continue-on-error: true
+      #- name: update archives
+      #  run: |
+      #    sudo apt-get update
+      #    sudo apt-get upgrade --fix-missing
+      #  continue-on-error: true
         
       - name: Tectonic Cache
         uses: actions/cache@v3
