@@ -39,7 +39,6 @@ jobs:
       - name: update archives
         run: |
           sudo apt-get update
-      #    sudo apt-get upgrade --fix-missing
         continue-on-error: true
         
       - name: Tectonic Cache
@@ -95,10 +94,6 @@ jobs:
           done<tmpout.txt
           rm -f tmptmp.tex
           mv -f tout.txt ${{ github.event.inputs.file2compile }}_out.txt
-          echo "======================================="
-          echo "======================================="
-          cat  ${{ github.event.inputs.file2compile }}_out.txt
-          echo " ----------------- FINISHED ---------------------"
         continue-on-error: true
         
       - name: Turn failed compilation error to pdf
@@ -110,6 +105,9 @@ jobs:
           libreoffice --convert-to "pdf" tmppdf.txt
           rm -f tmppdf.txt
           mv -f tmppdf.pdf ${{ github.event.inputs.file2compile }}.pdf 
+          echo "=================="
+          echo "=================="
+          cat ${{ github.event.inputs.file2compile }}_out.txt 
         continue-on-error: true
           
       - name: Upload PDF file
