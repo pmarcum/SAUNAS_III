@@ -144,19 +144,19 @@ jobs:
           echo "${{ steps.date.outputs.date }} ${{ steps.compilation.outcome }} ${{ steps.turnErrorIntoPdf.outcome }} ${{ steps.compileWarnings.outcome }}" > ${{ github.event.inputs.file2compile }}_status.txt
         continue-on-error: true
 
-      - name: Upload compilation output file
-        if: steps.statusNote.outcome == 'success'
-        uses: actions/upload-artifact@v4
-        with: 
-          name: uploadStatus
-          path: "${{ github.event.inputs.file2compile }}_status.txt"
-        continue-on-error: true 
+      #- name: Upload compilation output file
+      #  if: steps.statusNote.outcome == 'success'
+      #  uses: actions/upload-artifact@v4
+      #  with: 
+      #    name: uploadStatus
+      #    path: "${{ github.event.inputs.file2compile }}_status.txt"
+      #  continue-on-error: true 
 
-      - name: Publish status to repo
-        id: releaseStatus
-        uses: stefanzweifel/git-auto-commit-action@v5
-        if: steps.statusNote.outcome == 'success'
-        with:
-          file_pattern: '${{ github.event.inputs.file2compile }}_status.txt'
-          commit_message: 'New compilation status'
-        continue-on-error: true
+      #- name: Publish status to repo
+      #  id: releaseStatus
+      #  uses: stefanzweifel/git-auto-commit-action@v5
+      #  if: steps.statusNote.outcome == 'success'
+      #  with:
+      #    file_pattern: '${{ github.event.inputs.file2compile }}_status.txt'
+      #    commit_message: 'New compilation status'
+      #  continue-on-error: true
