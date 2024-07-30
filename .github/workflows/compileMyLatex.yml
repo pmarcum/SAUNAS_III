@@ -111,8 +111,7 @@ jobs:
         #  mv -f tmppdf.pdf ${{ github.event.inputs.file2compile }}.pdf 
         run: |
           rm -f ${{ github.event.inputs.file2compile }}.pdf
-          sudo apt-get --no-install-recommends install asciidoc-base -y
-          a2x --format=pdf ${{ github.event.inputs.file2compile }}_out.txt
+          cupsfilter ${{ github.event.inputs.file2compile }}_out.txt > ${{ github.event.inputs.file2compile }}.pdf
         continue-on-error: true
           
       - name: Upload PDF file
