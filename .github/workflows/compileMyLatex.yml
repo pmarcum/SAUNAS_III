@@ -45,16 +45,16 @@ jobs:
           git push
         continue-on-error: true
                   
-      - name: Tectonic Cache
-        uses: actions/cache@v3
-        # https://github.com/marketplace/actions/setup-tectonic
-        # https://tectonic-typesetting.github.io/en-US/
-        with:
-          path: ~/.cache/Tectonic
-          # can add ${{ hashFiles('**/*.tex') }} to invalidate cache on file changes
-          key: ${{ runner.os }}-tectonic
-          restore-keys: |
-            ${{ runner.os }}-tectonic
+      #- name: Tectonic Cache
+      #  uses: actions/cache@v3
+      #  # https://github.com/marketplace/actions/setup-tectonic
+      #  # https://tectonic-typesetting.github.io/en-US/
+      #  with:
+      #    path: ~/.cache/Tectonic
+      #    # can add ${{ hashFiles('**/*.tex') }} to invalidate cache on file changes
+      #    key: ${{ runner.os }}-tectonic
+      #    restore-keys: |
+      #      ${{ runner.os }}-tectonic
             
       - name: Tectonic Setup
         uses: wtfjoke/setup-tectonic@v3
