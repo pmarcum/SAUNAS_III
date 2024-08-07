@@ -30,17 +30,18 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
 
-      - name: Remove old status note
-        id: removeOldStatus
+      - name: Remove old status note and pdf file
+        id: removeOldStatusAndPdf
         run: |
           rm -f "${{ github.event.inputs.file2compile }}_status.txt"
+          rm -f "${{ github.event.inputs.file2compile }}.pdf"
           
       - name: Commit the modified folder and put the change
         run: |
           git config --global user.email "email@gmail.com"
           git config --global user.name "github actions"
           git add .
-          git commit -m "Removing previous status file"
+          git commit -m "Removing previous status and pdf files"
           git push
         continue-on-error: true
                   
@@ -75,6 +76,7 @@ jobs:
         # remove lines in the output that are unrelated to the latex compilation itself
         # First, move lines that should have been the ending of the previous line, to the end of that previous line
         run: |
+          more tmpout.txt
           sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt | \
             sed -r 's/\x0+/\x0/g' | \
             sed -r 's/ *\x0 */\x0/g' | \
