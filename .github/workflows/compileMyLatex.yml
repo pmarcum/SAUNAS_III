@@ -89,27 +89,14 @@ jobs:
             sed -r 's/\$\$*//g' | \
             sed -r 's/\x0+([a-zA-Z ]+)\:/\n\1\:/g' | \
             sed -r 's/\x0+//g' > allout.txt
-          echo ">>>>>>>>>>>>>>> 91"
           # The below pulls out only those lines that are directly related to the .tex file or the bibliography and 
           # places into the tmpout.txt file. This step is why we needed everything related to a given error to appear in a single line.
-          grep ${{ github.event.inputs.file2compile }}.tex allout.txt > tmpout.txt
-          echo ">>>>>>>>>>>>>>> 92"
-          cat tmpout.txt
-          grep warning tmpout.txt
+          grep ${{ github.event.inputs.file2compile }} allout.txt > tmpout.txt
           grep warning tmpout.txt > warnings.txt
-          echo ">>>>>>>>>>>>>>> 93"
-          grep error tmpout.txt
           grep error tmpout.txt > errors.txt
-          echo ">>>>>>>>>>>>>>>> 94"
-          rm -f tmpout.txt
-          cat warnings.txt > tmpout.txt
-          echo ">>>>>>>>>>>>> 95"
-          cat errors.txt >> tmpout.txt
-          echo ">>>>>>>>>>>>> 96"
+          cat warnings.txt errors.txt > warningsErrorsTmp.txt
           # The below removes any redundant errors
-          sort tmpout.txt | uniq > tmptmpout.txt
-          echo ">>>>>>>>>>>>>>>> 97"
-          mv -f tmptmpout.txt tmpout.txt
+          sort warningsErrorsTmp.txt | uniq > warningsErrors.txt
           # The below makes a copy of the .tex file because we will be extracting line numbers to include under each 
           # warning or error message as a way to make a nicely-consolidated file for the user to use for trouble-shooting
           # the latex code.  We have to make a copy because the way we extract the line numbers changes the actual 
@@ -125,13 +112,14 @@ jobs:
             linenum=$(echo "$line" | sed 's/^.*:\([0-9]*\):.*/\1/')
             sed -n "${linenum}p" tmptmp.tex >> tout.txt
             echo "-------------------------------------------------------------------------" >> tout.txt
-          done<tmpout.txt
-          echo ">>>>>>>>>>>>>>>>>>>>>> 96"
-          grep "Package natbib Warning" allout.txt >> tout.txt
-          grep ${{ github.event.inputs.file2compile }}.bbl allout.txt >> tout.txt
-          grep error allout.txt >> tout.txt
-          rm -f tmptmp.tex
-          mv -f tout.txt ${{ github.event.inputs.file2compile }}_out.txt
+          done<warningsErrorsTmp.txt
+          grep "natbib" allout.txt > natbib.txt
+          grep "error" natbib.txt > natbibErrors.txt
+          grep "warning" natbib.txt > natbibWarnings.txt
+          grep ${{ github.event.inputs.file2compile }}.bbl allout.txt > bbl.txt
+          grep "error" bbl.txt > bblErrors.txt
+          grep "warning" bbl.txt > bblWarnings.txt
+          cat tout.txt natbibWarnings.txt natbibErrors.txt bblWarnings.txt bblErrors.txt > ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
 
         
