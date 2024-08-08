@@ -77,6 +77,37 @@ jobs:
         # First, move lines that should have been the ending of the previous line, to the end of that previous line
         run: |
           more tmpout.txt
+          echo ""
+          echo "==========================================="
+          echo ""
+          sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt
+          echo ""
+          echo "============================================"
+          echo ""
+          sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt | \
+            sed -r 's/\x0+/\x0/g'
+            sed -r 's/ *\x0 */\x0/g' | \
+            sed -r 's/\ *\: */\:/g'  
+          echo ""
+          echo "============================================"
+          echo ""
+          sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt | \
+            sed -r 's/\x0+/\x0/g' | \
+            sed -r 's/ *\x0 */\x0/g' | \
+            sed -r 's/\ *\: */\:/g' | \
+            sed -r 's/\.\x0+([a-zA-Z]+)\:/\.\n\1\:/g' 
+          echo ""
+          echo "================================================"
+          echo ""
+          sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt | \
+            sed -r 's/\x0+/\x0/g' | \
+            sed -r 's/ *\x0 */\x0/g' | \
+            sed -r 's/\ *\: */\:/g' | \
+            sed -r 's/\.\x0+([a-zA-Z]+)\:/\.\n\1\:/g' | \
+            sed -r 's/\x0+/\n/g'
+          echo ""
+          echo "=========================================="
+          echo ""
           # can we put a comment here? 
           sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt | \
             sed -r 's/\x0+/\x0/g' | \
@@ -85,6 +116,7 @@ jobs:
             sed -r 's/\.\x0+([a-zA-Z]+)\:/\.\n\1\:/g' | \
             sed -r 's/\x0+/\n/g' > tmptmpout.txt
           mv -f tmptmpout.txt tmpout.txt
+          grep ${{ github.event.inputs.file2compile }} tmpout.txt
           grep ${{ github.event.inputs.file2compile }} tmpout.txt > tmptmpout.txt
           mv -f tmptmpout.txt tmpout.txt
           sort tmpout.txt | uniq > tmptmpout.txt
@@ -93,11 +125,19 @@ jobs:
           touch tout.txt
           echo "${{ env.TIMESTAMP }}" >> tout.txt
           while IFS= read -r line; do
+            echo ""
+            echo "=========================================="
+            echo ""
+            echo  "$line" | sed 's/^.*:\([0-9]*\):.*/\1/'
             echo "$line" >> tout.txt
             # squash.io/extracting=numbers-from-strings-in-bash
             # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
             # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
             linenum=$(echo "$line" | sed 's/^.*:\([0-9]*\):.*/\1/')
+            echo ""
+            echo "=========================================="
+            echo ""
+            sed -n "${linenum}p" tmptmp.tex  
             sed -n "${linenum}p" tmptmp.tex >> tout.txt
             echo "-------------------------------------------------------------------------" >> tout.txt
           done<tmpout.txt
