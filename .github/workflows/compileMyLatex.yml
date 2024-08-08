@@ -76,41 +76,6 @@ jobs:
         # remove lines in the output that are unrelated to the latex compilation itself
         # First, move lines that should have been the ending of the previous line, to the end of that previous line
         run: |
-          echo ""
-          echo "=================== 1 ===================="
-          echo ""
-          more tmpout.txt
-          echo ""
-          echo "==================== 2 ====================="
-          echo ""
-          sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt
-          echo ""
-          echo "=================== 3 ======================"
-          echo ""
-          sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt | \
-            sed -r 's/\x0+/\x0/g'
-            sed -r 's/ *\x0 */\x0/g' | \
-            sed -r 's/\ *\: */\:/g'  
-          echo ""
-          echo "==================== 4 ====================="
-          echo ""
-          sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt | \
-            sed -r 's/\x0+/\x0/g' | \
-            sed -r 's/ *\x0 */\x0/g' | \
-            sed -r 's/\ *\: */\:/g' | \
-            sed -r 's/\.\x0+([a-zA-Z]+)\:/\.\n\1\:/g' 
-          echo ""
-          echo "==================== 5 ======================"
-          echo ""
-          sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt | \
-            sed -r 's/\x0+/\x0/g' | \
-            sed -r 's/ *\x0 */\x0/g' | \
-            sed -r 's/\ *\: */\:/g' | \
-            sed -r 's/\.\x0+([a-zA-Z]+)\:/\.\n\1\:/g' | \
-            sed -r 's/\x0+//g'
-          echo ""
-          echo "==================== 6 ==================="
-          echo ""
           # The below smooshes the entire output file together as a single line by replacing the end-of-line with
           # a special character (\x0), removes extra white space, removes white space preceding and proceeding colons, 
           # and performs replacements using the special character to insure that each error or warning appears on a single 
@@ -119,7 +84,7 @@ jobs:
             sed -r 's/\x0+/\x0/g' | \
             sed -r 's/ *\x0 */\x0/g' | \
             sed -r 's/\ *\: */\:/g' | \
-            sed -r 's/\.\x0+([a-zA-Z]+)\:/\.\n\1\:/g' | \
+            sed -r 's/\x0+([a-zA-Z]+)\:/\n\1\:/g' | \
             sed -r 's/\x0+//g' > tmptmpout.txt
           mv -f tmptmpout.txt tmpout.txt
           # The below pulls out only those lines that are directly related to the .tex file or the bibliography and 
@@ -140,7 +105,7 @@ jobs:
           echo ""
           echo "=================== 7 =================="
           echo ""
-          sed -n "36p" main.bbl
+          ls
           while IFS= read -r line; do
             echo ""
             echo "=========================================="
