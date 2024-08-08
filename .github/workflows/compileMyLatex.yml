@@ -94,14 +94,18 @@ jobs:
           # places into the tmpout.txt file. This step is why we needed everything related to a given error to appear in a single line.
           grep ${{ github.event.inputs.file2compile }}.tex allout.txt > tmpout.txt
           echo ">>>>>>>>>>>>>>> 92"
-          grep warning tmpout.txt > tmptmpout.txt
+          grep warning tmpout.txt > warnings.txt
           echo ">>>>>>>>>>>>>>> 93"
-          grep error tmpout.txt >> tmptmpout.txt
+          grep error tmpout.txt >> errors.txt
           echo ">>>>>>>>>>>>>>>> 94"
-          mv -f tmptmpout.txt tmpout.txt
+          rm -f tmpout.txt
+          cat warnings.txt > tmpout.txt
+          echo ">>>>>>>>>>>>> 95"
+          cat errors.txt >> tmpout.txt
+          echo ">>>>>>>>>>>>> 96"
           # The below removes any redundant errors
           sort tmpout.txt | uniq > tmptmpout.txt
-          echo ">>>>>>>>>>>>>>>> 95"
+          echo ">>>>>>>>>>>>>>>> 97"
           mv -f tmptmpout.txt tmpout.txt
           # The below makes a copy of the .tex file because we will be extracting line numbers to include under each 
           # warning or error message as a way to make a nicely-consolidated file for the user to use for trouble-shooting
