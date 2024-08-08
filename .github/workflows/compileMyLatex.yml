@@ -112,7 +112,7 @@ jobs:
             linenum=$(echo "$line" | sed 's/^.*:\([0-9]*\):.*/\1/')
             sed -n "${linenum}p" tmptmp.tex >> tout.txt
             echo "-------------------------------------------------------------------------" >> tout.txt
-          done<warningsErrorsTmp.txt
+          done<warningsErrors.txt
           grep "natbib" allout.txt > natbib.txt
           grep "error" natbib.txt > natbibErrors.txt
           grep "warning" natbib.txt > natbibWarnings.txt
