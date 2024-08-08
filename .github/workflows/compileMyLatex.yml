@@ -76,20 +76,23 @@ jobs:
         # remove lines in the output that are unrelated to the latex compilation itself
         # First, move lines that should have been the ending of the previous line, to the end of that previous line
         run: |
+          echo ""
+          echo "=================== 1 ===================="
+          echo ""
           more tmpout.txt
           echo ""
-          echo "==========================================="
+          echo "==================== 2 ====================="
           echo ""
           sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt
           echo ""
-          echo "============================================"
+          echo "=================== 3 ======================"
           echo ""
           sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt | \
             sed -r 's/\x0+/\x0/g'
             sed -r 's/ *\x0 */\x0/g' | \
             sed -r 's/\ *\: */\:/g'  
           echo ""
-          echo "============================================"
+          echo "==================== 4 ====================="
           echo ""
           sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt | \
             sed -r 's/\x0+/\x0/g' | \
@@ -97,7 +100,7 @@ jobs:
             sed -r 's/\ *\: */\:/g' | \
             sed -r 's/\.\x0+([a-zA-Z]+)\:/\.\n\1\:/g' 
           echo ""
-          echo "================================================"
+          echo "==================== 5 ======================"
           echo ""
           sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt | \
             sed -r 's/\x0+/\x0/g' | \
@@ -106,9 +109,12 @@ jobs:
             sed -r 's/\.\x0+([a-zA-Z]+)\:/\.\n\1\:/g' | \
             sed -r 's/\x0+/\n/g'
           echo ""
-          echo "=========================================="
+          echo "==================== 6 ==================="
           echo ""
-          # can we put a comment here? 
+          # The below smooshes the entire output file together as a single line by replacing the end-of-line with
+          # a special character (\x0), removes extra white space, removes white space preceding and proceeding colons, 
+          # and performs replacements using the special character to insure that each error or warning appears on a single 
+          # line and does not spill over into a separate line.
           sed ':a;N;$!ba;s/\n/\x0/g' tmpout.txt | \
             sed -r 's/\x0+/\x0/g' | \
             sed -r 's/ *\x0 */\x0/g' | \
@@ -116,11 +122,18 @@ jobs:
             sed -r 's/\.\x0+([a-zA-Z]+)\:/\.\n\1\:/g' | \
             sed -r 's/\x0+/\n/g' > tmptmpout.txt
           mv -f tmptmpout.txt tmpout.txt
+          # The below pulls out only those lines that are directly related to the .tex file or the bibliography and 
+          # places into the tmpout.txt file. This step is why we needed everything related to a given error to appear in a single line.
           grep ${{ github.event.inputs.file2compile }} tmpout.txt
           grep ${{ github.event.inputs.file2compile }} tmpout.txt > tmptmpout.txt
           mv -f tmptmpout.txt tmpout.txt
+          # The below removes any redundant errors
           sort tmpout.txt | uniq > tmptmpout.txt
           mv -f tmptmpout.txt tmpout.txt
+          # The below makes a copy of the .tex file because we will be extracting line numbers to include under each 
+          # warning or error message as a way to make a nicely-consolidated file for the user to use for trouble-shooting
+          # the latex code.  We have to make a copy because the way we extract the line numbers changes the actual 
+          # file, so we need to operate on a temporary file. 
           cp ${{ github.event.inputs.file2compile }}.tex tmptmp.tex
           touch tout.txt
           echo "${{ env.TIMESTAMP }}" >> tout.txt
@@ -135,7 +148,7 @@ jobs:
             # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
             linenum=$(echo "$line" | sed 's/^.*:\([0-9]*\):.*/\1/')
             echo ""
-            echo "=========================================="
+            echo "================= ${linenum} ========================="
             echo ""
             sed -n "${linenum}p" tmptmp.tex  
             sed -n "${linenum}p" tmptmp.tex >> tout.txt
