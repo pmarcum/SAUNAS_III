@@ -82,6 +82,8 @@ jobs:
             sed -r 's/\x0+/\x0/g' | \
             sed -r 's/ *\x0 */\x0/g' | \
             sed -r 's/\ *\: */\: /g' | \
+            sed -r 's/\[\]//g' | \
+            sed -r 's/\$$+//g' | \
             sed -r 's/\x0+([a-zA-Z ]+)\:/\n\1\:/g' | \
             sed -r 's/\x0+//g'
           echo "---------------------------------------------------"
@@ -93,6 +95,8 @@ jobs:
             sed -r 's/\x0+/\x0/g' | \
             sed -r 's/ *\x0 */\x0/g' | \
             sed -r 's/\ *\: */\: /g' | \
+            sed -r 's/\[\]//g' | \
+            sed -r 's/\$$+//g' | \
             sed -r 's/\x0+([a-zA-Z ]+)\:/\n\1\:/g' | \
             sed -r 's/\x0+//g' > allout.txt
           # The below pulls out only those lines that are directly related to the .tex file or the bibliography and 
