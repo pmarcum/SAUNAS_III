@@ -114,8 +114,12 @@ jobs:
             sed -n "${linenum}p" tmptmp.tex >> tout.txt
             echo "-------------------------------------------------------------------------" >> tout.txt
           done<tmpout.txt
-          grep ${{ github.event.inputs.file2compile }}.bbl allout.txt >> tout.txt
+          echo ""
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+          grep "Package natbib Warning:" allout.txt
+          echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
           grep "Package natbib Warning:" allout.txt >> tout.txt
+          grep ${{ github.event.inputs.file2compile }}.bbl allout.txt >> tout.txt
           grep error allout.txt >> tout.txt
           rm -f tmptmp.tex
           mv -f tout.txt ${{ github.event.inputs.file2compile }}_out.txt
