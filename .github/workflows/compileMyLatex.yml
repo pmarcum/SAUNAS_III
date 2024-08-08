@@ -84,13 +84,13 @@ jobs:
           sed ':a;N;$!ba;s/\n/\x0/g' compileout.txt | \
             sed -r 's/\x0+/\x0/g' | \
             sed -r 's/ *\x0 */\x0/g' | \
-            sed -r 's/\ *\: */\:/g' | \
-            sed -r 's/\x0+([a-zA-Z]+)\:/\n\1\:/g' | \
+            sed -r 's/\ *\: */\: /g' | \
+            sed -r 's/\x0+([a-zA-Z ]+)\:/\n\1\:/g' | \
             sed -r 's/\x0+//g' > allout.txt
           # The below pulls out only those lines that are directly related to the .tex file or the bibliography and 
           # places into the tmpout.txt file. This step is why we needed everything related to a given error to appear in a single line.
-          grep ${{ github.event.inputs.file2compile }}.tex allout.txt > tmptmpout.txt
-          mv -f tmptmpout.txt tmpout.txt
+          grep "warning: ${{ github.event.inputs.file2compile }}.tex" allout.txt > tmpout.txt
+          grep "error: ${{ github.event.inputs.file2compile }}.tex" allout.txt >> tmpout.txt
           # The below removes any redundant errors
           sort tmpout.txt | uniq > tmptmpout.txt
           mv -f tmptmpout.txt tmpout.txt
@@ -111,6 +111,7 @@ jobs:
             echo "-------------------------------------------------------------------------" >> tout.txt
           done<tmpout.txt
           grep ${{ github.event.inputs.file2compile }}.bbl allout.txt >> tout.txt
+          grep "Package natbib Warning:" allout.txt >> tout.txt
           grep error allout.txt >> tout.txt
           rm -f tmptmp.tex
           mv -f tout.txt ${{ github.event.inputs.file2compile }}_out.txt
