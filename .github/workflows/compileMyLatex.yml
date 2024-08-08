@@ -107,7 +107,7 @@ jobs:
             sed -r 's/ *\x0 */\x0/g' | \
             sed -r 's/\ *\: */\:/g' | \
             sed -r 's/\.\x0+([a-zA-Z]+)\:/\.\n\1\:/g' | \
-            sed -r 's/\x0+/\n/g'
+            sed -r 's/\x0+//g'
           echo ""
           echo "==================== 6 ==================="
           echo ""
@@ -120,7 +120,7 @@ jobs:
             sed -r 's/ *\x0 */\x0/g' | \
             sed -r 's/\ *\: */\:/g' | \
             sed -r 's/\.\x0+([a-zA-Z]+)\:/\.\n\1\:/g' | \
-            sed -r 's/\x0+/\n/g' > tmptmpout.txt
+            sed -r 's/\x0+//g' > tmptmpout.txt
           mv -f tmptmpout.txt tmpout.txt
           # The below pulls out only those lines that are directly related to the .tex file or the bibliography and 
           # places into the tmpout.txt file. This step is why we needed everything related to a given error to appear in a single line.
@@ -137,11 +137,15 @@ jobs:
           cp ${{ github.event.inputs.file2compile }}.tex tmptmp.tex
           touch tout.txt
           echo "${{ env.TIMESTAMP }}" >> tout.txt
+          echo ""
+          echo "=================== 7 =================="
+          echo ""
+          sed -n "36p" main.bbl
           while IFS= read -r line; do
             echo ""
             echo "=========================================="
             echo ""
-            echo  "$line" | sed 's/^.*:\([0-9]*\):.*/\1/'
+            echo "$line" | sed 's/^.*:\([0-9]*\):.*/\1/'
             echo "$line" >> tout.txt
             # squash.io/extracting=numbers-from-strings-in-bash
             # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
