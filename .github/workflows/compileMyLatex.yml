@@ -96,7 +96,7 @@ jobs:
           echo ">>>>>>>>>>>>>>> 92"
           grep warning tmpout.txt > warnings.txt
           echo ">>>>>>>>>>>>>>> 93"
-          grep error tmpout.txt >> errors.txt
+          grep error tmpout.txt > errors.txt
           echo ">>>>>>>>>>>>>>>> 94"
           rm -f tmpout.txt
           cat warnings.txt > tmpout.txt
