@@ -104,12 +104,12 @@ jobs:
           # squash.io/extracting=numbers-from-strings-in-bash
           # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
           # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
-          #while IFS= read -r line; do
-          #  echo $line >> tout.txt
+          while IFS= read -r line; do
+            echo $line >> tout.txt
           #  linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
           #  grep -Po '^$linenum' tmptmp.tex >> tout.txt
           #  echo "-------------------------------------------------------------------------" >> tout.txt
-          #done < warningsErrors.txt
+          done < warningsErrors.txt
           ##grep -e error -e warning allout.txt | grep -e natbib -e bbl > natbibWarnings.txt
           ##cat tout.txt natbibWarnings.txt > ${{ github.event.inputs.file2compile }}_out.txt
           #cat tout.txt > ${{ github.event.inputs.file2compile }}_out.txt
