@@ -88,41 +88,31 @@ jobs:
             sed -r 's/\$\$*//g' | \
             sed -r 's/\x0+([a-zA-Z ]+)\:/\n\1\:/g' | \
             sed -r 's/\x0+//g' > allout.txt
-          # The below pulls out only those lines that are directly related to the .tex file or the bibliography and 
-          # places into the tmpout.txt file. This step is why we needed everything related to a given error to appear in a single line.
-          rm -f tmpout.txt
-          grep -e warning -e error allout.txt | grep ": ${{ github.event.inputs.file2compile }}.tex" > tmpout.txt
-          # The below removes any redundant errors
-          sort tmpout.txt | uniq > warningsErrors.txt
-          rm -f tmpout.txt
-          # The below makes a copy of the .tex file because we will be extracting line numbers to include under each 
-          # warning or error message as a way to make a nicely-consolidated file for the user to use for trouble-shooting
-          # the latex code. This copy will have line numbers embedded in it.
-          cat -n ${{ github.event.inputs.file2compile }}.tex > tmptmp.tex
-          touch tout.txt
-          echo "${{ env.TIMESTAMP }}" >> tout.txt
-          # squash.io/extracting=numbers-from-strings-in-bash
-          # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
-          # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
-          while IFS= read -r line; do
-            echo $line >> tout.txt
-            linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
-            grep -Po '^$linenum' tmptmp.tex >> tout.txt
-            echo "-------------------------------------------------------------------------" >> tout.txt
-          done < warningsErrors.txt
-          #echo ""
-          #echo "=============================="
-          #cat tout.txt
-          #echo "==============================="
-          #echo ""
-          #grep -e error -e warning allout.txt | grep -e natbib -e bbl > natbibWarnings.txt
-          #echo ""
-          #echo "--------------------------------------"
-          #echo ""
-          #cat natbibWarnings.txt
-          #echo "-------------------------------------"
-          #cat tout.txt natbibWarnings.txt > ${{ github.event.inputs.file2compile }}_out.txt
-          cat tout.txt > ${{ github.event.inputs.file2compile }}_out.txt
+          ## The below pulls out only those lines that are directly related to the .tex file or the bibliography and 
+          ## places into the tmpout.txt file. This step is why we needed everything related to a given error to appear in a single line.
+          #rm -f tmpout.txt
+          #grep -e warning -e error allout.txt | grep ": ${{ github.event.inputs.file2compile }}.tex" > tmpout.txt
+          ## The below removes any redundant errors
+          #sort tmpout.txt | uniq > warningsErrors.txt
+          #rm -f tmpout.txt
+          ## The below makes a copy of the .tex file because we will be extracting line numbers to include under each 
+          ## warning or error message as a way to make a nicely-consolidated file for the user to use for trouble-shooting
+          ## the latex code. This copy will have line numbers embedded in it.
+          #cat -n ${{ github.event.inputs.file2compile }}.tex > tmptmp.tex
+          #touch tout.txt
+          #echo "${{ env.TIMESTAMP }}" >> tout.txt
+          ## squash.io/extracting=numbers-from-strings-in-bash
+          ## https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
+          ## https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
+          #while IFS= read -r line; do
+          #  echo $line >> tout.txt
+          #  linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
+          #  grep -Po '^$linenum' tmptmp.tex >> tout.txt
+          #  echo "-------------------------------------------------------------------------" >> tout.txt
+          #done < warningsErrors.txt
+          ##grep -e error -e warning allout.txt | grep -e natbib -e bbl > natbibWarnings.txt
+          ##cat tout.txt natbibWarnings.txt > ${{ github.event.inputs.file2compile }}_out.txt
+          #cat tout.txt > ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
 
         
