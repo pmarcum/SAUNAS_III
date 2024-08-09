@@ -103,15 +103,15 @@ jobs:
           touch tout.txt
           echo "${{ env.TIMESTAMP }}" >> tout.txt
           while IFS= read -r line; do
-            echo "$line" >> tout.txt
+            echo $line >> tout.txt
             # squash.io/extracting=numbers-from-strings-in-bash
             # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
             # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
-            linenum=$(echo "$line" | sed 's/^.*: \([0-9]*\):.*/\1/')
+            linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
             echo ""
             echo "======================================"      
-            echo "$linenum"
-            echo "$line"
+            echo $linenum
+            echo $line
             echo "======================================"
             echo ""      
             sed -n "${linenum}p" tmptmp.tex >> tout.txt
