@@ -107,11 +107,10 @@ jobs:
           while IFS= read -r line; do
             echo $line >> tout.txt
             linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
-            #grep -Po '^$linenum' tmptmp.tex >> tout.txt
             head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
           #  echo "-------------------------------------------------------------------------" >> tout.txt
           done < warningsErrors.txt
-          ##grep -e error -e warning allout.txt | grep -e natbib -e bbl > natbibWarnings.txt
+          grep -e error -e warning allout.txt | grep -e natbib -e bbl > natbibWarnings.txt
           ##cat tout.txt natbibWarnings.txt > ${{ github.event.inputs.file2compile }}_out.txt
           cat tout.txt > ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
