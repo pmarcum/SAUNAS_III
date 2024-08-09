@@ -80,6 +80,7 @@ jobs:
           # a special character (\x0), removes extra white space, removes white space preceding and proceeding colons, 
           # and performs replacements using the special character to insure that each error or warning appears on a single 
           # line and does not spill over into a separate line.
+          cat compileout.txt
           sed ':a;N;$!ba;s/\n/\x0/g' compileout.txt | \
             sed -r 's/\x0+/\x0/g' | \
             sed -r 's/  */ /g' | \
@@ -93,7 +94,7 @@ jobs:
             sed -r 's/\.\x0/\.\n/g' | \
             sed -r 's/\x0+//g' > allout.txt
           # display all the errors
-          cat allout.txt
+          #cat allout.txt
           echo "${{ env.TIMESTAMP }}" > tout.txt
           cat tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -155,6 +156,16 @@ jobs:
           # https://stackoverflow.com/questions/46324444/grep-for-words-containing-both-uppercase-and-lowercase-letters
           # https://www.tutorialspoint.com/count-duplicate-lines-in-a-text-file-on-linux
           # https://www.baeldung.com/linux/count-duplicated-lines-text   
+          echo ''
+          echo '==================================='
+          grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
+             grep -e ': [cC]itation' | \
+             grep -e '[uU]ndefined' | \
+             sort | \
+             uniq -c | \
+             awk '{ a[$0]++ } END{ for(x in a) print a[x], x}'
+          echo ''
+          echo "======================================="
           grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
              grep -e ': [cC]itation' | \
              grep -e '[uU]ndefined' | \
