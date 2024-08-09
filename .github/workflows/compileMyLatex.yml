@@ -104,7 +104,7 @@ jobs:
           # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
           # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" > tout.txt
-          echo "   ERRORS IN ${{  github.event.inputs.file2compile }}.tex }}" >> tout.txt
+          echo "   ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           while IFS= read -r line; do
             echo $line >> tout.txt
@@ -113,8 +113,8 @@ jobs:
             echo "-------------------------------------------------------------------------" >> tout.txt
           done < errors.txt
           echo "" >> tout.txt
-          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" > tout.txt
-          echo "   WARNINGS IN ${{  github.event.inputs.file2compile }}.tex }}" >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          echo "   WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           while IFS= read -r line; do
             echo $line >> tout.txt
@@ -123,17 +123,40 @@ jobs:
             echo "-------------------------------------------------------------------------" >> tout.txt
           done < warnings.txt
           echo "" >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          echo "   CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           # now look for problems with the bibliography. In the first pass through the compilation, every citation will raise a warning flag.  But
           # eventually, those warnings will be resolved except for citations that have typos in the .tex file and/or are missing from the .bib file. 
           # The below gets a list of all citation warnings, and then figures out if any of the errors are unresolved, which would be the case if 
           # the same error appears 6 times (the number of passes can be changed as one of the input options to tectonic, though, so to be safe, let's
           # raise the issue if a citation warning appears at least 3 times. 
-          grep -e error -e Error -e warning -e Warning allout.txt | grep -e ": citation" -e ": Citation" | grep -e undefined -e Undefined > citationList.txt
-          # Figure out which, if any, repeat at least 3 times
-          
-          grep -e warning -e Warning -e error -e Error allout.txt | grep -e ": citation" -e ": Citation" -e ": ${{ github.event.inputs.file2compile }}.bbl" > natbibWarnings.txt
-          grep -e warning -e Warning -e error -e Error allout.txt | grep -e ": citation" -e ": Citation" -e ": ${{ github.event.inputs.file2compile }}.bbl" > natbibWarnings.txt
-          cat tout.txt natbibWarnings.txt > ${{ github.event.inputs.file2compile }}_out.txt
+          # https://stackoverflow.com/questions/46324444/grep-for-words-containing-both-uppercase-and-lowercase-letters
+          # https://www.tutorialspoint.com/count-duplicate-lines-in-a-text-file-on-linux
+          # https://www.baeldung.com/linux/count-duplicated-lines-text   
+          grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
+             grep -e ': [cC]itation' | \
+             grep -e '[uU]ndefined' | \
+             sort | \
+             uniq -c | \
+             awk '{ a[$0]++ } END{ for(x in a) if(a[x]>3) print x}' >> tout.txt
+          echo "" >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          echo "                       ERRORS WITH the .BIB FILE" >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          grep -e '[wW]arning' -e '[eE]rror' allout.txt | \
+             grep -e ': ${{ github.event.inputs.file2compile }}.bbl' | \
+             sort | \
+             uniq >> bibfileProblems.txt
+          echo "" >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          echo "   LIST OF REFERENCES IN ${{ github.event.inputs.file2compile }}.tex" >> tout.txt 
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt  
+          grep -e '[wW]arning' -e '[eE]rror' allout.txt | \
+             grep -e ': [cC]itation' | \
+             grep -e '[uU]ndefined' | \
+             sort | \
+             uniq >> tout.txt
         continue-on-error: true
 
         
