@@ -112,9 +112,10 @@ jobs:
             echo "======================================"      
             echo $linenum
             echo $line
+            sed -n "${linenum}p" tmptmp.tex >> tout.txt
+            sed -n "${linenum}p" tmptmp.tex
             echo "======================================"
             echo ""      
-            sed -n "${linenum}p" tmptmp.tex >> tout.txt
             echo "-------------------------------------------------------------------------" >> tout.txt
           done < warningsErrors.txt
           echo ""
