@@ -101,20 +101,20 @@ jobs:
           cat -n ${{ github.event.inputs.file2compile }}.tex > tmptmp.tex
           touch tout.txt
           echo "${{ env.TIMESTAMP }}" >> tout.txt
+          # squash.io/extracting=numbers-from-strings-in-bash
+          # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
+          # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
           while IFS= read -r line; do
             echo $line >> tout.txt
-            # squash.io/extracting=numbers-from-strings-in-bash
-            # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
-            # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
             linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
             echo "" >> tout.txt
             grep -Po '^$linenum' tmptmp.tex >> tout.txt
             echo "-------------------------------------------------------------------------" >> tout.txt
           done < warningsErrors.txt
           echo ""
-          echo '-------------------------------------"
-          echo ""
+          echo "=============================="
           cat tout.txt
+          echo "==============================="
           echo ""
           grep -e error -e warning allout.txt | grep -e natbib -e bbl > natbibWarnings.txt
           echo ""
