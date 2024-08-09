@@ -76,7 +76,6 @@ jobs:
         # remove lines in the output that are unrelated to the latex compilation itself
         # First, move lines that should have been the ending of the previous line, to the end of that previous line
         run: |
-          cat compileout.txt
           # The below smooshes the entire output file together as a single line by replacing the end-of-line with
           # a special character (\x0), removes extra white space, removes white space preceding and proceeding colons, 
           # and performs replacements using the special character to insure that each error or warning appears on a single 
@@ -96,10 +95,6 @@ jobs:
           # The below removes any redundant errors
           sort tmpout.txt | uniq > warningsErrors.txt
           rm -f tmpout.txt
-          # The below makes a copy of the .tex file because we will be extracting line numbers to include under each 
-          # warning or error message as a way to make a nicely-consolidated file for the user to use for trouble-shooting
-          # the latex code. This copy will have line numbers embedded in it.
-          cat -n ${{ github.event.inputs.file2compile }}.tex > tmptmp.tex
           touch tout.txt
           echo "${{ env.TIMESTAMP }}" >> tout.txt
           # squash.io/extracting=numbers-from-strings-in-bash
@@ -109,7 +104,7 @@ jobs:
             echo $line >> tout.txt
             linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
             head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
-          #  echo "-------------------------------------------------------------------------" >> tout.txt
+            echo "-------------------------------------------------------------------------" >> tout.txt
           done < warningsErrors.txt
           echo "" >> tout.txt
           grep -ei error -e warning allout.txt | grep -ei ": citation" -e ": ${{ github.event.inputs.file2compile }}.bbl" > natbibWarnings.txt
