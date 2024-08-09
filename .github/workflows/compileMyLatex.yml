@@ -107,16 +107,8 @@ jobs:
             # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
             # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
             linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
+            echo "" >> tout.txt
             grep -Po '^$linenum' tmptmp.tex >> tout.txt
-            echo ""
-            echo "======================================"      
-            echo $linenum
-            echo $line
-            #sed -n "${linenum}p" tmptmp.tex >> tout.txt
-            #sed -n "${linenum}p" tmptmp.tex
-            grep -Po '^$linenum' tmptmp.tex
-            echo "======================================"
-            echo ""      
             echo "-------------------------------------------------------------------------" >> tout.txt
           done < warningsErrors.txt
           echo ""
