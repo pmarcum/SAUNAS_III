@@ -88,9 +88,9 @@ jobs:
             sed -r 's/\$\$*//g' | \
             sed -r 's/\x0+([a-zA-Z ]+)\:/\n\1\:/g' | \
             sed -r 's/\x0+//g' > allout.txt
-          ## The below pulls out only those lines that are directly related to the .tex file or the bibliography and 
-          ## places into the tmpout.txt file. This step is why we needed everything related to a given error to appear in a single line.
-          #rm -f tmpout.txt
+          # The below pulls out only those lines that are directly related to the .tex file or the bibliography and 
+          # places into the tmpout.txt file. This step is why we needed everything related to a given error to appear in a single line.
+          rm -f tmpout.txt
           #grep -e warning -e error allout.txt | grep ": ${{ github.event.inputs.file2compile }}.tex" > tmpout.txt
           ## The below removes any redundant errors
           #sort tmpout.txt | uniq > warningsErrors.txt
