@@ -97,9 +97,8 @@ jobs:
           rm -f tmpout.txt
           # The below makes a copy of the .tex file because we will be extracting line numbers to include under each 
           # warning or error message as a way to make a nicely-consolidated file for the user to use for trouble-shooting
-          # the latex code.  We have to make a copy because the way we extract the line numbers changes the actual 
-          # file, so we need to operate on a temporary file. 
-          cp ${{ github.event.inputs.file2compile }}.tex tmptmp.tex
+          # the latex code. This copy will have line numbers embedded in it.
+          cat -n ${{ github.event.inputs.file2compile }}.tex > tmptmp.tex
           touch tout.txt
           echo "${{ env.TIMESTAMP }}" >> tout.txt
           while IFS= read -r line; do
@@ -108,12 +107,14 @@ jobs:
             # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
             # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
             linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
+            grep -Po '^$linenum' tmptmp.tex >> tout.txt
             echo ""
             echo "======================================"      
             echo $linenum
             echo $line
-            sed -n "${linenum}p" tmptmp.tex >> tout.txt
-            sed -n "${linenum}p" tmptmp.tex
+            #sed -n "${linenum}p" tmptmp.tex >> tout.txt
+            #sed -n "${linenum}p" tmptmp.tex
+            grep -Po '^$linenum' tmptmp.tex
             echo "======================================"
             echo ""      
             echo "-------------------------------------------------------------------------" >> tout.txt
