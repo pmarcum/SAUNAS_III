@@ -110,7 +110,8 @@ jobs:
             head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
           #  echo "-------------------------------------------------------------------------" >> tout.txt
           done < warningsErrors.txt
-          grep -e error -e warning allout.txt | grep -e natbib -e bbl > natbibWarnings.txt
+          echo "" >> tout.txt
+          grep -e error -e warning allout.txt | grep -e ": natbib" -e ": ${{ github.event.inputs.file2compile }}.bbl" > natbibWarnings.txt
           cat tout.txt natbibWarnings.txt > ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
 
