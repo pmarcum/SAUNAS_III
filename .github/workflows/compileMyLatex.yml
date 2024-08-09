@@ -107,7 +107,7 @@ jobs:
           while IFS= read -r line; do
             echo $line >> tout.txt
             linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
-          #  grep -Po '^$linenum' tmptmp.tex >> tout.txt
+            grep -Po '^$linenum' tmptmp.tex >> tout.txt
           #  echo "-------------------------------------------------------------------------" >> tout.txt
           done < warningsErrors.txt
           ##grep -e error -e warning allout.txt | grep -e natbib -e bbl > natbibWarnings.txt
