@@ -94,11 +94,11 @@ jobs:
           grep -e warning -e error allout.txt | grep ": ${{ github.event.inputs.file2compile }}.tex" > tmpout.txt
           # The below removes any redundant errors
           sort tmpout.txt | uniq > warningsErrors.txt
-          #rm -f tmpout.txt
-          ## The below makes a copy of the .tex file because we will be extracting line numbers to include under each 
-          ## warning or error message as a way to make a nicely-consolidated file for the user to use for trouble-shooting
-          ## the latex code. This copy will have line numbers embedded in it.
-          #cat -n ${{ github.event.inputs.file2compile }}.tex > tmptmp.tex
+          rm -f tmpout.txt
+          # The below makes a copy of the .tex file because we will be extracting line numbers to include under each 
+          # warning or error message as a way to make a nicely-consolidated file for the user to use for trouble-shooting
+          # the latex code. This copy will have line numbers embedded in it.
+          cat -n ${{ github.event.inputs.file2compile }}.tex > tmptmp.tex
           #touch tout.txt
           #echo "${{ env.TIMESTAMP }}" >> tout.txt
           ## squash.io/extracting=numbers-from-strings-in-bash
