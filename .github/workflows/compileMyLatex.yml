@@ -91,7 +91,7 @@ jobs:
           # The below pulls out only those lines that are directly related to the .tex file or the bibliography and 
           # places into the tmpout.txt file. This step is why we needed everything related to a given error to appear in a single line.
           rm -f tmpout.txt
-          grep -e warning -e error allout.txt | grep ": ${{ github.event.inputs.file2compile }}." > tmpout.txt
+          grep -e warning -e error allout.txt | grep ": ${{ github.event.inputs.file2compile }}.tex" > tmpout.txt
           # The below removes any redundant errors
           sort tmpout.txt | uniq > warningsErrors.txt
           rm -f tmpout.txt
@@ -107,7 +107,7 @@ jobs:
             # squash.io/extracting=numbers-from-strings-in-bash
             # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
             # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
-            linenum=$(echo "$line" | sed 's/^.*:\([0-9]*\):.*/\1/')
+            linenum=$(echo "$line" | sed 's/^.*: \([0-9]*\):.*/\1/')
             echo ""
             echo "======================================"      
             echo "$linenum"
