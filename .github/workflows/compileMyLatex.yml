@@ -92,6 +92,8 @@ jobs:
             sed -r 's/\x0+([a-zA-Z ]+)\:/\n\1\:/g' | \
             sed -r 's/\.\x0/\.\n/g' | \
             sed -r 's/\x0+//g' > allout.txt
+          # display all the errors
+          cat allout.txt
           echo "${{ env.TIMESTAMP }}" > tout.txt
           cat tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -187,7 +189,8 @@ jobs:
              grep -e ': [cC]itation' | \
              grep -e '[uU]ndefined' | \
              sort | \
-             uniq >> tout.txt
+             uniq | \ 
+             sed -r 's/citation \`([^\`]+)\`/\1/ig' >> tout.txt
           echo ""
           cat tout.txt
         continue-on-error: true
