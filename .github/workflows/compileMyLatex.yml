@@ -111,8 +111,7 @@ jobs:
           #  echo "-------------------------------------------------------------------------" >> tout.txt
           done < warningsErrors.txt
           grep -e error -e warning allout.txt | grep -e natbib -e bbl > natbibWarnings.txt
-          ##cat tout.txt natbibWarnings.txt > ${{ github.event.inputs.file2compile }}_out.txt
-          cat tout.txt > ${{ github.event.inputs.file2compile }}_out.txt
+          cat tout.txt natbibWarnings.txt > ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
 
         
