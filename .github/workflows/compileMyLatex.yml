@@ -76,7 +76,7 @@ jobs:
         # remove lines in the output that are unrelated to the latex compilation itself
         # First, move lines that should have been the ending of the previous line, to the end of that previous line
         run: |
-          cat allout.txt
+          cat compileout.txt
           # The below smooshes the entire output file together as a single line by replacing the end-of-line with
           # a special character (\x0), removes extra white space, removes white space preceding and proceeding colons, 
           # and performs replacements using the special character to insure that each error or warning appears on a single 
