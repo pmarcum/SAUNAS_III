@@ -94,11 +94,6 @@ jobs:
           grep -e warning -e error allout.txt | grep ": ${{ github.event.inputs.file2compile }}." > tmpout.txt
           # The below removes any redundant errors
           sort tmpout.txt | uniq > warningsErrors.txt
-          echo ""
-          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-          cat warningsErrors.txt
-          echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
-          echo ""
           rm -f tmpout.txt
           # The below makes a copy of the .tex file because we will be extracting line numbers to include under each 
           # warning or error message as a way to make a nicely-consolidated file for the user to use for trouble-shooting
@@ -113,6 +108,7 @@ jobs:
             # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
             # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
             linenum=$(echo "$line" | sed 's/^.*:\([0-9]*\):.*/\1/')
+            echo "$linenum $line"
             sed -n "${linenum}p" tmptmp.tex >> tout.txt
             echo "-------------------------------------------------------------------------" >> tout.txt
           done < warningsErrors.txt
