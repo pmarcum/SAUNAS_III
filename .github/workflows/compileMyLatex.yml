@@ -144,8 +144,10 @@ jobs:
           echo '==================================='
           grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
              grep -i 'find' | \
-             grep -i 'database entry' | \
-             sed ':a;N;$!ba;s/Warning.*"(.*)"/\1/g' 
+             grep -i 'database entry' > citationIssues.txt
+          while IFS= read -r line; do
+             echo $line | sed 's/^.*"(.*)".*/\1/'
+          done < citationIssues.txt
           echo "======================================="             
           #grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
           #   grep -i 'find' | \
