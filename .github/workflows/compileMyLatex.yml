@@ -146,7 +146,7 @@ jobs:
              grep -i 'find' | \
              grep -i 'database entry' | \
              sed 's/\n/ /g' | \
-             sed 's/ *Warning.*"(.*)"/|S\1E|/ig'
+             sed 's/ *Warning.*"(.*)"/SS\1EE/ig'
              #sed -r 's/E\|.*\|S/E||S/g' | \
              #sed -r 's/E\|.*$/E|/' | \
              #sed -r 's/E\|\|S/E|\n|S/g' | \
