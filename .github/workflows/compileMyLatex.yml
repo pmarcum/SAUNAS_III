@@ -155,8 +155,7 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
              grep -e ': ${{ github.event.inputs.file2compile }}.bbl' | \
-             sort | \
-             uniq >> tout.txt
+             sort -u >> tout.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "   LIST OF REFERENCES IN ${{ github.event.inputs.file2compile }}.tex" >> tout.txt 
