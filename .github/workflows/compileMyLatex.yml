@@ -145,7 +145,7 @@ jobs:
           grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
              grep -i 'find' | \
              grep -i 'database entry' | \
-             sed -r 's/ *Warning.*"(.*)"/S_\1_E/ig'
+             sed -r 's/ *Warning.*"(.*)"/S_\1_E/ig' | \
              sed -r 's/_E.*S_/_ES_/g' | \
              sed -r 's/_E.*$/E_/' | \
              sed -r 's/_ES_/_E\nS_/g' | \
