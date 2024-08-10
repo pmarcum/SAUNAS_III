@@ -160,20 +160,13 @@ jobs:
           echo ''
           echo '==================================='
           grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
-             grep -e ': [cC]itation' | \
-             grep -e '[uU]ndefined' | \
+             grep -i 'find' | \
+             grep -i 'database entry' | \
+             sed -r 's/[`'"]([^`'"]+)[`'"]/\1/g' | \
              sort | \
-             uniq -c | \
-             awk '{ a[$0]++ } END{ for(x in a) print a[x], x}'
+             uniq >> tout.txt
           echo ''
           echo "======================================="
-          grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
-             grep -e ': [cC]itation' | \
-             grep -e '[uU]ndefined' | \
-             sort | \
-             uniq -c | \
-             awk '{ a[$0]++ } END{ for(x in a) if(a[x]>3) print x}' >> tout.txt
-          echo ""
           cat tout.txt
           echo ""
           echo "" >> tout.txt
