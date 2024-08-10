@@ -147,6 +147,8 @@ jobs:
              grep -i 'database entry' | \
              grep -Eo '"[a-zA-Z _0-9\-\+]+"' | \
              sed -r 's/"//g' >> tout.txt
+
+          cat tout.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "                       ERRORS WITH the .BIB FILE" >> tout.txt
