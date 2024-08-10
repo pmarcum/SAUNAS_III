@@ -144,8 +144,7 @@ jobs:
           echo '==================================='
           grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
              grep -i 'find' | \
-             grep -i 'database entry' | \
-             sed -r 's/[\`\'\"]([^\`\'\"]+)[\`\'\"]/\1/g'
+             grep -i 'database entry' 
           echo "======================================="             
           #grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
           #   grep -i 'find' | \
