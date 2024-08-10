@@ -149,26 +149,25 @@ jobs:
              sed -r 's/"//g' | \
              sort | \
              uniq >> tout.txt
-
-          cat tout.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "                       ERRORS WITH the .BIB FILE" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          #grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
-          #   grep -e ': ${{ github.event.inputs.file2compile }}.bbl' | \
-          #   sort | \
-          #   uniq >> tout.txt
+          grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
+             grep -e ': ${{ github.event.inputs.file2compile }}.bbl' | \
+             sort | \
+             uniq >> tout.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "   LIST OF REFERENCES IN ${{ github.event.inputs.file2compile }}.tex" >> tout.txt 
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt  
-          #grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
-          #   grep -e ': [cC]itation' | \
-          #   grep -e '[uU]ndefined' | \
-          #   sort | \
-          #   uniq | \ 
-          #   sed -r 's/citation \`([^\`]+)\`/\1/ig' >> tout.txt
+          grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
+             grep -e ': [cC]itation' | \
+             grep -e '[uU]ndefined' | \
+             sort | \
+             uniq | \ 
+             sed -r 's/citation \`([^\`]+)\`/\1/ig' >> tout.txt
+          mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
 
         
