@@ -146,7 +146,9 @@ jobs:
              grep -i 'find' | \
              grep -i 'database entry' | \
              grep -Eo '"[a-zA-Z _0-9\-\+]+"' | \
-             sed -r 's/"//g' >> tout.txt
+             sed -r 's/"//g' | \
+             sort | \
+             uniq >> tout.txt
 
           cat tout.txt
           echo "" >> tout.txt
