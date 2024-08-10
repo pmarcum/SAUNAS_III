@@ -140,6 +140,7 @@ jobs:
           # https://stackoverflow.com/questions/46324444/grep-for-words-containing-both-uppercase-and-lowercase-letters
           # https://www.tutorialspoint.com/count-duplicate-lines-in-a-text-file-on-linux
           # https://www.baeldung.com/linux/count-duplicated-lines-text   
+          cat allout.txt
           echo ''
           echo '==================================='
           grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
