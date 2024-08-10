@@ -144,8 +144,8 @@ jobs:
           echo '==================================='
           grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
              grep -i 'find' | \
-             grep -i 'database entry' | \
-             grep -Eo '"[a-zA-Z _0-9\-]+"'
+             grep -i 'database entry' > citationIssues.txt
+          grep -Eo '\"[a-zA-Z _0-9\-]+\"' citationIssues.txt
              #sed -r 's/E\|.*\|S/E||S/g' | \
              #sed -r 's/E\|.*$/E|/' | \
              #sed -r 's/E\|\|S/E|\n|S/g' | \
