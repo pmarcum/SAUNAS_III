@@ -148,8 +148,7 @@ jobs:
              grep -i 'database entry' | \
              grep -Eo '"[a-zA-Z _0-9\-\+]+"' | \
              sed -r 's/"//g' | \
-             sort -o | \
-             uniq >> tout.txt
+             sort -u >> tout.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "                       ERRORS WITH the .BIB FILE" >> tout.txt
