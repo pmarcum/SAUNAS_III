@@ -1,4 +1,4 @@
-2024-08-11T01:21:24Z 1723339284403
+2024-08-11T01:24:16Z 1723339456409
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
    ERRORS IN main.tex
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -9,24 +9,27 @@
 warning: main.tex: 21: Overfull \hbox (15.35304pt too wide) in paragraph at lines 21--21 Overfull \hbox (15.35304pt too wide) in paragraph at lines 21--21
 \section{Background}
 -------------------------------------------------------------------------
+warning: main.tex: 21: Overfull \hbox (15.35304pt too wide) in paragraph at lines 21--21 Overfull \hbox (15.35304pt too wide) in paragraph at lines 21--21 (main.bbl
+\section{Background}
+-------------------------------------------------------------------------
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
    CITATION ISSUES IN main.tex 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-bel+2006apj640_241
-falch+2016an2_1600377
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                        ERRORS WITH the .BIB FILE
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
- warning: main.bbl: 12: Overfull \vbox (14.76573pt too high) has occurred while \output is active Overfull \vbox (14.76573pt too high) has occurred while \output is active [1]) [2]
+ error: main.bbl: 36: Undefined control sequence ! undefined control sequence.  l.36 ...o}, P., {Duriscoe}, D., {et~al.} 2016, \an , 2, e1600377, ) [2]
+ error: main.bbl: 36: Undefined control sequence ! undefined control sequence.  l.36 ...o}, P., {Duriscoe}, D., {et~al.} 2016, \an , 2, e1600377, ) [2] (main.aux) ) (\end occurred inside a group at level 1) ### simple group (level 1) entered at line 8 ({) ### bottom level Output written on main.xdv (2 pages, 24080 bytes).
+ warning: main.bbl: 12: Overfull \vbox (14.76573pt too high) has occurred while \output is active Overfull \vbox (14.76573pt too high) has occurred while \output is active [1]
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
    LIST OF REFERENCES IN main.tex
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 aguerri+1998aj116_2136
-bel+2006apj640_241
+bell+2006apj640_241
 bell+2006apj652_270
 bernardi+2006aj131_1288
 erwin+2017mnras468_2058
-falch+2016an2_1600377
+falchi+2016an2_1600377
