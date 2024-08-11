@@ -148,36 +148,36 @@ jobs:
           # https://www.tutorialspoint.com/count-duplicate-lines-in-a-text-file-on-linux
           # https://www.baeldung.com/linux/count-duplicated-lines-text  
           # https://stackoverflow.com/questions/45704484/pipelining-cut-sort-uniq
-          grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
-             grep -i 'find' | \
-             grep -i 'database entry' | \
-             grep -Eo '"[a-zA-Z _0-9\-\+]+"' | \
-             sed -r 's/"//g' > tmptmp.txt
-          sort tmptmp.txt | \
-             uniq >> tout.txt
-          rm -f tmptmp.txt
-          echo "" >> tout.txt
-          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          echo "                       ERRORS WITH the .BIB FILE" >> tout.txt
-          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
-             grep -e ': ${{ github.event.inputs.file2compile }}.bbl' > tmptmp.txt
-          sort  tmptmp.txt | \
-             uniq >> tout.txt
-          rm -f tmptmp.txt
-          echo "" >> tout.txt
-          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          echo "   LIST OF REFERENCES IN ${{ github.event.inputs.file2compile }}.tex" >> tout.txt
-          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
-             grep -i ': citation' | \
-             grep -i 'undefined' | \
-             grep -Eo '`[^ ]+' | \
-             sed -r 's/`//g' | \
-             sed -r "s/'//g" > tmptmp.txt
-          sort tmptmp.txt | \
-             uniq >> tout.txt
-          mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
+          #grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
+          #   grep -i 'find' | \
+          #   grep -i 'database entry' | \
+          #   grep -Eo '"[a-zA-Z _0-9\-\+]+"' | \
+          #   sed -r 's/"//g' > tmptmp.txt
+          #sort tmptmp.txt | \
+          #   uniq >> tout.txt
+          #rm -f tmptmp.txt
+          #echo "" >> tout.txt
+          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          #echo "                       ERRORS WITH the .BIB FILE" >> tout.txt
+          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          #grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
+          #   grep -e ': ${{ github.event.inputs.file2compile }}.bbl' > tmptmp.txt
+          #sort  tmptmp.txt | \
+          #   uniq >> tout.txt
+          #rm -f tmptmp.txt
+          #echo "" >> tout.txt
+          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          #echo "   LIST OF REFERENCES IN ${{ github.event.inputs.file2compile }}.tex" >> tout.txt
+          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          #grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
+          #   grep -i ': citation' | \
+          #   grep -i 'undefined' | \
+          #   grep -Eo '`[^ ]+' | \
+          #   sed -r 's/`//g' | \
+          #   sed -r "s/'//g" > tmptmp.txt
+          #sort tmptmp.txt | \
+          #   uniq >> tout.txt
+          #mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
 
         
