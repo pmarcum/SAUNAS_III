@@ -165,9 +165,9 @@ jobs:
           echo "   LIST OF REFERENCES IN ${{ github.event.inputs.file2compile }}.tex" >> tout.txt 
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt  
           grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
-             grep -e ': [cC]itation' | \
-             grep -e '[uU]ndefined' | \
-             sed -r 's/citation \`([^\`]+)\`/\1/ig' > tmptmp.txt
+             grep -i ': citation' | \
+             grep -i 'undefined' | \
+             grep -Eo "`[a-zA-Z _0-9\-\+\.?~!@#$%&]+'" > tmptmp.txt
           sort tmptmp.txt | \
              uniq >> tout.txt
           mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
