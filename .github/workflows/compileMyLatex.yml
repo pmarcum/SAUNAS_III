@@ -167,7 +167,7 @@ jobs:
           grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
              grep -i ': citation' | \
              grep -i 'undefined' | \
-             grep -Eo '`[a-zA-Z_0-9\-\+]+' | \
+             grep -Eo '`[^ ]+' | \
              sed -r 's/`//g' > tmptmp.txt
           sort tmptmp.txt | \
              uniq >> tout.txt
