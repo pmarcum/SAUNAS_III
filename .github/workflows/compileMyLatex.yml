@@ -95,7 +95,8 @@ jobs:
             sed -r 's/\.\x0/\.\n/g' | \
             sed -r 's/\x0+//g' | \
             sed -r 's/(lines [0-9\-]+) *\(/\1\n\(/g' | \
-            sed -r 's/(\[[0-9]+\]) *\(/\1\n\(/g' > allout.txt
+            sed -r 's/(\[[0-9]+\]) *\(/\1\n\(/g' | \
+            awk '{$1=!1};1' > allout.txt
           # display all the errors
           echo "${{ env.TIMESTAMP }}" > tout.txt         
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -110,12 +111,6 @@ jobs:
           echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
           cat error.txt
           echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-          grep -i warning allout.txt | \
-             grep ": ${{ github.event.inputs.file2compile }}.tex" | \
-             sort | \
-             uniq > warnings.txt
-          echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-          cat warnings.txt
           # squash.io/extracting=numbers-from-strings-in-bash
           # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
           # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
@@ -125,6 +120,12 @@ jobs:
             head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
             echo "-------------------------------------------------------------------------" >> tout.txt
           done < errors.txt
+          grep -i warning allout.txt | \
+             grep ": ${{ github.event.inputs.file2compile }}.tex" | \
+             sort | \
+             uniq > warnings.txt
+          echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+          cat warnings.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "   WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
