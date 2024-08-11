@@ -169,7 +169,7 @@ jobs:
              grep -i 'undefined' | \
              grep -Eo '`[^ ]+' | \
              sed -r 's/`//g' | \
-             sed -r 's/'//g' > tmptmp.txt             
+             sed -r "s/'//g" > tmptmp.txt             
           sort tmptmp.txt | \
              uniq >> tout.txt
           mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
