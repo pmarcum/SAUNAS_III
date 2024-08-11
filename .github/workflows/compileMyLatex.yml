@@ -104,10 +104,10 @@ jobs:
           # The below pulls out only those lines that are directly related to warnings and errors within the .tex file 
           # This step is why we needed everything related to a given error to appear in a single line and did the formatting above.
           grep -i error allout.txt | \
-             grep ": ${{ github.event.inputs.file2compile }}.tex" > tmptmp.txt
-          sort tmptmp.txt | \
-             uniq > errors.txt
-          rm -f tmptmp.txt
+             grep ": ${{ github.event.inputs.file2compile }}.tex" > errors.txt
+          #sort tmptmp.txt | \
+          #   uniq > errors.txt
+          #rm -f tmptmp.txt
           # squash.io/extracting=numbers-from-strings-in-bash
           # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
           # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
@@ -118,10 +118,10 @@ jobs:
             echo "-------------------------------------------------------------------------" >> tout.txt
           done < errors.txt
           grep -i warning allout.txt | \
-             grep ": ${{ github.event.inputs.file2compile }}.tex" > tmptmp.txt
-          sort tmptmp.txt | \
-             uniq > warnings.txt
-          rm -f tmptmp.txt
+             grep ": ${{ github.event.inputs.file2compile }}.tex" > warnings.txt
+          #sort tmptmp.txt | \
+          #   uniq > warnings.txt
+          #rm -f tmptmp.txt
           echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
           cat warnings.txt
           echo "" >> tout.txt
