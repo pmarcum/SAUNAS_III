@@ -84,9 +84,9 @@ jobs:
           sed ':a;N;$!ba;s/\n/\x0/g' compileout.txt | \
             sed -r 's/\x0+/\x0/g' | \
             sed -r 's/  */ /g' | \
-            sed -r 's/ *\x0 */\x0 /g' | \
-            sed -r 's/\ *\: */\: /g' | \
-            sed -r 's/\[\]//g' | \
+            #sed -r 's/ *\x0 */\x0 /g' | \
+            #sed -r 's/\ *\: */\: /g' | \
+            #sed -r 's/\[\]//g' | \
             #sed -r 's/\$\$*//g' | \
             #sed -r 's/\|//g' | \
             #sed -r 's/\x0\x0*/\x0/g' | \
@@ -95,6 +95,7 @@ jobs:
             #sed -r 's/\.\x0/\.\n/g' | \
             sed -r 's/\x0+//g' > allout.txt
           # display all the errors
+          echo '>>>>>>>>>>>>>>>>>>> allout.txt <<<<<<<<<<<<<<<<<<<<'
           cat allout.txt
           echo "${{ env.TIMESTAMP }}" > tout.txt         
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
