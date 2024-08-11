@@ -93,6 +93,7 @@ jobs:
             sed -r 's/\x0+([a-zA-Z ]+)\:/\n\1\:/g' | \
             sed -r 's/undefined control sequence\.\x0/undefined control sequence\. /ig' | \
             sed -r 's/(\[[0-9]+\]) *\x0 */\1\n/g' | \
+            sed -r 's/(\[[0-9]+\]) *\(/\1\n\(/g' | \    
             sed -r 's/\.\x0/\.\n/g' | \
             sed -r 's/\x0+//g' > allout.txt
           # display all the errors
