@@ -90,7 +90,7 @@ jobs:
             sed -r 's/\$\$*//g' | \
             sed -r 's/\|//g' | \
             sed -r 's/\x0\x0*/\x0/g' | \
-            #sed -r 's/\x0+([a-zA-Z ]+)\:/\n\1\:/g' | \
+            sed -r 's/\x0+([a-zA-Z ]+)\:/\n\1\:/g' | \
             #sed -r 's/undefined control sequence\.\x0/undefined control sequence\. /ig' | \  
             #sed -r 's/\.\x0/\.\n/g' | \
             sed -r 's/\x0+//g' > allout.txt
