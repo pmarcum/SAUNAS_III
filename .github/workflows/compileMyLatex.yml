@@ -167,7 +167,8 @@ jobs:
           grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
              grep -i ': citation' | \
              grep -i 'undefined' | \
-             grep -Eo '`[a-zA-Z_0-9\-\+]+' > tmptmp.txt
+             grep -Eo '`[a-zA-Z_0-9\-\+]+' | \
+             sed -r 's/`//g' > tmptmp.txt
           sort tmptmp.txt | \
              uniq >> tout.txt
           mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
