@@ -103,42 +103,42 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           # The below pulls out only those lines that are directly related to warnings and errors within the .tex file 
           # This step is why we needed everything related to a given error to appear in a single line and did the formatting above.
-          grep -i error allout.txt | \
-             grep ": ${{ github.event.inputs.file2compile }}.tex" > errors.txt
+          #grep -i error allout.txt | \
+          #   grep ": ${{ github.event.inputs.file2compile }}.tex" > errors.txt
           #sort tmptmp.txt | \
           #   uniq > errors.txt
           #rm -f tmptmp.txt
-          # squash.io/extracting=numbers-from-strings-in-bash
-          # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
-          # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
-          while IFS= read -r line; do
-            echo $line >> tout.txt
-            linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
-            head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
-            echo "-------------------------------------------------------------------------" >> tout.txt
-          done < errors.txt
-          grep -i warning allout.txt | \
-             grep ": ${{ github.event.inputs.file2compile }}.tex" > warnings.txt
-          #sort tmptmp.txt | \
-          #   uniq > warnings.txt
-          #rm -f tmptmp.txt
-          echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-          cat warnings.txt
-          echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-          echo "" >> tout.txt
-          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          echo "   WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
-          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          while IFS= read -r line; do
-            echo $line >> tout.txt
-            linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
-            head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
-            echo "-------------------------------------------------------------------------" >> tout.txt
-          done < warnings.txt
-          echo "" >> tout.txt
-          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          echo "   CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
-          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          ## squash.io/extracting=numbers-from-strings-in-bash
+          ## https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
+          ## https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
+          #while IFS= read -r line; do
+          #  echo $line >> tout.txt
+          #  linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
+          #  head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
+          #  echo "-------------------------------------------------------------------------" >> tout.txt
+          #done < errors.txt
+          #grep -i warning allout.txt | \
+          #   grep ": ${{ github.event.inputs.file2compile }}.tex" > warnings.txt
+          ##sort tmptmp.txt | \
+          ##   uniq > warnings.txt
+          ##rm -f tmptmp.txt
+          #echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+          #cat warnings.txt
+          #echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+          #echo "" >> tout.txt
+          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          #echo "   WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
+          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          #while IFS= read -r line; do
+          #  echo $line >> tout.txt
+          #  linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
+          #  head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
+          #  echo "-------------------------------------------------------------------------" >> tout.txt
+          #done < warnings.txt
+          #echo "" >> tout.txt
+          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          #echo "   CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
+          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           # now look for problems with the bibliography. In the first pass through the compilation, every citation will raise a warning flag.  But
           # eventually, those warnings will be resolved except for citations that have typos in the .tex file and/or are missing from the .bib file. 
           # The below gets a list of all citation warnings, and then figures out if any of the errors are unresolved, which would be the case if 
