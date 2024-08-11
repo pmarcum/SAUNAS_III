@@ -97,10 +97,10 @@ jobs:
             sed -r 's/(lines [0-9\-]+) *\(/\1\n\(/g' | \
             sed -r 's/(\[[0-9]+\]) *\(/\1\n\(/g' > allout.txt
           # display all the errors
-          echo "${{ env.TIMESTAMP }}" > tout.txt         
+          echo "${{ env.TIMESTAMP }}" > tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "   ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
-          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt    
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           # The below pulls out only those lines that are directly related to warnings and errors within the .tex file 
           # This step is why we needed everything related to a given error to appear in a single line and did the formatting above.
           grep -i error allout.txt | \
@@ -124,6 +124,7 @@ jobs:
           #rm -f tmptmp.txt
           echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
           cat warnings.txt
+          echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "   WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
@@ -166,14 +167,14 @@ jobs:
           rm -f tmptmp.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          echo "   LIST OF REFERENCES IN ${{ github.event.inputs.file2compile }}.tex" >> tout.txt 
-          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt  
+          echo "   LIST OF REFERENCES IN ${{ github.event.inputs.file2compile }}.tex" >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
              grep -i ': citation' | \
              grep -i 'undefined' | \
              grep -Eo '`[^ ]+' | \
              sed -r 's/`//g' | \
-             sed -r "s/'//g" > tmptmp.txt             
+             sed -r "s/'//g" > tmptmp.txt
           sort tmptmp.txt | \
              uniq >> tout.txt
           mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
@@ -189,7 +190,7 @@ jobs:
           cp ${{ github.event.inputs.file2compile }}_out.txt tmppdf.txt
           libreoffice --convert-to "pdf" tmppdf.txt
           rm -f tmppdf.txt
-          mv -f tmppdf.pdf ${{ github.event.inputs.file2compile }}.pdf 
+          mv -f tmppdf.pdf ${{ github.event.inputs.file2compile }}.pdf
         continue-on-error: true
 
           
@@ -234,7 +235,7 @@ jobs:
         with: 
           name: uploadStatus
           path: "${{ github.event.inputs.file2compile }}_status.txt"
-        continue-on-error: true 
+        continue-on-error: true
         
       - name: Publish status to repo
         id: releaseStatus
