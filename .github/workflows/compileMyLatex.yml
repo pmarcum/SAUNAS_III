@@ -166,9 +166,9 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt  
           grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
              grep -e ': [cC]itation' | \
-             grep -e '[uU]ndefined' > tmptmp.txt
+             grep -e '[uU]ndefined' | \
+             sed -r 's/citation \`([^\`]+)\`/\1/ig' > tmptmp.txt
           sort tmptmp.txt | \
-             sed -r 's/citation \`([^\`]+)\`/\1/ig' | \
              uniq >> tout.txt
           mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
           cat ${{ github.event.inputs.file2compile }}_out.txt
