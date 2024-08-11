@@ -96,8 +96,6 @@ jobs:
             sed -r 's/\.\x0/\.\n/g' | \
             sed -r 's/\x0+//g' > allout.txt
           # display all the errors
-          echo '>>>>>>>>>>>>>>>>>>> allout.txt <<<<<<<<<<<<<<<<<<<<'
-          cat allout.txt
           echo "${{ env.TIMESTAMP }}" > tout.txt         
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "   ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
@@ -144,8 +142,6 @@ jobs:
           # https://www.tutorialspoint.com/count-duplicate-lines-in-a-text-file-on-linux
           # https://www.baeldung.com/linux/count-duplicated-lines-text  
           # https://stackoverflow.com/questions/45704484/pipelining-cut-sort-uniq
-          echo ''
-          echo '==================================='
           grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
              grep -i 'find' | \
              grep -i 'database entry' | \
@@ -176,7 +172,6 @@ jobs:
           sort tmptmp.txt | \
              uniq >> tout.txt
           mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
-          cat ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
 
         
