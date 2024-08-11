@@ -104,48 +104,18 @@ jobs:
           # The below pulls out only those lines that are directly related to warnings and errors within the .tex file 
           # This step is why we needed everything related to a given error to appear in a single line and did the formatting above.
           grep -i error allout.txt | \
-             grep ": ${{ github.event.inputs.file2compile }}.tex" > tmptmp.txt
-          echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-          echo ""
-          cat tmptmp.txt
-          echo ""
-          echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-          echo ""
-          echo ""
-          echo ""
-          echo ""
-          echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-          echo ""
-          sort tmptmp.txt | \
+             grep ": ${{ github.event.inputs.file2compile }}.tex" | \
+             sort | \
              uniq > error.txt
+          echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
           cat error.txt
-          echo ""
-          echo ""
-          echo ""
-          echo ""
           echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-          rm -f tmptmp.txt
           grep -i warning allout.txt | \
-             grep ": ${{ github.event.inputs.file2compile }}.tex" > tmptmp.txt
-          echo ""
-          cat tmptmp.txt
-          echo ""
-          echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -" 
-          echo ""
-          echo ""
-          echo ""
-          echo ""
-          sort tmptmp.txt | \
+             grep ": ${{ github.event.inputs.file2compile }}.tex" | \
+             sort | \
              uniq > warnings.txt
-          echo ""
           echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-          echo ""
           cat warnings.txt
-          echo ""
-          echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-          echo ""
-          echo ""
-          rm -f tmptmp.txt
           # squash.io/extracting=numbers-from-strings-in-bash
           # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
           # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
