@@ -105,13 +105,46 @@ jobs:
           # This step is why we needed everything related to a given error to appear in a single line and did the formatting above.
           grep -i error allout.txt | \
              grep ": ${{ github.event.inputs.file2compile }}.tex" > tmptmp.txt
+          echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+          echo ""
+          cat tmptmp.txt
+          echo ""
+          echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+          echo ""
+          echo ""
+          echo ""
+          echo ""
+          echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+          echo ""
           sort tmptmp.txt | \
              uniq > error.txt
+          cat error.txt
+          echo ""
+          echo ""
+          echo ""
+          echo ""
+          echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
           rm -f tmptmp.txt
           grep -i warning allout.txt | \
              grep ": ${{ github.event.inputs.file2compile }}.tex" > tmptmp.txt
+          echo ""
+          cat tmptmp.txt
+          echo ""
+          echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -" 
+          echo ""
+          echo ""
+          echo ""
+          echo ""
           sort tmptmp.txt | \
              uniq > warnings.txt
+          echo ""
+          echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+          echo ""
+          cat warnings.txt
+          echo ""
+          echo "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+          echo ""
+          echo ""
           rm -f tmptmp.txt
           # squash.io/extracting=numbers-from-strings-in-bash
           # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
