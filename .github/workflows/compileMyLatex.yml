@@ -114,28 +114,22 @@ jobs:
           # squash.io/extracting=numbers-from-strings-in-bash
           # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
           # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
-          #nerr = 0
           while IFS= read -r line; do
             echo $line >> tout.txt
             linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
             head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
             echo "-------------------------------------------------------------------------" >> tout.txt
-            #nerr = 1
           done < errors.txt
-          #[ $nerr -lt 1 ] && echo "    none" >> tout.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "   WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          #nwarn = 0
           while IFS= read -r line; do
             echo $line >> tout.txt
             linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
             head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
             echo "-------------------------------------------------------------------------" >> tout.txt
-            #nwarn = 1
           done < warnings.txt
-          #[ $nwarn -lt 1 ] && echo "    none" >> tout.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "   CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
@@ -156,11 +150,6 @@ jobs:
              sed -r 's/"//g' > tmptmp.txt
           sort tmptmp.txt | \
              uniq >> tout.txt
-          #ncite = 0
-          while IFS= read -r line; do
-            #ncite = 1
-          done < tmptmp.txt
-          #[ $ncite -lt 1 ] && echo "    none" >> tout.txt
           rm -f tmptmp.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -170,11 +159,6 @@ jobs:
              grep -e ': ${{ github.event.inputs.file2compile }}.bbl' > tmptmp.txt
           sort  tmptmp.txt | \
              uniq >> tout.txt
-          #nbib = 0
-          #while IFS= read -r line; do
-          #  nbib = 1
-          #done < tmptmp.txt
-          #[ $nbib -lt 1 ] && echo "    none" >> tout.txt
           rm -f tmptmp.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -188,11 +172,6 @@ jobs:
              sed -r "s/'//g" > tmptmp.txt             
           sort tmptmp.txt | \
              uniq >> tout.txt
-          #nref = 0
-          #while IFS= read -r line; do
-          #  nref = 1
-          #done < tmptmp.txt
-          #[ $nref -lt 1 ] && echo "    none" >> tout.txt
           mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
 
