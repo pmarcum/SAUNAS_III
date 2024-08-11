@@ -149,7 +149,6 @@ jobs:
              grep -Eo '"[a-zA-Z _0-9\-\+]+"' | \
              sed -r 's/"//g' > tmptmp.txt
           sort -u tmptmp.txt >> tout.txt
-          #   uniq >> tout.txt
           rm -f tmptmp.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -167,7 +166,7 @@ jobs:
           grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
              grep -e ': [cC]itation' | \
              grep -e '[uU]ndefined' > tmptmp.txt
-          #sort tmptmp.txt | \ 
+          sort -u tmptmp.txt >> tout.txt
           #   uniq | \
           #   sed -r 's/citation \`([^\`]+)\`/\1/ig' >> tout.txt
           mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
