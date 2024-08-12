@@ -97,18 +97,15 @@ jobs:
             sed -r 's/(lines [0-9\-]+) *\(/\1\n\(/g' | \
             sed -r 's/(\[[0-9]+\]) *\(/\1\n\(/g' | \
             sed -r 's/^ *//;s/ *$//' > allout.txt
-          echo "1"
           # display all the errors
           echo "${{ env.TIMESTAMP }}" > tout.txt
-          echo "2"
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "   ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          echo "3"
           # The below pulls out only those lines that are directly related to warnings and errors within the .tex file 
           # This step is why we needed everything related to a given error to appear in a single line and did the formatting above.
-          grep -i error allout.txt | \
-             grep ": ${{ github.event.inputs.file2compile }}.tex" > errors.txt
+          grep -i error allout.txt > errors.txt
+          #   grep ": ${{ github.event.inputs.file2compile }}.tex" > errors.txt
           echo "4"
           #sort tmptmp.txt | \
           #   uniq > errors.txt
