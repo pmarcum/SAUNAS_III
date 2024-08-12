@@ -1,4 +1,4 @@
-2024-08-12T05:49:56Z 1723441796492
+2024-08-12T05:51:31Z 1723441891979
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
    ERRORS IN main.tex
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -15,11 +15,12 @@ warning: main.tex: 21: Overfull \hbox (15.35304pt too wide) in paragraph at line
    CITATION ISSUES IN main.tex 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 bel+2006apj640_241
+bernard+2006aj131_1288
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                        ERRORS WITH the .BIB FILE
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-error: main.bbl: 30: Undefined control sequence ! undefined control sequence.  l.30 ...o}, P., {Duriscoe}, D., {et~al.} 2016, \an , 2, e1600377, ) [2]
+error: main.bbl: 25: Undefined control sequence ! undefined control sequence.  l.25 ...o}, P., {Duriscoe}, D., {et~al.} 2016, \an , 2, e1600377, ) [2]
 warning: main.bbl: 12: Overfull \vbox (14.76573pt too high) has occurred while \output is active Overfull \vbox (14.76573pt too high) has occurred while \output is active [1]
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -28,6 +29,6 @@ warning: main.bbl: 12: Overfull \vbox (14.76573pt too high) has occurred while \
 aguerri+1998aj116_2136
 bel+2006apj640_241
 bell+2006apj652_270
-bernardi+2006aj131_1288
+bernard+2006aj131_1288
 erwin+2017mnras468_2058
 falchi+2016an2_1600377
