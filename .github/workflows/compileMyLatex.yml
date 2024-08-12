@@ -153,19 +153,19 @@ jobs:
           sort tmptmp4.txt | \
              uniq >> tout.txt
           rm -f tmptmp*.txt
-          #echo "" >> tout.txt
-          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          #echo "                       ERRORS WITH the .BIB FILE" >> tout.txt
-          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          #grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
-          #   grep -e ': ${{ github.event.inputs.file2compile }}.bbl' > tmptmp.txt
-          #sort  tmptmp.txt | \
-          #   uniq >> tout.txt
-          #rm -f tmptmp.txt
-          #echo "" >> tout.txt
-          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          #echo "   LIST OF REFERENCES IN ${{ github.event.inputs.file2compile }}.tex" >> tout.txt
-          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          echo "" >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          echo "                       ERRORS WITH the .BIB FILE" >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          grep -e '[eE]rror' -e '[wW]arning' allout.txt > tmptmp1.txt || touch tmptmp1.txt
+          grep -e ': ${{ github.event.inputs.file2compile }}.bbl' tmptmp1.txt > tmptmp2.txt || touch tmptmp2.txt
+          sort  tmptmp2.txt | \
+             uniq >> tout.txt
+          rm -f tmptmp*.txt
+          echo "" >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          echo "   LIST OF REFERENCES IN ${{ github.event.inputs.file2compile }}.tex" >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           #grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
           #   grep -i ': citation' | \
           #   grep -i 'undefined' | \
