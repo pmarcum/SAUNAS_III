@@ -166,14 +166,14 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "   LIST OF REFERENCES IN ${{ github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          #grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
-          #   grep -i ': citation' | \
-          #   grep -i 'undefined' | \
-          #   grep -Eo '`[^ ]+' | \
-          #   sed -r 's/`//g' | \
-          #   sed -r "s/'//g" > tmptmp.txt
-          #sort tmptmp.txt | \
-          #   uniq >> tout.txt
+          grep -e '[eE]rror' -e '[wW]arning' allout.txt > tmptmp1.txt || touch tmptmp1.txt
+          grep -i ': citation' tmptmp1.txt > tmptmp2.txt || touch tmptmp2.txt
+          grep -i 'undefined' tmptmp2.txt > tmptmp3.txt || touch tmptmp3.txt
+          grep -Eo '`[^ ]+' tmptmp3.txt > tmptmp4.txt || touch tmptmp4.txt
+          cat tmptmp4.txt | sed -r 's/`//g' | sed -r "s/'//g" > tmptmp5.txt
+          sort tmptmp5.txt | \
+             uniq >> tout.txt
+          rm -f tmptmp*.txt
           mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
 
