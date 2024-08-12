@@ -110,7 +110,7 @@ jobs:
           echo "***********************"
           cat tmptmp.txt
           echo "3"
-          grep ": ${{ github.event.inputs.file2compile }}.tex" tmptmp.txt > errors.txt
+          grep -F ": ${{ github.event.inputs.file2compile }}.tex" tmptmp.txt > errors.txt
           echo "2"
           mv -f errors.txt tmptmp.txt
           rm -f errors.txt
