@@ -123,21 +123,20 @@ jobs:
           sort tmptmp.txt | \
             uniq > warnings.txt
           rm -f tmptmp.txt
-          cat warnings.txt
-          #echo "" >> tout.txt
-          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          #echo "   WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
-          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          #while IFS= read -r line; do
-          #  echo $line >> tout.txt
-          #  linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
-          #  head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
-          #  echo "-------------------------------------------------------------------------" >> tout.txt
-          #done < warnings.txt
-          #echo "" >> tout.txt
-          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          #echo "   CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
-          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          echo "" >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          echo "   WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          while IFS= read -r line; do
+            echo $line >> tout.txt
+            linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
+            head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
+            echo "-------------------------------------------------------------------------" >> tout.txt
+          done < warnings.txt
+          echo "" >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          echo "   CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           # now look for problems with the bibliography. In the first pass through the compilation, every citation will raise a warning flag.  But
           # eventually, those warnings will be resolved except for citations that have typos in the .tex file and/or are missing from the .bib file. 
           # The below gets a list of all citation warnings, and then figures out if any of the errors are unresolved, which would be the case if 
