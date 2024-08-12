@@ -113,12 +113,13 @@ jobs:
           ## squash.io/extracting=numbers-from-strings-in-bash
           ## https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
           ## https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
-          #while IFS= read -r line; do
-          #  echo $line >> tout.txt
-          #  linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
-          #  head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
-          #  echo "-------------------------------------------------------------------------" >> tout.txt
-          #done < errors.txt
+          while IFS= read -r line; do
+            echo $line >> tout.txt
+            linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
+            head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
+            echo "-------------------------------------------------------------------------" >> tout.txt
+          done < errors.txt
+          tail errors.txt
           #grep -i warning allout.txt | \
           #   grep ": ${{ github.event.inputs.file2compile }}.tex" > warnings.txt
           ##sort tmptmp.txt | \
