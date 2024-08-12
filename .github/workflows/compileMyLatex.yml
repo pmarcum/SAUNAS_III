@@ -111,7 +111,7 @@ jobs:
           tail tout.txt
           echo ""
           grep -i error allout.txt | \
-            grep '${{ github.event.inputs.file2compile }}.tex' > errors.txt
+            grep "${{ github.event.inputs.file2compile }}.tex" > errors.txt
           echo "4"
           cat errors.txt
           echo "5"
