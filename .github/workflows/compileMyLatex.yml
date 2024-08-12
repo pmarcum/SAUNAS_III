@@ -146,14 +146,13 @@ jobs:
           # https://www.tutorialspoint.com/count-duplicate-lines-in-a-text-file-on-linux
           # https://www.baeldung.com/linux/count-duplicated-lines-text  
           # https://stackoverflow.com/questions/45704484/pipelining-cut-sort-uniq
-          #grep -e '[eE]rror' -e '[wW]arning' allout.txt | \
-          #   grep -i 'find' | \
-          #   grep -i 'database entry' | \
-          #   grep -Eo '"[a-zA-Z _0-9\-\+]+"' | \
-          #   sed -r 's/"//g' > tmptmp.txt
-          #sort tmptmp.txt | \
-          #   uniq >> tout.txt
-          #rm -f tmptmp.txt
+          grep -e '[eE]rror' -e '[wW]arning' allout.txt > tmptmp1.txt || touch tmptmp1.txt
+          grep -i 'find.*database entry' tmptmp1.txt > tmptmp2.txt || touch tmptmp2.txt
+          grep -Eo '"[a-zA-Z _0-9\-\+]+"' tmptmp2.txt > tmptmp3.txt || touch tmptmp3.txt
+          cat tmptmp3.txt | sed -r 's/"//g' > tmptmp4.txt
+          sort tmptmp4.txt | \
+             uniq >> tout.txt
+          rm -f tmptmp*.txt
           #echo "" >> tout.txt
           #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           #echo "                       ERRORS WITH the .BIB FILE" >> tout.txt
