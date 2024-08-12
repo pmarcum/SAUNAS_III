@@ -119,6 +119,9 @@ jobs:
             head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
             echo "-------------------------------------------------------------------------" >> tout.txt
           done < errors.txt
+          if [ $(wc -c < "errors.txt") -eq 0 ]; then
+            echo "      none" >> tout.txt
+          fi
           grep -i 'warning.*: ${{ github.event.inputs.file2compile }}.tex' allout.txt > tmptmp.txt || touch tmptmp.txt
           sort tmptmp.txt | \
             uniq > warnings.txt
@@ -133,6 +136,9 @@ jobs:
             head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
             echo "-------------------------------------------------------------------------" >> tout.txt
           done < warnings.txt
+          if [ $(wc -c < "warnings.txt") -eq 0 ]; then
+            echo "      none" >> tout.txt
+          fi
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "   CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
@@ -152,6 +158,9 @@ jobs:
           cat tmptmp3.txt | sed -r 's/"//g' > tmptmp4.txt
           sort tmptmp4.txt | \
              uniq >> tout.txt
+          if [ $(wc -c < "tmptmp4.txt") -eq 0 ]; then
+            echo "      none" >> tout.txt
+          fi
           rm -f tmptmp*.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -161,6 +170,9 @@ jobs:
           grep -e ': ${{ github.event.inputs.file2compile }}.bbl' tmptmp1.txt > tmptmp2.txt || touch tmptmp2.txt
           sort  tmptmp2.txt | \
              uniq >> tout.txt
+          if [ $(wc -c < "tmptmp2.txt") -eq 0 ]; then
+            echo "      none" >> tout.txt
+          fi 
           rm -f tmptmp*.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -173,6 +185,9 @@ jobs:
           cat tmptmp4.txt | sed -r 's/`//g' | sed -r "s/'//g" > tmptmp5.txt
           sort tmptmp5.txt | \
              uniq >> tout.txt
+          if [ $(wc -c < "tmptmp5.txt") -eq 0 ]; then
+            echo "      none" >> tout.txt
+          fi  
           rm -f tmptmp*.txt
           mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
