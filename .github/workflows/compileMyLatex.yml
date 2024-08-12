@@ -104,8 +104,8 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           # The below pulls out only those lines that are directly related to warnings and errors within the .tex file 
           # This step is why we needed everything related to a given error to appear in a single line and did the formatting above.
-          grep -i error allout.txt > errors.txt
-          #   grep ": ${{ github.event.inputs.file2compile }}.tex" > errors.txt
+          grep -i error allout.txt | \
+            grep ": ${{ github.event.inputs.file2compile }}.tex" > errors.txt
           echo "4"
           #sort tmptmp.txt | \
           #   uniq > errors.txt
