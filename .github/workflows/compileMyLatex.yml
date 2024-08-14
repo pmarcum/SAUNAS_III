@@ -200,7 +200,7 @@ jobs:
           #rm -f tmppdf.txt
           #mv -f tmppdf.pdf ${{ github.event.inputs.file2compile }}.pdf
           #
-          cupsfilter /${{ github.event.inputs.file2compile }}_out.txt > /${{ github.event.inputs.file2compile }}.pdf
+          cupsfilter ${{ github.event.inputs.file2compile }}_out.txt > ${{ github.event.inputs.file2compile }}.pdf
         continue-on-error: true
         
           
