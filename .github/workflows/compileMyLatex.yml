@@ -33,7 +33,7 @@ jobs:
       - name: Remove old status note and pdf file
         id: removeOldStatusAndPdf
         run: |
-          rm -f "${{ github.event.inputs.file2compile }}_status.txt"
+          rm -f "${{ github.event.inputs.file2compile }}_out.txt"
           rm -f "${{ github.event.inputs.file2compile }}.pdf"
           
       - name: Commit the modified folder and put the change
@@ -80,7 +80,7 @@ jobs:
           # a special character (\x0), removes extra white space, removes white space preceding and proceeding colons, 
           # and performs replacements using the special character to insure that each error or warning appears on a single 
           # line and does not spill over into a separate line.
-          #cat compileout.txt
+          cat compileout.txt
           sed ':a;N;$!ba;s/\n/\x0/g' compileout.txt | \
             sed -r 's/\x0+/\x0/g' | \
             sed -r 's/  */ /g' | \
@@ -98,7 +98,7 @@ jobs:
             sed -r 's/(\[[0-9]+\]) *\(/\1\n\(/g' | \
             sed -r 's/^ *//;s/ *$//' > allout.txt
           # display all the errors
-          echo "${{ env.TIMESTAMP }}" > tout.txt
+          echo "${{ env.TIMESTAMP }} ${{ steps.compilation.outcome }}" > tout.txt        
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "   ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -106,8 +106,7 @@ jobs:
           # This step is why we needed everything related to a given error to appear in a single line and did the formatting above.
           # https://stackoverflow.com/questions/75534451/using-grep-output-as-pattern-for-a-second-grep
           grep -i 'error.*: ${{ github.event.inputs.file2compile }}.tex' allout.txt > tmptmp.txt || touch tmptmp.txt 
-          sort tmptmp.txt | \
-            uniq > errors.txt
+          sort tmptmp.txt | uniq > errors.txt
           rm -f tmptmp.txt
           # https://stackoverflow.com/questions/57788813/grep-return-0-if-no-match
           # squash.io/extracting=numbers-from-strings-in-bash
@@ -156,8 +155,7 @@ jobs:
           grep -i 'find.*database entry' tmptmp1.txt > tmptmp2.txt || touch tmptmp2.txt
           grep -Eo '"[a-zA-Z _0-9\-\+]+"' tmptmp2.txt > tmptmp3.txt || touch tmptmp3.txt
           cat tmptmp3.txt | sed -r 's/"//g' > tmptmp4.txt
-          sort tmptmp4.txt | \
-             uniq >> tout.txt
+          sort tmptmp4.txt | uniq >> tout.txt
           if [ $(wc -c < "tmptmp4.txt") -eq 0 ]; then
             echo "      none" >> tout.txt
           fi
@@ -168,8 +166,7 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           grep -e '[eE]rror' -e '[wW]arning' allout.txt > tmptmp1.txt || touch tmptmp1.txt
           grep -e ': ${{ github.event.inputs.file2compile }}.bbl' tmptmp1.txt > tmptmp2.txt || touch tmptmp2.txt
-          sort  tmptmp2.txt | \
-             uniq >> tout.txt
+          sort  tmptmp2.txt | uniq >> tout.txt
           if [ $(wc -c < "tmptmp2.txt") -eq 0 ]; then
             echo "      none" >> tout.txt
           fi 
@@ -183,8 +180,7 @@ jobs:
           grep -i 'undefined' tmptmp2.txt > tmptmp3.txt || touch tmptmp3.txt
           grep -Eo '`[^ ]+' tmptmp3.txt > tmptmp4.txt || touch tmptmp4.txt
           cat tmptmp4.txt | sed -r 's/`//g' | sed -r "s/'//g" > tmptmp5.txt
-          sort tmptmp5.txt | \
-             uniq >> tout.txt
+          sort tmptmp5.txt | uniq >> tout.txt
           if [ $(wc -c < "tmptmp5.txt") -eq 0 ]; then
             echo "      none" >> tout.txt
           fi  
@@ -204,7 +200,7 @@ jobs:
           rm -f tmppdf.txt
           mv -f tmppdf.pdf ${{ github.event.inputs.file2compile }}.pdf
         continue-on-error: true
-
+        
           
       - name: Upload PDF file
         id: uploadPdf
@@ -232,28 +228,3 @@ jobs:
           commit_message: 'Newly compiled PDF'
         continue-on-error: true
 
-
-      - name: Create status note
-        id: statusNote
-        if: steps.date.outcome == 'success'
-        run: | 
-          # Make a status file that the Google Script (gooTeX) can ping on to know when the compilation is finished
-          echo "${{ env.TIMESTAMP }} ${{ steps.compilation.outcome }} ${{ steps.turnErrorIntoPdf.outcome }} ${{ steps.compileWarnings.outcome }}" > ${{ github.event.inputs.file2compile }}_status.txt
-        continue-on-error: true
-        
-      - name: Upload compilation output file
-        if: steps.statusNote.outcome == 'success'
-        uses: actions/upload-artifact@v4
-        with: 
-          name: uploadStatus
-          path: "${{ github.event.inputs.file2compile }}_status.txt"
-        continue-on-error: true
-        
-      - name: Publish status to repo
-        id: releaseStatus
-        uses: stefanzweifel/git-auto-commit-action@v5
-        if: steps.statusNote.outcome == 'success'
-        with:
-          file_pattern: '${{ github.event.inputs.file2compile }}_status.txt'
-          commit_message: 'New compilation status'
-        continue-on-error: true
