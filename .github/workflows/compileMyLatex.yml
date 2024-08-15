@@ -193,31 +193,20 @@ jobs:
         continue-on-error: true
 
 
-      - name: Cache text2pdf
-        uses: actions/setup-python@v5
-        if: always() && steps.compilation.outcome != 'success' && steps.compileWarnings.outcome == 'success'
-        with:
-          python-version: '3.9'
-          cache: 'text2pdf'
-      - name: Install text2pdf
-        run: |
-          curl -s https://raw.githubusercontent.com/pmarcum/gooTeX/main/text2pdf.py | \
-          python - ${{ github.event.inputs.file2compile }}_out.txt ${{ github.event.inputs.file2compile }}.pdf
-
         
-      #- name: Turn failed compilation error to pdf
-      #  id: turnErrorIntoPdf
-      #  if: always() && steps.compilation.outcome != 'success' && steps.compileWarnings.outcome == 'success'
-      #  run: |
-      #    #sudo apt-get update
-      #    #sudo apt-get install -y libreoffice --fix-missing
-      #    #cp ${{ github.event.inputs.file2compile }}_out.txt tmppdf.txt
-      #    #libreoffice --convert-to "pdf" tmppdf.txt
-      #    #rm -f tmppdf.txt
-      #    #mv -f tmppdf.pdf ${{ github.event.inputs.file2compile }}.pdf
-      #    ###
-      #    ###cupsfilter ${{ github.event.inputs.file2compile }}_out.txt > ${{ github.event.inputs.file2compile }}.pdf
-      #  continue-on-error: true
+      - name: Turn failed compilation error to pdf
+        id: turnErrorIntoPdf
+        if: always() && steps.compilation.outcome != 'success' && steps.compileWarnings.outcome == 'success'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libreoffice --fix-missing
+          cp ${{ github.event.inputs.file2compile }}_out.txt tmppdf.txt
+          libreoffice --convert-to "pdf" tmppdf.txt
+          rm -f tmppdf.txt
+          mv -f tmppdf.pdf ${{ github.event.inputs.file2compile }}.pdf
+          ###
+          ###cupsfilter ${{ github.event.inputs.file2compile }}_out.txt > ${{ github.event.inputs.file2compile }}.pdf
+        continue-on-error: true
         
           
       - name: Upload PDF file
