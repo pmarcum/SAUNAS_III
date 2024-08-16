@@ -1,0 +1,78 @@
+{
+   "gootex":       
+      {
+        "script": "https://script.google.com/home/projects/1S165LNvYOPJACmoB5ZxLwUDGezvdRb0hEiw_sOCgc4B91nIcCZQx9xtU/edit",
+        "exec":   "https://script.google.com/macros/s/AKfycbxk-fY_GArzbGOX3HEywxzksibC1zHZ3mXAO9Efk9w_IaD0JXChOQ_HDBrBHwo1I-tX/exec",
+        "dev":    "https://script.google.com/macros/s/AKfycbxhwjnWokLHABYQRnXnvQ3BuwkWmnQFaFmScD_afZo/dev",
+        "name":   "gooTeX_test"
+      },
+   "bibmanDisplay":
+      {
+        "script": "https://script.google.com/home/projects/1tjDeP5WtfyYre-edB2Sqq_3SwNAfSrDTTviDno_-D51TOsU_ezqxcggV/edit",
+        "exec":   "https://script.google.com/macros/s/AKfycbyCaZwjM3OdGISsE83gfGaST2NiPEfuQ07aHCSI8eN7CI5Bp67NNQjL-cvCGMgfJLe7Aw/exec",
+        "dev":    "https://script.google.com/macros/s/AKfycbxq153xebtwXI3N6lg0g3rVrVpB9Ash0IkabcQzCUs9/dev", 
+        "name":   "BibMan_displayPdf"
+      },
+   "bibmanUpdate": 
+      {
+        "script": "https://script.google.com/home/projects/1mxc17K_7Uk1hPl9tycZ1iVXGUQ28cTH7cuOhEbP_0lUg1-DI5MxokR1j/edit",
+        "exec":   "https://script.google.com/macros/s/AKfycbwiC9iVO6wqy8Z6iaZZGoSOeLvIyyGwzJTg4cVDGImJzhrnqZXZHC1KWhKwUFyWLOltjA/exec",
+        "dev":    "https://script.google.com/macros/s/AKfycbz-hsn24R7mxvzK5NYvkleM_mPc66vciOCayKkr8MnU/dev",
+        "name":   "BibMan_updateLibrary
+      },
+   "bibmanTag":    
+      {
+        "script": "https://script.google.com/home/projects/1fD3rm7jz6zp1H3AkhQHpnTZBNqamvU1k2W62v8kRRj7gNgJUYIYx8WxN/edit",
+        "exec":   "https://script.google.com/macros/s/AKfycbynZdTc_rSC_hRfnsaD9wXe8FaAWIFWrBdHEF_RnTrHHra5ymM0_yeeM6IZhLkQU_C8-Q/exec",
+        "dev":    "https://script.google.com/macros/s/AKfycbyxyHe5Vl7UEj3zPPsM9VcIOmeH-gBjylRbEIQXDX2s/dev",
+        "name":   "BibMan_tagSearch"
+      },
+   "githubAction": 
+      {
+        "script": "https://script.google.com/home/projects/1eYDesuRLl9q6q7-_rsm-49V53nj0ea4EYZ71znK-pni8alFjk_b5r_jE/edit",
+        "exec":   "https://script.google.com/macros/s/AKfycbx4mkZ5eSW-0MP0K6I8j3DQx8CjGkmbAT014bhvvwQVZ3L52ZZnjNU94UtL8TfSNJlVUQ/exec",
+        "dev":    "https://script.google.com/macros/s/AKfycbwzyD-1sweSYbH8YxwIYMy6sL_r54kfsXlqA6ymM-8t/dev",
+        "name":   "installGithubAction"
+      },
+   "worpt":   
+      {
+        "script": "",
+        "exec":   "",
+        "dev":    "",
+        "name":   "WorPT_update"
+      },
+   "urls":        
+      {
+        "githubRepoApiBase":      "https://api.github.com/repos/[INSERT_GITHUBUSERNAME]/[INSERT_GITHUBREPONAME]",
+        "githubChangeVisibility": "https://api.github.com/repos/[INSERT_GITHUBUSERNAME]/[INSERT_GITHUBREPONAME]",
+        "githubUpload":           "https://api.github.com/repos/[INSERT_GITHUBUSERNAME]/[INSERT_GITHUBREPONAME]/contents/[INSERTPATH]",
+        "githubDeleteFile":       "https://api.github.com/repos/[INSERT_GITHUBUSERNAME]/[INSERT_GITHUBREPONAME]/contents/[INSERTPATH]",
+        "githubLastCommitTime":   "https://api.github.com/repos/[INSERT_GITHUBUSERNAME]/[INSERT_GITHUBREPONAME]/commits?path=[SUBFOLDERNAME]&page=1&per_page=1",
+        "githubActionsInfo":      "https://api.github.com/repos/[INSERT_GITHUBUSERNAME]/[INSERT_GITHUBREPONAME]/actions/runs",
+        "githubRunWorkflow":      "https://api.github.com/repos/[INSERT_GITHUBUSERNAME]/[INSERT_GITHUBREPONAME]/actions/workflows/[INSERT_WORKFLOWID]/dispatches",
+        "githubCreateFolder":     "https://api.github.com/repos/[INSERT_GITHUBUSERNAME]/[INSERT_GITHUBREPONAME]/git/trees",
+        "githubSha":              "https://api.github.com/repos/[INSERT_GITHUBUSERNAME]/[INSERT_GITHUBREPONAME]/git/trees/[INSERTPATH]",
+        "githubRepoContent":      "https://api.github.com/repos/[INSERT_GITHUBUSERNAME]/[INSERT_GITHUBREPONAME]/git/trees/main?recursive=1",
+        "githubCreateRepo":       "https://api.github.com/user/repos",
+        "githubUserContent":      "https://api.github.com/user/repos",
+        "githubRepo":             "https://github.com/[INSERT_GITHUBUSERNAME]/[INSERT_GITHUBREPONAME]",
+        "githubBlob":             "https://github.com/[INSERT_GITHUBUSERNAME]/[INSERT_GITHUBREPONAME]/blob/main/[INSERT_PDFFILENAME]",
+        "githubRaw":              "https://raw.githubusercontent.com/[INSERT_GITHUBUSERNAME]/[INSERT_GITHUBREPONAME]/main/[INSERT_PDFFILENAME]",
+        "githubApi":              "application/vnd.github.raw+json"
+      },
+   "workflowFilenames": 
+      {
+        "compileLatex":  
+          {
+            "source": "https://raw.githubusercontent.com/pmarcum/compileMyLatex/main/compileMyLatex.yml",
+            "path":   ".github/workflows/compileMyLatex.yml",
+            "name":   "compileMyLatex.yml"
+          },
+        "pruneBib": 
+          {
+            "source": "https://raw.githubusercontent.com/pmarcum/pruneMyBibfile/main/pruneMyBibfile.yml",
+            "path":   ".github/workflows/compileMyLatex.yml",
+            "name":   "pruneMyBibfile.yml"
+          }
+      }
+}
