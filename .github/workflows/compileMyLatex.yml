@@ -79,7 +79,8 @@ jobs:
         # First, move lines that should have been the ending of the previous line, to the end of that previous line
         run: |
           # determine if the pdf file was created in the above compilation 
-          ls 
+          echo "PDF FILE ENVIRONMENT PARAMETER ${{ env.PDFFILE }}"
+          echo "Does PDF FIle exist: ${{ hashFiles(env.PDFFILE) }}"
           # The below smooshes the entire output file together as a single line by replacing the end-of-line with
           # a special character (\x0), removes extra white space, removes white space preceding and proceeding colons, 
           # and performs replacements using the special character to insure that each error or warning appears on a single 
