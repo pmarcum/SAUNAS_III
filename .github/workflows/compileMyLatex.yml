@@ -76,11 +76,13 @@ jobs:
         # remove lines in the output that are unrelated to the latex compilation itself
         # First, move lines that should have been the ending of the previous line, to the end of that previous line
         run: |
+          # determine if the pdf file was created in the above compilation 
+          ls 
           # The below smooshes the entire output file together as a single line by replacing the end-of-line with
           # a special character (\x0), removes extra white space, removes white space preceding and proceeding colons, 
           # and performs replacements using the special character to insure that each error or warning appears on a single 
           # line and does not spill over into a separate line.
-          #cat compileout.txt
+          cat compileout.txt
           sed ':a;N;$!ba;s/\n/\x0/g' compileout.txt | \
             sed -r 's/\x0+/\x0/g' | \
             sed -r 's/  */ /g' | \
@@ -196,7 +198,7 @@ jobs:
       - name: Upload PDF file
         id: uploadPdf
         uses: actions/upload-artifact@v4
-        if: always() && (steps.compilation.outcome == 'success')
+        if: always() && (steps.compilation.outcome == 'success') && (test -f ${{ github.event.inputs.file2compile }}.tex)
         with: 
           name: PDF
           path: "${{ github.event.inputs.file2compile }}.pdf"
