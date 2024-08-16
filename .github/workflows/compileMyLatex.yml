@@ -191,52 +191,21 @@ jobs:
           rm -f tmptmp*.txt
           mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
+               
         
-        
-      #- name: Turn failed compilation error to pdf
-      #  id: turnErrorIntoPdf
-      #  if: always() && steps.compilation.outcome != 'success' && steps.compileWarnings.outcome == 'success'
-      #  run: |
-      #    #sudo apt-get update
-      #    #sudo apt-get install -y libreoffice --fix-missing
-      #    #cp ${{ github.event.inputs.file2compile }}_out.txt tmppdf.txt
-      #    #libreoffice --convert-to "pdf" tmppdf.txt
-      #    #rm -f tmppdf.txt
-      #    #mv -f tmppdf.pdf ${{ github.event.inputs.file2compile }}.pdf
-      #    vi -c ':hardcopy > ${{ github.event.inputs.file2compile }}.pdf | q' ${{ github.event.inputs.file2compile }}_out.txt
-      #    #ps2pdf ${{ github.event.inputs.file2compile }}.ps ${{ github.event.inputs.file2compile }}.pdf
-      #  continue-on-error: true
-        
-
-      - name: Turn failed compilation error to pdf 
-        id: turnErrorIntoPdf
-        if: always() && steps.compilation.outcome != 'success' && steps.compileWarnings.outcome == 'success'
-        uses: docker://pandoc/latex:2.9
-        with:
-          args: --output=${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}_out.txt
-        
-      #- name: Upload PDF file
-      #  id: uploadPdf
-      #  uses: actions/upload-artifact@v4
-      #  if: always() && (steps.compilation.outcome == 'success' || steps.turnErrorIntoPdf.outcome == 'success')
-      #  with: 
-      #    name: PDF
-      #    path: "${{ github.event.inputs.file2compile }}.pdf"
-      #  continue-on-error: true
-
       - name: Upload PDF file
         id: uploadPdf
         uses: actions/upload-artifact@v4
-        if: always() && (steps.compilation.outcome == 'success' || steps.turnErrorIntoPdf.outcome == 'success')
+        if: always() && (steps.compilation.outcome == 'success')
         with: 
-          name: output
-          path: output
+          name: PDF
+          path: "${{ github.event.inputs.file2compile }}.pdf"
         continue-on-error: true
 
       
       - name: Upload compilation output file
         uses: actions/upload-artifact@v4
-        if: always() && (steps.compilation.outcome == 'success' || steps.turnErrorIntoPdf.outcome == 'success')
+        if: always() && (steps.compileWarnings.outcome == 'success')
         with: 
           name: compileOutput
           path: "${{ github.event.inputs.file2compile }}_out.txt"
@@ -245,7 +214,7 @@ jobs:
       - name: Publish PDF to repo
         id: releasePdf
         uses: stefanzweifel/git-auto-commit-action@v5
-        if: steps.uploadPdf.outcome == 'success'
+        if: always() && ((steps.uploadPdf.outcome == 'success') || (steps.compileWarnings.outcome == 'success'))
         with:
           file_pattern: '${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}_out.txt'
           commit_message: 'Newly compiled PDF'
