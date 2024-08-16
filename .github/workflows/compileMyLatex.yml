@@ -198,7 +198,7 @@ jobs:
       - name: Upload PDF file
         id: uploadPdf
         uses: actions/upload-artifact@v4
-        if: always() && (steps.compilation.outcome == 'success') && (test -f ${{ github.event.inputs.file2compile }}.tex)
+        if: always() && steps.compilation.outcome == 'success' && ${{ hashFiles(${{ github.event.inputs.file2compile }}.tex) != '' }}
         with: 
           name: PDF
           path: "${{ github.event.inputs.file2compile }}.pdf"
