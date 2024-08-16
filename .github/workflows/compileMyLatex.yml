@@ -68,7 +68,9 @@ jobs:
 
       - name: Get timestamp
         id: date
-        run: echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
+        run: |
+          echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
+          echo "PDFFILE=${{ github.event.inputs.file2compile }}.tex" >> $GITHUB_ENV
         continue-on-error: true
         
       - name: Capture compilation output
@@ -198,7 +200,7 @@ jobs:
       - name: Upload PDF file
         id: uploadPdf
         uses: actions/upload-artifact@v4
-        if: always() && steps.compilation.outcome == 'success' && ${{ hashFiles(${{ github.event.inputs.file2compile }}.tex) != '' }}
+        if: always() && steps.compilation.outcome == 'success' && ${{ hashFiles(env.PDFFILE) != '' }}
         with: 
           name: PDF
           path: "${{ github.event.inputs.file2compile }}.pdf"
