@@ -109,8 +109,9 @@ jobs:
           echo "OUTFILE=${{ github.event.inputs.file2compile }}_out.txt" >> $GITHUB_ENV
           echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
           # display all the errors
+          echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          echo "   ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
+          echo "              ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           # The below pulls out only those lines that are directly related to warnings and errors within the .tex file 
           # This step is why we needed everything related to a given error to appear in a single line and did the formatting above.
@@ -145,7 +146,7 @@ jobs:
           rm -f tmptmp.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          echo "   WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
+          echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           while IFS= read -r line; do
             echo $line >> tout.txt
@@ -158,7 +159,7 @@ jobs:
           fi
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          echo "   CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
+          echo "              CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           # now look for problems with the bibliography. In the first pass through the compilation, every citation will raise a warning flag.  But
           # eventually, those warnings will be resolved except for citations that have typos in the .tex file and/or are missing from the .bib file. 
@@ -180,7 +181,7 @@ jobs:
           rm -f tmptmp*.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          echo "                       ERRORS WITH the .BIB FILE" >> tout.txt
+          echo "              ERRORS WITH the .BIB FILE" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           grep -e '[eE]rror' -e '[wW]arning' allout.txt > tmptmp1.txt || touch tmptmp1.txt
           grep -e ': ${{ github.event.inputs.file2compile }}.bbl' tmptmp1.txt > tmptmp2.txt || touch tmptmp2.txt
@@ -191,7 +192,7 @@ jobs:
           rm -f tmptmp*.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          echo "   LIST OF REFERENCES IN ${{ github.event.inputs.file2compile }}.tex" >> tout.txt
+          echo "              LIST OF REFERENCES IN ${{ github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           grep -e '[eE]rror' -e '[wW]arning' allout.txt > tmptmp1.txt || touch tmptmp1.txt
           grep -i ': citation' tmptmp1.txt > tmptmp2.txt || touch tmptmp2.txt
@@ -214,8 +215,8 @@ jobs:
           # create a .html file from the out.txt file, then convert the html to pdf
           echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" >  ${{ github.event.inputs.file2compile }}.html
           echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> ${{ github.event.inputs.file2compile }}.html
-          echo "<a href='https://github.com/${{ github.repository }}/actions'>GitHub Workflow Runs</a><br>" >> ${{ github.event.inputs.file2compile }}.html
-          echo "<hr><hr><br>" >> ${{ github.event.inputs.file2compile }}.html
+          echo "https://github.com/${{ github.repository }}/actions<br>" >> ${{ github.event.inputs.file2compile }}.html
+          echo "<hr><br>" >> ${{ github.event.inputs.file2compile }}.html
           sed ':a;N;$!ba;s/\n/<br>/g' ${{ github.event.inputs.file2compile }}_out.txt >> ${{ github.event.inputs.file2compile }}.html
           htmldoc --bottom 0.2 --left 0 --right 0 --top 0.2 --continuous -f ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}.html
         continue-on-error: true
