@@ -63,7 +63,8 @@ jobs:
       - name: Run Tectonic
         id: compilation
         run: |
-          tectonic -p -Z continue-on-errors ${{ github.event.inputs.file2compile }}.tex &> compileout.txt
+          #tectonic -p -Z continue-on-errors ${{ github.event.inputs.file2compile }}.tex &> compileout.txt
+          tectonic -p ${{ github.event.inputs.file2compile }}.tex &> compileout.txt
         continue-on-error: true
 
       - name: Get timestamp
