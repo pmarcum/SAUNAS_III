@@ -128,9 +128,15 @@ jobs:
           # rather than a mangled pdf. 
           if [ $(wc -c < "errors.txt") -eq 0 ]; then
             echo "      none" >> tout.txt
+            echo ""
+            echo "============> THERE ARE NO LATEX ERRORS !!!!  <============="
           else
             rm -f ${{ github.event.inputs.file2compile }}.pdf
+            echo "============> there ARE latex ERRORS ! ! ! !  <==========="
+            ls
           fi
+          echo "the compilation outcome shows steps.compilation.outcome"
+          echo "the pdf hash is ${{ hashFiles(env.PDFFILE)" 
           grep -i 'warning.*: ${{ github.event.inputs.file2compile }}.tex' allout.txt > tmptmp.txt || touch tmptmp.txt
           sort tmptmp.txt | \
             uniq > warnings.txt
@@ -217,7 +223,7 @@ jobs:
           path: "${{ github.event.inputs.file2compile }}_out.txt"
         continue-on-error: true
         
-      - name: Publish PDF to repo
+      - name: Publish PDF and Compilation output to repo
         id: releasePdf
         uses: stefanzweifel/git-auto-commit-action@v5
         if: always() && ((steps.uploadPdf.outcome == 'success') || (steps.compileWarnings.outcome == 'success'))
