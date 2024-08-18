@@ -204,6 +204,9 @@ jobs:
       - name: Convert errors to PDF file
         if: always() && ${{ env.ERRORS == 1 }}
         run: |
+          # install htmldoc, which apparently is not an inherent command in Ubuntu
+          sudo apt-get update && sudo apt-get upgrade -y 
+          sudo apt-get install htmldoc -y
           # create a .html file from the out.txt file, then convert the html to pdf
           sed ':a;N;$!ba;s/\n/<br>/g' ${{ github.event.inputs.file2compile }}_out.txt > ${{ github.event.inputs.file2compile }}.html
           htmldoc --continuous -f ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}.html
