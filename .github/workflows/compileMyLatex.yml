@@ -136,7 +136,8 @@ jobs:
             ls
           fi
           echo "the compilation outcome shows steps.compilation.outcome"
-          echo "the pdf hash is ${{ hashFiles(env.PDFFILE)" 
+          echo "the pdf hash is "
+          echo ${{ hashFiles(env.PDFFILE) 
           grep -i 'warning.*: ${{ github.event.inputs.file2compile }}.tex' allout.txt > tmptmp.txt || touch tmptmp.txt
           sort tmptmp.txt | \
             uniq > warnings.txt
