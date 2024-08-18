@@ -102,6 +102,7 @@ jobs:
           # put in a timestamp at the top
           echo "${{ env.TIMESTAMP }} ${{ steps.compilation.outcome }}" > tout.txt
           echo "OUTFILE=${{ github.event.inputs.file2compile }}_out.txt" >> $GITHUB_ENV
+          echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
           # display all the errors
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "   ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
@@ -128,13 +129,11 @@ jobs:
           # rather than a mangled pdf. 
           if [ $(wc -c < "errors.txt") -eq 0 ]; then
             echo "      none" >> tout.txt
-            echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
+            echo "ERRORS=0" >> $GITHUB_ENV
           else
             rm -f ${{ github.event.inputs.file2compile }}.pdf
-            echo "PDFFILE=none.pdf" >> $GITHUB_ENV
+            echo "ERRRORS=1" >> $GITHUB_ENV
           fi
-          echo "the compilation outcome shows ${{ steps.compilation.outcome }}"
-          echo "the pdf hash is ${{ hashFiles(env.PDFFILE) }}  <== should be blank if there were latex errors" 
           grep -i 'warning.*: ${{ github.event.inputs.file2compile }}.tex' allout.txt > tmptmp.txt || touch tmptmp.txt
           sort tmptmp.txt | \
             uniq > warnings.txt
@@ -203,11 +202,12 @@ jobs:
         continue-on-error: true
 
       - name: Convert errors to PDF file
-        if: always() && ${{ hashFiles(env.PDFFILE) == '' }} && ${{ hashFiles(env.OUTFILE) != '' }}
+        if: always() && env.ERRORS == 1
         run: |
           # create a .html file from the out.txt file, then convert the html to pdf
           sed ':a;N;$!ba;s/\n/<br>/g' ${{ github.event.inputs.file2compile }}_out.txt > ${{ github.event.inputs.file2compile }}.html
-          echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
+          cat ${{ github.event.inputs.file2compile }}.html
+          html2pdf ${{ github.event.inputs.file2compile }}.html ${{ github.event.inputs.file2compile }}.pdf
         continue-on-error: true
         
       - name: Upload PDF file
