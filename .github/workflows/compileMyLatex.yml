@@ -214,7 +214,7 @@ jobs:
           # create a .html file from the out.txt file, then convert the html to pdf
           echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" >  ${{ github.event.inputs.file2compile }}.html
           echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> ${{ github.event.inputs.file2compile }}.html
-          echo "<a href='https://github.com/${{ github.repository }}/actions'>GitHub Workflow Runs</a><br>"
+          echo "<a href='https://github.com/${{ github.repository }}/actions'>GitHub Workflow Runs</a><br>" >> ${{ github.event.inputs.file2compile }}.html
           echo "<hr><hr><br>" >> ${{ github.event.inputs.file2compile }}.html
           sed ':a;N;$!ba;s/\n/<br>/g' ${{ github.event.inputs.file2compile }}_out.txt >> ${{ github.event.inputs.file2compile }}.html
           htmldoc --bottom 0.2 --left 0 --right 0 --top 0.2 --continuous -f ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}.html
