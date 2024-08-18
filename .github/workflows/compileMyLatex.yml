@@ -129,15 +129,19 @@ jobs:
           if [ $(wc -c < "errors.txt") -eq 0 ]; then
             echo "      none" >> tout.txt
             echo ""
-            echo "============> THERE ARE NO LATEX ERRORS !!!!  <============="
+            echo "============ THERE ARE NO LATEX ERRORS !!!!  ============="
           else
             rm -f ${{ github.event.inputs.file2compile }}.pdf
-            echo "============> there ARE latex ERRORS ! ! ! !  <==========="
-            ls
+            echo "============ there ARE latex ERRORS ! ! ! !  ==========="
+            ls -la
           fi
-          echo "the compilation outcome shows steps.compilation.outcome"
-          echo "the pdf hash is "
-          echo ${{ hashFiles(env.PDFFILE) 
+          echo "the compilation outcome shows "
+          if [steps.compilation.outcome == 'success']; then
+            echo "the compilation outcome was a success"
+          else
+            echo "the compilation outcome was NOT a succes"
+          fi
+          echo "the pdf hash is ${{ hashFiles(env.PDFFILE) }}" 
           grep -i 'warning.*: ${{ github.event.inputs.file2compile }}.tex' allout.txt > tmptmp.txt || touch tmptmp.txt
           sort tmptmp.txt | \
             uniq > warnings.txt
