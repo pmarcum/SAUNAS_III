@@ -216,8 +216,8 @@ jobs:
           echo "<html>" > ${{ github.event.inputs.file2compile }}.html
           echo "<style>" >> ${{ github.event.inputs.file2compile }}.html
           echo "body{" >> ${{ github.event.inputs.file2compile }}.html
-          echo "width: 210mm;" >> ${{ github.event.inputs.file2compile }}.html
-          echo "height: 297mm;" >> ${{ github.event.inputs.file2compile }}.html
+          echo "width: 8.5in;" >> ${{ github.event.inputs.file2compile }}.html
+          echo "height: 11in;" >> ${{ github.event.inputs.file2compile }}.html
           echo "padding: 0;" >> ${{ github.event.inputs.file2compile }}.html
           echo "margin: 0;" >> ${{ github.event.inputs.file2compile }}.html
           echo "box-sizing: border-box;" >> ${{ github.event.inputs.file2compile }}.html
@@ -225,7 +225,7 @@ jobs:
           echo "position: relative;" >> ${{ github.event.inputs.file2compile }}.html
           echo "}" >> ${{ github.event.inputs.file2compile }}.html
           echo ".content {" >> ${{ github.event.inputs.file2compile }}.html
-          echo "margin: 20mm;" >> ${{ github.event.inputs.file2compile }}.html
+          echo "margin: 0.3in;" >> ${{ github.event.inputs.file2compile }}.html
           echo "}" >> ${{ github.event.inputs.file2compile }}.html
           echo "</style>" >> ${{ github.event.inputs.file2compile }}.html
           echo "<body>" >> ${{ github.event.inputs.file2compile }}.html
