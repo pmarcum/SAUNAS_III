@@ -229,7 +229,7 @@ jobs:
           echo "}" >> ${{ github.event.inputs.file2compile }}.html
           echo "</style>" >> ${{ github.event.inputs.file2compile }}.html
           echo "<body>" >> ${{ github.event.inputs.file2compile }}.html
-          echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" >  ${{ github.event.inputs.file2compile }}.html
+          echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" >>  ${{ github.event.inputs.file2compile }}.html
           echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> ${{ github.event.inputs.file2compile }}.html
           echo "<i>https://github.com/${{ github.repository }}/actions</i><br>" >> ${{ github.event.inputs.file2compile }}.html
           echo "<hr><br>" >> ${{ github.event.inputs.file2compile }}.html
