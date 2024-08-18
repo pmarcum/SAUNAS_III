@@ -1,0 +1,121 @@
+2024-08-18T18:49:37Z 1724006977387 success
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   ERRORS IN main.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+error: main.tex: 13: Undefined control sequence ! undefined control sequence. l.13 \affiliation {Bay Area Environmental Research Institute, Moffett Field, ...
+\affiliation{Bay Area Environmental Research Institute, Moffett Field, CA 94035, USA}
+-------------------------------------------------------------------------
+error: main.tex: 15: Undefined control sequence ! undefined control sequence. l.15 \affiliation {NASA Ames Research Center, Moffett Field, CA 94035, USA} ! LaTeX Error: Environment abstract undefined.
+\affiliation{NASA Ames Research Center, Moffett Field, CA 94035, USA}
+-------------------------------------------------------------------------
+error: main.tex: 17: LaTeX Error: Environment abstract undefined.
+\begin{abstract}
+-------------------------------------------------------------------------
+error: main.tex: 20: LaTeX Error: \begin{document} ended by \end{abstract}.
+\end{abstract}
+-------------------------------------------------------------------------
+error: main.tex: 22: Undefined control sequence ! undefined control sequence. l.22 \pmm
+\pmm
+-------------------------------------------------------------------------
+error: main.tex: 24: Undefined control sequence ! undefined control sequence. l.24 \section {Background}
+\section{Background}
+-------------------------------------------------------------------------
+error: main.tex: 25: Extra }, or forgotten ! Extra }, or forgotten .
+Here is the intro section \citep{aguerri+1998aj116_2136, bell+2006apj640_241,bell+2006apj652_270}. 
+-------------------------------------------------------------------------
+error: main.tex: 25: Missing inserted ! Missing inserted.
+Here is the intro section \citep{aguerri+1998aj116_2136, bell+2006apj640_241,bell+2006apj652_270}. 
+-------------------------------------------------------------------------
+error: main.tex: 25: Undefined control sequence ! undefined control sequence. l.25 Here is the intro section \citep {aguerri+1998aj116_2136, bell+2006apj64...
+Here is the intro section \citep{aguerri+1998aj116_2136, bell+2006apj640_241,bell+2006apj652_270}. 
+-------------------------------------------------------------------------
+error: main.tex: 26: Missing inserted ! Missing inserted.
+
+-------------------------------------------------------------------------
+error: main.tex: 29: Extra }, or forgotten ! Extra }, or forgotten .
+The second sentence in the intro \citep{erwin+2017mnras468_2058, falchi+2016an2_1600377}.
+-------------------------------------------------------------------------
+error: main.tex: 29: Missing inserted ! Missing inserted.
+The second sentence in the intro \citep{erwin+2017mnras468_2058, falchi+2016an2_1600377}.
+-------------------------------------------------------------------------
+error: main.tex: 29: Undefined control sequence ! undefined control sequence. l.29 The second sentence in the intro \citep {erwin+2017mnras468_2058, falchi...
+The second sentence in the intro \citep{erwin+2017mnras468_2058, falchi+2016an2_1600377}.
+-------------------------------------------------------------------------
+error: main.tex: 30: Missing inserted ! Missing inserted.
+
+-------------------------------------------------------------------------
+error: main.tex: 35: Undefined control sequence ! undefined control sequence. l.35 \subsection {Motivation}
+\subsection{Motivation}
+-------------------------------------------------------------------------
+error: main.tex: 37: Extra }, or forgotten ! Extra }, or forgotten .
+The first sentence under motivation. \citep{bernardi+2006aj131_1288}
+-------------------------------------------------------------------------
+error: main.tex: 37: Missing inserted ! Missing inserted.
+The first sentence under motivation. \citep{bernardi+2006aj131_1288}
+-------------------------------------------------------------------------
+error: main.tex: 37: Undefined control sequence ! undefined control sequence. l.37 The first sentence under motivation. \citep {bernardi+2006aj131_1288}
+The first sentence under motivation. \citep{bernardi+2006aj131_1288}
+-------------------------------------------------------------------------
+error: main.tex: 38: Missing inserted ! Missing inserted.
+
+-------------------------------------------------------------------------
+error: main.tex: 47: Undefined control sequence ! undefined control sequence. l.47 \subsubsection {Goals}
+\subsubsection{Goals}
+-------------------------------------------------------------------------
+error: main.tex: 4: LaTeX Error: \usepackage before \documentclass.
+\usepackage{datetime}
+-------------------------------------------------------------------------
+error: main.tex: 50: Undefined control sequence ! undefined control sequence. l.50 \section {Methods} ! LaTeX Error: Environment acknowledgements undefined.
+\section{Methods}
+-------------------------------------------------------------------------
+error: main.tex: 53: LaTeX Error: Environment acknowledgements undefined.
+\begin{acknowledgements}
+-------------------------------------------------------------------------
+error: main.tex: 55: LaTeX Error: \begin{document} ended by \end{acknowledgements}.
+\end{acknowledgements}
+-------------------------------------------------------------------------
+error: main.tex: 57: Undefined control sequence ! undefined control sequence. l.57 \facilities {Chandra}
+\facilities{Chandra} 
+-------------------------------------------------------------------------
+error: main.tex: 59: Undefined control sequence ! undefined control sequence. l.59 \software {CIAO, LIRA, VorBin} (main.bbl ! LaTeX Error: Environment thebibliography undefined.
+\software{CIAO, LIRA, VorBin} 
+-------------------------------------------------------------------------
+error: main.tex: 59: Undefined control sequence ! undefined control sequence. l.59 \software {CIAO, LIRA, VorBin} No file main.bbl.
+\software{CIAO, LIRA, VorBin} 
+-------------------------------------------------------------------------
+error: main.tex: 63: LaTeX Error: The font size command \normalsize is not defined: there is probably something wrong with the class file.
+\end{document} 
+-------------------------------------------------------------------------
+error: main.tex: 6: LaTeX Error: The font size command \normalsize is not defined: there is probably something wrong with the class file.
+\begin{document}
+-------------------------------------------------------------------------
+error: main.tex: 9: Undefined control sequence ! undefined control sequence. l.9 ...r{lightgray}{Compiled: \currenttime\ \today \ (UTC)}
+\vspace*{-0.8cm}\noindent{\textcolor{lightgray}{Compiled: \currenttime\ \today\ (UTC)}
+-------------------------------------------------------------------------
+error: main.tex: 9: Undefined control sequence ! undefined control sequence. l.9 ...textcolor{lightgray}{Compiled: \currenttime \ \today\ (UTC)}
+\vspace*{-0.8cm}\noindent{\textcolor{lightgray}{Compiled: \currenttime\ \today\ (UTC)}
+-------------------------------------------------------------------------
+error: main.tex: 9: Undefined control sequence ! undefined control sequence. l.9 \vspace*{-0.8cm}\noindent{\textcolor {lightgray}{Compiled: \currenttime\ ...
+\vspace*{-0.8cm}\noindent{\textcolor{lightgray}{Compiled: \currenttime\ \today\ (UTC)}
+-------------------------------------------------------------------------
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   WARNINGS IN main.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      none
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   CITATION ISSUES IN main.tex 
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      none
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                       ERRORS WITH the .BIB FILE
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+error: main.bbl: 1: LaTeX Error: Environment thebibliography undefined.
+error: main.bbl: 8: LaTeX Error: \begin{document} ended by \end{thebibliography}.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   LIST OF REFERENCES IN main.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      none
