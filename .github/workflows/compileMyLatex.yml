@@ -221,7 +221,7 @@ jobs:
           echo "<i>https://github.com/${{ github.repository }}/actions</i><br>" >> ${{ github.event.inputs.file2compile }}.html
           echo "<hr><br>" >> ${{ github.event.inputs.file2compile }}.html
           sed ':a;N;$!ba;s/\n/<br>/g;s/ /\&nbsp;/g' html.txt >> ${{ github.event.inputs.file2compile }}.html
-          htmldoc --right 2in --continuous -f ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}.html
+          htmldoc --left 0.2 --right 0.2 top --0.4 bottom 0.5 --continuous -f ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}.html
         continue-on-error: true
         
       - name: Upload PDF file
