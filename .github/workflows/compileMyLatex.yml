@@ -128,12 +128,9 @@ jobs:
           # rather than a mangled pdf. 
           if [ $(wc -c < "errors.txt") -eq 0 ]; then
             echo "      none" >> tout.txt
-            echo ""
-            echo "============ THERE ARE NO LATEX ERRORS !!!!  ============="
             echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
           else
             rm -f ${{ github.event.inputs.file2compile }}.pdf
-            echo "============ there ARE latex ERRORS ! ! ! !  ==========="
             echo "PDFFILE=none.pdf" >> $GITHUB_ENV
           fi
           echo "the compilation outcome shows ${{ steps.compilation.outcome }}"
@@ -204,7 +201,18 @@ jobs:
           rm -f tmptmp*.txt
           mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
-               
+
+      - name: Convert errors to PDF file
+        if: always() && ${{ hashFiles(env.PDFFILE) == '' }} && ${{ hashFiles(env.OUTFILE) != '' }}
+        run: |
+          # create a .html file from the out.txt file, then convert the html to pdf
+          touch ${{ github.event.inputs.file2compile }}.html
+          while IFS= read -r line; do
+            cat $line | sed -r 's/\n/<br>/g' >> ${{ github.event.inputs.file2compile }}.html
+          done < ${{ github.event.inputs.file2compile }}_out.txt
+          html2pdf ${{ github.event.inputs.file2compile }}_out.txt ${{ github.event.inputs.file2compile }}.pdf
+          echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
+        continue-on-error: true
         
       - name: Upload PDF file
         id: uploadPdf
