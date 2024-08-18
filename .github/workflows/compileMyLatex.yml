@@ -101,6 +101,7 @@ jobs:
             sed -r 's/^ *//;s/ *$//' > allout.txt
           # put in a timestamp at the top
           echo "${{ env.TIMESTAMP }} ${{ steps.compilation.outcome }}" > tout.txt
+          echo "OUTFILE=${{ github.event.inputs.file2compile }}_out.txt" >> $GITHUB_ENV
           # display all the errors
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "   ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
@@ -135,9 +136,8 @@ jobs:
             echo "============ there ARE latex ERRORS ! ! ! !  ==========="
             echo "PDFFILE=none.pdf" >> $GITHUB_ENV
           fi
-          echo "the compilation outcome shows "
-          echo steps.compilation.outcome
-          echo "the pdf hash is ${{ hashFiles(env.PDFFILE) }}" 
+          echo "the compilation outcome shows ${{ steps.compilation.outcome }}"
+          echo "the pdf hash is ${{ hashFiles(env.PDFFILE) }}  <== should be blank if there were latex errors" 
           grep -i 'warning.*: ${{ github.event.inputs.file2compile }}.tex' allout.txt > tmptmp.txt || touch tmptmp.txt
           sort tmptmp.txt | \
             uniq > warnings.txt
@@ -209,7 +209,7 @@ jobs:
       - name: Upload PDF file
         id: uploadPdf
         uses: actions/upload-artifact@v4
-        if: always() && steps.compilation.outcome == 'success' && ${{ hashFiles(env.PDFFILE) != '' }}
+        if: always() && ${{ hashFiles(env.PDFFILE) != '' }}
         with: 
           name: PDF
           path: "${{ github.event.inputs.file2compile }}.pdf"
@@ -218,7 +218,7 @@ jobs:
       
       - name: Upload compilation output file
         uses: actions/upload-artifact@v4
-        if: always() && (steps.compileWarnings.outcome == 'success')
+        if: always() && ${{ hashFiles(env.OUTFILE) != '' }}
         with: 
           name: compileOutput
           path: "${{ github.event.inputs.file2compile }}_out.txt"
@@ -227,7 +227,7 @@ jobs:
       - name: Publish PDF and Compilation output to repo
         id: releasePdf
         uses: stefanzweifel/git-auto-commit-action@v5
-        if: always() && ((steps.uploadPdf.outcome == 'success') || (steps.compileWarnings.outcome == 'success'))
+        if: always() && ((${{ hashFiles(env.PDFFILE) != '' }}) || (${{ hashFiles(env.OUTFILE) != '' }}))
         with:
           file_pattern: '${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}_out.txt'
           commit_message: 'Newly compiled PDF'
