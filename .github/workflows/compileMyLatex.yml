@@ -213,12 +213,30 @@ jobs:
           # install htmldoc, which apparently is not an inherent command in Ubuntu
           sudo apt-get install htmldoc -y
           # create a .html file from the out.txt file, then convert the html to pdf
+          echo "<html>" > ${{ github.event.inputs.file2compile }}.html
+          echo "<style>" >> ${{ github.event.inputs.file2compile }}.html
+          echo "body{" >> ${{ github.event.inputs.file2compile }}.html
+          echo "width: 210mm;" >> ${{ github.event.inputs.file2compile }}.html
+          echo "height: 297mm;" >> ${{ github.event.inputs.file2compile }}.html
+          echo "padding: 0;" >> ${{ github.event.inputs.file2compile }}.html
+          echo "margin: 0;" >> ${{ github.event.inputs.file2compile }}.html
+          echo "box-sizing: border-box;" >> ${{ github.event.inputs.file2compile }}.html
+          echo "font-family: Helvetica" >> ${{ github.event.inputs.file2compile }}.html
+          echo "position: relative;" >> ${{ github.event.inputs.file2compile }}.html
+          echo "}" >> ${{ github.event.inputs.file2compile }}.html
+          echo ".content {" >> ${{ github.event.inputs.file2compile }}.html
+          echo "margin: 20mm;" >> ${{ github.event.inputs.file2compile }}.html
+          echo "}" >> ${{ github.event.inputs.file2compile }}.html
+          echo "</style>" >> ${{ github.event.inputs.file2compile }}.html
+          echo "<body>" >> ${{ github.event.inputs.file2compile }}.html
           echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" >  ${{ github.event.inputs.file2compile }}.html
           echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> ${{ github.event.inputs.file2compile }}.html
           echo "<i>https://github.com/${{ github.repository }}/actions</i><br>" >> ${{ github.event.inputs.file2compile }}.html
           echo "<hr><br>" >> ${{ github.event.inputs.file2compile }}.html
           sed ':a;N;$!ba;s/\n/<br>/g;s/ /\&nbsp;/g' ${{ github.event.inputs.file2compile }}_out.txt >> ${{ github.event.inputs.file2compile }}.html
-          htmldoc --left 1.5cm --right 1.5cm --top 2cm -- bottom 2cm --continuous -f ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}.html
+          echo "</body>" >> ${{ github.event.inputs.file2compile }}.html
+          echo "</html>" >> ${{ github.event.inputs.file2compile }}.html
+          htmldoc --continuous -f ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}.html
         continue-on-error: true
         
       - name: Upload PDF file
