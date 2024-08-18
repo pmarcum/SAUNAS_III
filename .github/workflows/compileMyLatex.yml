@@ -70,7 +70,6 @@ jobs:
         id: date
         run: |
           echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
-          echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
         continue-on-error: true
         
       - name: Capture compilation output
@@ -83,7 +82,7 @@ jobs:
           # a special character (\x0), removes extra white space, removes white space preceding and proceeding colons, 
           # and performs replacements using the special character to insure that each error or warning appears on a single 
           # line and does not spill over into a separate line.
-          cat compileout.txt
+          ##cat compileout.txt
           sed ':a;N;$!ba;s/\n/\x0/g' compileout.txt | \
             sed -r 's/\x0+/\x0/g' | \
             sed -r 's/  */ /g' | \
@@ -130,17 +129,14 @@ jobs:
             echo "      none" >> tout.txt
             echo ""
             echo "============ THERE ARE NO LATEX ERRORS !!!!  ============="
+            echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
           else
             rm -f ${{ github.event.inputs.file2compile }}.pdf
             echo "============ there ARE latex ERRORS ! ! ! !  ==========="
-            ls -la
+            echo "PDFFILE=none.pdf" >> $GITHUB_ENV
           fi
           echo "the compilation outcome shows "
-          if [steps.compilation.outcome == 'success']; then
-            echo "the compilation outcome was a success"
-          else
-            echo "the compilation outcome was NOT a succes"
-          fi
+          echo steps.compilation.outcome
           echo "the pdf hash is ${{ hashFiles(env.PDFFILE) }}" 
           grep -i 'warning.*: ${{ github.event.inputs.file2compile }}.tex' allout.txt > tmptmp.txt || touch tmptmp.txt
           sort tmptmp.txt | \
