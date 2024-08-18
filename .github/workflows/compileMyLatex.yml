@@ -213,13 +213,14 @@ jobs:
           # install htmldoc, which apparently is not an inherent command in Ubuntu
           sudo apt-get install htmldoc -y
           # create a .html file from the out.txt file, then convert the html to pdf
-          echo "<p style='word-wrap: break-word; word-break: break-all;'>" > ${{ github.event.inputs.file2compile }}.html
-          echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" >> ${{ github.event.inputs.file2compile }}.html
+          rm -f html.txt
+          # make sure that long lines are split if they exceed 20 words
+          sed -r "s/((\w+\s){20})/\1\n/g" <${{ github.event.inputs.file2compile }}_out.txt >html.txt
+          echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > ${{ github.event.inputs.file2compile }}.html
           echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> ${{ github.event.inputs.file2compile }}.html
           echo "<i>https://github.com/${{ github.repository }}/actions</i><br>" >> ${{ github.event.inputs.file2compile }}.html
           echo "<hr><br>" >> ${{ github.event.inputs.file2compile }}.html
-          sed ':a;N;$!ba;s/\n/<br>/g;s/ /\&nbsp;/g' ${{ github.event.inputs.file2compile }}_out.txt >> ${{ github.event.inputs.file2compile }}.html
-          echo "</p>" >> ${{ github.event.inputs.file2compile }}.html
+          sed ':a;N;$!ba;s/\n/<br>/g;s/ /\&nbsp;/g' html.txt >> ${{ github.event.inputs.file2compile }}.html
           htmldoc --right 2in --continuous -f ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}.html
         continue-on-error: true
         
