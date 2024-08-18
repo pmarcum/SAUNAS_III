@@ -206,11 +206,7 @@ jobs:
         if: always() && ${{ hashFiles(env.PDFFILE) == '' }} && ${{ hashFiles(env.OUTFILE) != '' }}
         run: |
           # create a .html file from the out.txt file, then convert the html to pdf
-          touch ${{ github.event.inputs.file2compile }}.html
-          while IFS= read -r line; do
-            cat $line | sed -r 's/\n/<br>/g' >> ${{ github.event.inputs.file2compile }}.html
-          done < ${{ github.event.inputs.file2compile }}_out.txt
-          html2pdf ${{ github.event.inputs.file2compile }}_out.txt ${{ github.event.inputs.file2compile }}.pdf
+          sed ':a;N;$!ba;s/\n/<br>/g' ${{ github.event.inputs.file2compile }}_out.txt > ${{ github.event.inputs.file2compile }}.html
           echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
         continue-on-error: true
         
