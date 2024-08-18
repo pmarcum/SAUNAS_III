@@ -82,7 +82,12 @@ jobs:
           # a special character (\x0), removes extra white space, removes white space preceding and proceeding colons, 
           # and performs replacements using the special character to insure that each error or warning appears on a single 
           # line and does not spill over into a separate line.
-          ##cat compileout.txt
+          echo "-----------------------------------------------------"
+          echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
+          echo "-----------------------------------------------------"
+          cat compileout.txt
+          echo "-----------------------------------------------------"
+          echo "-----------------------------------------------------"
           sed ':a;N;$!ba;s/\n/\x0/g' compileout.txt | \
             sed -r 's/\x0+/\x0/g' | \
             sed -r 's/  */ /g' | \
@@ -100,7 +105,7 @@ jobs:
             sed -r 's/(\[[0-9]+\]) *\(/\1\n\(/g' | \
             sed -r 's/^ *//;s/ *$//' > allout.txt
           # put in a timestamp at the top
-          echo "${{ env.TIMESTAMP }} ${{ steps.compilation.outcome }}" > tout.txt
+          echo "${{ env.TIMESTAMP }}" > tout.txt
           echo "OUTFILE=${{ github.event.inputs.file2compile }}_out.txt" >> $GITHUB_ENV
           echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
           # display all the errors
@@ -207,7 +212,11 @@ jobs:
           # install htmldoc, which apparently is not an inherent command in Ubuntu
           sudo apt-get install htmldoc -y
           # create a .html file from the out.txt file, then convert the html to pdf
-          sed ':a;N;$!ba;s/\n/<br>/g' ${{ github.event.inputs.file2compile }}_out.txt > ${{ github.event.inputs.file2compile }}.html
+          echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" >  ${{ github.event.inputs.file2compile }}.html
+          echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> ${{ github.event.inputs.file2compile }}.html
+          echo "<a href='https://github.com/${{ github.repository }}/actions'>GitHub Workflow Runs</a><br>"
+          echo "<hr><hr><br>" >> ${{ github.event.inputs.file2compile }}.html
+          sed ':a;N;$!ba;s/\n/<br>/g' ${{ github.event.inputs.file2compile }}_out.txt >> ${{ github.event.inputs.file2compile }}.html
           htmldoc --bottom 0.2 --left 0 --right 0 --top 0.2 --continuous -f ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}.html
         continue-on-error: true
         
