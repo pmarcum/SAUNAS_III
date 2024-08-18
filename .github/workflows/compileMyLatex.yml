@@ -217,7 +217,7 @@ jobs:
           echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> ${{ github.event.inputs.file2compile }}.html
           echo "https://github.com/${{ github.repository }}/actions<br>" >> ${{ github.event.inputs.file2compile }}.html
           echo "<hr><br>" >> ${{ github.event.inputs.file2compile }}.html
-          sed ':a;N;$!ba;s/\n/<br>/g' ${{ github.event.inputs.file2compile }}_out.txt >> ${{ github.event.inputs.file2compile }}.html
+          sed ':a;N;$!ba;s/\n/<br>/g;s/ /&nbsp;/g' ${{ github.event.inputs.file2compile }}_out.txt >> ${{ github.event.inputs.file2compile }}.html
           htmldoc --bottom 0.2 --left 0 --right 0 --top 0.2 --continuous -f ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}.html
         continue-on-error: true
         
