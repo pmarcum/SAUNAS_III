@@ -206,8 +206,7 @@ jobs:
         run: |
           # create a .html file from the out.txt file, then convert the html to pdf
           sed ':a;N;$!ba;s/\n/<br>/g' ${{ github.event.inputs.file2compile }}_out.txt > ${{ github.event.inputs.file2compile }}.html
-          cat ${{ github.event.inputs.file2compile }}.html
-          #html2pdf ${{ github.event.inputs.file2compile }}.html ${{ github.event.inputs.file2compile }}.pdf
+          html2pdf ${{ github.event.inputs.file2compile }}.html ${{ github.event.inputs.file2compile }}.pdf
         continue-on-error: true
         
       - name: Upload PDF file
