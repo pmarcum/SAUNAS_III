@@ -215,7 +215,7 @@ jobs:
           # create a .html file from the out.txt file, then convert the html to pdf
           rm -f html.txt
           # make sure that long lines are split if they exceed 20 words
-          sed -r "s/((\w+\s){10})/\1\n/g" <${{ github.event.inputs.file2compile }}_out.txt >html.txt
+          sed -r "s/((\w+\s){5})/\1\n/g" <${{ github.event.inputs.file2compile }}_out.txt >html.txt
           echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > ${{ github.event.inputs.file2compile }}.html
           echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> ${{ github.event.inputs.file2compile }}.html
           echo "<i>https://github.com/${{ github.repository }}/actions</i><br>" >> ${{ github.event.inputs.file2compile }}.html
