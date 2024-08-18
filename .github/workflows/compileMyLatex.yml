@@ -202,7 +202,7 @@ jobs:
         continue-on-error: true
 
       - name: Convert errors to PDF file
-        if: always() && env.ERRORS == 1
+        if: always() && ${{ env.ERRORS == 1 }}
         run: |
           # create a .html file from the out.txt file, then convert the html to pdf
           sed ':a;N;$!ba;s/\n/<br>/g' ${{ github.event.inputs.file2compile }}_out.txt
