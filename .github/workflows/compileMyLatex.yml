@@ -140,6 +140,27 @@ jobs:
             rm -f ${{ github.event.inputs.file2compile }}.pdf
             echo "ERRRORS=1" >> $GITHUB_ENV
           fi
+          echo ${{ env.ERRORS }}
+          if [ ${{ env.ERRORS }} -eq 0 ]; then
+            echo "ERRORS is equal to 0"
+          else
+            echo "ERRORS is NOT equal to 0"
+          fi
+          if [ ${{ env.ERRORS }} == 0 ]' then
+            echo "ERRORS is equal to 0"
+          else
+            echo "ERRORS is NOT equal to 0"
+          fi
+            if [ ${{ env.ERRORS }} -eq 1 ]; then
+            echo "ERRORS is equal to 1"
+          else
+            echo "ERRORS is NOT equal to 1"
+          fi
+          if [ ${{ env.ERRORS }} == 1 ]' then
+            echo "ERRORS is equal to 1"
+          else
+            echo "ERRORS is NOT equal to 1"
+          fi
           grep -i 'warning.*: ${{ github.event.inputs.file2compile }}.tex' allout.txt > tmptmp.txt || touch tmptmp.txt
           sort tmptmp.txt | \
             uniq > warnings.txt
