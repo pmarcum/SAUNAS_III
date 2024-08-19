@@ -85,7 +85,7 @@ jobs:
           echo "-----------------------------------------------------"
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
           echo "-----------------------------------------------------"
-          cat compileout.txt
+          ##cat compileout.txt
           echo "-----------------------------------------------------"
           echo "-----------------------------------------------------"
           sed ':a;N;$!ba;s/\n/\x0/g' compileout.txt | \
@@ -135,32 +135,11 @@ jobs:
           # rather than a mangled pdf. 
           if [ $(wc -c < "errors.txt") -eq 0 ]; then
             echo "      none" >> tout.txt
-            echo "ERRORS=0" >> $GITHUB_ENV
           else
             rm -f ${{ github.event.inputs.file2compile }}.pdf
-            echo "ERRRORS=1" >> $GITHUB_ENV
+            touch thereAreErrors.txt
           fi
-          echo ${{ env.ERRORS }}
-          if [ ${{ env.ERRORS }} -eq 0 ]; then
-            echo "ERRORS is equal to 0"
-          else
-            echo "ERRORS is NOT equal to 0"
-          fi
-          if [ ${{ env.ERRORS }} == 0 ]' then
-            echo "ERRORS is equal to 0"
-          else
-            echo "ERRORS is NOT equal to 0"
-          fi
-            if [ ${{ env.ERRORS }} -eq 1 ]; then
-            echo "ERRORS is equal to 1"
-          else
-            echo "ERRORS is NOT equal to 1"
-          fi
-          if [ ${{ env.ERRORS }} == 1 ]' then
-            echo "ERRORS is equal to 1"
-          else
-            echo "ERRORS is NOT equal to 1"
-          fi
+          echo "if there were fatal latex errors, the following will not be blank: ${{ hashFiles(thereAreErrors.txt) }}"
           grep -i 'warning.*: ${{ github.event.inputs.file2compile }}.tex' allout.txt > tmptmp.txt || touch tmptmp.txt
           sort tmptmp.txt | \
             uniq > warnings.txt
@@ -229,7 +208,7 @@ jobs:
         continue-on-error: true
 
       - name: Convert errors to PDF file
-        if: always() && ${{ env.ERRORS == 1 }}
+        if: always() && ${{ hashFiles(thereAreErrors.txt) != '' }}
         run: |
           # install htmldoc, which apparently is not an inherent command in Ubuntu
           sudo apt-get install htmldoc -y
