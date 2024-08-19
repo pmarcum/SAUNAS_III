@@ -207,12 +207,9 @@ jobs:
         continue-on-error: true
 
       - name: Convert errors to PDF file
-        if: always() && "${{ hashFiles('thereAreErrors.txt') != '' }}"
+        if: ${{ always() && hashFiles('thereAreErrors.txt') }}
         run: |
-          echo ""
-          echo "there were fatal errors !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-          echo "hashfiles :${{ hashFiles('thereAreErrors.txt') }}:"
-          echo ("${{ hashFiles('thereAreErrors.txt') }} != '')
+          echo "there are fatal errors!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
           # install htmldoc, which apparently is not an inherent command in Ubuntu
           sudo apt-get install htmldoc -y
           # create a .html file from the out.txt file, then convert the html to pdf
@@ -230,7 +227,7 @@ jobs:
       - name: Upload PDF file
         id: uploadPdf
         uses: actions/upload-artifact@v4
-        if: always() && "${{ hashFiles(env.PDFFILE) != '' }}"
+        if: ${{ always() && hashFiles(env.PDFFILE) }}
         with: 
           name: PDF
           path: "${{ github.event.inputs.file2compile }}.pdf"
@@ -239,7 +236,7 @@ jobs:
       - name: Publish PDF to repo
         id: releasePdf
         uses: stefanzweifel/git-auto-commit-action@v5
-        if: always() && "${{ hashFiles(env.PDFFILE) != '' }}"
+        if: ${{ always() && hashFiles(env.PDFFILE) }}
         with:
           file_pattern: '${{ github.event.inputs.file2compile }}.pdf'
           commit_message: 'Newly compiled PDF'
@@ -247,7 +244,7 @@ jobs:
 
       - name: Upload compilation output file
         uses: actions/upload-artifact@v4
-        if: always() && "${{ hashFiles(env.OUTFILE) != '' }}"
+        if: ${{ always() && hashFiles(env.OUTFILE) }}
         with: 
           name: compileOutput
           path: "${{ github.event.inputs.file2compile }}_out.txt"
@@ -256,7 +253,7 @@ jobs:
       - name: Publish compilation output to repo
         id: releaseOutfile
         uses: stefanzweifel/git-auto-commit-action@v5
-        if: always() && "${{ hashFiles(env.OUTFILE) != '' }}"
+        if: ${{ always() && hashFiles(env.OUTFILE) }}
         with:
           file_pattern: '${{ github.event.inputs.file2compile }}_out.txt'
           commit_message: 'Newly created compilation output file'
