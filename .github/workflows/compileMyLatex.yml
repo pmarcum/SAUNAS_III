@@ -85,7 +85,7 @@ jobs:
           echo "-----------------------------------------------------"
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
           echo "-----------------------------------------------------"
-          ##cat compileout.txt
+          cat compileout.txt
           echo "-----------------------------------------------------"
           echo "-----------------------------------------------------"
           sed ':a;N;$!ba;s/\n/\x0/g' compileout.txt | \
@@ -139,7 +139,6 @@ jobs:
             rm -f ${{ github.event.inputs.file2compile }}.pdf
             touch thereAreErrors.txt
           fi
-          echo "if there were fatal latex errors, the following will not be blank: ${{ hashFiles('thereAreErrors.txt') }}"
           grep -i 'warning.*: ${{ github.event.inputs.file2compile }}.tex' allout.txt > tmptmp.txt || touch tmptmp.txt
           sort tmptmp.txt | uniq > warnings.txt
           rm -f tmptmp.txt
@@ -209,7 +208,6 @@ jobs:
       - name: Convert errors to PDF file
         if: ${{ always() && hashFiles('thereAreErrors.txt') }}
         run: |
-          echo "there are fatal errors!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
           # install htmldoc, which apparently is not an inherent command in Ubuntu
           sudo apt-get install htmldoc -y
           # create a .html file from the out.txt file, then convert the html to pdf
