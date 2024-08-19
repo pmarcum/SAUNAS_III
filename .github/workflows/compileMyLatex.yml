@@ -139,7 +139,7 @@ jobs:
             rm -f ${{ github.event.inputs.file2compile }}.pdf
             touch thereAreErrors.txt
           fi
-          echo "if there were fatal latex errors, the following will not be blank: ${{ hashFiles(thereAreErrors.txt) }}"
+          echo "if there were fatal latex errors, the following will not be blank: ${{ Files('thereAreErrors.txt') }}"
           grep -i 'warning.*: ${{ github.event.inputs.file2compile }}.tex' allout.txt > tmptmp.txt || touch tmptmp.txt
           sort tmptmp.txt | \
             uniq > warnings.txt
@@ -208,7 +208,7 @@ jobs:
         continue-on-error: true
 
       - name: Convert errors to PDF file
-        if: always() && ${{ hashFiles(thereAreErrors.txt) != '' }}
+        if: always() && ${{ hashFiles('thereAreErrors.txt') != '' }}
         run: |
           # install htmldoc, which apparently is not an inherent command in Ubuntu
           sudo apt-get install htmldoc -y
