@@ -214,7 +214,7 @@ jobs:
           rm -f tmptmp*.txt
           mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
           echo "216"
-          echo  (${{ hashFiles('thereAreErrors.txt') != '' }})
+          echo  "${{ hashFiles('thereAreErrors.txt') != '' }}"
         continue-on-error: true
 
       - name: Convert errors to PDF file
