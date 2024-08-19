@@ -212,7 +212,7 @@ jobs:
           echo ""
           echo "there were fatal errors !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
           echo "hashfiles :${{ hashFiles('thereAreErrors.txt') }}:"
-          echo "${{ hashFiles('thereAreErrors.txt') }} != ''
+          echo ("${{ hashFiles('thereAreErrors.txt') }} != '')
           # install htmldoc, which apparently is not an inherent command in Ubuntu
           sudo apt-get install htmldoc -y
           # create a .html file from the out.txt file, then convert the html to pdf
