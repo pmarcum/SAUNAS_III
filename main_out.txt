@@ -1,0 +1,59 @@
+2024-08-25T05:21:26Z 1724563286734
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              ERRORS IN main.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+error: main.tex: 38: Extra }, or forgotten ! Extra }, or forgotten .
+ \begin{overpic}[trim={0 0 0 0}, clip, width=\textwidth]{NGC5084_6dF_spectra_comp.png}
+-------------------------------------------------------------------------
+error: main.tex: 38: Illegal unit of measure (pt inserted) ! Illegal unit of measure (pt inserted).
+ \begin{overpic}[trim={0 0 0 0}, clip, width=\textwidth]{NGC5084_6dF_spectra_comp.png}
+-------------------------------------------------------------------------
+error: main.tex: 38: LaTeX Error: Environment overpic undefined.
+ \begin{overpic}[trim={0 0 0 0}, clip, width=\textwidth]{NGC5084_6dF_spectra_comp.png}
+-------------------------------------------------------------------------
+error: main.tex: 38: Missing inserted ! Missing inserted.
+ \begin{overpic}[trim={0 0 0 0}, clip, width=\textwidth]{NGC5084_6dF_spectra_comp.png}
+-------------------------------------------------------------------------
+error: main.tex: 38: Missing number, treated as zero ! Missing number, treated as zero.
+ \begin{overpic}[trim={0 0 0 0}, clip, width=\textwidth]{NGC5084_6dF_spectra_comp.png}
+-------------------------------------------------------------------------
+error: main.tex: 39: LaTeX Error: \begin{center} on input line 36 ended by \end{overpic}.
+\end{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 39: Missing inserted ! Missing inserted.
+\end{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 39: Missing } inserted ! Missing } inserted.
+\end{overpic}
+-------------------------------------------------------------------------
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              WARNINGS IN main.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+warning: main.tex: 23: Overfull \hbox (15.35304pt too wide) in paragraph at lines 23--23 Overfull \hbox (15.35304pt too wide) in paragraph at lines 23--23
+\section{Background}
+-------------------------------------------------------------------------
+warning: main.tex: 23: Overfull \hbox (15.35304pt too wide) in paragraph at lines 23--23 Overfull \hbox (15.35304pt too wide) in paragraph at lines 23--23 ! LaTeX Error: Environment overpic undefined.
+\section{Background}
+-------------------------------------------------------------------------
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              CITATION ISSUES IN main.tex 
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      none
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              ERRORS WITH the .BIB FILE
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+error: main.bbl: 36: Undefined control sequence ! undefined control sequence.  l.36 ...o}, P., {Duriscoe}, D., {et~al.} 2016, \an , 2, e1600377, ) [2]
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              LIST OF REFERENCES IN main.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+aguerri+1998aj116_2136
+bell+2006apj640_241
+bell+2006apj652_270
+bernardi+2006aj131_1288
+erwin+2017mnras468_2058
+falchi+2016an2_1600377
