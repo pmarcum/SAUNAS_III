@@ -10,7 +10,7 @@ name: Build LaTeX document and Release PDF
 # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
 # https://mrturkmen.com/posts/build-release-latex/
 # https://github.com/moderncv/debian-texlive-docker/pkgs/container/debian-texlive-docker
-
+# https://github.com/SakulFlee/GitHub-Action-LaTeX
 on:
   workflow_dispatch:
     inputs: 
@@ -27,8 +27,6 @@ jobs:
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
-    container:
-      image: ghcr.io/moderncv/debian-texlive-docker:main
       
     steps:
       - name: Clone repo
@@ -72,9 +70,14 @@ jobs:
 
       - name: Compile latex to PDF
         id: compilation
-        run: |
-          latexmk ${{ github.event.inputs.file2compile }}.tex
-          mv ${{ github.event.inputs.file2compile }}.log compileout.txt
+        uses: Sakul6499/GitHub-Action-LaTeX@v1.0.1
+        with: 
+          latex_main_file: ${{ github.event.inputs.file2compile }}.tex
+          latex_compiler: latexmk
+          latex_compiler_arguments: "-pdf -file-line-error -interaction=nonstopmode"
+          system_packages: "gcc"
+          pre_task: 'echo "''Hellow World!'' from BEFORE compilation."'
+          post_task: 'echo "''Hello World!'' from AFTER compilation."'
         continue-on-error: true
 
       - name: Get timestamp
