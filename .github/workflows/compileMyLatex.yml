@@ -99,6 +99,7 @@ jobs:
           echo "-----------------------------------------------------"
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
           echo "-----------------------------------------------------"
+          mv ${{ github.event.inputs.file2compile }}.log compileout.txt
           cat compileout.txt
           echo "-----------------------------------------------------"
           echo "-----------------------------------------------------"
