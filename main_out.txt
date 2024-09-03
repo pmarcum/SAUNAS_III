@@ -1,0 +1,191 @@
+2024-09-03T19:24:46Z 1725391486144
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              ERRORS IN main.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+error: main.tex: 12: ! LaTeX Error: File `multicolumn.sty' not found.
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: LaTeX Error: The package . failed to load.
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. <argument> ...currpkg@reqd {\@currname .\@currext }\ifx \CurrentFile \Curren...
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. <argument> ...name @raw@opt@\@currname .\@currext \expandafter \endcsname \e...
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. <argument> ...r \gdef \csname @raw@opt@\@currname .\@currext \expandafter \e...
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. <argument> .@currext l.12 \usepackage [abs]{overpic}
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. <argument> .\@currext l.12 \usepackage [abs]{overpic}
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. <argument> @currpath @currname .@currext l.12 \usepackage [abs]{overpic}
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. <argument> @currpath @currname .@currext l.12 \usepackage [abs]{overpic}
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. <argument> @currpath @currpkg@reqd l.12 \usepackage [abs]{overpic}
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. <argument> @pkg-disable@\@currname .\@currext l.12 \usepackage [abs]{overpic}
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. <argument> @pkg-disable@\@currname .\@currext l.12 \usepackage [abs]{overpic}
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. <argument> @raw@opt@\@currname .\@currext l.12 \usepackage [abs]{overpic}
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. <argument> @raw@opt@\@currname .\@currext l.12 \usepackage [abs]{overpic}
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. <argument> \@currext l.12 \usepackage [abs]{overpic}
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. <argument> \@currext l.12 \usepackage [abs]{overpic} (overpic.sty (epic.sty Enhancements to Picture Environment. Version 1.2 - Released June 1, 1986 )) (breakurl.sty (ifpdf.sty)) (textcomp.sty) (fancyhdr.sty) (appendix.sty) (nicefrac.sty) (svg.sty (scrbase.sty (scrlfile.sty (scrlfile-hook.sty (scrlogo.sty)))) (trimspaces.sty) (shellesc.sty
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. <argument> \@currname l.12 \usepackage [abs]{overpic}
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. <argument> \@currname .\@currext l.12 \usepackage [abs]{overpic}
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. <argument> \@currname .\@currext l.12 \usepackage [abs]{overpic}
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. <argument> \edef \@currpkg@reqd {\@currname .\@currext }\ifx \CurrentFile \C...
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. <inserted text> @currpath @currname .@currext l.12 \usepackage [abs]{overpic}
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. <inserted text> @currpath @currpkg@reqd l.12 \usepackage [abs]{overpic} ! LaTeX Error: The package . failed to load.
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. <inserted text> \@currname .\@currext l.12 \usepackage [abs]{overpic}
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. \reserved@a ... \csname opt@\@currname .\@currext \endcsname \expandafter \l...
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. \reserved@a ... \csname ver@\@currname .\@currext \endcsname \@empty \expand...
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. \reserved@a ... \endcsname \csname opt@\@currname .\@currext \endcsname \exp...
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. \reserved@a ...\let \csname \@currname .\@currext -h@@k\endcsname \@empty \i...
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. \reserved@a ...\let \csname \@currname .\@currext -h@@k\endcsname \@undefine...
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. \reserved@a ...ame @raw@opt@\@currname .\@currext \endcsname \global \expand...
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. \reserved@a ...csname \csname @raw@opt@\@currname .\@currext \endcsname \glo...
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. \reserved@a ...dafter \let \csname ver@\@currname .\@currext \endcsname \@em...
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. \reserved@a ...essedoptions-\@currname .\@currext \endcsname \@@unprocessedo...
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. \reserved@a ...essedoptions-\@currname .\@currext \endcsname \@undefined \if...
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. \reserved@a ...essedoptions-\@currname .\@currext \endcsname \fi \expandafte...
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. \reserved@a ...ions \csname \@currname .\@currext -h@@k\endcsname \expandaft...
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. \reserved@a ...name unprocessedoptions-\@currname .\@currext \endcsname \@@u...
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. \reserved@a ...name unprocessedoptions-\@currname .\@currext \endcsname \@un...
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. \reserved@a ...name unprocessedoptions-\@currname .\@currext \endcsname \fi ...
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. \reserved@a ...rocessedoptions \csname \@currname .\@currext -h@@k\endcsname...
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 12: Undefined control sequence ! undefined control sequence. \reserved@a ...xpandafter \let \csname \@currname .\@currext -h@@k\endcsname...
+\usepackage[abs]{overpic}
+-------------------------------------------------------------------------
+error: main.tex: 159: Bad register code (1630536) ! Bad register code (1630536).
+\tablecomments{\Chandra, \Hubble, and ALMA archival datasets analyzed in this work. EVLA processed radio maps are available at the CHANG-ES project webpage: \url{https://projects.canfar.net/changes/ngc-5084/}. \emph{a) Top table}: \Chandra/ACIS observations available within 10~arcmins of NGC\,5084, retrieved from the \Chandra\ Data Archive, as of January 2024. \emph{b) Middle table}: \Hubble\ observations that include the core of NGC\,5084, retrieved from MAST, as of January 2024.  \emph{b) Bottom table}: ALMA observations of NGC\,5084 retrieved from ALMA Science Portal. Col.(1) Observation ID; Col.(2) instrument or configuration; Col.(3) total exposure time per observation; Col.(4) observing mode, filter or band; Col.(5) average count rate, wavelength or frequency range; Col.(6) exposure start date.}
+-------------------------------------------------------------------------
+error: main.tex: 159: Illegal unit of measure (pt inserted) ! Illegal unit of measure (pt inserted).
+\tablecomments{\Chandra, \Hubble, and ALMA archival datasets analyzed in this work. EVLA processed radio maps are available at the CHANG-ES project webpage: \url{https://projects.canfar.net/changes/ngc-5084/}. \emph{a) Top table}: \Chandra/ACIS observations available within 10~arcmins of NGC\,5084, retrieved from the \Chandra\ Data Archive, as of January 2024. \emph{b) Middle table}: \Hubble\ observations that include the core of NGC\,5084, retrieved from MAST, as of January 2024.  \emph{b) Bottom table}: ALMA observations of NGC\,5084 retrieved from ALMA Science Portal. Col.(1) Observation ID; Col.(2) instrument or configuration; Col.(3) total exposure time per observation; Col.(4) observing mode, filter or band; Col.(5) average count rate, wavelength or frequency range; Col.(6) exposure start date.}
+-------------------------------------------------------------------------
+error: main.tex: 159: Missing number, treated as zero ! Missing number, treated as zero.
+\tablecomments{\Chandra, \Hubble, and ALMA archival datasets analyzed in this work. EVLA processed radio maps are available at the CHANG-ES project webpage: \url{https://projects.canfar.net/changes/ngc-5084/}. \emph{a) Top table}: \Chandra/ACIS observations available within 10~arcmins of NGC\,5084, retrieved from the \Chandra\ Data Archive, as of January 2024. \emph{b) Middle table}: \Hubble\ observations that include the core of NGC\,5084, retrieved from MAST, as of January 2024.  \emph{b) Bottom table}: ALMA observations of NGC\,5084 retrieved from ALMA Science Portal. Col.(1) Observation ID; Col.(2) instrument or configuration; Col.(3) total exposure time per observation; Col.(4) observing mode, filter or band; Col.(5) average count rate, wavelength or frequency range; Col.(6) exposure start date.}
+-------------------------------------------------------------------------
+error: main.tex: 159: Undefined control sequence ! undefined control sequence. <argument> \pdf@box l.159 ...ency range; Col.(6) exposure start date.}
+\tablecomments{\Chandra, \Hubble, and ALMA archival datasets analyzed in this work. EVLA processed radio maps are available at the CHANG-ES project webpage: \url{https://projects.canfar.net/changes/ngc-5084/}. \emph{a) Top table}: \Chandra/ACIS observations available within 10~arcmins of NGC\,5084, retrieved from the \Chandra\ Data Archive, as of January 2024. \emph{b) Middle table}: \Hubble\ observations that include the core of NGC\,5084, retrieved from MAST, as of January 2024.  \emph{b) Bottom table}: ALMA observations of NGC\,5084 retrieved from ALMA Science Portal. Col.(1) Observation ID; Col.(2) instrument or configuration; Col.(3) total exposure time per observation; Col.(4) observing mode, filter or band; Col.(5) average count rate, wavelength or frequency range; Col.(6) exposure start date.}
+-------------------------------------------------------------------------
+error: main.tex: 159: Undefined control sequence ! undefined control sequence. \burl@condpdflink ...\fi \fi \dimen@ \ht \pdf@box \dimen@ii \dp \pdf@box \sb...
+\tablecomments{\Chandra, \Hubble, and ALMA archival datasets analyzed in this work. EVLA processed radio maps are available at the CHANG-ES project webpage: \url{https://projects.canfar.net/changes/ngc-5084/}. \emph{a) Top table}: \Chandra/ACIS observations available within 10~arcmins of NGC\,5084, retrieved from the \Chandra\ Data Archive, as of January 2024. \emph{b) Middle table}: \Hubble\ observations that include the core of NGC\,5084, retrieved from MAST, as of January 2024.  \emph{b) Bottom table}: ALMA observations of NGC\,5084 retrieved from ALMA Science Portal. Col.(1) Observation ID; Col.(2) instrument or configuration; Col.(3) total exposure time per observation; Col.(4) observing mode, filter or band; Col.(5) average count rate, wavelength or frequency range; Col.(6) exposure start date.}
+-------------------------------------------------------------------------
+error: main.tex: 159: Undefined control sequence ! undefined control sequence. \burl@condpdflink ...f@box \dimen@ii \dp \pdf@box \sbox \pdf@box {#1}\ifdim ...
+\tablecomments{\Chandra, \Hubble, and ALMA archival datasets analyzed in this work. EVLA processed radio maps are available at the CHANG-ES project webpage: \url{https://projects.canfar.net/changes/ngc-5084/}. \emph{a) Top table}: \Chandra/ACIS observations available within 10~arcmins of NGC\,5084, retrieved from the \Chandra\ Data Archive, as of January 2024. \emph{b) Middle table}: \Hubble\ observations that include the core of NGC\,5084, retrieved from MAST, as of January 2024.  \emph{b) Bottom table}: ALMA observations of NGC\,5084 retrieved from ALMA Science Portal. Col.(1) Observation ID; Col.(2) instrument or configuration; Col.(3) total exposure time per observation; Col.(4) observing mode, filter or band; Col.(5) average count rate, wavelength or frequency range; Col.(6) exposure start date.}
+-------------------------------------------------------------------------
+error: main.tex: 159: Undefined control sequence ! undefined control sequence. \burl@condpdflink ...hbox \else \box \fi \pdf@box \ifdim \dimen@ =\z@ \liter...
+\tablecomments{\Chandra, \Hubble, and ALMA archival datasets analyzed in this work. EVLA processed radio maps are available at the CHANG-ES project webpage: \url{https://projects.canfar.net/changes/ngc-5084/}. \emph{a) Top table}: \Chandra/ACIS observations available within 10~arcmins of NGC\,5084, retrieved from the \Chandra\ Data Archive, as of January 2024. \emph{b) Middle table}: \Hubble\ observations that include the core of NGC\,5084, retrieved from MAST, as of January 2024.  \emph{b) Bottom table}: ALMA observations of NGC\,5084 retrieved from ALMA Science Portal. Col.(1) Observation ID; Col.(2) instrument or configuration; Col.(3) total exposure time per observation; Col.(4) observing mode, filter or band; Col.(5) average count rate, wavelength or frequency range; Col.(6) exposure start date.}
+-------------------------------------------------------------------------
+error: main.tex: 159: Undefined control sequence ! undefined control sequence. \burl@condpdflink ...ut {BU.SE}}\fi \pdf@addtoksx {H.B} l.159 ...ency range; Col.(6) exposure start date.}
+\tablecomments{\Chandra, \Hubble, and ALMA archival datasets analyzed in this work. EVLA processed radio maps are available at the CHANG-ES project webpage: \url{https://projects.canfar.net/changes/ngc-5084/}. \emph{a) Top table}: \Chandra/ACIS observations available within 10~arcmins of NGC\,5084, retrieved from the \Chandra\ Data Archive, as of January 2024. \emph{b) Middle table}: \Hubble\ observations that include the core of NGC\,5084, retrieved from MAST, as of January 2024.  \emph{b) Bottom table}: ALMA observations of NGC\,5084 retrieved from ALMA Science Portal. Col.(1) Observation ID; Col.(2) instrument or configuration; Col.(3) total exposure time per observation; Col.(4) observing mode, filter or band; Col.(5) average count rate, wavelength or frequency range; Col.(6) exposure start date.}
+-------------------------------------------------------------------------
+error: main.tex: 166: Output loop---200 consecutive dead cycles ! Output loop---200 consecutive dead cycles.
+\facilities{Chandra} 
+-------------------------------------------------------------------------
+error: main.tex: 166: Undefined control sequence ! undefined control sequence. \__hook shipout/firstpage ...geHook \headerps@out {/burl@stx null def /BU.S ...
+\facilities{Chandra} 
+-------------------------------------------------------------------------
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              WARNINGS IN main.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+warning: main.tex: 110: Overfull \hbox (81.14413pt too wide) in paragraph at lines 109--110 Overfull \hbox (81.14413pt too wide) in paragraph at lines 109--110
+\caption{Regions assigned for spectral analysis. \emph{Left panel:} White contours in the left panel represent the [2, 3, 5, 7, 10]$\sigma$ detection limits in the 0.3--2.0 keV band from Chandra/ACIS. The slit-shaped regions (1.5 arcsec wide) represent the APO/DIS optical spectra, defined to align with the major axis of the galaxy and the major axis of the circumnuclear disk. The circular core region, shown in the zoomed image, has a 3~arcsec radius. The RGB background image was generated using the $gri$ observations from Pan-STARRS. \emph{Right:} Close-up view of the core regions, showing the apertures for optical 6dF spectra ($R=3.4$ arcsec), and the APO/DIS slit-spectra. The background image represents the flux intensity in the F475W band from HST/WFPC2.} 
+-------------------------------------------------------------------------
+warning: main.tex: 166: Overfull \vbox (351.61884pt too high) has occurred while \output is active Overfull \vbox (351.61884pt too high) has occurred while \output is active [5]
+\facilities{Chandra} 
+-------------------------------------------------------------------------
+warning: main.tex: 166: Overfull \vbox (351.61884pt too high) has occurred while \output is active Overfull \vbox (351.61884pt too high) has occurred while \output is active [5] No file main.bbl.
+\facilities{Chandra} 
+-------------------------------------------------------------------------
+warning: main.tex: 53: Overfull \hbox (15.35304pt too wide) in paragraph at lines 53--53 Overfull \hbox (15.35304pt too wide) in paragraph at lines 53--53
+\section{Background}
+-------------------------------------------------------------------------
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              CITATION ISSUES IN main.tex 
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+citeButtonmarcum+2004aj127_3213
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              ERRORS WITH the .BIB FILE
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+error: main.bbl: 36: Undefined control sequence ! undefined control sequence.  l.36 ...o}, P., {Duriscoe}, D., {et~al.} 2016, \an , 2, e1600377, ) [6]
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              LIST OF REFERENCES IN main.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+aguerri+1998aj116_2136
+bell+2006apj640_241
+bell+2006apj652_270
+bernardi+2006aj131_1288
+erwin+2017mnras468_2058
+falchi+2016an2_1600377
