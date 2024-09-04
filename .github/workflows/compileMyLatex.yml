@@ -60,10 +60,10 @@ jobs:
       - name: Compile latex file
         id: compilation
         run: |
-          pdflatex -interaction=nonstopmode ${{ github.event.inputs.file2compile }}.tex > out.txt
+          pdflatex --interaction=nonstopmode --file-line-error ${{ github.event.inputs.file2compile }}.tex > out.txt
           bibtex ${{ github.event.inputs.file2compile }}.aux > out.txt
-          pdflatex -interaction=nonstopmode ${{ github.event.inputs.file2compile }}.tex > out.txt
-          pdflatex -interaction=nonstopmode ${{ github.event.inputs.file2compile }}.tex > out.txt
+          pdflatex --interaction=nonstopmode --file-line-error ${{ github.event.inputs.file2compile }}.tex > out.txt
+          pdflatex --interaction=nonstopmode --file-line-error ${{ github.event.inputs.file2compile }}.tex > out.txt
           rm -f ${{ github.event.inputs.file2compile }}.aux ${{ github.event.inputs.file2compile }}.bbl ${{ github.event.inputs.file2compile }}.blg
           echo "============================================"
           echo ""
