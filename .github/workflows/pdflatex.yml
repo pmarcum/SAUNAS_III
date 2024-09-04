@@ -1,4 +1,4 @@
-name: Build LaTeX document and Release PDF
+name: pdflatex Build LaTeX document and Release PDF
 # Version: 07142024
 #
 # Is executed at gooTeX script's prompt. 
