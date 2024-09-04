@@ -106,16 +106,20 @@ something, something
 \subsection{underneath methods}
 First sentence in methods section.
 
- \begin{tabular}{|l|l|l|l|l|l|l|}
-    d& Mean & Std & Mean & Std & Mean & Std \\
-    \hline
-    D1 & 2.1\% & 2.1\% & 2.1\% & 2.1\% & 2.1\% & 2.1\% \\
-    \hline
-    D2 & 11.6\% & 11.6\% & 11.6\% & 11.6\% & 11.6\% & 11.6\% \\
-    \hline
-    D3 & 5.5\% & 5.5\% & 5.5\% & 5.5\% & 5.5\% & 5.5\% \\
-    \hline
-  \end{tabular}
+\begin{table*}[h!]
+	\centering
+	\begin{tabular}{| c | c | c | c | c | c | c |}
+	\hline
+	\multicolumn{7}{| c |}{Reinforced beams} \\
+	\hline
+	Support length	& Linear model 	& Non linear model 	& Loading plate 	& Support 	& \multicolumn{2}{| c |}{Reinforcement}	& Total \\
+	\hline
+	1			& 2			& 3			& 4			& 5		& 6	& 7						& 8 \\
+	\hline
+	\end{tabular}
+	\caption{Number of elements in each part of the reinforced beams.}
+	\label{table78}
+\end{table*}
   
 \bibliographystyle{CORE-AAS/aasjournal} 
 \bibliography{Extragalactic}
