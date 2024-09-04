@@ -11,6 +11,7 @@ name: Build LaTeX document and Release PDF
 # https://mrturkmen.com/posts/build-release-latex/
 # https://github.com/moderncv/debian-texlive-docker/pkgs/container/debian-texlive-docker
 # https://github.com/SakulFlee/GitHub-Action-LaTeX
+# https://tex.stackexchange.com/questions/166658/pdflatex-commandline-hide-compilation-output
 on:
   workflow_dispatch:
     inputs: 
