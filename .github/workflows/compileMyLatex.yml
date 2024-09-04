@@ -48,28 +48,21 @@ jobs:
           git push
         continue-on-error: true
                   
-      - name: Install TexLive
+      - name: Install latexmk
         id: install
-        uses: teatimeguest/setup-texlive-action@v3
+        uses: hspaans/latexmk-action@v2.0.0
         with:
-          packages: |
-            scheme-basic
-            collection-mathscience
-          cache: true
+          format: pdf
+          filename: ${{ github.event.inputs.file2compile }}.tex
+          options: -shell-escape
         continue-on-error: true
 
       - name: Compile latex file
         id: compilation
         run: |
-          latex  ${{ github.event.inputs.file2compile }}.tex > out.txt
-          #bibtex ${{ github.event.inputs.file2compile }}.aux > out.txt
-          #latex --interaction=nonstopmode --file-line-error ${{ github.event.inputs.file2compile }}.tex > out.txt
-          #latex --interaction=nonstopmode --file-line-error ${{ github.event.inputs.file2compile }}.tex > out.txt
-          #rm -f ${{ github.event.inputs.file2compile }}.aux ${{ github.event.inputs.file2compile }}.bbl ${{ github.event.inputs.file2compile }}.blg
-          ls
           echo "============================================"
           echo ""
-          cat out.txt
+          #cat out.txt
           echo ""
           echo "==========================================="
           echo ""
