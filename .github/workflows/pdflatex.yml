@@ -9,6 +9,7 @@ name: pdflatex Build LaTeX document and Release PDF
 # Controls when the action will run.
 # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
 # https://mrturkmen.com/posts/build-release-latex/
+# https://github.com/PHPirates/travis-ci-latex-pdf/blob/master/.github/workflows/texlive.yml
 
 on:
   workflow_dispatch:
@@ -17,13 +18,12 @@ on:
          description: "Name of .tex file to compile, without the .tex part"
          required: true
          default: "main"
+         
 jobs:
   # followed: https://dev.to/dessygil/
   #   how-to-automatically-update-resume-on-your-personal-site-from-overleaf-1fld
   build_latex:
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/moderncv/debian-texlive-docker:main
     continue-on-error: true
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
@@ -46,11 +46,32 @@ jobs:
           git commit -m "Removing previous status and pdf files"
           git push
         continue-on-error: true
+
+      - name: Cache installation
+        id: cache-texlive
+        uses: actions/cache@v4.0.2
+        with:
+          path: |
+            /tmp/texlive
+            $HOME/.texlive
+          key: ${{ runner.os }}-texlive-2021
+
+      # Only required for pythontex
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.9
+          architecture: x64
+
+      - name: Install
+        run: |
+          pip install numpy pygments
+          source ./4-texlive/texlive/texlive_install.sh
                              
       - name: Compile latex file
         id: compilation
         run: |
-          latexmk ${{ github.event.inputs.file2compile }}.tex &> compileout.txt
+          pdflatex ${{ github.event.inputs.file2compile }}.tex &> compileout.txt
         continue-on-error: true
 
       - name: Get timestamp
