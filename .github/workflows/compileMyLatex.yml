@@ -47,38 +47,30 @@ jobs:
           git push
         continue-on-error: true
                   
-      #- name: Tectonic Cache
-      #  uses: actions/cache@v3
-      #  # https://github.com/marketplace/actions/setup-tectonic
-      #  # https://tectonic-typesetting.github.io/en-US/
-      #  with:
-      #    path: ~/.cache/Tectonic
-      #    # can add ${{ hashFiles('**/*.tex') }} to invalidate cache on file changes
-      #    key: ${{ runner.os }}-tectonic
-      #    restore-keys: |
-      #      ${{ runner.os }}-tectonic
-            
-      #- name: Tectonic Setup
-      #  uses: wtfjoke/setup-tectonic@v3
-      #  with:
-      #    github-token: ${{ secrets.GITHUB_TOKEN }}
-      #- name: Run Tectonic
-      #  id: compilation
-      #  run: |
-      #    tectonic -p -Z continue-on-errors ${{ github.event.inputs.file2compile }}.tex &> compileout.txt
-      #  continue-on-error: true
-
-      - name: Compile latex to PDF
-        id: compilation
-        uses: Sakul6499/GitHub-Action-LaTeX@v1.0.1
-        with: 
-          latex_main_file: ${{ github.event.inputs.file2compile }}.tex
-          latex_compiler: latexmk
-          latex_compiler_arguments: "-pdf -file-line-error -interaction=nonstopmode"
-          system_packages: "gcc"
-          pre_task: 'echo "''Hellow World!'' from BEFORE compilation."'
-          post_task: 'echo "''Hello World!'' from AFTER compilation."'
+      - name: Install TexLive
+        id: install
+        uses: teatimeguest/setup-texlive-action@v3
+        with:
+          packages: |
+            scheme-full
+          cache: true
         continue-on-error: true
+
+      - name: Compile latex file
+        id: compilation
+        run: |
+          pdflatex -interaction=nonstopmode ${{ github.event.inputs.file2compile }}.tex > out.txt
+          bibtex ${{ github.event.inputs.file2compile }}.aux > out.txt
+          pdflatex -interaction=nonstopmode ${{ github.event.inputs.file2compile }}.tex > out.txt
+          pdflatex -interaction=nonstopmode ${{ github.event.inputs.file2compile }}.tex > out.txt
+          rm -f ${{ github.event.inputs.file2compile }}.aux ${{ github.event.inputs.file2compile }}.bbl ${{ github.event.inputs.file2compile }}.blg
+          echo "============================================"
+          echo ""
+          cat out.txt
+          echo ""
+          echo "==========================================="
+          echo ""
+          cat ${{ github.event.inputs.file2compile }}.log
 
       - name: Get timestamp
         id: date
