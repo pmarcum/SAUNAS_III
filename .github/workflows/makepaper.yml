@@ -1,0 +1,93 @@
+name: papermaker Build LaTeX document and Release PDF
+# Version: 07142024
+#
+# Is executed at gooTeX script's prompt. 
+# ############################
+#      Pamela M. Marcum      #
+#  first created: 07/14/2024 #
+# ############################
+# Controls when the action will run.
+# https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
+# https://mrturkmen.com/posts/build-release-latex/
+# https://github.com/PHPirates/travis-ci-latex-pdf/blob/master/.github/workflows/texlive.yml
+
+on:
+  workflow_dispatch:
+    inputs: 
+      file2compile:
+         description: "Name of .tex file to compile, without the .tex part"
+         required: true
+         default: "main"
+         
+jobs:
+  # followed: https://dev.to/dessygil/
+  #   how-to-automatically-update-resume-on-your-personal-site-from-overleaf-1fld
+  build_latex:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+    env:
+      MANUSCRIPT_PATH: ${{ github.event.inputs.file2compile }}
+      LATEX: pdflatex -shell-escape
+      BIBTEX: bibtex
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+
+      - name: Remove old status note and pdf file
+        id: removeOldStatusAndPdf
+        run: |
+          rm -f "${{ github.event.inputs.file2compile }}_out.txt"
+          rm -f "${{ github.event.inputs.file2compile }}.pdf"
+
+      - name: Commit the modified folder and put the change
+        run: |
+          git config --global user.email "email@gmail.com"
+          git config --global user.name "github actions"
+          git add .
+          git commit -m "Removing previous status and pdf files"
+          git push
+        continue-on-error: true
+
+      - name: Install texlive
+        run: |
+          sudo apt-get install texlive-publishers \
+                               texlive-latex-recommended \
+                               texlive-latex-extra \
+                               texlive-fonts-recommended \
+                               texlive-fonts-extra
+      - name: Compile paper
+        id: compilation
+        run: |
+          cd ${MANUSCRIPT_PATH%/*}
+          ${LATEX} ${MANUSCRIPT_PATH##*/}.tex
+          ${BIBTEX} ${MANUSCRIPT_PATH##*/}.aux
+          ${LATEX} ${MANUSCRIPT_PATH##*/}.tex
+          ${LATEX} ${MANUSCRIPT_PATH##*/}.tex
+        continue-on-error: true
+
+      - name: Get timestamp
+        id: date
+        run: |
+          echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
+        continue-on-error: true
+
+      - name: Upload PDF file
+        id: uploadPdf
+        uses: actions/upload-artifact@v4
+        if: ${{ always() && hashFiles(env.PDFFILE) }}
+        with: 
+          name: PDF
+          path: "${{ github.event.inputs.file2compile }}.pdf"
+        continue-on-error: true
+         
+      - name: Publish PDF to repo
+        id: releasePdf
+        uses: stefanzweifel/git-auto-commit-action@v5
+        if: ${{ always() && hashFiles(env.PDFFILE) }}
+        with:
+          file_pattern: '${{ github.event.inputs.file2compile }}.pdf'
+          commit_message: 'Newly compiled PDF'
+        continue-on-error: true
