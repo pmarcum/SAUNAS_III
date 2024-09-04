@@ -9,8 +9,7 @@ name: Build LaTeX document and Release PDF
 # Controls when the action will run.
 # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
 # https://mrturkmen.com/posts/build-release-latex/
-# https://github.com/moderncv/debian-texlive-docker/pkgs/container/debian-texlive-docker
-# https://github.com/SakulFlee/GitHub-Action-LaTeX
+
 on:
   workflow_dispatch:
     inputs: 
@@ -27,7 +26,6 @@ jobs:
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
-      
     steps:
       - name: Clone repo
         uses: actions/checkout@v4
@@ -47,37 +45,25 @@ jobs:
           git push
         continue-on-error: true
                   
-      #- name: Tectonic Cache
-      #  uses: actions/cache@v3
-      #  # https://github.com/marketplace/actions/setup-tectonic
-      #  # https://tectonic-typesetting.github.io/en-US/
-      #  with:
-      #    path: ~/.cache/Tectonic
-      #    # can add ${{ hashFiles('**/*.tex') }} to invalidate cache on file changes
-      #    key: ${{ runner.os }}-tectonic
-      #    restore-keys: |
-      #      ${{ runner.os }}-tectonic
+      - name: Tectonic Cache
+        uses: actions/cache@v3
+        # https://github.com/marketplace/actions/setup-tectonic
+        # https://tectonic-typesetting.github.io/en-US/
+        with:
+          path: ~/.cache/Tectonic
+          # can add ${{ hashFiles('**/*.tex') }} to invalidate cache on file changes
+          key: ${{ runner.os }}-tectonic
+          restore-keys: |
+            ${{ runner.os }}-tectonic
             
-      #- name: Tectonic Setup
-      #  uses: wtfjoke/setup-tectonic@v3
-      #  with:
-      #    github-token: ${{ secrets.GITHUB_TOKEN }}
-      #- name: Run Tectonic
-      #  id: compilation
-      #  run: |
-      #    tectonic -p -Z continue-on-errors ${{ github.event.inputs.file2compile }}.tex &> compileout.txt
-      #  continue-on-error: true
-
-      - name: Compile latex to PDF
+      - name: Tectonic Setup
+        uses: wtfjoke/setup-tectonic@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run Tectonic
         id: compilation
-        uses: Sakul6499/GitHub-Action-LaTeX@v1.0.1
-        with: 
-          latex_main_file: ${{ github.event.inputs.file2compile }}.tex
-          latex_compiler: latexmk
-          latex_compiler_arguments: "-pdf -file-line-error -interaction=nonstopmode"
-          system_packages: "gcc"
-          pre_task: 'echo "''Hellow World!'' from BEFORE compilation."'
-          post_task: 'echo "''Hello World!'' from AFTER compilation."'
+        run: |
+          tectonic -p -Z continue-on-errors ${{ github.event.inputs.file2compile }}.tex &> compileout.txt
         continue-on-error: true
 
       - name: Get timestamp
@@ -99,7 +85,6 @@ jobs:
           echo "-----------------------------------------------------"
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
           echo "-----------------------------------------------------"
-          mv ${{ github.event.inputs.file2compile }}.log compileout.txt
           cat compileout.txt
           echo "-----------------------------------------------------"
           echo "-----------------------------------------------------"
