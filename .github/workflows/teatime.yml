@@ -1,0 +1,104 @@
+name: teatime Build LaTeX document and Release PDF
+# Version: 07142024
+#
+# Is executed at gooTeX script's prompt. 
+# ############################
+#      Pamela M. Marcum      #
+#  first created: 07/14/2024 #
+# ############################
+# Controls when the action will run.
+# https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
+# https://mrturkmen.com/posts/build-release-latex/
+# https://github.com/PHPirates/travis-ci-latex-pdf/blob/master/.github/workflows/texlive.yml
+# https://github.com/teatimeguest/setup-texlive-action  includes caching
+
+on:
+  workflow_dispatch:
+    inputs: 
+      file2compile:
+         description: "Name of .tex file to compile, without the .tex part"
+         required: true
+         default: "main"
+         
+jobs:
+  # followed: https://dev.to/dessygil/
+  #   how-to-automatically-update-resume-on-your-personal-site-from-overleaf-1fld
+  # https://superuser.com/questions/1455483/how-to-get-wsl-use-git-bash-to-run-a-latexmk-command
+  # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
+  build_latex:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+    env:
+      LATEX: latexmk -bibtex -pvc -view=none -pdf -pdflatex='-file-line-error -synctex=1 -interaction=nonstopmode -shell-escape' -time  
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+
+      - name: Remove old status note and pdf file
+        id: removeOldStatusAndPdf
+        run: |
+          rm -f "${{ github.event.inputs.file2compile }}_out.txt"
+          rm -f "${{ github.event.inputs.file2compile }}.pdf"
+
+      - name: Commit the modified folder and put the change
+        run: |
+          git config --global user.email "email@gmail.com"
+          git config --global user.name "github actions"
+          git add .
+          git commit -m "Removing previous status and pdf files"
+          git push
+        continue-on-error: true
+        
+      # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
+      # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
+      # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
+      - name: Install texlive
+        uses: teatimeguest/setup-texlive-action@v3
+        with:
+          packages:
+            scheme-bookpub
+            collection-basic
+            collection-fontsrecommended
+            collection-fontutils
+            collection-latexextra
+            collection-publishers
+            collection-mathscience
+            collection-bibtexextra
+            collection-plaingeneric
+            collection-metapost
+            collection-xetex
+            collection-binextra
+          cache: true
+            
+      - name: Compile paper
+        id: compilation
+        run: |
+          ${LATEX} ${{ github.event.inputs.file2compile }}.tex
+        continue-on-error: true
+
+      - name: Get timestamp
+        id: date
+        run: |
+          echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
+        continue-on-error: true
+
+      - name: Upload PDF file
+        id: uploadPdf
+        uses: actions/upload-artifact@v4
+        if: ${{ always() && hashFiles(env.PDFFILE) }}
+        with: 
+          name: PDF
+          path: "${{ github.event.inputs.file2compile }}.pdf"
+        continue-on-error: true
+         
+      - name: Publish PDF to repo
+        id: releasePdf
+        uses: stefanzweifel/git-auto-commit-action@v5
+        if: ${{ always() && hashFiles(env.PDFFILE) }}
+        with:
+          file_pattern: '${{ github.event.inputs.file2compile }}.pdf'
+          commit_message: 'Newly compiled PDF'
+        continue-on-error: true
