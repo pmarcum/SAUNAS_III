@@ -59,7 +59,7 @@ jobs:
         uses: teatimeguest/setup-texlive-action@v3
         with:
           packages:
-            collection-publishers
+            scheme-medium
             collection-mathscience
             collection-bibtexextra
           cache: true
