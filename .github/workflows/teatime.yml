@@ -32,7 +32,7 @@ jobs:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
     env:
-      LATEX: latexmk -bibtex -pvc -view=none -pdf -pdflatex='-file-line-error -synctex=1 -interaction=nonstopmode -shell-escape' -time  
+      LATEX: latexmk -bibtex -pvc -view=none -pdf -pdflatex='--file-line-error --synctex=1 --interaction=nonstopmode --shell-escape' -time  
     steps:
       - name: Clone repo
         uses: actions/checkout@v4
