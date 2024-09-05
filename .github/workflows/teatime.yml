@@ -59,18 +59,9 @@ jobs:
         uses: teatimeguest/setup-texlive-action@v3
         with:
           packages:
-            scheme-bookpub
-            collection-basic
-            collection-fontsrecommended
-            collection-fontutils
-            collection-latexextra
             collection-publishers
             collection-mathscience
             collection-bibtexextra
-            collection-plaingeneric
-            collection-metapost
-            collection-xetex
-            collection-binextra
           cache: true
             
       - name: Compile paper
