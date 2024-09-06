@@ -69,7 +69,8 @@ jobs:
       - name: Compile paper
         id: compilation
         run: |
-          latexmk -bibtex -f -g -pdf -time -file-line-error -view=none  -interaction=nonstopmode ${{ github.event.inputs.file2compile }} > compileout.txt
+          latexmk -bibtex -f -g -pdf -time -file-line-error -view=none  -interaction=nonstopmode ${{ github.event.inputs.file2compile }}
+          mv ${{ github.event.inputs.file2compile }}.log compileout.txt
           continue-on-error: true
 
       - name: Get timestamp
