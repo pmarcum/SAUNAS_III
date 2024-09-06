@@ -62,6 +62,7 @@ jobs:
             scheme-basic
             collection-mathscience
             collection-bibtexextra
+            collection-fontutils
           cache: true
             
       - name: Compile paper
@@ -72,6 +73,7 @@ jobs:
           bibtex ${{ github.event.inputs.file2compile }}
           pdflatex ${{ github.event.inputs.file2compile }}
           pdflatex ${{ github.event.inputs.file2compile }}
+          ls ${{ github.event.inputs.file2compile }}.*
         continue-on-error: true
 
       - name: Get timestamp
