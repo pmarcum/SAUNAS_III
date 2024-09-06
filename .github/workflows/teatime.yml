@@ -59,14 +59,19 @@ jobs:
         uses: teatimeguest/setup-texlive-action@v3
         with:
           packages:
-            scheme-basic
+            scheme-publishers
+            collection-mathscience
+            collection-bibtexextra
           cache: true
             
       - name: Compile paper
         id: compilation
         run: |
           latexmk --help
-          ${LATEX} ${{ github.event.inputs.file2compile }}.tex
+          pdflatex ${{ github.event.inputs.file2compile }}
+          bibtex ${{ github.event.inputs.file2compile }}
+          pdflatex ${{ github.event.inputs.file2compile }}
+          pdflatex ${{ github.event.inputs.file2compile }}
         continue-on-error: true
 
       - name: Get timestamp
