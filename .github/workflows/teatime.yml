@@ -69,7 +69,7 @@ jobs:
         id: compilation
         run: |
           latexmk -showextraoptions
-          latexmk -bibtex-cond -f -pdf -time -view=none ${{ github.event.inputs.file2compile }}
+          latexmk -bibtex -f -pdf -time -file-line-error -view=none ${{ github.event.inputs.file2compile }}
           ls ${{ github.event.inputs.file2compile }}.*
         continue-on-error: true
 
