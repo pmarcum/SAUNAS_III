@@ -69,6 +69,12 @@ jobs:
         id: compilation
         run: |
           latexmk -bibtex -f -g -pdf -time -file-line-error -view=none  -interaction=nonstopmode ${{ github.event.inputs.file2compile }}
+          echo ""
+          echo ""
+          echo "===================================================="
+          echo "     looking for all the files involving ${{ github.event.inputs.file2compile }} "
+          echo "===================================================="
+          echo ""
           ls ${{ github.event.inputs.file2compile }}.*
         continue-on-error: true
 
