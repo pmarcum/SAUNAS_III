@@ -32,7 +32,7 @@ jobs:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
     env:
-      LATEX: latexmk -bibtex -pvc -view=none -pdf -pdflatex='--file-line-error --synctex=1 --interaction=nonstopmode' -time  
+      LATEX: latexmk -f -bibtex -view=none -pdf -pdflatex="--file-line-error --synctex 1 --interaction nonstopmode" -time  
     steps:
       - name: Clone repo
         uses: actions/checkout@v4
@@ -60,8 +60,6 @@ jobs:
         with:
           packages:
             scheme-basic
-            collection-mathscience
-            collection-bibtexextra
           cache: true
             
       - name: Compile paper
