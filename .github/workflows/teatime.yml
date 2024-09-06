@@ -87,7 +87,7 @@ jobs:
       - name: Upload PDF file
         id: uploadPdf
         uses: actions/upload-artifact@v4
-        if: ${{ always() && hashFiles(env.PDFFILE) }}
+        #if: ${{ always() && hashFiles(env.PDFFILE) }}
         with: 
           name: PDF
           path: "${{ github.event.inputs.file2compile }}.pdf"
@@ -96,7 +96,7 @@ jobs:
       - name: Publish PDF to repo
         id: releasePdf
         uses: stefanzweifel/git-auto-commit-action@v5
-        if: ${{ always() && hashFiles(env.PDFFILE) }}
+        #if: ${{ always() && hashFiles(env.PDFFILE) }}
         with:
           file_pattern: '${{ github.event.inputs.file2compile }}.pdf'
           commit_message: 'Newly compiled PDF'
