@@ -65,6 +65,7 @@ jobs:
       - name: Compile paper
         id: compilation
         run: |
+          latexmk --help
           ${LATEX} ${{ github.event.inputs.file2compile }}.tex
         continue-on-error: true
 
