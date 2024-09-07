@@ -95,26 +95,17 @@ jobs:
           cat compileout.txt
           echo "-----------------------------------------------------"
           echo "-----------------------------------------------------"
-          #sed ':a;N;$!ba;s/\n/\x0/g' compileout.txt | \
-          #  sed -r 's/\x0+/\x0/g' | \
-          #  sed -r 's/  */ /g' | \
-          #  sed -r 's/ *\x0 */\x0 /g' | \
-          #  sed -r 's/\ *\: */\: /g' | \
-          #  sed -r 's/\[\]//g' | \
-          #  sed -r 's/\$\$*//g' | \
-          #  sed -r 's/\|//g' | \
-          #  sed -r 's/\x0\x0*/\x0/g' | \
-          #  sed -r 's/\x0+([a-zA-Z ]+)\:/\n\1\:/g' | \
-          #  sed -r 's/undefined control sequence\.\x0/undefined control sequence\. /gi' | \
-          #  sed -r 's/\.\x0/\.\n/g' | \
-          #  sed -r 's/\x0+//g' | \
-          #  sed -r 's/(lines [0-9\-]+) *\(/\1\n\(/g' | \
-          #  sed -r 's/(\[[0-9]+\]) *\(/\1\n\(/g' | \
-          #  sed -r 's/^ *//;s/ *$//' > allout.txt
           ## put in a timestamp at the top
           echo "${{ env.TIMESTAMP }}" > tout.txt
           echo "OUTFILE=${{ github.event.inputs.file2compile }}_out.txt" >> $GITHUB_ENV
           echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
+          # Find the last iteration of pdflatex compilation, remove all lines in the file above this line
+          sed '1,/Run number [0-9]+ of rule \'pdflatex\'/d' compileout.txt
+          echo ''
+          echo ''
+          echo ''
+          echo ' - - - - - - - - - - - - - - - - - - - - - - - - -'
+          head compileout.txt
           # display all the errors
           #echo "" >> tout.txt
           #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
