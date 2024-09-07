@@ -69,7 +69,7 @@ jobs:
       - name: Compile paper
         id: compilation
         run: |
-          latexmk -bibtex -f -g -pdf -time -file-line-error -view=none  -interaction=nonstopmode ${{ github.event.inputs.file2compile }}
+          latexmk -bibtex -f -g -pdf -time -file-line-error -view=none  -interaction=nonstopmode ${{ github.event.inputs.file2compile }} > tmptmp
           mv ${{ github.event.inputs.file2compile }}.log compileout.txt
           continue-on-error: true
 
@@ -101,9 +101,9 @@ jobs:
           echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
           # Find the last iteration of pdflatex compilation, remove all lines in the file above this line
           sed '1,/Run number [0-9]+ of rule \'pdflatex\'/d' compileout.txt
-          echo ''
-          echo ''
-          echo ''
+          echo ' '
+          echo ' '
+          echo ' '
           echo ' - - - - - - - - - - - - - - - - - - - - - - - - -'
           head compileout.txt
           # display all the errors
