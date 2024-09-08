@@ -69,7 +69,7 @@ jobs:
       - name: Compile paper
         id: compilation
         run: |
-          latexmk -bibtex -f -g -pdf -time -file-line-error -view=none  -interaction=nonstopmode ${{ github.event.inputs.file2compile }} > tmptmp
+          latexmk -bibtex -f -g -pdf -time -file-line-error -view=none  -interaction=batchmode ${{ github.event.inputs.file2compile }} > tmptmp
           echo " "
           echo " "
           tail tmptmp
