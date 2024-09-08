@@ -70,7 +70,8 @@ jobs:
         id: compilation
         run: |
           latexmk -bibtex -verbose -g -pdf -time -file-line-error -synctex=1 -interaction=nonstopmode ${{ github.event.inputs.file2compile }}.tex
-          mv ${{ github.event.inputs.file2compile }}.log compileout.txt
+          tail ${{ github.event.inputs.file2compile }}.log
+          #mv ${{ github.event.inputs.file2compile }}.log compileout.txt
         continue-on-error: true
 
       - name: Get timestamp
@@ -91,7 +92,7 @@ jobs:
           echo "-----------------------------------------------------"
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
           echo "-----------------------------------------------------"
-          cat compileout.txt
+          #cat compileout.txt
           # put in a timestamp at the top of file to become final version of log output
           echo "${{ env.TIMESTAMP }}" > tout.txt
           # Find the last iteration of pdflatex compilation, remove all lines in the file above this line
