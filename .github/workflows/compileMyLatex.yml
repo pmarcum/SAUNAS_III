@@ -69,9 +69,6 @@ jobs:
       - name: Compile paper
         id: compilation
         run: |
-          echo " "
-          echo " "
-          echo " right before latex compilation "
           latexmk -bibtex -verbose -g -pdf -time -file-line-error -synctex=1 -interaction=nonstopmode ${{ github.event.inputs.file2compile }}.tex
           mv ${{ github.event.inputs.file2compile }}.log compileout.txt
         continue-on-error: true
@@ -90,6 +87,7 @@ jobs:
         # First, move lines that should have been the ending of the previous line, to the end of that previous line
         run: |
           # Determine if the pdf file was created in the above compilation. 
+          cat compileout.txt
           echo "-----------------------------------------------------"
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
           echo "-----------------------------------------------------"
@@ -97,7 +95,7 @@ jobs:
           # put in a timestamp at the top of file to become final version of log output
           echo "${{ env.TIMESTAMP }}" > tout.txt
           # Find the last iteration of pdflatex compilation, remove all lines in the file above this line
-          grep -n "Run number" compileout.txt | { grep -v grep || true; }
+          sed '/Run number/h;g;$!d' compileout.txt
           echo "  " 
           echo " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
           # display all the errors
