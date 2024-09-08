@@ -87,7 +87,7 @@ jobs:
         # First, move lines that should have been the ending of the previous line, to the end of that previous line
         run: |
           # Determine if the pdf file was created in the above compilation. 
-          cat compileout.txt
+          #cat compileout.txt
           echo "-----------------------------------------------------"
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
           echo "-----------------------------------------------------"
