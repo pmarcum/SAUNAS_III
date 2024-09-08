@@ -32,7 +32,7 @@ jobs:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
     env:
-      LATEX: latexmk -f -bibtex -view=none -pdf -pdflatex="--file-line-error --synctex 1 --interaction nonstopmode" -time  
+      LATEX: latexmk -bibtex -view=none -pdf -pdflatex="--file-line-error --synctex 1 --interaction nonstopmode" -time  
       
     steps:
       - name: Clone repo
@@ -72,15 +72,8 @@ jobs:
           echo " "
           echo " "
           echo " right before latex compilation "
-          latexmk -bibtex -f -g -pdf -time -file-line-error -view=none  -interaction=batchmode ${{ github.event.inputs.file2compile }} > tmptmp
-          echo " "
-          echo " now looking at the screen output from latexmk "
-          tail tmptmp
-          echo " "
-          echo " " 
-          echo "..............................................................."
-          echo "..............................................................."
-          mv ${{ github.event.inputs.file2compile }}.log compileout.txt
+          latexmk -bibtex -g -pdf -time -file-line-error -view=none  -interaction=nonstopmode ${{ github.event.inputs.file2compile }}
+          mv ${{ github.event.inputs.file2compile }}_out.txt
           continue-on-error: true
 
       - name: Get timestamp
@@ -88,34 +81,32 @@ jobs:
         run: |
           echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
         continue-on-error: true
-
-      - name: Capture compilation output
-        id: compileWarnings
+        #- name: Capture compilation output
+        #id: compileWarnings
         # remove lines in the output that are unrelated to the latex compilation itself
         # First, move lines that should have been the ending of the previous line, to the end of that previous line
-        run: |
+        #run: |
           # determine if the pdf file was created in the above compilation 
           # The below smooshes the entire output file together as a single line by replacing the end-of-line with
           # a special character (\x0), removes extra white space, removes white space preceding and proceeding colons, 
           # and performs replacements using the special character to insure that each error or warning appears on a single 
           # line and does not spill over into a separate line.
-          echo "-----------------------------------------------------"
-          echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
-          echo "-----------------------------------------------------"
-          cat compileout.txt
-          echo "-----------------------------------------------------"
-          echo "-----------------------------------------------------"
+          #echo "-----------------------------------------------------"
+          #echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
+          #echo "-----------------------------------------------------"
+          #cat compileout.txt
+          #echo "-----------------------------------------------------"
+          #echo "-----------------------------------------------------"
           ## put in a timestamp at the top
-          echo "${{ env.TIMESTAMP }}" > tout.txt
-          echo "OUTFILE=${{ github.event.inputs.file2compile }}_out.txt" >> $GITHUB_ENV
-          echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
+          #echo "${{ env.TIMESTAMP }}" > tout.txt
+          #echo "OUTFILE=${{ github.event.inputs.file2compile }}_out.txt" >> $GITHUB_ENV
+          #echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
           # Find the last iteration of pdflatex compilation, remove all lines in the file above this line
-          sed '1,/Run number [0-9]+ of rule \'pdflatex\'/d' compileout.txt
-          echo ' '
-          echo ' '
-          echo ' '
-          echo ' - - - - - - - - - - - - - - - - - - - - - - - - -'
-          head compileout.txt
+          #sed '1,/Run number [0-9]+ of rule \'pdflatex\'/d' compileout.txt
+          #echo ' '
+          #echo ' '
+          #echo ' '
+          #echo ' - - - - - - - - - - - - - - - - - - - - - - - - -'
           # display all the errors
           #echo "" >> tout.txt
           #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -131,9 +122,9 @@ jobs:
           ## squash.io/extracting=numbers-from-strings-in-bash
           ## https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
           ## https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
-          while IFS= read -r line; do
-            echo $line >> tout.txt
-          done < compileout.txt
+          #while IFS= read -r line; do
+          #  echo $line >> tout.txt
+          #done < compileout.txt
           #  linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
           #  head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
           #  echo "-------------------------------------------------------------------------" >> tout.txt
@@ -211,13 +202,7 @@ jobs:
           #  echo "      none" >> tout.txt
           #fi  
           #rm -f tmptmp*.txt
-          echo ""
-          echo ""
-          echo "=========================================="
-          cat tout.txt
-          echo "========================================="
-          echo ""
-          mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
+          #mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
 
       - name: Convert errors to PDF file
@@ -242,7 +227,7 @@ jobs:
       - name: Upload PDF file
         id: uploadPdf
         uses: actions/upload-artifact@v4
-        if: ${{ always() && hashFiles(env.PDFFILE) }}
+        #if: ${{ always() && hashFiles(env.PDFFILE) }}
         with: 
           name: PDF
           path: "${{ github.event.inputs.file2compile }}.pdf"
@@ -251,7 +236,7 @@ jobs:
       - name: Publish PDF to repo
         id: releasePdf
         uses: stefanzweifel/git-auto-commit-action@v5
-        if: ${{ always() && hashFiles(env.PDFFILE) }}
+        #if: ${{ always() && hashFiles(env.PDFFILE) }}
         with:
           file_pattern: '${{ github.event.inputs.file2compile }}.pdf'
           commit_message: 'Newly compiled PDF'
@@ -259,7 +244,7 @@ jobs:
 
       - name: Upload compilation output file
         uses: actions/upload-artifact@v4
-        if: ${{ always() && hashFiles(env.OUTFILE) }}
+        #if: ${{ always() && hashFiles(env.OUTFILE) }}
         with: 
           name: compileOutput
           path: "${{ github.event.inputs.file2compile }}_out.txt"
@@ -268,7 +253,7 @@ jobs:
       - name: Publish compilation output to repo
         id: releaseOutfile
         uses: stefanzweifel/git-auto-commit-action@v5
-        if: ${{ always() && hashFiles(env.OUTFILE) }}
+        #if: ${{ always() && hashFiles(env.OUTFILE) }}
         with:
           file_pattern: '${{ github.event.inputs.file2compile }}_out.txt'
           commit_message: 'Newly created compilation output file'
