@@ -72,7 +72,7 @@ jobs:
           echo " "
           echo " "
           echo " right before latex compilation "
-          latexmk -bibtex -g -pdf -time -file-line-error -view=none  -interaction=nonstopmode ${{ github.event.inputs.file2compile }}.tex
+          latexmk -bibtex -verbose -g -pdf -time -file-line-error -synctex=1 -interaction=nonstopmode ${{ github.event.inputs.file2compile }}.tex
           mv ${{ github.event.inputs.file2compile }}.log ${{ github.event.inputs.file2compile }}_out.txt
           continue-on-error: true
 
