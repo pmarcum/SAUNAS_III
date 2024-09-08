@@ -69,9 +69,12 @@ jobs:
       - name: Compile paper
         id: compilation
         run: |
+          echo " "
+          echo " "
+          echo " right before latex compilation "
           latexmk -bibtex -f -g -pdf -time -file-line-error -view=none  -interaction=batchmode ${{ github.event.inputs.file2compile }} > tmptmp
           echo " "
-          echo " "
+          echo " now looking at the screen output from latexmk "
           tail tmptmp
           echo " "
           echo " " 
