@@ -72,8 +72,8 @@ jobs:
           echo " "
           echo " "
           echo " right before latex compilation "
-          latexmk -bibtex -g -pdf -time -file-line-error -view=none  -interaction=nonstopmode ${{ github.event.inputs.file2compile }}
-          mv ${{ github.event.inputs.file2compile }}_out.txt
+          latexmk -bibtex -g -pdf -time -file-line-error -view=none  -interaction=nonstopmode ${{ github.event.inputs.file2compile }}.tex
+          mv ${{ github.event.inputs.file2compile }}.log ${{ github.event.inputs.file2compile }}_out.txt
           continue-on-error: true
 
       - name: Get timestamp
