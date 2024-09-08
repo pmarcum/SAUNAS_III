@@ -95,7 +95,7 @@ jobs:
           # put in a timestamp at the top of file to become final version of log output
           echo "${{ env.TIMESTAMP }}" > tout.txt
           # Find the last iteration of pdflatex compilation, remove all lines in the file above this line
-          sed '/Run number/h;g;$!d' compileout.txt
+          grep 'Run number' compileout.txt
           echo "  " 
           echo " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
           # display all the errors
