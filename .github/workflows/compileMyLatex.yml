@@ -100,7 +100,7 @@ jobs:
           # put in a timestamp at the top of file to become final version of log output
           echo "${{ env.TIMESTAMP }}" > tout.txt
           # Find the last iteration of pdflatex compilation, remove all lines in the file above this line
-          tac compileout.txt | awk '/Run numberQ' | tac
+          grep 'Run number' compileout.txt | tail -1
           echo ''
           echo ''
           echo ''
