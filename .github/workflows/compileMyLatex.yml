@@ -91,10 +91,10 @@ jobs:
           # put in a timestamp at the top of file to become final version of log output
           echo "${{ env.TIMESTAMP }}" > tout.txt
           # clean up the log file by removing lines not directly related to a legit warning or error
-          sed -i -e "/^Package/d" \
-                 -e "/(\/home\/runner\/work/d" \
-                 -e "/^LaTeX Info/d" \
-                 -e "/^\\\[a-zA-Z0-9@]+=\\\[a-zA-Z0-9]+/d" \
+          #sed -i -e "/^Package/d" \
+          #       -e "/(\/home\/runner\/work/d" \
+          #       -e "/^LaTeX Info/d" \
+          sed -i -e "/^\\\[^=]+=\\\[a-zA-Z0-9]+/d" \
                  -e "/ revtex/d" \
                  -e "/^Applying/d" ${{ github.event.inputs.file2compile }}.log
           #sed -r 's/ *\n *This is pdfTeX[^\n]+//g' | \
