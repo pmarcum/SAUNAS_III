@@ -33,6 +33,9 @@ jobs:
       contents: write
       
     steps:
+      - name: Delete huge unnecessary tools folder
+        run: rm -rf /opt/hostedtoolcache
+        
       - name: Clone repo
         uses: actions/checkout@v4
 
