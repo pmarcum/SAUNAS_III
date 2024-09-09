@@ -93,7 +93,8 @@ jobs:
           # clean up the log file by removing lines not directly related to a legit warning or error
           sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log | \
             sed -r 's/\(\/home\/runner/<<homerunner/g' | \
-            sed -r 's/\x0 *\) *\x0/>>\x0/g' | \
+            sed -r 's/\x0 *\) *\x0/>>\x0/g' > log.txt || touch log.txt
+          touch tmp.txt && sed 's/<<[^>]+>>\x0//g' log.txt >> tmp.txt && mv tmp.txt log.txt 
             #sed -r 's/\x0([^()]+)\x0([^)]+\)[^()]+)\x0/\1\2/g' | \
             #sed -r 's/\x0([^()]+\([^)]+)\x0/\x0\1/g' | \
             #sed -r 's/\x0([^()]+\)) *\x0/\1\x0/g' | \
