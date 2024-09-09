@@ -84,17 +84,15 @@ jobs:
         # remove lines in the output that are unrelated to the latex compilation itself
         # First, move lines that should have been the ending of the previous line, to the end of that previous line
         run: |
-          ls ${{ github.event.inputs.file2compile }}.*
-          tail ${{ github.event.inputs.file2compile }}.log
           # Determine if the pdf file was created in the above compilation. 
           echo "-----------------------------------------------------"
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
           echo "-----------------------------------------------------"
-          #cat compileout.txt
+          #cat ${{ github.event.inputs.file2compile }}.log
           # put in a timestamp at the top of file to become final version of log output
           echo "${{ env.TIMESTAMP }}" > tout.txt
           # Find the last iteration of pdflatex compilation, remove all lines in the file above this line
-          #grep Run compileout.txt
+          grep Run ${{ github.event.inputs.file2compile }}.log
           #echo "  " 
           #echo " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
           # display all the errors
