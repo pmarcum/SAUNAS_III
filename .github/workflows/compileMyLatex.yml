@@ -87,7 +87,7 @@ jobs:
           echo "-----------------------------------------------------"
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
           echo "-----------------------------------------------------"
-          cat ${{ github.event.inputs.file2compile }}.log
+          #cat ${{ github.event.inputs.file2compile }}.log
           # put in a timestamp at the top of file to become final version of log output
           echo "${{ env.TIMESTAMP }}" > tout.txt
           # clean up the log file by removing lines not directly related to a legit warning or error
@@ -109,7 +109,7 @@ jobs:
           echo ''
           echo ''
           echo '+++++++++++++++++++++++++++++++++'
-          echo log.txt
+          cat log.txt
           
           # display all the errors
           #echo "" >> tout.txt
