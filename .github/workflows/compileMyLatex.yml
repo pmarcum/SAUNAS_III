@@ -92,24 +92,23 @@ jobs:
           echo "${{ env.TIMESTAMP }}" > tout.txt
           # clean up the log file by removing lines not directly related to a legit warning or error
           touch log.txt
-          while IFS= read -r line; do
-            sed 's/ *\n *Package[^\n]+//g; | \
-                       s/ *\n *\(/home/runner/work[^\n]+//g; | \
-                       s/ *\n *File:[^\n]+//g' <<<"$line" >> log.txt
-            #sed -r 's/ *\n *Applying[^\n]+//g' | \
-            #sed -r 's/ *\n *This is pdfTeX[^\n]+//g' | \
-            #sed -r 's/ *\n *Document [cC]lass[^\n]+//g'  | \
-            #sed -r 's/ *\n *LaTeX[^\n]+//g' | \
-            #sed -r 's/ *\n *See the LaTex[^\n]+//g' | \
-            #sed -r 's/ *\n *[^ ]+ +revtex[^\n]+//g' | \
-            #sed -r 's/ *\n *Package\:[^\n]+//g' | \
-            #sed -r 's/ *\n *\\@*[a-zA-Z0-9]+\@\=\\[^\n]+//g' | \
-            #sed -r 's/ *\n *This is[^\n]+//g' >> log.txt
-          done < ${{ github.event.inputs.file2compile }}.log  
+          sed -i 's/ *\n *Package[^\n]+//g' ${{ github.event.inputs.file2compile }}.log  
+          #s/ *\n *\(/home/runner/work[^\n]+//g; | \
+          #s/ *\n *File:[^\n]+//g' <<<"$line" >> log.txt
+          #sed -r 's/ *\n *Applying[^\n]+//g' | \
+          #sed -r 's/ *\n *This is pdfTeX[^\n]+//g' | \
+          #sed -r 's/ *\n *Document [cC]lass[^\n]+//g'  | \
+          #sed -r 's/ *\n *LaTeX[^\n]+//g' | \
+          #sed -r 's/ *\n *See the LaTex[^\n]+//g' | \
+          #sed -r 's/ *\n *[^ ]+ +revtex[^\n]+//g' | \
+          #sed -r 's/ *\n *Package\:[^\n]+//g' | \
+          #sed -r 's/ *\n *\\@*[a-zA-Z0-9]+\@\=\\[^\n]+//g' | \
+          #sed -r 's/ *\n *This is[^\n]+//g' >> log.txt
           echo ''
           echo ''
           echo '+++++++++++++++++++++++++++++++++'
-          cat log.txt
+          #cat log.txt
+          cat  ${{ github.event.inputs.file2compile }}.log
           # display all the errors
           #echo "" >> tout.txt
           #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
