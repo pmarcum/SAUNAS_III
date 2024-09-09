@@ -30,21 +30,7 @@ jobs:
     steps:
       - name: Clone repo
         uses: actions/checkout@v4
-
-      - name: Remove old status note and pdf file
-        run: |
-          rm -f "${{ github.event.inputs.file2compile }}_out.txt"
-          rm -f "${{ github.event.inputs.file2compile }}.pdf"
-
-      - name: Commit the modified folder and put the change
-        run: |
-          git config --global user.email "email@gmail.com"
-          git config --global user.name "github actions"
-          git add .
-          git commit -m "Removing previous status and pdf files"
-          git push
-        continue-on-error: true
-        
+       
       - name: Install texlive
         uses: teatimeguest/setup-texlive-action@v3
         with:
