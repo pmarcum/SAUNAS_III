@@ -101,9 +101,9 @@ jobs:
           sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log | \
             sed -r 's/\(\/home\/runner/\nhomerunner/g' | \
             sed -r 's/\x0 *\) *\x0/\n/g' > log.txt || touch log.txt
-          awk '!/homerunner/' log.txt >> log.txt
-          touch tmp.txt && sed 's/homerunner[^\n]+\n//g' log.txt >> tmp.txt && mv -f tmp.txt log.txt
-          touch tmp.txt && sed 's/\x0/\n/g' log.txt >> tmp.txt && mv -f tmp.txt log.txt
+          #awk '!/homerunner/' log.txt >> log.txt
+          #touch tmp.txt && sed 's/homerunner[^\n]+\n//g' log.txt >> tmp.txt && mv -f tmp.txt log.txt
+          #touch tmp.txt && sed 's/\x0/\n/g' log.txt >> tmp.txt && mv -f tmp.txt log.txt
             #sed -r 's/\x0 *Package[^\x0]+\x0/\x0/g' | \
             #sed -r 's/\x0 *LaTex Info[^\x0]+\x0/\x0/g' | \
             #sed -r 's/\\[a-zA-Z0-9@]+=\\[^\x0]+\x0//g' | \
