@@ -93,19 +93,17 @@ jobs:
           # clean up the log file by removing lines not directly related to a legit warning or error
           touch log.txt
           grep -vx '^Package\:' ${{ github.event.inputs.file2compile }}.log >> log.txt
-          touch tmp.txt && grep -vx '^\\calc' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -vx '(/home/runner/work' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -vx '^File:' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -vx '\\dimen' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -vx '^Applying' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -vx '\\count' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -vx '\\skip' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -vx '\\box' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -vx '\\read' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -vx 'This is pdfTeX' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -vx 'Document class' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -vx '^LaTeX' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -vx 'See the LaTex' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -Evx '(/home/runner/work' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -Evx '^File:' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -Evx '^Applying' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -Evx 'This is pdfTeX' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -Evx '^Document [cC]lass' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -Evx '^LaTeX' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -Evx 'See the LaTex' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -Evx 'revtex' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -Evx '^Package\:' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -Evx '\\[a-zA-Z0-9]+\@\=\\[a-zA-Z0-9]+\n' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -Evx '^This is ' log.txt >> tmp.txt && mv tmp.txt log.txt
           echo ''
           echo ''
           echo '+++++++++++++++++++++++++++++++++'
