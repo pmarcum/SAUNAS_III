@@ -92,8 +92,9 @@ jobs:
           echo "${{ env.TIMESTAMP }}" > tout.txt
           # clean up the log file by removing lines not directly related to a legit warning or error
           sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log | \
-            sed -r 's/\x0([^()]+\)) *\x0/\1\x0/g' | \
-            sed -r 's/\x0\) *\x0/\)\x0/g' | \
+            sed -r 's/(\(\/home\/runner[^\x0]+)\x0([^\x0]+.sty) *\x0/\1\2\x0/g' | \
+            #sed -r 's/\x0([^()]+\)) *\x0/\1\x0/g' | \
+            #sed -r 's/\x0\) *\x0/\)\x0/g' | \
             #sed -r 's/\x0 *\\\\([^.]+\.) *\x0/\1\x0/g' | \
             #sed -r 's/\x0 *Package[^\x0]+\x0/\x0/g' | \
             #sed -r 's/\x0 *LaTex Info[^\x0]+\x0/\x0/g' | \
