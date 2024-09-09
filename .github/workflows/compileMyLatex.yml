@@ -92,23 +92,22 @@ jobs:
           echo "${{ env.TIMESTAMP }}" > tout.txt
           # clean up the log file by removing lines not directly related to a legit warning or error
           touch log.txt
-          grep -vx '^Package\:' ${{ github.event.inputs.file2compile }}.log >> log.txt
-          touch tmp.txt && grep -Evx '(/home/runner/work' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -Evx '^File:' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -Evx '^Applying' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -Evx 'This is pdfTeX' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -Evx '^Document [cC]lass' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -Evx '^LaTeX' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -Evx 'See the LaTex' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -Evx 'revtex' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -Evx '^Package\:' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -Evx '\\[a-zA-Z0-9]+\@\=\\[a-zA-Z0-9]+\n' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -Evx '^This is ' log.txt >> tmp.txt && mv tmp.txt log.txt
+          grep -vx ' *\n *Package\:[^\n]+' ${{ github.event.inputs.file2compile }}.log >> log.txt
+          touch tmp.txt && grep -Evx '\n *(/home/runner/work[^\n]+' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -Evx '\n *File:[^\n]+' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -Evx '\n *Applying[^\n]+' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -Evx '\n *This is pdfTeX[^\n]+' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -Evx '\n *Document [cC]lass[^\n]+' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -Evx '\n *LaTeX[^\n]+' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -Evx '\n *See the LaTex[^\n]+' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -Evx '\n *[^ ]+ +revtex[^\n]+' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -Evx '\n *Package\:[^\n]+' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -Evx '\n *\\@*[a-zA-Z0-9]+\@\=\\[^\n]+' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -Evx '\n *This is[^\n]+' log.txt >> tmp.txt && mv tmp.txt log.txt
           echo ''
           echo ''
           echo '+++++++++++++++++++++++++++++++++'
           cat log.txt
-          
           # display all the errors
           #echo "" >> tout.txt
           #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
