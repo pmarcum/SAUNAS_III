@@ -41,6 +41,7 @@ jobs:
         run: |
           rm -f "${{ github.event.inputs.file2compile }}_out.txt"
           rm -f "${{ github.event.inputs.file2compile }}.pdf"
+        continue-on-error: true
 
       - name: Commit the modified folder and put the change
         run: |
@@ -68,7 +69,6 @@ jobs:
         id: compilation
         run: |
           latexmk -bibtex -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode ${{ github.event.inputs.file2compile }}.tex
-          mv ${{ github.event.inputs.file2compile }}.log compileout.txt
         continue-on-error: true
 
       - name: Get timestamp
@@ -84,7 +84,8 @@ jobs:
         # remove lines in the output that are unrelated to the latex compilation itself
         # First, move lines that should have been the ending of the previous line, to the end of that previous line
         run: |
-          tail compileout.txt
+          ls ${{ github.event.inputs.file2compile }}.*
+          tail ${{ github.event.inputs.file2compile }}.log
           # Determine if the pdf file was created in the above compilation. 
           echo "-----------------------------------------------------"
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
