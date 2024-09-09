@@ -94,7 +94,7 @@ jobs:
           sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log | \
             sed -r 's/\(\/home\/runner/\nhomerunner/g' | \
             sed -r 's/\x0 *\) *\x0/\n/g' > log.txt || touch log.txt
-          cat log.txt
+          #cat log.txt
           awk '!/homerunner/' log.txt
           touch tmp.txt && sed 's/homerunner[^\n]+\n//g' log.txt >> tmp.txt && mv -f tmp.txt log.txt 
             #sed -r 's/\x0([^()]+)\x0([^)]+\)[^()]+)\x0/\1\2/g' | \
