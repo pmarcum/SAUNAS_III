@@ -63,12 +63,14 @@ jobs:
             collection-mathscience
             collection-bibtexextra
             collection-fontutils
+            extra-utils
           cache: true
             
       - name: Compile paper
         id: compilation
         run: |
           latexmk -bibtex -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode ${{ github.event.inputs.file2compile }}.tex
+          texlogsieve ${{ github.event.inputs.file2compile }}.log
         continue-on-error: true
 
       - name: Get timestamp
