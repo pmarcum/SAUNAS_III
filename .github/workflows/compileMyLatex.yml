@@ -96,7 +96,7 @@ jobs:
                  -e "/^LaTeX Info/d" \
                  -e "/^\\\[a-zA-Z0-9@]+=\\\[a-zA-Z0-9]+/d" \
                  -e "/ revtex/d" \
-                 -e "/^Applying/d"
+                 -e "/^Applying/d" ${{ github.event.inputs.file2compile }}.log
           #sed -r 's/ *\n *This is pdfTeX[^\n]+//g' | \
           #sed -r 's/ *\n *Document [cC]lass[^\n]+//g'  | \
           #sed -r 's/ *\n *LaTeX[^\n]+//g' | \
