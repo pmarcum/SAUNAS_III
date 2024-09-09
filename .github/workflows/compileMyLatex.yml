@@ -92,13 +92,13 @@ jobs:
           echo "${{ env.TIMESTAMP }}" > tout.txt
           # clean up the log file by removing lines not directly related to a legit warning or error
           sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log | \
+            sed -r 's/\x0([^)]+\))\x0/\1\x0/g' | \
             sed -r 's/\x0 *Package[^\x0]+\x0/\x0/g' | \
             sed -r 's/\x0 *LaTex Info[^\x0]+\x0/\x0/g' | \
             sed -r 's/\\[a-zA-Z0-9@]+=\\[^\x0]+\x0//g' | \
-            sed -r 's/\x0/\n/g' > log.txt || touch log.txt
-          #sed -r 's/\x0 *\\\[^=]+=\\\[^\x0]+\x0/\x0/g' | \
-          #sed -i -e "/^Package/d" \
-          #       -e "/(\/home\/runner\/work/d" \
+            sed -r 's/\x0/\n/g' | \
+            sed -r 's/\(\/home\/runner\/work[^\x0]+\x0//g' | \
+            sed -r 's/\
           #       -e "/^LaTeX Info/d" \
           #sed -i -e '/^\\[a-zA-Z0-9@]+=\\[a-zA-Z0-9]+/d' ${{ github.event.inputs.file2compile }}.log
           #       -e '/ revtex/d' \
@@ -110,6 +110,8 @@ jobs:
           #sed -r 's/ *\n *[^ ]+ +revtex[^\n]+//g' | \
           #sed -r 's/ *\n *Package\:[^\n]+//g' | \
           #sed -r 's/ *\n *This is[^\n]+//g' >> log.txt
+
+           > log.txt || touch log.txt
           echo ''
           echo ''
           echo '+++++++++++++++++++++++++++++++++'
