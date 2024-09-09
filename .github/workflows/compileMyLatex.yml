@@ -84,6 +84,14 @@ jobs:
         # remove lines in the output that are unrelated to the latex compilation itself
         # First, move lines that should have been the ending of the previous line, to the end of that previous line
         run: |
+          echo ' '
+          echo ' '
+          echo ' $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ '
+          echo ' ------------------------------------------------------------ '
+          echo ' $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ '
+          echo ' '
+          echo ' below is the tail of the log file '
+          cat ${{ github.event.inputs.file2compile }}.log
           # Determine if the pdf file was created in the above compilation. 
           echo "-----------------------------------------------------"
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
