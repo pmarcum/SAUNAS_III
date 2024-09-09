@@ -90,7 +90,7 @@ jobs:
           echo ' ------------------------------------------------------------ '
           echo ' $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ '
           echo ' '
-          echo ' below is the tail of the log file '
+          echo ' below is the printout of the entire log file '
           cat ${{ github.event.inputs.file2compile }}.log
           # Determine if the pdf file was created in the above compilation. 
           echo "-----------------------------------------------------"
