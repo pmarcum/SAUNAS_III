@@ -93,11 +93,11 @@ jobs:
           # put in a timestamp at the top of file to become final version of log output
           echo "${{ env.TIMESTAMP }}" > tout.txt
           # clean up the log file by removing lines not directly related to a legit warning or error
-          sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log | \
-            sed -r 's/\x0 *Package[^\x0]+\x0/\x0/g' | \
-            sed -r 's/\x0 *LaTex Info[^\x0]+\x0/\x0/g' | \
-            sed -r 's/\x0 *\\\[^\x0]+\x0/\x0/g' | \
-            sed -r 's/\x0/\n/g' > log.txt || touch log.txt
+          #sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log | \
+          #  sed -r 's/\x0 *Package[^\x0]+\x0/\x0/g' | \
+          #  sed -r 's/\x0 *LaTex Info[^\x0]+\x0/\x0/g' | \
+          #  sed -r 's/\x0 *\\\[^\x0]+\x0/\x0/g' | \
+          #  sed -r 's/\x0/\n/g' > log.txt || touch log.txt
           #sed -r 's/\x0 *\\\[^=]+=\\\[^\x0]+\x0/\x0/g' | \
           #sed -i -e "/^Package/d" \
           #       -e "/(\/home\/runner\/work/d" \
@@ -116,8 +116,8 @@ jobs:
           echo ''
           echo ''
           echo '+++++++++++++++++++++++++++++++++'
-          cat log.txt
-          #cat  ${{ github.event.inputs.file2compile }}.log
+          #cat log.txt
+          cat  ${{ github.event.inputs.file2compile }}.log
           # display all the errors
           #echo "" >> tout.txt
           #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
