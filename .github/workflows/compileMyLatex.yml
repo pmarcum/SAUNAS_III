@@ -92,18 +92,18 @@ jobs:
           echo "${{ env.TIMESTAMP }}" > tout.txt
           # clean up the log file by removing lines not directly related to a legit warning or error
           touch log.txt
-          grep -vx ' *\n *Package\:[^\n]+' ${{ github.event.inputs.file2compile }}.log >> log.txt
-          touch tmp.txt && grep -Evx '\n *(/home/runner/work[^\n]+' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -Evx '\n *File:[^\n]+' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -Evx '\n *Applying[^\n]+' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -Evx '\n *This is pdfTeX[^\n]+' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -Evx '\n *Document [cC]lass[^\n]+' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -Evx '\n *LaTeX[^\n]+' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -Evx '\n *See the LaTex[^\n]+' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -Evx '\n *[^ ]+ +revtex[^\n]+' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -Evx '\n *Package\:[^\n]+' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -Evx '\n *\\@*[a-zA-Z0-9]+\@\=\\[^\n]+' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -Evx '\n *This is[^\n]+' log.txt >> tmp.txt && mv tmp.txt log.txt
+          sed ':a;N;$!ba;s/ *\n *Package[^\n]+//g' ${{ github.event.inputs.file2compile }}.log >> log.txt
+          touch tmp.txt && sed ':a;N;$!ba;s/ *\n *\(/home/runner/work[^\n]+//g' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && sed ':a;N;$!ba;s/ *\n *File:[^\n]+//g' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && sed ':a;N;$!ba;s/ *\n *Applying[^\n]+//g' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && sed ':a;N;$!ba;s/ *\n *This is pdfTeX[^\n]+//g' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && sed ':a;N;$!ba;s/ *\n *Document [cC]lass[^\n]+//g' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && sed ':a;N;$!ba;s/ *\n *LaTeX[^\n]+//g' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && sed ':a;N;$!ba;s/ *\n *See the LaTex[^\n]+//g' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && sed ':a;N;$!ba;s/ *\n *[^ ]+ +revtex[^\n]+//g' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && sed ':a;N;$!ba;s/ *\n *Package\:[^\n]+//g' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && sed ':a;N;$!ba;s/ *\n *\\@*[a-zA-Z0-9]+\@\=\\[^\n]+//g' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && sed ':a;N;$!ba;s/ *\n *This is[^\n]+//g' log.txt >> tmp.txt && mv tmp.txt log.txt
           echo ''
           echo ''
           echo '+++++++++++++++++++++++++++++++++'
