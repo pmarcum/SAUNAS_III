@@ -97,7 +97,7 @@ jobs:
             sed -r 's/\x0([^()]+\)) *\x0/\1\x0/g' | \
             sed -r 's/\x0(\)+) *\x0/\1\x0/g' | \
             sed -r 's/\x0 *\\\\([^.]+\.) *\x0/\1\x0/g' | \
-            sed -r 's/\x0\(\/home\/runner[^\x0]+\x0/\x0/g' | \
+            sed -r 's/\x0\(/home/runner[^\x0]+\x0/\x0/g' | \
             #sed -r 's/\x0 *Package[^\x0]+\x0/\x0/g' | \
             #sed -r 's/\x0 *LaTex Info[^\x0]+\x0/\x0/g' | \
             #sed -r 's/\\[a-zA-Z0-9@]+=\\[^\x0]+\x0//g' | \
