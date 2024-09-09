@@ -84,25 +84,31 @@ jobs:
         # remove lines in the output that are unrelated to the latex compilation itself
         # First, move lines that should have been the ending of the previous line, to the end of that previous line
         run: |
-          echo ' '
-          echo ' '
-          echo ' $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ '
-          echo ' ------------------------------------------------------------ '
-          echo ' $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ '
-          echo ' '
-          echo ' below is the printout of the entire log file '
-          cat ${{ github.event.inputs.file2compile }}.log
-          # Determine if the pdf file was created in the above compilation. 
           echo "-----------------------------------------------------"
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
           echo "-----------------------------------------------------"
-          #cat ${{ github.event.inputs.file2compile }}.log
+          cat ${{ github.event.inputs.file2compile }}.log
           # put in a timestamp at the top of file to become final version of log output
           echo "${{ env.TIMESTAMP }}" > tout.txt
-          # Find the last iteration of pdflatex compilation, remove all lines in the file above this line
-          grep Run ${{ github.event.inputs.file2compile }}.log
-          #echo "  " 
-          #echo " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+          # clean up the log file by removing lines not directly related to a legit warning or error
+          touch log.txt
+          grep -vx '^Package\:' ${{ github.event.inputs.file2compile }}.log >> log.txt
+          touch tmp.txt && grep -vx '^\calc' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -vx '(/home/runner/work' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -vx 'LaTeX Warning:' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -vx '^File:' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -vx '\dimen' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -vx '^Applying' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -vx '\count' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -vx '\skip' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -vx '\box' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -vx 'This is pdfTeX' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -vx 'Document class' log.txt >> tmp.txt && mv tmp.txt log.txt
+          echo ''
+          echo ''
+          echo '+++++++++++++++++++++++++++++++++'
+          echo log.txt
+          
           # display all the errors
           #echo "" >> tout.txt
           #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
