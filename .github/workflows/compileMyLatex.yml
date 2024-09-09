@@ -94,7 +94,7 @@ jobs:
           sed -i "/^Package/d" ${{ github.event.inputs.file2compile }}.log  
           sed -i "/(\/home\/runner\/work/d" ${{ github.event.inputs.file2compile }}.log  
           sed -i "/^LaTeX Info/d" ${{ github.event.inputs.file2compile }}.log
-          sed -i "/^\\[^=]+=\\/d" ${{ github.event.inputs.file2compile }}.log
+          sed -i "/^\\[^=]+=/d" ${{ github.event.inputs.file2compile }}.log
           #sed -r 's/ *\n *Applying[^\n]+//g' | \
           #sed -r 's/ *\n *This is pdfTeX[^\n]+//g' | \
           #sed -r 's/ *\n *Document [cC]lass[^\n]+//g'  | \
