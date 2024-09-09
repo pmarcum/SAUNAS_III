@@ -109,13 +109,12 @@ jobs:
           #sed -r 's/ *\n *See the LaTex[^\n]+//g' | \
           #sed -r 's/ *\n *[^ ]+ +revtex[^\n]+//g' | \
           #sed -r 's/ *\n *Package\:[^\n]+//g' | \
-
           #sed -r 's/ *\n *This is[^\n]+//g' >> log.txt
           echo ''
           echo ''
           echo '+++++++++++++++++++++++++++++++++'
-          #cat log.txt
-          cat  ${{ github.event.inputs.file2compile }}.log
+          cat log.txt
+          #cat  ${{ github.event.inputs.file2compile }}.log
           # display all the errors
           #echo "" >> tout.txt
           #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
