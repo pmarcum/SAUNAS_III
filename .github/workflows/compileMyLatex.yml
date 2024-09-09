@@ -95,6 +95,7 @@ jobs:
           sed -i "/(\/home\/runner\/work/d" ${{ github.event.inputs.file2compile }}.log  
           sed -i "/^LaTeX Info/d" ${{ github.event.inputs.file2compile }}.log
           sed -i "/^\\[a-zA-Z0-9@]+=\\[a-zA-Z0-9]+/d" ${{ github.event.inputs.file2compile }}.log
+          sed -i "/ revtex/d" ${{ github.event.inputs.file2compile }}.log
           #sed -r 's/ *\n *Applying[^\n]+//g' | \
           #sed -r 's/ *\n *This is pdfTeX[^\n]+//g' | \
           #sed -r 's/ *\n *Document [cC]lass[^\n]+//g'  | \
