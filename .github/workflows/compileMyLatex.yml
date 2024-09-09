@@ -63,7 +63,7 @@ jobs:
             collection-mathscience
             collection-bibtexextra
             collection-fontutils
-            extra-utils
+            texlive-extra-utils
           cache: true
             
       - name: Compile paper
