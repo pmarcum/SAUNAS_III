@@ -93,15 +93,15 @@ jobs:
           # clean up the log file by removing lines not directly related to a legit warning or error
           touch log.txt
           grep -vx '^Package\:' ${{ github.event.inputs.file2compile }}.log >> log.txt
-          touch tmp.txt && grep -vx '^\calc' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -vx '^\\calc' log.txt >> tmp.txt && mv tmp.txt log.txt
           touch tmp.txt && grep -vx '(/home/runner/work' log.txt >> tmp.txt && mv tmp.txt log.txt
           touch tmp.txt && grep -vx 'LaTeX Warning:' log.txt >> tmp.txt && mv tmp.txt log.txt
           touch tmp.txt && grep -vx '^File:' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -vx '\dimen' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -vx '\\dimen' log.txt >> tmp.txt && mv tmp.txt log.txt
           touch tmp.txt && grep -vx '^Applying' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -vx '\count' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -vx '\skip' log.txt >> tmp.txt && mv tmp.txt log.txt
-          touch tmp.txt && grep -vx '\box' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -vx '\\count' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -vx '\\skip' log.txt >> tmp.txt && mv tmp.txt log.txt
+          touch tmp.txt && grep -vx '\\box' log.txt >> tmp.txt && mv tmp.txt log.txt
           touch tmp.txt && grep -vx 'This is pdfTeX' log.txt >> tmp.txt && mv tmp.txt log.txt
           touch tmp.txt && grep -vx 'Document class' log.txt >> tmp.txt && mv tmp.txt log.txt
           echo ''
