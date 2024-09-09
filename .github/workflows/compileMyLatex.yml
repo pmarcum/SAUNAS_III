@@ -31,8 +31,6 @@ jobs:
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
-    env:
-      LATEX: latexmk -bibtex -view=none -pdf -pdflatex="--file-line-error --synctex 1 --interaction nonstopmode" -time  
       
     steps:
       - name: Clone repo
@@ -69,9 +67,8 @@ jobs:
       - name: Compile paper
         id: compilation
         run: |
-          latexmk -bibtex -verbose -g -pdf -time -file-line-error -synctex=1 -interaction=nonstopmode ${{ github.event.inputs.file2compile }}.tex
-          tail ${{ github.event.inputs.file2compile }}.log
-          #mv ${{ github.event.inputs.file2compile }}.log compileout.txt
+          latexmk -bibtex -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode ${{ github.event.inputs.file2compile }}.tex
+          mv ${{ github.event.inputs.file2compile }}.log compileout.txt
         continue-on-error: true
 
       - name: Get timestamp
@@ -87,8 +84,8 @@ jobs:
         # remove lines in the output that are unrelated to the latex compilation itself
         # First, move lines that should have been the ending of the previous line, to the end of that previous line
         run: |
+          tail compileout.txt
           # Determine if the pdf file was created in the above compilation. 
-          #cat compileout.txt
           echo "-----------------------------------------------------"
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
           echo "-----------------------------------------------------"
@@ -206,8 +203,8 @@ jobs:
       - name: Convert errors to PDF file
         #if: ${{ always() && hashFiles('thereAreErrors.txt') }}
         run: |
-          echo ""
-          echo "========
+          echo " "
+          echo "========"
           #  # install htmldoc, which apparently is not an inherent command in Ubuntu
           #  sudo apt-get install htmldoc -y
           #  # create a .html file from the out.txt file, then convert the html to pdf
