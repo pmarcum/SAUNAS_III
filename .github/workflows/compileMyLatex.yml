@@ -90,7 +90,6 @@ jobs:
           # put in a timestamp at the top of file to become final version of log output
           echo "${{ env.TIMESTAMP }}" > tout.txt
           # clean up the log file by removing lines not directly related to a legit warning or error
-          head ${{ github.event.inputs.file2compile }}.log
           sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log > log.txt
           sed -i -r 's/\(\/home\/runner/\nhomerunner/g;s/\x0 *\) *\x0/\n/g' log.txt
           echo " "
