@@ -31,14 +31,6 @@ jobs:
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
-      
-    steps:
-      - name: Delete huge unnecessary tools folder
-        run: |
-          echo "Listing 100 largest packages"
-          dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 100
-          df -h
-          echo "Removing large packages"
     
       - name: Clone repo
         uses: actions/checkout@v4
@@ -98,9 +90,8 @@ jobs:
           # put in a timestamp at the top of file to become final version of log output
           echo "${{ env.TIMESTAMP }}" > tout.txt
           # clean up the log file by removing lines not directly related to a legit warning or error
-          sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log | \
-          #  sed -r 's/\(\/home\/runner/\nhomerunner/g' | \
-            sed -r 's/\x0 *\) *\x0/\n/g' > log.txt || touch log.txt
+          sed -i -r 's/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log
+          sed -i -r 's/\(\/home\/runner/\nhomerunner/g;s/\x0 *\) *\x0/\n/g' ${{ github.event.inputs.file2compile }}.log
           #awk '!/homerunner/' log.txt >> log.txt
           #touch tmp.txt && sed 's/homerunner[^\n]+\n//g' log.txt >> tmp.txt && mv -f tmp.txt log.txt
           #touch tmp.txt && sed 's/\x0/\n/g' log.txt >> tmp.txt && mv -f tmp.txt log.txt
