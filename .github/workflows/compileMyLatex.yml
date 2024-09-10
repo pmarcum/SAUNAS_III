@@ -99,7 +99,7 @@ jobs:
           sed -i -r 's/\x0/\n/g' log.txt
           touch tmp.txt && awk '!/^Package/' log.txt >> tmp.txt && mv -f tmp.txt log.txt
           touch tmp.txt && awk '!/^ *$/' log.txt >> tmp.txt && mv -f tmp.txt log.txt
-          touch tmp.txt && awk '!/^\\\/' log.txt >> tmp.txt && mv -f tmp.txt log.txt
+          touch tmp.txt && awk '!/^\\/' log.txt >> tmp.txt && mv -f tmp.txt log.txt
           touch tmp.txt && awk '!/ Redefining /' log.txt >> tmp.txt && mv -f tmp.txt log.txt
           touch tmp.txt && awk '!/^Class/' log.txt >> tmp.txt && mv -f tmp.txt log.txt
           touch tmp.txt && awk '!/ Redeclaring /' log.txt >> tmp.txt && mv -f tmp.txt log.txt
