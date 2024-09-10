@@ -93,9 +93,10 @@ jobs:
           sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log > log.txt
           sed -i -r 's/\(\/home\/runner/\nhomerunner/g;s/\x0 *\)\)* *\x0/\n/g' log.txt
           touch tmp.txt && awk '!/homerunner/' log.txt >> tmp.txt && mv -f tmp.txt log.txt
+          sed -i -r 's/\x0* *Here is how much of TeX.*$//g' log.txt 
           touch tmp.txt && sed ':a;N;$!ba;s/\n/\x0/g' log.txt >> tmp.txt && mv -f tmp.txt log.txt
           sed -i -r 's/\x0\x0*/\x0/g' log.txt
-          touch tmp.txt && sed -r 's/\x0/\n/g' log.txt >> tmp.txt && mv -f tmp.txt log.txt
+          sed -i -r 's/\x0/\n/g' log.txt
           touch tmp.txt && awk '!/^Package/' log.txt >> tmp.txt && mv -f tmp.txt log.txt
           touch tmp.txt && awk '!/^ *$/' log.txt >> tmp.txt && mv -f tmp.txt log.txt
           touch tmp.txt && awk '!/^\\/' log.txt >> tmp.txt && mv -f tmp.txt log.txt
