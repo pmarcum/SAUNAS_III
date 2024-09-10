@@ -103,26 +103,6 @@ jobs:
           touch tmp.txt && awk '!/Redefining/' log.txt >> tmp.txt && mv -f tmp.txt log.txt
           touch tmp.txt && awk '!/^Class/' log.txt >> tmp.txt && mv -f tmp.txt log.txt
           cat log.txt
-            #sed -r 's/\x0 *LaTex Info[^\x0][^\x0]*\x0/\x0/g' | \
-            #sed -r 's/\x0/\n/g' > log.txt || touch log.txt
-          #       -e "/^LaTeX Info/d" \
-          #sed -i -e '/^\\[a-zA-Z0-9@]+=\\[a-zA-Z0-9]+/d' ${{ github.event.inputs.file2compile }}.log
-          #       -e '/ revtex/d' \
-          #       -e '/^Applying/d' ${{ github.event.inputs.file2compile }}.log
-          #sed -r 's/ *\n *This is pdfTeX[^\n]+//g' | \
-          #sed -r 's/ *\n *Document [cC]lass[^\n]+//g'  | \
-          #sed -r 's/ *\n *LaTeX[^\n]+//g' | \
-          #sed -r 's/ *\n *See the LaTex[^\n]+//g' | \
-          #sed -r 's/ *\n *[^ ]+ +revtex[^\n]+//g' | \
-          #sed -r 's/ *\n *Package\:[^\n]+//g' | \
-          #sed -r 's/ *\n *This is[^\n]+//g' >> log.txt
-          #
-          #  > log.txt || touch log.txt
-          echo ''
-          echo ''
-          echo '+++++++++++++++++++++++++++++++++'
-          #cat log.txt
-          cat  ${{ github.event.inputs.file2compile }}.log
           # display all the errors
           #echo "" >> tout.txt
           #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
