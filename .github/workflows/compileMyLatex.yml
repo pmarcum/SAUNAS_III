@@ -118,7 +118,7 @@ jobs:
           echo ''
           echo '+++++++++++++++++++++++++++++++++'
           #cat log.txt
-          #cat  ${{ github.event.inputs.file2compile }}.log
+          cat  ${{ github.event.inputs.file2compile }}.log
           # display all the errors
           #echo "" >> tout.txt
           #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
