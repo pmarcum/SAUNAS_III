@@ -89,6 +89,8 @@ jobs:
           echo "-----------------------------------------------------"
           # put in a timestamp at the top of file to become final version of log output
           echo "${{ env.TIMESTAMP }}" > tout.txt
+          warnings = $(grep '/\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9]/')
+          echo $warnings
           # clean up the log file by removing lines not directly related to a legit warning or error
           sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log > log.txt
           sed -i -r 's/\(\/home\/runner/\nhomerunner/g;s/\x0 *\)\)* *\x0/\n/g' log.txt
@@ -108,7 +110,7 @@ jobs:
           echo "***************************************************************************************************"
           echo "          **************************************************************************"
           echo "                                  ***************************"
-          cat log.txt
+          #cat log.txt
           # display all the errors
           #echo "" >> tout.txt
           #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
