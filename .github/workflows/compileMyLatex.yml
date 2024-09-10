@@ -92,9 +92,10 @@ jobs:
           echo "${{ env.TIMESTAMP }}" > tout.txt
           # clean up the log file by removing lines not directly related to a legit warning or error
           sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log > log.txt
+          touch tmp.txt
+          sed -r 's/\(\/home\/runner/\nhomerunner/g' | \
+            sed -r 's/\x0 *\) *\x0/\n/g' log.txt >> tmp.txt && mv -f tmp.txt log.txt
           cat log.txt
-          #  sed -r 's/\(\/home\/runner/\nhomerunner/g' | \
-          #  sed -r 's/\x0 *\) *\x0/\n/g' 
           #cat ${{ github.event.inputs.file2compile }}.log
           #echo '------------------ 2 ---------------------------'
           #sed -i -r '/\nhomerunner[^\n]+\n/\n/g' ${{ github.event.inputs.file2compile }}.log
