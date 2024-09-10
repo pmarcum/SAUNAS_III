@@ -100,6 +100,7 @@ jobs:
           touch tmp.txt && awk '!/^ *$/' log.txt >> tmp.txt && mv -f tmp.txt log.txt
           touch tmp.txt && awk '!/^\\/' log.txt >> tmp.txt && mv -f tmp.txt log.txt
           touch tmp.txt && awk '!/Redefining/' log.txt >> tmp.txt && mv -f tmp.txt log.txt
+          touch tmp.txt && awk '!/^Class/' log.txt >> tmp.txt && mv -f tmp.txt log.txt
           cat log.txt
             #sed -r 's/\x0 *LaTex Info[^\x0][^\x0]*\x0/\x0/g' | \
             #sed -r 's/\x0/\n/g' > log.txt || touch log.txt
