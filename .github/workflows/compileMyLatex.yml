@@ -89,6 +89,7 @@ jobs:
           echo "-----------------------------------------------------"
           # put in a timestamp at the top of file to become final version of log output
           echo "${{ env.TIMESTAMP }}" > tout.txt
+          cat ${{ github.event.inputs.file2compile }}.log
           grep -E "\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9]" ${{ github.event.inputs.file2compile }}.log
           echo $warnings
           # clean up the log file by removing lines not directly related to a legit warning or error
