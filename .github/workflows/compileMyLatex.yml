@@ -93,7 +93,7 @@ jobs:
           # clean up the log file by removing lines not directly related to a legit warning or error
           sed -i -r 's/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log
           sed -i -r 's/\(\/home\/runner/\nhomerunner/g;s/\x0 *\) *\x0/\n/g' ${{ github.event.inputs.file2compile }}.log
-          sed -i -r 's/\nhomerunner[^\n]+\n/\n/g'  ${{ github.event.inputs.file2compile }}.log
+          sed -i -r '/\nhomerunner[^\n]+\n/d' ${{ github.event.inputs.file2compile }}.log
           #awk '!/homerunner/' log.txt >> log.txt
           #touch tmp.txt && sed 's/homerunner[^\n]+\n//g' log.txt >> tmp.txt && mv -f tmp.txt log.txt
           #touch tmp.txt && sed 's/\x0/\n/g' log.txt >> tmp.txt && mv -f tmp.txt log.txt
