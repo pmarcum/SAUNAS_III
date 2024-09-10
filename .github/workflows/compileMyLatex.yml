@@ -97,7 +97,7 @@ jobs:
           echo "            +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ "
           echo "                                       +++++++++++++++++++++++++++++++++++++++++++  "
           cat log.txt
-          sed '/^homerunner/d' log.txt
+          touch tmp.txt && sed ':a;N;$!ba;s/homerunner[^\n]*\n//g' log.txt > tmp.txt && mv -f tmp.txt log.txt
           echo " "
           echo " "
           echo "                                       --------------------------------------------"
