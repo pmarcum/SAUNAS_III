@@ -93,6 +93,8 @@ jobs:
           touch tmp.txt && sed -r 's/\. *\x0 *\) *\x0/\.\)\n/g' new.log >> tmp.txt && mv -f tmp.txt new.log
           touch tmp.txt && sed -r 's/\. *\x0 *\) *(\)*) *\x0/\.\)\1\n/g' new.log >> tmp.txt && mv -f tmp.txt new.log
           touch tmp.txt && sed -r 's/\. *\x0/\.\n/g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          touch tmp.txt && sed -r 's/\x0/ /g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          touch tmp.txt && sed -r 's/  */ /g' new.log >> tmp.txt && mv -f tmp.txt new.log
           mv -f new.log ${{ github.event.inputs.file2compile }}.log
           echo "-----------------------------------------------------"
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
