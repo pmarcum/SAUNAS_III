@@ -113,7 +113,7 @@ jobs:
           echo "" >> tout.txt
           echo ''
           echo '***************** ERRORS **********************'
-          cat errors.txt
+          grep -E "\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\: *LaTeX *Error\:" ${{ github.event.inputs.file2compile }}_full.log
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -122,7 +122,7 @@ jobs:
           grep -E "\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\: *LaTeX *Warning\:" ${{ github.event.inputs.file2compile }}_full.log >> warnings.txt
           echo ''
           echo '***************** WARNINGS **********************'
-          cat warnings.txt
+          grep -E "\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\: *LaTeX *Warning\:" ${{ github.event.inputs.file2compile }}_full.log 
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
@@ -132,7 +132,7 @@ jobs:
           grep -E "Package natbib Warning\: Citation" ${{ github.event.inputs.file2compile }}_full.log >> referr.txt
           echo ''
           echo '***************** REFERENCE ERRORS **********************'
-          cat referr.txt
+          grep -E "Package natbib Warning\: Citation" ${{ github.event.inputs.file2compile }}_full.log
           #
           ## The below pulls out only those lines that are directly related to warnings and errors within the .tex file 
           ## This step is why we needed everything related to a given error to appear in a single line and did the formatting above.
