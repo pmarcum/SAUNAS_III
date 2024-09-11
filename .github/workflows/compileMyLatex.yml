@@ -84,39 +84,47 @@ jobs:
         # remove lines in the output that are unrelated to the latex compilation itself
         # First, move lines that should have been the ending of the previous line, to the end of that previous line
         run: |
+          # make sure that all lines related to a sentence are all smooshed together into single line
+          sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log > new.log
+          # make a new line character after each period
+          touch tmp.txt && sed -r 's/\x0 *\\/\n\\/g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          touch tmp.txt && sed -r 's/\x0\x0\x0*/\n/g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          touch tmp.txt && sed -r 's/\. *\x0 *\) *\x0/\.\)\n/g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          touch tmp.txt && sed -r 's/\. *\x0 *\) *(\)*) *\x0/\.\)\1\n/g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          touch tmp.txt && sed -r 's/\. *\x0/\.\n/g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          mv -f new.log ${{ github.event.inputs.file2compile }}.log
           echo "-----------------------------------------------------"
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
           echo "-----------------------------------------------------"
+          cat ${{ github.event.inputs.file2compile }}.log
           # put in a timestamp at the top of file to become final version of log output
           echo "${{ env.TIMESTAMP }}" > tout.txt
-          cat ${{ github.event.inputs.file2compile }}.log
-          grep -E "\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9]" ${{ github.event.inputs.file2compile }}.log
-          echo $warnings
-          # clean up the log file by removing lines not directly related to a legit warning or error
-          sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log > log.txt
-          sed -i -r 's/\(\/home\/runner/\nhomerunner/g;s/\x0 *\)\)* *\x0/\n/g' log.txt
-          touch tmp.txt && awk '!/homerunner/' log.txt >> tmp.txt && mv -f tmp.txt log.txt
-          sed -i -r 's/\x0* *Here is how much of TeX.*$//g' log.txt 
-          touch tmp.txt && sed ':a;N;$!ba;s/\n/\x0/g' log.txt >> tmp.txt && mv -f tmp.txt log.txt
-          sed -i -r 's/\x0\x0*/\x0/g' log.txt
-          sed -i -r 's/\x0/\n/g' log.txt
-          touch tmp.txt && awk '!/^Package/' log.txt >> tmp.txt && mv -f tmp.txt log.txt
-          touch tmp.txt && awk '!/^ *$/' log.txt >> tmp.txt && mv -f tmp.txt log.txt
-          touch tmp.txt && awk '!/^\\/' log.txt >> tmp.txt && mv -f tmp.txt log.txt
-          touch tmp.txt && awk '!/ Redefining /' log.txt >> tmp.txt && mv -f tmp.txt log.txt
-          touch tmp.txt && awk '!/^Class/' log.txt >> tmp.txt && mv -f tmp.txt log.txt
-          touch tmp.txt && awk '!/ Redeclaring /' log.txt >> tmp.txt && mv -f tmp.txt log.txt
-          echo ""
-          echo ""
-          echo "***************************************************************************************************"
-          echo "          **************************************************************************"
-          echo "                                  ***************************"
-          #cat log.txt
-          # display all the errors
-          #echo "" >> tout.txt
-          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          #echo "              ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
-          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          echo "" >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          echo "              ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          # get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render. 
+          grep -E "\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\: *LaTeX *Error\:" ${{ github.event.inputs.file2compile }}_full.log >> tout.txt
+          touch errors.txt
+          cat errors.txt
+          grep -E "\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\: *LaTeX *Error\:" ${{ github.event.inputs.file2compile }}_full.log >> errors.txt
+          echo "" >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          grep -E "\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\: *LaTeX *Warning\:" ${{ github.event.inputs.file2compile }}_full.log >> tout.txt
+          touch warnings.txt
+          grep -E "\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\: *LaTeX *Warning\:" ${{ github.event.inputs.file2compile }}_full.log >> warnings.txt
+          cat warnings.txt
+          echo "" >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          echo "              CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          grep -E "Package natbib Warning\: Citation" ${{ github.event.inputs.file2compile }}_full.log >> tout.txt
+          touch referr.txt
+          grep -E "Package natbib Warning\: Citation" ${{ github.event.inputs.file2compile }}_full.log >> referr.txt
+          cat referr.txt
+          #
           ## The below pulls out only those lines that are directly related to warnings and errors within the .tex file 
           ## This step is why we needed everything related to a given error to appear in a single line and did the formatting above.
           ## https://stackoverflow.com/questions/75534451/using-grep-output-as-pattern-for-a-second-grep
@@ -147,10 +155,6 @@ jobs:
           #grep -i 'warning.*: ${{ github.event.inputs.file2compile }}.tex' allout.txt > tmptmp.txt || touch tmptmp.txt
           #sort tmptmp.txt | uniq > warnings.txt
           #rm -f tmptmp.txt
-          #echo "" >> tout.txt
-          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          #echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
-          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           #while IFS= read -r line; do
           #  echo $line >> tout.txt
           #  linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
@@ -160,10 +164,6 @@ jobs:
           #if [ $(wc -c < "warnings.txt") -eq 0 ]; then
           #  echo "      none" >> tout.txt
           #fi
-          #echo "" >> tout.txt
-          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          #echo "              CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
-          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           ## now look for problems with the bibliography. In the first pass through the compilation, every citation will raise a warning flag.  But
           ## eventually, those warnings will be resolved except for citations that have typos in the .tex file and/or are missing from the .bib file. 
           ## The below gets a list of all citation warnings, and then figures out if any of the errors are unresolved, which would be the case if 
@@ -207,13 +207,13 @@ jobs:
           #  echo "      none" >> tout.txt
           #fi  
           #rm -f tmptmp*.txt
-          echo ""
-          echo ""
-          echo "=========================================="
-          cat tout.txt
-          echo "========================================="
-          echo ""
-          mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
+          #echo ""
+          #echo ""
+          #echo "=========================================="
+          #cat tout.txt
+          #echo "========================================="
+          #echo ""
+          #mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
 
       - name: Convert errors to PDF file
@@ -264,6 +264,6 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         #if: ${{ always() && hashFiles(env.OUTFILE) }}
         with:
-          file_pattern: '${{ github.event.inputs.file2compile }}_out.txt'
+          file_pattern: '${{ github.event.inputs.file2compile }}_*.*'
           commit_message: 'Newly created compilation output file'
         continue-on-error: true
