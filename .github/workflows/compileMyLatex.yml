@@ -87,8 +87,9 @@ jobs:
           # make sure that all lines related to a sentence are all smooshed together into single line
           sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log > new.log
           # make a new line character after each period
-          touch tmp.txt && sed -r 's/\x0 *\\/\n\\/g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          touch tmp.txt && sed -r 's/ *\x0 *\\\\ */ /g' new.log >> tmp.txt && mv -f tmp.txt new.log
           touch tmp.txt && sed -r 's/\x0\x0\x0*/\n/g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          touch tmp.txt && sed -r 's/\x0 *\\/\n\\/g' new.log >> tmp.txt && mv -f tmp.txt new.log
           touch tmp.txt && sed -r 's/\. *\x0 *\) *\x0/\.\)\n/g' new.log >> tmp.txt && mv -f tmp.txt new.log
           touch tmp.txt && sed -r 's/\. *\x0 *\) *(\)*) *\x0/\.\)\1\n/g' new.log >> tmp.txt && mv -f tmp.txt new.log
           touch tmp.txt && sed -r 's/\. *\x0/\.\n/g' new.log >> tmp.txt && mv -f tmp.txt new.log
