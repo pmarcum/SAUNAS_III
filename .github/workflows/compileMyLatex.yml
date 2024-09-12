@@ -104,32 +104,39 @@ jobs:
           # put in a timestamp at the top of file to become final version of log output
           echo "${{ env.TIMESTAMP }}" > tout.txt
           echo "" >> tout.txt
+          touch warningError.txt
+          # get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render. 
+          grep -E "\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\: LaTeX Error\:" ${{ github.event.inputs.file2compile }}_full.log >> warningError.txt
+          # now get the warnings, but note that some of the warnings are actually errors (like figure files that are mispelled) and need to 
+          # be consolidated with the associated line in the error section here
+          grep -E "^LaTeX Warning\:" ${{ github.event.inputs.file2compile }}_full.log >> warningError.txt
+          # The below pulls out only those lines that are directly related to warnings and errors within the .tex file 
+          # This step is why we needed everything related to a given error to appear in a single line and did the formatting above.
+          # https://stackoverflow.com/questions/75534451/using-grep-output-as-pattern-for-a-second-grep
+
+          # need to go line by line to consolidate all items associated with the same line
+          
+          grep -i 'error' warningError.txt > error.txt || touch errtmp.txt 
+          sort errtmp.txt | uniq > errors.txt
+          rm -f tmptmp.txt
+          ## https://stackoverflow.com/questions/57788813/grep-return-0-if-no-match
+          ## squash.io/extracting=numbers-from-strings-in-bash
+          ## https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
+          ## https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
+          #while IFS= read -r line; do
+          #  echo $line >> tout.txt
+          #done < compileout.txt
+          #  linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
+          #  head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
+          #  echo "-------------------------------------------------------------------------" >> tout.txt
+          #done < errors.txt
+
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          # get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render. 
-          grep -E "\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\: LaTeX Error\:" ${{ github.event.inputs.file2compile }}_full.log >> tout.txt
-          touch errors.txt
-          grep -E "\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\: LaTeX Error\:" ${{ github.event.inputs.file2compile }}_full.log >> errors.txt
-          echo "" >> tout.txt
-          echo " "
-          echo " "
-          echo " "
-          echo "******************************************************************************************************************************"
-          echo "******************************************************* ERRORS ***************************************************************"
-          cat errors.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          grep -E "^LaTeX Warning\:" ${{ github.event.inputs.file2compile }}_full.log >> tout.txt
-          touch warnings.txt
-          grep -E "^LaTeX Warning\:" ${{ github.event.inputs.file2compile }}_full.log >> warnings.txt
-          echo " "
-          echo " "
-          echo " "
-          echo "****************************************************************************************************************************"
-          echo "***************************************************** WARNINGS *************************************************************"
-          cat warnings.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
