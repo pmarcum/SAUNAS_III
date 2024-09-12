@@ -99,7 +99,7 @@ jobs:
           echo "-----------------------------------------------------"
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
           echo "-----------------------------------------------------"
-          head ${{ github.event.inputs.file2compile }}.log
+          #cat ${{ github.event.inputs.file2compile }}_full.log
           # put in a timestamp at the top of file to become final version of log output
           echo "${{ env.TIMESTAMP }}" > tout.txt
           echo "" >> tout.txt
@@ -116,7 +116,7 @@ jobs:
           echo " "
           echo "******************************************************************************************************************************"
           echo "******************************************************* ERRORS ***************************************************************"
-          grep -E "LaTeX *Error\:" ${{ github.event.inputs.file2compile }}_full.log
+          cat errors.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
