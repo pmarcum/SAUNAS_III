@@ -87,13 +87,14 @@ jobs:
           # make sure that all lines related to a sentence are all smooshed together into single line
           sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log > new.log
           # make a new line character after each period
-          touch tmp.txt && sed -r 's/ *\x0 *\\\\ */ /g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          touch tmp.txt && sed -r 's/^( *)\x0( *)\\\\/\1\2/g' new.log >> tmp.txt && mv -f tmp.txt new.log
           touch tmp.txt && sed -r 's/\x0\x0\x0*/\x0\n\x0/g' new.log >> tmp.txt && mv -f tmp.txt new.log
           touch tmp.txt && sed -r 's/\x0 *\\/\x0\n\\/g' new.log >> tmp.txt && mv -f tmp.txt new.log
           touch tmp.txt && sed -r 's/\. *\x0 *\) *\x0/\.\)\n\x0/g' new.log >> tmp.txt && mv -f tmp.txt new.log
           touch tmp.txt && sed -r 's/\. *\x0 *(\) *[\)]*) *\x0/\.\)\1\n\x0/g' new.log >> tmp.txt && mv -f tmp.txt new.log
           touch tmp.txt && sed -r 's/\. *\x0/\.\n/g' new.log >> tmp.txt && mv -f tmp.txt new.log
-          touch tmp.txt && sed -r 's/\x0/ /g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          touch tmp.txt && sed -r 's/^ *\x0//g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          touch tmp.txt && sed -r 's/\x0//g' new.log >> tmp.txt && mv -f tmp.txt new.log
           touch tmp.txt && sed -r 's/  */ /g' new.log >> tmp.txt && mv -f tmp.txt new.log
           mv -f new.log ${{ github.event.inputs.file2compile }}_full.log
           echo "-----------------------------------------------------"
@@ -107,9 +108,9 @@ jobs:
           echo "              ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           # get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render. 
-          grep -E "\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\: *LaTeX *Error\:" ${{ github.event.inputs.file2compile }}_full.log >> tout.txt
+          grep -E "\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\: LaTeX Error\:" ${{ github.event.inputs.file2compile }}_full.log >> tout.txt
           touch errors.txt
-          grep -E "\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\: *LaTeX *Error\:" ${{ github.event.inputs.file2compile }}_full.log >> errors.txt
+          grep -E "\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\: LaTeX Error\:" ${{ github.event.inputs.file2compile }}_full.log >> errors.txt
           echo "" >> tout.txt
           echo " "
           echo " "
@@ -120,9 +121,9 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          grep -E "\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\: *LaTeX *Warning\:" ${{ github.event.inputs.file2compile }}_full.log >> tout.txt
+          grep -E "^LaTeX Warning\:" ${{ github.event.inputs.file2compile }}_full.log >> tout.txt
           touch warnings.txt
-          grep -E "\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\: *LaTeX *Warning\:" ${{ github.event.inputs.file2compile }}_full.log >> warnings.txt
+          grep -E "^LaTeX Warning\:" ${{ github.event.inputs.file2compile }}_full.log >> warnings.txt
           echo " "
           echo " "
           echo " "
@@ -133,9 +134,9 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          grep -E "Package natbib Warning\: Citation" ${{ github.event.inputs.file2compile }}_full.log >> tout.txt
+          grep -E "^Package natbib Warning\: Citation" ${{ github.event.inputs.file2compile }}_full.log >> tout.txt
           touch referr.txt
-          grep -E "Package natbib Warning\: Citation" ${{ github.event.inputs.file2compile }}_full.log >> referr.txt
+          grep -E "^Package natbib Warning\: Citation" ${{ github.event.inputs.file2compile }}_full.log >> referr.txt
           echo " "
           echo " "
           echo " "
