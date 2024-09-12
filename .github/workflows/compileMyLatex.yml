@@ -88,10 +88,11 @@ jobs:
           sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log > new.log
           # make a new line character after each period
           touch tmp.txt && sed -r 's/ *\x0 *\\\\ */ /g' new.log >> tmp.txt && mv -f tmp.txt new.log
-          touch tmp.txt && sed -r 's/\x0\x0\x0*/\n/g' new.log >> tmp.txt && mv -f tmp.txt new.log
-          touch tmp.txt && sed -r 's/\x0 *\\/\n\\/g' new.log >> tmp.txt && mv -f tmp.txt new.log
-          touch tmp.txt && sed -r 's/\. *\x0 *\) *\x0/\.\)\n/g' new.log >> tmp.txt && mv -f tmp.txt new.log
-          touch tmp.txt && sed -r 's/\. *\x0 *\) *(\)*) *\x0/\.\)\1\n/g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          touch tmp.txt && sed -r 's/\x0\x0\x0*/\x0\n\x0/g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          touch tmp.txt && sed -r 's/\x0 *\\/\x0\n\\/g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          cat new.log
+          touch tmp.txt && sed -r 's/\. *\x0 *\) *\x0/\.\)\n\x0/g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          touch tmp.txt && sed -r 's/\. *\x0 *(\) *[\)]*) *\x0/\.\)\1\n\x0/g' new.log >> tmp.txt && mv -f tmp.txt new.log
           touch tmp.txt && sed -r 's/\. *\x0/\.\n/g' new.log >> tmp.txt && mv -f tmp.txt new.log
           touch tmp.txt && sed -r 's/\x0/ /g' new.log >> tmp.txt && mv -f tmp.txt new.log
           touch tmp.txt && sed -r 's/  */ /g' new.log >> tmp.txt && mv -f tmp.txt new.log
