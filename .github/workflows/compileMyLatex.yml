@@ -90,17 +90,16 @@ jobs:
           touch tmp.txt && sed -r 's/ *\x0 *\\\\ */ /g' new.log >> tmp.txt && mv -f tmp.txt new.log
           touch tmp.txt && sed -r 's/\x0\x0\x0*/\x0\n\x0/g' new.log >> tmp.txt && mv -f tmp.txt new.log
           touch tmp.txt && sed -r 's/\x0 *\\/\x0\n\\/g' new.log >> tmp.txt && mv -f tmp.txt new.log
-          cat new.log
           touch tmp.txt && sed -r 's/\. *\x0 *\) *\x0/\.\)\n\x0/g' new.log >> tmp.txt && mv -f tmp.txt new.log
           touch tmp.txt && sed -r 's/\. *\x0 *(\) *[\)]*) *\x0/\.\)\1\n\x0/g' new.log >> tmp.txt && mv -f tmp.txt new.log
           touch tmp.txt && sed -r 's/\. *\x0/\.\n/g' new.log >> tmp.txt && mv -f tmp.txt new.log
           touch tmp.txt && sed -r 's/\x0/ /g' new.log >> tmp.txt && mv -f tmp.txt new.log
           touch tmp.txt && sed -r 's/  */ /g' new.log >> tmp.txt && mv -f tmp.txt new.log
-          mv -f new.log ${{ github.event.inputs.file2compile }}.log
+          mv -f new.log ${{ github.event.inputs.file2compile }}_full.log
           echo "-----------------------------------------------------"
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
           echo "-----------------------------------------------------"
-          cat ${{ github.event.inputs.file2compile }}.log
+          head ${{ github.event.inputs.file2compile }}.log
           # put in a timestamp at the top of file to become final version of log output
           echo "${{ env.TIMESTAMP }}" > tout.txt
           echo "" >> tout.txt
