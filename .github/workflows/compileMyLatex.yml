@@ -115,6 +115,8 @@ jobs:
           while IFS= read -r line; do
              linenum1=$(echo $line | sed -r 's/^.\/${{ github.event.inputs.file2compile }}.tex\:([0-9]*)/\1/')
              linenum2=$(echo $line | sed -r 's/on input line ([0-9]*)/\1/')
+             echo $linenum1
+             echo $linenum2
              if [ $linenum2 ]; then
                  echo $linenum2__$line >> warnerr.txt
              elif [ $linenum1 ]; then
