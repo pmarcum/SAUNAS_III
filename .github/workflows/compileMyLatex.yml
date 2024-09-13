@@ -116,7 +116,7 @@ jobs:
              echo " "
              echo "----------------------------------------------------------------------------------------------------"
              echo $line
-             echo $line | grep -q -E -o "on input line [0-9]*"
+             echo $line | grep -q -E -o "on input line [0-9]"
              echo "Was there a match?   $?"
              if [ $? -eq 0 ]; then
                 linenum=$(echo $line | sed -r 's/^.*on input line ([0-9]*).*/\1/')
