@@ -116,23 +116,19 @@ jobs:
              echo " "
              echo "----------------------------------------------------------------------------------------------------"
              echo $line
-             echo $line | grep -q -E -o  -e "on input line [0-9]"
-             echo "Was there a match?   $?"
-             if [ $? -eq 0 ]; then
-                linenum=$(echo $line | sed -r 's/^.*on input line ([0-9]*).*/\1/')
+             linenum=$(echo $line | sed -r 's/^.*on input line ([0-9]*).*/\1/;tx;q0;:x')
+             if [ linenum -gt 0 ]; then
                 echo $linenum__$line >> warnerr.txt
                 echo "linenum2 exists:  $linenum"
              else
-               echo $line | grep -q -E -o -e "^\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9]*\:"
-               echo "Was there a match?   $?"
-               if [ $? -eq 0 ]; then
-                  linenum=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9]*).*/\1/')
-                  echo $linenum__$line >> warnerr.txt
-                  echo "linenum1 exists .... $linenum"
-               else
-                  echo noPage__$line >> warnerr.txt
-                  echo "neither linenum1 nor linenum2"
-               fi
+                 linenum=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9]*).*/\1/;tx;q0;:x')
+                 if [ linenum -gt 0 ]; then
+                   echo $linenum__$line >> warnerr.txt
+                   echo "linenum1 exists .... $linenum"
+                 else
+                   echo noPage__$line >> warnerr.txt
+                   echo "neither linenum1 nor linenum2"
+                 fi
              fi
           done < warningError.txt
           echo " "
