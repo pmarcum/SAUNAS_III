@@ -113,6 +113,9 @@ jobs:
           # Now pull out the line number, if provided, in each warning and error
           touch warnerr.txt
           while IFS= read -r line; do
+             echo $line
+             sed -r 's/^\.\/[^:]*\:([0-9]*).*/\1/' 
+             sed -r 's/^.*on input line ([0-9]*).*/\1/'
              linenum1=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9]*).*/\1/' || echo "" ) 
              linenum2=$(echo $line | sed -r 's/^.*on input line ([0-9]*).*/\1/' || echo "")
              echo '----------------------------- linenums ------------------------------------------------------------'
