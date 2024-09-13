@@ -114,14 +114,14 @@ jobs:
           touch warnerr.txt
           while IFS= read -r line; do
              echo $line
-             echo $line | grep -q -E -o  -e "on input line [0-9]"
+             echo $line | grep -q -E "on input line [0-9]"
              echo "Was there a match?   $?"
              if [ $? -eq 0 ]; then
                 linenum=$(echo $line | sed -r 's/^.*on input line ([0-9]*).*/\1/')
                 echo $linenum__$line >> warnerr.txt
                 echo "linenum2 exists:  $linenum"
              else
-               echo $line | grep -q -E -o -e "^\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9]*\:"
+               echo $line | grep -q -E "^\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9]*\:"
                echo "Was there a match?   $?"
                if [ $? -eq 0 ]; then
                   linenum=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9]*).*/\1/')
