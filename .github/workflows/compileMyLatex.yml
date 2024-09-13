@@ -114,24 +114,18 @@ jobs:
           touch warnerr.txt
           while IFS= read -r line; do
              echo $line
-             echo $line | grep -E "on input line [0-9]"
-             echo "Was there a match?   $?"
-             #if [ $? -eq 0 ]; then
-             #   linenum=$(echo $line | sed -r 's/^.*on input line ([0-9]*).*/\1/')
-             #   echo $linenum__$line >> warnerr.txt
-             #   echo "linenum2 exists:  $linenum"
-             #else
-             #  echo $line | grep -q -E "^\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9]*\:"
-             #  echo "Was there a match?   $?"
-             #  if [ $? -eq 0 ]; then
-             #     linenum=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9]*).*/\1/')
-             #     echo $linenum__$line >> warnerr.txt
-             #     echo "linenum1 exists .... $linenum"
-             #  else
-             #     echo noPage__$line >> warnerr.txt
-             #     echo "neither linenum1 nor linenum2"
-             #  fi
-             #fi
+             if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
+                linenum=$(echo $line | sed -r 's/^.*on input line ([0-9]*).*/\1/')
+                echo $linenum__$line >> warnerr.txt
+                echo "linenum2 exists:  $linenum"
+             elif [[ "$(echo "$line" | grep -q -E "^\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9]*\:")$?" == 0 ]]; then
+                linenum=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9]*).*/\1/')
+                echo $linenum__$line >> warnerr.txt
+                echo "linenum1 exists .... $linenum"
+             else
+                echo noPage__$line >> warnerr.txt
+                echo "neither linenum1 nor linenum2"
+             fi
           done < warningError.txt
           done < warningError.txt
           echo " "
