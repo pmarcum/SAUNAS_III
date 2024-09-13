@@ -113,20 +113,30 @@ jobs:
           # Now pull out the line number, if provided, in each warning and error
           touch warnerr.txt
           while IFS= read -r line; do
-             echo $line
-             echo $line | sed -r 's/^\.\/[^:]*\:([0-9]*).*/\1/' 
-             echo $line | sed -r 's/^.*on input line ([0-9]*).*/\1/'
-             linenum1=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9]*).*/\1/' || echo "" ) 
-             linenum2=$(echo $line | sed -r 's/^.*on input line ([0-9]*).*/\1/' || echo "")
+             linenum1 = -1
+             linenum2 = -1
+             echo $line | grep -q -E -o "^\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9]*\:"
+             echo "Was there a match?   $?"
+             if [ $? -eq 0 ]; then
+                 linenum1=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9]*).*/\1/') 
+             fi
+             echo $line | grep -q -E -o "on input line [0-9]*"
+             echo "Was there a match?   $?"
+             if [ $? -eq 0 ]; then
+                 linenum2=$(echo $line | sed -r 's/^.*on input line ([0-9]*).*/\1/') 
+             fi
              echo '----------------------------- linenums ------------------------------------------------------------'
              echo "linenum1:  $linenum1"
              echo "linenum2:  $linenum2"
-             if [ $linenum2 ]; then
-                 echo $linenum2__$line >> warnerr.txt
-             elif [ $linenum1 ]; then
-                 echo $linenum1__$line >> warnerr.txt
+             if [ $linenum2 > 0 ]; then
+                echo $linenum2__$line >> warnerr.txt
+                echo "linenum2 exists"
+             elif [ $linenum1 > 0 ]; then
+                echo $linenum1__$line >> warnerr.txt
+                echo "linenum1 exists"
              else
-                 echo noPage__$line >> warnerr.txt
+                echo noPage__$line >> warnerr.txt
+                echo "neither linenum1 nor linenum2"
              fi
           done < warningError.txt
           echo " "
