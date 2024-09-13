@@ -113,8 +113,9 @@ jobs:
           # Now pull out the line number, if provided, in each warning and error
           touch warnerr.txt
           while IFS= read -r line; do
-             linenum1=$(echo $line | sed -r 's/^\.\/${{ github.event.inputs.file2compile }}\.tex\:\([0-9]*\)/\1/')
-             linenum2=$(echo $line | sed -r 's/on input line \([0-9]*\)/\1/')
+             linenum1=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9]*)/\1/')
+             linenum2=$(echo $line | sed -r 's/on input line ([0-9]*)/\1/')
+             echo '----------------------------- linenums ------------------------------------------------------------'
              echo $linenum1
              echo $linenum2
              if [ $linenum2 ]; then
@@ -146,7 +147,6 @@ jobs:
           #  head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
           #  echo "-------------------------------------------------------------------------" >> tout.txt
           #done < errors.txt
-
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
