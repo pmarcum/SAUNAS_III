@@ -170,7 +170,7 @@ jobs:
           while IFS= read -r line; do
             echo "line being looked at: $line"
             # determine if this line has already been written. If not, then proceed
-            if [[ "$(cat tout.txt | grep -q -E "$line")$?" == 0 ]]; then
+            if [[ "$(cat tout.txt | grep -q -E "$line")$?" != 0 ]]; then
               echo $line | sed 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
               linenum=$(echo $line | sed 's/^\([0-9][0-9]*)\.*/\1/')
               # remove this line from warningError.txt
@@ -204,7 +204,7 @@ jobs:
           grep -E "^[0-9][0-9]* WARNING " warningError.txt >> warnings.txt
           while IFS= read -r line; do
             # determine if this line has already been written. If not, then proceed
-            if [[ "$(grep -c $line tout.txt)" == 0 ]]; then
+            if [[ "$(cat tout.txt | grep -q -E "$line")$?" != 0 ]]; then
               echo $line | sed 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
               linenum=$(echo $line | sed 's/^\([0-9][0-9]*)\.*/\1/')
               # remove this line from warningError.txt
