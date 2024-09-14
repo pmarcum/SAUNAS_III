@@ -115,25 +115,36 @@ jobs:
           # Now pull out the line number, if provided, in each warning and error
           touch warnerr.txt
           while IFS= read -r line; do
+             echo "line:  $line"
              if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
+                echo "there is an input line number"
                 linenum=$(echo $line | sed -r 's/^.*on input line ([0-9]*).*/\1/')
+                echo "the line number is $linenum"
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
-                    echo $linenum__ERROR__$line >> warnerr.txt
+                    echo $linenum__ERROR__$line >> warnerr.txt 
+                    echo "The line is a Latex error"
                 else
                     echo $linenum__WARNING__$line >> warnerr.txt
+                    echo "The line is a warning"
                 fi
              elif [[ "$(echo "$line" | grep -q -E "^\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9]*\:")$?" == 0 ]]; then
+                echo "there is a number after the colon"
                 linenum=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9]*).*/\1/')
+                echo "the line number is $linenum"
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
                     echo $linenum__ERROR__$line >> warnerr.txt
+                    echo "the line is a lates error"
                 else
                     echo $linenum__WARNING__$line >> warnerr.txt
+                    echo "the line is a warning"
                 fi
              else
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
+                    echo "there is no line number and this line is alatex error"
                     echo 0__ERROR__$line >> warnerr.txt
                 else
                     echo 0__WARNING__$line >> warnerr.txt
+                    echo "there is no line number and this line is a warning"
                 fi
              fi
           done < warningError.txt
