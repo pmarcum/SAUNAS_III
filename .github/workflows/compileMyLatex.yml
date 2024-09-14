@@ -111,54 +111,55 @@ jobs:
           # be consolidated with the associated line in the error section here
           grep -E "^LaTeX Warning\:" ${{ github.event.inputs.file2compile }}_full.log >> warningError.txt
           # take a look at the bib tex errors
-          grep -E "^Package natbib Warning\: Citation" ${{ github.event.inputs.file2compile }}_full.log >> warningError.txt
+          #grep -E "^Package natbib Warning\: Citation" ${{ github.event.inputs.file2compile }}_full.log >> warningError.txt
           # Now pull out the line number, if provided, in each warning and error
           touch warnerr.txt
           while IFS= read -r line; do
              #echo "line:  $line"
              if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
-                #echo "there is an input line number"
-                linenum=$(echo $line | sed -r 's/^.*on input line ([0-9]*).*/\1/')
-                #echo "the line number is $linenum"
-                if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
-                    echo $linenum__ERROR__$line >> warnerr.txt 
-                    #echo "The line is a Latex error"
-                else
-                    echo $linenum__WARNING__$line >> warnerr.txt
-                    #echo "The line is a warning"
-                fi
+                echo "there is an input line number"
+                #linenum=$(echo $line | sed -r 's/^.*on input line ([0-9]*).*/\1/')
+                ##echo "the line number is $linenum"
+                #if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
+                #    echo $linenum__ERROR__$line >> warnerr.txt 
+                #    #echo "The line is a Latex error"
+                #else
+                #    echo $linenum__WARNING__$line >> warnerr.txt
+                #    #echo "The line is a warning"
+                #fi
              elif [[ "$(echo "$line" | grep -q -E "^\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9]*\:")$?" == 0 ]]; then
-                #echo "there is a number after the colon"
-                linenum=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9]*).*/\1/')
-                #echo "the line number is $linenum"
-                if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
-                    echo $linenum__ERROR__$line >> warnerr.txt
-                    #echo "the line is a lates error"
-                else
-                    echo $linenum__WARNING__$line >> warnerr.txt
-                    #echo "the line is a warning"
-                fi
+                echo "there is a number after the colon"
+                #linenum=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9]*).*/\1/')
+                ##echo "the line number is $linenum"
+                #if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
+                #    echo $linenum__ERROR__$line >> warnerr.txt
+                #    #echo "the line is a lates error"
+                #else
+                #    echo $linenum__WARNING__$line >> warnerr.txt
+                #    #echo "the line is a warning"
+                #fi
              else
-                if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
-                    #echo "there is no line number and this line is alatex error"
-                    echo 0__ERROR__$line >> warnerr.txt
-                else
-                    echo 0__WARNING__$line >> warnerr.txt
-                    #echo "there is no line number and this line is a warning"
-                fi
+                echo "there is no line number provided in this error"
+                #if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
+                #    #echo "there is no line number and this line is alatex error"
+                #    echo 0__ERROR__$line >> warnerr.txt
+                #else
+                #    echo 0__WARNING__$line >> warnerr.txt
+                #    #echo "there is no line number and this line is a warning"
+                #fi
              fi
           done < warningError.txt
           mv -f warnerr.txt warningError.txt
           sort warningError.txt | uniq > warnerr.txt
           mv -f warnerr.txt warningError.txt
-          echo " "
-          echo " "
-          echo " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-          echo "                                WARNINGS AND ERRORS BEFORE PROCESSING "
-          echo " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          #echo " "
+          #echo " "
+          #echo " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          #echo "                                WARNINGS AND ERRORS BEFORE PROCESSING "
+          #echo " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           cat warningError.txt
-          echo " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-          echo "                                    ++++++++++++++++++++++++++++++++++++++"
+          #echo " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          #echo "                                    ++++++++++++++++++++++++++++++++++++++"
           # The below pulls out only those lines that are directly related to warnings and errors within the .tex file 
           # This step is why we needed everything related to a given error to appear in a single line and did the formatting above.
           # https://stackoverflow.com/questions/75534451/using-grep-output-as-pattern-for-a-second-grep
@@ -172,69 +173,69 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           touch errors.txt
           grep -E "__ERROR__" warningError.txt >> errors.txt
-          while IFS= read -r line; do
-            echo "looking at this error: $line"
-            # determine if this line has already been written. If not, then proceed
-            if [[ "$(grep -c $line tout.txt)" == 0 ]]; then
-              echo "This line has not been processed yet"
-              echo $line | sed 's/^[0-9]*__[A-Z]*__//' >> tout.txt
-              linenum=$(echo $line | sed 's/^\([0-9]*)\.*/\1/')
-              echo "The line number is $linenum"
-              # remove this line from warningError.txt
-              sed -i "/$line/d" warningError.txt
-              if [[ $linenum > 0 ]]; then
-                 echo "line number is larger than 0, so lets look for other occurances of this error"
-                 # look for other occurances of this line number in the file
-                 touch tmp.txt && grep -E "^$linenum__" warningError.txt >> tmp.txt
-                 while IFS= read -r ln; do
-                   echo "just found another occurance, which is:  $ln"
-                   echo $ln | sed 's/^[0-9]*__[A-Z]*__//' >> tout.txt
-                   # remove from warningError.txt
-                   echo "removing this line from warningError.txt"
-                   sed -i "/$ln/d" warningError.txt
-                 done < tmp.txt
-                 # now look up the line in the .tex file and place underneath
-                 echo "Looking up the line in the original .tex file"
-                 head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
-              fi
-              echo "tout.txt so far has this content: "
-              cat tout.txt
-              echo "_______________________________________________________________________________________________________"
-              echo "-------------------------------------------------------------------------" >> tout.txt
-            fi
-          done < errors.txt
-          echo "" >> tout.txt
-          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
-          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          touch warnings.txt
-          grep -E "__WARNING__" warningError.txt >> warnings.txt
-          while IFS= read -r line; do
-            # determine if this line has already been written. If not, then proceed
-            if [[ "$(grep -c $line tout.txt)" == 0 ]]; then
-              echo $line | sed 's/^[0-9]*__[A-Z]*__//' >> tout.txt
-              linenum=$(echo $line | sed 's/^\([0-9]*)\.*/\1/')
-              # remove this line from warningError.txt
-              sed -i "/$line/d" warningError.txt
-              if [[ $linenum > 0 ]]; then
-                 # look for other occurances of this line number in the file
-                 touch tmp.txt && grep -E "^$linenum__" warningError.txt >> tmp.txt
-                 while IFS= read -r ln; do
-                   echo $ln | sed 's/^[0-9]*__[A-Z]*__//' >> tout.txt
-                   # remove from warningError.txt
-                   sed -i "/$ln/d" warningError.txt
-                 done < tmp.txt
-                 # now look up the line in the .tex file and place underneath
-                 head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
-              fi
-              echo "-------------------------------------------------------------------------" >> tout.txt
-            fi
-          done < warnings.txt
-          echo "" >> tout.txt
-          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          echo "              CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
-          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          #
+          #while IFS= read -r line; do
+          #  echo "looking at this error: $line"
+          #  # determine if this line has already been written. If not, then proceed
+          #  if [[ "$(grep -c $line tout.txt)" == 0 ]]; then
+          #    echo "This line has not been processed yet"
+          #    echo $line | sed 's/^[0-9]*__[A-Z]*__//' >> tout.txt
+          #    linenum=$(echo $line | sed 's/^\([0-9]*)\.*/\1/')
+          #    echo "The line number is $linenum"
+          #    # remove this line from warningError.txt
+          #    sed -i "/$line/d" warningError.txt
+          #    if [[ $linenum > 0 ]]; then
+          #       echo "line number is larger than 0, so lets look for other occurances of this error"
+          #       # look for other occurances of this line number in the file
+          #       touch tmp.txt && grep -E "^$linenum__" warningError.txt >> tmp.txt
+          #       while IFS= read -r ln; do
+          #         echo "just found another occurance, which is:  $ln"
+          #         echo $ln | sed 's/^[0-9]*__[A-Z]*__//' >> tout.txt
+          #         # remove from warningError.txt
+          #         echo "removing this line from warningError.txt"
+          #         sed -i "/$ln/d" warningError.txt
+          #       done < tmp.txt
+          #       # now look up the line in the .tex file and place underneath
+          #       echo "Looking up the line in the original .tex file"
+          #       head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
+          #    fi
+          #    echo "tout.txt so far has this content: "
+          #    cat tout.txt
+          #    echo "_______________________________________________________________________________________________________"
+          #    echo "-------------------------------------------------------------------------" >> tout.txt
+          #  fi
+          #done < errors.txt
+          #echo "" >> tout.txt
+          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          #echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
+          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          #touch warnings.txt
+          #grep -E "__WARNING__" warningError.txt >> warnings.txt
+          #while IFS= read -r line; do
+          #  # determine if this line has already been written. If not, then proceed
+          #  if [[ "$(grep -c $line tout.txt)" == 0 ]]; then
+          #    echo $line | sed 's/^[0-9]*__[A-Z]*__//' >> tout.txt
+          #    linenum=$(echo $line | sed 's/^\([0-9]*)\.*/\1/')
+          #    # remove this line from warningError.txt
+          #    sed -i "/$line/d" warningError.txt
+          #    if [[ $linenum > 0 ]]; then
+          #       # look for other occurances of this line number in the file
+          #       touch tmp.txt && grep -E "^$linenum__" warningError.txt >> tmp.txt
+          #       while IFS= read -r ln; do
+          #         echo $ln | sed 's/^[0-9]*__[A-Z]*__//' >> tout.txt
+          #         # remove from warningError.txt
+          #         sed -i "/$ln/d" warningError.txt
+          #       done < tmp.txt
+          #       # now look up the line in the .tex file and place underneath
+          #       head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
+          #    fi
+          #    echo "-------------------------------------------------------------------------" >> tout.txt
+          #  fi
+          #done < warnings.txt
+          #echo "" >> tout.txt
+          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          #echo "              CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
+          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          ##
           ## The below pulls out only those lines that are directly related to warnings and errors within the .tex file 
           ## This step is why we needed everything related to a given error to appear in a single line and did the formatting above.
           ## https://stackoverflow.com/questions/75534451/using-grep-output-as-pattern-for-a-second-grep
