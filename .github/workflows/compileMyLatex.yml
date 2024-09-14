@@ -113,10 +113,8 @@ jobs:
           # take a look at the bib tex errors
           grep -E "^Package natbib Warning\: Citation" ${{ github.event.inputs.file2compile }}_full.log >> warningError.txt
           # Now pull out the line number, if provided, in each warning and error
-          cat warningError.txt
           touch warnerr.txt
           while IFS= read -r line; do
-             echo $line
              if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
                 linenum=$(echo $line | sed -r 's/^.*on input line ([0-9]*).*/\1/')
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
