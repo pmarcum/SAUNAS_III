@@ -115,7 +115,7 @@ jobs:
           # Now pull out the line number, if provided, in each warning and error
           touch warnerr.txt
           while IFS= read -r line; do
-             echo "line:  $line"
+             #echo "line:  $line"
              if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
                 echo "there is an input line number"
                 linenum=$(echo $line | sed -r 's/^.*on input line ([0-9]*).*/\1/')
