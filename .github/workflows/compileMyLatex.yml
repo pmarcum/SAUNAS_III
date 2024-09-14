@@ -210,14 +210,6 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          touch referr.txt
-
-          echo " "
-          echo " "
-          echo " "
-          echo "***********************************************************************************************************************"
-          echo "************************************************** REFERENCE ERRORS ***************************************************"
-          cat referr.txt
           #
           ## The below pulls out only those lines that are directly related to warnings and errors within the .tex file 
           ## This step is why we needed everything related to a given error to appear in a single line and did the formatting above.
