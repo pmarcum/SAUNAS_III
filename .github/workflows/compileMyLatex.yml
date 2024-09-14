@@ -175,7 +175,7 @@ jobs:
               echo " the below is what gets put int tout.txt"
               echo $line | sed 's/^[0-9][0-9]* [A-Z][A-Z]* //'
               echo $line | sed 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-              linenum=$(echo $line | sed 's/^\([0-9][0-9]*\)\.*/\1/')
+              linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               echo "line number $linenum"
               # remove this line from warningError.txt
               sed -i "/$line/d" warningError.txt
@@ -210,7 +210,7 @@ jobs:
             # determine if this line has already been written. If not, then proceed
             if [[ "$(cat tout.txt | grep -q -E "$line")$?" != 0 ]]; then
               echo $line | sed 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-              linenum=$(echo $line | sed 's/^\([0-9][0-9]*\)\.*/\1/')
+              linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) \.*/\1/')
               # remove this line from warningError.txt
               sed -i "/$line/d" warningError.txt
               if [[ $linenum > 0 ]]; then
