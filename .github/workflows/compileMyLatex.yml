@@ -116,30 +116,33 @@ jobs:
           touch warnerr.txt
           while IFS= read -r line; do
              if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
-                linenum=$(echo $line | sed -r 's/^.*on input line ([0-9]*).*/\1/')
+                linenum=$(echo $line | sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/')
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
-                    echo $linenum__ERROR__$line >> warnerr.txt 
+                    echo "$linenum ERROR $line" >> warnerr.txt 
                 elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
-                    echo $linenum__BIB__$line >> warnerr.txt
+                    echo "$linenum BIB $line" >> warnerr.txt
                 else
-                    echo $linenum__WARNING__$line >> warnerr.txt
+                    echo "$linenum WARNING $line" >> warnerr.txt
                 fi
-             elif [[ "$(echo "$line" | grep -q -E "^\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9]*\:")$?" == 0 ]]; then
-                linenum=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9]*).*/\1/')
+             elif [[ "$(echo "$line" | grep -q -E "^\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\:")$?" == 0 ]]; then
+                linenum=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9][0-9]*).*/\1/')
+                echo "found line number: $linenum  in this line: $line"
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
-                    echo $linenum__ERROR__$line >> warnerr.txt
+                    echo "$linenum ERROR $line" >> warnerr.txt
+                    echo "just found a latex error and wrote the following into warnerr.txt:"
+                    echo "$linenum ERROR $line"
                 elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
-                    echo $linenum__BIB__$line >> warnerr.txt
+                    echo "$linenum BIB $line" >> warnerr.txt
                 else
-                    echo $linenum__WARNING__$line >> warnerr.txt
+                    echo "$linenum WARNING $line" >> warnerr.txt
                 fi
              else
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
-                    echo 0__ERROR__$line >> warnerr.txt
+                    echo "0 ERROR $line" >> warnerr.txt
                 elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
-                    echo $linenum__BIB__$line >> warnerr.txt
+                    echo "$linenum BIB $line" >> warnerr.txt
                 else
-                    echo 0__WARNING__$line >> warnerr.txt
+                    echo "0 WARNING $line" >> warnerr.txt
                 fi
              fi
           done < warningError.txt
@@ -166,19 +169,19 @@ jobs:
           echo "              ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           touch errors.txt
-          grep -E "__ERROR__" warningError.txt >> errors.txt
+          grep -E "^[0-9][0-9]* ERROR " warningError.txt >> errors.txt
           while IFS= read -r line; do
             # determine if this line has already been written. If not, then proceed
             if [[ "$(grep -c $line tout.txt)" == 0 ]]; then
-              echo $line | sed 's/^[0-9]*__[A-Z]*__//' >> tout.txt
-              linenum=$(echo $line | sed 's/^\([0-9]*)\.*/\1/')
+              echo $line | sed 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
+              linenum=$(echo $line | sed 's/^\([0-9][0-9]*)\.*/\1/')
               # remove this line from warningError.txt
               sed -i "/$line/d" warningError.txt
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
-                 touch tmp.txt && grep -E "^$linenum__" warningError.txt >> tmp.txt
+                 touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                  while IFS= read -r ln; do
-                   echo $ln | sed 's/^[0-9]*__[A-Z]*__//' >> tout.txt
+                   echo $ln | sed 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
                    # remove from warningError.txt
                    sed -i "/$ln/d" warningError.txt
                  done < tmp.txt
@@ -196,19 +199,19 @@ jobs:
           echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           touch warnings.txt
-          grep -E "__WARNING__" warningError.txt >> warnings.txt
+          grep -E "^[0-9][0-9]* WARNING " warningError.txt >> warnings.txt
           while IFS= read -r line; do
             # determine if this line has already been written. If not, then proceed
             if [[ "$(grep -c $line tout.txt)" == 0 ]]; then
-              echo $line | sed 's/^[0-9]*__[A-Z]*__//' >> tout.txt
-              linenum=$(echo $line | sed 's/^\([0-9]*)\.*/\1/')
+              echo $line | sed 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
+              linenum=$(echo $line | sed 's/^\([0-9][0-9]*)\.*/\1/')
               # remove this line from warningError.txt
               sed -i "/$line/d" warningError.txt
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
-                 touch tmp.txt && grep -E "^$linenum__" warningError.txt >> tmp.txt
+                 touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                  while IFS= read -r ln; do
-                   echo $ln | sed 's/^[0-9]*__[A-Z]*__//' >> tout.txt
+                   echo $ln | sed 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
                    # remove from warningError.txt
                    sed -i "/$ln/d" warningError.txt
                  done < tmp.txt
@@ -236,7 +239,7 @@ jobs:
           #while IFS= read -r line; do
           #  echo $line >> tout.txt
           #done < compileout.txt
-          #  linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
+          #  linenum=$(echo $line | sed 's/^.*: \([0-9][0-9]*\):.*/\1/')
           #  head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
           #  echo "-------------------------------------------------------------------------" >> tout.txt
           #done < errors.txt
@@ -255,7 +258,7 @@ jobs:
           #rm -f tmptmp.txt
           #while IFS= read -r line; do
           #  echo $line >> tout.txt
-          #  linenum=$(echo $line | sed 's/^.*: \([0-9]*\):.*/\1/')
+          #  linenum=$(echo $line | sed 's/^.*: \([0-9][0-9]*\):.*/\1/')
           #  head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
           #  echo "-------------------------------------------------------------------------" >> tout.txt
           #done < warnings.txt
