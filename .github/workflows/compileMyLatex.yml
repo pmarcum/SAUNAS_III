@@ -173,9 +173,15 @@ jobs:
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
                  touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
+                 echo " "
+                 echo " + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +"
+                 echo "all the lines affiliated with line number: $linenum"
+                 cat tmp.txt
+                 echo " _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"
+                 echo " "
                  while IFS= read -r ln; do
                    if [[ $ln != $line ]]; then
-                      echo $ln | sed 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
+                      echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
                       # remove from warningError.txt
                       sed -i '/"$ln"/d' warningError.txt
                    fi
@@ -201,15 +207,15 @@ jobs:
               echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               # remove this line from warningError.txt
-              sed -i -r '/"$line"/d' warningError.txt
+              sed -i '/"$line"/d' warningError.txt
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
                  touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                  while IFS= read -r ln; do
                    if [[ $ln != $line ]]; then
-                      echo $ln | sed 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
+                      echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
                       # remove from warningError.txt
-                      sed -i -r '/"$ln"/d' warningError.txt
+                      sed -i '/"$ln"/d' warningError.txt
                    fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
