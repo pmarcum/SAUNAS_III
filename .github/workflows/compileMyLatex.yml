@@ -166,9 +166,9 @@ jobs:
             echo " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
             echo "Modified Line: $modifiedLine"
             echo "errArray: $errArray"
-            echo "0 means not yet processed, 1 means already processed: $(echo "$errArray" | grep -q -E "\x0$modifiedLine\x0")$?"
+            echo "0 means not yet processed, 1 means already processed: "[[ $errArray =~ \x0$modifiedLine\x0 ]]
             # determine if this line has already been written. If not, then proceed
-            if [[ "$(echo "$errArray" | grep -q -E "\x0$modifiedLine\x0")$?" != 0 ]]; then
+            if [[ $errArray =~ \x0$modifiedLine\x0 ]]; then
               echo $modifiedLine >> tout.txt
               errArray+="$modifiedLine\x0"
               echo "174: errArray is now: $errArray"
@@ -179,8 +179,8 @@ jobs:
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
                     echo "Other modified line: $modLine"
-                    echo "0 means not yet processed, 1 means already processed: $(echo "$errArray" | grep -q -E "\x0$modLine\x0")$?"
-                    if [[ "$(echo "$errArray" | grep -q -E "\x0$modLine\x0")$?" != 0 ]]; then
+                    echo "0 means not yet processed, 1 means already processed: "[[ $errArray =~ \x0$modLine\x0 ]]
+                    if [[ $errArray =~ \x0$modLine\x0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
                        errArray+="$modLine\x0"
                        echo "186: errArray is now: $errArray"
@@ -209,9 +209,9 @@ jobs:
             echo " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
             echo "Modified Line: $modifiedLine"
             echo "errArray: $errArray"
-            echo "0 means not yet processed, 1 means already processed: $(echo "$errArray" | grep -q -E "\x0$modifiedLine\x0")$?"
+            echo "0 means not yet processed, 1 means already processed: "[[ $errArray =~ \x0$modifiedLine\x0 ]]
             # determine if this line has already been written. If not, then proceed
-            if [[ "$(echo "$errArray" | grep -q -E "\x0$modifiedLine\x0")$?" != 0 ]]; then
+            if [[ $errArray =~ \x0$modifiedLine\x0 ]]; then
               echo $modifiedLine >> tout.txt
               errArray+="$modifiedLine\x0"
               echo "217: errArray is now: $errArray"
@@ -222,8 +222,8 @@ jobs:
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
                     echo "Other modified line: $modLine"
-                    echo "0 means not yet processed, 1 means already processed: $(echo "$errArray" | grep -q -E "\x0$modLine\x0")$?"
-                    if [[ $(echo "$errArray" | grep -q -E "\x0$modLine\x0")$?" != 0 ]]; then
+                    echo "0 means not yet processed, 1 means already processed: "[[ $errArray =~ \x0$modLine\x0 ]]
+                    if [[ $errArray =~ x0$modLine\x0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
                        errArray+="$modLine\x0"
                        echo "229: errArray is now: $errArray"
@@ -252,9 +252,9 @@ jobs:
             echo " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
             echo "Modified Line: $modifiedLine"
             echo "errArray: $errArray"
-            echo "0 means not yet processed, 1 means already processed: $(echo "$errArray" | grep -q -E "\x0$modifiedLine\x0")$?"
+            echo "0 means not yet processed, 1 means already processed: "[[ $errArray =~ \x0$modifiedLine\x0 ]]
             # determine if this line has already been written. If not, then proceed
-            if [[ $(echo "$errArray" | grep -q -E "\x0$modifiedLine\x0")$?" != 0 ]]; then
+            if [[ $errArray =~ \x0$modifiedLine\x0 ]]; then
               echo $modifiedLine >> tout.txt
               errArray+="$modifiedLine\x0"
               echo "260: errArray is now: $errArray"
@@ -265,8 +265,8 @@ jobs:
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
                     echo "Other modified line: $modLine"
-                    echo "0 means not yet processed, 1 means already processed: $(echo "$errArray" | grep -q -E "\x0$modLine\x0")$?"
-                    if [[ $(echo "$errArray" | grep -q -E "\x0$modLine\x0")$?" != 0 ]]; then
+                    echo "0 means not yet processed, 1 means already processed: "[[ $errArray =~ \x0$modLine\x0 ]]
+                    if [[ $errArray =~ \x0$modLine\x0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
                        errArray+="$modLine\x0"
                        echo "272: errArray is now: $errArray"
