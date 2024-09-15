@@ -182,7 +182,7 @@ jobs:
             fi
             if [[ "$(echo "$errArray" | grep -q -E "ZZ$modifiedLineZZ")$?" == 0 ]]; then
               echo $modifiedLine >> tout.txt
-              errArray="$errArrray$modifiedLineZZ"
+              errArray="$errArray$modifiedLineZZ"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
