@@ -152,7 +152,7 @@ jobs:
           # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
           # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
           # put in a timestamp at the top of file to become final version of log output
-          errArray="\n0"
+          errArray="\x0"
           echo "${{ env.TIMESTAMP }}" > tout.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -163,20 +163,36 @@ jobs:
           while IFS= read -r line; do
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
             # determine if this line has already been written. If not, then proceed
-            #if [[ "$(echo "$errArray" | grep -q -E "\n0$modifiedLine\n0")$?" != 0 ]]; then
+            if [[ "$(echo "$errArray" | grep -q -E "\x0$modifiedLine\x0")$?" != 0 ]]; then
+              echo " "
+              echo " * * * * * * * * * * * * * * * * * * *  E R R O R S  *  * * * * * * * * * * * * * * * * * * * * * * *"
+              echo "modified line is NOT already in errArray"
+            else
+              echo " "
+              echo " * * * * * * * * * * * * * * * * * * *  E R R O R S  *  * * * * * * * * * * * * * * * * * * * * * * *"
+              echo "modified line IS already in errArray"
+            fi
             if [[ "$(grep -q -E "$modifiedLine" tout.txt)$?" != 0 ]]; then
               echo $modifiedLine >> tout.txt
-              errArray+="$modifiedLine\n0"
+              errArray+="$modifiedLine\x0"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
                  rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
-                    #if [[ "$(echo "$errArray" | grep -q -E "\n0$modLine\n0")$?" != 0 ]]; then
+                    if [[ "$(echo "$errArray" | grep -q -E "\x0$modLine\x0")$?" != 0 ]]; then
+                         echo " "
+                         echo " * * * * * * * * * * * * * * * * * * *  E R R O R S  *  * * * * * * * * * * * * * * * * * * * * * * *"
+                         echo "mod line is NOT already in errArray"
+                    else
+                         echo " "
+                         echo " * * * * * * * * * * * * * * * * * * *  E R R O R S  *  * * * * * * * * * * * * * * * * * * * * * * *"
+                         echo "mod line IS already in errArray"
+                    fi
                     if [[ "$(grep -q -E "$modLine" tout.txt)$?" != 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                       errArray+="$modLine\n0"
+                       errArray+="$modLine\x0"
                     fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
@@ -195,20 +211,36 @@ jobs:
           while IFS= read -r line; do
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
             # determine if this line has already been written. If not, then proceed
+            if [[ "$(echo "$errArray" | grep -q -E "\x0$modifiedLine\x0")$?" != 0 ]]; then
+              echo " "
+              echo " * * * * * * * * * * * * * * * * * * *  W A R N I N G S  * * * * * * * * * * * * * * * * * * * * * * *"
+              echo "modified line is NOT already in errArray"
+            else
+              echo " "
+              echo " * * * * * * * * * * * * * * * * * * *  W A R N I N G S  * * * * * * * * * * * * * * * * * * * * * * *"
+              echo "modified line IS already in errArray"
+            fi
             if [[ "$(grep -q -E "$modifiedLine" tout.txt)$?" != 0 ]]; then
-            #if [[ $(echo "$errArray" | grep -q -E "\n0$modifiedLine\n0")$?" != 0 ]]; then
               echo $modifiedLine >> tout.txt
-              errArray+="$modifiedLine\n0"
+              errArray+="$modifiedLine\x0"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
                  rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
+                    if [[ $(echo "$errArray" | grep -q -E "\x0$modLine\x0")$?" != 0 ]]; then
+                       echo " "
+                       echo " * * * * * * * * * * * * * * * * * * *  W A R N I N G S  * * * * * * * * * * * * * * * * * * * * * * *"
+                       echo "modified line is NOT already in errArray"
+                    else
+                       echo " "
+                       echo " * * * * * * * * * * * * * * * * * * *  W A R N I N G S  * * * * * * * * * * * * * * * * * * * * * * *"
+                       echo "modified line IS already in errArray"
+                    fi
                     if [[ "$(grep -q -E "$modLine" tout.txt)$?" != 0 ]]; then
-                    #if [[ $(echo "$errArray" | grep -q -E "\n0$modLine\n0")$?" != 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                       errArray+="$modLine\n0"
+                       errArray+="$modLine\x0"
                     fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
@@ -227,20 +259,36 @@ jobs:
           while IFS= read -r line; do
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
             # determine if this line has already been written. If not, then proceed
-            #if [[ $(echo "$errArray" | grep -q -E "\n0$modifiedLine\n0")$?" != 0 ]]; then
+            if [[ $(echo "$errArray" | grep -q -E "\x0$modifiedLine\x0")$?" != 0 ]]; then
+              echo " "
+              echo " * * * * * * * * * * * * * * * * * *  C I T A T I O N S * * * * * * * * * * * * * * * * * * * * * * *"
+              echo "modified line is NOT already in errArray"
+            else
+               echo " "
+               echo " * * * * * * * * * * * * * * * * * *  C I T A T I O N S * * * * * * * * * * * * * * * * * * * * * * *"
+               echo "modified line IS already in errArray"
+            fi
             if [[ "$(grep -q -E "$modifiedLine" tout.txt)$?" != 0 ]]; then
               echo $modifiedLine >> tout.txt
-              errArray+="$modifiedLine\n0"
+              errArray+="$modifiedLine\x0"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
                  rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
-                    #if [[ $echo "$errArray" | grep -q -E "\n0$modLine\n0")$?" != 0 ]]; then
+                    if [[ $(echo "$errArray" | grep -q -E "\x0$modLine\x0")$?" != 0 ]]; then
+                       echo " "
+                       echo " * * * * * * * * * * * * * * * * * *  C I T A T I O N S * * * * * * * * * * * * * * * * * * * * * * *"
+                       echo "modified line is NOT already in errArray"
+                    else
+                       echo " "
+                       echo " * * * * * * * * * * * * * * * * * *  C I T A T I O N S * * * * * * * * * * * * * * * * * * * * * * *"
+                       echo "modified line IS already in errArray"
+                    fi
                     if [[ "$(grep -q -E "$modLine" tout.txt)$?" != 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                       errArray+="$modLine\n0"
+                       errArray+="$modLine\x0"
                     fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
