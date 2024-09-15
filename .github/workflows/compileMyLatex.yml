@@ -170,7 +170,7 @@ jobs:
           while IFS= read -r line; do
             echo "$line"
             echo "$line" | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //'
-            modifiedLine = $(echo "$line" | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
+            modifiedLine = "$(echo "$line" | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')"
             echo "line being looked at: $modifiedLine"
             # determine if this line has already been written. If not, then proceed
             if [[ "$(cat tout.txt | grep -q -E "$modifiedLine")$?" != 0 ]]; then
