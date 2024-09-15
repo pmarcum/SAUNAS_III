@@ -193,6 +193,7 @@ jobs:
                     echo " " 
                     echo "                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ mod line ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
                     echo "                  $modLine"
+                    echo "                  $errArray"
                     echo "                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
                     if [[ "$(echo "$errArray" | grep -q -E "ZZ$modLineZZ")$?" == 0 ]]; then
                          echo "                  mod line is NOT already in errArray"
@@ -218,6 +219,11 @@ jobs:
             echo " .............................................................................................................."
           done < errors.txt
           echo "" >> tout.txt
+          echo " "
+          echo " "
+          echo " #######################################################################################"
+          echo "            ################################################################"
+          echo "                         ######################################"
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -225,11 +231,19 @@ jobs:
           grep -E "^[0-9][0-9]* WARNING " warningError.txt >> warnings.txt
           while IFS= read -r line; do
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
-            # determine if this line has already been written. If not, then proceed
-            echo ' '
-            echo '&&&&&&&&&&&&&&&&&&&'
-            echo $errArray
+            echo " "
+            echo " +++++++++++++++++++++++++++++++++++++++++++++ modified line +++++++++++++++++++++++++++++++++++++++++++++++++"
             echo $modifiedLine
+            echo " +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+            echo " "
+            echo " "
+            echo " "
+            echo " ...................................... beginning of loop: err array .........................................."
+            echo $errArray
+            echo " .............................................................................................................."
+            echo " "
+            echo " "
+            # determine if this line has already been written. If not, then proceed
             if [[ "$(echo "$errArray" | grep -q -E "ZZ$modifiedLineZZ")$?" == 0 ]]; then
               echo "modified line is NOT already in errArray"
             else
