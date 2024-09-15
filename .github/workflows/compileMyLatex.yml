@@ -101,9 +101,6 @@ jobs:
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
           echo "-----------------------------------------------------"
           #cat ${{ github.event.inputs.file2compile }}_full.log
-          # put in a timestamp at the top of file to become final version of log output
-          echo "${{ env.TIMESTAMP }}" > tout.txt
-          echo "" >> tout.txt
           touch warningError.txt
           # get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render. 
           grep -E "\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\: LaTeX Error\:" ${{ github.event.inputs.file2compile }}_full.log >> warningError.txt
@@ -157,6 +154,9 @@ jobs:
           # squash.io/extracting=numbers-from-strings-in-bash
           # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
           # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
+          # put in a timestamp at the top of file to become final version of log output
+          echo "${{ env.TIMESTAMP }}" > tout.txt
+          echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -174,9 +174,11 @@ jobs:
                  # look for other occurances of this line number in the file
                  touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                  while IFS= read -r ln; do
-                   echo $ln | sed 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                   # remove from warningError.txt
-                   sed -i '/"$ln"/d' warningError.txt
+                   if [[ $ln != $line ]]; then
+                      echo $ln | sed 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
+                      # remove from warningError.txt
+                      sed -i '/"$ln"/d' warningError.txt
+                   fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
                  head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
@@ -204,9 +206,11 @@ jobs:
                  # look for other occurances of this line number in the file
                  touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                  while IFS= read -r ln; do
-                   echo $ln | sed 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                   # remove from warningError.txt
-                   sed -i -r '/"$ln"/d' warningError.txt
+                   if [[ $ln != $line ]]; then
+                      echo $ln | sed 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
+                      # remove from warningError.txt
+                      sed -i -r '/"$ln"/d' warningError.txt
+                   fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
                  head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
@@ -313,7 +317,6 @@ jobs:
           #echo "========================================="
           #echo ""
           #mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
-          cat tout.txt
           echo " "
           echo " "
           echo " "
