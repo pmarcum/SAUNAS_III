@@ -171,12 +171,12 @@ jobs:
             echo " "
             echo " ...................................... beginning of loop: err array .........................................."
             echo $errArray
-            echo "$(echo "$errArrayZZ$modifiedLineZZ" | grep -q -E "ZZ$modifiedLineZZ")$?"
+            echo "$(echo "$errArrayZZ$modifiedLineZZ$modifiedLineZZ" | grep -q -E "ZZ$modifiedLineZZ")$?"
             echo " .............................................................................................................."
             echo " "
             echo " "
             # determine if this line has already been written. If not, then proceed
-            if [[ "$(echo "$errArray" | grep -q -E "ZZ$modifiedLineZZ")$?" != 0 ]]; then
+            if [[ "$(echo "$errArray" | grep -q -E "ZZ$modifiedLineZZ")$?" == 1 ]]; then
               echo " "
               echo " * * * * * * * * * * * * * * * * * * *  E R R O R S  *  * * * * * * * * * * * * * * * * * * * * * * *"
               echo "modified line is NOT already in errArray"
