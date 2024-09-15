@@ -169,7 +169,7 @@ jobs:
           echo " ***************************************************************************************************"
           while IFS= read -r line; do
             echo "this line:  $line"
-            modifiedLine = $(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* (.*)/\1/')
+            modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* (.*)/\1/')
             echo "after trimming: $modifiedLine"
             # determine if this line has already been written. If not, then proceed
             if [[ "$(cat tout.txt | grep -q -E "$modifiedLine")$?" != 0 ]]; then
