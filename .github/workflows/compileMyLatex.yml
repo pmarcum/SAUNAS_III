@@ -162,11 +162,6 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           touch errors.txt
           grep -E "^[0-9][0-9]* ERROR " warningError.txt >> errors.txt
-          echo " "
-          echo " "
-          echo " ************************************************************************************************** "
-          echo "                                  ERRORS LINES"
-          echo " ***************************************************************************************************"
           while IFS= read -r line; do
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
             # determine if this line has already been written. If not, then proceed
@@ -186,9 +181,6 @@ jobs:
                  # now look up the line in the .tex file and place underneath
                  head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
               fi
-              echo "tout.txt so far has this content: "
-              cat tout.txt
-              echo "_______________________________________________________________________________________________________"
               echo "-------------------------------------------------------------------------" >> tout.txt
             fi
           done < errors.txt
@@ -198,7 +190,6 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           touch warnings.txt
           grep -E "^[0-9][0-9]* WARNING " warningError.txt >> warnings.txt
-          cat warnings.txt
           while IFS= read -r line; do
             echo " now in the warning loop doing line: $line"
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
@@ -206,8 +197,7 @@ jobs:
             # determine if this line has already been written. If not, then proceed
             if [[ "$(cat tout.txt | grep -q -E "$modifiedLine")$?" != 0 ]]; then
               echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-              linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) \.*/\1/')
-              echo "linenum is $linenum"
+              linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               # remove this line from warningError.txt
               sed -i -r '/"$line"/d' warningError.txt
               if [[ $linenum > 0 ]]; then
