@@ -166,22 +166,14 @@ jobs:
               echo $modifiedLine >> tout.txt
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               # remove this line from warningError.txt
-              sed -i '/"$line"/d' warningError.txt
+              sed -e '/"$line"/d' warningError.txt
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
                  rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
-                 echo " "
-                 echo " + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +"
-                 echo "all the lines affiliated with line number: $linenum"
-                 cat tmp.txt
-                 echo " _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"
-                 echo " "
                  while IFS= read -r ln; do
-                   if [[ $ln != $line ]]; then
-                      echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                      # remove from warningError.txt
-                      sed -i '/"$ln"/d' warningError.txt
-                   fi
+                    echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
+                    # remove from warningError.txt
+                    sed -e '/"$ln"/d' warningError.txt
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
                  head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
@@ -196,24 +188,20 @@ jobs:
           rm -f warnings.txt && touch warnings.txt
           grep -E "^[0-9][0-9]* WARNING " warningError.txt >> warnings.txt
           while IFS= read -r line; do
-            echo " now in the warning loop doing line: $line"
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
-            echo "modified: $modifiedLine"
             # determine if this line has already been written. If not, then proceed
             if [[ "$(cat tout.txt | grep -q -E "$modifiedLine")$?" != 0 ]]; then
-              echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
+              echo $modifiedLine >> tout.txt
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               # remove this line from warningError.txt
-              sed -i '/"$line"/d' warningError.txt
+              sed -e '/"$line"/d' warningError.txt
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
                  rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                  while IFS= read -r ln; do
-                   if [[ $ln != $line ]]; then
-                      echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                      # remove from warningError.txt
-                      sed -i '/"$ln"/d' warningError.txt
-                   fi
+                    echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
+                    # remove from warningError.txt
+                    sed -e '/"$ln"/d' warningError.txt
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
                  head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
@@ -222,32 +210,37 @@ jobs:
             fi
           done < warnings.txt
           echo "" >> tout.txt
-          echo " "
-          echo " "
-          echo " ((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((( "
-          cat tout.txt
-          echo " ))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))) "
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          #
-          # The below pulls out only those lines that are directly related to warnings and errors within the .tex file 
-          # This step is why we needed everything related to a given error to appear in a single line and did the formatting above.
-          # https://stackoverflow.com/questions/75534451/using-grep-output-as-pattern-for-a-second-grep
-          #grep -i 'error.*: ${{ github.event.inputs.file2compile }}.tex' allout.txt > tmptmp.txt || touch tmptmp.txt 
-          #sort tmptmp.txt | uniq > errors.txt
-          #rm -f tmptmp.txt
+          rm -f biberrs.txt && touch biberrs.txt
+          grep -E "^[0-9][0-9]* BIB " warningError.txt >> biberrs.txt
+          while IFS= read -r line; do
+            modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
+            # determine if this line has already been written. If not, then proceed
+            if [[ "$(cat tout.txt | grep -q -E "$modifiedLine")$?" != 0 ]]; then
+              echo $modifiedLine >> tout.txt
+              linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
+              # remove this line from warningError.txt
+              sed -e '/"$line"/d' warningError.txt
+              if [[ $linenum > 0 ]]; then
+                 # look for other occurances of this line number in the file
+                 rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
+                 while IFS= read -r ln; do
+                    echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
+                    # remove from warningError.txt
+                    sed -e '/"$ln"/d' warningError.txt
+                 done < tmp.txt
+                 # now look up the line in the .tex file and place underneath
+                 head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
+              fi
+              echo "-------------------------------------------------------------------------" >> tout.txt
+            fi
+          done < biberrs.txt
           # https://stackoverflow.com/questions/57788813/grep-return-0-if-no-match
           # squash.io/extracting=numbers-from-strings-in-bash
           # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
           # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
-          #while IFS= read -r line; do
-          #  echo $line >> tout.txt
-          #done < compileout.txt
-          #  linenum=$(echo $line | sed 's/^.*: \([0-9][0-9]*\):.*/\1/')
-          #  head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
-          #  echo "-------------------------------------------------------------------------" >> tout.txt
-          #done < errors.txt
           ## determine if there were no errors, meaning that errors.txt is empty file. If so, place
           ## the word none under the banner of this section in output file. But if there were errors, 
           ## then remove the pdf file so that the pdf file that gets shown in gooTeX is the compilation errors
