@@ -171,7 +171,7 @@ jobs:
             echo " "
             echo " ...................................... beginning of loop: err array .........................................."
             echo $errArray
-            echo "$(echo "$errArray" | grep -q -E "ZZ$modifiedLineZZ")$?"
+            echo "$(echo "$errArrayZZ$modifiedLineZZ" | grep -q -E "ZZ$modifiedLineZZ")$?"
             echo " .............................................................................................................."
             echo " "
             echo " "
