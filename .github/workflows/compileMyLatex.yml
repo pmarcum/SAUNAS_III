@@ -166,13 +166,9 @@ jobs:
             echo " +++++++++++++++++++++++++++++++++++++++++++++ modified line +++++++++++++++++++++++++++++++++++++++++++++++++"
             echo $modifiedLine
             echo " +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-            echo " "
-            echo " "
-            echo " "
             echo " ...................................... beginning of loop: err array .........................................."
             echo $errArray
             echo " .............................................................................................................."
-            echo " "
             echo " "
             # determine if this line has already been written. If not, then proceed
             if [[ "$(echo "$errArray" | grep -q -E "ZZ$modifiedLineZZ")$?" == 0 ]]; then
@@ -182,7 +178,7 @@ jobs:
             fi
             if [[ "$(echo "$errArray" | grep -q -E "ZZ$modifiedLineZZ")$?" == 0 ]]; then
               echo $modifiedLine >> tout.txt
-              errArray="$errArray$modifiedLineZZ"
+              errArray=$errArray$modifiedLineZZ
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
@@ -190,7 +186,6 @@ jobs:
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
                     echo " "
-                    echo " " 
                     echo "                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ mod line ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
                     echo "                  $modLine"
                     echo "                  $errArray"
@@ -202,7 +197,7 @@ jobs:
                     fi
                     if [[ "$(echo "$errArray" | grep -q -E "ZZ$modLineZZ")$?" == 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                       errArray="$errArray$modLineZZ"
+                       errArray=$errArray$modLineZZ
                     fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
@@ -251,7 +246,7 @@ jobs:
             fi
             if [[ "$(echo "$errArray" | grep -q -E "ZZ$modifiedLineZZ")$?" == 0 ]]; then
               echo $modifiedLine >> tout.txt
-              errArray="$errArray$modifiedLineZZ"
+              errArray=$errArray$modifiedLineZZ
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
@@ -270,7 +265,7 @@ jobs:
                     fi
                     if [[ $(echo "$errArray" | grep -q -E "ZZ$modLineZZ")$?" == 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                       errArray="$errArray$modLineZZ"
+                       errArray=$errArray$modLineZZ
                     fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
@@ -296,7 +291,7 @@ jobs:
             fi
             if [[ $(echo "$errArray" | grep -q -E "ZZ$modifiedLineZZ")$?" == 0  ]]; then
               echo $modifiedLine >> tout.txt
-              errArray="$errArray$modifiedLineZZ"
+              errArray=$errArray$modifiedLineZZ
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
@@ -315,7 +310,7 @@ jobs:
                     fi
                     if [[ $(echo "$errArray" | grep -q -E "ZZ$modLineZZ")$?" == 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                       errArray="$errArray$modLineZZ"
+                       errArray=$errArray$modLineZZ
                     fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
