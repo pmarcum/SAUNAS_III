@@ -168,18 +168,13 @@ jobs:
           echo "                                  ERRORS LINES"
           echo " ***************************************************************************************************"
           while IFS= read -r line; do
-            echo "this line:  $line"
-            modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* (.*)/\1/')
-            echo "after trimming: $modifiedLine"
+            modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
             # determine if this line has already been written. If not, then proceed
             if [[ "$(cat tout.txt | grep -q -E "$modifiedLine")$?" != 0 ]]; then
-              echo "this line never been processed yet"
-              echo " the below is what gets put int tout.txt"
               echo $modifiedLine >> tout.txt
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
-              echo "line number $linenum"
               # remove this line from warningError.txt
-              sed -i -r "/$line/d" warningError.txt
+              sed -i '/"$line"/d' warningError.txt
               echo " how many lines found? (should show 0 if working properly)"
               echo "$(cat warningError.txt | grep -q -E "$line")$?"
               echo " the below should be 0 if working properly"
@@ -190,7 +185,7 @@ jobs:
                  while IFS= read -r ln; do
                    echo $ln | sed 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
                    # remove from warningError.txt
-                   sed -i -r "/$ln/d" warningError.txt
+                   sed -i '/"$ln"/d' warningError.txt
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
                  head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
