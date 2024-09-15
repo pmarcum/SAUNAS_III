@@ -167,7 +167,8 @@ jobs:
             echo "Modified Line: $modifiedLine"
             echo "errArray: $errArray
             # determine if this line has already been written. If not, then proceed
-            if [[ $errArray = *ZZ$modifiedLineZZ* ]]; then
+            searchLine = "ZZ$modifiedLineZZ"
+            if [[ $errArray = *$searchLine* ]]; then
               echo "Not yet processed!"
               echo $modifiedLine >> tout.txt
               errArray+="$modifiedLineZZ"
@@ -179,7 +180,8 @@ jobs:
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
                     echo "Other modified line: $modLine"
-                    if [[ $errArray" = *ZZ$modLineZZ* ]]; then
+                    searchLine = "ZZ$modLineZZ"
+                    if [[ $errArray" = *$searchLine* ]]; then
                        echo "183: not yet processed"
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
                        errArray+="$modLineZZ"
@@ -214,7 +216,8 @@ jobs:
             echo "Modified Line: $modifiedLine"
             echo "errArray: $errArray"
             # determine if this line has already been written. If not, then proceed
-            if [[ $errArray = *ZZ$modifiedLineZZ* ]]; then
+            searchLine = "ZZ$modifiedLineZZ"
+            if [[ $errArray = *$searchLine* ]]; then
               echo $modifiedLine >> tout.txt
               errArray+="$modifiedLineZZ"
               echo "217: errArray is now: $errArray"
@@ -225,7 +228,8 @@ jobs:
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
                     echo "Other modified line: $modLine"
-                    if [[ $errArray = *ZZ$modLineZZ* ]]; then
+                    searchLine = "ZZ$modLineZZ"
+                    if [[ $errArray = *$searchLine* ]]; then
                        echo "229: has NOT been processed"
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
                        errArray+="$modLineZZ"
@@ -260,7 +264,8 @@ jobs:
             echo "Modified Line: $modifiedLine"
             echo "errArray: $errArray"
             # determine if this line has already been written. If not, then proceed
-            if [[ $errArray = *ZZ$modifiedLineZZ* ]]; then
+            searchLine = "ZZ$modifiedLineZZ"
+            if [[ $errArray = *$searchLine* ]]; then
               echo "264: has not yet been processed"
               echo $modifiedLine >> tout.txt
               errArray+="$modifiedLineZZ"
@@ -272,7 +277,8 @@ jobs:
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
                     echo "Other modified line: $modLine"
-                    if [[ $errArray = ZZ$modLineZZ* ]]; then
+                    searchLine = "ZZ$modLineZZ"
+                    if [[ $errArray = *$searchLine* ]]; then
                        echo "276: has not yet been processed"
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
                        errArray+="$modLineZZ"
