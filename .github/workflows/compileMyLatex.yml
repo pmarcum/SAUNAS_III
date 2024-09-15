@@ -116,8 +116,8 @@ jobs:
                 linenum=$(echo $line | sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/')
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
                     echo "$linenum ERROR $line" >> warnerr.txt 
-                elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
-                    echo "$linenum BIB $line" >> warnerr.txt
+                #elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
+                #    echo "$linenum BIB $line" >> warnerr.txt
                 else
                     echo "$linenum WARNING $line" >> warnerr.txt
                 fi
