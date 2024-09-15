@@ -174,40 +174,40 @@ jobs:
             # determine if this line has already been written. If not, then proceed
             searchLine = "ZZ$modifiedLineZZ"
             echo "174"
-            if [[ 1 > 0 ]]; then
-              #if [[ $errArray = *$searchLine* ]]; then
-              echo "Not yet processed!"
-              echo $modifiedLine >> tout.txt
-              errArray+="$modifiedLineZZ"
-              echo "174: errArray is now: $errArray"
-              linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
-              if [[ $linenum > 0 ]]; then
-                 # look for other occurances of this line number in the file
-                 rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
-                 while IFS= read -r ln; do
-                    modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
-                    echo "Other modified line: $modLine"
-                    searchLine = "ZZ$modLineZZ"
-                    echo "180"
-                    if [[ 1 > 0 ]]; then
-                       #if [[ $errArray" = *$searchLine* ]]; then
-                       echo "183: not yet processed"
-                       echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                       errArray+="$modLineZZ"
-                       echo "186: errArray is now: $errArray"
-                    else
-                       echo "188: has already been processed"
-                    fi
-                 done < tmp.txt
-                 echo "202"
-                 # now look up the line in the .tex file and place underneath
-                 echo "Line #$linenum ----------------------- " >> tout.txt
-                 head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
-              fi
-              echo "-------------------------------------------------------------------------" >> tout.txt
-            else
-              echo "197: has already been processed"
-            fi
+            #if [[ 1 > 0 ]]; then
+            #  #if [[ $errArray = *$searchLine* ]]; then
+            #  echo "Not yet processed!"
+            #  echo $modifiedLine >> tout.txt
+            #  errArray+="$modifiedLineZZ"
+            #  echo "174: errArray is now: $errArray"
+            #  linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
+            #  if [[ $linenum > 0 ]]; then
+            #     # look for other occurances of this line number in the file
+            #     rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
+            #     while IFS= read -r ln; do
+            #        modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
+            #        echo "Other modified line: $modLine"
+            #        searchLine = "ZZ$modLineZZ"
+            #        echo "180"
+            #        if [[ 1 > 0 ]]; then
+            #           #if [[ $errArray" = *$searchLine* ]]; then
+            #           echo "183: not yet processed"
+            #           echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
+            #           errArray+="$modLineZZ"
+            #           echo "186: errArray is now: $errArray"
+            #        else
+            #           echo "188: has already been processed"
+            #        fi
+            #     done < tmp.txt
+            #     echo "202"
+            #     # now look up the line in the .tex file and place underneath
+            #     echo "Line #$linenum ----------------------- " >> tout.txt
+            #     head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
+            #  fi
+            #  echo "-------------------------------------------------------------------------" >> tout.txt
+            #else
+            #  echo "197: has already been processed"
+            #fi
           done < errors.txt
           echo "212"
           echo "" >> tout.txt
