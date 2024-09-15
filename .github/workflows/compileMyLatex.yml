@@ -174,8 +174,8 @@ jobs:
             # determine if this line has already been written. If not, then proceed
             searchLine = "ZZ$modifiedLineZZ"
             echo "174"
-            if [[ true ]]; then
-            #if [[ $errArray = *$searchLine* ]]; then
+            if [[ $errArray = $errArray ]]; then
+              #if [[ $errArray = *$searchLine* ]]; then
               echo "Not yet processed!"
               echo $modifiedLine >> tout.txt
               errArray+="$modifiedLineZZ"
@@ -189,8 +189,8 @@ jobs:
                     echo "Other modified line: $modLine"
                     searchLine = "ZZ$modLineZZ"
                     echo "180"
-                    if [[ true ]]; then
-                    #if [[ $errArray" = *$searchLine* ]]; then
+                    if [[ $errArray = $errArray ]]; then
+                       #if [[ $errArray" = *$searchLine* ]]; then
                        echo "183: not yet processed"
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
                        errArray+="$modLineZZ"
@@ -218,6 +218,7 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          echo "221"
           rm -f warnings.txt && touch warnings.txt
           grep -E "^[0-9][0-9]* WARNING " warningError.txt >> warnings.txt
           while IFS= read -r line; do
