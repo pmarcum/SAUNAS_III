@@ -169,8 +169,8 @@ jobs:
             echo " "
             echo " "
             echo " "
-            echo " ...................................... beginning of loop: eqn array .........................................."
-            echo $eqnArray
+            echo " ...................................... beginning of loop: err array .........................................."
+            echo $errArray
             echo " .............................................................................................................."
             # determine if this line has already been written. If not, then proceed
             if [[ "$(echo "$errArray" | grep -q -E "\x0$modifiedLine\x0")$?" != 0 ]]; then
@@ -214,8 +214,8 @@ jobs:
             echo " "
             echo " "
             echo " "
-            echo " ...................................... beginning of loop: eqn array .........................................."
-            echo $eqnArray
+            echo " ......................................... end of loop: err array ............................................"
+            echo $errArray
             echo " .............................................................................................................."
           done < errors.txt
           echo "" >> tout.txt
