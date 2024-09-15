@@ -163,7 +163,7 @@ jobs:
           while IFS= read -r line; do
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
             # determine if this line has already been written. If not, then proceed
-            if [[ ${errArray[@]} =~ $modifiedLine ]]; then
+            if [[ ${errArray[@]} != $modifiedLine ]]; then
               echo $modifiedLine >> tout.txt
               errArray+=("$modifiedLine")
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
@@ -172,7 +172,7 @@ jobs:
                  rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
-                    if [[ ${errArray[@]} =~ $modLine ]]; then
+                    if [[ ${errArray[@]} != $modLine ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
                        errArray+=("$modLine")
                     fi
@@ -193,7 +193,7 @@ jobs:
           while IFS= read -r line; do
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
             # determine if this line has already been written. If not, then proceed
-            if [[ ${errArray[@]} =~ $modifiedLine ]]; then
+            if [[ ${errArray[@]} != $modifiedLine ]]; then
               echo $modifiedLine >> tout.txt
               errArray+=("$modifiedLine")
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
@@ -202,7 +202,7 @@ jobs:
                  rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
-                    if [[ ${errArray[@]} =~ $modLine ]]; then
+                    if [[ ${errArray[@]} != $modLine ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
                        errArray+=("$modLine")
                     fi                    
@@ -223,7 +223,7 @@ jobs:
           while IFS= read -r line; do
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
             # determine if this line has already been written. If not, then proceed
-            if [[ ${errArray[@]} =~ $modifiedLine ]]; then
+            if [[ ${errArray[@]} != $modifiedLine ]]; then
               echo $modifiedLine >> tout.txt
               errArray+=("$modifiedLine")
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
@@ -232,7 +232,7 @@ jobs:
                  rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
-                    if [[ ${errArray[@]} =~ $modLine ]]; then
+                    if [[ ${errArray[@]} != $modLine ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
                        errArray+=("$modLine")
                     fi
