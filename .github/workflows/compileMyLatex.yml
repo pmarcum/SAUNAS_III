@@ -318,20 +318,13 @@ jobs:
           #  echo "      none" >> tout.txt
           #fi  
           #rm -f tmptmp*.txt
-          #echo ""
-          #echo ""
-          #echo "=========================================="
-          #cat tout.txt
-          #echo "========================================="
-          #echo ""
+          echo ""
+          echo ""
+          echo "=========================================="
+          cat tout.txt
+          echo "========================================="
+          echo ""
           #mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
-          echo " "
-          echo " "
-          echo " "
-          echo " "
-          echo "****************************************************************************************"
-          echo "****************************************************************************************"
-          cat warningError.txt
         continue-on-error: true
 
       - name: Convert errors to PDF file
