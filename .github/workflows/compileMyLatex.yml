@@ -193,8 +193,8 @@ jobs:
                  head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
               fi
               echo "-------------------------------------------------------------------------" >> tout.txt
-            else
-              echo "197: has already been processed"
+            #else
+            #  echo "197: has already been processed"
             fi
           done < errors.txt
           echo "" >> tout.txt
