@@ -172,6 +172,8 @@ jobs:
             echo " ...................................... beginning of loop: err array .........................................."
             echo $errArray
             echo " .............................................................................................................."
+            echo " "
+            echo " "
             # determine if this line has already been written. If not, then proceed
             if [[ "$(echo "$errArray" | grep -q -E "\x0$modifiedLine\x0")$?" != 0 ]]; then
               echo " "
@@ -191,6 +193,11 @@ jobs:
                  rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
+                    echo " "
+                    echo " " 
+                    echo " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ mod line ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+                    echo $modLine
+                    echo " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
                     if [[ "$(echo "$errArray" | grep -q -E "\x0$modLine\x0")$?" != 0 ]]; then
                          echo " "
                          echo " * * * * * * * * * * * * * * * * * * *  E R R O R S  *  * * * * * * * * * * * * * * * * * * * * * * *"
