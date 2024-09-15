@@ -163,53 +163,27 @@ jobs:
           while IFS= read -r line; do
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
             echo " "
-            echo " +++++++++++++++++++++++++++++++++++++++++++++ modified line +++++++++++++++++++++++++++++++++++++++++++++++++"
-            echo $modifiedLine
-            echo " +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-            echo " "
-            echo " "
-            echo " "
-            echo " ...................................... beginning of loop: err array .........................................."
-            echo $errArray
-            echo " .............................................................................................................."
-            echo " "
-            echo " "
+            echo " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+            echo "Modified Line: $modifiedLine"
+            echo "errArray: $errArray"
+            echo "0 means not yet processed, 1 means already processed: $(echo "$errArray" | grep -q -E "\x0$modifiedLine\x0")$?"
             # determine if this line has already been written. If not, then proceed
             if [[ "$(echo "$errArray" | grep -q -E "\x0$modifiedLine\x0")$?" != 0 ]]; then
-              echo " "
-              echo " * * * * * * * * * * * * * * * * * * *  E R R O R S  *  * * * * * * * * * * * * * * * * * * * * * * *"
-              echo "modified line is NOT already in errArray"
-            else
-              echo " "
-              echo " * * * * * * * * * * * * * * * * * * *  E R R O R S  *  * * * * * * * * * * * * * * * * * * * * * * *"
-              echo "modified line IS already in errArray"
-            fi
-            if [[ "$(grep -q -E "$modifiedLine" tout.txt)$?" != 0 ]]; then
               echo $modifiedLine >> tout.txt
               errArray+="$modifiedLine\x0"
+              echo "174: errArray is now: $errArray"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
                  rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
-                    echo " "
-                    echo " " 
-                    echo " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ mod line ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-                    echo $modLine
-                    echo " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+                    echo "Other modified line: $modLine"
+                    echo "0 means not yet processed, 1 means already processed: $(echo "$errArray" | grep -q -E "\x0$modLine\x0")$?"
                     if [[ "$(echo "$errArray" | grep -q -E "\x0$modLine\x0")$?" != 0 ]]; then
-                         echo " "
-                         echo " * * * * * * * * * * * * * * * * * * *  E R R O R S  *  * * * * * * * * * * * * * * * * * * * * * * *"
-                         echo "mod line is NOT already in errArray"
-                    else
-                         echo " "
-                         echo " * * * * * * * * * * * * * * * * * * *  E R R O R S  *  * * * * * * * * * * * * * * * * * * * * * * *"
-                         echo "mod line IS already in errArray"
-                    fi
-                    if [[ "$(grep -q -E "$modLine" tout.txt)$?" != 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
                        errArray+="$modLine\x0"
+                       echo "186: errArray is now: $errArray"
                     fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
@@ -218,14 +192,12 @@ jobs:
               fi
               echo "-------------------------------------------------------------------------" >> tout.txt
             fi
-            echo " "
-            echo " "
-            echo " "
-            echo " ......................................... end of loop: err array ............................................"
-            echo $errArray
-            echo " .............................................................................................................."
           done < errors.txt
           echo "" >> tout.txt
+          echo " "
+          echo " "
+          echo "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
+          echo "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -233,37 +205,28 @@ jobs:
           grep -E "^[0-9][0-9]* WARNING " warningError.txt >> warnings.txt
           while IFS= read -r line; do
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
+            echo " "
+            echo " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+            echo "Modified Line: $modifiedLine"
+            echo "errArray: $errArray"
+            echo "0 means not yet processed, 1 means already processed: $(echo "$errArray" | grep -q -E "\x0$modifiedLine\x0")$?"
             # determine if this line has already been written. If not, then proceed
             if [[ "$(echo "$errArray" | grep -q -E "\x0$modifiedLine\x0")$?" != 0 ]]; then
-              echo " "
-              echo " * * * * * * * * * * * * * * * * * * *  W A R N I N G S  * * * * * * * * * * * * * * * * * * * * * * *"
-              echo "modified line is NOT already in errArray"
-            else
-              echo " "
-              echo " * * * * * * * * * * * * * * * * * * *  W A R N I N G S  * * * * * * * * * * * * * * * * * * * * * * *"
-              echo "modified line IS already in errArray"
-            fi
-            if [[ "$(grep -q -E "$modifiedLine" tout.txt)$?" != 0 ]]; then
               echo $modifiedLine >> tout.txt
               errArray+="$modifiedLine\x0"
+              echo "217: errArray is now: $errArray"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
                  rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
+                    echo "Other modified line: $modLine"
+                    echo "0 means not yet processed, 1 means already processed: $(echo "$errArray" | grep -q -E "\x0$modLine\x0")$?"
                     if [[ $(echo "$errArray" | grep -q -E "\x0$modLine\x0")$?" != 0 ]]; then
-                       echo " "
-                       echo " * * * * * * * * * * * * * * * * * * *  W A R N I N G S  * * * * * * * * * * * * * * * * * * * * * * *"
-                       echo "modified line is NOT already in errArray"
-                    else
-                       echo " "
-                       echo " * * * * * * * * * * * * * * * * * * *  W A R N I N G S  * * * * * * * * * * * * * * * * * * * * * * *"
-                       echo "modified line IS already in errArray"
-                    fi
-                    if [[ "$(grep -q -E "$modLine" tout.txt)$?" != 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
                        errArray+="$modLine\x0"
+                       echo "229: errArray is now: $errArray"
                     fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
@@ -274,6 +237,10 @@ jobs:
             fi
           done < warnings.txt
           echo "" >> tout.txt
+          echo " "
+          echo " "
+          echo "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
+          echo "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -281,37 +248,28 @@ jobs:
           grep -E "^[0-9][0-9]* BIB " warningError.txt >> biberrs.txt
           while IFS= read -r line; do
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
+            echo " "
+            echo " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+            echo "Modified Line: $modifiedLine"
+            echo "errArray: $errArray"
+            echo "0 means not yet processed, 1 means already processed: $(echo "$errArray" | grep -q -E "\x0$modifiedLine\x0")$?"
             # determine if this line has already been written. If not, then proceed
             if [[ $(echo "$errArray" | grep -q -E "\x0$modifiedLine\x0")$?" != 0 ]]; then
-              echo " "
-              echo " * * * * * * * * * * * * * * * * * *  C I T A T I O N S * * * * * * * * * * * * * * * * * * * * * * *"
-              echo "modified line is NOT already in errArray"
-            else
-               echo " "
-               echo " * * * * * * * * * * * * * * * * * *  C I T A T I O N S * * * * * * * * * * * * * * * * * * * * * * *"
-               echo "modified line IS already in errArray"
-            fi
-            if [[ "$(grep -q -E "$modifiedLine" tout.txt)$?" != 0 ]]; then
               echo $modifiedLine >> tout.txt
               errArray+="$modifiedLine\x0"
+              echo "260: errArray is now: $errArray"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
                  rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
+                    echo "Other modified line: $modLine"
+                    echo "0 means not yet processed, 1 means already processed: $(echo "$errArray" | grep -q -E "\x0$modLine\x0")$?"
                     if [[ $(echo "$errArray" | grep -q -E "\x0$modLine\x0")$?" != 0 ]]; then
-                       echo " "
-                       echo " * * * * * * * * * * * * * * * * * *  C I T A T I O N S * * * * * * * * * * * * * * * * * * * * * * *"
-                       echo "modified line is NOT already in errArray"
-                    else
-                       echo " "
-                       echo " * * * * * * * * * * * * * * * * * *  C I T A T I O N S * * * * * * * * * * * * * * * * * * * * * * *"
-                       echo "modified line IS already in errArray"
-                    fi
-                    if [[ "$(grep -q -E "$modLine" tout.txt)$?" != 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
                        errArray+="$modLine\x0"
+                       echo "272: errArray is now: $errArray"
                     fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
