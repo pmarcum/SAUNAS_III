@@ -110,6 +110,7 @@ jobs:
           # take a look at the bib tex errors
           grep -E "^Package natbib Warning\: Citation" ${{ github.event.inputs.file2compile }}_full.log >> warningError.txt
           # Now pull out the line number, if provided, in each warning and error
+          echo "113"
           rm -f warnerr.txt && touch warnerr.txt
           while IFS= read -r line; do
              if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
@@ -140,6 +141,7 @@ jobs:
                 fi
              fi
           done < warningError.txt
+          echo "144"
           mv -f warnerr.txt warningError.txt
           sort warningError.txt | uniq > warnerr.txt
           mv -f warnerr.txt warningError.txt
@@ -155,6 +157,7 @@ jobs:
           errArray="ZZ"
           echo "${{ env.TIMESTAMP }}" > tout.txt
           echo "" >> tout.txt
+          echo "160"
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -168,6 +171,7 @@ jobs:
             echo "errArray: $errArray
             # determine if this line has already been written. If not, then proceed
             searchLine = "ZZ$modifiedLineZZ"
+            echo "174"
             if [[ $errArray = *$searchLine* ]]; then
               echo "Not yet processed!"
               echo $modifiedLine >> tout.txt
@@ -181,6 +185,7 @@ jobs:
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
                     echo "Other modified line: $modLine"
                     searchLine = "ZZ$modLineZZ"
+                    echo "180"
                     if [[ $errArray" = *$searchLine* ]]; then
                        echo "183: not yet processed"
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
