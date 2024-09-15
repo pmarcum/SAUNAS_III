@@ -198,12 +198,16 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           touch warnings.txt
           grep -E "^[0-9][0-9]* WARNING " warningError.txt >> warnings.txt
+          cat warnings.txt
           while IFS= read -r line; do
+            echo " now in the warning loop doing line: $line"
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
+            echo "modified: $modifiedLine"
             # determine if this line has already been written. If not, then proceed
             if [[ "$(cat tout.txt | grep -q -E "$modifiedLine")$?" != 0 ]]; then
               echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) \.*/\1/')
+              echo "linenum is $linenum"
               # remove this line from warningError.txt
               sed -i -r '/"$line"/d' warningError.txt
               if [[ $linenum > 0 ]]; then
@@ -221,6 +225,11 @@ jobs:
             fi
           done < warnings.txt
           echo "" >> tout.txt
+          echo " "
+          echo " "
+          echo " ((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((( "
+          cat tout.txt
+          echo " ))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))) "
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -319,6 +328,8 @@ jobs:
           echo " "
           echo " "
           echo " "
+          echo "****************************************************************************************"
+          echo "****************************************************************************************"
           cat warningError.txt
         continue-on-error: true
 
