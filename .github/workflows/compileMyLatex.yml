@@ -172,13 +172,13 @@ jobs:
             echo " "
             # determine if this line has already been written. If not, then proceed
             if [[ "$(echo "$errArray" | grep -q -E "ZZ$modifiedLineZZ")$?" == 0 ]]; then
-              echo "modified line is NOT already in errArray"
+              echo "modified line is NOT already in "
             else
-              echo "modified line IS already in errArray"
+              echo "modified line IS already in "
             fi
-            if [[ "$(echo "$errArray" | grep -q -E "ZZ$modifiedLineZZ")$?" == 0 ]]; then
+            if [[ "$(echo "$" | grep -q -E "ZZ$modifiedLineZZ")$?" == 0 ]]; then
               echo $modifiedLine >> tout.txt
-              errArray=$errArray$modifiedLineZZ
+              +="$modifiedLineZZ"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
@@ -188,16 +188,16 @@ jobs:
                     echo " "
                     echo "                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ mod line ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
                     echo "                  $modLine"
-                    echo "                  $errArray"
+                    echo "                  $"
                     echo "                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-                    if [[ "$(echo "$errArray" | grep -q -E "ZZ$modLineZZ")$?" == 0 ]]; then
-                         echo "                  mod line is NOT already in errArray"
+                    if [[ "$(echo "$" | grep -q -E "ZZ$modLineZZ")$?" == 0 ]]; then
+                         echo "                  mod line is NOT already in "
                     else
-                         echo "                  mod line IS already in errArray"
+                         echo "                  mod line IS already in "
                     fi
-                    if [[ "$(echo "$errArray" | grep -q -E "ZZ$modLineZZ")$?" == 0 ]]; then
+                    if [[ "$(echo "$" | grep -q -E "ZZ$modLineZZ")$?" == 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                       errArray=$errArray$modLineZZ
+                       +="$modLineZZ"
                     fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
@@ -210,7 +210,7 @@ jobs:
             echo " "
             echo " "
             echo " ......................................... end of loop: err array ............................................"
-            echo $errArray
+            echo $
             echo " .............................................................................................................."
           done < errors.txt
           echo "" >> tout.txt
@@ -234,19 +234,19 @@ jobs:
             echo " "
             echo " "
             echo " ...................................... beginning of loop: err array .........................................."
-            echo $errArray
+            echo $
             echo " .............................................................................................................."
             echo " "
             echo " "
             # determine if this line has already been written. If not, then proceed
-            if [[ "$(echo "$errArray" | grep -q -E "ZZ$modifiedLineZZ")$?" == 0 ]]; then
-              echo "modified line is NOT already in errArray"
+            if [[ "$(echo "$" | grep -q -E "ZZ$modifiedLineZZ")$?" == 0 ]]; then
+              echo "modified line is NOT already in "
             else
-              echo "modified line IS already in errArray"
+              echo "modified line IS already in "
             fi
-            if [[ "$(echo "$errArray" | grep -q -E "ZZ$modifiedLineZZ")$?" == 0 ]]; then
+            if [[ "$(echo "$" | grep -q -E "ZZ$modifiedLineZZ")$?" == 0 ]]; then
               echo $modifiedLine >> tout.txt
-              errArray=$errArray$modifiedLineZZ
+              +="$modifiedLineZZ"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
@@ -258,14 +258,14 @@ jobs:
                     echo "                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ mod line ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
                     echo "                  $modLine"
                     echo "                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-                    if [[ "$(echo "$errArray" | grep -q -E "ZZ$modLineZZ")$?" == 0 ]]; then
-                         echo "                  mod line is NOT already in errArray"
+                    if [[ "$(echo "$" | grep -q -E "ZZ$modLineZZ")$?" == 0 ]]; then
+                         echo "                  mod line is NOT already in "
                     else
-                         echo "                  mod line IS already in errArray"
+                         echo "                  mod line IS already in "
                     fi
-                    if [[ $(echo "$errArray" | grep -q -E "ZZ$modLineZZ")$?" == 0 ]]; then
+                    if [[ $(echo "$" | grep -q -E "ZZ$modLineZZ")$?" == 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                       errArray=$errArray$modLineZZ
+                       +="$modLineZZ"
                     fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
@@ -284,14 +284,14 @@ jobs:
           while IFS= read -r line; do
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
             # determine if this line has already been written. If not, then proceed
-            if [[ $(echo "$errArray" | grep -q -E "ZZ$modifiedLineZZ")$?" == 0 ]]; then
-              echo "modified line is NOT already in errArray"
+            if [[ $(echo "$" | grep -q -E "ZZ$modifiedLineZZ")$?" == 0 ]]; then
+              echo "modified line is NOT already in "
             else
-               echo "modified line IS already in errArray"
+               echo "modified line IS already in "
             fi
-            if [[ $(echo "$errArray" | grep -q -E "ZZ$modifiedLineZZ")$?" == 0  ]]; then
+            if [[ $(echo "$" | grep -q -E "ZZ$modifiedLineZZ")$?" == 0  ]]; then
               echo $modifiedLine >> tout.txt
-              errArray=$errArray$modifiedLineZZ
+              +="$modifiedLineZZ"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
@@ -303,14 +303,14 @@ jobs:
                     echo "                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ mod line ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
                     echo "                  $modLine"
                     echo "                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-                    if [[ "$(echo "$errArray" | grep -q -E "ZZ$modLineZZ")$?" == 0 ]]; then
-                         echo "                  mod line is NOT already in errArray"
+                    if [[ "$(echo "$" | grep -q -E "ZZ$modLineZZ")$?" == 0 ]]; then
+                         echo "                  mod line is NOT already in "
                     else
-                         echo "                  mod line IS already in errArray"
+                         echo "                  mod line IS already in "
                     fi
-                    if [[ $(echo "$errArray" | grep -q -E "ZZ$modLineZZ")$?" == 0 ]]; then
+                    if [[ $(echo "$" | grep -q -E "ZZ$modLineZZ")$?" == 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                       errArray=$errArray$modLineZZ
+                       +="$modLineZZ"
                     fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
