@@ -152,7 +152,7 @@ jobs:
           # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
           # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
           # put in a timestamp at the top of file to become final version of log output
-          errArray=()
+          errArray="\n0"
           echo "${{ env.TIMESTAMP }}" > tout.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -163,26 +163,26 @@ jobs:
           while IFS= read -r line; do
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
             # determine if this line has already been written. If not, then proceed
-            if [[ ${errArray[@]} != $modifiedLine ]]; then
+            if [[ "$(echo "$errArray" | grep -q -E "\n0$modifiedLine\n0")$?" != 0 ]]; then
               echo $modifiedLine >> tout.txt
-              errArray+=("$modifiedLine")
+              errArray+="$modifiedLine\n0"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
                  rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
-                    if [[ ${errArray[@]} != $modLine ]]; then
+                    if [[ "$(echo "$errArray" | grep -q -E "\n0$modLine\n0")$?" != 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                       errArray+=("$modLine")
+                       errArray+="$modLine\n0"
                     fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
                  echo "Line #$linenum ----------------------- " >> tout.txt
                  head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
               fi
+              echo "-------------------------------------------------------------------------" >> tout.txt
             fi
-            echo "-------------------------------------------------------------------------" >> tout.txt
           done < errors.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -193,27 +193,26 @@ jobs:
           while IFS= read -r line; do
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
             # determine if this line has already been written. If not, then proceed
-            if [[ ${errArray[@]} != $modifiedLine ]]; then
+            if [[ $(echo "$errArray" | grep -q -E "\n0$modifiedLine\n0")$?" != 0 ]]; then
               echo $modifiedLine >> tout.txt
-              errArray+=("$modifiedLine")
+              errArray+="$modifiedLine\n0"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
                  rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
-                    errArray+=("$modLine")
-                    if [[ ${errArray[@]} != $modLine ]]; then
+                    if [[ $(echo "$errArray" | grep -q -E "\n0$modLine\n0")$?" != 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                       errArray+=("$modLine")
-                    fi                    
+                       errArray+="$modLine\n0"
+                    fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
                  echo "Line #$linenum ----------------------- " >> tout.txt
                  head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
               fi
+              echo "-------------------------------------------------------------------------" >> tout.txt
             fi
-            echo "-------------------------------------------------------------------------" >> tout.txt
           done < warnings.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -224,26 +223,26 @@ jobs:
           while IFS= read -r line; do
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
             # determine if this line has already been written. If not, then proceed
-            if [[ ${errArray[@]} != $modifiedLine ]]; then
+            if [[ $(echo "$errArray" | grep -q -E "\n0$modifiedLine\n0")$?" != 0 ]]; then
               echo $modifiedLine >> tout.txt
-              errArray+=("$modifiedLine")
+              errArray+="$modifiedLine\n0"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
                  rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
-                    if [[ ${errArray[@]} != $modLine ]]; then
+                    if [[ $echo "$errArray" | grep -q -E "\n0$modLine\n0")$?" != 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                       errArray+=("$modLine")
+                       errArray+="$modLine\n0"
                     fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
                  echo "Line #$linenum ----------------------- " >> tout.txt
                  head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
               fi
+              echo "-------------------------------------------------------------------------" >> tout.txt
             fi
-            echo "-------------------------------------------------------------------------" >> tout.txt
           done < biberrs.txt
           # https://stackoverflow.com/questions/57788813/grep-return-0-if-no-match
           # squash.io/extracting=numbers-from-strings-in-bash
