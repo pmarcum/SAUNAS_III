@@ -178,7 +178,7 @@ jobs:
             fi
             if [[ "$(echo "$errArray" | grep -q -E "ZZ$modifiedLineZZ")$?" == 0 ]]; then
               echo $modifiedLine >> tout.txt
-              errArray+="$modifiedLineZZ"
+              errArray+="${modifiedLine}ZZ"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
@@ -197,7 +197,7 @@ jobs:
                     fi
                     if [[ "$(echo "$errArray" | grep -q -E "ZZ$modLineZZ")$?" == 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                       errArray+="$modLineZZ"
+                       errArray+="${modLine}ZZ"
                     fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
@@ -239,7 +239,7 @@ jobs:
             fi
             if [[ "$(echo "$errArray" | grep -q -E "ZZ$modifiedLineZZ")$?" == 0 ]]; then
               echo $modifiedLine >> tout.txt
-              errArray+="$modifiedLineZZ"
+              errArray+="${modifiedLine}ZZ"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
@@ -257,7 +257,7 @@ jobs:
                     fi
                     if [[ $(echo "$errArray" | grep -q -E "ZZ$modLineZZ")$?" == 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                       errArray+="$modLineZZ"
+                       errArray+="${modLine}ZZ"
                     fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
@@ -283,7 +283,7 @@ jobs:
             fi
             if [[ $(echo "$errArray" | grep -q -E "ZZ$modifiedLineZZ")$?" == 0  ]]; then
               echo $modifiedLine >> tout.txt
-              errArray+="$modifiedLineZZ"
+              errArray+="${modifiedLine}ZZ"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
@@ -301,7 +301,7 @@ jobs:
                     fi
                     if [[ $(echo "$errArray" | grep -q -E "ZZ$modLineZZ")$?" == 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                       errArray+="$modLineZZ"
+                       errArray+="${modLine}ZZ"
                     fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
