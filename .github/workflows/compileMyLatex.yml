@@ -211,10 +211,10 @@ jobs:
                  echo "211"
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
-                    #if [[ $(echo "$errArray" | grep -q -E "ZZ $modLine ZZ")$?" == 1 ]]; then
-                    #   echo $modLine >> tout.txt
-                    #   errArray+=" $modLine ZZ"
-                    #fi
+                    if [[ "$(echo "$errArray" | grep -q -E "ZZ $modLine ZZ")$?" == 1 ]]; then
+                       echo $modLine >> tout.txt
+                       errArray+=" $modLine ZZ"
+                    fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
                  echo "Line #$linenum ----------------------- " >> tout.txt
