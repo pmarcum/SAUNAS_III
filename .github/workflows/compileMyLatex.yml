@@ -111,7 +111,7 @@ jobs:
           warnErrArr+=(${res[@]})
           # now get the warnings, but note that some of the warnings are actually errors (like figure files that are mispelled) and need to 
           # be consolidated with the associated line in the error section here
-          readarray -t res < <(grep -E "\: LaTeX Warning\:" ${{ github.event.inputs.file2compile }}_full.log)
+          readarray -t res < <(grep -E "LaTeX Warning" ${{ github.event.inputs.file2compile }}_full.log)
           echo "============================= WARNINGS ++++++++++++++++++++++++++++"
           printf '%s\n' "${res[@]}"
           warnErrArr+=(${res[@]})
