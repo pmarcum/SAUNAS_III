@@ -165,7 +165,7 @@ jobs:
           else
             # remove these lines of error messages from warningError.txt
             # https://stackoverflow.com/questions/54964296/how-to-delete-line-with-matching-pattern-from-another-file
-            awk 'NR==FNR{a[$1]; next} !($NF in a)' errors.txt warningError.txt
+            rm -f cp.txt && awk 'NR==FNR{a[$1]; next} !($NF in a)' errors.txt warningError.txt > tmp.txt && mv -f tmp.txt warningError.txt
           fi
           while IFS= read -r line; do
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
@@ -175,7 +175,7 @@ jobs:
                # look for other occurances of this line number in the file
                rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                # remove these other lines from warningError.txt
-               awk 'NR==FNR{a[$1]; next} !($NF in a)' tmp.txt warningError.txt
+               rm -f cp.txt && awk 'NR==FNR{a[$1]; next} !($NF in a)' tmp.txt warningError.txt > cp.txt && mv -f cp.txt warningError.txt
                while IFS= read -r ln; do
                   modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
                   echo $modLine >> tout.txt
@@ -199,7 +199,7 @@ jobs:
           if [ $(wc -c < "warnings.txt") -eq 0 ]; then
             echo "      none" >> tout.txt
           else
-            awk 'NR==FNR{a[$1]; next} !($NF in a)' warnings.txt warningError.txt
+            rm -f cp.txt && awk 'NR==FNR{a[$1]; next} !($NF in a)' warnings.txt warningError.txt > cp.txt && mv -f cp.txt warningError.txt
           fi
           while IFS= read -r line; do
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
@@ -209,7 +209,7 @@ jobs:
                # look for other occurances of this line number in the file
                rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                # remove these other lines from warningError.txt
-               awk 'NR==FNR{a[$1]; next} !($NF in a)' tmp.txt warningError.txt
+               rm -f cp.txt && awk 'NR==FNR{a[$1]; next} !($NF in a)' tmp.txt warningError.txt > cp.txt && mv -f cp.txt warningError.txt
                while IFS= read -r ln; do
                   modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
                   echo $modLine >> tout.txt
@@ -232,7 +232,7 @@ jobs:
           if [ $(wc -c < "biberrs.txt") -eq 0 ]; then
             echo "      none" >> tout.txt
           else
-            awk 'NR==FNR{a[$1]; next} !($NF in a)' biberrs.txt warningError.txt
+            rm -f cp.txt && awk 'NR==FNR{a[$1]; next} !($NF in a)' biberrs.txt warningError.txt > cp.txt && mv -f cp.txt warningError.txt
           fi
           while IFS= read -r line; do
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
@@ -242,7 +242,7 @@ jobs:
                # look for other occurances of this line number in the file
                rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                # remove these other lines from warningError.txt
-               awk 'NR==FN{[a[$1]; next} !($NF in a)' tmp.txt warningError.txt
+               rm -f cp.txt && awk 'NR==FN{[a[$1]; next} !($NF in a)' tmp.txt warningError.txt > cp.txt && mv -f cp.txt warningError.txt
                while IFS= read -r ln; do
                   modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
                   echo $modLine >> tout.txt
