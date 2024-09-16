@@ -105,25 +105,17 @@ jobs:
           warnErrArr=()
           rm -f warningError.txt && touch warningError.txt
           # get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render. 
-          grep -E "\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\: LaTeX Error\:" ${{ github.event.inputs.file2compile }}_full.log >> warningError.txt
           readarray -t res < <(grep -E "\: LaTeX Error\:" ${{ github.event.inputs.file2compile }}_full.log)
-          printf "%s\n" "${res[@]}"
-          echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-          echo $res
-          #resArr=(${res//\n/ })
-          #echo ${resArr[1]}
-          #warnErrArr+=(${resArr[@]})
-          #echo ${warnErrArr[1]}
+          warnErrArr+=(${res[@]})
           # now get the warnings, but note that some of the warnings are actually errors (like figure files that are mispelled) and need to 
           # be consolidated with the associated line in the error section here
-          grep -E "^LaTeX Warning\:" ${{ github.event.inputs.file2compile }}_full.log >> warningError.txt
-          matches="$(grep -E "^LaTeX Warning\:" ${{ github.event.inputs.file2compile }}_full.log)"
-          warnErrArr+=(${matches[@]})
+          readarray -t res < <(grep -E "\: LaTeX Warning\:" ${{ github.event.inputs.file2compile }}_full.log)
+          warnErrArr+=(${res[@]})
           # take a look at the bib tex errors
-          grep -E "^Package natbib Warning\: Citation" ${{ github.event.inputs.file2compile }}_full.log >> warningError.txt
-          matched="$(grep -E "^Package natbib Warning\: Citation" ${{ github.event.inputs.file2compile }}_full.log)"
-          warnErrArr+=(${matches[@]})
+          readarray -t res < <(grep -E "^Package natbib Warning\: Citation" ${{ github.event.inputs.file2compile }}_full.log)
+          warnErrArr+=(${res[@]})
           nlines=${#warnErrArr[@]}
+          printf '%s\n' "${warnErrArr[@]}"
           for (( i=0; i<${nlines}; i++ )); do
              line="${warnErrArr[$i]}"
              if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
