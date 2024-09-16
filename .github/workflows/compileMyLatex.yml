@@ -163,37 +163,27 @@ jobs:
           if [ $(wc -c < "errors.txt") -eq 0 ]; then
             echo "      none" >> tout.txt
           fi
-          while IFS= read -r line; do
-            modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
+          while  [ $(wc -c < "errors.txt") -gt 0 ]; do
+            line="$(head -1 errors.txt)"
             linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
-            echo $modifiedLine >> tout.txt
-            # remove this line from warningError.txt
-            echo " "
-            echo " +++++++++++++++++++++++++++++++++++++++"
-            echo $line
-            echo " "
-            echo " " 
-            cat warningError.txt
-            rm -f cp.txt && grep -v "$line" warningError.txt > cp.txt && mv -f cp.txt warningError.txt
-            echo " "
-            echo " - - - - - - - - - - - - - - - "
-            echo " "
-            cat warningError.txt
             if [[ $linenum > 0 ]]; then
-               # look for other occurances of this line number in the file
+               # look for all occurances of this line number in the file
                rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                while IFS= read -r ln; do
-                  # remove these other lines from warningError.txt
-                  rm -f cp.txt && grep -v "$ln" warningError.txt >> cp.txt && mv -f cp.txt warningError.txt
                   modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
                   echo $modLine >> tout.txt
+                  # remove these other lines from warningError.txt
+                  rm -f cp.txt && grep -v "$ln" warningError.txt >> cp.txt && mv -f cp.txt warningError.txt
                done < tmp.txt
                # now look up the line in the .tex file and place underneath
                echo "Line #$linenum ----------------------- " >> tout.txt
                head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
             fi
+            # now look for more errors
+            rm -f errors.txt && touch errors.txt
+            grep -E "^[0-9][0-9]* ERROR " warningError.txt >> errors.txt
             echo "-------------------------------------------------------------------------" >> tout.txt
-          done < errors.txt
+          done
           echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           cat tout.txt
           echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
@@ -207,26 +197,27 @@ jobs:
           if [ $(wc -c < "warnings.txt") -eq 0 ]; then
             echo "      none" >> tout.txt
           fi
-          while IFS= read -r line; do
-            # remove this line from warningError.txt
-            rm -f cp.txt && grep -v "$line" warningError.txt > cp.txt && mv -f cp.txt warningError.txt
-            modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
+          while  [ $(wc -c < "warnings.txt") -gt 0 ]; do
+            line="$(head -1 warnings.txt)"
             linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
-            echo $modifiedLine >> tout.txt
             if [[ $linenum > 0 ]]; then
-               # look for other occurances of this line number in the file
+               # look for all occurances of this line number in the file
                rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                while IFS= read -r ln; do
-                  # remove these other lines from warningError.txt
-                  rm -f cp.txt && grep -v "$ln" warningError.txt >> cp.txt && mv -f cp.txt warningError.txt
                   modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
                   echo $modLine >> tout.txt
+                  # remove these other lines from warningError.txt
+                  rm -f cp.txt && grep -v "$ln" warningError.txt >> cp.txt && mv -f cp.txt warningError.txt
                done < tmp.txt
                # now look up the line in the .tex file and place underneath
                echo "Line #$linenum ----------------------- " >> tout.txt
                head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
             fi
-          done < warnings.txt
+            # now look for more warnings
+            rm -f warnings.txt && touch warnings.txt
+            grep -E "^[0-9][0-9]* ERROR " warningError.txt >> warnings.txt
+            echo "-------------------------------------------------------------------------" >> tout.txt
+          done
           echo "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
           cat tout.txt
           echo "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
@@ -239,26 +230,27 @@ jobs:
           if [ $(wc -c < "biberrs.txt") -eq 0 ]; then
             echo "      none" >> tout.txt
           fi
-          while IFS= read -r line; do
-            # remove this line from warningError.txt
-            rm -f cp.txt && grep -v "$line" warningError.txt > cp.txt && mv -f cp.txt warningError.txt
-            modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
+          while  [ $(wc -c < "biberrs.txt") -gt 0 ]; do
+            line="$(head -1 biberrs.txt)"
             linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
-            echo $modifiedLine >> tout.txt
             if [[ $linenum > 0 ]]; then
-               # look for other occurances of this line number in the file
+               # look for all occurances of this line number in the file
                rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                while IFS= read -r ln; do
-                  # remove these other lines from warningError.txt
-                  rm -f cp.txt && grep -v "$ln" warningError.txt >> cp.txt && mv -f cp.txt warningError.txt
                   modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
                   echo $modLine >> tout.txt
+                  # remove these other lines from warningError.txt
+                  rm -f cp.txt && grep -v "$ln" warningError.txt >> cp.txt && mv -f cp.txt warningError.txt
                done < tmp.txt
                # now look up the line in the .tex file and place underneath
                echo "Line #$linenum ----------------------- " >> tout.txt
                head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
             fi
-          done < biberrs.txt
+            # now look for more bib errs
+            rm -f biberrs.txt && touch biberrs.txt
+            grep -E "^[0-9][0-9]* ERROR " warningError.txt >> biberrs.txt
+            echo "-------------------------------------------------------------------------" >> tout.txt
+          done
           echo "***************************************************************************************"
           cat tout.txt
           echo "***************************************************************************************"
