@@ -162,18 +162,17 @@ jobs:
           grep -E "^[0-9][0-9]* ERROR " warningError.txt >> errors.txt
           while IFS= read -r line; do
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
-            echo " "
             echo " +++++++++++++++++++++++++++++++++++++++++++++ modified line +++++++++++++++++++++++++++++++++++++++++++++++++"
             echo $modifiedLine
             echo $errArray
             echo " +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
             # determine if this line has already been written. If not, then proceed
-            if [[ "$(echo "$errArray" | grep -q -E "ZZ${modifiedLine}ZZ")$?" == 0 ]]; then
+            if [[ "$(echo "$errArray" | grep -q -E ZZ"$modifiedLine"ZZ)$?" == 0 ]]; then
               echo "modified line is NOT already in "
             else
               echo "modified line IS already in "
             fi
-            if [[ "$(echo "$errArray" | grep -q -E "ZZ${modifiedLine}ZZ")$?" == 0 ]]; then
+            if [[ "$(echo "$errArray" | grep -q -E ZZ"$modifiedLine"ZZ)$?" == 0 ]]; then
               echo $modifiedLine >> tout.txt
               errArray+="${modifiedLine}ZZ"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
@@ -187,12 +186,12 @@ jobs:
                     echo "                  $modLine"
                     echo "                  $errArray"
                     echo "                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-                    if [[ "$(echo "$errArray" | grep -q -E "ZZ${modLine}ZZ")$?" == 0 ]]; then
+                    if [[ "$(echo "$errArray" | grep -q -E ZZ"$modLine"ZZ)$?" == 0 ]]; then
                          echo "                  mod line is NOT already in "
                     else
                          echo "                  mod line IS already in "
                     fi
-                    if [[ "$(echo "$errArray" | grep -q -E "ZZ${modLine}ZZ")$?" == 0 ]]; then
+                    if [[ "$(echo "$errArray" | grep -q -E ZZ"$modLine"ZZ)$?" == 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
                        errArray+="${modLine}ZZ"
                     fi
@@ -229,12 +228,12 @@ jobs:
             echo " .............................................................................................................."
             echo " "
             # determine if this line has already been written. If not, then proceed
-            if [[ "$(echo "$errArray" | grep -q -E "ZZ${modifiedLine}ZZ")$?" == 0 ]]; then
+            if [[ "$(echo "$errArray" | grep -q -E ZZ"$modifiedLine"ZZ)$?" == 0 ]]; then
               echo "modified line is NOT already in "
             else
               echo "modified line IS already in "
             fi
-            if [[ "$(echo "$errArray" | grep -q -E "ZZ${modifiedLine}ZZ")$?" == 0 ]]; then
+            if [[ "$(echo "$errArray" | grep -q -E ZZ"$modifiedLine"ZZ)$?" == 0 ]]; then
               echo $modifiedLine >> tout.txt
               errArray+="${modifiedLine}ZZ"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
@@ -247,12 +246,12 @@ jobs:
                     echo "                  $modLine"
                     echo "                  $errArray"
                     echo "                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-                    if [[ "$(echo "$errArray" | grep -q -E "ZZ${modLine}ZZ")$?" == 0 ]]; then
+                    if [[ "$(echo "$errArray" | grep -q -E ZZ"$modLine"ZZ)$?" == 0 ]]; then
                          echo "                  mod line is NOT already in "
                     else
                          echo "                  mod line IS already in "
                     fi
-                    if [[ $(echo "$errArray" | grep -q -E "ZZ${modLine}ZZ")$?" == 0 ]]; then
+                    if [[ $(echo "$errArray" | grep -q -E ZZ"$modLine"ZZ)$?" == 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
                        errArray+="${modLine}ZZ"
                     fi
@@ -273,12 +272,12 @@ jobs:
           while IFS= read -r line; do
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
             # determine if this line has already been written. If not, then proceed
-            if [[ $(echo "$errArray" | grep -q -E "ZZ${modifiedLine}ZZ")$?" == 0 ]]; then
+            if [[ $(echo "$errArray" | grep -q -E ZZ"$modifiedLine"ZZ)$?" == 0 ]]; then
               echo "modified line is NOT already in "
             else
               echo "modified line IS already in "
             fi
-            if [[ $(echo "$errArray" | grep -q -E "ZZ${modifiedLine}ZZ")$?" == 0  ]]; then
+            if [[ $(echo "$errArray" | grep -q -E ZZ"$modifiedLine"ZZ)$?" == 0  ]]; then
               echo $modifiedLine >> tout.txt
               errArray+="${modifiedLine}ZZ"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
@@ -291,12 +290,12 @@ jobs:
                     echo "                  $modLine"
                     echo "                  $errArray"
                     echo "                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-                    if [[ "$(echo "$errArray" | grep -q -E "ZZ${modLine}ZZ")$?" == 0 ]]; then
+                    if [[ "$(echo "$errArray" | grep -q -E ZZ"$modLine"ZZ)$?" == 0 ]]; then
                          echo "                  mod line is NOT already in "
                     else
                          echo "                  mod line IS already in "
                     fi
-                    if [[ $(echo "$errArray" | grep -q -E "ZZ${modLine}ZZ")$?" == 0 ]]; then
+                    if [[ $(echo "$errArray" | grep -q -E ZZ"$modLine"ZZ)$?" == 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
                        errArray+="${modLine}ZZ"
                     fi
