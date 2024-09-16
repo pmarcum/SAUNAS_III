@@ -165,12 +165,12 @@ jobs:
             echo "165 modifiedLine: $modifiedLine"
             echo "166 errArray: $errArray"
             # determine if this line has already been written. If not, then proceed
-            if [[ "$(echo "$errArray" | grep -q -E "$modifiedLine")$?" == 0 ]]; then
+            if [[ "$(echo "$errArray" | grep -q -E "$modifiedLine")$?" == 1 ]]; then
               echo "modified line is NOT already in "
             else
               echo "modified line IS already in "
             fi
-            if [[ "$(echo "$errArray" | grep -q -E "$modifiedLine")$?" == 0 ]]; then
+            if [[ "$(echo "$errArray" | grep -q -E "$modifiedLine")$?" == 1 ]]; then
               echo $modifiedLine >> tout.txt
               errArray+=" $modifiedLine ZZ"
               echo "176 errArray: $errArray"
