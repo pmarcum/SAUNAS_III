@@ -182,12 +182,12 @@ jobs:
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
                     echo "                 183 modline: $modLine"
                     echo "                 183 errArray: $errArray"
-                    if [[ "$(echo "$errArray" | grep -q -E "$modLine")$?" == 0 ]]; then
+                    if [[ "$(echo "$errArray" | grep -q -E "$modLine")$?" == 1 ]]; then
                          echo "                  mod line is NOT already in "
                     else
                          echo "                  mod line IS already in "
                     fi
-                    if [[ "$(echo "$errArray" | grep -q -E "$modLine")$?" == 0 ]]; then
+                    if [[ "$(echo "$errArray" | grep -q -E "$modLine")$?" == 1 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
                        errArray+=" $modLine ZZ"
                        echo "              193 errArray: $errArray"
@@ -215,12 +215,12 @@ jobs:
             echo "215 modifiedLine: $modifiedLine"
             echo "216 errArray: $errArray"
             # determine if this line has already been written. If not, then proceed
-            if [[ "$(echo "$errArray" | grep -q -E "$modifiedLine")$?" == 0 ]]; then
+            if [[ "$(echo "$errArray" | grep -q -E "$modifiedLine")$?" == 1 ]]; then
               echo "modified line is NOT already in "
             else
               echo "modified line IS already in "
             fi
-            if [[ "$(echo "$errArray" | grep -q -E "$modifiedLine")$?" == 0 ]]; then
+            if [[ "$(echo "$errArray" | grep -q -E "$modifiedLine")$?" == 1 ]]; then
               echo $modifiedLine >> tout.txt
               errArray+=" $modifiedLine ZZ"
               echo "226 errArray: $errArray"
@@ -231,12 +231,12 @@ jobs:
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
                     echo "                  233 modline: $modLine"
-                    if [[ "$(echo "$errArray" | grep -q -E "$modLine")$?" == 0 ]]; then
+                    if [[ "$(echo "$errArray" | grep -q -E "$modLine")$?" == 1 ]]; then
                        echo "                  mod line is NOT already in "
                     else
                        echo "                  mod line IS already in "
                     fi
-                    if [[ $(echo "$errArray" | grep -q -E "$modLine")$?" == 0 ]]; then
+                    if [[ $(echo "$errArray" | grep -q -E "$modLine")$?" == 1 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
                        errArray+=" $modLine ZZ"
                        echo "               242 errArray: $errArray"
@@ -260,12 +260,12 @@ jobs:
             echo "260 modifiedLine: $modifiedLine"
             echo "261 errArray: $errArray"
             # determine if this line has already been written. If not, then proceed
-            if [[ $(echo "$errArray" | grep -q -E "$modifiedLine")$?" == 0 ]]; then
+            if [[ $(echo "$errArray" | grep -q -E "$modifiedLine")$?" == 1 ]]; then
               echo "modified line is NOT already in "
             else
               echo "modified line IS already in "
             fi
-            if [[ $(echo "$errArray" | grep -q -E "$modifiedLine")$?" == 0  ]]; then
+            if [[ $(echo "$errArray" | grep -q -E "$modifiedLine")$?" == 1 ]]; then
               echo $modifiedLine >> tout.txt
               errArray+=" $modifiedLine ZZ"
               echo "271 errArray: $errArray"
@@ -277,12 +277,12 @@ jobs:
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
                     echo "                  278 modLine: $modLine"
                     echo "                  279 errArray: $errArray"
-                    if [[ "$(echo "$errArray" | grep -q -E "$modLine")$?" == 0 ]]; then
+                    if [[ "$(echo "$errArray" | grep -q -E "$modLine")$?" == 1 ]]; then
                          echo "                  mod line is NOT already in "
                     else
                          echo "                  mod line IS already in "
                     fi
-                    if [[ $(echo "$errArray" | grep -q -E "$modLine")$?" == 0 ]]; then
+                    if [[ $(echo "$errArray" | grep -q -E "$modLine")$?" == 1 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
                        errArray+=" $modLine ZZ"
                        echo "                 286 errArray: $errArray"
