@@ -101,14 +101,59 @@ jobs:
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
           echo "-----------------------------------------------------"
           #cat ${{ github.event.inputs.file2compile }}_full.log
+          warnErrArr=()
           rm -f warningError.txt && touch warningError.txt
           # get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render. 
           grep -E "\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\: LaTeX Error\:" ${{ github.event.inputs.file2compile }}_full.log >> warningError.txt
+          matches="$(grep -E "\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\: LaTeX Error\:" ${{ github.event.inputs.file2compile }}_full.log)"
+          warnErrArr+=(${matches[@]})
           # now get the warnings, but note that some of the warnings are actually errors (like figure files that are mispelled) and need to 
           # be consolidated with the associated line in the error section here
           grep -E "^LaTeX Warning\:" ${{ github.event.inputs.file2compile }}_full.log >> warningError.txt
+          matches="$(grep -E "^LaTeX Warning\:" ${{ github.event.inputs.file2compile }}_full.log)"
+          warnErrArr+=(${matches[@]})
           # take a look at the bib tex errors
           grep -E "^Package natbib Warning\: Citation" ${{ github.event.inputs.file2compile }}_full.log >> warningError.txt
+          matched="$(grep -E "^Package natbib Warning\: Citation" ${{ github.event.inputs.file2compile }}_full.log)"
+          warnErrArr+=(${matches[@]})
+          nlines=${#warnErrArr[@]}
+          for (( i=0; i<${nlines}; i++ )); do
+             line="${warnErrArr[$i]}"
+             if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
+                linenum=$(echo $line | sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/')
+                if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
+                    ${warnErrArr[$i]}="$linenum ERROR $line" 
+                elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
+                    ${warnErrArr[$i]}="$linenum BIB $line"
+                else
+                    ${warnErrArr[$i]}="$linenum WARNING $line"
+                fi
+             elif [[ "$(echo "$line" | grep -q -E "^\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\:")$?" == 0 ]]; then
+                linenum=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9][0-9]*).*/\1/')
+                if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
+                    ${warnErrArr[$i]}="$linenum ERROR $line" 
+                elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
+                    ${warnErrArr[$i]}="$linenum BIB $line"
+                else
+                    ${warnErrArr[$i]}="$linenum WARNING $line"
+                fi
+             else
+                if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
+                    ${warnErrArr[$i]}="0 ERROR $line" 
+                elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
+                    ${warnErrArr[$i]}="0 BIB $line"
+                else
+                    ${warnErrArr[$i]}="0 WARNING $line"
+                fi
+             fi
+          done
+          echo " "
+          echo " %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+          echo "${warnErrArr[0]}"
+          echo "${warnErrArr[4]}"
+          echo "${warnErrArr[8]}"
+          echo " %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+          echo " "
           # Now pull out the line number, if provided, in each warning and error
           rm -f warnerr.txt && touch warnerr.txt
           while IFS= read -r line; do
@@ -134,7 +179,7 @@ jobs:
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
                     echo "0 ERROR $line" >> warnerr.txt
                 elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
-                    echo "$linenum BIB $line" >> warnerr.txt
+                    echo "0 BIB $line" >> warnerr.txt
                 else
                     echo "0 WARNING $line" >> warnerr.txt
                 fi
@@ -143,9 +188,7 @@ jobs:
           mv -f warnerr.txt warningError.txt
           sort warningError.txt | uniq > warnerr.txt
           mv -f warnerr.txt warningError.txt
-          #
-          #                 load up the file into an array
-          mapfile -t warnErrArr < warningError.txt
+          echo '148'
           # The below pulls out only those lines that are directly related to warnings and errors within the .tex file 
           # This step is why we needed everything related to a given error to appear in a single line and did the formatting above.
           # https://stackoverflow.com/questions/75534451/using-grep-output-as-pattern-for-a-second-grep
