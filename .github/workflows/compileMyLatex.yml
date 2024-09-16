@@ -107,21 +107,21 @@ jobs:
           # get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render. 
           readarray -t res < <(grep -E "\: LaTeX Error\:" ${{ github.event.inputs.file2compile }}_full.log)
           echo "++++++++++++++++++++++++++++++  ERRORS ++++++++++++++++++++++++++++"
-          printf '%s\n' "${res[@]}"
           warnErrArr+=(${res[@]})
           printf '%s\n' "${warnErrArr[@]}"
           # now get the warnings, but note that some of the warnings are actually errors (like figure files that are mispelled) and need to 
           # be consolidated with the associated line in the error section here
           readarray -t res < <(grep -E "LaTeX Warning" ${{ github.event.inputs.file2compile }}_full.log)
           echo "============================= WARNINGS ++++++++++++++++++++++++++++"
-          printf '%s\n' "${res[@]}"
           warnErrArr+=(${res[@]})
+          printf '%s\n' "${warnErrArr[@]}"
           # take a look at the bib tex errors
           readarray -t res < <(grep -E "^Package natbib Warning\: Citation" ${{ github.event.inputs.file2compile }}_full.log)
           echo "++++++++++++++++++++++++++++++++++ BIB ++++++++++++++++++++++++++++++"
-          printf '%s\n' "${res[@]}"
           warnErrArr+=(${res[@]})
+          printf '%s\n' "${warnErrArr[@]}"
           nlines=${#warnErrArr[@]}
+          echo $nlines
           #printf '%s\n' "${warnErrArr[@]}"
           for (( i=0; i<${nlines}; i++ )); do
              line="${warnErrArr[$i]}"
