@@ -143,6 +143,11 @@ jobs:
           mv -f warnerr.txt warningError.txt
           sort warningError.txt | uniq > warnerr.txt
           mv -f warnerr.txt warningError.txt
+          # load up the file into an array
+          warningErrorArr=()
+          while IFS= read -r line; do
+             warningErrorArr+=( $line )
+          done < errors.txt          
           # The below pulls out only those lines that are directly related to warnings and errors within the .tex file 
           # This step is why we needed everything related to a given error to appear in a single line and did the formatting above.
           # https://stackoverflow.com/questions/75534451/using-grep-output-as-pattern-for-a-second-grep
@@ -157,6 +162,16 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          line=''
+          for ln in "${warningErrorArr[@]}"; do
+             if [[ "$ln" =~ "LaTeX Error" ]]; then
+                line = $ln
+                exit 0
+             fi
+          done
+          echo " "
+          echo "The line is: $line"
+          echo " "
           rm -f errors.txt && touch errors.txt
           grep -E "^[0-9][0-9]* ERROR " warningError.txt >> errors.txt
           # if there were no errors, then put 'none'
