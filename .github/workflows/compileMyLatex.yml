@@ -103,9 +103,11 @@ jobs:
           #cat ${{ github.event.inputs.file2compile }}_full.log
           # Set up an array that will hold all the errors and warnings listed in the _full.log
           warnErrArr=()
-          rm -f warningError.txt && touch warningError.txt
           # get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render. 
-          readarray -t res < <(grep -E "\: LaTeX Error\:" ${{ github.event.inputs.file2compile }}_full.log)
+          readarray -t res < <(grep -E "LaTeX Error" ${{ github.event.inputs.file2compile }}_full.log)
+          nlines=${#res[@]}
+          echo "n lines $nlines"
+          #for (( i=0; i<${nlines}; i++ )); do
           echo "++++++++++++++++++++++++++++++  ERRORS ++++++++++++++++++++++++++++"
           warnErrArr+="${res[@]}"
           printf '%s\n' "${warnErrArr[@]}"
