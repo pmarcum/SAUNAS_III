@@ -175,7 +175,7 @@ jobs:
                # look for other occurances of this line number in the file
                rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                # remove these other lines from warningError.txt
-               awk 'NR==FNR[a[$1]; next} !($NF in a)' tmp.txt warningError.txt
+               awk 'NR==FNR{a[$1]; next} !($NF in a)' tmp.txt warningError.txt
                while IFS= read -r ln; do
                   modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
                   echo $modLine >> tout.txt
@@ -209,7 +209,7 @@ jobs:
                # look for other occurances of this line number in the file
                rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                # remove these other lines from warningError.txt
-               awk 'NR==FNR[a[$1]; next} !($NF in a)' tmp.txt warningError.txt
+               awk 'NR==FNR{a[$1]; next} !($NF in a)' tmp.txt warningError.txt
                while IFS= read -r ln; do
                   modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
                   echo $modLine >> tout.txt
@@ -242,7 +242,7 @@ jobs:
                # look for other occurances of this line number in the file
                rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                # remove these other lines from warningError.txt
-               awk 'NR==FNR[a[$1]; next} !($NF in a)' tmp.txt warningError.txt
+               awk 'NR==FN{[a[$1]; next} !($NF in a)' tmp.txt warningError.txt
                while IFS= read -r ln; do
                   modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
                   echo $modLine >> tout.txt
