@@ -106,7 +106,8 @@ jobs:
           rm -f warningError.txt && touch warningError.txt
           # get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render. 
           grep -E "\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\: LaTeX Error\:" ${{ github.event.inputs.file2compile }}_full.log >> warningError.txt
-          readarray -d '' -t res < <(grep --null -HRl -E -o "\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\: LaTeX Error\:" ${{ github.event.inputs.file2compile }}_full.log .)
+          readarray -t res < <(grep -E -o "\: LaTeX Error\:" ${{ github.event.inputs.file2compile }}_full.log)
+          printf "%s\n" "${res[@]}"
           echo $res
           #resArr=(${res//\n/ })
           #echo ${resArr[1]}
