@@ -153,6 +153,7 @@ jobs:
           # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
           # put in a timestamp at the top of file to become final version of log output
           errArray="ZZ"
+          sep="ZZ"
           echo "${{ env.TIMESTAMP }}" > tout.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -167,7 +168,7 @@ jobs:
             echo $errArray
             echo " +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
             # determine if this line has already been written. If not, then proceed
-            searchtxt="ZZ${modifiedLine}ZZ"
+            searchtxt="${sep}${modifiedLine}${sep}"
             echo "$searchtxt"
             if [[ "$(echo "$errArray" | grep -q -E "$searchtxt")$?" == 0 ]]; then
               echo "modified line is NOT already in "
@@ -176,14 +177,14 @@ jobs:
             fi
             if [[ "$(echo "$errArray" | grep -q -E "$searchtxt")$?" == 0 ]]; then
               echo $modifiedLine >> tout.txt
-              errArray="${errArray}${modifiedLine}ZZ"
+              errArray="${errArray}${modifiedLine}${sep}"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
                  rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
-                    searchtxt="ZZ${modLine}ZZ"
+                    searchtxt="${sep}${modLine}${sep}"
                     echo "$searchtxt"
                     echo "                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ mod line ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
                     echo "                  $modLine"
@@ -196,7 +197,7 @@ jobs:
                     fi
                     if [[ "$(echo "$errArray" | grep -q -E "$searchtxt")$?" == 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                       errArray="${errArray}${modLine}ZZ"
+                       errArray="${errArray}${modLine}${sep}"
                     fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
@@ -222,7 +223,7 @@ jobs:
           grep -E "^[0-9][0-9]* WARNING " warningError.txt >> warnings.txt
           while IFS= read -r line; do
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
-            searchtxt="ZZ${modifiedLine}ZZ"
+            searchtxt="${sep}${modifiedLine}${sep}"
             echo "$searchtxt"
             echo " "
             echo " +++++++++++++++++++++++++++++++++++++++++++++ modified line +++++++++++++++++++++++++++++++++++++++++++++++++"
@@ -237,14 +238,14 @@ jobs:
             fi
             if [[ "$(echo "$errArray" | grep -q -E "$searchtxt")$?" == 0 ]]; then
               echo $modifiedLine >> tout.txt
-              errArray+="${modifiedLine}ZZ"
+              errArray+="${modifiedLine}${sep}"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
                  rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
-                    searchtxt="ZZ${modLine}ZZ"
+                    searchtxt="${sep}${modLine}${sep}"
                     echo "$searchtxt"
                     echo "                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ mod line ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
                     echo "                  $modLine"
@@ -257,7 +258,7 @@ jobs:
                     fi
                     if [[ $(echo "$errArray" | grep -q -E "$searchtxt")$?" == 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                       errArray+="${modLine}ZZ"
+                       errArray+="${modLine}${sep}"
                     fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
@@ -275,9 +276,7 @@ jobs:
           grep -E "^[0-9][0-9]* BIB " warningError.txt >> biberrs.txt
           while IFS= read -r line; do
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
-            searchtxt="ZZ"
-            searchtxt+="$modifiedLine"
-            searchtxt+="ZZ"
+            searchtxt="${sep}${modifiedLine}${sep}"
             # determine if this line has already been written. If not, then proceed
             if [[ $(echo "$errArray" | grep -q -E "$searchtxt")$?" == 0 ]]; then
               echo "modified line is NOT already in "
@@ -286,17 +285,14 @@ jobs:
             fi
             if [[ $(echo "$errArray" | grep -q -E "$searchtxt")$?" == 0  ]]; then
               echo $modifiedLine >> tout.txt
-              errArray+="${modifiedLine}"
-              errArray+="ZZ"
+              errArray+="${modifiedLine}${sep}"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
                  rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
-                    searchtxt="ZZ"
-                    searchtxt+="$modLine"
-                    searchtxt+="ZZ"
+                    searchtxt="${sep}$modLine${sep}"
                     echo "                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ mod line ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
                     echo "                  $modLine"
                     echo "                  $errArray"
@@ -308,8 +304,7 @@ jobs:
                     fi
                     if [[ $(echo "$errArray" | grep -q -E "$searchtxt")$?" == 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                       errArray+="${modLine}"
-                       errArray+="ZZ"
+                       errArray+="${modLine}${sep}"
                     fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
