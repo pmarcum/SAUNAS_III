@@ -169,7 +169,7 @@ jobs:
             rm -f cp.txt && grep -v "$line" warningError.txt > cp.txt && mv -f cp.txt warningError.txt
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
             linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
-            if [[ $prevLinenum != linenum ]]; then
+            if [[ $prevLinenum != $linenum ]]; then
                echo $modifiedLine >> tout.txt
                if [[ $linenum > 0 ]]; then
                   # look for other occurances of this line number in the file
@@ -185,6 +185,9 @@ jobs:
                   head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
                fi
                echo "-------------------------------------------------------------------------" >> tout.txt
+            fi
+            if [[ $linenum > 0 ]]; then
+               prevLinenum = $linenum
             fi
             cat tout.txt
             echo " * * * * * * * * * * * * * "
@@ -208,7 +211,7 @@ jobs:
             rm -f cp.txt && grep -v "$line" warningError.txt > cp.txt && mv -f cp.txt warningError.txt
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
             linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
-            if [[ $prevLinenum != linenum ]]; then
+            if [[ $prevLinenum != $linenum ]]; then
                echo $modifiedLine >> tout.txt
                if [[ $linenum > 0 ]]; then
                   # look for other occurances of this line number in the file
@@ -224,6 +227,9 @@ jobs:
                   head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
                fi
                echo "-------------------------------------------------------------------------" >> tout.txt
+            fi
+            if [[ $linenum > 0 ]]; then
+               prevLinenum = $linenum
             fi
           done < warnings.txt
           echo "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
@@ -244,7 +250,7 @@ jobs:
             rm -f cp.txt && grep -v "$line" warningError.txt > cp.txt && mv -f cp.txt warningError.txt
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
             linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
-            if [[ $prevLinenum != linenum ]]; then
+            if [[ $prevLinenum != $linenum ]]; then
                echo $modifiedLine >> tout.txt
                if [[ $linenum > 0 ]]; then
                   # look for other occurances of this line number in the file
@@ -260,6 +266,9 @@ jobs:
                   head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
                fi
                echo "-------------------------------------------------------------------------" >> tout.txt
+            fi
+            if [[ $linenum > 0 ]]; then
+               prevLinenum = $linenum
             fi
           done < biberrs.txt
           echo "***************************************************************************************"
