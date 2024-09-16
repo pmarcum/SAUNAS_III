@@ -152,7 +152,7 @@ jobs:
           # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
           # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
           # put in a timestamp at the top of file to become final version of log output
-          errArray="ZZ"
+          errArray=""
           sep="ZZ"
           echo "${{ env.TIMESTAMP }}" > tout.txt
           echo "" >> tout.txt
@@ -169,15 +169,14 @@ jobs:
             echo " +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
             # determine if this line has already been written. If not, then proceed
             searchtxt="${sep}${modifiedLine}${sep}"
-            echo "$searchtxt"
-            if [[ "$(echo "$errArray" | grep -q -E "$searchtxt")$?" == 0 ]]; then
+            if [[ "$(echo "$errArray" | grep -q -E "$modifiedLine")$?" == 0 ]]; then
               echo "modified line is NOT already in "
             else
               echo "modified line IS already in "
             fi
-            if [[ "$(echo "$errArray" | grep -q -E "$searchtxt")$?" == 0 ]]; then
+            if [[ "$(echo "$errArray" | grep -q -E "$modifiedLine")$?" == 0 ]]; then
               echo $modifiedLine >> tout.txt
-              errArray="${errArray}${modifiedLine}${sep}"
+              errArray+="$modifiedLine"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
@@ -197,7 +196,7 @@ jobs:
                     fi
                     if [[ "$(echo "$errArray" | grep -q -E "$searchtxt")$?" == 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                       errArray="${errArray}${modLine}${sep}"
+                       errArray+="$modLine"
                     fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
@@ -238,7 +237,7 @@ jobs:
             fi
             if [[ "$(echo "$errArray" | grep -q -E "$searchtxt")$?" == 0 ]]; then
               echo $modifiedLine >> tout.txt
-              errArray+="${modifiedLine}${sep}"
+              errArray+="$modifiedLine"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
@@ -258,7 +257,7 @@ jobs:
                     fi
                     if [[ $(echo "$errArray" | grep -q -E "$searchtxt")$?" == 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                       errArray+="${modLine}${sep}"
+                       errArray+="$modLine"
                     fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
@@ -285,7 +284,7 @@ jobs:
             fi
             if [[ $(echo "$errArray" | grep -q -E "$searchtxt")$?" == 0  ]]; then
               echo $modifiedLine >> tout.txt
-              errArray+="${modifiedLine}${sep}"
+              errArray+="$modifiedLine"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
@@ -304,7 +303,7 @@ jobs:
                     fi
                     if [[ $(echo "$errArray" | grep -q -E "$searchtxt")$?" == 0 ]]; then
                        echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //' >> tout.txt
-                       errArray+="${modLine}${sep}"
+                       errArray+="$modLine"
                     fi
                  done < tmp.txt
                  # now look up the line in the .tex file and place underneath
