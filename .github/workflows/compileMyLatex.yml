@@ -164,11 +164,21 @@ jobs:
             echo "      none" >> tout.txt
           fi
           while IFS= read -r line; do
-            # remove this line from warningError.txt
-            rm -f cp.txt && grep -v "$line" warningError.txt > cp.txt && mv -f cp.txt warningError.txt
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
             linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
             echo $modifiedLine >> tout.txt
+            # remove this line from warningError.txt
+            echo " "
+            echo " +++++++++++++++++++++++++++++++++++++++"
+            echo $line
+            echo " "
+            echo " " 
+            cat warningError.txt
+            rm -f cp.txt && grep -v "$line" warningError.txt > cp.txt && mv -f cp.txt warningError.txt
+            echo " "
+            echo " - - - - - - - - - - - - - - - "
+            echo " "
+            cat warningError.txt
             if [[ $linenum > 0 ]]; then
                # look for other occurances of this line number in the file
                rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
@@ -183,8 +193,6 @@ jobs:
                head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
             fi
             echo "-------------------------------------------------------------------------" >> tout.txt
-            cat tout.txt
-            echo " * * * * * * * * * * * * * "
           done < errors.txt
           echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           cat tout.txt
