@@ -184,6 +184,9 @@ jobs:
               echo "-------------------------------------------------------------------------" >> tout.txt
             fi
           done < errors.txt
+          echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          cat tout.txt
+          echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
@@ -214,6 +217,9 @@ jobs:
               echo "-------------------------------------------------------------------------" >> tout.txt
             fi
           done < warnings.txt
+          echo "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
+          cat tout.txt
+          echo "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
@@ -222,7 +228,8 @@ jobs:
           grep -E "^[0-9][0-9]* BIB " warningError.txt >> biberrs.txt
           while IFS= read -r line; do
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
-            if [[ $(echo "$errArray" | grep -q -E "ZZ $modifiedLine ZZ")$?" == 1 ]]; then
+            # determine if this line has already been written. If not, then proceed
+            if [[ "$(echo "$errArray" | grep -q -E "ZZ $modifiedLine ZZ")$?" == 1 ]]; then
               echo $modifiedLine >> tout.txt
               errArray+=" $modifiedLine ZZ"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
@@ -243,6 +250,9 @@ jobs:
               echo "-------------------------------------------------------------------------" >> tout.txt
             fi
           done < biberrs.txt
+          echo "***************************************************************************************"
+          cat tout.txt
+          echo "***************************************************************************************"
           # https://stackoverflow.com/questions/57788813/grep-return-0-if-no-match
           # squash.io/extracting=numbers-from-strings-in-bash
           # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
