@@ -185,30 +185,21 @@ jobs:
             fi
           done < errors.txt
           echo "" >> tout.txt
-          echo " "
-          echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-          cat tout.txt
-          echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           rm -f warnings.txt && touch warnings.txt
-          echo "196"
           grep -E "^[0-9][0-9]* WARNING " warningError.txt >> warnings.txt
-          echo "198"
           while IFS= read -r line; do
             modifiedLine=$(echo $line | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
             # determine if this line has already been written. If not, then proceed
-            echo "202"
             if [[ "$(echo "$errArray" | grep -q -E "ZZ $modifiedLine ZZ")$?" == 1 ]]; then
               echo $modifiedLine >> tout.txt
               errArray+=" $modifiedLine ZZ"
               linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
-              echo "linenum $linenum"
               if [[ $linenum > 0 ]]; then
                  # look for other occurances of this line number in the file
                  rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
-                 echo "211"
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
                     if [[ "$(echo "$errArray" | grep -q -E "ZZ $modLine ZZ")$?" == 1 ]]; then
@@ -224,9 +215,6 @@ jobs:
             fi
           done < warnings.txt
           echo "" >> tout.txt
-          echo "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
-          cat tout.txt
-          echo "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -243,7 +231,7 @@ jobs:
                  rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
                  while IFS= read -r ln; do
                     modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
-                    if [[ $(echo "$errArray" | grep -q -E "ZZ $modLine ZZ")$?" == 1 ]]; then
+                    if [[ "$(echo "$errArray" | grep -q -E "ZZ $modLine ZZ")$?" == 1 ]]; then
                        echo $modLine >> tout.txt
                        errArray+=" $modLine ZZ"
                     fi
@@ -282,9 +270,9 @@ jobs:
           #rm -f tmptmp*.txt
           echo ""
           echo ""
-          echo "=========================================="
+          echo "=========================================================================================================="
           cat tout.txt
-          echo "========================================="
+          echo "==========================================================================================================="
           echo ""
           #mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
