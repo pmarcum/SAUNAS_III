@@ -192,13 +192,14 @@ jobs:
             if [[ $linenum > 0 ]]; then
                # look for all occurances of this line number in the error/warning list
                for (( i=0; i<${#sorted[@]}; i++ )); do
-                  if [[ "$(echo "${sorted[$i]}" | grep -q -E "^$linenum-")$?" == 0 ]]; then
-                     line="$(echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*-[A-Z]-[A-Z]*-//' | sed -r 's/ZZ/ /g')"
-                     echo $line >> tout.txt
-                     # remove this item from the list
-                     unset sorted[$i]
-                     echo "the match to the line $line"
-                  fi
+                  echo "${sorted[$i]}"
+                  #if [[ "$(echo "${sorted[$i]}" | grep -q -E "^$linenum-")$?" == 0 ]]; then
+                  #   line="$(echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*-[A-Z]-[A-Z]*-//' | sed -r 's/ZZ/ /g')"
+                  #   echo $line >> tout.txt
+                  #   # remove this item from the list
+                  #   unset sorted[$i]
+                  #   echo "the match to the line $line"
+                  #fi
                done
                # now look up the line in the .tex file and place underneath
                echo "Line #$linenum ----------------------- " >> tout.txt
@@ -207,13 +208,14 @@ jobs:
                echo "there is no line number"
                # look up where this line is in the list and remove it from the list
                for (( i=0; i<${sorted[@]}; i++ )); do
-                  if [[ "${sorted[$i]}" = "$errors" ]]; then
-                     line="$(echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*-[A-Z]-[A-Z]*-//' | sed -r 's/ZZ/ /g')"
-                     echo "there is a match, here it is: $line"
-                     echo $line >> tout.txt
-                     # remove from list
-                     unset sorted[$i]
-                  fi
+                  echo "${sorted[$i]}"
+                  #if [[ "${sorted[$i]}" = "$errors" ]]; then
+                  #   line="$(echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*-[A-Z]-[A-Z]*-//' | sed -r 's/ZZ/ /g')"
+                  #   echo "there is a match, here it is: $line"
+                  #   echo $line >> tout.txt
+                  #   # remove from list
+                  #   unset sorted[$i]
+                  #fi
                done
             fi
             sorted=("${sorted[@]}")
@@ -228,6 +230,7 @@ jobs:
                   break
                fi
             done
+            errors=""
             echo "at the end of the loop, here is the next error: $errors"
             echo "-------------------------------------------------------------------------" >> tout.txt
           done
