@@ -160,7 +160,7 @@ jobs:
              fi
           done
           printf '%s\n' "${warnErrArr[@]}"
-          sorted=($(printf '%s\n' "${warnErrArr[@]}" | sort -nr))
+          sorted=($(printf '%s\n' "${warnErrArr[@]}" | sort -nr | uniq))
           #IFS=$'\n' sorted=($(sort <<<"${warnErrArr[*]}")); unset IFS
           printf '%s\n' "${sorted[@]}"
           # The below pulls out only those lines that are directly related to warnings and errors within the .tex file 
