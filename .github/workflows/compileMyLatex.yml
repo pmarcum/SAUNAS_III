@@ -190,8 +190,6 @@ jobs:
             if [[ $linenum > 0 ]]; then
                # look for all occurances of this line number in the error/warning list
                for (( i=0; i<${#sorted[@]}; i++ )); do
-                  echo "============================"
-                  echo "${sorted[$i]}"
                   if [[ "$(echo "${sorted[$i]}" | grep -q -E "^$linenum-")$?" == 0 ]]; then
                      line="$(echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g')"
                      echo $line >> tout.txt
@@ -204,12 +202,9 @@ jobs:
                head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
             else
                # look up where this line is in the list and remove it from the list
-               echo "205"
                for (( i=0; i<${sorted[@]}; i++ )); do
                   if [[ "${sorted[$i]}" =~ "$error" ]]; then
                      line="$(echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g')"
-                     echo "there is a match, here it is:"
-                     echo "$line"
                      echo $line >> tout.txt
                      # remove from list
                      unset sorted[$i]
@@ -218,7 +213,6 @@ jobs:
             fi
             tmp=("${sorted[@]}")
             sorted=$tmp
-            printf '%s\n' "${sorted[@]}"
             # See if any more errors remain in the list and need to be processed in the next loop iteration
             error=""
             for (( i=0; i<${#sorted[@]}; i++ )); do
@@ -235,8 +229,10 @@ jobs:
           echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           warning=""
+          printf '%s\n' "${sorted[@]}"
           for (( i=0; i<${#sorted[@]}; i++ )); do
             line="${sorted[$i]}"
+            echo "$line"
             if [[ "$line" =~ "-WARNING-" ]]; then
                warning="$line"
                break
