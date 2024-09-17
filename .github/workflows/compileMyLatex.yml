@@ -234,6 +234,11 @@ jobs:
           #echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           warnings=""
+          echo " "
+          echo " "
+          printf '%s\n' "${sorted[@]}"
+          echo " " 
+          echo " "
           for (( i=0; i<${#sorted[@]}; i++ )); do
             line="${sorted[$i]}"
             if [[ "$line" =~ "-WARNING-" ]]; then
