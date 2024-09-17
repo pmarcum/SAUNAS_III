@@ -182,7 +182,7 @@ jobs:
             fi
           done
           # if there were no errors, then put 'none'
-          if [ $errors -eq "" ]; then
+          if [ $errors = "" ]; then
             echo "      none" >> tout.txt
           fi
           while  [ $errors != "" ]; do
@@ -241,12 +241,14 @@ jobs:
                break
             fi
           done
+          echo "warning is: $warning"
           # if there were no warnings, then put 'none'
-          if [ $warnings -eq "" ]; then
+          if [ $warnings = "" ]; then
             echo "      none" >> tout.txt
           fi
           while  [ $warnings != "" ]; do
             linenum=$(echo "$warnings" | sed -r 's/^([0-9][0-9]*)-.*/\1/')
+            echo "line num $linenum"
             if [[ $linenum > 0 ]]; then
                # look for all occurances of this line number in the error/warning list
                for (( i=0; i<${#sorted[@]}; i++ )); do
@@ -255,6 +257,8 @@ jobs:
                      echo $line >> tout.txt
                      # remove this item from the list
                      unset sorted[$i]
+                     echo "found match to line number"
+                     echo "$line"
                   fi
                done
                # now look up the line in the .tex file and place underneath
@@ -265,6 +269,7 @@ jobs:
                for (( i=0; i<${sorted[@]}; i++ )); do
                   if [[ "${sorted[$i]}" =~ "$warnings" ]]; then
                      line="$(echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*-[A-Z]-[A-Z]*-//' | sed -r 's/ZZ/ /g')"
+                     echo "no line number in this one: $line"
                      echo $line >> tout.txt
                      # remove from list
                      unset sorted[$i]
@@ -281,6 +286,8 @@ jobs:
                   break
                fi
             done
+            echo "at botttom of loop and next warning is:"
+            echo "$warnings"
             echo "-------------------------------------------------------------------------" >> tout.txt
           done
           echo "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
