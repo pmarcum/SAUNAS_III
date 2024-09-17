@@ -223,7 +223,7 @@ jobs:
             errors=""
             for (( i=0; i<${#sorted[@]}; i++ )); do
                line="${sorted[$i]}"
-               if [[ "$(echo $line | grep -q -E "-ERROR-")$?" == 0 ]]; then
+               if [[ "$line" =~ "-ERROR-" ]]; then
                   errors=$line
                   break
                fi
