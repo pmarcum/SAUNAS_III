@@ -125,10 +125,12 @@ jobs:
           for (( i=0; i<${#res[@]}; i++ )); do
              warnErrArr[${#warnErrArr[@]}]="${res[$i]}"
           done
+          printf '%s\n' "${warnErrArr[@]}"
           # ====================================
           # ===================== Now add the relevant line number to front of each error/warning line that specifies a line number
           for (( i=0; i<${#warnErrArr[@]}; i++ )); do
              line="${warnErrArr[$i]}"
+             echo '===================> line $line"
              if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
                 linenum=$(echo $line | sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/')
                 tmp="$(echo "$line" | sed -r 's/ZZ/ /g')"
@@ -161,9 +163,13 @@ jobs:
              fi
              warnErrArr[$i]="$tmp"
           done
+          echo " "
+          echo " "
+          printf '%s\n' "${warnErrArr[@]}"
           # ====================================
           # ============== sort and remove redundances in the error/warning list
           sorted=($(printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s))
+          printf '%s\n' "${sorted[@]}"
           # ##################################################################################################
           #                        now process the list of warnings/errors just gathered
           # ##################################################################################################
@@ -177,6 +183,7 @@ jobs:
           for (( i=0; i<${#sorted[@]}; i++ )); do
             line="${sorted[$i]}"
             if [[ "$(echo "$line" | grep -q -E "-ERROR-")$?" == 0 ]]; then
+               echo "-----------------> found the next error to process: $errors"
                errors="$line"
                break
             fi
