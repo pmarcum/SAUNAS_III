@@ -84,8 +84,10 @@ jobs:
         # remove lines in the output that are unrelated to the latex compilation itself
         # First, move lines that should have been the ending of the previous line, to the end of that previous line
         run: |
+          # ===================================================================================================================
           # ========================  make sure that all lines related to a sentence are all smooshed together into single line
           sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log > new.log
+          # ===================================================================================================================
           # ======================== make a new line character after each period
           rm -f tmp.txt && touch tmp.txt && sed -r 's/^( *)\x0( *)\\\\/\1\2/g' new.log >> tmp.txt && mv -f tmp.txt new.log
           touch tmp.txt && sed -r 's/\x0\x0\x0*/\x0\n\x0/g' new.log >> tmp.txt && mv -f tmp.txt new.log
@@ -101,55 +103,61 @@ jobs:
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
           echo "-----------------------------------------------------"
           #cat ${{ github.event.inputs.file2compile }}_full.log
+          # ===================================================================================================================
           # ====================================  Set up an array that will hold all the errors and warnings listed in the _full.log
           warnErrArr=()
+          # ====================================
           # ============= get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render. 
           readarray -t res < <(grep -E "LaTeX Error" ${{ github.event.inputs.file2compile }}_full.log)
           for (( i=0; i<${#res[@]}; i++ )); do
              warnErrArr[${#warnErrArr[@]}]="${res[$i]}"
           done
+          # ====================================
           # ============= now get the warnings, but note that some of the warnings are actually errors (like figure files that are mispelled) and need to 
           # be consolidated with the associated line in the error section here
           readarray -t res < <(grep -E "LaTeX Warning" ${{ github.event.inputs.file2compile }}_full.log)
           for (( i=0; i<${#res[@]}; i++ )); do
              warnErrArr[${#warnErrArr[@]}]="${res[$i]}"
           done
+          # ====================================
           # ============= take a look at the bib tex errors
           readarray -t res < <(grep -E "^Package natbib Warning\: Citation" ${{ github.event.inputs.file2compile }}_full.log)
           for (( i=0; i<${#res[@]}; i++ )); do
              warnErrArr[${#warnErrArr[@]}]="${res[$i]}"
           done
+          # ====================================
           # ===================== Now add the relevant line number to front of each error/warning line that specifies a line number
           for (( i=0; i<${#warnErrArr[@]}; i++ )); do
              line="${warnErrArr[$i]}"
              if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
                 linenum=$(echo $line | sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/')
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
-                    warnErrArr[$i]="$linenum_ERROR_$line" 
+                    warnErrArr[$i]="$linenum\_ERROR\_$line" 
                 elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
-                    warnErrArr[$i]="$linenum_BIB_$line"
+                    warnErrArr[$i]="$linenum\_BIB\_$line"
                 else
-                    warnErrArr[$i]="$linenum_WARNING_$line"
+                    warnErrArr[$i]="$linenum\_WARNING\_$line"
                 fi
              elif [[ "$(echo "$line" | grep -q -E "^\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\:")$?" == 0 ]]; then
                 linenum=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9][0-9]*).*/\1/')
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
-                    warnErrArr[$i]="$linenum_ERROR_$line" 
+                    warnErrArr[$i]="$linenum\_ERROR\_$line" 
                 elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
-                    warnErrArr[$i]="$linenum_BIB_$line"
+                    warnErrArr[$i]="$linenum\_BIB\_$line"
                 else
-                    warnErrArr[$i]="$linenum_WARNING_$line"
+                    warnErrArr[$i]="$linenum\_WARNING\_$line"
                 fi
              else
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
-                    warnErrArr[$i]="0_ERROR_$line" 
+                    warnErrArr[$i]="0\_ERROR\_$line" 
                 elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
-                    warnErrArr[$i]="0_BIB_$line"
+                    warnErrArr[$i]="0\_BIB\_$line"
                 else
-                    warnErrArr[$i]="0_WARNING_$line"
+                    warnErrArr[$i]="0\_WARNING\_$line"
                 fi
              fi
           done
+          # ====================================
           # ============== sort and remove redundances in the error/warning list
           printf '%s\n' "${warnErrArr[@]}"
           #sorted=($(printf '%s\n' "${warnErrArr[@]}" | sort -nr -t _ -k 1 -g | uniq))
