@@ -163,7 +163,7 @@ jobs:
           echo "------------------------------------------------------------------------------------------------------------------------------------"
           warnErrArr=('printf '%s\n' "${warnErrArr[@]}"|sort')
           %IFS=$'\n' sorted=($(sort -t - -k 1,1n -g -u <<<"${warnErrArr[*]}")); unset IFS
-          printf '%s\n' "${sorted[@]}"
+          printf '%s\n' "${warnErrArr[@]}"
           # The below pulls out only those lines that are directly related to warnings and errors within the .tex file 
           # This step is why we needed everything related to a given error to appear in a single line and did the formatting above.
           # https://stackoverflow.com/questions/75534451/using-grep-output-as-pattern-for-a-second-grep
