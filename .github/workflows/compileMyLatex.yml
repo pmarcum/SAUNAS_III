@@ -125,12 +125,13 @@ jobs:
           for (( i=0; i<${#res[@]}; i++ )); do
              warnErrArr[${#warnErrArr[@]}]="${res[$i]}"
           done
+          echo "128"
           printf '%s\n' "${warnErrArr[@]}"
           # ====================================
           # ===================== Now add the relevant line number to front of each error/warning line that specifies a line number
           for (( i=0; i<${#warnErrArr[@]}; i++ )); do
              line="${warnErrArr[$i]}"
-             echo '===================> line $line"
+             echo '134===================> line $line"
              if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
                 linenum=$(echo $line | sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/')
                 tmp="$(echo "$line" | sed -r 's/ZZ/ /g')"
@@ -165,10 +166,12 @@ jobs:
           done
           echo " "
           echo " "
+          echo "169"
           printf '%s\n' "${warnErrArr[@]}"
           # ====================================
           # ============== sort and remove redundances in the error/warning list
           sorted=($(printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s))
+          echo "174"
           printf '%s\n' "${sorted[@]}"
           # ##################################################################################################
           #                        now process the list of warnings/errors just gathered
@@ -183,23 +186,23 @@ jobs:
           for (( i=0; i<${#sorted[@]}; i++ )); do
             line="${sorted[$i]}"
             if [[ "$(echo "$line" | grep -q -E "-ERROR-")$?" == 0 ]]; then
-               echo "-----------------> found the next error to process: $errors"
+               echo "189-----------------> found the next error to process: $errors"
                errors="$line"
                break
             fi
           done
-          echo "================================> the error is $errors"
+          echo "194================================> the error is $errors"
           # if there were no errors, then put 'none'
           if [ $errors -eq "" ]; then
             echo "      none" >> tout.txt
           fi
           while  [ $errors -ne "" ]; do
             linenum=$(echo "$errors" | sed -r 's/^([0-9][0-9]*)-.*/\1/')
-            echo "linenum $linenum"
+            echo "201 linenum $linenum"
             if [[ $linenum > 0 ]]; then
                # look for all occurances of this line number in the error/warning list
                for (( i=0; i<${#sorted[@]}; i++ )); do
-                  echo "${sorted[$i]}"
+                  echo "205   ${sorted[$i]}"
                   #if [[ "$(echo "${sorted[$i]}" | grep -q -E "^$linenum-")$?" == 0 ]]; then
                   #   line="$(echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*-[A-Z]-[A-Z]*-//' | sed -r 's/ZZ/ /g')"
                   #   echo $line >> tout.txt
@@ -209,13 +212,13 @@ jobs:
                   #fi
                done
                # now look up the line in the .tex file and place underneath
-               echo "Line #$linenum ----------------------- " >> tout.txt
+               echo "215  Line #$linenum ----------------------- " >> tout.txt
                head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
             else
-               echo "there is no line number"
+               echo "218  there is no line number"
                # look up where this line is in the list and remove it from the list
                for (( i=0; i<${sorted[@]}; i++ )); do
-                  echo "${sorted[$i]}"
+                  echo "221  ${sorted[$i]}"
                   #if [[ "${sorted[$i]}" = "$errors" ]]; then
                   #   line="$(echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*-[A-Z]-[A-Z]*-//' | sed -r 's/ZZ/ /g')"
                   #   echo "there is a match, here it is: $line"
@@ -226,7 +229,7 @@ jobs:
                done
             fi
             sorted=("${sorted[@]}")
-            echo "after removing the now-procesed lines, heres the list"
+            echo "232  after removing the now-procesed lines, heres the list"
             printf '%s\n' "${sorted[@]}"
             # See if any more errors remain in the list and need to be processed in the next loop iteration
             errors=""
