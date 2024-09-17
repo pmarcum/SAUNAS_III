@@ -144,7 +144,7 @@ jobs:
                 fi
              elif [[ "$(echo "$line" | grep -q -E "^\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\:")$?" == 0 ]]; then
                 linenum=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9][0-9]*).*/\1/')
-                tmp="$(echo "$line" | sed -r 's/ZZ/ /g')"
+                blanks="$(echo "$line" | sed -r 's/ZZ/ /g')"
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
                     tmp="$linenum-ERROR-$blanks" 
                 elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
@@ -153,7 +153,7 @@ jobs:
                     tmp="$linenum-WARNING-$blanks"
                 fi
              else
-                tmp="$(echo "$line" | sed -r 's/ZZ/ /g')"
+                blanks="$(echo "$line" | sed -r 's/ZZ/ /g')"
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
                     tmp="0-ERROR-$blanks" 
                 elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
