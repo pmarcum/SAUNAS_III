@@ -129,7 +129,6 @@ jobs:
           # ===================== Now add the relevant line number to front of each error/warning line that specifies a line number
           for (( i=0; i<${#warnErrArr[@]}; i++ )); do
              line="${warnErrArr[$i]}"
-             echo "at top of do loop, line is $line"
              if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
                 linenum=$(echo $line | sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/')
                 tmp="$(echo "$line" | sed -r 's/ZZ/ /g')"
@@ -161,13 +160,13 @@ jobs:
                 fi
              fi
              warnErrArr[$i]="$tmp"
-             echo "$tmp"
-             echo "just replaced the ZZ with blanks again and the new line is:"
-             echo "$warnErrArr[$i]"
           done
           # ====================================
           # ============== sort and remove redundances in the error/warning list
           sorted=($(printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s))
+          # ##################################################################################################
+          #                        now process the list of warnings/errors just gathered
+          # ##################################################################################################
           # ==================================== put in a timestamp at the top of file to become final version of log output
           echo "${{ env.TIMESTAMP }}" > tout.txt
           echo "" >> tout.txt
@@ -182,20 +181,18 @@ jobs:
                break
             fi
           done
-          echo "the error is $errors"
+          echo "================================> the error is $errors"
           # if there were no errors, then put 'none'
           if [ $errors -eq "" ]; then
             echo "      none" >> tout.txt
           fi
           while  [ $errors -ne "" ]; do
             linenum=$(echo "$errors" | sed -r 's/^([0-9][0-9]*)-.*/\1/')
-            echo "--> the line number is $linenum"
             if [[ $linenum > 0 ]]; then
                # look for all occurances of this line number in the error/warning list
                for (( i=0; i<${#sorted[@]}; i++ )); do
                   if [[ "$(echo "${sorted[$i]}" | grep -q -E "^$linenum-")$?" == 0 ]]; then
                      line="$(echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*-[A-Z]-[A-Z]*-//' | sed -r 's/ZZ/ /g')"
-                     echo "the line after putting the blanks back is: $line"
                      echo $line >> tout.txt
                      # remove this item from the list
                      unset sorted[$i]
@@ -205,12 +202,10 @@ jobs:
                echo "Line #$linenum ----------------------- " >> tout.txt
                head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
             else
-               echo "--> no line number is given"
                # look up where this line is in the list and remove it from the list
                for (( i=0; i<${sorted[@]}; i++ )); do
                   if [[ "${sorted[$i]}" = "$errors" ]]; then
                      line="$(echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*-[A-Z]-[A-Z]*-//' | sed -r 's/ZZ/ /g')"
-                     echo "the line after putting the blanks back is: $line"
                      echo $line >> tout.txt
                      # remove from list
                      unset sorted[$i]
@@ -229,7 +224,7 @@ jobs:
                   break
                fi
             done
-            echo "at the end of the loop, here is the next error: $error"
+            echo "at the end of the loop, here is the next error: $errors"
             echo "-------------------------------------------------------------------------" >> tout.txt
           done
           echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
@@ -239,33 +234,60 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          rm -f warnings.txt && touch warnings.txt
-          grep -E "^[0-9][0-9]* WARNING " warningError.txt >> warnings.txt
+          warnings=""
+          for (( i=0; i<${#sorted[@]}; i++ )); do
+            line="${sorted[$i]}"
+            if [[ "$(echo "$line" | grep -q -E "-WARNING-")$?" == 0 ]]; then
+               warnings="$line"
+               break
+            fi
+          done
+          echo "================================> the warning is $warnings"
           # if there were no warnings, then put 'none'
-          if [ $(wc -c < "warnings.txt") -eq 0 ]; then
+          if [ $warnings -eq "" ]; then
             echo "      none" >> tout.txt
           fi
-          while  [ $(wc -c < "warnings.txt") -gt 0 ]; do
-            line="$(head -1 warnings.txt)"
-            linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
+          while  [ $warnings -ne "" ]; do
+            linenum=$(echo "$warnings" | sed -r 's/^([0-9][0-9]*)-.*/\1/')
             if [[ $linenum > 0 ]]; then
-               # look for all occurances of this line number in the file
-               rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
-               while IFS= read -r ln; do
-                  modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
-                  echo $modLine >> tout.txt
-                  # remove these other lines from warningError.txt
-                  rm -f cp.txt && grep -v "$ln" warningError.txt >> cp.txt && mv -f cp.txt warningError.txt
-               done < tmp.txt
+               # look for all occurances of this line number in the error/warning list
+               for (( i=0; i<${#sorted[@]}; i++ )); do
+                  if [[ "$(echo "${sorted[$i]}" | grep -q -E "^$linenum-")$?" == 0 ]]; then
+                     line="$(echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*-[A-Z]-[A-Z]*-//' | sed -r 's/ZZ/ /g')"
+                     echo $line >> tout.txt
+                     # remove this item from the list
+                     unset sorted[$i]
+                  fi
+               done
                # now look up the line in the .tex file and place underneath
                echo "Line #$linenum ----------------------- " >> tout.txt
                head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
+            else
+               # look up where this line is in the list and remove it from the list
+               for (( i=0; i<${sorted[@]}; i++ )); do
+                  if [[ "${sorted[$i]}" = "$warnings" ]]; then
+                     line="$(echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*-[A-Z]-[A-Z]*-//' | sed -r 's/ZZ/ /g')"
+                     echo $line >> tout.txt
+                     # remove from list
+                     unset sorted[$i]
+                  fi
+               done
             fi
-            # now look for more warnings
-            rm -f warnings.txt && touch warnings.txt
-            grep -E "^[0-9][0-9]* ERROR " warningError.txt >> warnings.txt
+            sorted=("${sorted[@]}")
+            echo "after removing the now-procesed lines, heres the list"
+            printf '%s\n' "${sorted[@]}"
+            # See if any more errors remain in the list and need to be processed in the next loop iteration
+            warnings=""
+            for (( i=0; i<${#sorted[@]}; i++ )); do
+               line="${sorted[$i]}"
+               if [[ "$(echo $line | grep -q -E "-WARNING-")$?" == 0 ]]; then
+                  warnings=$line
+                  break
+               fi
+            done
+            echo "at the end of the loop, here is the next error: $warnings"
             echo "-------------------------------------------------------------------------" >> tout.txt
-          done
+          done          
           echo "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
           cat tout.txt
           echo "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
