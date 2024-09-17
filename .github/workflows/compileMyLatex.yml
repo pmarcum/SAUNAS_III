@@ -241,6 +241,8 @@ jobs:
           echo " "
           for (( i=0; i<${#sorted[@]}; i++ )); do
             line="${sorted[$i]}"
+            echo "seein if this line has WARNING in it"
+            echo "$line"
             if [[ "$line" =~ "-WARNING-" ]]; then
                warnings="$line"
                break
