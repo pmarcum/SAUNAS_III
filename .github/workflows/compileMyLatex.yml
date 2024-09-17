@@ -214,8 +214,6 @@ jobs:
                done
             fi
             sorted=("${sorted[@]}")
-            echo "232  after removing the now-procesed lines, heres the list"
-            printf '%s\n' "${sorted[@]}"
             # See if any more errors remain in the list and need to be processed in the next loop iteration
             errors=""
             for (( i=0; i<${#sorted[@]}; i++ )); do
@@ -225,7 +223,6 @@ jobs:
                   break
                fi
             done
-            errors=""
             echo "at the end of the loop, here is the next error: $errors"
             echo "-------------------------------------------------------------------------" >> tout.txt
           done
