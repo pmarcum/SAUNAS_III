@@ -162,51 +162,61 @@ jobs:
           done
           # ====================================
           # ============== sort and remove redundances in the error/warning list
-          printf '%s\n' "${warnErrArr[@]}"
-          echo "------------------------------------------------------------------------------------------------------------------------------------"
           sorted=($(printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s))
-          printf '%s\n' "${sorted[@]}"
-          # The below pulls out only those lines that are directly related to warnings and errors within the .tex file 
-          # This step is why we needed everything related to a given error to appear in a single line and did the formatting above.
-          # https://stackoverflow.com/questions/75534451/using-grep-output-as-pattern-for-a-second-grep
-          # need to go line by line to consolidate all items associated with the same line
-          # https://stackoverflow.com/questions/57788813/grep-return-0-if-no-match
-          # squash.io/extracting=numbers-from-strings-in-bash
-          # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
-          # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
-          # put in a timestamp at the top of file to become final version of log output
+          # ==================================== put in a timestamp at the top of file to become final version of log output
           echo "${{ env.TIMESTAMP }}" > tout.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          line=''
-          printf '%s\n' "${warnErrArr[@]}" | grep 'LaTeX Error'
-          rm -f errors.txt && touch errors.txt
-          grep -E "^[0-9][0-9]* ERROR " warningError.txt >> errors.txt
+          errors=""
+          for (( i=0; i<${#sorted[@]}; i++ )); do
+            line="${sorted[$i]}"
+            if [[ "$(echo "$line" | grep -q -E "-ERROR-")$?" == 0 ]]; then
+               errors="$line"
+               break
+            fi
+          done
           # if there were no errors, then put 'none'
-          if [ $(wc -c < "errors.txt") -eq 0 ]; then
+          if [ $errors -eq "" ]; then
             echo "      none" >> tout.txt
           fi
-          while  [ $(wc -c < "errors.txt") -gt 0 ]; do
-            line="$(head -1 errors.txt)"
-            linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
+          while  [ $errors -ne "" ]; do
+            linenum=$(echo "$errors" | sed -r 's/^([0-9][0-9]*)-.*/\1/')
             if [[ $linenum > 0 ]]; then
-               # look for all occurances of this line number in the file
-               rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
-               while IFS= read -r ln; do
-                  modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
-                  echo $modLine >> tout.txt
-                  # remove these other lines from warningError.txt
-                  rm -f cp.txt && grep -v "$ln" warningError.txt >> cp.txt && mv -f cp.txt warningError.txt
-               done < tmp.txt
+               # look for all occurances of this line number in the error/warning list
+               for (( i=0; i<${#sorted[@]}; i++ )); do
+                  if [[ "$(echo "${sorted[$i]}" | grep -q -E "^$linenum-")$?" == 0 ]]; then
+                     line="$(echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*-[A-Z]-[A-Z]*-//' | sed -r 's/ZZ/ /g')"
+                     echo $line >> tout.txt
+                     # remove this item from the list
+                     unset sorted[$i]
+                  fi
+               done
                # now look up the line in the .tex file and place underneath
                echo "Line #$linenum ----------------------- " >> tout.txt
                head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
+            else
+               # look up where this line is in the list and remove it from the list
+               for (( i=0; i<${sorted[@]}; i++ )); do
+                  if [[ "${sorted[$i]}" = "$errors" ]]; then
+                     line="$(echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*-[A-Z]-[A-Z]*-//' | sed -r 's/ZZ/ /g')"
+                     echo $line >> tout.txt
+                     # remove from list
+                     unset sorted[$i]
+                  fi
+               done
             fi
-            # now look for more errors
-            rm -f errors.txt && touch errors.txt
-            grep -E "^[0-9][0-9]* ERROR " warningError.txt >> errors.txt
+            sorted=("${sorted[@]}")
+            # See if any more errors remain in the list and need to be processed in the next loop iteration
+            errors=""
+            for (( i=0; i<${#sorted[@]}; i++ )); do
+               line="${sorted[$i]}"
+               if [[ "$(echo $line | grep -q -E "-ERROR-")$?" == 0 ]]; then
+                  errors=$line
+                  break
+               fi
+            done
             echo "-------------------------------------------------------------------------" >> tout.txt
           done
           echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
