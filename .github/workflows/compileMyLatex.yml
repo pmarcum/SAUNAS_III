@@ -131,7 +131,8 @@ jobs:
              line="${warnErrArr[$i]}"
              if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
                 linenum=$(echo $line | sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/')
-                tmp="$(echo $line | sed -r 's/ /\x0/g')"
+                tmp="$(echo $line | sed -r 's/ /ZZ/g')"
+                echo $tmp
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
                     warnErrArr[$i]="$linenum-ERROR-$tmp" 
                 elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
@@ -141,7 +142,8 @@ jobs:
                 fi
              elif [[ "$(echo "$line" | grep -q -E "^\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\:")$?" == 0 ]]; then
                 linenum=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9][0-9]*).*/\1/')
-                tmp="$(echo $line | sed -r 's/ /\x0/g')"
+                tmp="$(echo $line | sed -r 's/ /ZZ/g')"
+                echo $tmp
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
                     warnErrArr[$i]="$linenum-ERROR-$tmp" 
                 elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
@@ -150,7 +152,8 @@ jobs:
                     warnErrArr[$i]="$linenum-WARNING-$tmp"
                 fi
              else
-                tmp="$(echo $line | sed -r 's/ /\x0/g')"
+                tmp="$(echo $line | sed -r 's/ /ZZ/g')"
+                echo $tmp
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
                     warnErrArr[$i]="0-ERROR-$tmp" 
                 elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
