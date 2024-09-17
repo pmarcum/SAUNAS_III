@@ -105,29 +105,22 @@ jobs:
           warnErrArr=()
           # get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render. 
           readarray -t res < <(grep -E "LaTeX Error" ${{ github.event.inputs.file2compile }}_full.log)
-          echo "++++++++++++++++++++++++++++++  ERRORS ++++++++++++++++++++++++++++"
           for (( i=0; i<${#res[@]}; i++ )); do
              warnErrArr[${#warnErrArr[@]}]="${res[$i]}"
           done
-          printf '%s\n' "${warnErrArr[@]}"
           # now get the warnings, but note that some of the warnings are actually errors (like figure files that are mispelled) and need to 
           # be consolidated with the associated line in the error section here
           readarray -t res < <(grep -E "LaTeX Warning" ${{ github.event.inputs.file2compile }}_full.log)
-          echo "============================= WARNINGS ++++++++++++++++++++++++++++"
           for (( i=0; i<${#res[@]}; i++ )); do
              warnErrArr[${#warnErrArr[@]}]="${res[$i]}"
           done
-          printf '%s\n' "${warnErrArr[@]}"
           # take a look at the bib tex errors
           readarray -t res < <(grep -E "^Package natbib Warning\: Citation" ${{ github.event.inputs.file2compile }}_full.log)
-          echo "++++++++++++++++++++++++++++++++++ BIB ++++++++++++++++++++++++++++++"
           for (( i=0; i<${#res[@]}; i++ )); do
              warnErrArr[${#warnErrArr[@]}]="${res[$i]}"
           done
-          printf '%s\n' "${warnErrArr[@]}"
+          # ========== Now add the relevant line number to front of each error/warning line that specifies a line number
           nlines=${#warnErrArr[@]}
-          echo $nlines
-          #printf '%s\n' "${warnErrArr[@]}"
           for (( i=0; i<${nlines}; i++ )); do
              line="${warnErrArr[$i]}"
              if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
@@ -158,13 +151,9 @@ jobs:
                 fi
              fi
           done
+          printf "%s\n" "${warnErrArr[@]}"
           echo " "
-          echo " %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-          echo "${warnErrArr[0]}"
-          echo "${warnErrArr[4]}"
-          echo "${warnErrArr[8]}"
-          echo " %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-          echo " "
+          echo "##############################################################################################################################################"
           # Now pull out the line number, if provided, in each warning and error
           rm -f warnerr.txt && touch warnerr.txt
           while IFS= read -r line; do
