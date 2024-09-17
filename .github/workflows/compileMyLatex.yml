@@ -190,6 +190,8 @@ jobs:
             if [[ $linenum > 0 ]]; then
                # look for all occurances of this line number in the error/warning list
                for (( i=0; i<${#sorted[@]}; i++ )); do
+                  echo "============================"
+                  echo "${sorted[$i]}"
                   if [[ "$(echo "${sorted[$i]}" | grep -q -E "^$linenum-")$?" == 0 ]]; then
                      line="$(echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g')"
                      echo $line >> tout.txt
