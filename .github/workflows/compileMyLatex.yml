@@ -176,7 +176,7 @@ jobs:
           errors=""
           for (( i=0; i<${#sorted[@]}; i++ )); do
             line="${sorted[$i]}"
-            if [[ "$line" =~ "-ERROR-") ]]; then
+            if [[ "$line" =~ "-ERROR-" ]]; then
                errors="$line"
                echo "189-----------------> found the next error to process: $errors"
                break
