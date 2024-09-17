@@ -132,7 +132,6 @@ jobs:
              if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
                 linenum=$(echo $line | sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/')
                 tmp="$(echo $line | sed -r 's/ /ZZ/g')"
-                echo $tmp
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
                     warnErrArr[$i]="$linenum-ERROR-$tmp" 
                 elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
@@ -143,7 +142,6 @@ jobs:
              elif [[ "$(echo "$line" | grep -q -E "^\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\:")$?" == 0 ]]; then
                 linenum=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9][0-9]*).*/\1/')
                 tmp="$(echo $line | sed -r 's/ /ZZ/g')"
-                echo $tmp
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
                     warnErrArr[$i]="$linenum-ERROR-$tmp" 
                 elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
@@ -153,7 +151,6 @@ jobs:
                 fi
              else
                 tmp="$(echo $line | sed -r 's/ /ZZ/g')"
-                echo $tmp
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
                     warnErrArr[$i]="0-ERROR-$tmp" 
                 elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
@@ -167,11 +164,7 @@ jobs:
           # ============== sort and remove redundances in the error/warning list
           printf '%s\n' "${warnErrArr[@]}"
           echo "------------------------------------------------------------------------------------------------------------------------------------"
-          sorted=($(printf '%s\n' "${warnErrArr[@]}" | sort -r -t - -g -k 1,1n))
-          #while IFS= read -r item; do
-          #   sorted+=( "$item" )
-          #done < <(printf '%s\n' "${warnErrArr[@]}" | sort -r -t - -g -k 1,1n)
-          #IFS=$'\n' sorted=($(sort -t - -k 1,1n -g <<<"${warnErrArr[*]}")); unset IFS
+          sorted=($(printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s))
           printf '%s\n' "${warnErrArr[@]}"
           # The below pulls out only those lines that are directly related to warnings and errors within the .tex file 
           # This step is why we needed everything related to a given error to appear in a single line and did the formatting above.
