@@ -1,4 +1,4 @@
-name: Build LaTeX document and Release PDF
+ name: Build LaTeX document and Release PDF
 # Version: 07142024
 #
 # Is executed at gooTeX script's prompt. 
@@ -131,6 +131,7 @@ jobs:
              echo "$(echo "$line" | grep -q -E "LaTeX Error")$?"
              if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
                 linenum=$(echo $line | sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/')
+                echo "linenum: $linenum"
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
                     warnErrArr[$i]="$linenum ERROR $line" 
                 elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
@@ -140,6 +141,7 @@ jobs:
                 fi
              elif [[ "$(echo "$line" | grep -q -E "^\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\:")$?" == 0 ]]; then
                 linenum=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9][0-9]*).*/\1/')
+                echo "linenum: $linenum"
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
                     warnErrArr[$i]="$linenum ERROR $line" 
                 elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
@@ -148,6 +150,7 @@ jobs:
                     warnErrArr[$i]="$linenum WARNING $line"
                 fi
              else
+                echo "linenum: NONE"
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
                     warnErrArr[$i]="0 ERROR $line" 
                 elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
