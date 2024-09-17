@@ -164,8 +164,6 @@ jobs:
           # ====================================
           # ============== sort and remove redundances in the error/warning list
           sorted=($(printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s))
-          echo "174"
-          printf '%s\n' "${sorted[@]}"
           # ##################################################################################################
           #                        now process the list of warnings/errors just gathered
           # ##################################################################################################
@@ -179,8 +177,8 @@ jobs:
           for (( i=0; i<${#sorted[@]}; i++ )); do
             line="${sorted[$i]}"
             if [[ "$(echo "$line" | grep -q -E "-ERROR-")$?" == 0 ]]; then
-               echo "189-----------------> found the next error to process: $errors"
                errors="$line"
+               echo "189-----------------> found the next error to process: $errors"
                break
             fi
           done
