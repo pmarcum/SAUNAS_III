@@ -127,6 +127,7 @@ jobs:
           done
           echo "128"
           printf '%s\n' "${warnErrArr[@]}"
+          echo "the number of items is ${#warnErrArr[@]}"
           # ====================================
           # ===================== Now add the relevant line number to front of each error/warning line that specifies a line number
           for (( i=0; i<${#warnErrArr[@]}; i++ )); do
