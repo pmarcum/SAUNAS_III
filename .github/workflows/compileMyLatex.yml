@@ -134,32 +134,34 @@ jobs:
                 linenum=$(echo $line | sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/')
                 tmp="$(echo $line | sed -r 's/ /ZZ/g')"
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
-                    warnErrArr[$i]="$linenum-ERROR-$tmp" 
+                    tmp="$linenum-ERROR-$tmp" 
                 elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
-                    warnErrArr[$i]="$linenum-BIB-$tmp"
+                    tmp="$linenum-BIB-$tmp"
                 else
-                    warnErrArr[$i]="$linenum-WARNING-$tmp"
+                    tmp="$linenum-WARNING-$tmp"
                 fi
              elif [[ "$(echo "$line" | grep -q -E "^\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\:")$?" == 0 ]]; then
                 linenum=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9][0-9]*).*/\1/')
                 tmp="$(echo $line | sed -r 's/ /ZZ/g')"
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
-                    warnErrArr[$i]="$linenum-ERROR-$tmp" 
+                    tmp="$linenum-ERROR-$tmp" 
                 elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
-                    warnErrArr[$i]="$linenum-BIB-$tmp"
+                    tmp="$linenum-BIB-$tmp"
                 else
-                    warnErrArr[$i]="$linenum-WARNING-$tmp"
+                    tmp="$linenum-WARNING-$tmp"
                 fi
              else
                 tmp="$(echo $line | sed -r 's/ /ZZ/g')"
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
-                    warnErrArr[$i]="0-ERROR-$tmp" 
+                    tmp="0-ERROR-$tmp" 
                 elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
-                    warnErrArr[$i]="0-BIB-$tmp"
+                    tmp="0-BIB-$tmp"
                 else
-                    warnErrArr[$i]="0-WARNING-$tmp"
+                    tmp="0-WARNING-$tmp"
                 fi
              fi
+             warnErrArr[$i]="$tmp"
+             echo "$tmp"
              echo "just replaced the ZZ with blanks again and the new line is:"
              echo "$warnErrArr[$i]"
           done
