@@ -131,8 +131,7 @@ jobs:
           # ====================================
           # ===================== Now add the relevant line number to front of each error/warning line that specifies a line number
           for (( i=0; i<${#warnErrArr[@]}; i++ )); do
-             echo "here I am"
-             #echo "**************************** i = $i"
+             echo " i:  $i"
              #line="${warnErrArr[$i]}"
              #echo '134===================> line $line"
              #if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
