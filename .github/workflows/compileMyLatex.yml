@@ -132,9 +132,9 @@ jobs:
              if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
                 linenum=$(echo $line | sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/')
                 blanks="$(echo "$line" | sed -r 's/ /ZZ/g')"
-                if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
+                if [[ "$line" =~ "LaTeX Error" ]]; then
                     tmp="$linenum-ERROR-$blanks" 
-                elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
+                elif [[ "$line" =~ "natbib" ]]; then
                     tmp="$linenum-BIB-$blanks"
                 else
                     tmp="$linenum-WARNING-$blanks"
@@ -142,18 +142,18 @@ jobs:
              elif [[ "$(echo "$line" | grep -q -E "^\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\:")$?" == 0 ]]; then
                 linenum=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9][0-9]*).*/\1/')
                 blanks="$(echo "$line" | sed -r 's/ /ZZ/g')"
-                if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
+                if [[ "$line" =~ "LaTeX Error" ]]; then
                     tmp="$linenum-ERROR-$blanks" 
-                elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
+                elif [[ "$line" =~ "natbib" ]]; then
                     tmp="$linenum-BIB-$blanks"
                 else
                     tmp="$linenum-WARNING-$blanks"
                 fi
              else
                 blanks="$(echo "$line" | sed -r 's/ /ZZ/g')"
-                if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
+                if [[ "$line" =~ "LaTeX Error" ]]; then
                     tmp="0-ERROR-$blanks" 
-                elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
+                elif [[ "$line" =~ "natbib" ]]; then
                     tmp="0-BIB-$blanks"
                 else
                     tmp="0-WARNING-$blanks"
@@ -178,18 +178,15 @@ jobs:
             line="${sorted[$i]}"
             if [[ "$line" =~ "-ERROR-" ]]; then
                errors="$line"
-               echo "189-----------------> found the next error to process:"
-               echo "$errors"
                break
             fi
           done
-          echo "194================================> the error is"
-          echo "$errors"
           # if there were no errors, then put 'none'
           if [ $errors -eq "" ]; then
             echo "      none" >> tout.txt
           fi
-          while  [ $errors -ne "" ]; do
+          echo $errors
+          while  [ $errors != "" ]; do
             linenum=$(echo "$errors" | sed -r 's/^([0-9][0-9]*)-.*/\1/')
             echo "201 linenum $linenum"
             if [[ $linenum > 0 ]]; then
