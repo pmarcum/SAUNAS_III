@@ -216,7 +216,9 @@ jobs:
                   fi
                done
             fi
-            sorted=("${sorted[@]}")
+            tmp=("${sorted[@]}")
+            sorted=$tmp
+            printf '%s\n' "${sorted[@]}"
             # See if any more errors remain in the list and need to be processed in the next loop iteration
             error=""
             for (( i=0; i<${#sorted[@]}; i++ )); do
@@ -264,7 +266,7 @@ jobs:
                done
                # now look up the line in the .tex file and place underneath
                echo "Line #$linenum ----------------------- " >> tout.txt
-               head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
+               head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt               
             else
                # look up where this line is in the list and remove it from the list
                for (( i=0; i<${sorted[@]}; i++ )); do
