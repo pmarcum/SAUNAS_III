@@ -176,6 +176,8 @@ jobs:
           errors=""
           for (( i=0; i<${#sorted[@]}; i++ )); do
             line="${sorted[$i]}"
+            echo "$line"
+            echo "$(echo "$line" | grep -q -E "-ERROR-")$?"
             if [[ "$(echo "$line" | grep -q -E "-ERROR-")$?" == 0 ]]; then
                errors="$line"
                echo "189-----------------> found the next error to process: $errors"
