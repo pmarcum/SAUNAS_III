@@ -121,73 +121,46 @@ jobs:
           done
           # ========== Now add the relevant line number to front of each error/warning line that specifies a line number
           nlines=${#warnErrArr[@]}
+          echo " -------------------  nlines $nlines"
           for (( i=0; i<${nlines}; i++ )); do
+             echo "i: $i"
              line="${warnErrArr[$i]}"
+             echo "line:  $line"
+             echo "$(echo "$line" | grep -q -E "on input line [0-9]")$?"
+             echo "$(echo "$line" | grep -q -E "^\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\:")$?"
+             echo "$(echo "$line" | grep -q -E "LaTeX Error")$?"
              if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
                 linenum=$(echo $line | sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/')
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
-                    ${warnErrArr[$i]}="$linenum ERROR $line" 
+                    warnErrArr[$i]="$linenum ERROR $line" 
                 elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
-                    ${warnErrArr[$i]}="$linenum BIB $line"
+                    warnErrArr[$i]="$linenum BIB $line"
                 else
-                    ${warnErrArr[$i]}="$linenum WARNING $line"
+                    warnErrArr[$i]="$linenum WARNING $line"
                 fi
              elif [[ "$(echo "$line" | grep -q -E "^\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\:")$?" == 0 ]]; then
                 linenum=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9][0-9]*).*/\1/')
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
-                    ${warnErrArr[$i]}="$linenum ERROR $line" 
+                    warnErrArr[$i]="$linenum ERROR $line" 
                 elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
-                    ${warnErrArr[$i]}="$linenum BIB $line"
+                    warnErrArr[$i]="$linenum BIB $line"
                 else
-                    ${warnErrArr[$i]}="$linenum WARNING $line"
+                    warnErrArr[$i]="$linenum WARNING $line"
                 fi
              else
                 if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
-                    ${warnErrArr[$i]}="0 ERROR $line" 
+                    warnErrArr[$i]="0 ERROR $line" 
                 elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
-                    ${warnErrArr[$i]}="0 BIB $line"
+                    warnErrArr[$i]="0 BIB $line"
                 else
-                    ${warnErrArr[$i]}="0 WARNING $line"
+                    warnErrArr[$i]="0 WARNING $line"
                 fi
              fi
           done
-          printf "%s\n" "${warnErrArr[@]}"
+          printf '%s\n' "${warnErrArr[@]}"
           echo " "
           echo "##############################################################################################################################################"
-          # Now pull out the line number, if provided, in each warning and error
-          rm -f warnerr.txt && touch warnerr.txt
-          while IFS= read -r line; do
-             if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
-                linenum=$(echo $line | sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/')
-                if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
-                    echo "$linenum ERROR $line" >> warnerr.txt 
-                elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
-                    echo "$linenum BIB $line" >> warnerr.txt
-                else
-                    echo "$linenum WARNING $line" >> warnerr.txt
-                fi
-             elif [[ "$(echo "$line" | grep -q -E "^\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\:")$?" == 0 ]]; then
-                linenum=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9][0-9]*).*/\1/')
-                if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
-                    echo "$linenum ERROR $line" >> warnerr.txt
-                elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
-                    echo "$linenum BIB $line" >> warnerr.txt
-                else
-                    echo "$linenum WARNING $line" >> warnerr.txt
-                fi
-             else
-                if [[ "$(echo "$line" | grep -q -E "LaTeX Error")$?" == 0 ]]; then
-                    echo "0 ERROR $line" >> warnerr.txt
-                elif [[ "$(echo "$line" | grep -q -E "natbib")$?" == 0 ]]; then
-                    echo "0 BIB $line" >> warnerr.txt
-                else
-                    echo "0 WARNING $line" >> warnerr.txt
-                fi
-             fi
-          done < warningError.txt
-          mv -f warnerr.txt warningError.txt
-          sort warningError.txt | uniq > warnerr.txt
-          mv -f warnerr.txt warningError.txt
+          #sort warningError.txt | uniq > warnerr.txt
           echo '148'
           # The below pulls out only those lines that are directly related to warnings and errors within the .tex file 
           # This step is why we needed everything related to a given error to appear in a single line and did the formatting above.
