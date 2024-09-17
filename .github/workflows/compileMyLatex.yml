@@ -125,14 +125,11 @@ jobs:
           for (( i=0; i<${#res[@]}; i++ )); do
              warnErrArr[${#warnErrArr[@]}]="${res[$i]}"
           done
-          echo "128"
-          printf '%s\n' "${warnErrArr[@]}"
-          echo "the number of items is ${#warnErrArr[@]}"
           # ====================================
           # ===================== Now add the relevant line number to front of each error/warning line that specifies a line number
           for (( i=0; i<${#warnErrArr[@]}; i++ )); do
              echo " i:  $i"
-             line="$warnErrArr[$i]"
+             line="${warnErrArr[$i]}"
              echo "134===================> line $line"
              #if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
              #   linenum=$(echo $line | sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/')
