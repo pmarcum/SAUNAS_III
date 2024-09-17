@@ -178,11 +178,13 @@ jobs:
             line="${sorted[$i]}"
             if [[ "$line" =~ "-ERROR-" ]]; then
                errors="$line"
-               echo "189-----------------> found the next error to process: $errors"
+               echo "189-----------------> found the next error to process:"
+               echo "$errors"
                break
             fi
           done
-          echo "194================================> the error is $errors"
+          echo "194================================> the error is"
+          echo "$errors"
           # if there were no errors, then put 'none'
           if [ $errors -eq "" ]; then
             echo "      none" >> tout.txt
