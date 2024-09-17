@@ -202,8 +202,9 @@ jobs:
                head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
             else
                # look up where this line is in the list and remove it from the list
+               echo "205"
                for (( i=0; i<${sorted[@]}; i++ )); do
-                  if [[ "${sorted[$i]}" = "$errors" ]]; then
+                  if [[ "${sorted[$i]}" =~ "$errors" ]]; then
                      line="$(echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*-[A-Z]-[A-Z]*-//' | sed -r 's/ZZ/ /g')"
                      echo "there is a match, here it is:"
                      echo "$line"
@@ -213,7 +214,11 @@ jobs:
                   fi
                done
             fi
+            echo "217"
+            printf '%s\n' "${sorted[@]}"
             sorted=("${sorted[@]}")
+            echo "------------------------------------------------------------"
+            printf '%s\n' "${sorted[@]}"
             # See if any more errors remain in the list and need to be processed in the next loop iteration
             errors=""
             for (( i=0; i<${#sorted[@]}; i++ )); do
