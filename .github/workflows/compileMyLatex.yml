@@ -129,6 +129,7 @@ jobs:
           # ===================== Now add the relevant line number to front of each error/warning line that specifies a line number
           for (( i=0; i<${#warnErrArr[@]}; i++ )); do
              line="${warnErrArr[$i]}"
+             echo "at top of do loop, line is $line"
              if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
                 linenum=$(echo $line | sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/')
                 tmp="$(echo $line | sed -r 's/ /ZZ/g')"
@@ -159,6 +160,8 @@ jobs:
                     warnErrArr[$i]="0-WARNING-$tmp"
                 fi
              fi
+             echo "just replaced the ZZ with blanks again and the new line is:"
+             echo "$warnErrArr[$i]"
           done
           # ====================================
           # ============== sort and remove redundances in the error/warning list
@@ -177,17 +180,20 @@ jobs:
                break
             fi
           done
+          echo "the error is $errors"
           # if there were no errors, then put 'none'
           if [ $errors -eq "" ]; then
             echo "      none" >> tout.txt
           fi
           while  [ $errors -ne "" ]; do
             linenum=$(echo "$errors" | sed -r 's/^([0-9][0-9]*)-.*/\1/')
+            echo "--> the line number is $linenum"
             if [[ $linenum > 0 ]]; then
                # look for all occurances of this line number in the error/warning list
                for (( i=0; i<${#sorted[@]}; i++ )); do
                   if [[ "$(echo "${sorted[$i]}" | grep -q -E "^$linenum-")$?" == 0 ]]; then
                      line="$(echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*-[A-Z]-[A-Z]*-//' | sed -r 's/ZZ/ /g')"
+                     echo "the line after putting the blanks back is: $line"
                      echo $line >> tout.txt
                      # remove this item from the list
                      unset sorted[$i]
@@ -197,10 +203,12 @@ jobs:
                echo "Line #$linenum ----------------------- " >> tout.txt
                head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
             else
+               echo "--> no line number is given"
                # look up where this line is in the list and remove it from the list
                for (( i=0; i<${sorted[@]}; i++ )); do
                   if [[ "${sorted[$i]}" = "$errors" ]]; then
                      line="$(echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*-[A-Z]-[A-Z]*-//' | sed -r 's/ZZ/ /g')"
+                     echo "the line after putting the blanks back is: $line"
                      echo $line >> tout.txt
                      # remove from list
                      unset sorted[$i]
@@ -208,6 +216,8 @@ jobs:
                done
             fi
             sorted=("${sorted[@]}")
+            echo "after removing the now-procesed lines, heres the list"
+            printf '%s\n' "${sorted[@]}"
             # See if any more errors remain in the list and need to be processed in the next loop iteration
             errors=""
             for (( i=0; i<${#sorted[@]}; i++ )); do
@@ -217,6 +227,7 @@ jobs:
                   break
                fi
             done
+            echo "at the end of the loop, here is the next error: $error"
             echo "-------------------------------------------------------------------------" >> tout.txt
           done
           echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
