@@ -222,7 +222,8 @@ jobs:
                done
             fi
             echo " "
-            echo " =========> the number of items in the list sorted: ${#sorted[@]}"
+            echo " =========> the number of items in the list sorted:"
+            echo ${#sorted[@]}
             echo " "
             #tmp=( "${sorted[@]}" )
             #sorted=$tmp
