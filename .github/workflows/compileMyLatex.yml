@@ -198,8 +198,6 @@ jobs:
             echo " ==============> linenum "
             echo $linenum
             echo " "
-            echo " "
-            echo " "
             if [[ $linenum > 0 ]]; then
                echo "204"
                # look for all occurances of this line number in the error/warning list
