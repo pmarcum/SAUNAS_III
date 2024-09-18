@@ -181,7 +181,7 @@ jobs:
             echo $i
             line="${sorted[$i]}"
             echo "line $line"
-            if [[ "$line" =~ "-WARNING-" ]]; then
+            if [[ "$line" =~ "\-WARNING\-" ]]; then
                echo "warning  $warning"
                warning="$line"
                break
