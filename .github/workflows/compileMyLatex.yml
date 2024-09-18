@@ -163,7 +163,7 @@ jobs:
           done
           # ====================================
           # ============== sort and remove redundances in the error/warning list
-          sorted=$( printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s )
+          sorted=($( printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s ))
           printf '%s\n' "${sorted[@]}"
           echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
           echo " "
