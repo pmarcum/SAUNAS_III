@@ -1,4 +1,8 @@
 name: Build LaTeX document and Release PDF
+#
+#   it works finally! 
+#   what to do:  copy paste the section that processes warnings into a section that processes errors, as well as bib errors.  
+#   then you need to fix rest of the code that turns into pdf if serious errors exist. 
 # Version: 07142024
 #
 # Is executed at gooTeX script's prompt. 
