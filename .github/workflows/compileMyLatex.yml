@@ -177,6 +177,7 @@ jobs:
           # ==================================== put in a timestamp at the top of file to become final version of log output
           echo "${{ env.TIMESTAMP }}" > tout.txt
           echo "" >> tout.txt
+          echo "180"
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -188,13 +189,16 @@ jobs:
                break
             fi
           done
+          echo "192"
           # if there were no errors, then put 'none'
           if [[ $error = "" ]]; then
             echo "      none" >> tout.txt
           fi
+          echo "197"
           while  [ $error != "" ]; do
             #linenum=$(echo "$error" | sed -r 's/^([0-9][0-9]*)\-.*/\1/')
             linenum=$(sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$error")
+            echo "201"
             if [[ $linenum > 0 ]]; then
                # look for all occurances of this line number in the error/warning list
                for (( i=0; i<${#sorted[@]}; i++ )); do
@@ -204,6 +208,7 @@ jobs:
                      echo $line >> tout.txt
                      # remove this item from the list
                      unset sorted[$i]
+                     echo "211"
                   fi
                done
                # now look up the line in the .tex file and place underneath
