@@ -84,6 +84,7 @@ jobs:
         # remove lines in the output that are unrelated to the latex compilation itself
         # First, move lines that should have been the ending of the previous line, to the end of that previous line
         run: |
+          sed
           # ===================================================================================================================
           # ========================  make sure that all lines related to a sentence are all smooshed together into single line
           sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log > new.log
