@@ -186,7 +186,7 @@ jobs:
             fi
           done
           echo " "
-          echo " - - - - - - - - - - - -   -- - 
+          echo " - - - - - - - - - - - -   -- -" 
           echo " the first warning is:  "
           echo "$warning"
           echo " "
