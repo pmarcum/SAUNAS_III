@@ -223,7 +223,7 @@ jobs:
             echo " "
           #  # See if any more errors remain in the list and need to be processed in the next loop iteration
           #  #### REMOVE THE BELOW AFTER TESTING ####
-          #  error=""
+            error=""
           #  #####  REMOVE THE ABOVE AFTER TESTING ####
           #  for (( i=0; i<${#sorted[@]}; i++ )); do
           #     line="${sorted[$i]}"
