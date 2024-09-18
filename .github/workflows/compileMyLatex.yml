@@ -84,7 +84,6 @@ jobs:
         # remove lines in the output that are unrelated to the latex compilation itself
         # First, move lines that should have been the ending of the previous line, to the end of that previous line
         run: |
-          sed
           # ===================================================================================================================
           # ========================  make sure that all lines related to a sentence are all smooshed together into single line
           sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log > new.log
@@ -130,11 +129,8 @@ jobs:
           # ===================== Now add the relevant line number to front of each error/warning line that specifies a line number
           for (( i=0; i<${#warnErrArr[@]}; i++ )); do
              line="${warnErrArr[$i]}"
-             #if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
              if [[ "$(grep -q -E -- "on input line [0-9]" <<<"$line")$?" == 0 ]]; then
-                #linenum=$( echo $line | sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/' )
                 linenum=$( sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/' <<<"$line" )
-                #blanks="$( echo "$line" | sed -r 's/ /ZZ/g' )"
                 blanks="$( sed -r 's/ /ZZ/g' <<<"$line" )"
                 if [[ "$line" =~ "LaTeX Error" ]]; then
                     tmp="$linenum-ERROR-$blanks" 
@@ -144,10 +140,7 @@ jobs:
                     tmp="$linenum-WARNING-$blanks"
                 fi
             elif [[ "$(grep -q -E -- "^\.\/[^:][^:]*:[0-9][0-9]*:" <<<"$line")$?" == 0 ]]; then
-            #elif [[ "$(echo "$line" | grep -q -E "^\.\/${{ github.event.inputs.file2compile }}.tex:[0-9][0-9]*:")$?" == 0 ]]; then
-                #linenum=$( echo $line | sed -r 's/^\.\/[^:]*:([0-9][0-9]*).*/\1/' )
                 linenum=$( sed -r 's/^\.\/[^:]*:([0-9][0-9]*).*/\1/' <<<"$line" )
-                #blanks="$( echo "$line" | sed -r 's/ /ZZ/g' )"
                 blanks="$( sed -r 's/ /ZZ/g' <<<"$line" )"
                 if [[ "$line" =~ "LaTeX Error" ]]; then
                     tmp="$linenum-ERROR-$blanks" 
@@ -157,7 +150,6 @@ jobs:
                     tmp="$linenum-WARNING-$blanks"
                 fi
              else
-                #blanks="$( echo "$line" | sed -r 's/ /ZZ/g' )"
                 blanks="$( sed -r 's/ /ZZ/g' <<<"$line" )"
                 if [[ "$line" =~ "LaTeX Error" ]]; then
                     tmp="0-ERROR-$blanks" 
@@ -198,13 +190,11 @@ jobs:
             echo "      none" >> tout.txt
           fi
           while  [ "$error" != "" ]; do
-            #linenum=$( echo "$error" | sed -r 's/^([0-9][0-9]*)\-.*/\1/' )
             linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$error" )
             echo "202 linenum  $linenum"
             if [[ $linenum > 0 ]]; then
                # look for all occurances of this line number in the error/warning list
                for (( i=0; i<${#sorted[@]}; i++ )); do
-                  #if [[ "$(echo "${sorted[$i]}" | grep -q -E "^$linenum-")$?" == 0 ]]; then
                   if [[ "$(grep -q -E -- "^$linenum-" <<<"${sorted[$i]}")$?" == 0 ]]; then
                      line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
                      echo $line >> tout.txt
