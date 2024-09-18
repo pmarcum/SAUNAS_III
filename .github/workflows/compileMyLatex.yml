@@ -199,11 +199,11 @@ jobs:
                # look for all occurances of this line number in the error/warning list
                for (( i=0; i<${#sorted[@]}; i++ )); do
                   if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$i]}" )$?" == 0 ]]; then
-                    echo "202"
-               #      line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
-               #      echo $line >> tout.txt
-               #      # remove this item from the list
-               #      unset sorted[$i]
+                     echo "202"
+                     #line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
+                     #echo $line >> tout.txt
+                     ## remove this item from the list
+                     #unset sorted[$i]
                   fi
                done
                # now look up the line in the .tex file and place underneath
@@ -213,11 +213,11 @@ jobs:
                # look up where this line is in the list and remove it from the list
                for (( i=0; i<${sorted[@]}; i++ )); do
                   if [[ "${sorted[$i]}" =~ "$warning" ]]; then
-                    echo "216"
-               #      line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
-               #      echo $line >> tout.txt
-               #      # remove from list
-               #      unset sorted[$i]
+                     echo "216"
+                     #line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
+                     #echo $line >> tout.txt
+                     ## remove from list
+                     #unset sorted[$i]
                   fi
                done
             fi
