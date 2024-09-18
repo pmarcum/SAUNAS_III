@@ -190,7 +190,7 @@ jobs:
             echo "      none" >> tout.txt
           fi
           while  [ "$error" != "" ]; do
-            linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$error" )
+            linenum=$(sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$error")
             echo "linenum $linenum"
           #  if [[ $linenum > 0 ]]; then
           #     # look for all occurances of this line number in the error/warning list
