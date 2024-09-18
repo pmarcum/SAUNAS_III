@@ -108,20 +108,20 @@ jobs:
           warnErrArr=()
           # ====================================
           # ============= get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render. 
-          readarray -t res < <(grep -E "LaTeX Error" ${{ github.event.inputs.file2compile }}_full.log)
+          readarray -t res < <(grep -F -- "LaTeX Error" ${{ github.event.inputs.file2compile }}_full.log)
           for (( i=0; i<${#res[@]}; i++ )); do
              warnErrArr[${#warnErrArr[@]}]="${res[$i]}"
           done
           # ====================================
           # ============= now get the warnings, but note that some of the warnings are actually errors (like figure files that are mispelled) and need to 
           # be consolidated with the associated line in the error section here
-          readarray -t res < <(grep -E "LaTeX Warning" ${{ github.event.inputs.file2compile }}_full.log)
+          readarray -t res < <(grep -F -- "LaTeX Warning" ${{ github.event.inputs.file2compile }}_full.log)
           for (( i=0; i<${#res[@]}; i++ )); do
              warnErrArr[${#warnErrArr[@]}]="${res[$i]}"
           done
           # ====================================
           # ============= take a look at the bib tex errors
-          readarray -t res < <(grep -E "^Package natbib Warning\: Citation" ${{ github.event.inputs.file2compile }}_full.log)
+          readarray -t res < <(grep -F -- "Package natbib Warning: Citation" ${{ github.event.inputs.file2compile }}_full.log)
           for (( i=0; i<${#res[@]}; i++ )); do
              warnErrArr[${#warnErrArr[@]}]="${res[$i]}"
           done
@@ -129,9 +129,12 @@ jobs:
           # ===================== Now add the relevant line number to front of each error/warning line that specifies a line number
           for (( i=0; i<${#warnErrArr[@]}; i++ )); do
              line="${warnErrArr[$i]}"
-             if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
-                linenum=$(echo $line | sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/')
-                blanks="$(echo "$line" | sed -r 's/ /ZZ/g')"
+             #if [[ "$(echo "$line" | grep -q -E "on input line [0-9]")$?" == 0 ]]; then
+             if [[ "$(grep -q -E -- "on input line [0-9]" <<<"$line")$?" == 0 ]]; then
+                #linenum=$(echo $line | sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/')
+                linenum=$(sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/' <<<"$line")
+                #blanks="$(echo "$line" | sed -r 's/ /ZZ/g')"
+                blanks="$(sed -r 's/ /ZZ/g' <<<"$line")"
                 if [[ "$line" =~ "LaTeX Error" ]]; then
                     tmp="$linenum-ERROR-$blanks" 
                 elif [[ "$line" =~ "natbib" ]]; then
@@ -139,9 +142,12 @@ jobs:
                 else
                     tmp="$linenum-WARNING-$blanks"
                 fi
-             elif [[ "$(echo "$line" | grep -q -E "^\.\/${{ github.event.inputs.file2compile }}.tex\:[0-9][0-9]*\:")$?" == 0 ]]; then
-                linenum=$(echo $line | sed -r 's/^\.\/[^:]*\:([0-9][0-9]*).*/\1/')
-                blanks="$(echo "$line" | sed -r 's/ /ZZ/g')"
+            elif [[ "$(grep -q -E -- "^\.\/[^:][^:]*:[0-9][0-9]*:" <<<"$line")$?" == 0 ]]; then
+            #elif [[ "$(echo "$line" | grep -q -E "^\.\/${{ github.event.inputs.file2compile }}.tex:[0-9][0-9]*:")$?" == 0 ]]; then
+                #linenum=$(echo $line | sed -r 's/^\.\/[^:]*:([0-9][0-9]*).*/\1/')
+                linenum=$(sed -r 's/^\.\/[^:]*:([0-9][0-9]*).*/\1/' <<<"$line")
+                #blanks="$(echo "$line" | sed -r 's/ /ZZ/g')"
+                blanks="$(sed -r 's/ /ZZ/g' <<<"$line")"
                 if [[ "$line" =~ "LaTeX Error" ]]; then
                     tmp="$linenum-ERROR-$blanks" 
                 elif [[ "$line" =~ "natbib" ]]; then
@@ -150,7 +156,8 @@ jobs:
                     tmp="$linenum-WARNING-$blanks"
                 fi
              else
-                blanks="$(echo "$line" | sed -r 's/ /ZZ/g')"
+                #blanks="$(echo "$line" | sed -r 's/ /ZZ/g')"
+                blanks="$(sed -r 's/ /ZZ/g' <<<"$line")"
                 if [[ "$line" =~ "LaTeX Error" ]]; then
                     tmp="0-ERROR-$blanks" 
                 elif [[ "$line" =~ "natbib" ]]; then
@@ -182,15 +189,17 @@ jobs:
             fi
           done
           # if there were no errors, then put 'none'
-          if [ $error = "" ]; then
+          if [[ $error = "" ]]; then
             echo "      none" >> tout.txt
           fi
           while  [ $error != "" ]; do
-            linenum=$(echo "$error" | sed -r 's/^([0-9][0-9]*)\-.*/\1/')
+            #linenum=$(echo "$error" | sed -r 's/^([0-9][0-9]*)\-.*/\1/')
+            linenum=$(sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$error")
             if [[ $linenum > 0 ]]; then
                # look for all occurances of this line number in the error/warning list
                for (( i=0; i<${#sorted[@]}; i++ )); do
-                  if [[ "$(echo "${sorted[$i]}" | grep -q -E "^$linenum-")$?" == 0 ]]; then
+                  #if [[ "$(echo "${sorted[$i]}" | grep -q -E "^$linenum-")$?" == 0 ]]; then
+                  if [[ "$(grep -q -E -- "^$linenum-" <<<"${sorted[$i]}")$?" == 0 ]]; then
                      line="$(echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g')"
                      echo $line >> tout.txt
                      # remove this item from the list
@@ -236,58 +245,52 @@ jobs:
                break
             fi
           done
-          echo "warning is:"
-          echo "$warning"
           # if there were no warnings, then put 'none'
-          if [ $warning = "" ]; then
+          if [[ $warning = "" ]]; then
             echo "      none" >> tout.txt
           fi
           while  [ $warning != "" ]; do
-            linenum=$(echo "$warning" | sed -r 's/^([0-9][0-9]*)\-.*/\1/')
-            echo "line num $linenum"
+            #linenum=$(echo "$warning" | sed -r 's/^([0-9][0-9]*)\-.*/\1/')
+            linenum=$(sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$warning")
             if [[ $linenum > 0 ]]; then
                # look for all occurances of this line number in the error/warning list
-               printf '%s\n' "${sorted[@]}"
-               echo ""
                for (( i=0; i<${#sorted[@]}; i++ )); do
-                  if [[ "$(echo "${sorted[$i]}" | grep -q -E "^$linenum\-")$?" == 0 ]]; then
+                  #if [[ "$(echo "${sorted[$i]}" | grep -q -E "^$linenum-")$?" == 0 ]]; then
+                  if [[ "$(grep -q -E -- "^$linenum-" <<<"${sorted[$i]}")$?" == 0 ]]; then
                      line="$(echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g')"
                      echo $line >> tout.txt
                      # remove this item from the list
                      unset sorted[$i]
-                     echo "found match to line number"
-                     echo "$line"
                   fi
                done
                # now look up the line in the .tex file and place underneath
                echo "Line #$linenum ----------------------- " >> tout.txt
-               head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt               
+               head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
             else
                # look up where this line is in the list and remove it from the list
                for (( i=0; i<${sorted[@]}; i++ )); do
                   if [[ "${sorted[$i]}" =~ "$warning" ]]; then
                      line="$(echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g')"
-                     echo "no line number in this one: $line"
                      echo $line >> tout.txt
                      # remove from list
                      unset sorted[$i]
                   fi
                done
             fi
-            sorted=("${sorted[@]}")
+            tmp=("${sorted[@]}")
+            sorted=$tmp
             # See if any more warnings remain in the list and need to be processed in the next loop iteration
             warning=""
             for (( i=0; i<${#sorted[@]}; i++ )); do
                line="${sorted[$i]}"
                if [[ "$line" =~ "-WARNING-" ]]; then
-                  warning=$line
+                  warning="$line"
                   break
                fi
             done
-            echo "at botttom of loop and next warning is:"
-            echo "$warning"
             echo "-------------------------------------------------------------------------" >> tout.txt
           done
+          echo "" >> tout.txt
           echo "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
           cat tout.txt
           echo "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
