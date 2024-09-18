@@ -164,9 +164,6 @@ jobs:
           # ====================================
           # ============== sort and remove redundances in the error/warning list
           sorted=($( printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s ))
-          printf '%s\n' "${sorted[@]}"
-          echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-          echo " "
           # ##################################################################################################
           #                        now process the list of warnings/errors just gathered
           # ##################################################################################################
@@ -184,63 +181,40 @@ jobs:
                break
             fi
           done
-          echo " - - - - - - - - - - - -   -- -" 
-          echo " the first warning is:  "
-          echo "$warning"
-          echo " - - - - - - - - - - - - - - - -"
           # if there were no errors, then put 'none'
           if [[ "$warning" = "" ]]; then
             echo "      none" >> tout.txt
           fi
-          echo "196"
           while  [ "$warning" != "" ]; do
-            echo "198"
             linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$warning" )
-            echo $linenum
-            echo "200"
             if [[ $linenum > 0 ]]; then
-               echo "204"
-               # look for all occurances of this line number in the error/warning list
+                # look for all occurances of this line number in the error/warning list
                for (( i=0; i<${#sorted[@]}; i++ )); do
-                   echo "207"
-                   #if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$i]}" )$?" == 0 ]]; then
-                   #   echo "202"
-                   #   #line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
-                   #   #echo $line >> tout.txt
-                   #   ## remove this item from the list
-                   #   #unset sorted[$i]
-                   #fi
+                   if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$i]}" )$?" == 0 ]]; then
+                      line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
+                      echo $line >> tout.txt
+                      # remove this item from the list
+                      unset sorted[$i]
+                   fi
                done
-               echo "214"
                # now look up the line in the .tex file and place underneath
                echo "Line #$linenum ----------------------- " >> tout.txt
-               echo "217"
                head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
-               echo "218"
             else
-               echo "220"
                # look up where this line is in the list and remove it from the list
                for (( i=0; i<${#sorted[@]}; i++ )); do
-                  echo "223"
-                  if [[ "${sorted[$i]}" =~ "$warning" ]]; then
-                     echo "216"
-                     #line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
-                     #echo $line >> tout.txt
-                     ## remove from list
-                     #unset sorted[$i]
+                   if [[ "${sorted[$i]}" =~ "$warning" ]]; then
+                     line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
+                     echo $line >> tout.txt
+                     # remove from list
+                     unset sorted[$i]
                   fi
-                  echo "232"
                done
-               echo "234"
             fi
-            echo "236"
-            echo " =========> the number of items in the list sorted:"
-            echo ${#sorted[@]}
-            echo "239"
-            #tmp=( "${sorted[@]}" )
-            #sorted=$tmp
-            #printf '%s\n' "${sorted[@]}"
-            echo "237"
+            tmp=( "${sorted[@]}" )
+            sorted=$tmp
+            printf '%s\n' "${sorted[@]}"
+            echo "-------------------------------------------"
             # See if any more errors remain in the list and need to be processed in the next loop iteration
             warning=""
             #for (( i=0; i<${#sorted[@]}; i++ )); do
@@ -250,12 +224,9 @@ jobs:
             #      break
             #   fi
             #done
-            echo "247"
             echo "-------------------------------------------------------------------------" >> tout.txt
           done
-          echo "250"
           cat tout.txt
-          echo "252"
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
