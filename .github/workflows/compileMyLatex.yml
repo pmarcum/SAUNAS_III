@@ -191,9 +191,8 @@ jobs:
           fi
           while  [ "$error" != "" ]; do
             linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$error" )
-            echo "202 linenum  $linenum"
-          #  if [[ $linenum > 0 ]]; then
-          #     # look for all occurances of this line number in the error/warning list
+            if [[ $linenum > 0 ]]; then
+               # look for all occurances of this line number in the error/warning list
           #     for (( i=0; i<${#sorted[@]}; i++ )); do
           #        if [[ "$(grep -q -E -- "^$linenum-" <<<"${sorted[$i]}")$?" == 0 ]]; then
           #           line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
@@ -202,11 +201,11 @@ jobs:
           #           unset sorted[$i]
           #        fi
           #     done
-          #     # now look up the line in the .tex file and place underneath
-          #     echo "Line #$linenum ----------------------- " >> tout.txt
-          #     head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
-          #  else
-          #     # look up where this line is in the list and remove it from the list
+               # now look up the line in the .tex file and place underneath
+               echo "Line #$linenum ----------------------- " >> tout.txt
+               head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
+            else
+               # look up where this line is in the list and remove it from the list
           #     for (( i=0; i<${sorted[@]}; i++ )); do
           #        if [[ "${sorted[$i]}" =~ "$error" ]]; then
           #           line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
@@ -215,14 +214,16 @@ jobs:
           #           unset sorted[$i]
           #        fi
           #     done
-          #  fi
-          #  tmp=( "${sorted[@]}" )
-          #  sorted=$tmp
-          #  printf ''%s\n' "${sorted[@]}"
-          #  echo " "
-          #  echo " "
-          #  # See if any more errors remain in the list and need to be processed in the next loop iteration
-          #  error=""
+            fi
+            tmp=( "${sorted[@]}" )
+            sorted=$tmp
+            printf ''%s\n' "${sorted[@]}"
+            echo " "
+            echo " "
+            # See if any more errors remain in the list and need to be processed in the next loop iteration
+            #### REMOVE THE BELOW AFTER TESTING ####
+            error=""
+            #####  REMOVE THE ABOVE AFTER TESTING ####
           #  for (( i=0; i<${#sorted[@]}; i++ )); do
           #     line="${sorted[$i]}"
           #     if [[ "$line" =~ "-ERROR-" ]]; then
