@@ -195,9 +195,6 @@ jobs:
           fi
           while  [ "$warning" != "" ]; do
             linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$warning" )
-            echo " ==============> linenum "
-            echo $linenum
-            echo " "
             if [[ $linenum > 0 ]]; then
                echo "204"
                # look for all occurances of this line number in the error/warning list
@@ -237,6 +234,7 @@ jobs:
             #tmp=( "${sorted[@]}" )
             #sorted=$tmp
             #printf '%s\n' "${sorted[@]}"
+            echo "237"
             # See if any more errors remain in the list and need to be processed in the next loop iteration
             warning=""
             #for (( i=0; i<${#sorted[@]}; i++ )); do
@@ -246,11 +244,12 @@ jobs:
             #      break
             #   fi
             #done
+            echo "247"
             echo "-------------------------------------------------------------------------" >> tout.txt
           done
-          echo " "
+          echo "250"
           cat tout.txt
-          echo " "
+          echo "252"
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
@@ -373,12 +372,11 @@ jobs:
           #  echo "      none" >> tout.txt
           #fi  
           #rm -f tmptmp*.txt
-          echo ""
-          echo ""
+          echo "375"
           echo "=========================================================================================================="
           cat tout.txt
           echo "==========================================================================================================="
-          echo ""
+          echo "379"
           #mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
 
