@@ -220,17 +220,17 @@ jobs:
             printf '%s\n' "${sorted[@]}"
             echo " "
             echo " "
-          #  # See if any more errors remain in the list and need to be processed in the next loop iteration
-          #  #### REMOVE THE BELOW AFTER TESTING ####
+            # See if any more errors remain in the list and need to be processed in the next loop iteration
+            #### REMOVE THE BELOW AFTER TESTING ####
             error=""
-          #  #####  REMOVE THE ABOVE AFTER TESTING ####
-          #  for (( i=0; i<${#sorted[@]}; i++ )); do
-          #     line="${sorted[$i]}"
+            #####  REMOVE THE ABOVE AFTER TESTING ####
+            for (( i=0; i<${#sorted[@]}; i++ )); do
+               line="${sorted[$i]}"
           #     if [[ "$line" =~ "-ERROR-" ]]; then
           #        error="$line"
           #        break
           #     fi
-          #  done
+            done
             echo "-------------------------------------------------------------------------" >> tout.txt
           done
           echo "" >> tout.txt
