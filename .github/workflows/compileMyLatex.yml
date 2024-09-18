@@ -165,8 +165,6 @@ jobs:
           # ============== sort and remove redundances in the error/warning list
           sorted=( $( printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s ) )
           printf '%s\n' "${sorted[@]}"
-          echo " "
-          echo " "
           echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
           # ##################################################################################################
           #                        now process the list of warnings/errors just gathered
@@ -188,6 +186,7 @@ jobs:
           echo " - - - - - - - - - - - -   -- -" 
           echo " the first warning is:  "
           echo "$warning"
+          echo " - - - - - - - - - - - - - - - -"
           # if there were no errors, then put 'none'
           if [[ "$warning" = "" ]]; then
             echo "      none" >> tout.txt
@@ -224,7 +223,7 @@ jobs:
             echo " "
             #tmp=( "${sorted[@]}" )
             #sorted=$tmp
-            printf '%s\n' "${sorted[@]}"
+            #printf '%s\n' "${sorted[@]}"
             # See if any more errors remain in the list and need to be processed in the next loop iteration
             warning=""
             #for (( i=0; i<${#sorted[@]}; i++ )); do
