@@ -237,11 +237,17 @@ jobs:
             done
             echo "238"
             echo "-------------------------------------------------------------------------" >> tout.txt
+            echo "240"
           done
+          echo "242"
           echo "" >> tout.txt
+          echo "244"
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          echo "246"
           echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
+          echo "248"
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          echo "250"
           warning=""
           echo "246"
           for (( i=0; i<${#sorted[@]}; i++ )); do
