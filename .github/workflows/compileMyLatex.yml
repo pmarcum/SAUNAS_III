@@ -182,10 +182,10 @@ jobs:
             line="${sorted[$i]}"
             echo "line $line"
             if [[ "$line" =~ "-WARNING-" ]]; then
+               echo "warning  $warning"
                warning="$line"
                break
             fi
-            echo "warning $warning"
           done
           echo " - - - - - - - - - - - -   -- -" 
           echo " the first warning is:  "
