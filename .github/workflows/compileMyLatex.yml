@@ -217,13 +217,13 @@ jobs:
             echo "-------------------------------------------"
             # See if any more errors remain in the list and need to be processed in the next loop iteration
             warning=""
-            #for (( i=0; i<${#sorted[@]}; i++ )); do
-            #   line="${sorted[$i]}"
-            #   if [[ "$line" =~ "-WARNING-" ]]; then
-            #      warning="$line"
-            #      break
-            #   fi
-            #done
+            for (( i=0; i<${#sorted[@]}; i++ )); do
+               line="${sorted[$i]}"
+               if [[ "$line" =~ "-WARNING-" ]]; then
+                  warning="$line"
+                  break
+               fi
+            done
             echo "-------------------------------------------------------------------------" >> tout.txt
           done
           cat tout.txt
