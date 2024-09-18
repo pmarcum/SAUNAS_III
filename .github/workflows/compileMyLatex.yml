@@ -185,11 +185,9 @@ jobs:
                break
             fi
           done
-          echo " "
           echo " - - - - - - - - - - - -   -- -" 
           echo " the first warning is:  "
           echo "$warning"
-          echo " "
           # if there were no errors, then put 'none'
           if [[ "$warning" = "" ]]; then
             echo "      none" >> tout.txt
@@ -228,13 +226,13 @@ jobs:
             echo " "
             # See if any more errors remain in the list and need to be processed in the next loop iteration
             warning=""
-            #for (( i=0; i<${#sorted[@]}; i++ )); do
-            #   line="${sorted[$i]}"
-            #   if [[ "$line" =~ "-WARNING-" ]]; then
-            #      warning="$line"
-            #      break
-            #   fi
-            #done
+            for (( i=0; i<${#sorted[@]}; i++ )); do
+               line="${sorted[$i]}"
+               if [[ "$line" =~ "-WARNING-" ]]; then
+                  warning="$line"
+                  break
+               fi
+            done
             echo "-------------------------------------------------------------------------" >> tout.txt
           done
           echo "" >> tout.txt
