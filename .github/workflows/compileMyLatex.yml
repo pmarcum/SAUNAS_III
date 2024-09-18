@@ -216,7 +216,7 @@ jobs:
                done
             fi
             tmp=( "${sorted[@]}" )
-          #  sorted=$tmp
+            sorted=$tmp
             printf '%s\n' "${sorted[@]}"
             echo " "
             echo " "
