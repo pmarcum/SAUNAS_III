@@ -177,20 +177,20 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          error=""
+          warning=""
           for (( i=0; i<${#sorted[@]}; i++ )); do
             line="${sorted[$i]}"
-            if [[ "$line" =~ "-ERROR-" ]]; then
-               error="$line"
+            if [[ "$line" =~ "-WARNING-" ]]; then
+               warning="$line"
                break
             fi
           done
           # if there were no errors, then put 'none'
-          if [[ "$error" = "" ]]; then
+          if [[ "$warning" = "" ]]; then
             echo "      none" >> tout.txt
           fi
-          while  [ "$error" != "" ]; do
-            linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$error" )
+          while  [ "$warning" != "" ]; do
+            linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$warning" )
             if [[ $linenum > 0 ]]; then
                # look for all occurances of this line number in the error/warning list
                for (( i=0; i<${#sorted[@]}; i++ )); do
@@ -207,7 +207,7 @@ jobs:
             else
                # look up where this line is in the list and remove it from the list
                for (( i=0; i<${sorted[@]}; i++ )); do
-                  if [[ "${sorted[$i]}" =~ "$error" ]]; then
+                  if [[ "${sorted[$i]}" =~ "$warning" ]]; then
                      line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
                      echo $line >> tout.txt
                      # remove from list
@@ -221,11 +221,11 @@ jobs:
             echo " "
             echo " "
             # See if any more errors remain in the list and need to be processed in the next loop iteration
-            error=""
+            warning=""
             for (( i=0; i<${#sorted[@]}; i++ )); do
                line="${sorted[$i]}"
-               if [[ "$line" =~ "-ERROR-" ]]; then
-                  error="$line"
+               if [[ "$line" =~ "-WARNING-" ]]; then
+                  warning="$line"
                   break
                fi
             done
