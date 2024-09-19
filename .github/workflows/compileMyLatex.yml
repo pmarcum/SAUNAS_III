@@ -435,10 +435,9 @@ jobs:
           # squash.io/extracting=numbers-from-strings-in-bash
           # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
           # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
-          # determine if there were no errors, meaning that errors.txt is empty file. If so, place
-          # the word none under the banner of this section in output file. But if there were errors, 
-          # then remove the pdf file so that the pdf file that gets shown in gooTeX is the compilation errors
-          # rather than a mangled pdf. 
+          # determine if there were no errors, meaning that errors.txt is empty file. If so, place the word none under the
+          # banner of this section in output file. But if there were errors, then remove the pdf file so that the pdf file
+          # that gets shown in gooTeX is the compilation errors rather than a mangled pdf. 
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              LIST OF REFERENCES IN ${{ github.event.inputs.file2compile }}.tex" >> tout.txt
@@ -447,7 +446,7 @@ jobs:
           readarray -t res < <( grep -E -- "@" pruned.bib )
           for (( i=0; i<${#res[@]}; i++ )); do
              line="$res[$i]"
-             res[$i]="$( sed -r 's/^[^{]*\{//' | sed -r 's/\,//' <<<"$line" )"
+             res[$i]="$( sed -r 's/^[^{]*\{//' <<<"$line"  | sed -r 's/,//' )"
           done
           printf '%s\n' "${res[@]}"
           #ptmp="$( sed ':a;N;$!ba;s/\n/\x0/g' pruned.bib )"
