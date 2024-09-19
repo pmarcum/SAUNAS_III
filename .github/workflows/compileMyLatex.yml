@@ -444,8 +444,8 @@ jobs:
           echo "              LIST OF REFERENCES IN ${{ github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           # create an array of just the bibcodes
-          sed ':a;N;$!ba;s/\n/\x0/g' pruned.bib > ptmp.txt
-          cat ptmp.txt
+          ptmp="$( sed ':a;N;$!ba;s/\n/\x0/g' pruned.bib )"
+          echo $ptmp
           #readarray -t res < <( grep -E -o -- "^[^,][^,]*," ptmp.txt )
           #printf '%s\n' "${res[@]}"
           #cites=()
