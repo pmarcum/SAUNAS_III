@@ -496,7 +496,7 @@ jobs:
                 red=false
              fi
              if red; then
-                echo "<span style='color:red;'>$line"<\span> >> red.txt
+                echo "<span style='color:red;'>$line<\span>" >> red.txt
              else
                 echo "$line" >> red.txt
              fi
