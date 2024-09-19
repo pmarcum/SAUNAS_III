@@ -491,11 +491,11 @@ jobs:
           echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > ${{ github.event.inputs.file2compile }}.html
           echo "<i>To view full GitHub Actions output, go to:</i><br>" >> ${{ github.event.inputs.file2compile }}.html
           #echo "<i>https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ github. }} </i><br>" >> ${{ github.event.inputs.file2compile }}.html
-          echo " "
-          echo "${{ steps.context.outputs.job_log_url }}"
-          echo " "
+          #echo " "
+          #echo "${{ steps.context.outputs.job_log_url }}"
+          #echo " "
           #echo "<i> ${{ steps.context.outputs.job_log_url }} </i><br>" >> ${{ github.event.inputs.file2compile }}.html
-          echo "<hr><br>" >> ${{ github.event.inputs.file2compile }}.html
+          #echo "<hr><br>" >> ${{ github.event.inputs.file2compile }}.html
           # Go through the html.txt file and make the errors red to stand out
           touch red.txt
           red=false
