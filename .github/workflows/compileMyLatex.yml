@@ -39,9 +39,6 @@ jobs:
     steps:
       - name: Clone repo
         uses: actions/checkout@v4
-        
-      #- uses: qoomon/actions--context@v1
-      #  id: context
 
       - name: setup python
         uses: actions/setup-python@v5
@@ -486,13 +483,9 @@ jobs:
           # make sure that long lines are split if they exceed 20 words
           fold -sw 90 ${{ github.event.inputs.file2compile }}_out.txt > html.txt
           echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > ${{ github.event.inputs.file2compile }}.html
-          echo "<i>To view full GitHub Actions output, go to:</i><br>" >> ${{ github.event.inputs.file2compile }}.html
-          #echo "<i>https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ github. }} </i><br>" >> ${{ github.event.inputs.file2compile }}.html
-          #echo " "
-          #echo "${{ steps.context.outputs.job_log_url }}"
-          #echo " "
-          #echo "<i> ${{ steps.context.outputs.job_log_url }} </i><br>" >> ${{ github.event.inputs.file2compile }}.html
-          #echo "<hr><br>" >> ${{ github.event.inputs.file2compile }}.html
+          echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> ${{ github.event.inputs.file2compile }}.html
+          echo "<i>https://github.com/${{ github.repository }}/actions</i><br>" >> ${{ github.event.inputs.file2compile }}.html
+          echo "<hr><br>" >> ${{ github.event.inputs.file2compile }}.html
           # Go through the html.txt file and make the errors red to stand out
           touch red.txt
           red=false
@@ -536,7 +529,24 @@ jobs:
         with:
           file_pattern: '${{ github.event.inputs.file2compile }}.pdf'
           commit_message: 'Newly compiled PDF'
-        continue-on-error: true       
+        continue-on-error: true
+
+      - name: Upload html output file
+        uses: actions/upload-artifact@v4
+        if: ${{ always() && hashFiles(env.OUTFILE) }}
+        with: 
+          name: compileHtmlOutput
+          path: "${{ github.event.inputs.file2compile }}.html"
+        continue-on-error: true
+        
+      - name: Publish compilation output to repo
+        id: releaseHtmlOutfile
+        uses: stefanzweifel/git-auto-commit-action@v5
+        if: ${{ always() && hashFiles(env.OUTFILE) }}
+        with:
+          file_pattern: '${{ github.event.inputs.file2compile }}.html'
+          commit_message: 'Newly created compilation html output file'
+        continue-on-error: true
 
       - name: Upload compilation output file
         uses: actions/upload-artifact@v4
