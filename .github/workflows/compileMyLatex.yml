@@ -498,7 +498,8 @@ jobs:
                 red=false
                 echo "turning the lines back to black starting with this one"
              fi
-             if red; then
+             echo $red
+             if $red; then
                 echo "<span style='color:red;'>$line<\span>" >> red.txt
              else
                 echo "$line" >> red.txt
