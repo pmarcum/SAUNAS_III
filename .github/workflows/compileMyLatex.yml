@@ -457,6 +457,9 @@ jobs:
           fi
           cat tout.txt
           mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
+          if $thereAreErrors; then
+             touch thereAreErrors.txt
+          fi
         continue-on-error: true
         
       - name: Upload bib file
@@ -473,8 +476,8 @@ jobs:
            commit_message: 'Pruned bib file'
            
       - name: Convert errors to PDF file
+        if: ${{ always() && hashFiles('thereAreErrors.txt') }}
         run: |
-          if ["$thereAreErrors" = true]; then
             # install htmldoc, which apparently is not an inherent command in Ubuntu
             sudo apt-get install htmldoc -y
             # create a .html file from the out.txt file, then convert the html to pdf
