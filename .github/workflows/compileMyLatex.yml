@@ -507,7 +507,7 @@ jobs:
              fi
           done < "html.txt"
           #cat red.txt
-          sed ':a;N;$!ba;s/\n/<br>/g;s/ /\&nbsp;/g' red.txt >> ${{ github.event.inputs.file2compile }}.html
+          sed ':a;N;$!ba;s/\n/<br>/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> ${{ github.event.inputs.file2compile }}.html
           echo " "
           echo " "
           echo " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
