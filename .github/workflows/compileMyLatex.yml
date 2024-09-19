@@ -488,7 +488,7 @@ jobs:
           echo "<hr><br>" >> ${{ github.event.inputs.file2compile }}.html
           sed ':a;N;$!ba;s/\n/<br>/g;s/ /\&nbsp;/g' html.txt | \
              sed -r 's/(line #[0-9][0-9]* \-\-\-\-)/<span style="color:red;">\1/g' | \
-             sed -r 's/\~\-\-\-/<\span>\-\-\-\-/g' >> ${{ github.event.inputs.file2compile }}.html
+             sed -r 's/\~\-\-\-/<\\span>\-\-\-\-/g' >> ${{ github.event.inputs.file2compile }}.html
           cat ${{ github.event.inputs.file2compile }}.html
           htmldoc --left 0.4in --right 0.3in --top 0.2in --bottom 0.3in --continuous -f ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}.html
         continue-on-error: true
