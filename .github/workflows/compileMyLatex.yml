@@ -454,6 +454,7 @@ jobs:
           if [[ ${#res[@]} = 0 ]]; then
              echo "        None"
           done
+          cat tout.txt
           mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
         
