@@ -424,8 +424,12 @@ jobs:
              sed 's/\} *\x0\@/\}\n\n\@/g' | \
              sed 's/\x0/\n/g' > pruned.bib
              # create an array of just the bibcodes
-             readarray -t res < <( grep -E -o -- "^[^,][^,]*" pruned.bib | sed -E -i 's/\{([^,][^,]*)/\1/g )
-             printf '%s\n' "${res[@]}"             
+             readarray -t res < <( grep -E -o -- "^[^,][^,]*" pruned.bib )
+             cites=()
+             for (( i=0; i<${#res[@]}; i++ )); do
+                cites[${#cites[@]}]="$( sed -r -i 's/\{([^,][^,]*)/\1/g' <<<"${res[$i]}" )"
+             done
+             printf '%s\n' "${cites[@]}"
           fi
           # https://stackoverflow.com/questions/57788813/grep-return-0-if-no-match
           # squash.io/extracting=numbers-from-strings-in-bash
