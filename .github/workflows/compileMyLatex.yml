@@ -446,13 +446,11 @@ jobs:
           readarray -t res < <( grep -E -- "@" pruned.bib )
           for (( i=0; i<${#res[@]}; i++ )); do
              line="$res[$i]"
-             res[$i]="$( sed -r 's/^[^{]*\{//' <<<"$line"  | sed -r 's/,//' )"
+             res[$i]="$( sed -r 's/^[^{]*\{//' <<<"$line" )"
              echo "$res[$i]"
           done
           #sort -k2 | \
           #uniq -i | \
-          #readarray -t res < <( grep -E -o -- "^[^,][^,]*," ptmp.txt )
-          #printf '%s\n' "${res[@]}"
           #cites=()
           #echo "found this many citations"
           #echo ${#res[@]}
