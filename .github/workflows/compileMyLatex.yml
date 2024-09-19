@@ -445,8 +445,9 @@ jobs:
           # create an array of just the bibcodes
           readarray -t res < <( grep -E -- "@" pruned.bib )
           for (( i=0; i<${#res[@]}; i++ )); do
-             line="$res[$i]"
-             res[$i]="$( sed -r 's/^[^{]*\{//' <<<"$line" )"
+             line="$( echo "${res[$i]}" | sed -r 's/^[^{]*\{//' | sed -r 's/\,//' )"
+             res[$i]="$line"
+             echo "$line"
              echo "$res[$i]"
           done
           #sort -k2 | \
