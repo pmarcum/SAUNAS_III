@@ -268,7 +268,7 @@ jobs:
           echo "${{ env.TIMESTAMP }}" > tout.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          echo "              ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
+          echo "              FATAL ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           error=""
           thereAreErrors=false
