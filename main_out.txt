@@ -1,4 +1,4 @@
-2024-09-19T21:43:01Z 1726782181474
+2024-09-19T22:44:50Z 1726785890564
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               FATAL ERRORS IN main.tex
@@ -6,17 +6,17 @@
 ./main.tex:145: LaTeX Error: \begin{center} on input line 57 ended by \end{document}.
 line #57 ----------------------- 
 \begin{center}
-~------------------------------------------------------------------------
+=------------------------------------------------------------------------
 ./main.tex:74: LaTeX Error: Unknown graphics extension: .pn.
 LaTeX Warning: File `NGC5084_6dF_spectra_comp.pn' not found on input line 74.
 line #74 ----------------------- 
  \begin{overpic}[trim={0 0 0 0}, clip, width=\textwidth]{NGC5084_6dF_spectra_comp.pn}
-~------------------------------------------------------------------------
+=------------------------------------------------------------------------
 ./main.tex:118: LaTeX Error: Unknown graphics extension: .pn.
 LaTeX Warning: File `NGC5084_spectra_regions_wide.pn' not found on input line 118.
 line #118 ----------------------- 
 \includegraphics[trim={0 0 70 0}, clip, height=8.5cm]{NGC5084_spectra_regions_wide.pn}\includegraphics[trim={0 0 0 0}, clip, height=8.5cm]{NGC5084_regions_core.png}
-~------------------------------------------------------------------------
+=------------------------------------------------------------------------
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               WARNINGS IN main.tex
