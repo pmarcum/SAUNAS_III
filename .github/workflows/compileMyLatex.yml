@@ -125,7 +125,7 @@ jobs:
           echo "-----------------------------------------------------"
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
           echo "-----------------------------------------------------"
-          cat ${{ github.event.inputs.file2compile }}_full.log
+          #cat ${{ github.event.inputs.file2compile }}_full.log
           echo "---------------------------------------------------------------------------------------------------------------------"
           # ===================================================================================================================
           # ====================================  Set up an array that will hold all the errors and warnings listed in the _full.log
@@ -198,7 +198,7 @@ jobs:
           echo "              ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           error=""
-          thereAreErrors='F'
+          thereAreErrors=false
           for (( i=0; i<${#sorted[@]}; i++ )); do
             line="${sorted[$i]}"
             if [[ "$line" =~ "-ERROR-" ]]; then
@@ -210,7 +210,7 @@ jobs:
           if [[ "$error" = "" ]]; then
             echo "      none" >> tout.txt
           else
-            thereAreErrors='T'
+            thereAreErrors=true
           fi
           while  [ "$error" != "" ]; do
             linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$error" )
@@ -360,21 +360,22 @@ jobs:
           # A combination of things happenning below: going to strip out all the used citations and make a 
           # pruned.bib file that can be used as the final bib file for submission purposes rather than having 
           # to use the whole master bib file.  based on the stand-alone "pruneMyBibfile" github action file
-          #
-          # combining all .tex files in repo in into a single temporary file
+          # ============> combining all .tex files in repo in into a single temporary file
+          echo "364"
           touch texfile.tmp
           texfileExists=0
           for path in ${{ steps.texlist.outputs.paths }}; do
              cat $path >> texfile.tmp; texfileExists=1
           done
+          echo "370"
           # combining all .bib files in repo into a single temporary file
           touch bibfile.tmp
           bibfileExists=0
           for path in ${{ steps.biblist.outputs.paths }}; do
              if [[ ! $path =~ "pruned" ]]; then cat $path >> bibfile.tmp; bibfileExists=1; fi
           done
-          #  
-          # change all natbib cite commands to plain cite command
+          echo "377"
+          # ===========> change all natbib cite commands to plain cite command
           if [[ "$texfileExists" == 1 ]]; then
              # converting all natbib commands into simple cite commands in the .tex temporary file
              # remove all the square bracket stuff between the \cite and the {references}
@@ -385,6 +386,7 @@ jobs:
              # converting all periods into _period_
              sed -E -i 's/\./_period_/ig' texfile.tmp
           fi
+          echo "389"
           if [[ "$bibfileExists" == 1 ]]; then
              # sorting the entries and removing redundancies in the .bib temporary file
              # explanation of below sed command: 
@@ -411,7 +413,7 @@ jobs:
              # converting all periods into _period_
              sed -E -i 's/\./_period_/ig' bibfile.tmp
           fi
-          #
+          echo "416"
           touch pruned.bib
           if ([ "$bibfileExists" == 1 ] && [ "$texfileExists" == 1 ]); then
              # installing bib_cleaner
@@ -428,6 +430,7 @@ jobs:
              sed 's/\} *\x0\@/\}\n\n\@/g' | \
              sed 's/\x0/\n/g' > pruned.bib
           fi
+          echo "433"
           # https://stackoverflow.com/questions/57788813/grep-return-0-if-no-match
           # squash.io/extracting=numbers-from-strings-in-bash
           # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
@@ -441,9 +444,6 @@ jobs:
           echo "              LIST OF REFERENCES IN ${{ github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "      See the pruned.bib file" >> tout.txt
-          echo "=========================================================================================================="
-          cat tout.txt
-          echo "==========================================================================================================="
           mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
         
