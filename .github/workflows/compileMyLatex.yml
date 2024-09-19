@@ -444,11 +444,12 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           # create an array of just the bibcodes
           readarray -t res < <( grep -E -- "@" pruned.bib )
-          if [[ $[#res[@]} = 0 ]]; then
+          if [[ ${#res[@]} = 0 ]]; then
              echo "Number of citations: ${#res[@]}" >> tout.txt
           done
           for (( i=0; i<${#res[@]}; i++ )); do
              line="$( echo "${res[$i]}" | sed -r 's/^[^{]*\{//' | sed -r 's/\,//' )"
+             echo "$line"
              echo "$line" >> tout.txt
           done
           if [[ ${#res[@]} = 0 ]]; then
