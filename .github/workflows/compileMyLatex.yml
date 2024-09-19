@@ -40,8 +40,8 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         
-      - uses: qoomon/actions--context@v1
-        id: context
+      #- uses: qoomon/actions--context@v1
+      #  id: context
 
       - run: |
           echo "Current Environment: ${{ steps.context.outputs.environment }}"
