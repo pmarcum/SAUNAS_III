@@ -427,7 +427,7 @@ jobs:
              readarray -t res < <( grep -E -o -- "^[^,][^,]*" pruned.bib )
              cites=()
              echo "found this many citations"
-             echo ${res[@}}
+             echo ${#res[@]}
              for (( i=0; i<${#res[@]}; i++ )); do
                 cites[${#cites[@]}]="$( sed -r -i 's/\{([^,][^,]*)/\1/g' <<<"${res[$i]}" )"
              done
