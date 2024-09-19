@@ -320,7 +320,7 @@ jobs:
                   break
                fi
             done
-            echo "~------------------------------------------------------------------------" >> tout.txt
+            echo "=------------------------------------------------------------------------" >> tout.txt
           done
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -492,7 +492,7 @@ jobs:
           red=false
           while IFS= read -r line; do
              start='^line #[0-9]+'
-             end='^~-----'
+             end='^=-----'
              if [[ $line =~ $start ]]; then
                 red=true
              elif [[ $line =~ $end ]]; then
