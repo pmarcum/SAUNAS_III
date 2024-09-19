@@ -486,6 +486,7 @@ jobs:
           echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> ${{ github.event.inputs.file2compile }}.html
           echo "<i>https://github.com/${{ github.repository }}/actions</i><br>" >> ${{ github.event.inputs.file2compile }}.html
           echo "<hr><br>" >> ${{ github.event.inputs.file2compile }}.html
+          cat ${{ github.event.inputs.file2compile }}.html
           # Go through the html.txt file and make the errors red to stand out
           touch red.txt
           red=false
@@ -495,13 +496,9 @@ jobs:
              end='^~-----'
              if [[ $line =~ $start ]]; then
                 red=true
-                echo "turning the lines red starting with this one"
              elif [[ $line =~ $end ]]; then
                 red=false
-                echo "turning the lines back to black starting with this one"
              fi
-             echo $red
-             echo "----------------"
              if $red; then
                 echo "<span style='color:red;'>$line<\span>" >> red.txt
                 echo "<span style='color:red;'>$line<\span>"
