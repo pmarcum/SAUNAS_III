@@ -447,7 +447,7 @@ jobs:
           readarray -t res < <( grep -E -- "@" pruned.bib )
           for (( i=0; i<${#res[@]}; i++ )); do
              line="$res[$i]"
-             res[$i]="$( sed -r 's/^[^{]*//' <<<"$line" | sed -r 's/\,//')"
+             res[$i]="$( sed -r 's/^[^{]*\{//' | sed -r 's/\,//' <<<"$line" )"
           done
           printf '%s\n' "${res[@]}"
           #ptmp="$( sed ':a;N;$!ba;s/\n/\x0/g' pruned.bib )"
