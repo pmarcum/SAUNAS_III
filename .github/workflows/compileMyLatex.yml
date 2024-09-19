@@ -465,32 +465,31 @@ jobs:
       - name: Upload bib file
         uses: actions/upload-artifact@v4
         with: 
-           name: Setting path of pruned bib file
-           path: pruned.bib
+          name: Setting path of pruned bib file
+          path: pruned.bib
             
       - name: Publish pruned bib file to repo
         id: create_release
         uses: stefanzweifel/git-auto-commit-action@v5.0.0
         with:
-           file_pattern:  pruned.bib
-           commit_message: 'Pruned bib file'
+          file_pattern:  pruned.bib
+          commit_message: 'Pruned bib file'
            
       - name: Convert errors to PDF file
         if: ${{ always() && hashFiles('thereAreErrors.txt') }}
         run: |
-            # install htmldoc, which apparently is not an inherent command in Ubuntu
-            sudo apt-get install htmldoc -y
-            # create a .html file from the out.txt file, then convert the html to pdf
-            rm -f html.txt
-            # make sure that long lines are split if they exceed 20 words
-            fold -sw 90 ${{ github.event.inputs.file2compile }}_out.txt > html.txt
-            echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > ${{ github.event.inputs.file2compile }}.html
-            echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> ${{ github.event.inputs.file2compile }}.html
-            echo "<i>https://github.com/${{ github.repository }}/actions</i><br>" >> ${{ github.event.inputs.file2compile }}.html
-            echo "<hr><br>" >> ${{ github.event.inputs.file2compile }}.html
-            sed ':a;N;$!ba;s/\n/<br>/g;s/ /\&nbsp;/g' html.txt >> ${{ github.event.inputs.file2compile }}.html
-            htmldoc --left 0.4in --right 0.3in --top 0.2in --bottom 0.3in --continuous -f ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}.html
-          fi
+          # install htmldoc, which apparently is not an inherent command in Ubuntu
+          sudo apt-get install htmldoc -y
+          # create a .html file from the out.txt file, then convert the html to pdf
+          rm -f html.txt
+          # make sure that long lines are split if they exceed 20 words
+          fold -sw 90 ${{ github.event.inputs.file2compile }}_out.txt > html.txt
+          echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > ${{ github.event.inputs.file2compile }}.html
+          echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> ${{ github.event.inputs.file2compile }}.html
+          echo "<i>https://github.com/${{ github.repository }}/actions</i><br>" >> ${{ github.event.inputs.file2compile }}.html
+          echo "<hr><br>" >> ${{ github.event.inputs.file2compile }}.html
+          sed ':a;N;$!ba;s/\n/<br>/g;s/ /\&nbsp;/g' html.txt >> ${{ github.event.inputs.file2compile }}.html
+          htmldoc --left 0.4in --right 0.3in --top 0.2in --bottom 0.3in --continuous -f ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}.html
         continue-on-error: true
         
       - name: Upload PDF file
