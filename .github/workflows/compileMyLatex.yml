@@ -445,8 +445,9 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           # create an array of just the bibcodes
           sed ':a;N;$!ba;s/\n/\x0/g' pruned.bib > ptmp.txt
-          readarray -t res < <( grep -E -o -- "^[^,][^,]*," ptmp.txt )
-          printf '%s\n' "${res[@]}"
+          cat ptmp.txt
+          #readarray -t res < <( grep -E -o -- "^[^,][^,]*," ptmp.txt )
+          #printf '%s\n' "${res[@]}"
           #cites=()
           #echo "found this many citations"
           #echo ${#res[@]}
