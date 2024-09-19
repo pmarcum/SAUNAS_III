@@ -491,10 +491,12 @@ jobs:
           red=false
           while IFS= read -r line; do
              echo "line is $line"
-             if [[  "$line" =~ "line #[0-9]" ]]; then
+             numbers = '[0-9]+'
+             dashline = '~-----'
+             if [[ $line =~ numbers ]]; then
                 red=true
                 echo "turning the lines red starting with this one"
-             elif [[ "$line" =~ "~----" ]]; then
+             elif [[ $line =~ $dashline ]]; then
                 red=false
                 echo "turning the lines back to black starting with this one"
              fi
