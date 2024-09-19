@@ -491,20 +491,23 @@ jobs:
           red=false
           while IFS= read -r line; do
              echo "line is $line"
-             numbers='[0-9]+'
-             dashline='~-----'
-             if [[ $line =~ $numbers ]]; then
+             start='line #[0-9]+'
+             end='~-----'
+             if [[ $line =~ $start ]]; then
                 red=true
                 echo "turning the lines red starting with this one"
-             elif [[ $line =~ $dashline ]]; then
+             elif [[ $line =~ $end ]]; then
                 red=false
                 echo "turning the lines back to black starting with this one"
              fi
              echo $red
+             echo "----------------"
              if $red; then
                 echo "<span style='color:red;'>$line<\span>" >> red.txt
+                echo "<span style='color:red;'>$line<\span>"
              else
                 echo "$line" >> red.txt
+                echo "$line"
              fi
           done < "html.txt"
           #cat red.txt
