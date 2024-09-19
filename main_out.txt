@@ -1,0 +1,51 @@
+2024-09-19T08:58:42Z 1726736322353
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              ERRORS IN main.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+./main.tex:145: LaTeX Error: \begin{center} on input line 57 ended by \end{document}.
+Line #57 ----------------------- 
+\begin{center}
+-------------------------------------------------------------------------
+./main.tex:74: LaTeX Error: Unknown graphics extension: .pn.
+LaTeX Warning: File `NGC5084_6dF_spectra_comp.pn' not found on input line 74.
+Line #74 ----------------------- 
+ \begin{overpic}[trim={0 0 0 0}, clip, width=\textwidth]{NGC5084_6dF_spectra_comp.pn}
+-------------------------------------------------------------------------
+./main.tex:118: LaTeX Error: Unknown graphics extension: .pn.
+LaTeX Warning: File `NGC5084_spectra_regions_wide.pn' not found on input line 118.
+Line #118 ----------------------- 
+\includegraphics[trim={0 0 70 0}, clip, height=8.5cm]{NGC5084_spectra_regions_wide.pn}\includegraphics[trim={0 0 0 0}, clip, height=8.5cm]{NGC5084_regions_core.png}
+-------------------------------------------------------------------------
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              WARNINGS IN main.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+LaTeX Warning: You have requested document class `CORE-AAS/aastex631', but the document class provides `aastex631'.
+-------------------------------------------------------------------------
+LaTeX Warning: Command \@footnotemark has changed.
+-------------------------------------------------------------------------
+LaTeX Warning: There were undefined references.
+-------------------------------------------------------------------------
+LaTeX Warning: \include should only be used after \begin{document} on input line 32.
+Line #32 ----------------------- 
+\include{variables}
+-------------------------------------------------------------------------
+LaTeX Warning: Reference `fig' on page 1 undefined on input line 106.
+Line #106 ----------------------- 
+\ref{fig}
+-------------------------------------------------------------------------
+ 
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              CITATION ISSUES IN main.tex 
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Package natbib Warning: Citation `johnson2022' on page 1 undefined on input line 103.
+Line #103 ----------------------- 
+4th sentence \citep{johnson2022}
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              LIST OF REFERENCES IN main.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      See the pruned.bib file
