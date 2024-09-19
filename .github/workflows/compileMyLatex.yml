@@ -501,8 +501,9 @@ jobs:
                 echo "$line" >> red.txt
              fi
           done < html.txt
+          cat red.txt
           mv -f red.txt html.txt
-          sed ':a;N;$!ba;s/\n/\<br\>/g;s/ /\&nbsp;/g' html.txt >> ${{ github.event.inputs.file2compile }}.html
+          sed ':a;N;$!ba;s/\n/<br>/g;s/ /\&nbsp;/g' html.txt >> ${{ github.event.inputs.file2compile }}.html
           cat ${{ github.event.inputs.file2compile }}.html
           htmldoc --left 0.4in --right 0.3in --top 0.2in --bottom 0.3in --continuous -f ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}.html
         continue-on-error: true
@@ -525,7 +526,7 @@ jobs:
 
       - name: Upload compilation output file
         uses: actions/upload-artifact@v4
-        #if: ${{ always() && hashFiles(env.OUTFILE) }}
+        if: ${{ always() && hashFiles(env.OUTFILE) }}
         with: 
           name: compileOutput
           path: "${{ github.event.inputs.file2compile }}_out.txt"
@@ -534,7 +535,7 @@ jobs:
       - name: Publish compilation output to repo
         id: releaseOutfile
         uses: stefanzweifel/git-auto-commit-action@v5
-        #if: ${{ always() && hashFiles(env.OUTFILE) }}
+        if: ${{ always() && hashFiles(env.OUTFILE) }}
         with:
           file_pattern: '${{ github.event.inputs.file2compile }}_*.*'
           commit_message: 'Newly created compilation output file'
