@@ -444,22 +444,16 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           # create an array of just the bibcodes
           readarray -t res < <( grep -E -- "@" pruned.bib )
+          if [[ $[#res[@]} = 0 ]]; then
+             echo "Number of citations: ${#res[@]}" >> tout.txt
+          done
           for (( i=0; i<${#res[@]}; i++ )); do
              line="$( echo "${res[$i]}" | sed -r 's/^[^{]*\{//' | sed -r 's/\,//' )"
-             res[$i]="$line"
-             echo "$line"
-             echo "$res[$i]"
+             echo "$line" >> tout.txt
           done
-          #sort -k2 | \
-          #uniq -i | \
-          #cites=()
-          #echo "found this many citations"
-          #echo ${#res[@]}
-          #for (( i=0; i<${#res[@]}; i++ )); do
-          #   cites[${#cites[@]}]="$( sed -r -i 's/\{([^,][^,]*)/\1/g' <<<"${res[$i]}" )"
-          #done
-          #printf '%s\n' "${cites[@]}"
-          #echo "      See the pruned.bib file" >> tout.txt
+          if [[ ${#res[@]} = 0 ]]; then
+             echo "        None"
+          done
           mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
         continue-on-error: true
         
