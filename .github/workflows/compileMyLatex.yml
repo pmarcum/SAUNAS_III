@@ -491,8 +491,8 @@ jobs:
           red=false
           while IFS= read -r line; do
              echo "line is $line"
-             start='line #[0-9]+'
-             end='~-----'
+             start='^line #[0-9]+'
+             end='^~-----'
              if [[ $line =~ $start ]]; then
                 red=true
                 echo "turning the lines red starting with this one"
