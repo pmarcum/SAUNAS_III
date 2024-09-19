@@ -72,7 +72,7 @@ jobs:
       - name: Compile paper
         id: compilation
         run: |
-          latexmk -bibtex -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode ${{ github.event.inputs.file2compile }}.tex
+          latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode ${{ github.event.inputs.file2compile }}.tex
         continue-on-error: true
 
       - name: Get timestamp
@@ -106,7 +106,8 @@ jobs:
           echo "-----------------------------------------------------"
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
           echo "-----------------------------------------------------"
-          #cat ${{ github.event.inputs.file2compile }}_full.log
+          cat ${{ github.event.inputs.file2compile }}_full.log
+          echo "---------------------------------------------------------------------------------------------------------------------"
           # ===================================================================================================================
           # ====================================  Set up an array that will hold all the errors and warnings listed in the _full.log
           warnErrArr=()
@@ -177,6 +178,60 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          error=""
+          for (( i=0; i<${#sorted[@]}; i++ )); do
+            line="${sorted[$i]}"
+            if [[ "$line" =~ "-ERROR-" ]]; then
+               error="$line"
+               break
+            fi
+          done
+          # if there were no errors, then put 'none'
+          if [[ "$error" = "" ]]; then
+            echo "      none" >> tout.txt
+          fi
+          while  [ "$error" != "" ]; do
+            linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$error" )
+            if [[ $linenum > 0 ]]; then
+               # look for all occurances of this line number in the error/warning list
+               for (( i=0; i<${#sorted[@]}; i++ )); do
+                   if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$i]}" )$?" == 0 ]]; then
+                      line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
+                      echo $line >> tout.txt
+                      # remove this item from the list
+                      sorted[$i]="DONE"
+                   fi
+               done
+               # now look up the line in the .tex file and place underneath
+               echo "Line #$linenum ----------------------- " >> tout.txt
+               head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
+            else
+               # look up where this line is in the list and remove it from the list
+               for (( i=0; i<${#sorted[@]}; i++ )); do
+                   if [[ "${sorted[$i]}" =~ "$error" ]]; then
+                     line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
+                     echo $line >> tout.txt
+                     # remove from list
+                     sorted[$i]="DONE"
+                  fi
+               done
+            fi
+            echo "-------------------------------------------"
+            # See if any more errors remain in the list and need to be processed in the next loop iteration
+            error=""
+            for (( i=0; i<${#sorted[@]}; i++ )); do
+               line="${sorted[$i]}"
+               if [[ "$line" =~ "-ERROR-" ]]; then
+                  error="$line"
+                  break
+               fi
+            done
+            echo "-------------------------------------------------------------------------" >> tout.txt
+          done
+          echo "" >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           warning=""
           for (( i=0; i<${#sorted[@]}; i++ )); do
             line="${sorted[$i]}"
@@ -215,10 +270,6 @@ jobs:
                   fi
                done
             fi
-            #tmp=( "${sorted[@]}" )
-            #sorted=$tmp
-            printf '%s\n' "${sorted[@]}"
-            echo "-------------------------------------------"
             # See if any more errors remain in the list and need to be processed in the next loop iteration
             warning=""
             for (( i=0; i<${#sorted[@]}; i++ )); do
@@ -230,66 +281,72 @@ jobs:
             done
             echo "-------------------------------------------------------------------------" >> tout.txt
           done
-          cat tout.txt
+          echo " " >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          echo "              CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          biberr=""
+          for (( i=0; i<${#sorted[@]}; i++ )); do
+            line="${sorted[$i]}"
+            if [[ "$line" =~ "-BIB-" ]]; then
+               biberr="$line"
+               break
+            fi
+          done
+          # if there were no errors, then put 'none'
+          if [[ "$biberr" = "" ]]; then
+            echo "      none" >> tout.txt
+          fi
+          while  [ "$biberr" != "" ]; do
+            linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$biberr" )
+            if [[ $linenum > 0 ]]; then
+               # look for all occurances of this line number in the error/biberr list
+               for (( i=0; i<${#sorted[@]}; i++ )); do
+                   if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$i]}" )$?" == 0 ]]; then
+                      line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
+                      echo $line >> tout.txt
+                      # remove this item from the list
+                      sorted[$i]="DONE"
+                   fi
+               done
+               # now look up the line in the .tex file and place underneath
+               echo "Line #$linenum ----------------------- " >> tout.txt
+               head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
+            else
+               # look up where this line is in the list and remove it from the list
+               for (( i=0; i<${#sorted[@]}; i++ )); do
+                   if [[ "${sorted[$i]}" =~ "$biberr" ]]; then
+                     line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
+                     echo $line >> tout.txt
+                     # remove from list
+                     sorted[$i]="DONE"
+                  fi
+               done
+            fi
+            # See if any more errors remain in the list and need to be processed in the next loop iteration
+            biberr=""
+            for (( i=0; i<${#sorted[@]}; i++ )); do
+               line="${sorted[$i]}"
+               if [[ "$line" =~ "-BIB-" ]]; then
+                  biberr="$line"
+                  break
+               fi
+            done
+            echo "-------------------------------------------------------------------------" >> tout.txt
+          done
+          echo "-------------------------------------------------------------------------" >> tout.txt
+          # https://stackoverflow.com/questions/57788813/grep-return-0-if-no-match
+          # squash.io/extracting=numbers-from-strings-in-bash
+          # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
+          # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
+          # determine if there were no errors, meaning that errors.txt is empty file. If so, place
+          # the word none under the banner of this section in output file. But if there were errors, 
+          # then remove the pdf file so that the pdf file that gets shown in gooTeX is the compilation errors
+          # rather than a mangled pdf. 
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
+          echo "              LIST OF REFERENCES IN ${{ github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          #echo "" >> tout.txt
-          #echo "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
-          #cat tout.txt
-          #echo "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
-          #echo "" >> tout.txt
-          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          #echo "              CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
-          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          #rm -f biberrs.txt && touch biberrs.txt
-          #grep -E "^[0-9][0-9]* BIB " warningError.txt >> biberrs.txt
-          #if [ $(wc -c < "biberrs.txt") -eq 0 ]; then
-          #  echo "      none" >> tout.txt
-          #fi
-          #while  [ $(wc -c < "biberrs.txt") -gt 0 ]; do
-          #  line="$(head -1 biberrs.txt)"
-          #  linenum=$(echo $line | sed -r 's/^([0-9][0-9]*) .*/\1/')
-          #  if [[ $linenum > 0 ]]; then
-          #     # look for all occurances of this line number in the file
-          #     rm -f tmp.txt && touch tmp.txt && grep -E "^$linenum " warningError.txt >> tmp.txt
-          #     while IFS= read -r ln; do
-          #        modLine=$(echo $ln | sed -r 's/^[0-9][0-9]* [A-Z][A-Z]* //')
-          #        echo $modLine >> tout.txt
-          #        # remove these other lines from warningError.txt
-          #        rm -f cp.txt && grep -v "$ln" warningError.txt >> cp.txt && mv -f cp.txt warningError.txt
-          #     done < tmp.txt
-          #     # now look up the line in the .tex file and place underneath
-          #     echo "Line #$linenum ----------------------- " >> tout.txt
-          #     head -n $linenum ${{ github.event.inputs.file2compile }}.tex | tail -1 >> tout.txt
-          #  fi
-          #  # now look for more bib errs
-          #  rm -f biberrs.txt && touch biberrs.txt
-          #  grep -E "^[0-9][0-9]* ERROR " warningError.txt >> biberrs.txt
-          #  echo "-------------------------------------------------------------------------" >> tout.txt
-          #done
-          #echo "***************************************************************************************"
-          #cat tout.txt
-          #echo "***************************************************************************************"
-          #echo " " 
-          #echo " " 
-          #echo " "
-          #echo "(((((((((((((((((("
-          #cat warningError.txt
-          #echo "))))))))))))))))))"
-          ## https://stackoverflow.com/questions/57788813/grep-return-0-if-no-match
-          ## squash.io/extracting=numbers-from-strings-in-bash
-          ## https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
-          ## https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
-          ### determine if there were no errors, meaning that errors.txt is empty file. If so, place
-          ### the word none under the banner of this section in output file. But if there were errors, 
-          ### then remove the pdf file so that the pdf file that gets shown in gooTeX is the compilation errors
-          ### rather than a mangled pdf. 
-          ##echo "" >> tout.txt
-          ##echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          ##echo "              LIST OF REFERENCES IN ${{ github.event.inputs.file2compile }}.tex" >> tout.txt
-          ##echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           ##grep -e '[eE]rror' -e '[wW]arning' allout.txt > tmptmp1.txt || touch tmptmp1.txt
           ##grep -i ': citation' tmptmp1.txt > tmptmp2.txt || touch tmptmp2.txt
           ##grep -i 'undefined' tmptmp2.txt > tmptmp3.txt || touch tmptmp3.txt
