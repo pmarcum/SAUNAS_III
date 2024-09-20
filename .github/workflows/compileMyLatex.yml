@@ -505,7 +505,7 @@ jobs:
                 echo "line: $line"
                 thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' | sed -r 's/FATAL/FATAL /g' )"
                 echo "507: $thisline"
-                thisline="$( echo "$thisline" | sed -r "s/STARTBLUE/<span style='color:blue;'>/g" | sed -r 's/ENDBLUE/</span>/g' )"
+                thisline="$( echo "$thisline" | sed -r 's/STARTBLUE/<span style="color:blue;">/g' | sed -r 's/ENDBLUE/</span>/g' )"
                 echo "509: $thisline"
                 thisline="${ echo "$thisline" | sed -r 's/STARTITALICS/<i>/g' | sed -r 's/ENDITALICS/</i>/g' | sed -r 's/MAKELINE/<hr>/g' )"
                 echo "511: $thisline"
@@ -524,7 +524,7 @@ jobs:
           else
              touch finalout.txt
              #while IFS= read -r line; do
-             #   thisline="$( echo "$line" | sed -r "s/STARTBLUE//g" | sed -r 's/ENDBLUE//g' )"
+             #   thisline="$( echo "$line" | sed -r 's/STARTBLUE//g' | sed -r 's/ENDBLUE//g' )"
              #   thisline="$( echo "$thisline" | sed -r 's/FATAL//g' )"
              #   thisline="${ echo "$thisline" | sed -r 's/STARTITALICS//g' | sed -r 's/ENDITALICS//g' )"
              #   #thisline="${ echo "$thisline" | sed -r 's/MAKELINE/==================================================================================/' )"
