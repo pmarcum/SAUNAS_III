@@ -515,10 +515,7 @@ jobs:
              fi
           done < "html.txt"
           sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> ${{ github.event.inputs.file2compile }}.html
-          echo " "
-          echo " "
-          echo " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-          htmldoc --links --left 0.4in --right 0.3in --top 0.2in --bottom 0.3in --continuous -f --compression 5 ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}.html
+          htmldoc --links --left 0.4in --right 0.3in --top 0.2in --bottom 0.3in --continuous -f --compression=5 ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}.html
         continue-on-error: true
         
       - name: Upload PDF file
