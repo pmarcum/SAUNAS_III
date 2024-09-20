@@ -495,7 +495,7 @@ jobs:
           echo "<hr><br>" >> ${{ github.event.inputs.file2compile }}.html
           echo " "
           echo " ------------------- JOB ID ----------------------- "
-          echo $GITHUB_JOB_ID
+          echo  ${{ steps.job-id.outputs.job-id }}
           # Go through the html.txt file and make the errors red to stand out
           touch red.txt
           red=false
