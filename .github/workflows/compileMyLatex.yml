@@ -517,13 +517,13 @@ jobs:
           else
             # finalize the compilation output file by putting a few sentences at the top
             link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job-id }}"
-            echo -e "\n$( cat ${ github.event.inputs.file2compile }_out.txt )" > ${ github.event.inputs.file2compile }_out.txt
-            echo -e "full output url: $link2job\n$( cat ${ github.event.inputs.file2compile }_out.txt )" > ${ github.event.inputs.file2compile }_out.txt
+            rm -f tmp.txt && echo -e "\n$( cat ${ github.event.inputs.file2compile }_out.txt )" > tmp.txt && mv -f tmp.txt ${ github.event.inputs.file2compile }_out.txt
+            rm -f tmp.txt && echo -e "full output url: $link2job\n$( cat ${ github.event.inputs.file2compile }_out.txt )" > tmp.txt && mv -f tmp.txt ${ github.event.inputs.file2compile }_out.txt
             mssg="To view full GitHub Actions output, click on item at top of list here:"
-            echo -e "$mssg\n$( cat ${ github.event.inputs.file2compile }_out.txt )" > ${ github.event.inputs.file2compile }_out.txt
-            echo -e "\n$( cat ${ github.event.inputs.file2compile }_out.txt )" > ${ github.event.inputs.file2compile }_out.txt
-            echo -e "LATEX COMPILATION WARNINGS\n$( cat ${ github.event.inputs.file2compile }_out.txt )" > ${ github.event.inputs.file2compile }_out.txt
-            echo -e "${{ env.TIMESTAMP }}\n$( cat ${ github.event.inputs.file2compile }_out.txt )" > ${ github.event.inputs.file2compile }_out.txt
+            rm -f tmp.txt && echo -e "$mssg\n$( cat ${ github.event.inputs.file2compile }_out.txt )" > tmp.txt && mv -f tmp.txt ${ github.event.inputs.file2compile }_out.txt
+            rm -f tmp.txt && echo -e "\n$( cat ${ github.event.inputs.file2compile }_out.txt )" > tmp.txt && mv -f tmp.txt ${ github.event.inputs.file2compile }_out.txt
+            rm -f tmp.txt && echo -e "LATEX COMPILATION WARNINGS\n$( cat ${ github.event.inputs.file2compile }_out.txt )" > tmp.txt && mv -f tmp.txt ${ github.event.inputs.file2compile }_out.txt
+            rm -f tmp.txt && echo -e "${{ env.TIMESTAMP }}\n$( cat ${ github.event.inputs.file2compile }_out.txt )" > tmp.txt && mv -f tmp.txt ${ github.event.inputs.file2compile }_out.txt
           fi
         continue-on-error: true
 
@@ -541,23 +541,6 @@ jobs:
         with:
           file_pattern: '${{ github.event.inputs.file2compile }}.pdf'
           commit_message: 'Newly compiled PDF'
-        continue-on-error: true
-
-      - name: Upload html output file
-        uses: actions/upload-artifact@v4
-        if: ${{ always() && hashFiles(env.OUTFILE) }}
-        with: 
-          name: compileHtmlOutput
-          path: "${{ github.event.inputs.file2compile }}.html"
-        continue-on-error: true
-        
-      - name: Publish compilation output to repo
-        id: releaseHtmlOutfile
-        uses: stefanzweifel/git-auto-commit-action@v5
-        if: ${{ always() && hashFiles(env.OUTFILE) }}
-        with:
-          file_pattern: '${{ github.event.inputs.file2compile }}.html'
-          commit_message: 'Newly created compilation html output file'
         continue-on-error: true
 
       - name: Upload compilation output file
