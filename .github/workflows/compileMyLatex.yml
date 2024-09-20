@@ -481,7 +481,7 @@ jobs:
           
       - name: Convert errors to PDF file
         run: |
-          if test -f 'thereAreErrors.txt'; then
+          if [[ test -f 'thereAreErrors.txt' ]]; then
              # determine if there were no errors, meaning that errors.txt is empty file. If so, place the word none under the
              # banner of this section in output file. But if there were errors, then remove the pdf file so that the pdf file
              # that gets shown in gooTeX is the compilation errors rather than a mangled pdf.
