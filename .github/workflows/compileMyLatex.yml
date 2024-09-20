@@ -264,8 +264,13 @@ jobs:
           # ##################################################################################################
           #                        now process the list of warnings/errors just gathered
           # ##################################################################################################
+          echo "STARTBLUEFATALLATEX COMPILATION ERROR(s)ENDBLUEBREAKBREAK" > tout.txt
+          echo "STARTITALICSTo view full GitHub Actions output, click on item at top of list here:ENDITALICSBREAK" >> tout.txt
+          link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job-id }}"
+          echo "STARTBLUESTARTITALICS$link2jobENDITALICSENDBLUEBREAK" >> tout.txt
+          echo "MAKELINEBREAK" >> tout.txt
           # ==================================== put in a timestamp at the top of file to become final version of log output
-          echo "${{ env.TIMESTAMP }}" > tout.txt
+          echo "${{ env.TIMESTAMP }}" >> tout.txt
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              FATAL ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
@@ -475,45 +480,55 @@ jobs:
         id: job-id
           
       - name: Convert errors to PDF file
-        if: ${{ always() && hashFiles('thereAreErrors.txt') }}
         run: |
-          # determine if there were no errors, meaning that errors.txt is empty file. If so, place the word none under the
-          # banner of this section in output file. But if there were errors, then remove the pdf file so that the pdf file
-          # that gets shown in gooTeX is the compilation errors rather than a mangled pdf.
-          # install htmldoc, which apparently is not an inherent command in Ubuntu
-          sudo apt-get install htmldoc -y
-          # create a .html file from the out.txt file, then convert the html to pdf
-          rm -f html.txt
-          # make sure that long lines are split if they exceed 20 words
-          fold -sw 90 ${{ github.event.inputs.file2compile }}_out.txt > html.txt
-          echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > ${{ github.event.inputs.file2compile }}.html
-          echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> ${{ github.event.inputs.file2compile }}.html
-          link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job-id }}"
-          #echo "<a href=$link2job><i>$link2job</i></a><br>" >> ${{ github.event.inputs.file2compile }}.html
-          echo "<span style='color:blue;'><i>$link2job</i></span><br>" >> ${{ github.event.inputs.file2compile }}.html
-          echo "<hr><br>" >> ${{ github.event.inputs.file2compile }}.html
-          # Go through the html.txt file and make the errors red to stand out
-          touch red.txt
-          red=false
-          while IFS= read -r line; do
-             start='^line #[0-9]+'
-             end='^=-----'
-             if [[ $line =~ $start ]]; then
-                red=true
-             elif [[ $line =~ $end ]]; then
-                red=false
-             fi
-             thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
-             if $red; then
-                echo "<span style='color:red;'>$thisline</span>" >> red.txt
-                echo "<span style='color:red;'>$thisline</span>"
-             else
-                echo "$thisline" >> red.txt
-                echo "$thisline"
-             fi
-          done < "html.txt"
-          sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> ${{ github.event.inputs.file2compile }}.html
-          htmldoc --links --left 0.4in --right 0.3in --top 0.2in --bottom 0.3in --continuous -f ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}.html
+          if [[ hashFiles('thereAreErrors.txt') ]]; then
+             # determine if there were no errors, meaning that errors.txt is empty file. If so, place the word none under the
+             # banner of this section in output file. But if there were errors, then remove the pdf file so that the pdf file
+             # that gets shown in gooTeX is the compilation errors rather than a mangled pdf.
+             # install htmldoc, which apparently is not an inherent command in Ubuntu
+             sudo apt-get install htmldoc -y
+             # create a .html file from the out.txt file, then convert the html to pdf
+             rm -f html.txt
+             # make sure that long lines are split if they exceed 20 words
+             fold -sw 90 ${{ github.event.inputs.file2compile }}_out.txt > html.txt   
+             # Go through the html.txt file and make the errors red to stand out
+             touch red.txt
+             red=false
+             while IFS= read -r line; do
+                start='^line #[0-9]+'
+                end='^=-----'
+                if [[ $line =~ $start ]]; then
+                   red=true
+                elif [[ $line =~ $end ]]; then
+                   red=false
+                fi
+                thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
+                thisline="$( echo "$thisline" | sed -r 's/FATAL/FATAL /g' )"
+                thisline="$( echo "$thisline" | sed -r "s/STARTBLUE/<span style='color:blue;'>/g" | sed -r 's/ENDBLUE/</span>/g' )"
+                thisline="${ echo "$thisline" | sed -r 's/STARTITALICS/<i>/g' | sed -r 's/ENDITALICS/</i>/g' )"
+                thisline="${ echo "$thisline" | sed -r 's/MAKELINE/<hr>/g' )"
+                thisline="${ echo "$thisline" | sed -r 's/BREAK/<br>/g' )"
+                if $red; then
+                   echo "<span style='color:red;'>$thisline</span>" >> red.txt
+                   echo "<span style='color:red;'>$thisline</span>"
+                else
+                   echo "$thisline" >> red.txt
+                   echo "$thisline"
+                fi
+             done < "html.txt"
+             sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> ${{ github.event.inputs.file2compile }}.html
+             htmldoc --links --left 0.4in --right 0.3in --top 0.2in --bottom 0.3in --continuous -f ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}.html
+          else
+             touch finalout.txt
+             while IFS= read -r line; do
+                thisline="$( echo "$line" | sed -r "s/STARTBLUE//g" | sed -r 's/ENDBLUE//g' )"
+                thisline="$( echo "$thisline" | sed -r 's/FATAL//g' )"
+                thisline="${ echo "$thisline" | sed -r 's/STARTITALICS//g' | sed -r 's/ENDITALICS//g' )"
+                thisline="${ echo "$thisline" | sed -r 's/MAKELINE/\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-/g' )"
+                thisline="${ echo "$thisline" | sed -r 's/BREAK//g' )"
+             done < ${{ github.event.inputs.file2compile }}_out.txt
+             mv -f finalout.txt ${{ github.event.inputs.file2compile }}_out.txt
+          fi            
         continue-on-error: true
         
       - name: Upload PDF file
