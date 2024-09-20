@@ -516,14 +516,20 @@ jobs:
             htmldoc --links --left 0.4in --right 0.3in --top 0.2in --bottom 0.3in --continuous -f ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}.html
           else
             # finalize the compilation output file by putting a few sentences at the top
-            link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job-id }}"
-            rm -f tmp.txt && echo -e "\n$( cat ${ github.event.inputs.file2compile }_out.txt )" > tmp.txt && mv -f tmp.txt ${ github.event.inputs.file2compile }_out.txt
-            rm -f tmp.txt && echo -e "full output url: $link2job\n$( cat ${ github.event.inputs.file2compile }_out.txt )" > tmp.txt && mv -f tmp.txt ${ github.event.inputs.file2compile }_out.txt
-            mssg="To view full GitHub Actions output, click on item at top of list here:"
-            rm -f tmp.txt && echo -e "$mssg\n$( cat ${ github.event.inputs.file2compile }_out.txt )" > tmp.txt && mv -f tmp.txt ${ github.event.inputs.file2compile }_out.txt
-            rm -f tmp.txt && echo -e "\n$( cat ${ github.event.inputs.file2compile }_out.txt )" > tmp.txt && mv -f tmp.txt ${ github.event.inputs.file2compile }_out.txt
-            rm -f tmp.txt && echo -e "LATEX COMPILATION WARNINGS\n$( cat ${ github.event.inputs.file2compile }_out.txt )" > tmp.txt && mv -f tmp.txt ${ github.event.inputs.file2compile }_out.txt
-            rm -f tmp.txt && echo -e "${{ env.TIMESTAMP }}\n$( cat ${ github.event.inputs.file2compile }_out.txt )" > tmp.txt && mv -f tmp.txt ${ github.event.inputs.file2compile }_out.txt
+            link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job-id }}"  
+            touch fin.txt
+            echo "${{ env.TIMESTAMP }}" >> fin.txt
+            echo "LATEX COMPILATION WARNINGS" >> fin.txt
+            echo "" >> fin.txt
+            echo "To view full GitHub Actions output, click on item at top of list here:" >> fin.txt
+            echo "full output url: $link2job" >> fin.txt
+            echo "====================================================================================================" >> fin.txt
+            echo "" >> fin.txt
+            while IFS= read -r line; do
+               thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
+               echo "$thisline" >> fin.txt
+            done < "${{ github.event.inputs.file2compile }}_out.txt"
+            mv -f fin.txt "${{ github.event.inputs.file2compile }}_out.txt"            
           fi
         continue-on-error: true
 
