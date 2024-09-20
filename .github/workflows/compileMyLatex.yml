@@ -524,7 +524,7 @@ jobs:
                 thisline="$( echo "$line" | sed -r "s/STARTBLUE//g" | sed -r 's/ENDBLUE//g' )"
                 thisline="$( echo "$thisline" | sed -r 's/FATAL//g' )"
                 thisline="${ echo "$thisline" | sed -r 's/STARTITALICS//g' | sed -r 's/ENDITALICS//g' )"
-                thisline="${ echo "$thisline" | sed -r 's/MAKELINE/==================================================================================/' )"
+                #thisline="${ echo "$thisline" | sed -r 's/MAKELINE/==================================================================================/' )"
                 thisline="${ echo "$thisline" | sed -r 's/BREAK//g' )"
                 echo "$thisline" >> finalout.txt
              done < ${{ github.event.inputs.file2compile }}_out.txt
