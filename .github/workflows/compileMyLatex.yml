@@ -520,15 +520,15 @@ jobs:
              htmldoc --links --left 0.4in --right 0.3in --top 0.2in --bottom 0.3in --continuous -f ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}.html
           else
              touch finalout.txt
-             while IFS= read -r line; do
-                thisline="$( echo "$line" | sed -r "s/STARTBLUE//g" | sed -r 's/ENDBLUE//g' )"
-                thisline="$( echo "$thisline" | sed -r 's/FATAL//g' )"
-                thisline="${ echo "$thisline" | sed -r 's/STARTITALICS//g' | sed -r 's/ENDITALICS//g' )"
-                #thisline="${ echo "$thisline" | sed -r 's/MAKELINE/==================================================================================/' )"
-                thisline="${ echo "$thisline" | sed -r 's/BREAK//g' )"
-                echo "$thisline" >> finalout.txt
-             done < ${{ github.event.inputs.file2compile }}_out.txt
-             mv -f finalout.txt ${{ github.event.inputs.file2compile }}_out.txt
+             #while IFS= read -r line; do
+             #   thisline="$( echo "$line" | sed -r "s/STARTBLUE//g" | sed -r 's/ENDBLUE//g' )"
+             #   thisline="$( echo "$thisline" | sed -r 's/FATAL//g' )"
+             #   thisline="${ echo "$thisline" | sed -r 's/STARTITALICS//g' | sed -r 's/ENDITALICS//g' )"
+             #   #thisline="${ echo "$thisline" | sed -r 's/MAKELINE/==================================================================================/' )"
+             #   thisline="${ echo "$thisline" | sed -r 's/BREAK//g' )"
+             #   echo "$thisline" >> finalout.txt
+             #done < ${{ github.event.inputs.file2compile }}_out.txt
+             #mv -f finalout.txt ${{ github.event.inputs.file2compile }}_out.txt
           fi            
         continue-on-error: true
         
