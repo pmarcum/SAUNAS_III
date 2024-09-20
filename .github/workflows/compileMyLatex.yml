@@ -519,12 +519,11 @@ jobs:
             link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job-id }}"  
             touch fin.txt
             echo "${{ env.TIMESTAMP }}" >> fin.txt
-            echo "LATEX COMPILATION WARNINGS" >> fin.txt
+            echo "LATEX COMPILATION ERRORS and WARNINGS" >> fin.txt
             echo "" >> fin.txt
             echo "To view full GitHub Actions output, click on item at top of list here:" >> fin.txt
             echo "full output url: $link2job" >> fin.txt
             echo "====================================================================================================" >> fin.txt
-            echo "" >> fin.txt
             while IFS= read -r line; do
                thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
                echo "$thisline" >> fin.txt
