@@ -469,7 +469,14 @@ jobs:
         with:
           file_pattern:  pruned.bib
           commit_message: 'Pruned bib file'
-           
+
+      - name: Get the job ID
+        uses: austenstone/job-id@v1
+        id: job-id
+      - run: echo $GITHUB_JOB_ID
+        env:
+          GITHUB_JOB_ID: ${{ steps.job-id.outputs.job-id }}
+          
       - name: Convert errors to PDF file
         if: ${{ always() && hashFiles('thereAreErrors.txt') }}
         run: |
@@ -486,6 +493,10 @@ jobs:
           echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> ${{ github.event.inputs.file2compile }}.html
           echo "<i>https://github.com/${{ github.repository }}/actions</i><br>" >> ${{ github.event.inputs.file2compile }}.html
           echo "<hr><br>" >> ${{ github.event.inputs.file2compile }}.html
+          echo " "
+          echo " ------------------- JOB ID ----------------------- "
+          echo "$GITHUB_JOB_ID"
+          
           # Go through the html.txt file and make the errors red to stand out
           touch red.txt
           red=false
