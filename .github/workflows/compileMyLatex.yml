@@ -473,9 +473,6 @@ jobs:
       - name: Get the job ID
         uses: austenstone/job-id@v1
         id: job-id
-      - run: echo $GITHUB_JOB_ID
-        env:
-          GITHUB_JOB_ID: ${{ steps.job-id.outputs.job-id }}
           
       - name: Convert errors to PDF file
         if: ${{ always() && hashFiles('thereAreErrors.txt') }}
@@ -491,7 +488,8 @@ jobs:
           fold -sw 90 ${{ github.event.inputs.file2compile }}_out.txt > html.txt
           echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > ${{ github.event.inputs.file2compile }}.html
           echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> ${{ github.event.inputs.file2compile }}.html
-          echo "<i>${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job-id }}</i><br>" >> ${{ github.event.inputs.file2compile }}.html
+          link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job-id }}"
+          echo "<a href=$link2job><i>$link2job</i></a><br>" >> ${{ github.event.inputs.file2compile }}.html
           echo "<hr><br>" >> ${{ github.event.inputs.file2compile }}.html
           echo " "
           echo " ------------------- JOB ID ----------------------- "
