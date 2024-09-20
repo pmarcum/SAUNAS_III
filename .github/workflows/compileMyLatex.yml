@@ -481,7 +481,7 @@ jobs:
           
       - name: Convert errors to PDF file
         run: |
-          if [[ hashFiles('thereAreErrors.txt') ]]; then
+          if test -f 'thereAreErrors.txt'; then
              # determine if there were no errors, meaning that errors.txt is empty file. If so, place the word none under the
              # banner of this section in output file. But if there were errors, then remove the pdf file so that the pdf file
              # that gets shown in gooTeX is the compilation errors rather than a mangled pdf.
@@ -524,8 +524,9 @@ jobs:
                 thisline="$( echo "$line" | sed -r "s/STARTBLUE//g" | sed -r 's/ENDBLUE//g' )"
                 thisline="$( echo "$thisline" | sed -r 's/FATAL//g' )"
                 thisline="${ echo "$thisline" | sed -r 's/STARTITALICS//g' | sed -r 's/ENDITALICS//g' )"
-                thisline="${ echo "$thisline" | sed -r 's/MAKELINE/\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-/g' )"
+                thisline="${ echo "$thisline" | sed -r 's/MAKELINE/___________________________________________________________________________/' )"
                 thisline="${ echo "$thisline" | sed -r 's/BREAK//g' )"
+                echo "$thisline" >> finalout.txt
              done < ${{ github.event.inputs.file2compile }}_out.txt
              mv -f finalout.txt ${{ github.event.inputs.file2compile }}_out.txt
           fi            
