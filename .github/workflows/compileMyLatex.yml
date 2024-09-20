@@ -265,8 +265,7 @@ jobs:
           #                        now process the list of warnings/errors just gathered
           # ##################################################################################################
           # ==================================== put in a timestamp at the top of file to become final version of log output
-          echo "${{ env.TIMESTAMP }}" > tout.txt
-          echo "" >> tout.txt
+          echo "" > tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              FATAL ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -492,6 +491,7 @@ jobs:
             link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job-id }}"
             echo "<span style='color:blue;'><i>$link2job</i></span><br>" >> ${{ github.event.inputs.file2compile }}.html
             echo "<hr><br>" >> ${{ github.event.inputs.file2compile }}.html
+            echo "${{ env.TIMESTAMP }}" >> ${{ github.event.inputs.file2compile }}.html
             # Go through the html.txt file and make the errors red to stand out
             touch red.txt
             red=false
@@ -514,6 +514,17 @@ jobs:
             done < "html.txt"
             sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> ${{ github.event.inputs.file2compile }}.html
             htmldoc --links --left 0.4in --right 0.3in --top 0.2in --bottom 0.3in --continuous -f ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}.html
+          else
+            # finalize the compilation output file by putting a few sentences at the top
+            link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job-id }}"
+            dashline="================================================================================================================="
+            echo -e "$dashline\n$( cat ${ github.event.inputs.file2compile }_out.txt )" > ${ github.event.inputs.file2compile }_out.txt
+            echo -e "full output url: $link2job$( cat ${ github.event.inputs.file2compile }_out.txt )" > ${ github.event.inputs.file2compile }_out.txt
+            mssg="To view full GitHub Actions output, click on item at top of list here:"
+            echo -e "mssg$( cat ${ github.event.inputs.file2compile }_out.txt )" > ${ github.event.inputs.file2compile }_out.txt
+            echo -e "$( cat ${ github.event.inputs.file2compile }_out.txt )" > ${ github.event.inputs.file2compile }_out.txt
+            echo -e "LATEX COMPILATION WARNINGS$( cat ${ github.event.inputs.file2compile }_out.txt )" > ${ github.event.inputs.file2compile }_out.txt
+            echo -e "${{ env.TIMESTAMP }}$( cat ${ github.event.inputs.file2compile }_out.txt )" > ${ github.event.inputs.file2compile }_out.txt
           fi
         continue-on-error: true
 
