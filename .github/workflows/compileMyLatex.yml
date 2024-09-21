@@ -521,7 +521,7 @@ jobs:
             echo "LATEX COMPILATION ERRORS and WARNINGS" >> fin.txt
             echo "" >> fin.txt
             echo "To view full GitHub Actions output, click on item at top of list here:" >> fin.txt
-            echo "full output url: $link2job" >> fin.txt
+            echo "$link2job" >> fin.txt
             echo "====================================================================================================" >> fin.txt
             while IFS= read -r line; do
                thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
