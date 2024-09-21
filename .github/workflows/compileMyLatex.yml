@@ -474,7 +474,6 @@ jobs:
         id: job-id
           
       - name: Convert errors to PDF file
-        #if: ${{ always() && hashFiles('thereAreErrors.txt') }}
         run: |
           if [ -f thereAreErrors.txt ]; then
             # determine if there were no errors, meaning that errors.txt is empty file. If so, place the word none under the
