@@ -198,7 +198,7 @@ jobs:
           echo "-----------------------------------------------------"
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
           echo "-----------------------------------------------------"
-          #cat ${{ github.event.inputs.file2compile }}_full.log
+          cat ${{ github.event.inputs.file2compile }}_full.log
           echo "---------------------------------------------------------------------------------------------------------------------"
           # ===================================================================================================================
           # ====================================  Set up an array that will hold all the errors and warnings listed in the _full.log
@@ -560,6 +560,6 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         if: ${{ always() && hashFiles(env.OUTFILE) }}
         with:
-          file_pattern: '${{ github.event.inputs.file2compile }}_*.*'
+          file_pattern: '${{ github.event.inputs.file2compile }}_out.txt'
           commit_message: 'Newly created compilation output file'
         continue-on-error: true
