@@ -40,6 +40,29 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
 
+      - name: Get the job ID
+        uses: austenstone/job-id@v1
+        id: job-id
+
+      - name: Post the job run weblink right now
+        run: |
+           link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job-id }}"
+           echo "JOBLINK=$link2job" >> $GITHUB_ENV
+           rm -f joblink.txt
+           echo env.JOBLINK >> joblink.txt
+        
+      - name: Upload link2job file
+        uses: actions/upload-artifact@v4
+        with: 
+          name: uploadJobLink
+          path: "joblink.txt"
+        
+      - name: Publish link2job link to repo
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          file_pattern: 'joblink.txt'
+          commit_message: 'Newly created link-to-job file'
+
       - name: setup python
         uses: actions/setup-python@v5
         with:
@@ -468,10 +491,6 @@ jobs:
         with:
           file_pattern:  pruned.bib
           commit_message: 'Pruned bib file'
-
-      - name: Get the job ID
-        uses: austenstone/job-id@v1
-        id: job-id
           
       - name: Convert errors to PDF file
         run: |
@@ -485,12 +504,11 @@ jobs:
             rm -f html.txt
             # make sure that long lines are split if they exceed 20 words
             fold -sw 90 ${{ github.event.inputs.file2compile }}_out.txt > html.txt
-            echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > ${{ github.event.inputs.file2compile }}.html
-            echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> ${{ github.event.inputs.file2compile }}.html
-            link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job-id }}"
-            echo "<span style='color:blue;'><i>$link2job</i></span><br>" >> ${{ github.event.inputs.file2compile }}.html
-            echo "<hr><br>" >> ${{ github.event.inputs.file2compile }}.html
-            echo "${{ env.TIMESTAMP }}" >> ${{ github.event.inputs.file2compile }}.html
+            echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
+            echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> finHtml.html
+            echo "<span style='color:blue;'><i>${{ JOBLINK }}</i></span><br>" >> finHtml.html
+            echo "<hr><br>" >> finHtml.html
+            echo "${{ env.TIMESTAMP }}" >> finHtml.html
             # Go through the html.txt file and make the errors red to stand out
             touch red.txt
             red=false
@@ -511,24 +529,22 @@ jobs:
                   echo "$thisline"
                fi
             done < "html.txt"
-            sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> ${{ github.event.inputs.file2compile }}.html
-            htmldoc --links --left 0.4in --right 0.3in --top 0.2in --bottom 0.3in --continuous -f ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}.html
-          else
-            # finalize the compilation output file by putting a few sentences at the top
-            link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job-id }}"  
-            touch fin.txt
-            echo "${{ env.TIMESTAMP }}" >> fin.txt
-            echo "LATEX COMPILATION ERRORS and WARNINGS" >> fin.txt
-            echo "" >> fin.txt
-            echo "To view full GitHub Actions output, click on item at top of list here:" >> fin.txt
-            echo "$link2job" >> fin.txt
-            echo "====================================================================================================" >> fin.txt
-            while IFS= read -r line; do
-               thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
-               echo "$thisline" >> fin.txt
-            done < "${{ github.event.inputs.file2compile }}_out.txt"
-            mv -f fin.txt "${{ github.event.inputs.file2compile }}_out.txt"            
+            sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
+            htmldoc --links --left 0.4in --right 0.3in --top 0.2in --bottom 0.3in --continuous -f ${{ github.event.inputs.file2compile }}.pdf finHtml.html
           fi
+          # finalize the compilation output file by putting a few sentences at the top
+          touch fin.txt
+          echo "${{ env.TIMESTAMP }}" >> fin.txt
+          echo "LATEX COMPILATION ERRORS and WARNINGS" >> fin.txt
+          echo "" >> fin.txt
+          echo "To view full GitHub Actions output, click on item at top of list here:" >> fin.txt
+          echo "${{ env.JOBLINK }}" >> fin.txt
+          echo "====================================================================================================" >> fin.txt
+          while IFS= read -r line; do
+             thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
+             echo "$thisline" >> fin.txt
+          done < "${{ github.event.inputs.file2compile }}_out.txt"
+          mv -f fin.txt "${{ github.event.inputs.file2compile }}_out.txt"            
         continue-on-error: true
 
       - name: Upload PDF file
