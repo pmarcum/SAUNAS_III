@@ -135,13 +135,8 @@ jobs:
           touch texfile.tmp
           texfileExists=0
           # get list of all .tex files referenced in the main .tex file (e.g., if there are included files)
-          echo " "
-          echo " "
-          ls CORE-AAS
-          echo " "
-          echo " "
           texlist=()
-          readarray -t texlist < <( grep -E -- "\{[*}.tex\}" ${{ github.event.inputs.file2compile }}.tex )
+          readarray -t texlist < <( grep -E -- "\{[^}]*.tex\}" ${{ github.event.inputs.file2compile }}.tex )
           texlist+=(${{ github.event.inputs.file2compile }}.tex)
           for (( i=0; i<${#texlist[@]}; i++ )); do 
              cat $texlist[$i] >> texfile.tmp
@@ -151,7 +146,7 @@ jobs:
           touch bibfile.tmp
           bibfileExists=0
           biblist=()
-          readarray -t biblist < <( grep -E -- "\{[*}.bib\}" ${{ github.event.inputs.file2compile }}.tex )
+          readarray -t biblist < <( grep -E -- "\{[^}]*.bib\}" ${{ github.event.inputs.file2compile }}.tex )
           for (( i=0; i<${#biblist[@]}; i++ )); do
              if [[ ! $biblist[#i] =~ "pruned" ]]; then cat $biblist[$i] >> bibfile.tmp; bibfileExists=1; fi
           done
