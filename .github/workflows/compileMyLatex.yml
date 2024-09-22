@@ -138,6 +138,7 @@ jobs:
           texlist=()
           readarray -t texlist < <( grep -E -- "\{[^}]*.tex\}" ${{ github.event.inputs.file2compile }}.tex )
           texlist+=(${{ github.event.inputs.file2compile }}.tex)
+          printf '%s\n' "{$texlist[@]}"
           for (( i=0; i<${#texlist[@]}; i++ )); do 
              cat $texlist[$i] >> texfile.tmp
              texfileExists=1
