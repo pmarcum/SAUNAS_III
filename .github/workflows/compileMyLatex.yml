@@ -281,8 +281,8 @@ jobs:
           echo "$sortedEnv"
           echo " +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           echo " " 
-          echo "sortedWarningsErrors=$sortedEnv" >> $GITHUB_ENV
-          echo "test=aaa|bbbb|ccccc|dddd|eeeee" >> $GITHUB_ENV
+          echo "SORTED=$sortedEnv" >> $GITHUB_ENV
+          echo "TEST=aaa|bbbb|ccccc|dddd|eeeee" >> $GITHUB_ENV
         continue-on-error: true
 
       # ##################################################################################################
@@ -290,10 +290,10 @@ jobs:
       # ##################################################################################################      
       - name: Gather up fatal errors
         run: |
-          echo ${{ env.text }}
+          echo ${{ env.TEST }}
           # retrieve the master list of warnings and errors from the environment variable & convert string back into an array
-          echo "====> ${{ env.sortedWarningErrors }}"
-          sortedEnv = ${{ env.sortedWarningErrors }}
+          echo "====> ${{ env.SORTED }}"
+          sortedEnv = ${{ env.SORTED }}
           sorted=()
           delimiter="|"
           while [[ $sortedEnv ]]; do
