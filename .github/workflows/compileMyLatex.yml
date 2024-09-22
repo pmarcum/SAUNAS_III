@@ -137,9 +137,15 @@ jobs:
           # get list of all .tex files referenced in the main .tex file (e.g., if there are included files)
           texlist=()
           readarray -t texlist < <( grep -E -- "\{[^}]*.tex\}" ${{ github.event.inputs.file2compile }}.tex )
-          texlist+=(${{ github.event.inputs.file2compile }}.tex)
+          texlist+=("${{ github.event.inputs.file2compile }}.tex")
+          echo " = = = = = = = = = = = = = = = = = = = "
           printf '%s\n' "${texlist[@]}"
-          for (( i=0; i<${#texlist[@]}; i++ )); do cat $texlist[$i] >> texfile.tmp; done
+          echo " = = = = = = = = = = = = = = = = = = ="
+          for (( i=0; i<${#texlist[@]}; i++ )); do cat "$texlist[$i]" >> texfile.tmp; done
+          echo " "
+          echo " - - - - - - - - - - - - - - - - - -"
+          cat "${{ github.event.inputs.file2compile }}.tex"
+          echo " - - - - - - - - - - - - - - - - --"
           cat ${{ github.event.inputs.file2compile }}.tex >> texfile.tmp
           # ============> combining all .bib files in repo into a single temporary file
           touch bibfile.tmp
