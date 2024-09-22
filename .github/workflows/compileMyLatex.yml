@@ -125,7 +125,6 @@ jobs:
           for (( i=0; i<${#texlist[@]}; i++ )); do
              texlist[$i]="$( echo "${texlist[$i]}" | sed -r 's/\{([^}]*.tex)\}/S\|\1\|E/' | sed -r 's/^.*S\|//' | sed -r 's/\|E.*$//' )"
              cat "${texlist[$i]}" >> texfile.tmp
-             echo "${texlist[$i]}"
           done
           # ============> combining all .bib files in repo into a single temporary file
           touch bibfile.tmp
@@ -140,12 +139,12 @@ jobs:
           if [[ "$texfileExists" == 1 ]]; then
              # converting all natbib commands into simple cite commands in the .tex temporary file
              # remove all the square bracket stuff between the \cite and the {references}
-             sed -E -i 's/\[[^]]*\]//g' texfile.tmp
-             sed -E -i 's/\\cite([^{]*)\{/\\cite\{/ig' texfile.tmp
-             # converting all plus signs into _plus_
-             sed -E -i 's/\+/_plus_/ig' texfile.tmp
-             # converting all periods into _period_
-             sed -E -i 's/\./_period_/ig' texfile.tmp
+             sed -E -i 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\+/_plus_/ig;s/\./_period_/ig' texfile.tmp
+             #sed -E -i 's/\\cite([^{]*)\{/\\cite\{/ig' texfile.tmp
+             ## converting all plus signs into _plus_
+             #sed -E -i 's/\+/_plus_/ig' texfile.tmp
+             ## converting all periods into _period_
+             #sed -E -i 's/\./_period_/ig' texfile.tmp
           fi
           if [[ "$bibfileExists" == 1 ]]; then
              # sorting the entries and removing redundancies in the .bib temporary file
