@@ -44,61 +44,75 @@ jobs:
         uses: austenstone/job-id@v1
         id: job-id
 
-      - name: Post the job run weblink right now
+      - name: Post the joblink START file
         run: |
-           link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job-id }}"
-           echo "JOBLINK=$link2job" >> $GITHUB_ENV
-           rm -f joblink.txt
-           echo env.JOBLINK >> joblink.txt
+          rm -f joblinkSTART.txt
+          rm -f joblinkFIN.txt
+          touch joblinkSTART.txt
+          echo "$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> joblinkSTART.txt
+          echo "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job-id }}" >> joblinkSTART.txt
+        continue-on-error: true
         
-      - name: Upload link2job file
+      - name: Upload link2job START file
         uses: actions/upload-artifact@v4
         with: 
           name: uploadJobLink
-          path: "joblink.txt"
+          path: "joblinkSTART.txt"
         
-      - name: Publish link2job link to repo
+      - name: Publish link2job START link to repo
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          file_pattern: 'joblink.txt'
+          file_pattern: 'joblinkSTART.txt'
           commit_message: 'Newly created link-to-job file'
-
+    
       - name: setup python
         uses: actions/setup-python@v5
         with:
-           python-version: '3.9' #install the python needed
-            
+          python-version: '3.9' #install the python needed
+           
       - name: Get list of all .tex files in repo
         id: texlist
         uses: Rishabh510/Path-lister-action@master
         with:
-           path: "./"
-           type: ".tex"
+          path: "./"
+          type: ".tex"
 
       - name: Get list of all .bib files
         id: biblist
         uses: Rishabh510/Path-lister-action@master
         with:
-           path: "./"
-           type: ".bib"
+          path: "./"
+          type: ".bib"
 
-      - name: Remove old status note and pdf file
-        id: removeOldStatusAndPdf
+      - name: Initialize the folder and define environmental variables
         run: |
           rm -f "${{ github.event.inputs.file2compile }}_*.txt"
           rm -f "${{ github.event.inputs.file2compile }}.pdf"
           rm -f pruned.bib
-        continue-on-error: true
-
-      - name: Commit the modified folder and put the change
-        run: |
           git config --global user.email "email@gmail.com"
           git config --global user.name "github actions"
           git add .
           git commit -m "Removing previous status and pdf files"
           git push
+          link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job-id }}"
+          echo "JOBLINK=$link2job" >> $GITHUB_ENV
+          echo "OUTFILE=${{ github.event.inputs.file2compile }}_out.txt" >> $GITHUB_ENV
+          echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
+          echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
         continue-on-error: true
         
+      - name: Upload link2job START file
+        uses: actions/upload-artifact@v4
+        with: 
+          name: uploadJobLink
+          path: "joblinkSTART.txt"
+        
+      - name: Publish link2job START link to repo
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          file_pattern: 'joblinkSTART.txt'
+          commit_message: 'Newly created link-to-job file'
+    
       # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
       # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
       # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
@@ -111,21 +125,14 @@ jobs:
             collection-bibtexextra
             collection-fontutils
           cache: true
+        continue-on-error: true
             
       - name: Compile paper
         id: compilation
         run: |
           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode ${{ github.event.inputs.file2compile }}.tex
         continue-on-error: true
-
-      - name: Get timestamp
-        id: date
-        run: |
-          echo "OUTFILE=${{ github.event.inputs.file2compile }}_out.txt" >> $GITHUB_ENV
-          echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
-          echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
-        continue-on-error: true
-
+        
       - name: Prune the bib file
         id: pruneBib
         run: |
@@ -198,13 +205,12 @@ jobs:
           fi
         continue-on-error: true
 
-      - name: Capture compilation output
-        id: compileWarnings
+      - name: Capture full compilation output
         # remove lines in the output that are unrelated to the latex compilation itself
-        # First, move lines that should have been the ending of the previous line, to the end of that previous line
         run: |
           # ===================================================================================================================
           # ========================  make sure that all lines related to a sentence are all smooshed together into single line
+          # First, move lines that should have been the ending of the previous line, to the end of that previous line
           sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log > new.log
           # ===================================================================================================================
           # ======================== make a new line character after each period
@@ -223,28 +229,28 @@ jobs:
           echo "-----------------------------------------------------"
           cat ${{ github.event.inputs.file2compile }}_full.log
           echo "---------------------------------------------------------------------------------------------------------------------"
+        continue-on-error: true
+
+      - name: Create error and warning array
+        # remove lines in the output that are unrelated to the latex compilation itself
+        run: |
+          # ===================================================================================================================          
           # ===================================================================================================================
           # ====================================  Set up an array that will hold all the errors and warnings listed in the _full.log
           warnErrArr=()
           # ====================================
           # ============= get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render. 
           readarray -t res < <( grep -F -- "LaTeX Error" ${{ github.event.inputs.file2compile }}_full.log )
-          for (( i=0; i<${#res[@]}; i++ )); do
-             warnErrArr[${#warnErrArr[@]}]="${res[$i]}"
-          done
+          for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           # ====================================
           # ============= now get the warnings, but note that some of the warnings are actually errors (like figure files that are mispelled) and need to 
           # be consolidated with the associated line in the error section here
           readarray -t res < <( grep -F -- "LaTeX Warning" ${{ github.event.inputs.file2compile }}_full.log )
-          for (( i=0; i<${#res[@]}; i++ )); do
-             warnErrArr[${#warnErrArr[@]}]="${res[$i]}"
-          done
+          for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           # ====================================
           # ============= take a look at the bib tex errors
           readarray -t res < <( grep -F -- "Package natbib Warning: Citation" ${{ github.event.inputs.file2compile }}_full.log )
-          for (( i=0; i<${#res[@]}; i++ )); do
-             warnErrArr[${#warnErrArr[@]}]="${res[$i]}"
-          done
+          for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           # ====================================
           # ===================== Now add the relevant line number to front of each error/warning line that specifies a line number
           for (( i=0; i<${#warnErrArr[@]}; i++ )); do
@@ -284,16 +290,26 @@ jobs:
           # ====================================
           # ============== sort and remove redundances in the error/warning list
           sorted=($( printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s ))
-          # ##################################################################################################
-          #                        now process the list of warnings/errors just gathered
-          # ##################################################################################################
+          # turn into a single-lined string and store as an environment variable: 
+          sortedEnv="[$(echo $sorted | sed 's/ /, /g')]"
+          echo "sortedEnv:  $sortedEnv"
+          echo "sortedWarningsErrors=$sortedEnv" >> $GITHUB_ENV
+        continue-on-error: true
+
+      # ##################################################################################################
+      #                        now process the list of warnings/errors just gathered
+      # ##################################################################################################      
+      - name: Gather up fatal errors
+        run: |
+          # retrieve the master list of warnings and errors from the environment variable & convert string back into an array
+          IFS=' ' read -r -a sorted <<< "${{ env.sortedWarningErrors }}"
           # ==================================== put in a timestamp at the top of file to become final version of log output
           echo "" > tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              FATAL ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           error=""
-          thereAreErrors=false
+          rm -f thereAreErrors.txt
           for (( i=0; i<${#sorted[@]}; i++ )); do
             line="${sorted[$i]}"
             if [[ "$line" =~ "-ERROR-" ]]; then
@@ -305,7 +321,7 @@ jobs:
           if [[ "$error" = "" ]]; then
             echo "      none" >> tout.txt
           else
-            thereAreErrors=true
+            touch thereAreErrors.txt
           fi
           while  [ "$error" != "" ]; do
             linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$error" )
@@ -344,6 +360,14 @@ jobs:
             done
             echo "=------------------------------------------------------------------------" >> tout.txt
           done
+          echo "sortedEnv:  $sortedEnv"
+          echo "sortedWarningsErrors=$sortedEnv" >> $GITHUB_ENV
+        continue-on-error: true
+          
+      - name: Gather up warnings
+        run: |
+          # retrieve the master list of warnings and errors from the environment variable & convert string back into an array
+          IFS=' ' read -r -a sorted <<< "${{ env.sortedWarningErrors }}"
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
@@ -397,6 +421,14 @@ jobs:
             done
             echo "-------------------------------------------------------------------------" >> tout.txt
           done
+          echo "sortedEnv:  $sortedEnv"
+          echo "sortedWarningsErrors=$sortedEnv" >> $GITHUB_ENV
+        continue-on-error: true
+          
+      - name: Gather up citation problems
+        run: |
+          # retrieve the master list of warnings and errors from the environment variable & convert string back into an array
+          IFS=' ' read -r -a sorted <<< "${{ env.sortedWarningErrors }}"         
           echo " " >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
@@ -451,6 +483,10 @@ jobs:
             echo "-------------------------------------------------------------------------" >> tout.txt
           done
           echo "-------------------------------------------------------------------------" >> tout.txt 
+        continue-on-error: true
+          
+      - name: Gather up list of references
+        run: |     
           # https://stackoverflow.com/questions/57788813/grep-return-0-if-no-match
           # squash.io/extracting=numbers-from-strings-in-bash
           # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
@@ -461,22 +497,13 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           # create an array of just the bibcodes
           readarray -t res < <( grep -E -- "@" pruned.bib )
-          if [[ ${#res[@]} = 0 ]]; then
-             echo "Number of citations: ${#res[@]}" >> tout.txt
-          fi
+          if [[ ${#res[@]} = 0 ]]; then echo "Number of citations: ${#res[@]}" >> tout.txt; fi
           for (( i=0; i<${#res[@]}; i++ )); do
              line="$( echo "${res[$i]}" | sed -r 's/^[^{]*\{//' | sed -r 's/\,//' )"
-             echo "$line"
              echo "$line" >> tout.txt
           done
-          if [[ ${#res[@]} = 0 ]]; then
-             echo "        None"
-          fi
-          cat tout.txt
+          if [[ ${#res[@]} = 0 ]]; then echo "        None"; fi
           mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
-          if $thereAreErrors; then
-             touch thereAreErrors.txt
-          fi
         continue-on-error: true
         
       - name: Upload bib file
@@ -484,6 +511,7 @@ jobs:
         with: 
           name: Setting path of pruned bib file
           path: pruned.bib
+        continue-on-error: true
             
       - name: Publish pruned bib file to repo
         id: create_release
@@ -491,47 +519,51 @@ jobs:
         with:
           file_pattern:  pruned.bib
           commit_message: 'Pruned bib file'
+        continue-on-error: true
           
       - name: Convert errors to PDF file
+        if: ${{ always() && hashFiles(thereAreErrors.txt) }}
         run: |
-          if [ -f thereAreErrors.txt ]; then
-            # determine if there were no errors, meaning that errors.txt is empty file. If so, place the word none under the
-            # banner of this section in output file. But if there were errors, then remove the pdf file so that the pdf file
-            # that gets shown in gooTeX is the compilation errors rather than a mangled pdf.
-            # install htmldoc, which apparently is not an inherent command in Ubuntu
-            sudo apt-get install htmldoc -y
-            # create a .html file from the out.txt file, then convert the html to pdf
-            rm -f html.txt
-            # make sure that long lines are split if they exceed 20 words
-            fold -sw 90 ${{ github.event.inputs.file2compile }}_out.txt > html.txt
-            echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
-            echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> finHtml.html
-            echo "<span style='color:blue;'><i>${{ JOBLINK }}</i></span><br>" >> finHtml.html
-            echo "<hr><br>" >> finHtml.html
-            echo "${{ env.TIMESTAMP }}" >> finHtml.html
-            # Go through the html.txt file and make the errors red to stand out
-            touch red.txt
-            red=false
-            while IFS= read -r line; do
-               start='^line #[0-9]+'
-               end='^=-----'
-               if [[ $line =~ $start ]]; then
-                  red=true
-               elif [[ $line =~ $end ]]; then
-                  red=false
-               fi
-               thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
-               if $red; then
-                  echo "<span style='color:red;'>$thisline</span>" >> red.txt
-                  echo "<span style='color:red;'>$thisline</span>"
-               else
-                  echo "$thisline" >> red.txt
-                  echo "$thisline"
-               fi
-            done < "html.txt"
-            sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
-            htmldoc --links --left 0.4in --right 0.3in --top 0.2in --bottom 0.3in --continuous -f ${{ github.event.inputs.file2compile }}.pdf finHtml.html
-          fi
+          # determine if there were no errors, meaning that errors.txt is empty file. If so, place the word none under the
+          # banner of this section in output file. But if there were errors, then remove the pdf file so that the pdf file
+          # that gets shown in gooTeX is the compilation errors rather than a mangled pdf.
+          # install htmldoc, which apparently is not an inherent command in Ubuntu
+          sudo apt-get install htmldoc -y
+          # create a .html file from the out.txt file, then convert the html to pdf
+          rm -f html.txt
+          # make sure that long lines are split if they exceed 20 words
+          fold -sw 90 ${{ github.event.inputs.file2compile }}_out.txt > html.txt
+          echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
+          echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> finHtml.html
+          echo "<span style='color:blue;'><i>${{ JOBLINK }}</i></span><br>" >> finHtml.html
+          echo "<hr><br>" >> finHtml.html
+          echo "${{ env.TIMESTAMP }}" >> finHtml.html
+          # Go through the html.txt file and make the errors red to stand out
+          touch red.txt
+          red=false
+          while IFS= read -r line; do
+             start='^line #[0-9]+'
+             end='^=-----'
+             if [[ $line =~ $start ]]; then
+                red=true
+             elif [[ $line =~ $end ]]; then
+                red=false
+             fi
+             thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
+             if $red; then
+                echo "<span style='color:red;'>$thisline</span>" >> red.txt
+                echo "<span style='color:red;'>$thisline</span>"
+             else
+                echo "$thisline" >> red.txt
+                echo "$thisline"
+             fi
+          done < "html.txt"
+          sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
+          htmldoc --links --left 0.4in --right 0.3in --top 0.2in --bottom 0.3in --continuous -f ${{ github.event.inputs.file2compile }}.pdf finHtml.html
+        continue-on-error: true
+
+      - name: Finalize compilation warning and errors output
+        run: |
           # finalize the compilation output file by putting a few sentences at the top
           touch fin.txt
           echo "${{ env.TIMESTAMP }}" >> fin.txt
@@ -544,7 +576,15 @@ jobs:
              thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
              echo "$thisline" >> fin.txt
           done < "${{ github.event.inputs.file2compile }}_out.txt"
-          mv -f fin.txt "${{ github.event.inputs.file2compile }}_out.txt"            
+          mv -f fin.txt "${{ github.event.inputs.file2compile }}_out.txt"      
+        continue-on-error: true
+        
+      - name: Post final status file
+        run: |
+          touch joblinkFIN.txt
+          echo env.TIMESTAMP >> joblinkFIN.txt
+          echo env.JOBLINK >> joblinkFIN.txt
+          echo env.PDFLINK >> joblinkFIN.txt          
         continue-on-error: true
 
       - name: Upload PDF file
@@ -578,4 +618,18 @@ jobs:
         with:
           file_pattern: '${{ github.event.inputs.file2compile }}_out.txt'
           commit_message: 'Newly created compilation output file'
+        continue-on-error: true
+     
+      - name: Upload link2job FINAL file
+        uses: actions/upload-artifact@v4
+        with: 
+          name: uploadFINJobLink
+          path: "joblinkFIN.txt"
+        continue-on-error: true
+        
+      - name: Publish link2job FINAL link to repo
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          file_pattern: 'joblinkFIN.txt'
+          commit_message: 'Newly created link-to-job FINAL file'
         continue-on-error: true
