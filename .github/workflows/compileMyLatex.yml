@@ -140,6 +140,10 @@ jobs:
           texlist+=("${{ github.event.inputs.file2compile }}.tex")
           echo " = = = = = = = = = = = = = = = = = = = "
           printf '%s\n' "${texlist[@]}"
+          ls *.tex
+          ls *.bib
+          tail main.tex
+          cat main.tex
           echo " = = = = = = = = = = = = = = = = = = ="
           for (( i=0; i<${#texlist[@]}; i++ )); do cat "$texlist[$i]" >> texfile.tmp; done
           echo " "
