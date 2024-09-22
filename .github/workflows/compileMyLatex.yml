@@ -72,20 +72,6 @@ jobs:
         with:
           python-version: '3.9' #install the python needed
            
-      #- name: Get list of all .tex files in repo
-      #  id: texlist
-      #  uses: Rishabh510/Path-lister-action@master
-      #  with:
-      #    path: "./"
-      #    type: ".tex"
-
-      #- name: Get list of all .bib files
-      #  id: biblist
-      #  uses: Rishabh510/Path-lister-action@master
-      #  with:
-      #    path: "./"
-      #    type: ".bib"
-
       - name: Initialize the folder and define environmental variables
         run: |
           rm -f "${{ github.event.inputs.file2compile }}_*.txt"
@@ -141,6 +127,7 @@ jobs:
           for (( i=0; i<${#texlist[@]}; i++ )); do
              texlist[$i]="$( echo "${texlist[$i]}" | sed -r 's/\{([^}]*.tex)\}/S\|\1\|E/' | sed -r 's/^.*S\|//' | sed -r 's/\|E.*$//' )"
              cat "${texlist[$i]}" >> texfile.tmp
+             echo "${texlist[$i]}"
           done
           # ============> combining all .bib files in repo into a single temporary file
           touch bibfile.tmp
