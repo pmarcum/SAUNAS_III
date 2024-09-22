@@ -136,18 +136,6 @@ jobs:
              if [[ ! "${biblist[$i]}" =~ "pruned" ]]; then cat "${biblist[$i]}" >> bibfile.tmp; bibfileExists=1; fi
           done
           # ===========> change all natbib cite commands to plain cite command
-          #
-          #
-          #
-          #     news flash -- I don't think you need to call the bib_cleaner.  You are almost at the point after doing the
-          #     below that you could just straightaway figure out the bib items that are called out in the tex files.  maybe
-          #     start from scratch and just conduct grep commands on the tex files to pull out the citations, then 
-          #     search for each citation in the .bib files that are also called out in the main .tex file. without having to 
-          #     do all this nonsense with gluing all .tex files and all .bib files together
-          #
-          #
-          #
-          #
           if [[ "$texfileExists" == 1 ]]; then
              # converting all natbib commands into simple cite commands in the .tex temporary file
              # remove all the square bracket stuff between the \cite and the {references}
@@ -218,32 +206,13 @@ jobs:
           # ============= get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render. 
           readarray -t res < <( grep -F -- "LaTeX Error" ${{ github.event.inputs.file2compile }}_full.log )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
-          printf '%s\n' "${warnErrArr[@]}"
-          echo " "
-          echo " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-          echo " "
           # ============= now get the warnings, but note that some of the warnings are actually errors (like figure files that are mispelled) and need to 
           # be consolidated with the associated line in the error section here
           readarray -t res < <( grep -F -- "LaTeX Warning" ${{ github.event.inputs.file2compile }}_full.log )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
-          printf '%s\n' "${warnErrArr[@]}"
-          #echo " "
-          #echo " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-          #echo " " 
-          ## ============= now get problems that are not labeled as warnings or errors but have an associated line number
-          #readarray -r res < <( grep -E -- "^\./${{ github.event.inputs.file2compile }}.tex:[0-9][0-9]*:" ${{ github.event.inputs.file2compile }}_full.log )
-          #for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
-          #printf '%s\n' "${warnErrArr[@]}"
-          echo " "
-          echo " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-          echo " " 
           # ============= take a look at the bib tex errors
           readarray -t res < <( grep -F -- "Package natbib Warning: Citation" ${{ github.event.inputs.file2compile }}_full.log )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
-          printf '%s\n' "${warnErrArr[@]}"
-          echo " "
-          echo " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-          echo " " 
           # ===================== Now add the relevant line number to front of each error/warning line that specifies a line number
           for (( i=0; i<${#warnErrArr[@]}; i++ )); do
              line="${warnErrArr[$i]}"
