@@ -455,8 +455,6 @@ jobs:
           # determine if there were no errors, meaning that errors.txt is empty file. If so, place the word none under the
           # banner of this section in output file. But if there were errors, then remove the pdf file so that the pdf file
           # that gets shown in gooTeX is the compilation errors rather than a mangled pdf.
-          # install htmldoc, which apparently is not an inherent command in Ubuntu
-          #sudo apt-get install htmldoc -y
           # create a .html file from the out.txt file, then convert the html to pdf
           rm -f html.txt
           # make sure that long lines are split if they exceed 20 words
@@ -483,7 +481,6 @@ jobs:
              fi
           done < "html.txt"
           sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
-          #htmldoc --links --left 0.4in --right 0.3in --top 0.2in --bottom 0.3in --continuous -f ${{ github.event.inputs.file2compile }}.pdf finHtml.html
         continue-on-error: true
 
       - name: Make the error PDF file
@@ -493,6 +490,15 @@ jobs:
           htmlFile: finHtml.html
           outputFile: ${{ github.event.inputs.file2compile }}.pdf
           pdfOptions: '{"margin": {"top": "0.2in", "bottom": "0.3in", "left": "0.4in", "right": "0.3in" }}'
+        continue-on-error: true
+
+      #- name: Make PDF error file
+      #  if: ${{ always() && hashFiles('finHtml.html') }}
+      #  run: | 
+      #    install htmldoc, which apparently is not an inherent command in Ubuntu
+      #    sudo apt-get install htmldoc -y
+      #    htmldoc --links --left 0.4in --right 0.3in --top 0.2in --bottom 0.3in --continuous -f ${{ github.event.inputs.file2compile }}.pdf finHtml.html
+      #  continue-on-error: true
 
       - name: Finalize compilation warning and errors output
         run: |
