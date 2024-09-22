@@ -44,7 +44,7 @@ jobs:
         uses: austenstone/job-id@v1
         id: job-id
 
-      - name: Post the joblink START file
+      - name: Post the joblink file
         run: |
           rm -f joblink.txt
           touch joblink.txt
@@ -55,13 +55,13 @@ jobs:
           ${{ github.ref_name }}/blob/${{ github.event.pull_request.head.ref }}
         continue-on-error: true
         
-      - name: Upload link2job START file
+      - name: Upload link2job file
         uses: actions/upload-artifact@v4
         with: 
           name: uploadJobLink
           path: "joblink.txt"
         
-      - name: Publish link2job START link to repo
+      - name: Publish link2job link to repo
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           file_pattern: 'joblink.txt'
@@ -495,7 +495,7 @@ jobs:
       - name: Make PDF error file
         if: ${{ always() && hashFiles('finHtml.html') }}
         run: | 
-          install htmldoc, which apparently is not an inherent command in Ubuntu
+          # install htmldoc, which apparently is not an inherent command in Ubuntu
           sudo apt-get install htmldoc -y
           htmldoc --links --left 0.4in --right 0.3in --top 0.2in --bottom 0.3in --continuous -f ${{ github.event.inputs.file2compile }}.pdf finHtml.html
         continue-on-error: true
