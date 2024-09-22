@@ -112,9 +112,6 @@ jobs:
       - name: Prune the bib file
         id: pruneBib
         run: |
-          # Get all the .bib files identified in the compilation log
-          #bibfileList=()
-          #readarray -t bibfileList < <( grep -E -- "" ${{ github.event.inputs.file2compile }}.tex ) 
           # going to strip out all the used citations and make a pruned.bib file that can be used as the final 
           # bib file for submission purposes rather than having to use the whole master bib file.  based on the
           # stand-alone "pruneMyBibfile" github action file
@@ -197,24 +194,24 @@ jobs:
           # First, move lines that should have been the ending of the previous line, to the end of that previous line
           sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log > new.log
           # ======================== make a new line character after each period
-          rm -f ${{ github.event.inputs.file2compile }}.log
-          sed -E -i 's/^( *)\x0( *)\\\\/\1\2/g;s/(: *)\x0/\1/g;s/\x0\x0\x0*/\x0\n\x0/g' new.log
-          sed -E -i 's/\x0 *\\/\x0\n\\/g' new.log
-          sed -E -i 's/\. *\x0 *\) *\x0/\.\)\n\x0/g' new.log
-          sed -E -i 's/\. *\x0 *(\) *[\)]*) *\x0/\.\)\1\n\x0/g' new.log
-          sed -E -i 's/\. *\x0/\.\n/g' new.log
-          sed -E -i 's/^ *\x0//g' new.log
-          sed -E -i 's/\x0//g' new.log
-          sed -E -i 's/  */ /g' new.log
-          #rm -f tmp.txt && touch tmp.txt && sed -r 's/^( *)\x0( *)\\\\/\1\2/g' new.log >> tmp.txt && mv -f tmp.txt new.log
-          #touch tmp.txt && sed -r 's/\x0\x0\x0*/\x0\n\x0/g' new.log >> tmp.txt && mv -f tmp.txt new.log
-          #touch tmp.txt && sed -r 's/\x0 *\\/\x0\n\\/g' new.log >> tmp.txt && mv -f tmp.txt new.log
-          #touch tmp.txt && sed -r 's/\. *\x0 *\) *\x0/\.\)\n\x0/g' new.log >> tmp.txt && mv -f tmp.txt new.log
-          #touch tmp.txt && sed -r 's/\. *\x0 *(\) *[\)]*) *\x0/\.\)\1\n\x0/g' new.log >> tmp.txt && mv -f tmp.txt new.log
-          #touch tmp.txt && sed -r 's/\. *\x0/\.\n/g' new.log >> tmp.txt && mv -f tmp.txt new.log
-          #touch tmp.txt && sed -r 's/^ *\x0//g' new.log >> tmp.txt && mv -f tmp.txt new.log
-          #touch tmp.txt && sed -r 's/\x0//g' new.log >> tmp.txt && mv -f tmp.txt new.log
-          #touch tmp.txt && sed -r 's/  */ /g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          #rm -f ${{ github.event.inputs.file2compile }}.log
+          #sed -E -i 's/^( *)\x0( *)\\\\/\1\2/g;s/(: *)\x0/\1/g;s/\x0\x0\x0*/\x0\n\x0/g' new.log
+          #sed -E -i 's/\x0 *\\/\x0\n\\/g' new.log
+          #sed -E -i 's/\. *\x0 *\) *\x0/\.\)\n\x0/g' new.log
+          #sed -E -i 's/\. *\x0 *(\) *[\)]*) *\x0/\.\)\1\n\x0/g' new.log
+          #sed -E -i 's/\. *\x0/\.\n/g' new.log
+          #sed -E -i 's/^ *\x0//g' new.log
+          #sed -E -i 's/\x0//g' new.log
+          #sed -E -i 's/  */ /g' new.log
+          rm -f tmp.txt && touch tmp.txt && sed -r 's/^( *)\x0( *)\\\\/\1\2/g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          touch tmp.txt && sed -r 's/\x0\x0\x0*/\x0\n\x0/g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          touch tmp.txt && sed -r 's/\x0 *\\/\x0\n\\/g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          touch tmp.txt && sed -r 's/\. *\x0 *\) *\x0/\.\)\n\x0/g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          touch tmp.txt && sed -r 's/\. *\x0 *(\) *[\)]*) *\x0/\.\)\1\n\x0/g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          touch tmp.txt && sed -r 's/\. *\x0/\.\n/g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          touch tmp.txt && sed -r 's/^ *\x0//g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          touch tmp.txt && sed -r 's/\x0//g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          touch tmp.txt && sed -r 's/  */ /g' new.log >> tmp.txt && mv -f tmp.txt new.log
           mv -f new.log ${{ github.event.inputs.file2compile }}_full.log
           echo "-----------------------------------------------------"
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
@@ -436,11 +433,11 @@ jobs:
           
       - name: Gather up list of references
         run: |
-          bibfileList=()
-          readarray -t res < <( grep -F -- ".bib" ${{ github.event.inputs.file2compile }}_full.log )
-          for (( i=0; i<${#res[@]}; i++ )); do bibfileList[${#bibfileList[@]}]="${res[$i]}"; done
-          printf '%s\n' "${bibfileList[@]}"
-          echo "        THE ABOVE IS THE LIST OF BIBFILES USED IN THE .TEX FILE    "
+          #bibfileList=()
+          #readarray -t res < <( grep -F -- ".bib" ${{ github.event.inputs.file2compile }}_full.log )
+          #for (( i=0; i<${#res[@]}; i++ )); do bibfileList[${#bibfileList[@]}]="${res[$i]}"; done
+          #printf '%s\n' "${bibfileList[@]}"
+          #echo "        THE ABOVE IS THE LIST OF BIBFILES USED IN THE .TEX FILE    "
           # https://stackoverflow.com/questions/57788813/grep-return-0-if-no-match
           # squash.io/extracting=numbers-from-strings-in-bash
           # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
