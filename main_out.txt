@@ -1,16 +1,13 @@
-2024-09-22T02:47:33Z 1726973253252
+2024-09-22T02:51:32Z 1726973492631
 LATEX COMPILATION ERRORS and WARNINGS
 
 To view full GitHub Actions output, click on item at top of list here:
-https://github.com/pmarcum/SAUNAS_III/actions/runs/10977680857/job/30479898743
+https://github.com/pmarcum/SAUNAS_III/actions/runs/10977704979/job/30479954507
 ====================================================================================================
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               FATAL ERRORS IN main.tex
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-./main.tex:145: LaTeX Error: \begin{center} on input line 57 ended by \end{document}.
-Line #57 ----------------------- 
-\begin{center}
--------------------------------------------------------------------------
+      none
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               WARNINGS IN main.tex
