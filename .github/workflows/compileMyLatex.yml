@@ -144,7 +144,7 @@ jobs:
           done
           echo " "
           echo " - - - - - - - - - - - - - - - - - -"
-          cat "${texlist[@]}"
+          cat "${texlist[0]}"
           echo " - - - - - - - - - - - - - - - - --"
           echo " " 
           cat ${{ github.event.inputs.file2compile }}.tex >> texfile.tmp
