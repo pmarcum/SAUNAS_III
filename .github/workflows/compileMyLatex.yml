@@ -258,10 +258,15 @@ jobs:
           rm -f thereAreErrors.txt
           for (( i=0; i<${#sorted[@]}; i++ )); do
             line="${sorted[$i]}"
-            if [[ "$line" =~ "-ERROR-" ]]; then error="$line"; break; fi
+            if [[ "$line" =~ "-ERROR-" ]]; then error="$line"; touch thereAreErrors.txt; break; fi
           done
           # if there were no errors, then put 'none'
-          if [[ "$error" = "" ]]; then echo "      none" >> tout.txt; else touch thereAreErrors.txt; fi
+          if [ -f thereAreErrors.txt ]; then echo "      none" >> tout.txt; fi
+          echo " "
+          echo tout.txt
+          echo " "
+          echo " "
+          echo " "
           while  [ "$error" != "" ]; do
             linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$error" )
             if [[ $linenum > 0 ]]; then
