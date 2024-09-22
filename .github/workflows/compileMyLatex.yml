@@ -483,22 +483,22 @@ jobs:
           sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
         continue-on-error: true
 
-      - name: Make the error PDF file
-        if: ${{ always() && hashFiles('finHtml.html') }}
-        uses: fifsky/html-to-pdf-action@master
-        with:
-          htmlFile: finHtml.html
-          outputFile: ${{ github.event.inputs.file2compile }}.pdf
-          pdfOptions: '{"margin": {"top": "0.2in", "bottom": "0.3in", "left": "0.4in", "right": "0.3in" }}'
-        continue-on-error: true
-
-      #- name: Make PDF error file
+      #- name: Make the error PDF file
       #  if: ${{ always() && hashFiles('finHtml.html') }}
-      #  run: | 
-      #    install htmldoc, which apparently is not an inherent command in Ubuntu
-      #    sudo apt-get install htmldoc -y
-      #    htmldoc --links --left 0.4in --right 0.3in --top 0.2in --bottom 0.3in --continuous -f ${{ github.event.inputs.file2compile }}.pdf finHtml.html
+      #  uses: fifsky/html-to-pdf-action@master
+      #  with:
+      #    htmlFile: finHtml.html
+      #    outputFile: ${{ github.event.inputs.file2compile }}.pdf
+      #    pdfOptions: '{"margin": {"top": "0.2in", "bottom": "0.3in", "left": "0.4in", "right": "0.3in" }}'
       #  continue-on-error: true
+
+      - name: Make PDF error file
+        if: ${{ always() && hashFiles('finHtml.html') }}
+        run: | 
+          install htmldoc, which apparently is not an inherent command in Ubuntu
+          sudo apt-get install htmldoc -y
+          htmldoc --links --left 0.4in --right 0.3in --top 0.2in --bottom 0.3in --continuous -f ${{ github.event.inputs.file2compile }}.pdf finHtml.html
+        continue-on-error: true
 
       - name: Finalize compilation warning and errors output
         run: |
