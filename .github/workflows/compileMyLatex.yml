@@ -192,10 +192,10 @@ jobs:
           touch tmp.txt && sed -r 's/\x0//g' new.log >> tmp.txt && mv -f tmp.txt new.log
           touch tmp.txt && sed -r 's/  */ /g' new.log >> tmp.txt && mv -f tmp.txt new.log
           mv -f new.log ${{ github.event.inputs.file2compile }}_full.log
-          #echo "-----------------------------------------------------"
-          #echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
-          #echo "-----------------------------------------------------"
-          #cat ${{ github.event.inputs.file2compile }}_full.log
+          echo "-----------------------------------------------------"
+          echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
+          echo "-----------------------------------------------------"
+          cat ${{ github.event.inputs.file2compile }}_full.log
         continue-on-error: true
 
       - name: Process the errors and warnings
