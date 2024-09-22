@@ -140,13 +140,14 @@ jobs:
           texlist+=("${{ github.event.inputs.file2compile }}.tex")
           for (( i=0; i<${#texlist[@]}; i++ )); do
              item="$( echo "$texlist[$i]" | sed -r 's/\{([^}]*.tex)\}/\1/g' )"
-             #cat '$item' >> texfile.tmp
+             cat "$item"
+             #cat "$item" >> texfile.tmp
           done
-          echo " "
-          echo " - - - - - - - - - - - - - - - - - -"
-          cat "${texlist[0]}"
-          echo " - - - - - - - - - - - - - - - - --"
-          echo " " 
+          #echo " "
+          #echo " - - - - - - - - - - - - - - - - - -"
+          #cat "${texlist[0]}"
+          #echo " - - - - - - - - - - - - - - - - --"
+          #echo " " 
           cat ${{ github.event.inputs.file2compile }}.tex >> texfile.tmp
           # ============> combining all .bib files in repo into a single temporary file
           touch bibfile.tmp
