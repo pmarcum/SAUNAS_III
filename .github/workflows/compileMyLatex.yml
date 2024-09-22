@@ -212,11 +212,11 @@ jobs:
           touch tmp.txt && sed -r 's/\x0//g' new.log >> tmp.txt && mv -f tmp.txt new.log
           touch tmp.txt && sed -r 's/  */ /g' new.log >> tmp.txt && mv -f tmp.txt new.log
           mv -f new.log ${{ github.event.inputs.file2compile }}_full.log
-          echo "-----------------------------------------------------"
-          echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
-          echo "-----------------------------------------------------"
+          #echo "-----------------------------------------------------"
+          #echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
+          #echo "-----------------------------------------------------"
           #cat ${{ github.event.inputs.file2compile }}_full.log
-          echo "---------------------------------------------------------------------------------------------------------------------"
+          #echo "---------------------------------------------------------------------------------------------------------------------"
         continue-on-error: true
 
       - name: Create error and warning array
@@ -271,6 +271,10 @@ jobs:
           done
           # ============== sort and remove redundances in the error/warning list
           sorted=($( printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s ))
+          echo ""
+          printf '%s\n' "${sorted[@]}"
+          echo ""
+          echo ""
           # turn into a single-lined string and store as an environment variable: 
           sortedEnv="[$(echo $sorted | sed 's/ /, /g')]"
           echo " "
@@ -545,9 +549,9 @@ jobs:
       - name: Post final status file
         run: |
           touch joblinkFIN.txt
-          echo env.TIMESTAMP >> joblinkFIN.txt
-          echo env.JOBLINK >> joblinkFIN.txt
-          echo env.PDFLINK >> joblinkFIN.txt          
+          echo ${{ env.TIMESTAMP }} >> joblinkFIN.txt
+          echo ${{ env.JOBLINK }} >> joblinkFIN.txt
+          echo ${{ env.PDFLINK }} >> joblinkFIN.txt          
         continue-on-error: true
 
       - name: Upload PDF file
