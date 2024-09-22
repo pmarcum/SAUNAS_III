@@ -141,9 +141,6 @@ jobs:
              # remove all the square bracket stuff between the \cite and the {references}
              # convert all plus signs into _plus_, converting all periods into _period_
              sed -E -i 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\+/_plus_/ig;s/\./_period_/ig' texfile.tmp
-             #sed -E -i 's/\\cite([^{]*)\{/\\cite\{/ig' texfile.tmp
-             #sed -E -i 's/\+/_plus_/ig' texfile.tmp
-             #sed -E -i 's/\./_period_/ig' texfile.tmp
           fi
           if [[ "$bibfileExists" == 1 ]]; then
              # sorting the entries and removing redundancies in the .bib temporary file
@@ -155,25 +152,14 @@ jobs:
              #   s/\x0/\n/g splits out each field within an entry into its own line
              #   s/\## //g removes the placeholder ## following the @ARTICLE, etc to restore to original format
              rm -f tmp.tmp
-             #sed ':a;N;$!ba;s/\n/\x0/g' bibfile.tmp | \
-             #   sed -r 's/(@[a-zA-Z]+\{) *\x0+ */\1/g' | \
-             #   sed -r 's/@([a-zA-Z]+)\{([^\,]+)\,\x0/@\1\{\2\,\x0 orig = {\1}\,\x0/g' | \
-             #   sed -r 's/@[a-zA-Z]+/@ARTICLE## /g' | \
-             #   sed -r 's/\} *\x0\@/\}\n\n\@/g' | \
-             #   sort -k2 | \
-             #   uniq -i | \
-             #   sed 's/\x0/\n/g' | \
-             #   sed 's/\## //g' > tmp.tmp
+             # converting all plus signs into _plus_; converting all periods into _period_
              sed ':a;N;$!ba;s/\n/\x0/g' bibfile.tmp | \
                 sed -r 's/(@[a-zA-Z]+\{) *\x0+ */\1/g;s/@([a-zA-Z]+)\{([^\,]+)\,\x0/@\1\{\2\,\x0 orig = {\1}\,\x0/g;s/@[a-zA-Z]+/@ARTICLE## /g;s/\} *\x0\@/\}\n\n\@/g' | \
                 sort -k2 | \
                 uniq -i | \
                 sed 's/\x0/\n/g;s/\## //g' > tmp.tmp
              mv -f tmp.tmp bibfile.tmp
-             # converting all plus signs into _plus_
              sed -E -i 's/\+/_plus_/ig;s/\./_period_/ig' bibfile.tmp
-             ## converting all periods into _period_
-             #sed -E -i 's/\./_period_/ig' bibfile.tmp
           fi
           touch pruned.bib
           if ([ "$bibfileExists" == 1 ] && [ "$texfileExists" == 1 ]); then
@@ -181,10 +167,8 @@ jobs:
              pip install bib_cleaner
              # now starting the bib_cleaner command
              bib_cleaner bibfile.tmp --texfiles texfile.tmp --outputbib pruned.tmp 
-             # now replacing _plus_ with plus signs
+             # now replacing _plus_ with plus signs; replacing _period_ with periods
              sed -E -i 's/_plus_/\+/ig;s/_period_/\./ig' pruned.tmp
-             ## now replacing _period_ with periods
-             #sed -E -i 's/_period_/\./ig' pruned.tmp
              # now replacing @ARTICLE with original category and removing temporary orig field
              sed ':a;N;$!ba;s/\n/\x0/g' pruned.tmp | \
                sed -r 's/@(ARTICLE)\{([^\,]+)\,\x0 orig = \{([a-zA-Z]+)\}\,\x0/@\3\{\2\,\x0/g;s/\} *\x0\@/\}\n\n\@/g;s/\x0/\n/g' > pruned.bib
