@@ -215,31 +215,25 @@ jobs:
           echo "-----------------------------------------------------"
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
           echo "-----------------------------------------------------"
-          cat ${{ github.event.inputs.file2compile }}_full.log
+          #cat ${{ github.event.inputs.file2compile }}_full.log
           echo "---------------------------------------------------------------------------------------------------------------------"
         continue-on-error: true
 
       - name: Create error and warning array
         # remove lines in the output that are unrelated to the latex compilation itself
         run: |
-          # ===================================================================================================================          
-          # ===================================================================================================================
           # ====================================  Set up an array that will hold all the errors and warnings listed in the _full.log
           warnErrArr=()
-          # ====================================
           # ============= get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render. 
           readarray -t res < <( grep -F -- "LaTeX Error" ${{ github.event.inputs.file2compile }}_full.log )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
-          # ====================================
           # ============= now get the warnings, but note that some of the warnings are actually errors (like figure files that are mispelled) and need to 
           # be consolidated with the associated line in the error section here
           readarray -t res < <( grep -F -- "LaTeX Warning" ${{ github.event.inputs.file2compile }}_full.log )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
-          # ====================================
           # ============= take a look at the bib tex errors
           readarray -t res < <( grep -F -- "Package natbib Warning: Citation" ${{ github.event.inputs.file2compile }}_full.log )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
-          # ====================================
           # ===================== Now add the relevant line number to front of each error/warning line that specifies a line number
           for (( i=0; i<${#warnErrArr[@]}; i++ )); do
              line="${warnErrArr[$i]}"
@@ -275,12 +269,16 @@ jobs:
              fi
              warnErrArr[$i]="$tmp"
           done
-          # ====================================
           # ============== sort and remove redundances in the error/warning list
           sorted=($( printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s ))
           # turn into a single-lined string and store as an environment variable: 
           sortedEnv="[$(echo $sorted | sed 's/ /, /g')]"
-          echo "sortedEnv:  $sortedEnv"
+          echo " "
+          echo " +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          echo "sortedEnv"
+          echo "$sortedEnv"
+          echo " +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          echo " " 
           echo "sortedWarningsErrors=$sortedEnv" >> $GITHUB_ENV
         continue-on-error: true
 
@@ -291,6 +289,11 @@ jobs:
         run: |
           # retrieve the master list of warnings and errors from the environment variable & convert string back into an array
           IFS=' ' read -r -a sorted <<< "${{ env.sortedWarningErrors }}"
+          echo " "
+          echo "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
+          printf '%s\n' "${sorted[@]}"
+          echo "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
+          echo " "
           # ==================================== put in a timestamp at the top of file to become final version of log output
           echo "" > tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
@@ -300,17 +303,10 @@ jobs:
           rm -f thereAreErrors.txt
           for (( i=0; i<${#sorted[@]}; i++ )); do
             line="${sorted[$i]}"
-            if [[ "$line" =~ "-ERROR-" ]]; then
-               error="$line"
-               break
-            fi
+            if [[ "$line" =~ "-ERROR-" ]]; then error="$line"; break; fi
           done
           # if there were no errors, then put 'none'
-          if [[ "$error" = "" ]]; then
-            echo "      none" >> tout.txt
-          else
-            touch thereAreErrors.txt
-          fi
+          if [[ "$error" = "" ]]; then echo "      none" >> tout.txt; else touch thereAreErrors.txt; fi
           while  [ "$error" != "" ]; do
             linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$error" )
             if [[ $linenum > 0 ]]; then
@@ -341,10 +337,7 @@ jobs:
             error=""
             for (( i=0; i<${#sorted[@]}; i++ )); do
                line="${sorted[$i]}"
-               if [[ "$line" =~ "-ERROR-" ]]; then
-                  error="$line"
-                  break
-               fi
+               if [[ "$line" =~ "-ERROR-" ]]; then error="$line"; break; fi
             done
             echo "=------------------------------------------------------------------------" >> tout.txt
           done
@@ -363,15 +356,10 @@ jobs:
           warning=""
           for (( i=0; i<${#sorted[@]}; i++ )); do
             line="${sorted[$i]}"
-            if [[ "$line" =~ "-WARNING-" ]]; then
-               warning="$line"
-               break
-            fi
+            if [[ "$line" =~ "-WARNING-" ]]; then warning="$line"; break; fi
           done
           # if there were no errors, then put 'none'
-          if [[ "$warning" = "" ]]; then
-            echo "      none" >> tout.txt
-          fi
+          if [[ "$warning" = "" ]]; then echo "      none" >> tout.txt; fi
           while  [ "$warning" != "" ]; do
             linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$warning" )
             if [[ $linenum > 0 ]]; then
@@ -402,10 +390,7 @@ jobs:
             warning=""
             for (( i=0; i<${#sorted[@]}; i++ )); do
                line="${sorted[$i]}"
-               if [[ "$line" =~ "-WARNING-" ]]; then
-                  warning="$line"
-                  break
-               fi
+               if [[ "$line" =~ "-WARNING-" ]]; then warning="$line"; break; fi
             done
             echo "-------------------------------------------------------------------------" >> tout.txt
           done
@@ -424,10 +409,7 @@ jobs:
           biberr=""
           for (( i=0; i<${#sorted[@]}; i++ )); do
             line="${sorted[$i]}"
-            if [[ "$line" =~ "-BIB-" ]]; then
-               biberr="$line"
-               break
-            fi
+            if [[ "$line" =~ "-BIB-" ]]; then  biberr="$line"; break; fi
           done
           # if there were no errors, then put 'none'
           if [[ "$biberr" = "" ]]; then
@@ -463,10 +445,7 @@ jobs:
             biberr=""
             for (( i=0; i<${#sorted[@]}; i++ )); do
                line="${sorted[$i]}"
-               if [[ "$line" =~ "-BIB-" ]]; then
-                  biberr="$line"
-                  break
-               fi
+               if [[ "$line" =~ "-BIB-" ]]; then biberr="$line"; break; fi
             done
             echo "-------------------------------------------------------------------------" >> tout.txt
           done
@@ -532,11 +511,7 @@ jobs:
           while IFS= read -r line; do
              start='^line #[0-9]+'
              end='^=-----'
-             if [[ $line =~ $start ]]; then
-                red=true
-             elif [[ $line =~ $end ]]; then
-                red=false
-             fi
+             if [[ $line =~ $start ]]; then red=true; elif [[ $line =~ $end ]]; then red=false; fi
              thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
              if $red; then
                 echo "<span style='color:red;'>$thisline</span>" >> red.txt
