@@ -271,12 +271,9 @@ jobs:
           done
           # ============== sort and remove redundances in the error/warning list
           sorted=($( printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s ))
-          echo ""
-          printf '%s\n' "${sorted[@]}"
-          echo ""
-          echo ""
+          sortedEnv=""
+          for (( i=0; i<${#sorted[@]}; i++ )); do sortedEnv+=" ${sorted[$i]}"; done
           # turn into a single-lined string and store as an environment variable: 
-          sortedEnv="[$(echo $sorted | sed 's/ /, /g')]"
           echo " "
           echo " +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           echo "sortedEnv"
@@ -292,6 +289,7 @@ jobs:
       - name: Gather up fatal errors
         run: |
           # retrieve the master list of warnings and errors from the environment variable & convert string back into an array
+          echo ${{ env.sortedWarningErrors }}
           IFS=' ' read -r -a sorted <<< "${{ env.sortedWarningErrors }}"
           echo " "
           echo "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
