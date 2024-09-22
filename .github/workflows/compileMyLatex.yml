@@ -72,19 +72,19 @@ jobs:
         with:
           python-version: '3.9' #install the python needed
            
-      - name: Get list of all .tex files in repo
-        id: texlist
-        uses: Rishabh510/Path-lister-action@master
-        with:
-          path: "./"
-          type: ".tex"
+      #- name: Get list of all .tex files in repo
+      #  id: texlist
+      #  uses: Rishabh510/Path-lister-action@master
+      #  with:
+      #    path: "./"
+      #    type: ".tex"
 
-      - name: Get list of all .bib files
-        id: biblist
-        uses: Rishabh510/Path-lister-action@master
-        with:
-          path: "./"
-          type: ".bib"
+      #- name: Get list of all .bib files
+      #  id: biblist
+      #  uses: Rishabh510/Path-lister-action@master
+      #  with:
+      #    path: "./"
+      #    type: ".bib"
 
       - name: Initialize the folder and define environmental variables
         run: |
@@ -134,14 +134,26 @@ jobs:
           # ============> combining all .tex files in repo in into a single temporary file
           touch texfile.tmp
           texfileExists=0
-          for path in ${{ steps.texlist.outputs.paths }}; do
-             cat $path >> texfile.tmp; texfileExists=1
+          # get list of all .tex files referenced in the main .tex file (e.g., if there are included files)
+          echo " "
+          echo " "
+          ls CORE-AAS
+          echo " "
+          echo " "
+          texlist=()
+          readarray -t texlist < <( grep -E -- "\{[*}.tex\}" ${{ github.event.inputs.file2compile }}.tex )
+          texlist+=(${{ github.event.inputs.file2compile }}.tex)
+          for (( i=0; i<${#texlist[@]}; i++ )); do 
+             cat $texlist[$i] >> texfile.tmp
+             texfileExists=1
           done
           # combining all .bib files in repo into a single temporary file
           touch bibfile.tmp
           bibfileExists=0
-          for path in ${{ steps.biblist.outputs.paths }}; do
-             if [[ ! $path =~ "pruned" ]]; then cat $path >> bibfile.tmp; bibfileExists=1; fi
+          biblist=()
+          readarray -t biblist < <( grep -E -- "\{[*}.bib\}" ${{ github.event.inputs.file2compile }}.tex )
+          for (( i=0; i<${#biblist[@]}; i++ )); do
+             if [[ ! $biblist[#i] =~ "pruned" ]]; then cat $biblist[$i] >> bibfile.tmp; bibfileExists=1; fi
           done
           # ===========> change all natbib cite commands to plain cite command
           if [[ "$texfileExists" == 1 ]]; then
