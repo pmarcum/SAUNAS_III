@@ -152,8 +152,11 @@ jobs:
           biblist=()
           readarray -t biblist < <( grep -E -- "\{[^}]*.bib\}" ${{ github.event.inputs.file2compile }}.tex )
           for (( i=0; i<${#biblist[@]}; i++ )); do
-             item="$( echo "${biblist[$i]}" | sed -r 's/\{([^}]*.bib)\}/\1/g' )"
-             if [[ ! $biblist[#i] =~ "pruned" ]]; then cat "$item" >> bibfile.tmp; bibfileExists=1; fi
+             echo "==========> ${biblist[$i]}"
+             biblist[$i]="$( echo "${biblist[$i]}" | sed -r 's/\{([^}]*.bib)\}/\1/g' )"
+             echo "= = = = == > ${biblist[$i]}"
+             cat "${biblist[$i]}"
+             if [[ ! "${biblist[$i]}" =~ "pruned" ]]; then cat "${biblist[$i]}" >> bibfile.tmp; bibfileExists=1; fi
           done
           # ===========> change all natbib cite commands to plain cite command
           if [[ "$texfileExists" == 1 ]]; then
