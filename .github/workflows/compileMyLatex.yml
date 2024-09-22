@@ -522,7 +522,7 @@ jobs:
         continue-on-error: true
           
       - name: Convert errors to PDF file
-        if: ${{ always() && hashFiles(thereAreErrors.txt) }}
+        if: ${{ always() && hashFiles('thereAreErrors.txt') }}
         run: |
           # determine if there were no errors, meaning that errors.txt is empty file. If so, place the word none under the
           # banner of this section in output file. But if there were errors, then remove the pdf file so that the pdf file
