@@ -139,15 +139,10 @@ jobs:
           readarray -t texlist < <( grep -E -- "\{[^}]*.tex\}" ${{ github.event.inputs.file2compile }}.tex )
           texlist+=("${{ github.event.inputs.file2compile }}.tex")
           for (( i=0; i<${#texlist[@]}; i++ )); do
-             item="$( echo "$texlist[$i]" | sed -r 's/\{([^}]*.tex)\}/\1/g' )"
+             item="$( echo "${texlist[$i]}" | sed -r 's/\{([^}]*.tex)\}/\1/g' )"
              cat "$item"
              #cat "$item" >> texfile.tmp
           done
-          #echo " "
-          #echo " - - - - - - - - - - - - - - - - - -"
-          #cat "${texlist[0]}"
-          #echo " - - - - - - - - - - - - - - - - --"
-          #echo " " 
           cat ${{ github.event.inputs.file2compile }}.tex >> texfile.tmp
           # ============> combining all .bib files in repo into a single temporary file
           touch bibfile.tmp
@@ -155,7 +150,8 @@ jobs:
           biblist=()
           readarray -t biblist < <( grep -E -- "\{[^}]*.bib\}" ${{ github.event.inputs.file2compile }}.tex )
           for (( i=0; i<${#biblist[@]}; i++ )); do
-             if [[ ! $biblist[#i] =~ "pruned" ]]; then cat $biblist[$i] >> bibfile.tmp; bibfileExists=1; fi
+             item="$( echo "${biblist[$i]}" | sed -r 's/\{([^}]*.bib)\}/\1/g' )"
+             if [[ ! $biblist[#i] =~ "pruned" ]]; then cat "$item" >> bibfile.tmp; bibfileExists=1; fi
           done
           # ===========> change all natbib cite commands to plain cite command
           if [[ "$texfileExists" == 1 ]]; then
