@@ -64,7 +64,7 @@ jobs:
         with:
           file_pattern: 'joblinkSTART.txt'
           commit_message: 'Newly created link-to-job file'
-    
+          
       - name: setup python
         uses: actions/setup-python@v5
         with:
@@ -100,18 +100,6 @@ jobs:
           echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
           echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
         continue-on-error: true
-        
-      - name: Upload link2job START file
-        uses: actions/upload-artifact@v4
-        with: 
-          name: uploadJobLink
-          path: "joblinkSTART.txt"
-        
-      - name: Publish link2job START link to repo
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          file_pattern: 'joblinkSTART.txt'
-          commit_message: 'Newly created link-to-job file'
     
       # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
       # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
