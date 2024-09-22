@@ -1,19 +1,42 @@
-2024-09-22T02:34:03Z 1726972443808
+2024-09-22T02:47:33Z 1726973253252
 LATEX COMPILATION ERRORS and WARNINGS
 
 To view full GitHub Actions output, click on item at top of list here:
-https://github.com/pmarcum/SAUNAS_III/actions/runs/10977599765/job/30479726201
+https://github.com/pmarcum/SAUNAS_III/actions/runs/10977680857/job/30479898743
 ====================================================================================================
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              FATAL ERRORS IN main.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+./main.tex:145: LaTeX Error: \begin{center} on input line 57 ended by \end{document}.
+Line #57 ----------------------- 
+\begin{center}
+-------------------------------------------------------------------------
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               WARNINGS IN main.tex
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-      none
+LaTeX Warning: You have requested document class `CORE-AAS/aastex631', but the document class provides `aastex631'.
+-------------------------------------------------------------------------
+LaTeX Warning: Command \@footnotemark has changed.
+-------------------------------------------------------------------------
+LaTeX Warning: There were undefined references.
+-------------------------------------------------------------------------
+LaTeX Warning: \include should only be used after \begin{document} on input line 32.
+Line #32 ----------------------- 
+\include{variables}
+-------------------------------------------------------------------------
+LaTeX Warning: Reference `fig' on page 1 undefined on input line 106.
+Line #106 ----------------------- 
+\ref{fig}
+-------------------------------------------------------------------------
  
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               CITATION ISSUES IN main.tex 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-      none
+Package natbib Warning: Citation `johnson2022' on page 1 undefined on input line 103.
+Line #103 ----------------------- 
+4th sentence \citep{johnson2022}
+-------------------------------------------------------------------------
 -------------------------------------------------------------------------
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
