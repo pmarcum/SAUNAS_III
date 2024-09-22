@@ -1,9 +1,40 @@
-2024-09-22T20:59:42Z 1727038782925
+2024-09-22T21:29:43Z 1727040583781
 LATEX COMPILATION ERRORS and WARNINGS
 
 To view full GitHub Actions output, click on item at top of list here:
-https://github.com/pmarcum/SAUNAS_III/actions/runs/10984337566/job/30494818468
+https://github.com/pmarcum/SAUNAS_III/actions/runs/10984542894/job/30495256748
 ====================================================================================================
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              FATAL ERRORS IN main.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      none
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              WARNINGS IN main.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+LaTeX Warning: You have requested document class `CORE-AAS/aastex631', but the document class provides `aastex631'.
+-------------------------------------------------------------------------
+LaTeX Warning: Command \@footnotemark has changed.
+-------------------------------------------------------------------------
+LaTeX Warning: There were undefined references.
+-------------------------------------------------------------------------
+LaTeX Warning: \include should only be used after \begin{document} on input line 32.
+Line #32 ----------------------- 
+\include{variables}
+-------------------------------------------------------------------------
+LaTeX Warning: Reference `fig' on page 4 undefined on input line 110.
+Line #110 ----------------------- 
+\ref{fig}
+-------------------------------------------------------------------------
+ 
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              CITATION ISSUES IN main.tex 
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Package natbib Warning: Citation `johnson2022' on page 4 undefined on input line 107.
+Line #107 ----------------------- 
+4th sentence \citep{johnson2022}
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               LIST OF REFERENCES IN main.tex
