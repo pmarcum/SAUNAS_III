@@ -1,8 +1,8 @@
-2024-09-22T00:49:01Z 1726966141329
+2024-09-22T00:59:15Z 1726966755796
 LATEX COMPILATION ERRORS and WARNINGS
 
 To view full GitHub Actions output, click on item at top of list here:
-https://github.com/pmarcum/SAUNAS_III/actions/runs/10976937579/job/30478307690
+https://github.com/pmarcum/SAUNAS_III/actions/runs/10977005873/job/30478463433
 ====================================================================================================
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
