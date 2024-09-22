@@ -535,7 +535,7 @@ jobs:
           fold -sw 90 ${{ github.event.inputs.file2compile }}_out.txt > html.txt
           echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
           echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> finHtml.html
-          echo "<span style='color:blue;'><i>${{ JOBLINK }}</i></span><br>" >> finHtml.html
+          echo "<span style='color:blue;'><i>${{ env.JOBLINK }}</i></span><br>" >> finHtml.html
           echo "<hr><br>" >> finHtml.html
           echo "${{ env.TIMESTAMP }}" >> finHtml.html
           # Go through the html.txt file and make the errors red to stand out
