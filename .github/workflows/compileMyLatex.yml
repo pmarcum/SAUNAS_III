@@ -138,10 +138,13 @@ jobs:
           texlist=()
           readarray -t texlist < <( grep -E -- "\{[^}]*.tex\}" ${{ github.event.inputs.file2compile }}.tex )
           texlist+=("${{ github.event.inputs.file2compile }}.tex")
-          for (( i=0; i<${#texlist[@]}; i++ )); do cat "$texlist[$i]" >> texfile.tmp; done
+          for (( i=0; i<${#texlist[@]}; i++ )); do
+             item="$( echo "$texlist[$i]" | sed -r 's/\{([^}]*.tex)\}/\1/g' )"
+             #cat '$item' >> texfile.tmp
+          done
           echo " "
           echo " - - - - - - - - - - - - - - - - - -"
-          cat '${{ github.event.inputs.file2compile }}.tex'
+          cat "${texlist[@]}"
           echo " - - - - - - - - - - - - - - - - --"
           echo " " 
           cat ${{ github.event.inputs.file2compile }}.tex >> texfile.tmp
