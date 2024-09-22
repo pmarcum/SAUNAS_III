@@ -133,17 +133,15 @@ jobs:
           # stand-alone "pruneMyBibfile" github action file
           # ============> combining all .tex files in repo in into a single temporary file
           touch texfile.tmp
-          texfileExists=0
+          texfileExists=1
           # get list of all .tex files referenced in the main .tex file (e.g., if there are included files)
           texlist=()
           readarray -t texlist < <( grep -E -- "\{[^}]*.tex\}" ${{ github.event.inputs.file2compile }}.tex )
           texlist+=(${{ github.event.inputs.file2compile }}.tex)
-          printf '%s\n' "{$texlist[@]}"
-          for (( i=0; i<${#texlist[@]}; i++ )); do 
-             cat $texlist[$i] >> texfile.tmp
-             texfileExists=1
-          done
-          # combining all .bib files in repo into a single temporary file
+          printf '%s\n' "${texlist[@]}"
+          for (( i=0; i<${#texlist[@]}; i++ )); do cat $texlist[$i] >> texfile.tmp; done
+          cat ${{ github.event.inputs.file2compile }}.tex >> texfile.tmp
+          # ============> combining all .bib files in repo into a single temporary file
           touch bibfile.tmp
           bibfileExists=0
           biblist=()
