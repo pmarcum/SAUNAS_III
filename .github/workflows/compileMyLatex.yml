@@ -139,9 +139,11 @@ jobs:
           readarray -t texlist < <( grep -E -- "\{[^}]*.tex\}" ${{ github.event.inputs.file2compile }}.tex )
           texlist+=("${{ github.event.inputs.file2compile }}.tex")
           for (( i=0; i<${#texlist[@]}; i++ )); do
-             item="$( echo "${texlist[$i]}" | sed -r 's/\{([^}]*.tex)\}/\1/g' )"
-             cat "$item"
-             #cat "$item" >> texfile.tmp
+             echo " ======>  ${texlist[$i]}"
+             texlist[$i]="$( echo "${texlist[$i]}" | sed -r 's/\{([^}]*.tex)\}/\1/g' )"
+             echo " = = = =>  ${texlist[$i]}"
+             cat "${texlist[$i]}"
+             #cat "${texlist[$i]}" >> texfile.tmp
           done
           cat ${{ github.event.inputs.file2compile }}.tex >> texfile.tmp
           # ============> combining all .bib files in repo into a single temporary file
