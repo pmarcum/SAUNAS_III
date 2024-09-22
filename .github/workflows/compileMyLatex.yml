@@ -112,6 +112,8 @@ jobs:
       - name: Prune the bib file
         id: pruneBib
         run: |
+          # Get all the .bib files identified in the compilation log
+          #
           # going to strip out all the used citations and make a pruned.bib file that can be used as the final 
           # bib file for submission purposes rather than having to use the whole master bib file.  based on the
           # stand-alone "pruneMyBibfile" github action file
@@ -231,7 +233,7 @@ jobs:
           echo " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           echo " " 
           # ============= now get problems that are not labeled as warnings or errors but have an associated line number
-          readarray -r res < <( grep -E -- "^\.\/${{ github.event.inputs.file2compile }}\.tex:[0-9][0-9]*:" ${{ github.event.inputs.file2compile }}_full.log )
+          readarray -r res < <( grep -E -- "^\.\/main\.tex:[0-9][0-9]*:" ${{ github.event.inputs.file2compile }}_full.log )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           printf '%s\n' "${warnErrArr[@]}"
           echo " "
