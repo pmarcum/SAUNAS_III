@@ -144,8 +144,9 @@ jobs:
           for (( i=0; i<${#texlist[@]}; i++ )); do cat "$texlist[$i]" >> texfile.tmp; done
           echo " "
           echo " - - - - - - - - - - - - - - - - - -"
-          cat "${{ github.event.inputs.file2compile }}.tex"
+          cat main.tex
           echo " - - - - - - - - - - - - - - - - --"
+          echo " " 
           cat ${{ github.event.inputs.file2compile }}.tex >> texfile.tmp
           # ============> combining all .bib files in repo into a single temporary file
           touch bibfile.tmp
