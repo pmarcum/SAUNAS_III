@@ -51,8 +51,6 @@ jobs:
           echo "$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> joblink.txt
           echo "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job-id }}" >> joblink.txt
           echo "${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf" >> joblink.txt      
-
-          ${{ github.ref_name }}/blob/${{ github.event.pull_request.head.ref }}
         continue-on-error: true
         
       - name: Upload link2job file
