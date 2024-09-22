@@ -218,16 +218,32 @@ jobs:
           # ============= get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render. 
           readarray -t res < <( grep -F -- "LaTeX Error" ${{ github.event.inputs.file2compile }}_full.log )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
+          printf '%s\n' "${warnErrArr[@]}"
+          echo " "
+          echo " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          echo " "
           # ============= now get the warnings, but note that some of the warnings are actually errors (like figure files that are mispelled) and need to 
           # be consolidated with the associated line in the error section here
           readarray -t res < <( grep -F -- "LaTeX Warning" ${{ github.event.inputs.file2compile }}_full.log )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
+          printf '%s\n' "${warnErrArr[@]}"
+          echo " "
+          echo " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          echo " " 
           # ============= now get problems that are not labeled as warnings or errors but have an associated line number
           readarray -r res < <( grep -E -- "^\./${{ github.event.inputs.file2compile }}.tex:[0-9][0-9]*:" ${{ github.event.inputs.file2compile }}_full.log )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
+          printf '%s\n' "${warnErrArr[@]}"
+          echo " "
+          echo " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          echo " " 
           # ============= take a look at the bib tex errors
           readarray -t res < <( grep -F -- "Package natbib Warning: Citation" ${{ github.event.inputs.file2compile }}_full.log )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
+          printf '%s\n' "${warnErrArr[@]}"
+          echo " "
+          echo " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          echo " " 
           # ===================== Now add the relevant line number to front of each error/warning line that specifies a line number
           for (( i=0; i<${#warnErrArr[@]}; i++ )); do
              line="${warnErrArr[$i]}"
