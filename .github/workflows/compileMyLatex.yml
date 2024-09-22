@@ -231,7 +231,7 @@ jobs:
           echo " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           echo " " 
           # ============= now get problems that are not labeled as warnings or errors but have an associated line number
-          readarray -r res < <( grep -E -- "^\./${{ github.event.inputs.file2compile }}.tex:[0-9][0-9]*:" ${{ github.event.inputs.file2compile }}_full.log )
+          readarray -r res < <( grep -E -- "^\./${{ github.event.inputs.file2compile }}\.tex:[0-9][0-9]*:" ${{ github.event.inputs.file2compile }}_full.log )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           printf '%s\n' "${warnErrArr[@]}"
           echo " "
