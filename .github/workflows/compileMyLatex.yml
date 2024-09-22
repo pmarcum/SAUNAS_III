@@ -139,11 +139,8 @@ jobs:
           readarray -t texlist < <( grep -E -- "\{[^}]*.tex\}" ${{ github.event.inputs.file2compile }}.tex )
           texlist+=("${{ github.event.inputs.file2compile }}.tex")
           for (( i=0; i<${#texlist[@]}; i++ )); do
-             echo " ======>  ${texlist[$i]}"
-             texlist[$i]="$( echo "${texlist[$i]}" | sed -r 's/\{([^}]*.tex)\}/\1/g' )"
-             echo " = = = =>  ${texlist[$i]}"
-             cat "${texlist[$i]}"
-             #cat "${texlist[$i]}" >> texfile.tmp
+             texlist[$i]="$( echo "${texlist[$i]}" | sed -r 's/\{([^}]*.tex)\}/S\|\1\|E/' | sed -r 's/^.*S\|//' | sed -r 's/\|E.*$//' )"
+             cat "${texlist[$i]}" >> texfile.tmp
           done
           cat ${{ github.event.inputs.file2compile }}.tex >> texfile.tmp
           # ============> combining all .bib files in repo into a single temporary file
@@ -153,7 +150,7 @@ jobs:
           readarray -t biblist < <( grep -E -- "\{[^}]*.bib\}" ${{ github.event.inputs.file2compile }}.tex )
           for (( i=0; i<${#biblist[@]}; i++ )); do
              echo "==========> ${biblist[$i]}"
-             biblist[$i]="$( echo "${biblist[$i]}" | sed -r 's/\{([^}]*.bib)\}/\1/g' )"
+             biblist[$i]="$( echo "${biblist[$i]}" | sed -r 's/\{([^}]*.bib)\}/S\|\1\|E/' | sed -r 's/^.*S\|//' | sed -r 's/\|E.*$//' )"
              echo "= = = = == > ${biblist[$i]}"
              cat "${biblist[$i]}"
              if [[ ! "${biblist[$i]}" =~ "pruned" ]]; then cat "${biblist[$i]}" >> bibfile.tmp; bibfileExists=1; fi
