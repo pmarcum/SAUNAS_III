@@ -178,8 +178,13 @@ jobs:
       - name: Capture full compilation output
         # remove lines in the output that are unrelated to the latex compilation itself
         run: |
-          alllog=""
-          while IFS= read -r line; do alllog+="$lineQ"; done < ${{ github.event.inputs.file2compile }}.log
+          #alllog=""
+          while IFS= read -r line; do 
+             #alllog+="$lineQ"; 
+             echo "$line"
+             echo "$lineQ"
+             echo "$line|"
+          done < ${{ github.event.inputs.file2compile }}.log
           logstr=""
           echo "$alllog" | grep -q -E "Q"
           while [[ echo "$alllog" | grep -q -E "Q" ]]; do
