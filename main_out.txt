@@ -1,8 +1,8 @@
-2024-09-23T22:34:46Z 1727130886198
+2024-09-23T22:38:21Z 1727131101762
 LATEX COMPILATION ERRORS and WARNINGS
 
 To view full GitHub Actions output, click on item at top of list here:
-https://github.com/pmarcum/SAUNAS_III/actions/runs/11003494176/job/30552625671
+https://github.com/pmarcum/SAUNAS_III/actions/runs/11003532728/job/30552738898
 ====================================================================================================
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               FATAL ERRORS IN main.tex
