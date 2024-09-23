@@ -179,10 +179,12 @@ jobs:
         # remove lines in the output that are unrelated to the latex compilation itself
         run: |
           alllog=''
-          echo "s/\|$//"
-          echo "s/^ *\)"
+          echo 's/\|$//'
+          echo 's/^ *\)'
           while IFS= read -r line; do 
              line=$(echo "$line" | sed -r 's/  */ /g')
+             echo "$line"
+             echo "${#line}"
              if [[ "${#line}"=79 ]]; then
                 alllog+="$line"
              #elif [[ echo "$line" | grep -q -E "^ *\\\\" ]]; then
