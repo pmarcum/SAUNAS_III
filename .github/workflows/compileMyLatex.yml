@@ -188,6 +188,7 @@ jobs:
                 # because this piece of line is a marked continuation by the \\
                 echo "alllog:"
                 echo "$alllog"
+                echo "$newline"
              #   alllog=$(sed -r 's/|$//' <<<"$alllog")
              #   newline=$(sed -r 's/^ *\\//' <<<"$newline")
              #   alllog+="$newline|"
