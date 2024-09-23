@@ -183,9 +183,10 @@ jobs:
              newline=$(sed -r 's/  */ /g' <<<"$line")
              if [[ "${#newline}" -eq 79 ]]; then
                 alllog+="$newline"
-             #elif [[ echo "$newline" | grep -q -E '^ *\\' ]]; then
-             #   # remove the last end-of-line character and the attach this new piece of the line
-             #   # because this piece of line is a marked continuation by the \\
+             elif [[ echo "$newline" | grep -q -E '^ *\\' ]]; then
+                # remove the last end-of-line character and the attach this new piece of the line
+                # because this piece of line is a marked continuation by the \\
+                echo "alllog: $alllog"
              #   alllog=$(sed -r 's/|$//' <<<"$alllog")
              #   newline=$(sed -r 's/^ *\\//' <<<"$newline")
              #   alllog+="$newline|"
