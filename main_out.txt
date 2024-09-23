@@ -1,8 +1,8 @@
-2024-09-23T09:50:56Z 1727085056812
+2024-09-23T09:52:51Z 1727085171894
 LATEX COMPILATION ERRORS and WARNINGS
 
 To view full GitHub Actions output, click on item at top of list here:
-https://github.com/pmarcum/SAUNAS_III/actions/runs/10991824946/job/30514957641
+https://github.com/pmarcum/SAUNAS_III/actions/runs/10991855216/job/30515052748
 ====================================================================================================
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               FATAL ERRORS IN main.tex
@@ -20,6 +20,8 @@ LaTeX Warning: You have requested document class `CORE-AAS/aastex631', but the d
 LaTeX Warning: Command \@footnotemark has changed.
 -------------------------------------------------------------------------
 LaTeX Warning: There were undefined references.
+-------------------------------------------------------------------------
+[3]./main.tex:103: Undefined control sequence.
 -------------------------------------------------------------------------
 LaTeX Warning: \include should only be used after \begin{document} on input line 32.
 Line #32 ----------------------- 
