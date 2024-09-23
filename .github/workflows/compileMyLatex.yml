@@ -178,7 +178,7 @@ jobs:
       - name: Capture full compilation output
         # remove lines in the output that are unrelated to the latex compilation itself
         run: |
-          alllog="$( sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log )"
+          alllog=$( sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log )
           logstr=""
           echo "$alllog" | grep -q -E "\x0"
           while [[ echo "$alllog" | grep -q -E "\x0" ]]; do
