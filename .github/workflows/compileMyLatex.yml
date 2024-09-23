@@ -189,7 +189,8 @@ jobs:
                 echo "alllog:"
                 echo "$alllog"
                 echo "$newline"
-             #   alllog=$(sed -r 's/|$//' <<<"$alllog")
+                alllog=$(sed -r 's/\|$//' <<<"$alllog")
+                echo "$alllog"
              #   newline=$(sed -r 's/^ *\\//' <<<"$newline")
              #   alllog+="$newline|"
              #elif [[ echo "$line" | grep -q -E '^ * ) *$' ]]; then
