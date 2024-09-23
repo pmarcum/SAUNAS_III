@@ -258,7 +258,8 @@ jobs:
           rm -f thereAreErrors.txt
           for (( i=0; i<${#sorted[@]}; i++ )); do
             line="${sorted[$i]}"
-            if [[ "$line" =~ "-ERROR-" ]]; then error="$line"; touch thereAreErrors.txt; break; fi
+            echo "line is $line"
+            if [[ "$line" =~ "-ERROR-" ]]; then error="$line"; echo "there are errors !!!!!!!!!!!!!!!!!!!!"; touch thereAreErrors.txt; break; fi
           done
           # if there were no errors, then put 'none'
           if [ -f thereAreErrors.txt ]; then echo "      none" >> tout.txt; fi
