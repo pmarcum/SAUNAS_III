@@ -178,7 +178,7 @@ jobs:
       - name: Capture full compilation output
         # remove lines in the output that are unrelated to the latex compilation itself
         run: |
-          continuedline=79
+          width=79
           alllog="$( sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log )"
           logstr=""
           echo "$alllog" | grep -q -E "\x0"
@@ -187,7 +187,7 @@ jobs:
              echo "thispiece: $thispiece"
              alllog='$( echo "$alllog" | sed -r "s/^[^\x0]*\x0//" )'
              echo "now the alllog is: $alllog"
-             if [[ "${#thispiece}" = continuedline ]]; then
+             if [[ "${#thispiece}" = $width ]]; then
                 # likely continued on next line so remove the x0, the end of line character representaion
                 logstr+="$thispiece"
              elif [[ echo "$alllog" | grep -q -E "^ *\\\\" ]]; then
