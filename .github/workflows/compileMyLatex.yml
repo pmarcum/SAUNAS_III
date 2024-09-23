@@ -180,8 +180,8 @@ jobs:
         run: |
           continuedline=79
           alllog="$( sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log )"
-          echo "starting out, alllog is\n$alllog"
           logstr=""
+          echo "$alllog" | grep -q -E "\x0"
           while [[ echo "$alllog" | grep -q -E "\x0" ]]; do
              thispiece='$( echo "$alllog" | sed -r "s/^([^\x0]*)\x0/\1/" )'
              echo "thispiece: $thispiece"
