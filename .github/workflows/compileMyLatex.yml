@@ -180,6 +180,7 @@ jobs:
         run: |
           alllog=''
           while IFS= read -r line; do 
+             line=$(echo "$line" | sed -r "s/  */ /g")
              alllog+="$line|"
           done < ${{ github.event.inputs.file2compile }}.log
           echo "$alllog"
