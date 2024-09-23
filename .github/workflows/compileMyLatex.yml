@@ -189,7 +189,7 @@ jobs:
                 alllog=$(sed -r 's/\|$//' <<<"$alllog")
                 alllog+="$newline|"
                 echo "$alllog"
-             elif [[ "$(grep -q -E -- "\, *$" <<<"newline" )$?" == 0 ]]; then
+             elif [[ "$(grep -q -E -- "\, *$" <<<"$newline" )$?" == 0 ]]; then
                 # if this line ends with comma, assume the next line is continuation
                 alllog+="$newline"
              else
