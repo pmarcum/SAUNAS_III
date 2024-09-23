@@ -229,7 +229,9 @@ jobs:
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           readarray -t res < <( grep -F -- "Package natbib Warning: Citation" ${{ github.event.inputs.file2compile }}_full.log )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
+          #
           # ===================== Now add the relevant line number to front of each error/warning line that specifies a line number
+          #
           for (( i=0; i<${#warnErrArr[@]}; i++ )); do
              if [[ "$(grep -q -E -- "on input line [0-9]" <<<"${warnErrArr[$i]}")$?" == 0 ]]; then
                 linenum=$(sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/' <<<"${warnErrArr[$i]}")
@@ -238,16 +240,24 @@ jobs:
                     tmp="$linenum-ERROR-$blanks" 
                 elif [[ "${warnErrArr[$i]}" =~ "natbib" ]]; then
                     tmp="$linenum-BIB-$blanks"
+                elif [[ "${warnErrArr[$i]}" =~ "undefined" ]]; then
+                    tmp="$linenum-ERROR-$blanks"
+                elif [[ "${warnErrArr[$i]}" =~ "Undefined" ]]; then
+                    tmp="$linenum-ERROR-$blanks"
                 else
                     tmp="$linenum-WARNING-$blanks"
                 fi
              elif [[ "$(grep -q -E -- "^\.\/[^:][^:]*:[0-9][0-9]*:" <<<"${warnErrArr[$i]}")$?" == 0 ]]; then
-                linenum=$(sed -r 's/^\.\/[^:]*:([0-9][0-9]*).*/\1/' <<<"${warnErrArr[$i]}")
+                linenum=$(sed -r 's/^[^:]*:([0-9][0-9]*).*/\1/' <<<"${warnErrArr[$i]}")
                 blanks="$(sed -r 's/ /ZZ/g' <<<"${warnErrArr[$i]}")"
                 if [[ "${warnErrArr[$i]}" =~ "LaTeX Error" ]]; then
                     tmp="$linenum-ERROR-$blanks" 
                 elif [[ "${warnErrArr[$i]}" =~ "natbib" ]]; then
                     tmp="$linenum-BIB-$blanks"
+                elif [[ "${warnErrArr[$i]}" =~ "undefined" ]]; then
+                    tmp="$linenum-ERROR-$blanks"
+                elif [[ "${warnErrArr[$i]}" =~ "Undefined" ]]; then
+                    tmp="$linenum-ERROR-$blanks"
                 else
                     tmp="$linenum-WARNING-$blanks"
                 fi
@@ -257,6 +267,10 @@ jobs:
                     tmp="0-ERROR-$blanks" 
                 elif [[ "${warnErrArr[$i]}" =~ "natbib" ]]; then
                     tmp="0-BIB-$blanks"
+                elif [[ "${warnErrArr[$i]}" =~ "undefined" ]]; then
+                    tmp="0-ERROR-$blanks"
+                elif [[ "${warnErrArr[$i]}" =~ "Undefined" ]]; then
+                    tmp="0-ERROR-$blanks"
                 else
                     tmp="0-WARNING-$blanks"
                 fi
@@ -265,6 +279,9 @@ jobs:
           done
           # ============== sort and remove redundances in the error/warning list
           sorted=($( printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s ))
+          #
+          #  #######################   START CONSOLIDATING THE ERRORS ###################
+          #
           touch tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              FATAL ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
@@ -309,6 +326,9 @@ jobs:
             done
             echo "=------------------------------------------------------------------------" >> tout.txt
           done
+          #
+          #  ######################   START CONSOLIDATING THE WARNINGS ########################
+          #
           echo "" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              WARNINGS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
@@ -354,6 +374,9 @@ jobs:
             done
             echo "-------------------------------------------------------------------------" >> tout.txt
           done
+          #
+          #  ##########################   START CITATION PROBLEMS ##########################
+          #
           echo " " >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              CITATION ISSUES IN ${{  github.event.inputs.file2compile }}.tex " >> tout.txt
