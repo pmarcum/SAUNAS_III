@@ -240,7 +240,6 @@ jobs:
           # ===================== Now add the relevant line number to front of each error/warning line that specifies a line number
           for (( i=0; i<${#warnErrArr[@]}; i++ )); do
              echo "235  "${warnErrArr[$i]}"
-             << ////
              if [[ "$(grep -q -E -- "on input line [0-9]" <<<"${warnErrArr[$i]}")$?" == 0 ]]; then
                 linenum=$( sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/' <<<"${warnErrArr[$i]}" )
                 blanks="$( sed -r 's/ /ZZ/g' <<<"${warnErrArr[$i]}" )"
@@ -251,7 +250,7 @@ jobs:
                 else
                     tmp="$linenum-WARNING-$blanks"
                 fi
-            elif [[ "$(grep -q -E -- "^\.\/[^:][^:]*:[0-9][0-9]*:" <<<"${warnErrArr[$i]}")$?" == 0 ]]; then
+             elif [[ "$(grep -q -E -- "^\.\/[^:][^:]*:[0-9][0-9]*:" <<<"${warnErrArr[$i]}")$?" == 0 ]]; then
                 linenum=$( sed -r 's/^\.\/[^:]*:([0-9][0-9]*).*/\1/' <<<"${warnErrArr[$i]}" )
                 blanks="$( sed -r 's/ /ZZ/g' <<<"${warnErrArr[$i]}" )"
                 if [[ "${warnErrArr[$i]}" =~ "LaTeX Error" ]]; then
@@ -271,8 +270,7 @@ jobs:
                     tmp="0-WARNING-$blanks"
                 fi
              fi
-            warnErrArr[$i]="$tmp"
-            ////
+             warnErrArr[$i]="$tmp"
           done
           echo "275"
           # ============== sort and remove redundances in the error/warning list
