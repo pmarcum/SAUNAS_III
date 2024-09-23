@@ -254,20 +254,13 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              FATAL ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          error=""
           rm -f thereAreErrors.txt
+          error=""
           for (( i=0; i<${#sorted[@]}; i++ )); do
-            line="${sorted[$i]}"
-            echo "line is $line"
-            if [[ "$line" =~ "-ERROR-" ]]; then error="$line"; echo "there are errors !!!!!!!!!!!!!!!!!!!!"; touch thereAreErrors.txt; break; fi
+            if [[ "${sorted[$i]}" =~ "-ERROR-" ]]; then error="${sorted[$i]}"; touch thereAreErrors.txt; break; fi
           done
           # if there were no errors, then put 'none'
-          if [ -f thereAreErrors.txt ]; then echo "      none" >> tout.txt; fi
-          echo " "
-          echo tout.txt
-          echo " "
-          echo " "
-          echo " "
+          if [! -f thereAreErrors.txt ]; then echo "      none" >> tout.txt; fi
           while  [ "$error" != "" ]; do
             linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$error" )
             if [[ $linenum > 0 ]]; then
@@ -297,8 +290,7 @@ jobs:
             # See if any more errors remain in the list and need to be processed in the next loop iteration
             error=""
             for (( i=0; i<${#sorted[@]}; i++ )); do
-               line="${sorted[$i]}"
-               if [[ "$line" =~ "-ERROR-" ]]; then error="$line"; break; fi
+               if [[ "${sorted[$i]}" =~ "-ERROR-" ]]; then error="${sorted[$i]}"; break; fi
             done
             echo "=------------------------------------------------------------------------" >> tout.txt
           done
