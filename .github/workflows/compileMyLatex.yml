@@ -182,6 +182,15 @@ jobs:
           while IFS= read -r line; do 
              line=$(echo "$line" | sed -r 's/  */ /g')
              if [[ "${#line}"=79 ]]; then
+                alllog+="$line"
+             elif [[ echo "$line" | grep -q -E "^ *\\\\" ]]; then
+                # remove the last end-of-line character and the attach this new piece of the line
+                # because this piece of line is a marked continuation by the \\
+                alllog=$( echo "$alllog" | sed -r 's/\|$//' )
+                alllog+="$line|"
+             elif [[ echo "$line" | grep -q -E "^ * \) *$" ]]; then
+                # if this piece of line only consists of a ) then attach to previous line
+                alllog=$( echo "$alllog" | sed -r 's/\|$//' )
                 alllog+="$line|"
              else
                 alllog+="$line"
@@ -189,7 +198,6 @@ jobs:
           done < ${{ github.event.inputs.file2compile }}.log
           echo "$alllog"
           logstr=""
-          echo "$alllog" | grep -q -E "Q"
           while [[ echo "$alllog" | grep -q -E "Q" ]]; do
              thispiece='$( echo "$alllog" | sed -r "s/^([^Q]*)Q/\1/" )'
              echo "thispiece: $thispiece"
