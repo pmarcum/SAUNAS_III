@@ -1,12 +1,13 @@
-2024-09-23T20:34:46Z 1727123686672
+2024-09-23T20:37:09Z 1727123829167
 LATEX COMPILATION ERRORS and WARNINGS
 
 To view full GitHub Actions output, click on item at top of list here:
-https://github.com/pmarcum/SAUNAS_III/actions/runs/11001975819/job/30547882514
+https://github.com/pmarcum/SAUNAS_III/actions/runs/11002009624/job/30547990195
 ====================================================================================================
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               FATAL ERRORS IN main.tex
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+./main.tex:149: LaTeX Error: \begin{center} on input line 57 ended by \end{document}.
 ./main.tex:149: LaTeX Error: \begin{center} on input line 57 ended by \end{document}.
 Line #57 ----------------------- 
 \begin{center}
@@ -23,6 +24,8 @@ LaTeX Warning: There were undefined references.
 -------------------------------------------------------------------------
 [3]./main.tex:103: Undefined control sequence.
 -------------------------------------------------------------------------
+spelling (e.g., `I\hbox'). Otherwise just continue,and I'll forget about whatever was undefined.)./main.tex:148: You can't use `macro parameter character #' in vertical mode.
+-------------------------------------------------------------------------
 LaTeX Warning: \include should only be used after \begin{document} on input line 32.
 Line #32 ----------------------- 
 \include{variables}
@@ -30,6 +33,10 @@ Line #32 -----------------------
 LaTeX Warning: Reference `fig' on page 4 undefined on input line 110.
 Line #110 ----------------------- 
 \ref{fig}
+-------------------------------------------------------------------------
+./main.tex:148: You can't use `macro parameter character #' in horizontal mode.l.148 ...================================= ERROR #
+Line #148 ----------------------- 
+# =================================== ERROR #6 Package natbib Warning: There were undefined citations
 -------------------------------------------------------------------------
  
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
