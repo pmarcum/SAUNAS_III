@@ -179,15 +179,13 @@ jobs:
         # remove lines in the output that are unrelated to the latex compilation itself
         run: |
           alllog=""
-          while IFS= read -r line; do
-             alllog+="$line\x0"
-          done < ${{ github.event.inputs.file2compile }}.log
+          while IFS= read -r line; do alllog+="$line|"; done < ${{ github.event.inputs.file2compile }}.log
           logstr=""
-          echo "$alllog" | grep -q -E "\x0"
-          while [[ echo "$alllog" | grep -q -E "\x0" ]]; do
-             thispiece='$( echo "$alllog" | sed -r "s/^([^\x0]*)\x0/\1/" )'
+          echo "$alllog" | grep -q -E "|"
+          while [[ echo "$alllog" | grep -q -E "|" ]]; do
+             thispiece='$( echo "$alllog" | sed -r "s/^([^|]*)|/\1/" )'
              echo "thispiece: $thispiece"
-             alllog='$( echo "$alllog" | sed -r "s/^[^\x0]*\x0//" )'
+             alllog='$( echo "$alllog" | sed -r "s/^[^|]*|//" )'
              echo "now the alllog is: $alllog"
              echo "length of this piece: ${#thispiece}"
              if [[ "${#thispiece}" = 79 ]]; then
@@ -197,11 +195,11 @@ jobs:
                 # an explicit continuation line comes right after the one we are processing, so remove 
                 # line return between them
                 logstr+="$thispiece"
-             elif [[ echo "$alllog" | grep -q -E "^ *\) *\x0" ]]; then
+             elif [[ echo "$alllog" | grep -q -E "^ *\) *|" ]]; then
                 # the next line is just a closed parenthesis, so bring it up to the end of present line
                 logstr+="$thispiece"
              else
-                logstr+="$thispiece\x0"
+                logstr+="$thispiece|"
              fi
              echo "at the end of the while loop:"
              echo "the logstr is now $logstr"
@@ -211,9 +209,9 @@ jobs:
           done
           if [[ "$alllog" -ne "" ]]; then logstr+="$alllog"; fi
           # write array to file
-          while [[ echo "$logstr" | grep -q -E "\x0" ]]; do
-             thisline='$( echo "$logstr" | sed -r "s/^([^\x0]*)\x0/\1/" )'
-             alllog='$( echo "$alllog" | sed -r "s/^[^\x0]*\x0//" )'
+          while [[ echo "$logstr" | grep -q -E "|" ]]; do
+             thisline='$( echo "$logstr" | sed -r "s/^([^|]*)|/\1/" )'
+             alllog='$( echo "$alllog" | sed -r "s/^[^|]*|//" )'
              echo "$thisline" >> ${{ github.event.inputs.file2compile }}.log
           done
           if [[ "$alllog" -ne "" ]]; then echo "$alllog" >> ${{ github.event.inputs.file2compile }}_full.log; fi
