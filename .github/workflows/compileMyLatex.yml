@@ -290,7 +290,7 @@ jobs:
           done
           echo "291"
           # if there were no errors, then put 'none'
-          if [! -f thereAreErrors.txt ]; then echo "      none" >> tout.txt; fi
+          if [ ! -f thereAreErrors.txt ]; then echo "      none" >> tout.txt; fi
           echo "294"
           while  [ "$error" != "" ]; do
             echo "296"
