@@ -1,45 +1,9 @@
-2024-09-23T09:52:51Z 1727085171894
+2024-09-23T09:55:09Z 1727085309359
 LATEX COMPILATION ERRORS and WARNINGS
 
 To view full GitHub Actions output, click on item at top of list here:
-https://github.com/pmarcum/SAUNAS_III/actions/runs/10991855216/job/30515052748
+https://github.com/pmarcum/SAUNAS_III/actions/runs/10991888666/job/30515158274
 ====================================================================================================
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-              FATAL ERRORS IN main.tex
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-./main.tex:149: LaTeX Error: \begin{center} on input line 57 ended by \end{document}.
-Line #57 ----------------------- 
-\begin{center}
--------------------------------------------------------------------------
-
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-              WARNINGS IN main.tex
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-LaTeX Warning: You have requested document class `CORE-AAS/aastex631', but the document class provides `aastex631'.
--------------------------------------------------------------------------
-LaTeX Warning: Command \@footnotemark has changed.
--------------------------------------------------------------------------
-LaTeX Warning: There were undefined references.
--------------------------------------------------------------------------
-[3]./main.tex:103: Undefined control sequence.
--------------------------------------------------------------------------
-LaTeX Warning: \include should only be used after \begin{document} on input line 32.
-Line #32 ----------------------- 
-\include{variables}
--------------------------------------------------------------------------
-LaTeX Warning: Reference `fig' on page 4 undefined on input line 110.
-Line #110 ----------------------- 
-\ref{fig}
--------------------------------------------------------------------------
- 
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-              CITATION ISSUES IN main.tex 
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-Package natbib Warning: Citation `johnson2022' on page 4 undefined on input line 107.
-Line #107 ----------------------- 
-4th sentence \citep{johnson2022}
--------------------------------------------------------------------------
--------------------------------------------------------------------------
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               LIST OF REFERENCES IN main.tex
