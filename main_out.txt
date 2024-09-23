@@ -1,8 +1,8 @@
-2024-09-23T09:14:52Z 1727082892389
+2024-09-23T09:21:04Z 1727083264527
 LATEX COMPILATION ERRORS and WARNINGS
 
 To view full GitHub Actions output, click on item at top of list here:
-https://github.com/pmarcum/SAUNAS_III/actions/runs/10991233619/job/30513175876
+https://github.com/pmarcum/SAUNAS_III/actions/runs/10991336059/job/30513482066
 ====================================================================================================
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               FATAL ERRORS IN main.tex
@@ -15,19 +15,17 @@ Line #57 -----------------------
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               WARNINGS IN main.tex
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-LaTeX Warning: You have requested document class `CORE-AAS/aastex631',
+LaTeX Warning: You have requested document class `CORE-AAS/aastex631', but the document class provides `aastex631'.
 -------------------------------------------------------------------------
 LaTeX Warning: Command \@footnotemark has changed.
 -------------------------------------------------------------------------
 LaTeX Warning: There were undefined references.
 -------------------------------------------------------------------------
+[3]./main.tex:103: Undefined control sequence.
+-------------------------------------------------------------------------
 LaTeX Warning: \include should only be used after \begin{document} on input line 32.
 Line #32 ----------------------- 
 \include{variables}
--------------------------------------------------------------------------
-./main.tex:103: Undefined control sequence.
-Line #103 ----------------------- 
-\pam
 -------------------------------------------------------------------------
 LaTeX Warning: Reference `fig' on page 4 undefined on input line 110.
 Line #110 ----------------------- 
