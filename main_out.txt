@@ -1,8 +1,8 @@
-2024-09-23T09:42:33Z 1727084553961
+2024-09-23T09:46:17Z 1727084777088
 LATEX COMPILATION ERRORS and WARNINGS
 
 To view full GitHub Actions output, click on item at top of list here:
-https://github.com/pmarcum/SAUNAS_III/actions/runs/10991695183/job/30514558538
+https://github.com/pmarcum/SAUNAS_III/actions/runs/10991755434/job/30514741206
 ====================================================================================================
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               FATAL ERRORS IN main.tex
@@ -22,8 +22,6 @@ LaTeX Warning: Command \@footnotemark has changed.
 LaTeX Warning: There were undefined references.
 -------------------------------------------------------------------------
 [3]./main.tex:103: Undefined control sequence.
--------------------------------------------------------------------------
-l.103 \pam
 -------------------------------------------------------------------------
 LaTeX Warning: \include should only be used after \begin{document} on input line 32.
 Line #32 ----------------------- 
