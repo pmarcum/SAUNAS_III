@@ -284,12 +284,16 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           rm -f thereAreErrors.txt
           error=""
+          echo "287"
           for (( i=0; i<${#sorted[@]}; i++ )); do
             if [[ "${sorted[$i]}" =~ "-ERROR-" ]]; then error="${sorted[$i]}"; touch thereAreErrors.txt; break; fi
           done
+          echo "291"
           # if there were no errors, then put 'none'
           if [! -f thereAreErrors.txt ]; then echo "      none" >> tout.txt; fi
+          echo "294"
           while  [ "$error" != "" ]; do
+            echo "296"
             linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$error" )
             if [[ $linenum > 0 ]]; then
                # look for all occurances of this line number in the error/warning list
