@@ -1,8 +1,8 @@
-2024-09-23T22:47:42Z 1727131662035
+2024-09-23T22:57:36Z 1727132256099
 LATEX COMPILATION ERRORS and WARNINGS
 
 To view full GitHub Actions output, click on item at top of list here:
-https://github.com/pmarcum/SAUNAS_III/actions/runs/11003630524/job/30553026532
+https://github.com/pmarcum/SAUNAS_III/actions/runs/11003727415/job/30553325657
 ====================================================================================================
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               FATAL ERRORS IN main.tex
@@ -12,12 +12,37 @@ https://github.com/pmarcum/SAUNAS_III/actions/runs/11003630524/job/30553026532
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               WARNINGS IN main.tex
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-      none
+LaTeX Warning: You have requested document class `CORE-AAS/aastex631', but the document class provides `aastex631'.
+-------------------------------------------------------------------------
+LaTeX Warning: Command \@footnotemark has changed.
+-------------------------------------------------------------------------
+LaTeX Warning: There were undefined references.
+-------------------------------------------------------------------------
+LaTeX Warning: \include should only be used after \begin{document} on input line 32.
+Line #32 ----------------------- 
+\include{variables}
+-------------------------------------------------------------------------
+./main.tex:103: Undefined control sequence.
+Line #103 ----------------------- 
+\pam
+-------------------------------------------------------------------------
+LaTeX Warning: Reference `fig' on page 4 undefined on input line 110.
+Line #110 ----------------------- 
+\ref{fig}
+-------------------------------------------------------------------------
+./main.tex:148: You can't use `macro parameter character #' in vertical mode.
+./main.tex:148: You can't use `macro parameter character #' in horizontal mode.l.148 ...================================= ERROR #
+Line #148 ----------------------- 
+# =================================== ERROR #6 Package natbib Warning: There were undefined citations
+-------------------------------------------------------------------------
  
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               CITATION ISSUES IN main.tex 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-      none
+Package natbib Warning: Citation `johnson2022' on page 4 undefined on input line 107.
+Line #107 ----------------------- 
+4th sentence \citep{johnson2022}
+-------------------------------------------------------------------------
 -------------------------------------------------------------------------
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
