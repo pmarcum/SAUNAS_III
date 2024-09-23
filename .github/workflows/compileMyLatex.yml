@@ -178,30 +178,30 @@ jobs:
       - name: Capture full compilation output
         # remove lines in the output that are unrelated to the latex compilation itself
         run: |
-          continuedline = 79
+          continuedline=79
           alllog="$( sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log )"
-          logarray=""
+          logstr=""
           while [[ echo "$alllog" | grep -q -E "\x0" ]]; do
              thispiece='$( echo "$alllog" | sed -r "s/^([^\x0]*)\x0/\1/" )'
              alllog='$( echo "$alllog" | sed -r "s/^[^\x0]*\x0//" )'
              if [[ "${#thispiece}" = continuedline ]]; then
                 # likely continued on next line so remove the x0, the end of line character representaion
-                logarray+="$thispiece"
+                logstr+="$thispiece"
              elif [[ echo "$alllog" | grep -q -E "^ *\\\\" ]]; then
                 # an explicit continuation line comes right after the one we are processing, so remove 
                 # line return between them
-                logarray+="$thispiece"
+                logstr+="$thispiece"
              elif [[ echo "$alllog" | grep -q -E "^ *\) *\x0" ]]; then
                 # the next line is just a closed parenthesis, so bring it up to the end of present line
-                logarray+="$thispiece"
+                logstr+="$thispiece"
              else
-                logarray+="$thispiece\x0"
+                logstr+="$thispiece\x0"
              fi
           done
-          if [[ "$alllog" -ne "" ]]; then logarray+="$alllog"; fi
+          if [[ "$alllog" -ne "" ]]; then logstr+="$alllog"; fi
           # write array to file
-          while [[ echo "$logarray" | grep -q -E "\x0" ]]; do
-             thisline='$( echo "$logarray" | sed -r "s/^([^\x0]*)\x0/\1/" )'
+          while [[ echo "$logstr" | grep -q -E "\x0" ]]; do
+             thisline='$( echo "$logstr" | sed -r "s/^([^\x0]*)\x0/\1/" )'
              alllog='$( echo "$alllog" | sed -r "s/^[^\x0]*\x0//" )'
              echo "$thisline" >> ${{ github.event.inputs.file2compile }}.log
           done
