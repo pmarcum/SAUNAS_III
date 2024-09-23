@@ -188,7 +188,10 @@ jobs:
                 # remove the last end-of-line character and the attach this new piece of the line
                 alllog=$(sed -r 's/\|$//' <<<"$alllog")
                 alllog+="$newline|"
-                echo "$alllog"
+             elif [[ "$(grep -q -E -- "^ *\," <<<"$newline" )$?" == 0 ]]; then
+                # if this piece of line starts with a comma, remove last end-of-line character and attach this new piece of line
+                alllog=$(sed -r 's/\|$//' <<<"$alllog")
+                alllog+="$newline|"
              elif [[ "$(grep -q -E -- "^ *\, *$" <<<"$newline" )$?" == 0 ]]; then
                 # if this line ends with comma, assume the next line is continuation
                 alllog+="$newline"
