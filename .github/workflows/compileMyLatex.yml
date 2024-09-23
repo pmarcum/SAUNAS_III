@@ -229,7 +229,7 @@ jobs:
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           echo " "
           echo " "
-          grep -F -- "./main.tex:103:"  ${{ github.event.inputs.file2compile }}_full.log
+          grep -E -- "\./main\.tex:103:"  ${{ github.event.inputs.file2compile }}_full.log
           # ============= take a look at the bib tex errors
           readarray -t res < <( grep -F -- "Package natbib Warning: Citation" ${{ github.event.inputs.file2compile }}_full.log )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
