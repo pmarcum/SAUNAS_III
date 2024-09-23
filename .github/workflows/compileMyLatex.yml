@@ -261,6 +261,10 @@ jobs:
                 else
                     tmp="$linenum-WARNING-$blanks"
                 fi
+                echo "in the non-error-labeled error: "
+                echo "${warnErrArr[$i]}"
+                echo "linenum is: "
+                echo "$linenum"
              else
                 blanks="$(sed -r 's/ /ZZ/g' <<<"${warnErrArr[$i]}")"
                 if [[ "${warnErrArr[$i]}" =~ "LaTeX Error" ]]; then
