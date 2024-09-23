@@ -186,59 +186,26 @@ jobs:
              elif [[ "$(grep -q -E -- "^ *\)" <<<"$newline" )$?" == 0 ]]; then
                 # if this piece of line only consists of a ) then attach to previous line
                 # remove the last end-of-line character and the attach this new piece of the line
-                echo "$alllog"
-                echo " "
-                echo " "
                 alllog=$(sed -r 's/\|$//' <<<"$alllog")
-                echo "$alllog"
                 alllog+="$newline|"
-                echo " "
-                echo " "
-                echo "$newline"
-                echo "-----------------------------------------------------------------------------------------------------------"
-             #elif [[ echo "$line" | grep -q -E '\, *$' )
-             #   # if this line ends with comma, assume the next line is continuation
-             #   alllog+="$line"
+             elif [[ "$(grep -q -E -- "\, *$" <<<"newline" )$?" == 0 ]]; then
+                # if this line ends with comma, assume the next line is continuation
+                alllog+="$newline"
              else
                 alllog+="$newline|"
              fi
           done < ${{ github.event.inputs.file2compile }}.log
-          echo "$alllog"
-          logstr=""
-          while [[ echo "$alllog" | grep -q -E "Q" ]]; do
-             thispiece='$( echo "$alllog" | sed -r "s/^([^Q]*)Q/\1/" )'
-             echo "thispiece: $thispiece"
-             alllog='$( echo "$alllog" | sed -r "s/^[^Q]*Q//" )'
-             echo "now the alllog is: $alllog"
-             echo "length of this piece: ${#thispiece}"
-             if [[ "${#thispiece}" = 79 ]]; then
-                # likely continued on next line so remove the x0, the end of line character representaion
-                logstr+="$thispiece"
-             elif [[ echo "$alllog" | grep -q -E "^ *\\\\" ]]; then
-                # an explicit continuation line comes right after the one we are processing, so remove 
-                # line return between them
-                logstr+="$thispiece"
-             elif [[ echo "$alllog" | grep -q -E "^ *\) *Q" ]]; then
-                # the next line is just a closed parenthesis, so bring it up to the end of present line
-                logstr+="$thispiece"
-             else
-                logstr+="$thispiece|"
-             fi
-             echo "at the end of the while loop:"
-             echo "the logstr is now $logstr"
-             echo ""
-             echo "the alllog is now $alllog"
-             echo "==========================================================================================================================="
-          done
-          if [[ "$alllog" -ne "" ]]; then logstr+="$alllog"; fi
           # write array to file
-          while [[ echo "$logstr" | grep -q -E "|" ]]; do
-             thisline='$( echo "$logstr" | sed -r "s/^([^Q]*)|/\1/" )'
-             alllog='$( echo "$alllog" | sed -r "s/^[^Q]*|//" )'
-             echo "$thisline" >> ${{ github.event.inputs.file2compile }}.log
+          touch ${{ github.event.inputs.file2compile }}_out.log
+          while [[ "$(grep -q -F -- "|" <<<"$alllog" )$?" == 0 ]]; do
+             thisline=$(sed -r 's/^([^|]*)\|.*$/\1/' <<<"$alllog" )
+             alllog=$(sed -r 's/^[^|]*\|//' <<<"$alllog" )
+             echo "$thisline" >> ${{ github.event.inputs.file2compile }}_full.log
           done
-          if [[ "$alllog" -ne "" ]]; then echo "$alllog" >> ${{ github.event.inputs.file2compile }}_full.log; fi
-          
+          if [[ "$alllog" != "" ]]; then echo "$alllog" >> ${{ github.event.inputs.file2compile }}_full.log; fi
+          echo "----------------------------------------------------------------------------------------------------------------------"
+          cat ${{ github.event.inputs.file2compile }}_full.log
+          echo "----------------------------------------------------------------------------------------------------------------------"
           ## ========================  make sure that all lines related to a sentence are all smooshed together into single line
           ## First, move lines that should have been the ending of the previous line, to the end of that previous line
           ## ======================== make separate lines be shown as a single line if they are related to each other
