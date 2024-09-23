@@ -226,14 +226,17 @@ jobs:
           # ============= now get the items that are not labeled as 'warning' or "error", but are problems w/ associated line numbers
           # be consolidated with the associated line in the error section here
           readarray -t res < <( grep -E -- '^ *\./.*\.tex:[0-9]+:' ${{ github.event.inputs.file2compile }}_full.log )
-          echo "229"
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
-          echo "230"
-          # ============= take a look at the bib tex errors
           readarray -t res < <( grep -F -- "Package natbib Warning: Citation" ${{ github.event.inputs.file2compile }}_full.log )
-          echo "234"
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           echo "236"
+          echo ${#warnErrArr[@]}
+          # ============= take a look at the bib tex errors
+          #
+          #
+          #     THE PROBLEM IS BELOW
+          #
+          #
           # ===================== Now add the relevant line number to front of each error/warning line that specifies a line number
           for (( i=0; i<${#warnErrArr[@]}; i++ )); do
              echo "235  "${warnErrArr[$i]}"
@@ -269,8 +272,10 @@ jobs:
              fi
             warnErrArr[$i]="$tmp"
           done
+          echo "275"
           # ============== sort and remove redundances in the error/warning list
           sorted=($( printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s ))
+          echo "278"
           touch tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              FATAL ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
