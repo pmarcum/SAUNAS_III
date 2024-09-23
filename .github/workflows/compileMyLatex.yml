@@ -180,10 +180,13 @@ jobs:
         run: |
           continuedline=79
           alllog="$( sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log )"
+          echo "starting out, alllog is\n$alllog"
           logstr=""
           while [[ echo "$alllog" | grep -q -E "\x0" ]]; do
              thispiece='$( echo "$alllog" | sed -r "s/^([^\x0]*)\x0/\1/" )'
+             echo "thispiece: $thispiece"
              alllog='$( echo "$alllog" | sed -r "s/^[^\x0]*\x0//" )'
+             echo "now the alllog is: $alllog"
              if [[ "${#thispiece}" = continuedline ]]; then
                 # likely continued on next line so remove the x0, the end of line character representaion
                 logstr+="$thispiece"
@@ -197,6 +200,11 @@ jobs:
              else
                 logstr+="$thispiece\x0"
              fi
+             echo "at the end of the while loop:"
+             echo "the logstr is now $logstr"
+             echo ""
+             echo "the alllog is now $alllog"
+             echo "==========================================================================================================================="
           done
           if [[ "$alllog" -ne "" ]]; then logstr+="$alllog"; fi
           # write array to file
