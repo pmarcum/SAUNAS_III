@@ -180,8 +180,12 @@ jobs:
         run: |
           alllog=''
           while IFS= read -r line; do 
-             line=$(echo "$line" | sed -r "s/  */ /g")
-             alllog+="$line|"
+             line=$(echo "$line" | sed -r 's/  */ /g')
+             if [[ "${#line}"=79 ]]; then
+                alllog+="$line|"
+             else
+                alllog+="$line"
+             fi
           done < ${{ github.event.inputs.file2compile }}.log
           echo "$alllog"
           logstr=""
