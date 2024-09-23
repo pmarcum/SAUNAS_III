@@ -227,50 +227,68 @@ jobs:
           # be consolidated with the associated line in the error section here
           readarray -t res < <( grep -E -- '^ *\./.*\.tex:[0-9]+:' ${{ github.event.inputs.file2compile }}_full.log )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
-          echo " "
-          echo " "
-          grep -E -- '^ *\./.*\.tex:[0-9]+:'  ${{ github.event.inputs.file2compile }}_full.log
-          echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           # ============= take a look at the bib tex errors
           readarray -t res < <( grep -F -- "Package natbib Warning: Citation" ${{ github.event.inputs.file2compile }}_full.log )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           # ===================== Now add the relevant line number to front of each error/warning line that specifies a line number
           for (( i=0; i<${#warnErrArr[@]}; i++ )); do
-             line="${warnErrArr[$i]}"
-             if [[ "$(grep -q -E -- "on input line [0-9]" <<<"$line")$?" == 0 ]]; then
-                linenum=$( sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/' <<<"$line" )
-                blanks="$( sed -r 's/ /ZZ/g' <<<"$line" )"
-                if [[ "$line" =~ "LaTeX Error" ]]; then
+             echo "235  "${warnErrArr[$i]}"
+             if [[ "$(grep -q -E -- "on input line [0-9]" <<<"${warnErrArr[$i]}")$?" == 0 ]]; then
+                echo "237"
+                linenum=$( sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/' <<<"${warnErrArr[$i]}" )
+                echo "239"
+                blanks="$( sed -r 's/ /ZZ/g' <<<"${warnErrArr[$i]}" )"
+                if [[ "${warnErrArr[$i]}" =~ "LaTeX Error" ]]; then
+                    echo "241"
                     tmp="$linenum-ERROR-$blanks" 
-                elif [[ "$line" =~ "natbib" ]]; then
+                elif [[ "${warnErrArr[$i]}" =~ "natbib" ]]; then
+                    echo "244"
                     tmp="$linenum-BIB-$blanks"
                 else
+                    echo "247"
                     tmp="$linenum-WARNING-$blanks"
                 fi
-            elif [[ "$(grep -q -E -- "^\.\/[^:][^:]*:[0-9][0-9]*:" <<<"$line")$?" == 0 ]]; then
-                linenum=$( sed -r 's/^\.\/[^:]*:([0-9][0-9]*).*/\1/' <<<"$line" )
-                blanks="$( sed -r 's/ /ZZ/g' <<<"$line" )"
-                if [[ "$line" =~ "LaTeX Error" ]]; then
+                echo "247"
+            elif [[ "$(grep -q -E -- "^\.\/[^:][^:]*:[0-9][0-9]*:" <<<"${warnErrArr[$i]}")$?" == 0 ]]; then
+                echo "253"
+                linenum=$( sed -r 's/^\.\/[^:]*:([0-9][0-9]*).*/\1/' <<<"${warnErrArr[$i]}" )
+                echo "255"
+                blanks="$( sed -r 's/ /ZZ/g' <<<"${warnErrArr[$i]}" )"
+                echo "257"
+                if [[ "${warnErrArr[$i]}" =~ "LaTeX Error" ]]; then
+                    echo "259"
                     tmp="$linenum-ERROR-$blanks" 
-                elif [[ "$line" =~ "natbib" ]]; then
+                elif [[ "${warnErrArr[$i]}" =~ "natbib" ]]; then
+                    echo "262"
                     tmp="$linenum-BIB-$blanks"
                 else
+                    echo "265"
                     tmp="$linenum-WARNING-$blanks"
                 fi
+                echo "268"
              else
-                blanks="$( sed -r 's/ /ZZ/g' <<<"$line" )"
-                if [[ "$line" =~ "LaTeX Error" ]]; then
+                echo "270"
+                blanks="$( sed -r 's/ /ZZ/g' <<<"${warnErrArr[$i]}" )"
+                echo "272"
+                if [[ "${warnErrArr[$i]}" =~ "LaTeX Error" ]]; then
+                    echo "274"
                     tmp="0-ERROR-$blanks" 
-                elif [[ "$line" =~ "natbib" ]]; then
+                elif [[ "${warnErrArr[$i]}" =~ "natbib" ]]; then
+                    echo "277"
                     tmp="0-BIB-$blanks"
                 else
+                    echo "280"
                     tmp="0-WARNING-$blanks"
                 fi
+                echo "283"
              fi
+             echo "285"
              warnErrArr[$i]="$tmp"
           done
+          echo "288"
           # ============== sort and remove redundances in the error/warning list
           sorted=($( printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s ))
+          echo "291"
           touch tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              FATAL ERRORS IN ${{  github.event.inputs.file2compile }}.tex" >> tout.txt
