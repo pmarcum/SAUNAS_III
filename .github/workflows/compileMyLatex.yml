@@ -182,14 +182,14 @@ jobs:
           while IFS= read -r line; do 
              newline=$(sed -r 's/  */ /g' <<<"$line")
              echo "$newline"
-             if [[ "${#newline}" -eq 79 ]]; then
-                alllog+="$newline"
-             elif [[ echo "$newline" | grep -q -E '^ *\\' ]]; then
-                # remove the last end-of-line character and the attach this new piece of the line
-                # because this piece of line is a marked continuation by the \\
-                alllog=$(sed -r 's/|$//' <<<"$alllog")
-                newline=$(sed -r 's/^ *\\//' <<<"$newline")
-                alllog+="$newline|"
+             #if [[ "${#newline}" -eq 79 ]]; then
+             #   alllog+="$newline"
+             #elif [[ echo "$newline" | grep -q -E '^ *\\' ]]; then
+             #   # remove the last end-of-line character and the attach this new piece of the line
+             #   # because this piece of line is a marked continuation by the \\
+             #   alllog=$(sed -r 's/|$//' <<<"$alllog")
+             #   newline=$(sed -r 's/^ *\\//' <<<"$newline")
+             #   alllog+="$newline|"
              #elif [[ echo "$line" | grep -q -E '^ * ) *$' ]]; then
              #   # if this piece of line only consists of a ) then attach to previous line
              #   alllog=$( echo "$alllog" | sed -r 's/|$//' )
@@ -197,9 +197,9 @@ jobs:
              #elif [[ echo "$line" | grep -q -E '\, *$' )
              #   # if this line ends with comma, assume the next line is continuation
              #   alllog+="$line"
-             else
-                alllog+="$newline|"
-             fi
+             #else
+             #   alllog+="$newline|"
+             #fi
           done < ${{ github.event.inputs.file2compile }}.log
           echo "$alllog"
           logstr=""
