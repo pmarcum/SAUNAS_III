@@ -178,20 +178,49 @@ jobs:
       - name: Capture full compilation output
         # remove lines in the output that are unrelated to the latex compilation itself
         run: |
-          # ========================  make sure that all lines related to a sentence are all smooshed together into single line
-          # First, move lines that should have been the ending of the previous line, to the end of that previous line
-          sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log > new.log
-          # ======================== make a new line character after each period
-          rm -f tmp.txt && touch tmp.txt && sed -r 's/^( *)\x0( *)\\\\/\1\2/g' new.log >> tmp.txt && mv -f tmp.txt new.log
-          touch tmp.txt && sed -r 's/\x0\x0\x0*/\x0\n\x0/g' new.log >> tmp.txt && mv -f tmp.txt new.log
-          touch tmp.txt && sed -r 's/\x0 *\\/\x0\n\\/g' new.log >> tmp.txt && mv -f tmp.txt new.log
-          touch tmp.txt && sed -r 's/\. *\x0 *\) *\x0/\.\)\n\x0/g' new.log >> tmp.txt && mv -f tmp.txt new.log
-          #touch tmp.txt && sed -r 's/\. *\x0 *(\) *[\)]*) *\x0/\.\)\1\n\x0/g' new.log >> tmp.txt && mv -f tmp.txt new.log
-          touch tmp.txt && sed -r 's/\. *\x0/\.\n/g' new.log >> tmp.txt && mv -f tmp.txt new.log
-          touch tmp.txt && sed -r 's/^ *\x0//g' new.log >> tmp.txt && mv -f tmp.txt new.log
-          touch tmp.txt && sed -r 's/\x0//g' new.log >> tmp.txt && mv -f tmp.txt new.log
-          touch tmp.txt && sed -r 's/  */ /g' new.log >> tmp.txt && mv -f tmp.txt new.log
-          mv -f new.log ${{ github.event.inputs.file2compile }}_full.log
+          continuedline = 79
+          alllog="$( sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log )"
+          logarray=""
+          while [[ echo "$alllog" | grep -q -E "\x0" ]]; do
+             thispiece='$( echo "$alllog" | sed -r "s/^([^\x0]*)\x0/\1/" )'
+             alllog='$( echo "$alllog" | sed -r "s/^[^\x0]*\x0//" )'
+             if [[ "${#thispiece}" = $continuedline ]]; then
+                # likely continued on next line so remove the x0, the end of line character representaion
+                logarray+="$thispiece"
+             elif [[ echo "$alllog" | grep -q -E "^ *\\\\" ]]; then
+                # an explicit continuation line comes right after the one we are processing, so remove 
+                # line return between them
+                logarray+="$thispiece"
+             elif [[ echo "$alllog" | grep -q -E "^ *\) *\x0" ]]; then
+                # the next line is just a closed parenthesis, so bring it up to the end of present line
+                logarray+="$thispiece"
+             else
+                logarray+="$thispiece\x0"
+             fi
+          done
+          if [[ "$alllog" -ne "" ]]; then logarray+="$alllog"; fi
+          # write array to file
+          while [[ echo "$logarray" | grep -q -E "\x0" ]]; do
+             thisline='$( echo "$logarray" | sed -r "s/^([^\x0]*)\x0/\1/" )'
+             alllog='$( echo "$alllog" | sed -r "s/^[^\x0]*\x0//" )'
+             echo "$thisline" >> ${{ github.event.inputs.file2compile }}.log
+          done
+          if [[ "$alllog" -ne "" ]]; then echo "$alllog" >> ${{ github.event.inputs.file2compile }}_full.log; fi
+          
+          ## ========================  make sure that all lines related to a sentence are all smooshed together into single line
+          ## First, move lines that should have been the ending of the previous line, to the end of that previous line
+          ## ======================== make separate lines be shown as a single line if they are related to each other
+          #sed ':a;N;$!ba;s/\n/\x0/g' ${{ github.event.inputs.file2compile }}.log > new.log
+          ##rm -f tmp.txt && touch tmp.txt && sed -r 's/^( *)\x0( *)\\\\/\1\2/g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          ##touch tmp.txt && sed -r 's/\x0\x0\x0*/\x0\n\x0/g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          ##touch tmp.txt && sed -r 's/\x0 *\\/\x0\n\\/g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          ##touch tmp.txt && sed -r 's/\. *\x0 *\) *\x0/\.\)\n\x0/g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          ##touch tmp.txt && sed -r 's/\. *\x0 *(\) *[\)]*) *\x0/\.\)\1\n\x0/g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          #touch tmp.txt && sed -r 's/\. *\x0/\.\n/g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          #touch tmp.txt && sed -r 's/^ *\x0//g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          #touch tmp.txt && sed -r 's/\x0//g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          #touch tmp.txt && sed -r 's/  */ /g' new.log >> tmp.txt && mv -f tmp.txt new.log
+          #mv -f new.log ${{ github.event.inputs.file2compile }}_full.log
           echo "-----------------------------------------------------"
           echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
           echo "-----------------------------------------------------"
