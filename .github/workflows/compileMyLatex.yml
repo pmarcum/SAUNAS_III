@@ -225,7 +225,7 @@ jobs:
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           # ============= now get the items that are not labeled as 'warning' or "error", but are problems w/ associated line numbers
           # be consolidated with the associated line in the error section here
-          readarray -t res < <( grep -E -- "main\.tev:103:" ${{ github.event.inputs.file2compile }}_full.log )
+          readarray -t res < <( grep -E -- "main\.tex:103:" ${{ github.event.inputs.file2compile }}_full.log )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           echo " "
           echo " "
