@@ -180,16 +180,16 @@ jobs:
         run: |
           alllog=''
           while IFS= read -r line; do 
-             newline=$( echo "$line" | sed -r 's/  */ /g' )
+             newline=$(sed -r 's/  */ /g' <<<"$line")
              echo "$newline"
              if [[ "${#newline}" -eq 79 ]]; then
                 alllog+="$newline"
              elif [[ echo "$newline" | grep -q -E '^ *\\' ]]; then
                 # remove the last end-of-line character and the attach this new piece of the line
                 # because this piece of line is a marked continuation by the \\
-                alllog=$( echo "$alllog" | sed -r 's/|$//' )
-                newln=$( echo "$newline" | sed -r 's/^ *\\//' )
-                alllog+="$newln|"
+                alllog=$(sed -r 's/|$//' <<<"$alllog")
+                newline=$(sed -r 's/^ *\\//' <<<"$newline")
+                alllog+="$newline|"
              #elif [[ echo "$line" | grep -q -E '^ * ) *$' ]]; then
              #   # if this piece of line only consists of a ) then attach to previous line
              #   alllog=$( echo "$alllog" | sed -r 's/|$//' )
