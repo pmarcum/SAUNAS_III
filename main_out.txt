@@ -1,8 +1,8 @@
-2024-09-23T08:55:22Z 1727081722662
+2024-09-23T08:58:32Z 1727081912313
 LATEX COMPILATION ERRORS and WARNINGS
 
 To view full GitHub Actions output, click on item at top of list here:
-https://github.com/pmarcum/SAUNAS_III/actions/runs/10990921352/job/30512178963
+https://github.com/pmarcum/SAUNAS_III/actions/runs/10990966597/job/30512327862
 ====================================================================================================
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               FATAL ERRORS IN main.tex
@@ -15,7 +15,7 @@ Line #57 -----------------------
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               WARNINGS IN main.tex
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-LaTeX Warning: You have requested document class `CORE-AAS/aastex631', but the document class provides `aastex631'.
+LaTeX Warning: You have requested document class `CORE-AAS/aastex631',
 -------------------------------------------------------------------------
 LaTeX Warning: Command \@footnotemark has changed.
 -------------------------------------------------------------------------
