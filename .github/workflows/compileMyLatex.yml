@@ -184,7 +184,7 @@ jobs:
           while [[ echo "$alllog" | grep -q -E "\x0" ]]; do
              thispiece='$( echo "$alllog" | sed -r "s/^([^\x0]*)\x0/\1/" )'
              alllog='$( echo "$alllog" | sed -r "s/^[^\x0]*\x0//" )'
-             if [[ "${#thispiece}" = $continuedline ]]; then
+             if [[ "${#thispiece}" = continuedline ]]; then
                 # likely continued on next line so remove the x0, the end of line character representaion
                 logarray+="$thispiece"
              elif [[ echo "$alllog" | grep -q -E "^ *\\\\" ]]; then
