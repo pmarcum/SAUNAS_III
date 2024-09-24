@@ -132,10 +132,8 @@ jobs:
                 echo "biblio $biblio"
                 while [[ "$(grep -q -F -- "," <<<"$biblio" )$?" == 0 ]]; do
                    thisbib=$(sed -r 's/^([^,]*)\,.*$/\1/' <<<"$biblio")
-                   echo "thisbib: $thisbib"
                    # remove this piece from citeblock
                    biblio=$(sed -r 's/^[^,]*\,//' <<<"$biblio")
-                   echo "biblio after thisbib removal: $biblio"
                    if [[ ! "$thisbib" =~ "pruned" ]]; then 
                       bibfiles+=("$thisbib")
                       echo "added the following to bibfiles: $thisbib"
@@ -143,10 +141,7 @@ jobs:
                       doesNotUsePruned=false
                    fi
                 done
-                echo "after while loop, here is what is in biblio: $biblio"
                 if [[ "$biblio" != "" ]]; then bibfiles+=("$biblio"); fi
-                echo "final list of bibfiles:"
-                printf '%s\n' "${bibfiles[@]}"
              fi
              #  
              if [[ "$(grep -q -E -- "^\\\cite" <<<"$line" )$?" == 0 ]]; then
@@ -163,17 +158,16 @@ jobs:
           done < inpaperCites.txt
           if $doesNotUsePruned; then
              bibfiles=($(printf "%s\n" "${bibfiles[@]}" | sort -u))
-             echo "sorted bibfiles:"
-             printf '%s\n' "${bibfiles[@]}"
              # Get the .bib files used in this document
              allbib=''
              for (( i=0; i<${#bibfiles[@]}; i++ )); do
-                echo "adding contents of this bibfile to consolidated content: ${bibfiles[$i]}"
                 while IFS= read -r line; do allbib+="$line|"; done < "${bibfiles[$i]}"
              done
              # now break on each citation item, so that a full citation occupies a whole line in the temp file
              touch consolidatedBib.tmp
              sed -r 's/(@[a-z][a-z]*) *\{[ "'`]*([^,][^,]*)[ "'`]*\,/\1\{\2\,/ig;s/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> consolidatedBib.tmp
+             head consolidatedBib.tmp
+             tail consolidatedBib.tmp
              # now look for the citations in this compiled set of citations
              touch pruned.bib
              for (( i=0; i<${#cites[@]}; i++ )); do
