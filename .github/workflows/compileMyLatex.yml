@@ -169,9 +169,9 @@ jobs:
              touch pruned.bib
              for (( i=0; i<${#cites[@]}; i++ )); do
                 echo "======== now doing this one: ${cites[$i]}"
-                echo "$(grep -q -F -- "${cites[$i]}"  consolidatedBib.tmp)$?" 
+                echo "$(grep -q -F -- "{${cites[$i]},"  consolidatedBib.tmp)$?" 
                 ##################################### something wrong in next line
-                grep -F -- "${cites[$i]}"  consolidatedBib.tmp
+                grep -F -- "{${cites[$i]},"  consolidatedBib.tmp
              #   if [[ "$(grep -q -F -- "${cites[$i]}"  consolidatedBib.tmp)$?" == 0 ]]; then
              #      line="$(grep -F -- "${cites[$i]}"  consolidatedBib.tmp)"
              #      echo "inside if statement"
