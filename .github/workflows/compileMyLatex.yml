@@ -115,22 +115,20 @@ jobs:
           # grab all the citations in the .tex file
           lines=()
           cites=()
-          #readarray -t lines < <( grep -E -- "\\cite" *.tex )
           # smoosh all lines together, to make sure no citation is lost because it landed on a separate line from the \cite part
           # and remove all the whitespace
           alllines=$(sed ':a;N;$!ba;s/\n/\|/g;s/ //g' ${{ github.event.inputs.file2compile }}.tex)
-          echo "$alllines"
-          echo "------------------------------------"
           # convert plus signs to _plus_ and periods to _period_ and remove square brackets so that we are just left
           # with pure "\citep{  }" or \citet{  }" or \cite{ }, etc.  Strip out all characters to left of and right of citation
           alllines=$(sed -r 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\+/_plus_/ig;s/\./_period_/ig;s/\\cite/\n\\cite/ig' <<<"$alllines")  
-          echo "$alllines" > cite.txt
-          cat cite.txt
           while IFS= read -r line; do
-             if [[ "$(grep -q -E -- "^\\cite" <<<"$line" )$?" == 0 ]]; do
+             echo "$line"
+             echo "$(grep -q -E -i -- "^\\cite" <<<"$line" )$?"
+             if [[ "$(grep -q -E -i -- "^\\cite" <<<"$line" )$?" == 0 ]]; do
                 citeblock=$(sed -r 's/^\\cite[a-z]*\{*([^}]*)\}.*$/\1/i' <<<"$line")
                 echo "citeblock"
                 echo "$citeblock"
+                echo "$(grep -q -E -- "\," <<<"$citeblock" )$?"
                 # Now get the individual citations in this block
                 while [[ "$(grep -q -E -- "\," <<<"$citeblock" )$?" == 0 ]]; do
                    thiscite=$(sed -r 's/^([^,]*)\,.*$/\1/i' <<<"$citeblock")
