@@ -1,20 +1,20 @@
-2024-09-24T01:24:31Z 1727141071482
+2024-09-24T01:33:25Z 1727141605138
 LATEX COMPILATION ERRORS and WARNINGS
 
 To view full GitHub Actions output, click on item at top of list here:
-https://github.com/pmarcum/SAUNAS_III/actions/runs/11005234156/job/30557549605
+https://github.com/pmarcum/SAUNAS_III/actions/runs/11005327320/job/30557793855
 ====================================================================================================
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               FATAL ERRORS IN main.tex
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 LaTeX Warning: There were undefined references.
 -------------------------------------------------------------------------
-./main.tex:103: Undefined control sequence.
-Line #103 ----------------------- 
+./main.tex:101: Undefined control sequence.
+Line #101 ----------------------- 
 \pam
 -------------------------------------------------------------------------
-LaTeX Warning: Reference `fig' on page 4 undefined on input line 110.
-Line #110 ----------------------- 
+LaTeX Warning: Reference `fig' on page 4 undefined on input line 108.
+Line #108 ----------------------- 
 \ref{fig}
 -------------------------------------------------------------------------
 
@@ -29,17 +29,21 @@ LaTeX Warning: \include should only be used after \begin{document} on input line
 Line #32 ----------------------- 
 \include{variables}
 -------------------------------------------------------------------------
-./main.tex:148: You can't use `macro parameter character #' in vertical mode.
-./main.tex:148: You can't use `macro parameter character #' in horizontal mode.l.148 ...================================= ERROR #
-Line #148 ----------------------- 
+./main.tex:146: You can't use `macro parameter character #' in vertical mode.
+./main.tex:146: You can't use `macro parameter character #' in horizontal mode.l.146 ...================================= ERROR #
+Line #146 ----------------------- 
 # =================================== ERROR #6 Package natbib Warning: There were undefined citations
 -------------------------------------------------------------------------
  
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               CITATION ISSUES IN main.tex 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-Package natbib Warning: Citation `johnson2022' on page 4 undefined on input line 107.
-Line #107 ----------------------- 
+Package natbib Warning: Citation `Graham1995' on page 1 undefined on input line 54.
+Line #54 ----------------------- 
+Here is the intro section \citep{aguerri+1998aj116_2136, bell+2006apj640_241,bell+2006apj652_270} and here is another \citep{Graham1995}.
+-------------------------------------------------------------------------
+Package natbib Warning: Citation `johnson2022' on page 4 undefined on input line 105.
+Line #105 ----------------------- 
 4th sentence \citep{johnson2022}
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
