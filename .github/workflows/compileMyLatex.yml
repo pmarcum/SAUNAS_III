@@ -157,30 +157,22 @@ jobs:
           done < cites.txt
           if $doesNotUsePruned; then
              bibfiles=($(printf "%s\n" "${bibfiles[@]}" | sort -u))
-             echo ""
-             echo "============================= list of bib files"
-             printf "%s\n" "${bibfiles[@]}"
-             echo "============================================"
              # Get the .bib files used in this document
              allbib=''
              for (( i=0; i<${#bibfiles[@]}; i++ )); do
-                echo "$bibfiles[$i]"
                 while IFS= read -r line; do allbib+="$line\|"; done < "${bibfiles[$i]}"
              done
              # now break on each citation item, so that a full citation occupies a whole line in the temp file
              touch bib.tmp
              sed -r 's/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> bib.tmp
-             echo ""
-             echo "*************************************** top of composite bib files"
-             head bib.tmp
-             echo "***************************************************************"
              # now look for the citations in this compiled set of citations
              touch pruned.bib
              for (( i=0; i<${#cites[@]}; i++ )); do
                 echo "======== now doing this one: ${cites[$i]}"
-                echo "$(grep -i -q -E -- "@[a-z][a-z]*\{${cites[$i]}" bib.tmp)$?" 
-                if [[ "$(grep -i -q -E -- "@[a-z][a-z]*\{${cites[$i]}" bib.tmp)$?" == 0 ]]; then
-                   line="$(grep -i -q -E -- "@[a-z][a-z]*\{${cites[$1]}" bib.tmp)"
+                grep -E -- "\|@[^{]*\{${cites[$i]}" bib.tmp
+                echo "$(grep -q -E -- "\|@[^{]*\{${cites[$i]}" bib.tmp)$?" 
+                if [[ "$(grep -q -E -- "\|@[^{]*\{${cites[$i]}" bib.tmp)$?" == 0 ]]; then
+                   line="$(grep -q -E -- "\|@[^{]*\{${cites[$1]}" bib.tmp)"
                    echo "inside if statement"
                    echo "$line"
                    line=$(sed -r 's/\|/\n/g' <<<"$line")
