@@ -115,27 +115,40 @@ jobs:
           # grab all the citations in the .tex file
           lines=()
           cites=()
-          readarray -t lines < <( grep -E -- "\\cite" *.tex )
+          #readarray -t lines < <( grep -E -- "\\cite" *.tex )
           # smoosh all lines together, to make sure no citation is lost because it landed on a separate line from the \cite part
           # and remove all the whitespace
           alllines=$(sed ':a;N;$!ba;s/\n/\|/g;s/ //g' ${{ github.event.inputs.file2compile }}.tex)
+          echo "$alllines"
+          echo "------------------------------------"
           # convert plus signs to _plus_ and periods to _period_ and remove square brackets so that we are just left
           # with pure "\citep{  }" or \citet{  }" or \cite{ }, etc.  Strip out all characters to left of and right of citation
           alllines=$(sed -E -i 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\+/_plus_/ig;s/\./_period_/ig' <<<"$alllines")
+          echo "$alllines"
+          echo "--------------------------------------"
           # now retrieve each citation block in this line
           while [[ "$(grep -q -F -- "\\cite" <<<"$alllines" )$?" == 0 ]]; do
             citeblock=$(sed -E -i 's/^.*\\cite[a-z]*\{ *//i;s/^([^}]*) *\}.*$/\1/i' <<<"$alllines")
+            echo "citeblock"
+            echo "$citeblock"
             # remove this part from alllines
             alllines=$(sed -E -i 's/^.*\\cite[a-z]*\{ *//i;s/^[^}]* *\}//i' <<<"$alllines")
+            echo "alllines"
+            echo "$alllines"
             # Now get the individual citations in this block
             while [[ "$(grep -q -F -- "\," <<<"$citeblock" )$?" == 0 ]]; do
                thiscite=$(sed -E -i 's/^([^,]*)\,.*$/\1/i;s/^ *//;s/ *$//' <<<"$citeblock")
+               echo "thiscite: $thiscite"
                # remove this piece from citeblock
                citeblock=$(sed -E -i 's/^[^,]*\,//' <<<"$citeblock")
+               echo "citeblock now:"
+               echo "$citeblock"
                cites+=(thiscite)
             done
             if [[ "$citeblock" != "" ]]; then
                citeblock=$(sed -E -i 's/^ *//;s/ *$//' <<<"$citeblock")
+               echo "at end of processing this citeblock and this is last bit:"
+               echo "$citeblock"
                cites+=("$citeblock")
             fi
           done
