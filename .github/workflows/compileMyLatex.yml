@@ -125,6 +125,7 @@ jobs:
           # convert plus signs to _plus_ and periods to _period_ and remove square brackets so that we are just left
           # with pure "\citep{  }" or \citet{  }" or \cite{ }, etc.  Strip out all characters to left of and right of citation
           touch cites.txt
+          doesNotUsePruned=true
           sed -r 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\\cite/\n\\cite/ig' <<<"$alllines" >> cites.txt
           while IFS= read -r line; do
              if [[ "$(grep -q -E -- "^\\\bibliography\{" <<<"$line" )$?" == 0 ]]; then
@@ -133,7 +134,7 @@ jobs:
                    thisbib=$(sed -r 's/^([^,]*)\,.*$/\1/' <<<"$biblio")
                    # remove this piece from citeblock
                    biblio=$(sed -r 's/^[^,]*\,//' <<<"$biblio")
-                   if [[ ! "$thisbib" =~ "pruned" ]]; then bibfiles+=("$thisbib"); fi
+                   if [[ ! "$thisbib" =~ "pruned" ]]; then bibfiles+=("$thisbib"); doesNotUsePruned=false; fi
                 done
                 if [[ "$biblio" != "" ]]; then bibfiles+=("$biblio"); fi
                 printf '%s\n' "${bibfiles[@]}"
@@ -155,28 +156,30 @@ jobs:
           echo " &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
           printf '%s\n' "${cites[@]}"     
           echo "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
-          # Get the .bib files used in this document
-          allbib=''
-          for (( i=0; i<${#bibfiles[@]}; i++ )); do allbib+="$(sed ':a;N;$!ba;s/\n/\|/g;s/ *\| */\|/g;s/\|\|*/\|/g' ${bibfiles[$i]})|"; done
-          # now break on each citation item, so that a full citation occupies a whole line in the temp file
-          touch bib.tmp
-          sed -r 's/\}\|(@[a-z][a-z]*\{)/\}\n\1/g' <<<"$allbib" >> bib.tmp
-          head bib.tmp
-          tail bib.tmp
-          # now look for the citations in this compiled set of citations
-          touch pruned.bib
-          for (( i=0; i<${#cites[@]}; i++ )); do
-             echo "${cites[$i]}"
-             echo "$(grep -i -q -E -- "@[a-z][a-z]*\{${cites[$i]}" bib.tmp)$?" 
-             if [[ "$(grep -i -q -E -- "@[a-z][a-z]*\{${cites[$i]}" bib.tmp)$?" == 0 ]]; then
-                line="$(grep -i -q -E -- "@[a-z][a-z]*\{${cites[$1]}" bib.tmp)"
-                echo "inside if statement"
-                echo "$line"
-                line=$(sed -r 's/\|/\n/g' <<<"$line")
-                echo "$line" >> pruned.bib
-             fi
-          done
-          cat pruned.bib
+          if [[ $doesNotUsePruned ]]; then
+             # Get the .bib files used in this document
+             allbib=''
+             for (( i=0; i<${#bibfiles[@]}; i++ )); do allbib+="$(sed ':a;N;$!ba;s/\n/\|/g;s/ *\| */\|/g;s/\|\|*/\|/g' ${bibfiles[$i]})|"; done
+             # now break on each citation item, so that a full citation occupies a whole line in the temp file
+             touch bib.tmp
+             sed -r 's/\}\|(@[a-z][a-z]*\{)/\}\n\1/g' <<<"$allbib" >> bib.tmp
+             head bib.tmp
+             tail bib.tmp
+             # now look for the citations in this compiled set of citations
+             touch pruned.bib
+             for (( i=0; i<${#cites[@]}; i++ )); do
+                echo "${cites[$i]}"
+                echo "$(grep -i -q -E -- "@[a-z][a-z]*\{${cites[$i]}" bib.tmp)$?" 
+                if [[ "$(grep -i -q -E -- "@[a-z][a-z]*\{${cites[$i]}" bib.tmp)$?" == 0 ]]; then
+                   line="$(grep -i -q -E -- "@[a-z][a-z]*\{${cites[$1]}" bib.tmp)"
+                   echo "inside if statement"
+                   echo "$line"
+                   line=$(sed -r 's/\|/\n/g' <<<"$line")
+                   echo "$line" >> pruned.bib
+                fi
+             done
+             cat pruned.bib
+          fi
           #
           ## ============> combining all .tex files in repo in into a single temporary file
           #touch texfile.tmp
