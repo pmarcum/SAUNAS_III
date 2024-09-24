@@ -196,6 +196,7 @@ jobs:
                    alllog+="$newline|"
                 fi
              fi
+             echo "$newline"
           done < ${{ github.event.inputs.file2compile }}.log
           # write array to file
           touch ${{ github.event.inputs.file2compile }}_out.log
