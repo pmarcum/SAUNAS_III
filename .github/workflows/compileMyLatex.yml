@@ -122,25 +122,29 @@ jobs:
           # smoosh all lines together, to make sure no citation is lost because it landed on a separate line from the \cite part
           # and remove all the whitespace
           alllines=$(sed ':a;N;$!ba;s/\n/\|/g;s/ //g' ${{ github.event.inputs.file2compile }}.tex)
-          # convert plus signs to _plus_ and periods to _period_ and remove square brackets so that we are just left
-          # with pure "\citep{  }" or \citet{  }" or \cite{ }, etc.  Strip out all characters to left of and right of citation
+          # remove square brackets so that we are just left with pure "\citep{  }" or \citet{  }" or \cite{ }, etc.  
           touch inpaperCites.txt
           doesNotUsePruned=true
           sed -r 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\\cite/\n\\cite/ig' <<<"$alllines" >> inpaperCites.txt
           while IFS= read -r line; do
              if [[ "$(grep -q -E -- "\\\bibliography\{" <<<"$line" )$?" == 0 ]]; then
                 biblio=$(sed -r 's/^.*\\bibliography\{([^}]*)\}.*$/\1/' <<<"$line")
-                while [[ "$(grep -q -E -- "," <<<"$biblio" )$?" == 0 ]]; do
+                echo "biblio $biblio"
+                while [[ "$(grep -q -F -- "," <<<"$biblio" )$?" == 0 ]]; do
                    thisbib=$(sed -r 's/^([^,]*)\,.*$/\1/' <<<"$biblio")
+                   echo "thisbib: $thisbib"
                    # remove this piece from citeblock
                    biblio=$(sed -r 's/^[^,]*\,//' <<<"$biblio")
+                   echo "biblio after thisbib removal: $biblio"
                    if [[ ! "$thisbib" =~ "pruned" ]]; then 
                       bibfiles+=("$thisbib")
+                      echo "added the following to bibfiles: $thisbib"
                    else
                       doesNotUsePruned=false
                    fi
                 done
                 if [[ "$biblio" != "" ]]; then bibfiles+=("$biblio"); fi
+                echo "final list of bibfiles: $bibfiles"
              fi
              #  
              if [[ "$(grep -q -E -- "^\\\cite" <<<"$line" )$?" == 0 ]]; then
@@ -157,9 +161,12 @@ jobs:
           done < inpaperCites.txt
           if $doesNotUsePruned; then
              bibfiles=($(printf "%s\n" "${bibfiles[@]}" | sort -u))
+             echo "sorted bibfiles:"
+             printf '%s\n' "${bibfiles[@]}"
              # Get the .bib files used in this document
              allbib=''
              for (( i=0; i<${#bibfiles[@]}; i++ )); do
+                echo "adding contents of this bibfile to consolidated content: ${bibfiles[$i]}"
                 while IFS= read -r line; do allbib+="$line|"; done < "${bibfiles[$i]}"
              done
              # now break on each citation item, so that a full citation occupies a whole line in the temp file
@@ -180,7 +187,7 @@ jobs:
                 fi
              done
              echo ""
-             echo "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ pruned.bib"
+             echo "------------------------------------------ pruned.bib"
              cat pruned.bib
           fi
           #
