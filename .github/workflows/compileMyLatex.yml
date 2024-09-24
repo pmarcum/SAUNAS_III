@@ -147,7 +147,7 @@ jobs:
                 citeblock=$(sed -r 's/^\\cite[a-z]*\{*([^}]*)\}.*$/\1/i' <<<"$line")
                 # Now get the individual citations in this block
                 while [[ "$(grep -q -E -- "," <<<"$citeblock" )$?" == 0 ]]; do
-                   thiscite=$(sed -r 's/^([^,]*)\,.*$/\1/i;s/\+/_PLUS_/g;s/\./_PERIOD_/g' <<<"$citeblock")
+                   thiscite=$(sed -r 's/^([^,]*)\,.*$/\1/i' <<<"$citeblock")
                    # remove this piece from citeblock
                    citeblock=$(sed -r 's/^[^,]*\,//' <<<"$citeblock")
                    cites+=("$thiscite")
@@ -164,15 +164,15 @@ jobs:
              done
              # now break on each citation item, so that a full citation occupies a whole line in the temp file
              touch bib.tmp
-             sed -r 's/\+/_PLUS_/g;s/\./_PERIOD_/g;s/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> bib.tmp
+             sed -r 's/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> bib.tmp
              # now look for the citations in this compiled set of citations
              touch pruned.bib
              for (( i=0; i<${#cites[@]}; i++ )); do
                 echo "======== now doing this one: ${cites[$i]}"
                 ##################################### something wrong in next line
                 echo "$(grep -q -F -- "${cites[$i]}"  bib.tmp)$?" 
-                if [[ "$(grep -q -E -- "\|@[^{]*\{${cites[$i]}"  bib.tmp)$?" == 0 ]]; then
-                   line="$(grep -q -E -- "\|@[^{]*\{${cites[$i]}"  bib.tmp)"
+                if [[ "$(grep -q -F -- "${cites[$i]}"  bib.tmp)$?" == 0 ]]; then
+                   line="$(grep -q -F -- "${cites[$i]}"  bib.tmp)"
                    echo "inside if statement"
                    echo "$line"
                    line=$(sed -r 's/\|/\n/g' <<<"$line")
