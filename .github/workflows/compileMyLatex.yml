@@ -173,7 +173,7 @@ jobs:
              done
              # now break on each citation item, so that a full citation occupies a whole line in the temp file
              touch consolidatedBib.tmp
-             sed -r 's/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> consolidatedBib.tmp
+             sed -r 's/(@[a-z][a-z]*) *\{[ "'`]*([^,][^,]*)[ "'`]*\,/\1\{\2\,/ig;s/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> consolidatedBib.tmp
              # now look for the citations in this compiled set of citations
              touch pruned.bib
              for (( i=0; i<${#cites[@]}; i++ )); do
