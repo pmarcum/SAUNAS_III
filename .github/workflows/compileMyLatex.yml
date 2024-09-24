@@ -127,13 +127,13 @@ jobs:
           echo "$alllines" > cite.txt
           cat cite.txt
           while IFS= read -r line; do
-             if [[ "$(grep -q -F -- "^\\cite" <<<"$line" )$?" == 0 ]]; do
-                citeblock=$(sed -r 's/^\\cite[a-z]*\{ *([^}]*)\}.*$/\1/i' <<<"$line")
+             if [[ "$(grep -q -E -- "^\\cite" <<<"$line" )$?" == 0 ]]; do
+                citeblock=$(sed -r 's/^\\cite[a-z]*\{*([^}]*)\}.*$/\1/i' <<<"$line")
                 echo "citeblock"
                 echo "$citeblock"
                 # Now get the individual citations in this block
-                while [[ "$(grep -q -F -- "\," <<<"$citeblock" )$?" == 0 ]]; do
-                   thiscite=$(sed -r 's/^([^,]*)\,.*$/\1/i;s/^ *//;s/ *$//' <<<"$citeblock")
+                while [[ "$(grep -q -E -- "\," <<<"$citeblock" )$?" == 0 ]]; do
+                   thiscite=$(sed -r 's/^([^,]*)\,.*$/\1/i' <<<"$citeblock")
                    echo "thiscite: $thiscite"
                    # remove this piece from citeblock
                    citeblock=$(sed -r 's/^[^,]*\,//' <<<"$citeblock")
@@ -142,7 +142,6 @@ jobs:
                    cites+=(thiscite)
                 done
                 if [[ "$citeblock" != "" ]]; then
-                   citeblock=$(sed -r 's/^ *//;s/ *$//' <<<"$citeblock")
                    echo "at end of processing this citeblock and this is last bit:"
                    echo "$citeblock"
                    cites+=("$citeblock")
