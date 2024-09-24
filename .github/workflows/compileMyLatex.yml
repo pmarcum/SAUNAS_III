@@ -143,6 +143,7 @@ jobs:
                       doesNotUsePruned=false
                    fi
                 done
+                echo "after while loop, here is what is in biblio: $biblio"
                 if [[ "$biblio" != "" ]]; then bibfiles+=("$biblio"); fi
                 echo "final list of bibfiles: $bibfiles"
              fi
