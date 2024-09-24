@@ -116,19 +116,29 @@ jobs:
           lines=()
           cites=()
           readarray -t lines < <( grep -E -- "\\cite" *.tex )
-          for (( i=0; i<${#lines[@]}; i++ )); do
-             line=lines[$i]
-             # convert plus signs to _plus_ and periods to _period_ and remove square brackets so that we are just left
-             # with pure "\citep{  }" or \citet{  }" or \cite{ }, etc.  Strip out all characters to left of and right of citation
-             line=$(sed -E -i 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\+/_plus_/ig;s/\./_period_/ig;s/^.*\{//g;s/\}.*$//g' <<<"$line")
-             # now retrieve all the individual citations in this line
-             while [[ "$(grep -q -F -- "\," <<<"$line" )$?" == 0 ]]; do
-                thiscite=$(sed -r 's/^([^,]*)\,.*$/\1/' <<<"$line" )
-                line=$(sed -r 's/^[^,]*\,//' <<<"$line" )
-                cites+=(thiscite)
-             done
-             if [[ "$line" != "" ]]; then cites+=("$line"); fi
-          done          
+          # smoosh all lines together, to make sure no citation is lost because it landed on a separate line from the \cite part
+          # and remove all the whitespace
+          alllines=$(sed ':a;N;$!ba;s/\n/\|/g;s/ //g' ${{ github.event.inputs.file2compile }}.tex)
+          # convert plus signs to _plus_ and periods to _period_ and remove square brackets so that we are just left
+          # with pure "\citep{  }" or \citet{  }" or \cite{ }, etc.  Strip out all characters to left of and right of citation
+          alllines=$(sed -E -i 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\+/_plus_/ig;s/\./_period_/ig' <<<"$alllines")
+          # now retrieve each citation block in this line
+          while [[ "$(grep -q -F -- "\\cite" <<<"$alllines" )$?" == 0 ]]; do
+            citeblock=$(sed -E -i 's/^.*\\cite[a-z]*\{ *//i;s/^([^}]*) *\}.*$/\1/i' <<<"$alllines")
+            # remove this part from alllines
+            alllines=$(sed -E -i 's/^.*\\cite[a-z]*\{ *//i;s/^[^}]* *\}//i' <<<"$alllines")
+            # Now get the individual citations in this block
+            while [[ "$(grep -q -F -- "\," <<<"$citeblock" )$?" == 0 ]]; do
+               thiscite=$(sed -E -i 's/^([^,]*)\,.*$/\1/i;s/^ *//;s/ *$//' <<<"$citeblock")
+               # remove this piece from citeblock
+               citeblock=$(sed -E -i 's/^[^,]*\,//' <<<"$citeblock")
+               cites+=(thiscite)
+            done
+            if [[ "$citeblock" != "" ]]; then
+               citeblock=$(sed -E -i 's/^ *//;s/ *$//' <<<"$citeblock")
+               cites+=("$citeblock")
+            fi
+          done
           printf '%s\n' "${cites[@]}"     
           # going to strip out all the used citations and make a pruned.bib file that can be used as the final 
           # bib file for submission purposes rather than having to use the whole master bib file.  based on the
