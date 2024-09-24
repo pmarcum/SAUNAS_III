@@ -281,6 +281,10 @@ jobs:
                 fi
              fi
              warnErrArr[$i]="$tmp"
+             echo " "
+             echo "$tmp"
+             echo " "
+             echo "=============================================================================================================="
           done
           # ============== sort and remove redundances in the error/warning list
           sorted=($( printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s ))
