@@ -127,13 +127,10 @@ jobs:
           touch cites.txt
           doesNotUsePruned=true
           sed -r 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\\cite/\n\\cite/ig' <<<"$alllines" >> cites.txt
-          echo "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
-          echo "$(grep -q -E -- "^\\\bibliography\{" <<<"$line" )$?"
-          echo "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
           while IFS= read -r line; do
              echo "$line"
-             echo "$(grep -q -E -- "^\\\bibliography\{" <<<"$line" )$?"
-             if [[ "$(grep -q -E -- "^\\\bibliography\{" <<<"$line" )$?" == 0 ]]; then
+             echo "$(grep -q -E -- "\\\bibliography\{" <<<"$line" )$?"
+             if [[ "$(grep -q -E -- "\\\bibliography\{" <<<"$line" )$?" == 0 ]]; then
                 biblio=$(sed -r 's/^.*\\bibliography\{([^}]*)\}.*$/\1/' <<<"$line")
                 echo "$biblio"
                 while [[ "$(grep -q -E -- "," <<<"$biblio" )$?" == 0 ]]; do
