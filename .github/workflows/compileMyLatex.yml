@@ -124,8 +124,8 @@ jobs:
           alllines=$(sed ':a;N;$!ba;s/\n/\|/g;s/ //g' ${{ github.event.inputs.file2compile }}.tex)
           # convert plus signs to _plus_ and periods to _period_ and remove square brackets so that we are just left
           # with pure "\citep{  }" or \citet{  }" or \cite{ }, etc.  Strip out all characters to left of and right of citation
-          alllines=$(sed -r 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\+/_plus_/ig;s/\./_period_/ig;s/\\cite/\n\\cite/ig' <<<"$alllines")
-          echo "$alllines" > cites.txt
+          touch cites.txt
+          sed -r 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\\cite/\n\\cite/ig' <<<"$alllines" >> cites.txt
           while IFS= read -r line; do
              if [[ "$(grep -q -E -- "^\\\bibliography\{" <<<"$line" )$?" == 0 ]]; then
                 biblio=$(sed -r 's/^.*\\bibliography\{([^}]*)\}.*$/\1/' <<<"$line")
@@ -156,7 +156,22 @@ jobs:
           printf '%s\n' "${cites[@]}"     
           echo "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
           # Get the .bib files used in this document
-
+          # do a test to see how grep works across multiple lines in the file
+          allbib=''
+          for (( i=0; i<${#bibfiles[@]}; i++ )); do allbib+="$(sed ':a;N;$!ba;s/\n/\|/g;s/ *\| */\|/g;s/\|\|*/\|/g' ${bibfiles[$i]})|"; done
+          # now break on each citation item, so that a full citation occupies a whole line in the temp file
+          touch bib.tmp
+          sed -r 's/\}\|(@[a-z][a-z]*\{)/\}\n\1/g' <<<"$allbib" >> bib.tmp
+          # now look for the citations in this compiled set of citations
+          touch pruned.bib
+          for (( i=0; i<${#cites[@]}; i++ )); do
+             if [[ "$(grep -i -q -E -- "@[a-z][a-z]*\{${cites[$i]}" bib.tmp)$?" == 0 ]]; then
+                line="$(grep -i -q -E -- "@[a-z][a-z]*\{${cites[$1]}" bib.tmp)"
+                line=$(sed -r 's/\|/\n/g' <<<"$line")
+                echo "$line" >> pruned.bib
+             fi
+          done
+          #
           ## ============> combining all .tex files in repo in into a single temporary file
           #touch texfile.tmp
           #texfileExists=1
