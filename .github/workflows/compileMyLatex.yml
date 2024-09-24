@@ -170,11 +170,11 @@ jobs:
              cat consolidatedBib.tmp
              # now look for the citations in this compiled set of citations
              touch pruned.bib
-             #for (( i=0; i<${#cites[@]}; i++ )); do
-             #   echo "======== now doing this one: ${cites[$i]}"
-             #   ##################################### something wrong in next line
-             #   echo "$(grep -q -F -- "${cites[$i]}"  consolidatedBib.tmp)$?" 
-             #   grep -F -- "${cites[$i]}"  bib.tmp
+             for (( i=0; i<${#cites[@]}; i++ )); do
+                echo "======== now doing this one: ${cites[$i]}"
+                ##################################### something wrong in next line
+                echo "$(grep -q -F -- "${cites[$i]}"  consolidatedBib.tmp)$?" 
+                grep -F -- "${cites[$i]}"  bib.tmp
              #   if [[ "$(grep -q -F -- "${cites[$i]}"  consolidatedBib.tmp)$?" == 0 ]]; then
              #      line="$(grep -F -- "${cites[$i]}"  consolidatedBib.tmp)"
              #      echo "inside if statement"
@@ -182,7 +182,7 @@ jobs:
              #      line=$(sed -r 's/\|/\n/g' <<<"$line")
              #      echo "$line" >> pruned.bib
              #   fi
-             #done
+             done
              #echo ""
              #echo "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ pruned.bib"
              #cat pruned.bib
