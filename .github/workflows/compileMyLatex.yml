@@ -171,8 +171,9 @@ jobs:
                 echo "======== now doing this one: ${cites[$i]}"
                 ##################################### something wrong in next line
                 echo "$(grep -q -F -- "${cites[$i]}"  bib.tmp)$?" 
+                grep -F -- "${cites[$i]}"  bib.tmp
                 if [[ "$(grep -q -F -- "${cites[$i]}"  bib.tmp)$?" == 0 ]]; then
-                   line="$(grep -q -F -- "${cites[$i]}"  bib.tmp)"
+                   line="$(grep -F -- "${cites[$i]}"  bib.tmp)"
                    echo "inside if statement"
                    echo "$line"
                    line=$(sed -r 's/\|/\n/g' <<<"$line")
