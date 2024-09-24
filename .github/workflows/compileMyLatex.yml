@@ -120,7 +120,8 @@ jobs:
           alllines=$(sed ':a;N;$!ba;s/\n/\|/g;s/ //g' ${{ github.event.inputs.file2compile }}.tex)
           # convert plus signs to _plus_ and periods to _period_ and remove square brackets so that we are just left
           # with pure "\citep{  }" or \citet{  }" or \cite{ }, etc.  Strip out all characters to left of and right of citation
-          alllines=$(sed -r 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\+/_plus_/ig;s/\./_period_/ig;s/\\cite/\n\\cite/ig' <<<"$alllines")  
+          alllines=$(sed -r 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\+/_plus_/ig;s/\./_period_/ig;s/\\cite/\n\\cite/ig' <<<"$alllines")
+          echo "$alllines" >> cites.txt
           while IFS= read -r line; do
              echo "$line"
              echo "$(grep -q -E -i -- "^\\cite" <<<"$line" )$?"
@@ -145,7 +146,7 @@ jobs:
                    cites+=("$citeblock")
                 fi
              fi
-          done
+          done < cites.txt
           printf '%s\n' "${cites[@]}"     
           # going to strip out all the used citations and make a pruned.bib file that can be used as the final 
           # bib file for submission purposes rather than having to use the whole master bib file.  based on the
