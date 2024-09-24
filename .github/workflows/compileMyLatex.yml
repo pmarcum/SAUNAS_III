@@ -154,14 +154,13 @@ jobs:
           if $doesNotUsePruned; then
              # Get the .bib files used in this document
              allbib=''
-             for (( i=0; i<${#bibfiles[@]}; i++ )); do allbib+="$(sed ':a;N;$!ba;s/\n/\|/g' ${bibfiles[$i]})"; done
-             echo ""
-             echo "allbib"
-             echo "$allbib"
+             for (( i=0; i<${#bibfiles[@]}; i++ )); do allbib+=$(sed ':a;N;$!ba;s/\n/\|/g' ${bibfiles[$i]}); done
              # now break on each citation item, so that a full citation occupies a whole line in the temp file
              touch bib.tmp
-             sed -r 's/\}\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> bib.tmp
+             sed -r 's/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> bib.tmp
              cat bib.tmp
+             echo ""
+             echo "============================================================================================"
              # now look for the citations in this compiled set of citations
              touch pruned.bib
              for (( i=0; i<${#cites[@]}; i++ )); do
