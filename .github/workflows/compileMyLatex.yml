@@ -112,6 +112,10 @@ jobs:
       - name: Prune the bib file
         id: pruneBib
         run: |
+          # grab all the citations in the .tex file
+          cites=()
+          readarray -t cites < <( grep -E -- "\\cite" *.tex )
+          printf '%s\n' "${cites[@]}"       
           # going to strip out all the used citations and make a pruned.bib file that can be used as the final 
           # bib file for submission purposes rather than having to use the whole master bib file.  based on the
           # stand-alone "pruneMyBibfile" github action file
