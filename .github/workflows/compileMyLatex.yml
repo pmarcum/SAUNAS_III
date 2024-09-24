@@ -123,34 +123,24 @@ jobs:
           alllines=$(sed -r 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\+/_plus_/ig;s/\./_period_/ig;s/\\cite/\n\\cite/ig' <<<"$alllines")
           echo "$alllines" > cites.txt
           while IFS= read -r line; do
-             echo "$line"
-             echo "^\cite"
-             echo "^\\cite"
-             echo "^\\\cite"
-             echo "$(grep -q -E -- "^\\\cite" <<<"$line" )$?"
              if [[ "$(grep -q -E -- "^\\\cite" <<<"$line" )$?" == 0 ]]; then
                 citeblock=$(sed -r 's/^\\cite[a-z]*\{*([^}]*)\}.*$/\1/i' <<<"$line")
-                echo "citeblock"
-                echo "$citeblock"
-                echo "$(grep -q -E -- "," <<<"$citeblock" )$?"
                 # Now get the individual citations in this block
                 while [[ "$(grep -q -E -- "," <<<"$citeblock" )$?" == 0 ]]; do
                    thiscite=$(sed -r 's/^([^,]*)\,.*$/\1/i' <<<"$citeblock")
-                   echo "thiscite: $thiscite"
                    # remove this piece from citeblock
                    citeblock=$(sed -r 's/^[^,]*\,//' <<<"$citeblock")
-                   echo "citeblock now:"
-                   echo "$citeblock"
-                   cites+=(thiscite)
+                   cites+=("$thiscite")
                 done
                 if [[ "$citeblock" != "" ]]; then
-                   echo "at end of processing this citeblock and this is last bit:"
-                   echo "$citeblock"
                    cites+=("$citeblock")
                 fi
              fi
           done < cites.txt
+          echo " "
+          echo " &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
           printf '%s\n' "${cites[@]}"     
+          echo "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
           # going to strip out all the used citations and make a pruned.bib file that can be used as the final 
           # bib file for submission purposes rather than having to use the whole master bib file.  based on the
           # stand-alone "pruneMyBibfile" github action file
