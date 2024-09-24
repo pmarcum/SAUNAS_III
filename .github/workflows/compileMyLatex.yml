@@ -163,7 +163,9 @@ jobs:
              done
              # now break on each citation item, so that a full citation occupies a whole line in the temp file
              touch consolidatedBib.tmp
-             sed -E 's/(@[a-z][a-z]*) *\{ */\1\{/ig;s/ *\, *\|/\,\|/g;s/\{\"([^"]+)\"\,/\{\1\,/g;s/\{\'([^']+)\'\,/\{\1\,/g;s/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> consolidatedBib.tmp
+             #sed -E 's/(@[a-z][a-z]*) *\{ */\1\{/ig;s/ *\, *\|/\,\|/g;s/\{\"([^"]+)\"\,/\{\1\,/g;s/\{\'([^']+)\'\,/\{\1\,/g;s/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> consolidatedBib.tmp
+             sed -r 's/(@[a-z][a-z]*) *\{ */\1\{/ig;s/ *\, *\|/\,\|/g' <<<"$allbib" >> consolidatedBib.tmp
+             #;s/\{\"([^"]+)\"\,/\{\1\,/g;s/\{\'([^']+)\'\,/\{\1\,/g;s/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> consolidatedBib.tmp
              head consolidatedBib.tmp
              tail consolidatedBib.tmp
              # now look for the citations in this compiled set of citations
