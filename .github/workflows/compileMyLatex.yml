@@ -65,10 +65,10 @@ jobs:
           file_pattern: 'joblink.txt'
           commit_message: 'Newly created link-to-job file'
           
-      - name: setup python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.9' #install the python needed
+      #- name: setup python
+      #  uses: actions/setup-python@v5
+      #  with:
+      #    python-version: '3.9' #install the python needed
            
       - name: Initialize the folder and define environmental variables
         run: |
@@ -162,11 +162,11 @@ jobs:
                 while IFS= read -r line; do allbib+="$line|"; done < "${bibfiles[$i]}"
              done
              # now break on each citation item, so that a full citation occupies a whole line in the temp file
+             # remove unnecessary white space, remove " and ' and ` around the bibcode if such unnecesary things are present
              touch consolidatedBib.tmp
              allbib=$(sed -r 's/(@[a-z][a-z]*) *\{ */\1\{/ig;s/ *\, *\|/\,\|/g;s/\{\"([^"]+)\"\,/\{\1\,/g;s/\{`([^`]+)`\,/\{\1\,/g' <<<"$allbib")
              allbib=$(sed -r "s/\{'([^']+)'\,/\{\1\,/g" <<<"$allbib")
              sed -r 's/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> consolidatedBib.tmp
-             tail consolidatedBib.tmp
              # now look for the citations in this compiled set of citations
              touch pruned.bib
              for (( i=0; i<${#cites[@]}; i++ )); do
@@ -175,75 +175,12 @@ jobs:
                    line="$(grep -F -- "{${cites[$i]},"  consolidatedBib.tmp)"
                    echo "found line in bib file for: ${cites[$i]}"
                    line=$(sed -r 's/\|/\n/g' <<<"$line")
-                   echo "$line"
                    echo "$line" >> pruned.bib
                 else
                   echo "did NOT find a matching line in the bib file"
                 fi
              done
-             echo ""
-             echo "------------------------------------------ pruned.bib"
-             cat pruned.bib
           fi
-          #
-          ## ============> combining all .tex files in repo in into a single temporary file
-          #touch texfile.tmp
-          #texfileExists=1
-          ## get list of all .tex files referenced in the main .tex file (e.g., if there are included files)
-          #texlist=()
-          #readarray -t texlist < <( grep -E -- "\{[^}]*.tex\}" ${{ github.event.inputs.file2compile }}.tex )
-          #texlist+=("${{ github.event.inputs.file2compile }}.tex")
-          #for (( i=0; i<${#texlist[@]}; i++ )); do
-          #   texlist[$i]="$( echo "${texlist[$i]}" | sed -r 's/\{([^}]*.tex)\}/S\|\1\|E/' | sed -r 's/^.*S\|//' | sed -r 's/\|E.*$//' )"
-          #   cat "${texlist[$i]}" >> texfile.tmp
-          #done
-          ## ============> combining all .bib files in repo into a single temporary file
-          #touch bibfile.tmp
-          #bibfileExists=0
-          #biblist=()
-          #readarray -t biblist < <( grep -E -- "\{[^}]*.bib\}" ${{ github.event.inputs.file2compile }}.tex )
-          #for (( i=0; i<${#biblist[@]}; i++ )); do
-          #   biblist[$i]="$( echo "${biblist[$i]}" | sed -r 's/\{([^}]*.bib)\}/S\|\1\|E/' | sed -r 's/^.*S\|//' | sed -r 's/\|E.*$//' )"
-          #   if [[ ! "${biblist[$i]}" =~ "pruned" ]]; then cat "${biblist[$i]}" >> bibfile.tmp; bibfileExists=1; fi
-          #done
-          ## ===========> change all natbib cite commands to plain cite command
-          #if [[ "$texfileExists" == 1 ]]; then
-          #   # converting all natbib commands into simple cite commands in the .tex temporary file
-          #   # remove all the square bracket stuff between the \cite and the {references}
-          #   # convert all plus signs into _plus_, converting all periods into _period_
-          #   sed -E -i 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\+/_plus_/ig;s/\./_period_/ig' texfile.tmp
-          #fi
-          #if [[ "$bibfileExists" == 1 ]]; then
-          #   # sorting the entries and removing redundancies in the .bib temporary file
-          #   # explanation of below sed command: 
-          #   #   :a;N;$!ba; is a loop which joins lines (using N) until it gets to last line
-          #   #   s/(@[a-zA-Z]+)/\1## /g substitutes '@ARTICLE', '@MISC', '@INBOOK', etc with '@ARTICLE## ', '@MISC## ', '@INBOOK## '
-          #   #   s/\} *\x0\@/\}\n\n\@/g breaks out each entry into its own separate line, separated from the other entry by a white space. 
-          #   #   sort -k2 sorts the list on the bib label (e.g., 'abadi+2003apk591_699'), and uniq -i removes duplicates
-          #   #   s/\x0/\n/g splits out each field within an entry into its own line
-          #   #   s/\## //g removes the placeholder ## following the @ARTICLE, etc to restore to original format
-          #   rm -f tmp.tmp
-          #   # converting all plus signs into _plus_; converting all periods into _period_
-          #   sed ':a;N;$!ba;s/\n/\x0/g' bibfile.tmp | \
-          #      sed -r 's/(@[a-zA-Z]+\{) *\x0+ */\1/g;s/@([a-zA-Z]+)\{([^\,]+)\,\x0/@\1\{\2\,\x0 orig = {\1}\,\x0/g;s/@[a-zA-Z]+/@ARTICLE## /g;s/\} *\x0\@/\}\n\n\@/g' | \
-          #      sort -k2 | \
-          #      uniq -i | \
-          #      sed 's/\x0/\n/g;s/\## //g' > tmp.tmp
-          #   mv -f tmp.tmp bibfile.tmp
-          #   sed -E -i 's/\+/_plus_/ig;s/\./_period_/ig' bibfile.tmp
-          #fi
-          #touch pruned.bib
-          #if ([ "$bibfileExists" == 1 ] && [ "$texfileExists" == 1 ]); then
-          #   # installing bib_cleaner
-          #   pip install bib_cleaner
-          #   # now starting the bib_cleaner command
-          #   bib_cleaner bibfile.tmp --texfiles texfile.tmp --outputbib pruned.tmp 
-          #   # now replacing _plus_ with plus signs; replacing _period_ with periods
-          #   sed -E -i 's/_plus_/\+/ig;s/_period_/\./ig' pruned.tmp
-          #   # now replacing @ARTICLE with original category and removing temporary orig field
-          #   sed ':a;N;$!ba;s/\n/\x0/g' pruned.tmp | \
-          #     sed -r 's/@(ARTICLE)\{([^\,]+)\,\x0 orig = \{([a-zA-Z]+)\}\,\x0/@\3\{\2\,\x0/g;s/\} *\x0\@/\}\n\n\@/g;s/\x0/\n/g' > pruned.bib
-          #fi
         continue-on-error: true
 
       - name: Capture full compilation output
