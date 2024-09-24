@@ -124,7 +124,7 @@ jobs:
           while IFS= read -r line; do
              echo "$line"
              echo "$(grep -q -E -i -- "^\\cite" <<<"$line" )$?"
-             if [[ "$(grep -q -E -i -- "^\\cite" <<<"$line" )$?" == 0 ]]; do
+             if [[ "$(grep -q -E -i -- "^\\cite" <<<"$line" )$?" == 0 ]]; then
                 citeblock=$(sed -r 's/^\\cite[a-z]*\{*([^}]*)\}.*$/\1/i' <<<"$line")
                 echo "citeblock"
                 echo "$citeblock"
