@@ -165,9 +165,6 @@ jobs:
              # now break on each citation item, so that a full citation occupies a whole line in the temp file
              touch bib.tmp
              sed -r 's/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> bib.tmp
-             echo ''
-             echo '---------------------------------------------------------------------------------'
-             tail bib.tmp
              # now look for the citations in this compiled set of citations
              touch pruned.bib
              for (( i=0; i<${#cites[@]}; i++ )); do
