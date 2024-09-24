@@ -169,7 +169,7 @@ jobs:
              touch pruned.bib
              for (( i=0; i<${#cites[@]}; i++ )); do
                 echo "======== now doing this one: ${cites[$i]}"
-                grep -E -- "\|@[^{]*\{$cites[$i]" bib.tmp
+                grep -E -- "\|@[^{]*\{aguerri+1998aj116_2136" bib.tmp
                 echo "$(grep -q -E -- "\|@[^{]*\{$cites[$i]"  bib.tmp)$?" 
                 if [[ "$(grep -q -E -- "\|@[^{]*\{$cites[$i]"  bib.tmp)$?" == 0 ]]; then
                    line="$(grep -q -E -- "\|@[^{]*\{$cites[$i]"  bib.tmp)"
