@@ -171,7 +171,7 @@ jobs:
                 echo "======== now doing this one: ${cites[$i]}"
                 echo "\|@[^{]*\{aguerri+1998aj116_2136"
                 ##################################### something wrong in next line
-                echo "\|@[^{]*\{${cites[$i]}"
+                echo "\|@[^{]*\{$cites[$i]"
                 grep -E -- "\|@[^{]*\{aguerri+1998aj116_2136" bib.tmp
                 echo "$(grep -q -E -- "\|@[^{]*\{$cites[$i]"  bib.tmp)$?" 
                 if [[ "$(grep -q -E -- "\|@[^{]*\{$cites[$i]"  bib.tmp)$?" == 0 ]]; then
