@@ -121,17 +121,17 @@ jobs:
           # convert plus signs to _plus_ and periods to _period_ and remove square brackets so that we are just left
           # with pure "\citep{  }" or \citet{  }" or \cite{ }, etc.  Strip out all characters to left of and right of citation
           alllines=$(sed -r 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\+/_plus_/ig;s/\./_period_/ig;s/\\cite/\n\\cite/ig' <<<"$alllines")
-          echo "$alllines" >> cites.txt
+          echo "$alllines" > cites.txt
           while IFS= read -r line; do
              echo "$line"
-             echo "$(grep -q -E -i -- "^\\cite" <<<"$line" )$?"
-             if [[ "$(grep -q -E -i -- "^\\cite" <<<"$line" )$?" == 0 ]]; then
+             echo "$(grep -q -E -i -- "^\cite" <<<"$line" )$?"
+             if [[ "$(grep -q -E -i -- "^\cite" <<<"$line" )$?" == 0 ]]; then
                 citeblock=$(sed -r 's/^\\cite[a-z]*\{*([^}]*)\}.*$/\1/i' <<<"$line")
                 echo "citeblock"
                 echo "$citeblock"
-                echo "$(grep -q -E -- "\," <<<"$citeblock" )$?"
+                echo "$(grep -q -E -- "," <<<"$citeblock" )$?"
                 # Now get the individual citations in this block
-                while [[ "$(grep -q -E -- "\," <<<"$citeblock" )$?" == 0 ]]; do
+                while [[ "$(grep -q -E -- "," <<<"$citeblock" )$?" == 0 ]]; do
                    thiscite=$(sed -r 's/^([^,]*)\,.*$/\1/i' <<<"$citeblock")
                    echo "thiscite: $thiscite"
                    # remove this piece from citeblock
