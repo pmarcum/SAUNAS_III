@@ -163,29 +163,26 @@ jobs:
              done
              # now break on each citation item, so that a full citation occupies a whole line in the temp file
              touch consolidatedBib.tmp
-             #sed -E 's/(@[a-z][a-z]*) *\{ */\1\{/ig;s/ *\, *\|/\,\|/g;s/\{\"([^"]+)\"\,/\{\1\,/g;s/\{\'([^']+)\'\,/\{\1\,/g;s/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> consolidatedBib.tmp
              allbib=$(sed -r 's/(@[a-z][a-z]*) *\{ */\1\{/ig;s/ *\, *\|/\,\|/g;s/\{\"([^"]+)\"\,/\{\1\,/g' <<<"$allbib")
              allbib=$(sed -r "s/\{'([^']+)'\,/\{\1\,/g" <<<"$allbib")
              sed -r 's/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> consolidatedBib.tmp
-             head consolidatedBib.tmp
-             tail consolidatedBib.tmp
              # now look for the citations in this compiled set of citations
              touch pruned.bib
-             #for (( i=0; i<${#cites[@]}; i++ )); do
-             #   echo "======== now doing this one: ${cites[$i]}"
-             #   if [[ "$(grep -q -F -- "{${cites[$i]},"  consolidatedBib.tmp)$?" == 0 ]]; then
-             #      line="$(grep -F -- "{${cites[$i]},"  consolidatedBib.tmp)"
-             #      echo "found line in bib file for: ${cites[$i]}"
-             #      line=$(sed -r 's/\|/\n/g' <<<"$line")
-             #      echo "$line"
-             #      echo "$line" >> pruned.bib
-             #   else
-             #     echo "did NOT find a matching line in the bib file"
-             #   fi
-             #done
-             #echo ""
-             #echo "------------------------------------------ pruned.bib"
-             #cat pruned.bib
+             for (( i=0; i<${#cites[@]}; i++ )); do
+                echo "======== now doing this one: ${cites[$i]}"
+                if [[ "$(grep -q -F -- "{${cites[$i]},"  consolidatedBib.tmp)$?" == 0 ]]; then
+                   line="$(grep -F -- "{${cites[$i]},"  consolidatedBib.tmp)"
+                   echo "found line in bib file for: ${cites[$i]}"
+                   line=$(sed -r 's/\|/\n/g' <<<"$line")
+                   echo "$line"
+                   echo "$line" >> pruned.bib
+                else
+                  echo "did NOT find a matching line in the bib file"
+                fi
+             done
+             echo ""
+             echo "------------------------------------------ pruned.bib"
+             cat pruned.bib
           fi
           #
           ## ============> combining all .tex files in repo in into a single temporary file
