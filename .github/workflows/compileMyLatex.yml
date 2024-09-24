@@ -156,6 +156,8 @@ jobs:
              fi
           done < cites.txt
           if $doesNotUsePruned; then
+             bibfiles=($(printf "%s\n" "${bibfiles[@]}" | sort -u))
+             printf "%s\n" "${bibfiles[@]}"
              # Get the .bib files used in this document
              allbib=''
              for (( i=0; i<${#bibfiles[@]}; i++ )); do
