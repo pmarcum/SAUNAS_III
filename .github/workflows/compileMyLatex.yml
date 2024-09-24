@@ -170,7 +170,7 @@ jobs:
              for (( i=0; i<${#cites[@]}; i++ )); do
                 echo "======== now doing this one: ${cites[$i]}"
                 ##################################### something wrong in next line
-                echo "$(grep -q -E -- "\|@[^{]*\{${cites[$i]}"  bib.tmp)$?" 
+                echo "$(grep -q -F -- "${cites[$i]}"  bib.tmp)$?" 
                 if [[ "$(grep -q -E -- "\|@[^{]*\{${cites[$i]}"  bib.tmp)$?" == 0 ]]; then
                    line="$(grep -q -E -- "\|@[^{]*\{${cites[$i]}"  bib.tmp)"
                    echo "inside if statement"
