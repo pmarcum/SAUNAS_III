@@ -151,18 +151,16 @@ jobs:
                 if [[ "$citeblock" != "" ]]; then cites+=("$citeblock"); fi
              fi
           done < cites.txt
-          echo ""
-          echo "doesNotUsePruned: $doesNotUsePruned"
           if $doesNotUsePruned; then
              # Get the .bib files used in this document
              allbib=''
-             for (( i=0; i<${#bibfiles[@]}; i++ )); do allbib+="$(sed ':a;N;$!ba;s/\n/\|/g;s/ *\| */\|/g;s/\|\|*/\|/g' ${bibfiles[$i]})|"; done
+             for (( i=0; i<${#bibfiles[@]}; i++ )); do allbib+="$(sed ':a;N;$!ba;s/\n/\|/g;s/ *\| */\|/g;s/\|\|*/\|/g' ${bibfiles[$i]})"; done
              echo ""
              echo "allbib"
              echo "$allbib"
              # now break on each citation item, so that a full citation occupies a whole line in the temp file
              touch bib.tmp
-             sed -r 's/\}\|(@[a-z][a-z]*\{)/\}\n\1/g' <<<"$allbib" >> bib.tmp
+             sed -r 's/\}\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> bib.tmp
              cat bib.tmp
              # now look for the citations in this compiled set of citations
              touch pruned.bib
