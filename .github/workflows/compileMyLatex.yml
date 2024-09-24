@@ -123,34 +123,31 @@ jobs:
           echo "------------------------------------"
           # convert plus signs to _plus_ and periods to _period_ and remove square brackets so that we are just left
           # with pure "\citep{  }" or \citet{  }" or \cite{ }, etc.  Strip out all characters to left of and right of citation
-          alllines=$(sed -r 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\+/_plus_/ig;s/\./_period_/ig' <<<"$alllines")  
-          echo "$alllines"
-          echo "--------------------------------------"
-          # now retrieve each citation block in this line
-          while [[ "$(grep -q -F -- "\\cite" <<<"$alllines" )$?" == 0 ]]; do
-            citeblock=$(sed -r 's/^.*\\cite[a-z]*\{ *//i;s/^([^}]*) *\}.*$/\1/i' <<<"$alllines")
-            echo "citeblock"
-            echo "$citeblock"
-            # remove this part from alllines
-            alllines=$(sed -r 's/^.*\\cite[a-z]*\{ *//i;s/^[^}]* *\}//i' <<<"$alllines")
-            echo "alllines"
-            echo "$alllines"
-            # Now get the individual citations in this block
-            while [[ "$(grep -q -F -- "\," <<<"$citeblock" )$?" == 0 ]]; do
-               thiscite=$(sed -r 's/^([^,]*)\,.*$/\1/i;s/^ *//;s/ *$//' <<<"$citeblock")
-               echo "thiscite: $thiscite"
-               # remove this piece from citeblock
-               citeblock=$(sed -r 's/^[^,]*\,//' <<<"$citeblock")
-               echo "citeblock now:"
-               echo "$citeblock"
-               cites+=(thiscite)
-            done
-            if [[ "$citeblock" != "" ]]; then
-               citeblock=$(sed -r 's/^ *//;s/ *$//' <<<"$citeblock")
-               echo "at end of processing this citeblock and this is last bit:"
-               echo "$citeblock"
-               cites+=("$citeblock")
-            fi
+          alllines=$(sed -r 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\+/_plus_/ig;s/\./_period_/ig;s/\\cite/\n\\cite/i' <<<"$alllines")  
+          echo "$alllines" > cite.txt
+          cat cite.txt
+          while IFS= read -r line; do
+             if [[ "$(grep -q -F -- "^\\cite" <<<"$line" )$?" == 0 ]]; do
+                citeblock=$(sed -r 's/^\\cite[a-z]*\{ *([^}]*)\}.*$/\1/i' <<<"$line")
+                echo "citeblock"
+                echo "$citeblock"
+                # Now get the individual citations in this block
+                while [[ "$(grep -q -F -- "\," <<<"$citeblock" )$?" == 0 ]]; do
+                   thiscite=$(sed -r 's/^([^,]*)\,.*$/\1/i;s/^ *//;s/ *$//' <<<"$citeblock")
+                   echo "thiscite: $thiscite"
+                   # remove this piece from citeblock
+                   citeblock=$(sed -r 's/^[^,]*\,//' <<<"$citeblock")
+                   echo "citeblock now:"
+                   echo "$citeblock"
+                   cites+=(thiscite)
+                done
+                if [[ "$citeblock" != "" ]]; then
+                   citeblock=$(sed -r 's/^ *//;s/ *$//' <<<"$citeblock")
+                   echo "at end of processing this citeblock and this is last bit:"
+                   echo "$citeblock"
+                   cites+=("$citeblock")
+                fi
+             fi
           done
           printf '%s\n' "${cites[@]}"     
           # going to strip out all the used citations and make a pruned.bib file that can be used as the final 
