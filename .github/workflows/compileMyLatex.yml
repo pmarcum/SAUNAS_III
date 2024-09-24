@@ -165,7 +165,7 @@ jobs:
              touch consolidatedBib.tmp
              #sed -E 's/(@[a-z][a-z]*) *\{ */\1\{/ig;s/ *\, *\|/\,\|/g;s/\{\"([^"]+)\"\,/\{\1\,/g;s/\{\'([^']+)\'\,/\{\1\,/g;s/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> consolidatedBib.tmp
              allbib=$(sed -r 's/(@[a-z][a-z]*) *\{ */\1\{/ig;s/ *\, *\|/\,\|/g;s/\{\"([^"]+)\"\,/\{\1\,/g' <<<"$allbib")
-             allbib=$(sed -r "s/\{\'([^']+)\'\,/\{\1\,/g" <<<"$allbib")
+             allbib=$(sed -r "s/\{'([^']+)'\,/\{\1\,/g" <<<"$allbib")
              sed -r 's/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> consolidatedBib.tmp
              head consolidatedBib.tmp
              tail consolidatedBib.tmp
