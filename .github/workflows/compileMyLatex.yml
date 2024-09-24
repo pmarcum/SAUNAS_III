@@ -154,7 +154,7 @@ jobs:
           if $doesNotUsePruned; then
              # Get the .bib files used in this document
              allbib=''
-             for (( i=0; i<${#bibfiles[@]}; i++ )); do allbib+="$(sed ':a;N;$!ba;s/\n/\|/g;s/ *\| */\|/g;s/\|\|*/\|/g' ${bibfiles[$i]})"; done
+             for (( i=0; i<${#bibfiles[@]}; i++ )); do allbib+="$(sed ':a;N;$!ba;s/\n/\|/g' ${bibfiles[$i]})"; done
              echo ""
              echo "allbib"
              echo "$allbib"
