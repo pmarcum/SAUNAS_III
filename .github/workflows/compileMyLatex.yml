@@ -107,6 +107,7 @@ jobs:
         id: compilation
         run: |
           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode ${{ github.event.inputs.file2compile }}.tex
+          cat ${{ github.event.inputs.file2compile }}.tex
         continue-on-error: true
         
       - name: Prune the bib file
@@ -179,7 +180,9 @@ jobs:
         run: |
           alllog=''
           # ========================  make sure that all lines related to a sentence are all smooshed together into single line
-          while IFS= read -r line; do 
+          while IFS= read -r line; do
+             # turn any multiple stretches of horizontal white space into a single white space, and any occurances of 
+             # square brackets (either with or without numbers) and dollar signs alone on a line, to be removed. 
              newline=$(sed -r 's/  */ /g;s/^ *[[$]]* *$//g;s/^ *\[ *[0-9][0-9]* *\] *$//g' <<<"$line")
              if [[ "$newline" != '' ]]; then
                 if [[ "${#newline}" -eq 79 ]]; then
@@ -196,7 +199,6 @@ jobs:
                    alllog+="$newline|"
                 fi
              fi
-             echo "$newline"
           done < ${{ github.event.inputs.file2compile }}.log
           # write array to file
           touch ${{ github.event.inputs.file2compile }}_out.log
@@ -206,10 +208,10 @@ jobs:
              echo "$thisline" >> ${{ github.event.inputs.file2compile }}_full.log
           done
           if [[ "$alllog" != "" ]]; then echo "$alllog" >> ${{ github.event.inputs.file2compile }}_full.log; fi
-          echo "-----------------------------------------------------"
-          echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
-          echo "-----------------------------------------------------"
-          cat ${{ github.event.inputs.file2compile }}_full.log
+          #echo "-----------------------------------------------------"
+          #echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
+          #echo "-----------------------------------------------------"
+          #cat ${{ github.event.inputs.file2compile }}_full.log
         continue-on-error: true
 
       - name: Process the errors and warnings
@@ -281,10 +283,6 @@ jobs:
                 fi
              fi
              warnErrArr[$i]="$tmp"
-             echo " "
-             echo "$tmp"
-             echo " "
-             echo "=============================================================================================================="
           done
           # ============== sort and remove redundances in the error/warning list
           sorted=($( printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s ))
