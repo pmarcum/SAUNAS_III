@@ -128,7 +128,7 @@ jobs:
              echo "^\\cite"
              echo "^\\\cite"
              echo "$(grep -q -E -- "^\\\cite" <<<"$line" )$?"
-             if [[ "$(grep -q -E -- "^\\cite" <<<"$line" )$?" == 0 ]]; then
+             if [[ "$(grep -q -E -- "^\\\cite" <<<"$line" )$?" == 0 ]]; then
                 citeblock=$(sed -r 's/^\\cite[a-z]*\{*([^}]*)\}.*$/\1/i' <<<"$line")
                 echo "citeblock"
                 echo "$citeblock"
