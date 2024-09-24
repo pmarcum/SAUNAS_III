@@ -123,7 +123,7 @@ jobs:
           echo "------------------------------------"
           # convert plus signs to _plus_ and periods to _period_ and remove square brackets so that we are just left
           # with pure "\citep{  }" or \citet{  }" or \cite{ }, etc.  Strip out all characters to left of and right of citation
-          alllines=$(sed -r 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\+/_plus_/ig;s/\./_period_/ig;s/\\cite/\n\\cite/i' <<<"$alllines")  
+          alllines=$(sed -r 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\+/_plus_/ig;s/\./_period_/ig;s/\\cite/\n\\cite/ig' <<<"$alllines")  
           echo "$alllines" > cite.txt
           cat cite.txt
           while IFS= read -r line; do
