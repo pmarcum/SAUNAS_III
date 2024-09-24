@@ -107,7 +107,6 @@ jobs:
         id: compilation
         run: |
           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode ${{ github.event.inputs.file2compile }}.tex
-          cat ${{ github.event.inputs.file2compile }}.tex
         continue-on-error: true
         
       - name: Prune the bib file
@@ -208,10 +207,10 @@ jobs:
              echo "$thisline" >> ${{ github.event.inputs.file2compile }}_full.log
           done
           if [[ "$alllog" != "" ]]; then echo "$alllog" >> ${{ github.event.inputs.file2compile }}_full.log; fi
-          #echo "-----------------------------------------------------"
-          #echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
-          #echo "-----------------------------------------------------"
-          #cat ${{ github.event.inputs.file2compile }}_full.log
+          echo "-----------------------------------------------------"
+          echo "       FULL, UNPROCESSED COMPILATION OUTPUT"
+          echo "-----------------------------------------------------"
+          cat ${{ github.event.inputs.file2compile }}_full.log
         continue-on-error: true
 
       - name: Process the errors and warnings
@@ -264,10 +263,6 @@ jobs:
                 else
                     tmp="$linenum-WARNING-$blanks"
                 fi
-                echo "in the non-error-labeled error: "
-                echo "${warnErrArr[$i]}"
-                echo "linenum is: "
-                echo "$linenum"
              else
                 blanks="$(sed -r 's/ /ZZ/g' <<<"${warnErrArr[$i]}")"
                 if [[ "${warnErrArr[$i]}" =~ "LaTeX Error" ]]; then
