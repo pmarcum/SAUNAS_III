@@ -145,7 +145,8 @@ jobs:
                 done
                 echo "after while loop, here is what is in biblio: $biblio"
                 if [[ "$biblio" != "" ]]; then bibfiles+=("$biblio"); fi
-                echo "final list of bibfiles: $bibfiles"
+                echo "final list of bibfiles:"
+                printf '%s\n' "${bibfiles[@]}"
              fi
              #  
              if [[ "$(grep -q -E -- "^\\\cite" <<<"$line" )$?" == 0 ]]; then
