@@ -136,7 +136,7 @@ jobs:
                    bibfiles+=("$thisbib")
                 done
                 if [[ "$biblio" != "" ]]; then bibfiles+=("$biblio"); fi
-                printf '%s\n' "${bibfiles}"
+                printf '%s\n' "${bibfiles[@]}"
              fi
              #  
              if [[ "$(grep -q -E -- "^\\\cite" <<<"$line" )$?" == 0 ]]; then
