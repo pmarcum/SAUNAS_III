@@ -160,11 +160,13 @@ jobs:
              # Get the .bib files used in this document
              allbib=''
              for (( i=0; i<${#bibfiles[@]}; i++ )); do
-                while IFS= read -r line; do allbib+="$line\|"; done < "${bibfiles[$i]}"
+                while IFS= read -r line; do allbib+="$line|"; done < "${bibfiles[$i]}"
              done
              # now break on each citation item, so that a full citation occupies a whole line in the temp file
              touch consolidatedBib.tmp
              sed -r 's/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> consolidatedBib.tmp
+             echo " "
+             echo " = = = = = = = = consolidatedBib.tmp"
              cat consolidatedBib.tmp
              # now look for the citations in this compiled set of citations
              touch pruned.bib
