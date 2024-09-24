@@ -64,12 +64,7 @@ jobs:
         with:
           file_pattern: 'joblink.txt'
           commit_message: 'Newly created link-to-job file'
-          
-      #- name: setup python
-      #  uses: actions/setup-python@v5
-      #  with:
-      #    python-version: '3.9' #install the python needed
-           
+                    
       - name: Initialize the folder and define environmental variables
         run: |
           rm -f "${{ github.event.inputs.file2compile }}_*.txt"
@@ -156,6 +151,7 @@ jobs:
           done < inpaperCites.txt
           if $doesNotUsePruned; then
              bibfiles=($(printf "%s\n" "${bibfiles[@]}" | sort -u))
+             cites=($(printf "%s\n" "${cites[@]}" | sort -u))
              # Get the .bib files used in this document
              allbib=''
              for (( i=0; i<${#bibfiles[@]}; i++ )); do
