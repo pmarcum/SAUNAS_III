@@ -127,17 +127,27 @@ jobs:
           touch cites.txt
           doesNotUsePruned=true
           sed -r 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\\cite/\n\\cite/ig' <<<"$alllines" >> cites.txt
+          echo "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+          echo "$(grep -q -E -- "^\\\bibliography\{" <<<"$line" )$?"
+          echo "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
           while IFS= read -r line; do
+             echo "$line"
+             echo "$(grep -q -E -- "^\\\bibliography\{" <<<"$line" )$?"
              if [[ "$(grep -q -E -- "^\\\bibliography\{" <<<"$line" )$?" == 0 ]]; then
                 biblio=$(sed -r 's/^.*\\bibliography\{([^}]*)\}.*$/\1/' <<<"$line")
+                echo "$biblio"
                 while [[ "$(grep -q -E -- "," <<<"$biblio" )$?" == 0 ]]; do
                    thisbib=$(sed -r 's/^([^,]*)\,.*$/\1/' <<<"$biblio")
+                   echo "$thisbib"
                    # remove this piece from citeblock
                    biblio=$(sed -r 's/^[^,]*\,//' <<<"$biblio")
+                   echo "$biblio"
                    if [[ ! "$thisbib" =~ "pruned" ]]; then bibfiles+=("$thisbib"); doesNotUsePruned=false; fi
                 done
                 if [[ "$biblio" != "" ]]; then bibfiles+=("$biblio"); fi
+                echo "============== bibfiles =================="
                 printf '%s\n' "${bibfiles[@]}"
+                echo "========================== bibfiles ================"
              fi
              #  
              if [[ "$(grep -q -E -- "^\\\cite" <<<"$line" )$?" == 0 ]]; then
