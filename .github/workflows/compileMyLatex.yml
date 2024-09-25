@@ -70,7 +70,7 @@ jobs:
           git push
           link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job-id }}"
           echo "JOBLINK=$link2job" >> $GITHUB_ENV
-          echo "OUTFILE=${{ github.event.inputs.file2compile }}_out.txt" >> $GITHUB_ENV
+          echo "OUTFILE=${{ github.event.inputs.file2compile }}Out.txt" >> $GITHUB_ENV
           echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
           echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
           pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
@@ -197,7 +197,7 @@ jobs:
              fi
           done < ${{ github.event.inputs.file2compile }}.log
           # write array to file
-          touch ${{ github.event.inputs.file2compile }}_out.log
+          touch ${{ github.event.inputs.file2compile }}Out.log
           while [[ "$(grep -q -F -- "|" <<<"$alllog" )$?" == 0 ]]; do
              thisline=$(sed -r 's/^([^|]*)\|.*$/\1/' <<<"$alllog" )
              alllog=$(sed -r 's/^[^|]*\|//' <<<"$alllog" )
@@ -444,7 +444,7 @@ jobs:
              echo "$line" >> tout.txt
           done
           if [[ ${#res[@]} = 0 ]]; then echo "        None"; fi
-          mv tout.txt ${{ github.event.inputs.file2compile }}_out.txt
+          mv tout.txt ${{ github.event.inputs.file2compile }}Out.txt
         continue-on-error: true
         
       - name: Upload bib file
@@ -471,7 +471,7 @@ jobs:
           # create a .html file from the out.txt file, then convert the html to pdf
           rm -f html.txt
           # make sure that long lines are split if they exceed 20 words
-          fold -sw 90 ${{ github.event.inputs.file2compile }}_out.txt > html.txt
+          fold -sw 90 ${{ github.event.inputs.file2compile }}Out.txt > html.txt
           echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
           echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> finHtml.html
           echo "<span style='color:blue;'><i>${{ env.JOBLINK }}</i></span><br>" >> finHtml.html
@@ -518,8 +518,8 @@ jobs:
           while IFS= read -r line; do
              thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
              echo "$thisline" >> fin.txt
-          done < "${{ github.event.inputs.file2compile }}_out.txt"
-          mv -f fin.txt "${{ github.event.inputs.file2compile }}_out.txt"      
+          done < "${{ github.event.inputs.file2compile }}Out.txt"
+          mv -f fin.txt "${{ github.event.inputs.file2compile }}Out.txt"      
         continue-on-error: true
         
       - name: Upload PDF file
@@ -543,7 +543,7 @@ jobs:
         if: ${{ always() && hashFiles(env.OUTFILE) }}
         with: 
           name: compileOutput
-          path: "${{ github.event.inputs.file2compile }}_out.txt"
+          path: "${{ github.event.inputs.file2compile }}Out.txt"
         continue-on-error: true
         
       - name: Publish compilation output to repo
@@ -551,7 +551,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         if: ${{ always() && hashFiles(env.OUTFILE) }}
         with:
-          file_pattern: '${{ github.event.inputs.file2compile }}_out.txt'
+          file_pattern: '${{ github.event.inputs.file2compile }}Out.txt'
           commit_message: 'Newly created compilation output file'
         continue-on-error: true
   
