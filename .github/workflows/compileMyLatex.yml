@@ -60,7 +60,7 @@ jobs:
                            
       - name: Initialize the folder and define environmental variables
         run: |
-          rm -f "${{ github.event.inputs.file2compile }}*out.txt"
+          rm -f "${{ github.event.inputs.file2compile }}*Out.txt"
           rm -f "${{ github.event.inputs.file2compile }}.pdf"
           rm -f pruned.bib
           git config --global user.email "email@gmail.com"
