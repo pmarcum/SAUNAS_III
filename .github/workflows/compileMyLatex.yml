@@ -503,14 +503,21 @@ jobs:
           sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
         continue-on-error: true
 
-      - name: Make the error PDF file
+      - name: Create error PDF file
         if: ${{ always() && hashFiles('finHtml.html') }}
-        uses: fifsky/html-to-pdf-action@master
-        with:
-          htmlFile: finHtml.html
-          outputFile: ${{ github.event.inputs.file2compile }}.pdf
-          pdfOptions: '{"margin": {"top": "0.2in", "bottom": "0.3in", "left": "0.4in", "right": "0.3in" }}'
+        run: |
+          sudo apt install wkhtmltopdf
+          wkhtmltopdf --margin-bottom 0.2in --margin-top 0.2in --margin-left 0.4in --margin-right 0.3in finHtml.html  ${{ github.event.inputs.file2compile }}.pdf
         continue-on-error: true
+        
+      #- name: Make the error PDF file
+      #  if: ${{ always() && hashFiles('finHtml.html') }}
+      #  uses: fifsky/html-to-pdf-action@master
+      #  with:
+      #    htmlFile: finHtml.html
+      #    outputFile: ${{ github.event.inputs.file2compile }}.pdf
+      #    pdfOptions: '{"margin": {"top": "0.2in", "bottom": "0.3in", "left": "0.4in", "right": "0.3in" }}'
+      #  continue-on-error: true
 
       - name: Finalize compilation warning and errors output
         run: |
