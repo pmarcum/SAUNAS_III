@@ -55,7 +55,7 @@ jobs:
           rm -f joblink.txt
           touch joblink.txt
           echo "$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> joblink.txt
-          echo "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job-id }}" >> joblink.txt
+          echo "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}" >> joblink.txt
           echo "${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf" >> joblink.txt      
         continue-on-error: true
                            
@@ -69,7 +69,7 @@ jobs:
           git add .
           git commit -m "Removing previous status and pdf files"
           git push
-          link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job-id }}"
+          link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
           echo "JOBLINK=$link2job" >> $GITHUB_ENV
           echo "OUTFILE=${{ github.event.inputs.file2compile }}Out.txt" >> $GITHUB_ENV
           echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
