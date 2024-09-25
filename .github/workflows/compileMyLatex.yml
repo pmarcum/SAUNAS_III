@@ -435,10 +435,7 @@ jobs:
           echo "              LIST OF REFERENCES IN ${{ github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           # create an array of just the bibcodes
-          cat pruned.bib
-          grep -E -- "@" pruned.bib 
           readarray -t res < <( grep -E -- "@" pruned.bib )
-          printf '%s\n' "${res[@]}"
           if [[ ${#res[@]} -gt 0 ]]; then echo "Number of citations: ${#res[@]}" >> tout.txt; fi
           for (( i=0; i<${#res[@]}; i++ )); do
              line="$( echo "${res[$i]}" | sed -r 's/^[^{]*\{//' | sed -r 's/\,//' )"
@@ -488,10 +485,8 @@ jobs:
              thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
              if $red; then
                 echo "<span style='color:red;'>$thisline</span>" >> red.txt
-                echo "<span style='color:red;'>$thisline</span>"
              else
                 echo "$thisline" >> red.txt
-                echo "$thisline"
              fi
           done < "html.txt"
           sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
