@@ -1,18 +1,13 @@
-2024-09-25T02:27:23Z 1727231243133
+2024-09-25T02:30:51Z 1727231451970
 LATEX COMPILATION ERRORS and WARNINGS
 
 To view full GitHub Actions output, click on item at top of list here:
-https://github.com/pmarcum/SAUNAS_III/actions/runs/11025184431/job/
+https://github.com/pmarcum/SAUNAS_III/actions/runs/11025222939/job/
 ====================================================================================================
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               FATAL ERRORS IN main.tex
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-LaTeX Warning: There were undefined references.
--------------------------------------------------------------------------
-LaTeX Warning: Reference `fig' on page 4 undefined on input line 108.
-Line #108 ----------------------- 
-\ref{fig}
--------------------------------------------------------------------------
+      none
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               WARNINGS IN main.tex
