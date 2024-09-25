@@ -146,7 +146,7 @@ jobs:
           done < inpaperCites.txt
           if $doesNotUsePruned; then
              bibfiles=($(printf "%s\n" "${bibfiles[@]}" | sort -u))
-             cites=($(printf "%s\n" "${cites[@]}" | sort -u))
+             cites=($(printf "%s\n" "${cites[@]}" | sort -f -u))
              # Get the .bib files used in this document
              allbib=''
              for (( i=0; i<${#bibfiles[@]}; i++ )); do
@@ -161,14 +161,10 @@ jobs:
              # now look for the citations in this compiled set of citations
              touch pruned.bib
              for (( i=0; i<${#cites[@]}; i++ )); do
-                echo "======== now doing this one: ${cites[$i]}"
                 if [[ "$(grep -q -F -- "{${cites[$i]},"  consolidatedBib.tmp)$?" == 0 ]]; then
                    line="$(grep -F -- "{${cites[$i]},"  consolidatedBib.tmp)"
-                   echo "found line in bib file for: ${cites[$i]}"
                    line=$(sed -r 's/\|/\n/g' <<<"$line")
                    echo "$line" >> pruned.bib
-                else
-                  echo "did NOT find a matching line in the bib file"
                 fi
              done
           fi
@@ -439,13 +435,16 @@ jobs:
           echo "              LIST OF REFERENCES IN ${{ github.event.inputs.file2compile }}.tex" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           # create an array of just the bibcodes
+          cat pruned.bib
+          grep -E -- "@" pruned.bib 
           readarray -t res < <( grep -E -- "@" pruned.bib )
-          if [[ ${#res[@]} = 0 ]]; then echo "Number of citations: ${#res[@]}" >> tout.txt; fi
+          printf '%s\n' "${res[@]}"
+          if [[ ${#res[@]} -gt 0 ]]; then echo "Number of citations: ${#res[@]}" >> tout.txt; fi
           for (( i=0; i<${#res[@]}; i++ )); do
              line="$( echo "${res[$i]}" | sed -r 's/^[^{]*\{//' | sed -r 's/\,//' )"
              echo "$line" >> tout.txt
           done
-          if [[ ${#res[@]} = 0 ]]; then echo "        None"; fi
+          if [[ ${#res[@]} -eq 0 ]]; then echo "        None"; fi
           mv tout.txt ${{ github.event.inputs.file2compile }}Out.txt
         continue-on-error: true
         
