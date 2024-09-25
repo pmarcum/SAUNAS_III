@@ -1,22 +1,13 @@
-2024-09-25T02:00:07Z 1727229607491
+2024-09-25T02:04:21Z 1727229861918
 LATEX COMPILATION ERRORS and WARNINGS
 
 To view full GitHub Actions output, click on item at top of list here:
-https://github.com/pmarcum/SAUNAS_III/actions/runs/11024930283/job/
+https://github.com/pmarcum/SAUNAS_III/actions/runs/11024971519/job/
 ====================================================================================================
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               FATAL ERRORS IN main.tex
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-LaTeX Warning: There were undefined references.
--------------------------------------------------------------------------
-./main.tex:101: Undefined control sequence.
-Line #101 ----------------------- 
-\pam
--------------------------------------------------------------------------
-LaTeX Warning: Reference `fig' on page 4 undefined on input line 108.
-Line #108 ----------------------- 
-\ref{fig}
--------------------------------------------------------------------------
+      none
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               WARNINGS IN main.tex
@@ -41,10 +32,6 @@ Line #146 -----------------------
 Package natbib Warning: Citation `Graham1995' on page 1 undefined on input line 54.
 Line #54 ----------------------- 
 Here is the intro section \citep{aguerri+1998aj116_2136, bell+2006apj640_241,bell+2006apj652_270} and here is another \citep{Graham1995}.
--------------------------------------------------------------------------
-Package natbib Warning: Citation `johnson2022' on page 4 undefined on input line 105.
-Line #105 ----------------------- 
-4th sentence \citep{johnson2022}
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
 
