@@ -78,9 +78,9 @@ jobs:
                            
       - name: Initialize the folder
         run: |
-          rm -f "${{ env.OUTFILE }}"
-          rm -f "${{ env.PDFFILE }}"
-          rm -f "${{ env.HTMLFILE }}"
+          rm -f env.OUTFILE
+          rm -f env.PDFFILE
+          rm -f env.HTMLFILE
           rm -f pruned.bib
           git config --global user.email "email@gmail.com"
           git config --global user.name "github actions"
@@ -472,7 +472,7 @@ jobs:
           # that gets shown in gooTeX is the compilation errors rather than a mangled pdf.
           # create a .html file from the out.txt file, then convert the html to pdf
           rm -f html.txt
-          rm -f env.PDFFILE
+          #########rm -f env.PDFFILE
           # make sure that long lines are split if they exceed 20 words
           fold -sw 90 ${{ env.OUTFILE }} > html.txt
           echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
