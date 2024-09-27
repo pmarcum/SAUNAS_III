@@ -290,7 +290,6 @@ jobs:
           echo "              FATAL ERRORS IN ${{ env.TEXFILE }}" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           rm -f thereAreErrors.txt
-          rm -f env.PDFFILE
           error=""
           for (( i=0; i<${#sorted[@]}; i++ )); do
             if [[ "${sorted[$i]}" =~ "-ERROR-" ]]; then error="${sorted[$i]}"; touch thereAreErrors.txt; break; fi
@@ -473,6 +472,7 @@ jobs:
           # that gets shown in gooTeX is the compilation errors rather than a mangled pdf.
           # create a .html file from the out.txt file, then convert the html to pdf
           rm -f html.txt
+          rm -f env.PDFFILE
           # make sure that long lines are split if they exceed 20 words
           fold -sw 90 ${{ env.OUTFILE }} > html.txt
           echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
