@@ -388,9 +388,7 @@ jobs:
             if [[ "$line" =~ "-BIB-" ]]; then  biberr="$line"; break; fi
           done
           # if there were no errors, then put 'none'
-          if [[ "$biberr" = "" ]]; then
-            echo "      none" >> tout.txt
-          fi
+          if [[ "$biberr" = "" ]]; then echo "      none" >> tout.txt; fi
           while  [ "$biberr" != "" ]; do
             linenum=$(sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$biberr")
             if [[ $linenum > 0 ]]; then
@@ -476,7 +474,7 @@ jobs:
           fold -sw 90 ${{ env.OUTFILE }} > html.txt
           echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
           echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> finHtml.html
-          echo "<span style='color:blue;'><i>${{ env.STARTLINK }}</i></span><br>" >> finHtml.html
+          echo "<span style='color:blue;'><i>${{ env.JOBLINK }}</i></span><br>" >> finHtml.html
           echo "<hr><br>" >> finHtml.html
           echo "${{ env.TIMESTAMP }}" >> finHtml.html
           # Go through the html.txt file and make the errors red to stand out
@@ -501,7 +499,7 @@ jobs:
         uses: fifsky/html-to-pdf-action@master
         with:
           htmlFile: finHtml.html
-          outputFile: ${{ github.event.inputs.file2compile }}.pdf
+          outputFile: env.PDFFILE
           pdfOptions: '{"margin": {"top": "0.2in", "bottom": "0.3in", "left": "0.4in", "right": "0.3in" }}'
         continue-on-error: true
 
@@ -513,7 +511,7 @@ jobs:
           echo "LATEX COMPILATION ERRORS and WARNINGS" >> fin.txt
           echo "" >> fin.txt
           echo "To view full GitHub Actions output, click on item at top of list here:" >> fin.txt
-          echo "${{ env.STARTLINK }}" >> fin.txt
+          echo "${{ env.JOBLINK }}" >> fin.txt
           echo "====================================================================================================" >> fin.txt
           while IFS= read -r line; do
              thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
