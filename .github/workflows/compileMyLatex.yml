@@ -538,13 +538,13 @@ jobs:
         id: releasePdf
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          file_pattern: $PDFILE
+          file_pattern: $PDFFILE
           commit_message: 'Newly compiled PDF'
         continue-on-error: true
 
       - name: Upload compilation html file
         uses: actions/upload-artifact@v4
-        if: ${{ always() && hashFiles($HTMLFILE) }}
+        if: ${{ always() && hashFiles(env.HTMLFILE) }}
         with: 
           name: compileOutput
           path: $HTMLFILE
@@ -553,7 +553,7 @@ jobs:
       - name: Publish html to repo
         id: releaseHtmlfile
         uses: stefanzweifel/git-auto-commit-action@v5
-        if: ${{ always() && hashFiles($HTMLFILE) }}
+        if: ${{ always() && hashFiles(env.HTMLFILE) }}
         with:
           file_pattern: $HTMLFILE
           commit_message: 'Newly created html output file'
@@ -561,7 +561,7 @@ jobs:
         
       - name: Upload compilation output file
         uses: actions/upload-artifact@v4
-        if: ${{ always() && hashFiles($OUTFILE) }}
+        if: ${{ always() && hashFiles(env.OUTFILE) }}
         with: 
           name: compileOutput
           path: $OUTFILE
@@ -570,7 +570,7 @@ jobs:
       - name: Publish compilation output to repo
         id: releaseOutfile
         uses: stefanzweifel/git-auto-commit-action@v5
-        if: ${{ always() && hashFiles($OUTFILE) }}
+        if: ${{ always() && hashFiles(env.OUTFILE) }}
         with:
           file_pattern: $OUTFILE
           commit_message: 'Newly created compilation output file'
