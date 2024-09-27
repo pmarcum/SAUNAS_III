@@ -204,9 +204,9 @@ jobs:
                    alllog+="$newline|"
                 fi
              fi
-          done < ${{ env.LOG }}
+          done < "${{ env.LOG }}"
           # write array to file
-          touch ${{ env.FULLLOG }}
+          touch "${{ env.FULLLOG }}"
           while [[ "$(grep -q -F -- "|" <<<"$alllog" )$?" == 0 ]]; do
              thisline=$(sed -r 's/^([^|]*)\|.*$/\1/' <<<"$alllog" )
              alllog=$(sed -r 's/^[^|]*\|//' <<<"$alllog" )
@@ -532,14 +532,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with: 
           name: PDF
-          path: $PDFFILE
+          path: ${{ env.PDFFILE }}
         continue-on-error: true
          
       - name: Publish PDF to repo
         id: releasePdf
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          file_pattern: $PDFFILE
+          file_pattern: ${{ env.PDFFILE }}
           commit_message: 'Newly compiled PDF'
         continue-on-error: true
 
@@ -548,7 +548,7 @@ jobs:
         if: ${{ always() && hashFiles(env.HTMLFILE) }}
         with: 
           name: compileOutput
-          path: $HTMLFILE
+          path: ${{ env.HTMLFILE }}
         continue-on-error: true
         
       - name: Publish html to repo
@@ -556,7 +556,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         if: ${{ always() && hashFiles(env.HTMLFILE) }}
         with:
-          file_pattern: $HTMLFILE
+          file_pattern: ${{ env.HTMLFILE }}
           commit_message: 'Newly created html output file'
         continue-on-error: true
         
@@ -565,7 +565,7 @@ jobs:
         if: ${{ always() && hashFiles(env.OUTFILE) }}
         with: 
           name: compileOutput
-          path: $OUTFILE
+          path: ${{ env.OUTFILE }}
         continue-on-error: true
         
       - name: Publish compilation output to repo
@@ -573,7 +573,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         if: ${{ always() && hashFiles(env.OUTFILE) }}
         with:
-          file_pattern: $OUTFILE
+          file_pattern: ${{ env.OUTFILE }}
           commit_message: 'Newly created compilation output file'
         continue-on-error: true
 
