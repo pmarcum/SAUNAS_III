@@ -58,12 +58,13 @@ jobs:
           echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >> $GITHUB_ENV
           echo "OUTFILE=${{ github.event.inputs.file2compile }}Out.txt" >> $GITHUB_ENV
           echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
-          echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
-          pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
-          echo "PDFLINK=$pdflink" >> $GITHUB_ENV
+          echo "HTMLFILE=${{ github.event.inputs.file2compile }}.html" >> $GITHUB_ENV
           echo "STARTFILE=${{ github.event.inputs.file2compile }}START.txt" >> $GITHUB_ENV
           echo "FULLLOG=${{ github.event.inputs.file2compile }}_full.log" >> $GITHUB_ENV
           echo "LOG=${{ github.event.inputs.file2compile }}.log" >> $GITHUB_ENV
+          echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
+          pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
+          echo "PDFLINK=$pdflink" >> $GITHUB_ENV
         continue-on-error: true
 
       - name: Create file providing START status file
@@ -78,7 +79,8 @@ jobs:
       - name: Initialize the folder
         run: |
           rm -f "${{ env.OUTFILE }}"
-          rm -f "${{ env.PDFLINK }}"
+          rm -f "${{ env.PDFFILE }}"
+          rm -f "${{ env.HTMLFILE }}"
           rm -f pruned.bib
           git config --global user.email "email@gmail.com"
           git config --global user.name "github actions"
@@ -288,6 +290,7 @@ jobs:
           echo "              FATAL ERRORS IN ${{ env.TEXFILE }}" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           rm -f thereAreErrors.txt
+          rm -f env.PDFFILE
           error=""
           for (( i=0; i<${#sorted[@]}; i++ )); do
             if [[ "${sorted[$i]}" =~ "-ERROR-" ]]; then error="${sorted[$i]}"; touch thereAreErrors.txt; break; fi
@@ -492,16 +495,17 @@ jobs:
              fi
           done < "html.txt"
           sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
+          mv -f finHtml.html env.HTMLFILE
         continue-on-error: true
         
-      - name: Make the error PDF file
-        if: ${{ always() && hashFiles('finHtml.html') }}
-        uses: fifsky/html-to-pdf-action@master
-        with:
-          htmlFile: finHtml.html
-          outputFile: env.PDFFILE
-          pdfOptions: '{"margin": {"top": "0.2in", "bottom": "0.3in", "left": "0.4in", "right": "0.3in" }}'
-        continue-on-error: true
+      #- name: Make the error PDF file
+      #  if: ${{ always() && hashFiles('finHtml.html') }}
+      #  uses: fifsky/html-to-pdf-action@master
+      #  with:
+      #    htmlFile: finHtml.html
+      #    outputFile: env.PDFFILE
+      #    pdfOptions: '{"margin": {"top": "0.2in", "bottom": "0.3in", "left": "0.4in", "right": "0.3in" }}'
+      #  continue-on-error: true
 
       - name: Finalize compilation warning and errors output
         run: |
@@ -536,6 +540,23 @@ jobs:
           commit_message: 'Newly compiled PDF'
         continue-on-error: true
 
+      - name: Upload compilation html file
+        uses: actions/upload-artifact@v4
+        if: ${{ always() && hashFiles(env.HTMLFILE) }}
+        with: 
+          name: compileOutput
+          path: "${{ env.HTMLFILE }}"
+        continue-on-error: true
+        
+      - name: Publish html to repo
+        id: releaseHtmlfile
+        uses: stefanzweifel/git-auto-commit-action@v5
+        if: ${{ always() && hashFiles(env.HTMLFILE) }}
+        with:
+          file_pattern: '${{ env.HTMLFILE }}'
+          commit_message: 'Newly created html output file'
+        continue-on-error: true
+        
       - name: Upload compilation output file
         uses: actions/upload-artifact@v4
         if: ${{ always() && hashFiles(env.OUTFILE) }}
@@ -552,4 +573,5 @@ jobs:
           file_pattern: '${{ env.OUTFILE }}'
           commit_message: 'Newly created compilation output file'
         continue-on-error: true
-  
+
+ 
