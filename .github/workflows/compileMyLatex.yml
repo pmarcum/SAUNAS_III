@@ -133,8 +133,10 @@ jobs:
                    thisbib=$(sed -r 's/^([^,]*)\,.*$/\1/' <<<"$biblio")
                    # remove this piece from citeblock
                    biblio=$(sed -r 's/^[^,]*\,//' <<<"$biblio")
-                   if [[ ! "$thisbib" =~ "pruned" ]]; then 
-                      if [[ ! "$thisbib" =~ "\.bib" ]]; then thisbib="$thisbib.bib"; fi
+                   if [[ ! "$thisbib" =~ "pruned" ]]; then
+                      echo "thisbib is: $thisbib"
+                      if [[ ! "$thisbib" =~ ".bib" ]]; then thisbib="$thisbib.bib"; fi
+                      echo "thisbib is now: $thisbib"
                       bibfiles+=("$thisbib")
                    else
                       doesNotUsePruned=false
