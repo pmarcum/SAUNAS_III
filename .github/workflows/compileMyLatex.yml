@@ -69,18 +69,18 @@ jobs:
 
       - name: Create file providing START status file
         run: |
-          rm -f $STARTFILE
-          touch $STARTFILE
-          echo $TIMESTAMP >> $STARTFILE
-          echo $JOBLINK   >> $STARTFILE
-          echo $PDFLINK   >> $STARTFILE
+          rm -f "$STARTFILE"
+          touch "$STARTFILE"
+          echo "$TIMESTAMP" >> "$STARTFILE"
+          echo "$JOBLINK"   >> "$STARTFILE"
+          echo "$PDFLINK"   >> "$STARTFILE"
         continue-on-error: true
                            
       - name: Initialize the folder
         run: |
-          rm -f $OUTFILE
-          rm -f $PDFFILE
-          rm -f $HTMLFILE
+          rm -f "$OUTFILE"
+          rm -f "$PDFFILE"
+          rm -f "$HTMLFILE"
           rm -f pruned.bib
           git config --global user.email "email@gmail.com"
           git config --global user.name "github actions"
@@ -106,7 +106,7 @@ jobs:
       - name: Compile paper
         id: compilation
         run: |
-          latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode $TEXFILE
+          latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE"
         continue-on-error: true
         
       - name: Prune the bib file
@@ -122,20 +122,16 @@ jobs:
           bibfiles=()
           # smoosh all lines together, to make sure no citation is lost because it landed on a separate line from the \cite part
           # and remove all the whitespace
-          alllines=$(sed ':a;N;$!ba;s/\n/\|/g;s/ //g' $TEXFILE)
+          alllines=$(sed ':a;N;$!ba;s/\n/\|/g;s/ //g' "$TEXFILE")
           # remove square brackets so that we are just left with pure "\citep{  }" or \citet{  }" or \cite{ }, etc.  
           touch inpaperCites.txt
           doesNotUsePruned=true
           sed -r 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\\cite/\n\\cite/ig' <<<"$alllines" >> inpaperCites.txt
-          echo " "
-          echo "inpaperCites.txt"
-          cat inpaperCites.txt
-          echo " "
           while IFS= read -r line; do
-             if [[ "$(grep -q -E -- "\\\bibliography\{" <<<"$line" )$?" == 0 ]]; then
+             if [[ "$(grep -q -E -- "\\\bibliography\{" <<<"$line" )$?" -eq 0 ]]; then
                 biblio=$(sed -r 's/^.*\\bibliography\{([^}]*)\}.*$/\1/' <<<"$line")
                 echo "biblio: $biblio
-                while [[ "$(grep -q -F -- "," <<<"$biblio" )$?" == 0 ]]; do
+                while [[ "$(grep -q -F -- "," <<<"$biblio" )$?" -eq 0 ]]; do
                    thisbib=$(sed -r 's/^([^,]*)\,.*$/\1/' <<<"$biblio")
                    echo "thisbib:  $thisbib"
                    # remove this piece from citeblock
@@ -151,10 +147,10 @@ jobs:
                 if [[ "$biblio" != "" ]]; then bibfiles+=("$biblio"); fi
              fi
              #  
-             if [[ "$(grep -q -E -- "^\\\cite" <<<"$line" )$?" == 0 ]]; then
+             if [[ "$(grep -q -E -- "^\\\cite" <<<"$line" )$?" -eq 0 ]]; then
                 citeblock=$(sed -r 's/^\\cite[a-z]*\{*([^}]*)\}.*$/\1/i' <<<"$line")
                 # Now get the individual citations in this block
-                while [[ "$(grep -q -E -- "," <<<"$citeblock" )$?" == 0 ]]; do
+                while [[ "$(grep -q -E -- "," <<<"$citeblock" )$?" -eq 0 ]]; do
                    thiscite=$(sed -r 's/^([^,]*)\,.*$/\1/i' <<<"$citeblock")
                    # remove this piece from citeblock
                    citeblock=$(sed -r 's/^[^,]*\,//' <<<"$citeblock")
@@ -179,7 +175,7 @@ jobs:
              sed -r 's/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> consolidatedBib.tmp
              # now look for the citations in this compiled set of citations
              for (( i=0; i<${#cites[@]}; i++ )); do
-                if [[ "$(grep -q -F -- "{${cites[$i]},"  consolidatedBib.tmp)$?" == 0 ]]; then
+                if [[ "$(grep -q -F -- "{${cites[$i]},"  consolidatedBib.tmp)$?" -eq 0 ]]; then
                    line="$(grep -F -- "{${cites[$i]},"  consolidatedBib.tmp)"
                    line=$(sed -r 's/\|/\n/g' <<<"$line")
                    echo "$line" >> pruned.bib
@@ -196,30 +192,30 @@ jobs:
              # turn any multiple stretches of horizontal white space into a single white space, and any occurances of 
              # square brackets (either with or without numbers) and dollar signs alone on a line, to be removed. 
              newline=$(sed -r 's/  */ /g;s/^ *[[$]]* *$//g;s/^ *\[ *[0-9][0-9]* *\] *$//g' <<<"$line")
-             if [[ "$newline" != '' ]]; then
+             if [[ -n "$newline" ]]; then
                 if [[ "${#newline}" -eq 79 ]]; then
                    alllog+="$newline"
-                elif [[ "$(grep -q -E -- "^ *[),.][^/]" <<<"$newline" )$?" == 0 ]]; then
+                elif [[ "$(grep -q -E -- "^ *[),.][^/]" <<<"$newline" )$?" -eq 0 ]]; then
                    # if this piece of line only consists of a ) then attach to previous line
                    # remove the last end-of-line character and the attach this new piece of the line
                    alllog=$(sed -r 's/\|$//' <<<"$alllog")
                    alllog+="$newline|"
-                elif [[ "$(grep -q -E -- "\, *$" <<<"$newline" )$?" == 0 ]]; then
+                elif [[ "$(grep -q -E -- "\, *$" <<<"$newline" )$?" -eq 0 ]]; then
                    # if this line ends with comma, assume the next line is continuation
                    alllog+="$newline"
                 else
                    alllog+="$newline|"
                 fi
              fi
-          done < "${{ env.LOG }}"
+          done < "$LOG"
           # write array to file
-          touch "${{ env.FULLLOG }}"
-          while [[ "$(grep -q -F -- "|" <<<"$alllog" )$?" == 0 ]]; do
+          touch "$FULLLOG"
+          while [[ "$(grep -q -F -- "|" <<<"$alllog" )$?" -eq 0 ]]; do
              thisline=$(sed -r 's/^([^|]*)\|.*$/\1/' <<<"$alllog" )
              alllog=$(sed -r 's/^[^|]*\|//' <<<"$alllog" )
-             echo "$thisline" >> $FULLLOG
+             echo "$thisline" >> "$FULLLOG"
           done
-          if [[ "$alllog" != "" ]]; then echo "$alllog" >> $FULLLOG; fi
+          if [[ -n "$alllog" ]]; then echo "$alllog" >> "$FULLLOG"; fi
         continue-on-error: true
 
       - name: Process the errors and warnings
@@ -228,23 +224,23 @@ jobs:
           # ====================================  Set up an array that will hold all the errors and warnings listed in the _full.log
           warnErrArr=()
           # ============= get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render. 
-          readarray -t res < <( grep -F -- "LaTeX Error" $FULLLOG )
+          readarray -t res < <( grep -F -- "LaTeX Error" "$FULLLOG" )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           # ============= now get the warnings, but note that some of the warnings are actually errors (like figure files that are mispelled) and need to 
           # be consolidated with the associated line in the error section here
-          readarray -t res < <( grep -F -- "LaTeX Warning" $FULLLOG )
+          readarray -t res < <( grep -F -- "LaTeX Warning" "$FULLLOG" )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           # ============= now get the items that are not labeled as 'warning' or "error", but are problems w/ associated line numbers
           # be consolidated with the associated line in the error section here
-          readarray -t res < <( grep -E -- '^ *\./.*\.tex:[0-9]+:' $FULLLOG )
+          readarray -t res < <( grep -E -- '^ *\./.*\.tex:[0-9]+:' "$FULLLOG" )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
-          readarray -t res < <( grep -F -- "Package natbib Warning: Citation" $FULLLOG )
+          readarray -t res < <( grep -F -- "Package natbib Warning: Citation" "$FULLLOG" )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           #
           # ===================== Now add the relevant line number to front of each error/warning line that specifies a line number
           #
           for (( i=0; i<${#warnErrArr[@]}; i++ )); do
-             if [[ "$(grep -q -E -- "on input line [0-9]" <<<"${warnErrArr[$i]}")$?" == 0 ]]; then
+             if [[ "$(grep -q -E -- "on input line [0-9]" <<<"${warnErrArr[$i]}")$?" -eq 0 ]]; then
                 linenum=$(sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/' <<<"${warnErrArr[$i]}")
                 blanks="$(sed -r 's/ /ZZ/g' <<<"${warnErrArr[$i]}")"
                 if [[ "${warnErrArr[$i]}" =~ "LaTeX Error" ]]; then
@@ -258,7 +254,7 @@ jobs:
                 else
                     tmp="$linenum-WARNING-$blanks"
                 fi
-             elif [[ "$(grep -q -E -- "^\.\/[^:][^:]*:[0-9][0-9]*:" <<<"${warnErrArr[$i]}")$?" == 0 ]]; then
+             elif [[ "$(grep -q -E -- "^\.\/[^:][^:]*:[0-9][0-9]*:" <<<"${warnErrArr[$i]}")$?" -eq 0 ]]; then
                 linenum=$(sed -r 's/^[^:]*:([0-9][0-9]*).*/\1/' <<<"${warnErrArr[$i]}")
                 blanks="$(sed -r 's/ /ZZ/g' <<<"${warnErrArr[$i]}")"
                 if [[ "${warnErrArr[$i]}" =~ "LaTeX Error" ]]; then
@@ -309,7 +305,7 @@ jobs:
             if [[ $linenum > 0 ]]; then
                # look for all occurances of this line number in the error/warning list
                for (( i=0; i<${#sorted[@]}; i++ )); do
-                   if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$i]}" )$?" == 0 ]]; then
+                   if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$i]}" )$?" -eq 0 ]]; then
                       line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
                       echo $line >> tout.txt
                       # remove this item from the list
@@ -318,7 +314,7 @@ jobs:
                done
                # now look up the line in the .tex file and place underneath
                echo "line #$linenum ----------------------- " >> tout.txt
-               head -n $linenum $TEXFILE | tail -1 >> tout.txt
+               head -n $linenum "$TEXFILE" | tail -1 >> tout.txt
             else
                # look up where this line is in the list and remove it from the list
                for (( i=0; i<${#sorted[@]}; i++ )); do
@@ -356,7 +352,7 @@ jobs:
             if [[ $linenum > 0 ]]; then
                # look for all occurances of this line number in the error/warning list
                for (( i=0; i<${#sorted[@]}; i++ )); do
-                   if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$i]}" )$?" == 0 ]]; then
+                   if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$i]}" )$?" -eq 0 ]]; then
                       line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
                       echo $line >> tout.txt
                       # remove this item from the list
@@ -365,7 +361,7 @@ jobs:
                done
                # now look up the line in the .tex file and place underneath
                echo "Line #$linenum ----------------------- " >> tout.txt
-               head -n $linenum $TEXFILE | tail -1 >> tout.txt
+               head -n $linenum "$TEXFILE" | tail -1 >> tout.txt
             else
                # look up where this line is in the list and remove it from the list
                for (( i=0; i<${#sorted[@]}; i++ )); do
@@ -404,7 +400,7 @@ jobs:
             if [[ $linenum > 0 ]]; then
                # look for all occurances of this line number in the error/biberr list
                for (( i=0; i<${#sorted[@]}; i++ )); do
-                   if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$i]}" )$?" == 0 ]]; then
+                   if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$i]}" )$?" -eq 0 ]]; then
                       line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
                       echo $line >> tout.txt
                       # remove this item from the list
@@ -413,7 +409,7 @@ jobs:
                done
                # now look up the line in the .tex file and place underneath
                echo "Line #$linenum ----------------------- " >> tout.txt
-               head -n $linenum $TEXFILE | tail -1 >> tout.txt
+               head -n $linenum "$TEXFILE" | tail -1 >> tout.txt
             else
                # look up where this line is in the list and remove it from the list
                for (( i=0; i<${#sorted[@]}; i++ )); do
@@ -453,8 +449,8 @@ jobs:
              line="$( echo "${res[$i]}" | sed -r 's/^[^{]*\{//' | sed -r 's/\,//' )"
              echo "$line" >> tout.txt
           done
-          if [[ ${#res[@]} -eq 0 ]]; then echo "        None"; fi
-          mv tout.txt $OUTFILE
+          if [[ ${#res[@]} == 0 ]]; then echo "        None"; fi
+          mv tout.txt "$OUTFILE"
         continue-on-error: true
         
       - name: Upload bib file
@@ -480,9 +476,9 @@ jobs:
           # that gets shown in gooTeX is the compilation errors rather than a mangled pdf.
           # create a .html file from the out.txt file, then convert the html to pdf
           rm -f html.txt
-          #########rm -f env.PDFFILE
+          #########rm -f "$PDFFILE"
           # make sure that long lines are split if they exceed 20 words
-          fold -sw 90 $OUTFILE > html.txt
+          fold -sw 90 "$OUTFILE" > html.txt
           echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
           echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> finHtml.html
           echo "<span style='color:blue;'><i>$JOBLINK</i></span><br>" >> finHtml.html
@@ -503,9 +499,9 @@ jobs:
              fi
           done < "html.txt"
           sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
-          mv -f finHtml.html $HTMLFILE
+          mv -f finHtml.html "$HTMLFILE"
           echo '-------------------------------------------------------------'
-          cat $HTMLFILE
+          cat "$HTMLFILE"
         continue-on-error: true
         
       #- name: Make the error PDF file
@@ -530,8 +526,8 @@ jobs:
           while IFS= read -r line; do
              thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
              echo "$thisline" >> fin.txt
-          done < $OUTFILE
-          mv -f fin.txt $OUTFILE  
+          done < "$OUTFILE"
+          mv -f fin.txt "$OUTFILE"  
         continue-on-error: true
         
       - name: Upload PDF file
@@ -539,48 +535,48 @@ jobs:
         uses: actions/upload-artifact@v4
         with: 
           name: PDF
-          path: ${{ env.PDFFILE }}
+          path: "$PDFFILE"
         continue-on-error: true
          
       - name: Publish PDF to repo
         id: releasePdf
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          file_pattern: ${{ env.PDFFILE }}
+          file_pattern: "$PDFFILE"
           commit_message: 'Newly compiled PDF'
         continue-on-error: true
 
       - name: Upload compilation html file
         uses: actions/upload-artifact@v4
-        if: ${{ always() && hashFiles(env.HTMLFILE) }}
+        if: ${{ always() && hashFiles("$HTMLFILE") }}
         with: 
           name: compileOutput
-          path: ${{ env.HTMLFILE }}
+          path: "$HTMLFILE"
         continue-on-error: true
         
       - name: Publish html to repo
         id: releaseHtmlfile
         uses: stefanzweifel/git-auto-commit-action@v5
-        if: ${{ always() && hashFiles(env.HTMLFILE) }}
+        if: ${{ always() && hashFiles("$HTMLFILE") }}
         with:
-          file_pattern: ${{ env.HTMLFILE }}
+          file_pattern: "$HTMLFILE"
           commit_message: 'Newly created html output file'
         continue-on-error: true
         
       - name: Upload compilation output file
         uses: actions/upload-artifact@v4
-        if: ${{ always() && hashFiles(env.OUTFILE) }}
+        if: ${{ always() && hashFiles("$OUTFILE") }}
         with: 
           name: compileOutput
-          path: ${{ env.OUTFILE }}
+          path: "$OUTFILE"
         continue-on-error: true
         
       - name: Publish compilation output to repo
         id: releaseOutfile
         uses: stefanzweifel/git-auto-commit-action@v5
-        if: ${{ always() && hashFiles(env.OUTFILE) }}
+        if: ${{ always() && hashFiles("$OUTFILE") }}
         with:
-          file_pattern: ${{ env.OUTFILE }}
+          file_pattern: "$OUTFILE"
           commit_message: 'Newly created compilation output file'
         continue-on-error: true
 
