@@ -106,7 +106,7 @@ jobs:
       - name: Compile paper
         id: compilation
         run: |
-          latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode ${{ env.TEXTFILE }}
+          latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode ${{ env.TEXFILE }}
         continue-on-error: true
         
       - name: Prune the bib file
