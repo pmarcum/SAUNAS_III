@@ -134,6 +134,7 @@ jobs:
                    # remove this piece from citeblock
                    biblio=$(sed -r 's/^[^,]*\,//' <<<"$biblio")
                    if [[ ! "$thisbib" =~ "pruned" ]]; then 
+                      if [[ ! "$thisbib" =~ "\.bib" ]]; then thisbib="$thisbib.bib"; fi
                       bibfiles+=("$thisbib")
                    else
                       doesNotUsePruned=false
