@@ -497,7 +497,7 @@ jobs:
           sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
           mv -f finHtml.html $HTMLFILE
           echo '-------------------------------------------------------------'
-          cat env.HTMLFILE
+          cat $HTMLFILE
         continue-on-error: true
         
       #- name: Make the error PDF file
