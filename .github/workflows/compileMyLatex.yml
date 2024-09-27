@@ -112,6 +112,7 @@ jobs:
       - name: Prune the bib file
         id: pruneBib
         run: |
+          touch pruned.bib
           # going to strip out all the used citations and make a pruned.bib file that can be used as the final 
           # bib file for submission purposes rather than having to use the whole master bib file.  based on the
           # stand-alone "pruneMyBibfile" github action file
@@ -177,7 +178,6 @@ jobs:
              allbib=$(sed -r "s/\{'([^']+)'\,/\{\1\,/g" <<<"$allbib")
              sed -r 's/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> consolidatedBib.tmp
              # now look for the citations in this compiled set of citations
-             touch pruned.bib
              for (( i=0; i<${#cites[@]}; i++ )); do
                 if [[ "$(grep -q -F -- "{${cites[$i]},"  consolidatedBib.tmp)$?" == 0 ]]; then
                    line="$(grep -F -- "{${cites[$i]},"  consolidatedBib.tmp)"
