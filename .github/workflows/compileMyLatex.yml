@@ -133,12 +133,15 @@ jobs:
           while IFS= read -r line; do
              if [[ "$(grep -q -E -- "\\\bibliography\{" <<<"$line" )$?" == 0 ]]; then
                 biblio=$(sed -r 's/^.*\\bibliography\{([^}]*)\}.*$/\1/' <<<"$line")
+                echo "biblio: $biblio
                 while [[ "$(grep -q -F -- "," <<<"$biblio" )$?" == 0 ]]; do
                    thisbib=$(sed -r 's/^([^,]*)\,.*$/\1/' <<<"$biblio")
+                   echo "thisbib:  $thisbib"
                    # remove this piece from citeblock
                    biblio=$(sed -r 's/^[^,]*\,//' <<<"$biblio")
                    if [[ ! "$thisbib" =~ "pruned" ]]; then
                       thisbib=$(sed -r 's/\.bib$//' <<<"$thisbib")
+                      echo "now thisbib: $thisbib"
                       bibfiles+=("$thisbib.bib")
                    else
                       doesNotUsePruned=false
