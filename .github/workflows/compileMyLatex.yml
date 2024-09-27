@@ -540,7 +540,7 @@ jobs:
 
       - name: Upload compilation output file
         uses: actions/upload-artifact@v4
-        if: ${{ always() && hashFiles( ${{ env.OUTFILE }} )
+        if: ${{ always() && hashFiles( ${{ env.OUTFILE }} ) }}
         with: 
           name: compileOutput
           path: "${{ env.OUTFILE }}"
@@ -549,7 +549,7 @@ jobs:
       - name: Publish compilation output to repo
         id: releaseOutfile
         uses: stefanzweifel/git-auto-commit-action@v5
-        if: ${{ always() && hashFiles(env.OUTFILE) }}
+        if: ${{ always() && hashFiles( ${{ env.OUTFILE }} ) }}
         with:
           file_pattern: '${{ env.OUTFILE }}'
           commit_message: 'Newly created compilation output file'
