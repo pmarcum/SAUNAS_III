@@ -96,6 +96,7 @@ jobs:
         continue-on-error: true
 
       - name: Save folder for initialization
+        run: |
           git config --global user.email "email@gmail.com"
           git config --global user.name "github actions"
           git add .
