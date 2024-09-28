@@ -491,21 +491,6 @@ jobs:
           mv tout.txt "$OUTFILE"
         continue-on-error: true
 
-      #- name: Upload bib file
-      #  uses: actions/upload-artifact@v4
-      #  with: 
-      #    name: Setting path of pruned bib file
-      #    path: pruned.bib
-      #  continue-on-error: true
-            
-      #- name: Publish pruned bib file to repo
-      #  id: create_release
-      #  uses: stefanzweifel/git-auto-commit-action@v5.0.0
-      #  with:
-      #    file_pattern:  pruned.bib
-      #    commit_message: 'Pruned bib file'
-      #  continue-on-error: true
-          
       - name: Convert errors to html file
         if: ${{ always() && hashFiles('thereAreErrors.txt') }}
         run: |
@@ -598,56 +583,6 @@ jobs:
           rm -f $CORENAME.synctex.gz
           rm -f $CORENAME.out
         continue-on-error: true
-        
-      #- name: Upload PDF file
-      #  id: uploadPdf
-      #  uses: actions/upload-artifact@v4
-      #  with: 
-      #    name: PDF
-      #    path: "$PDFFILE"
-      #  continue-on-error: true
-         
-      #- name: Publish PDF to repo
-      #  id: releasePdf
-      #  uses: stefanzweifel/git-auto-commit-action@v5
-      #  with:
-      #    file_pattern: "$PDFFILE"
-      #    commit_message: 'Newly compiled PDF'
-      #  continue-on-error: true
-
-      #- name: Upload compilation html file
-      #  uses: actions/upload-artifact@v4
-      #  if: ${{ always() && hashFiles("${{ HTMLFILE }}") }}
-      #  with: 
-      #    name: compileOutput
-      #    path: "${{ HTMLFILE }}"
-      #  continue-on-error: true
-        
-      #- name: Publish html to repo
-      #  id: releaseHtmlfile
-      #  uses: stefanzweifel/git-auto-commit-action@v5
-      #  if: ${{ always() && hashFiles("${{ HTMLFILE }}") }}
-      #  with:
-      #    file_pattern: "${{ HTMLFILE }}"
-      #    commit_message: 'Newly created html output file'
-      #  continue-on-error: true
-        
-      #- name: Upload compilation output file
-      #  uses: actions/upload-artifact@v4
-      #  if: ${{ always() && hashFiles("${{ OUTFILE }}") }}
-      #  with: 
-      #    name: compileOutput
-      #    path: "${{ OUTFILE }}"
-      #  continue-on-error: true
-        
-      #- name: Publish compilation output to repo
-      #  id: releaseOutfile
-      #  uses: stefanzweifel/git-auto-commit-action@v5
-      #  if: ${{ always() && hashFiles("${{ OUTFILE }}") }}
-      #  with:
-      #    file_pattern: "${{ OUTFILE }}"
-      #    commit_message: 'Newly created compilation output file'
-      #  continue-on-error: true
       
       - name: Post new files to folder
         run: |
