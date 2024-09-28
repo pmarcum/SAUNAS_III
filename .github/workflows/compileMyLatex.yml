@@ -166,43 +166,43 @@ jobs:
                 done
                 if [[ "$biblio" != "" ]]; then bibfiles+=("$biblio"); fi
              fi
-             ## 
-             #echo " ============================== does not use pruned ?   $doesNotUsePruned"
-             #if [[ "$(grep -q -E -- "^\\\cite" <<<"$line" )$?" == 0 ]]; then
-                #citeblock=$(sed -r 's/^\\cite[a-z]*\{*([^}]*)\}.*$/\1/i' <<<"$line")
-                ## Now get the individual citations in this block
-                #while [[ "$(grep -q -E -- "," <<<"$citeblock" )$?" == 0 ]]; do
-                   #thiscite=$(sed -r 's/^([^,]*)\,.*$/\1/i' <<<"$citeblock")
-                   ## remove this piece from citeblock
-                   #citeblock=$(sed -r 's/^[^,]*\,//' <<<"$citeblock")
-                   #cites+=("$thiscite")
-                #done
-                #if [[ "$citeblock" != "" ]]; then cites+=("$citeblock"); fi
-             #fi
+             # 
+             echo " ============================== does not use pruned ?   $doesNotUsePruned"
+             if [[ "$(grep -q -E -- "^\\\cite" <<<"$line" )$?" == 0 ]]; then
+                citeblock=$(sed -r 's/^\\cite[a-z]*\{*([^}]*)\}.*$/\1/i' <<<"$line")
+                # Now get the individual citations in this block
+                while [[ "$(grep -q -E -- "," <<<"$citeblock" )$?" == 0 ]]; do
+                   thiscite=$(sed -r 's/^([^,]*)\,.*$/\1/i' <<<"$citeblock")
+                   # remove this piece from citeblock
+                   citeblock=$(sed -r 's/^[^,]*\,//' <<<"$citeblock")
+                   cites+=("$thiscite")
+                done
+                if [[ "$citeblock" != "" ]]; then cites+=("$citeblock"); fi
+             fi
           done < inpaperCites.txt
           rm -f inpaperCites.txt
           if $doesNotUsePruned; then
-             #bibfiles=($(printf "%s\n" "${bibfiles[@]}" | sort -u))
-             #cites=($(printf "%s\n" "${cites[@]}" | sort -f -u))
+             bibfiles=($(printf "%s\n" "${bibfiles[@]}" | sort -u))
+             cites=($(printf "%s\n" "${cites[@]}" | sort -f -u))
              # Get the .bib files used in this document
              allbib=''
-             #for (( i=0; i<${#bibfiles[@]}; i++ )); do
-             #   while IFS= read -r line; do allbib+="$line|"; done < "${bibfiles[$i]}"
-             #done
+             for (( i=0; i<${#bibfiles[@]}; i++ )); do
+                while IFS= read -r line; do allbib+="$line|"; done < "${bibfiles[$i]}"
+             done
              # now break on each citation item, so that a full citation occupies a whole line in the temp file
              # remove unnecessary white space, remove " and ' and ` around the bibcode if such unnecesary things are present
              touch consolidatedBib.tmp
-             #allbib=$(sed -r 's/(@[a-z][a-z]*) *\{ */\1\{/ig;s/ *\, *\|/\,\|/g;s/\{\"([^"]+)\"\,/\{\1\,/g;s/\{`([^`]+)`\,/\{\1\,/g' <<<"$allbib")
-             #allbib=$(sed -r "s/\{'([^']+)'\,/\{\1\,/g" <<<"$allbib")
-             #sed -r 's/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> consolidatedBib.tmp
-             ## now look for the citations in this compiled set of citations
-             #for (( i=0; i<${#cites[@]}; i++ )); do
-             #   if [[ "$(grep -q -F -- "{${cites[$i]},"  consolidatedBib.tmp)$?" == 0 ]]; then
-             #      line="$(grep -F -- "{${cites[$i]},"  consolidatedBib.tmp)"
-             #      line=$(sed -r 's/\|/\n/g' <<<"$line")
-             #      echo "$line" >> pruned.bib
-             #   fi
-             #done
+             allbib=$(sed -r 's/(@[a-z][a-z]*) *\{ */\1\{/ig;s/ *\, *\|/\,\|/g;s/\{\"([^"]+)\"\,/\{\1\,/g;s/\{`([^`]+)`\,/\{\1\,/g' <<<"$allbib")
+             allbib=$(sed -r "s/\{'([^']+)'\,/\{\1\,/g" <<<"$allbib")
+             sed -r 's/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> consolidatedBib.tmp
+             # now look for the citations in this compiled set of citations
+             for (( i=0; i<${#cites[@]}; i++ )); do
+                if [[ "$(grep -q -F -- "{${cites[$i]},"  consolidatedBib.tmp)$?" == 0 ]]; then
+                   line="$(grep -F -- "{${cites[$i]},"  consolidatedBib.tmp)"
+                   line=$(sed -r 's/\|/\n/g' <<<"$line")
+                   echo "$line" >> pruned.bib
+                fi
+             done
              rm -f consolidatedBib.tmp
           fi
         continue-on-error: true
