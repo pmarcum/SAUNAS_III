@@ -122,7 +122,7 @@ jobs:
           bibfiles=()
           # smoosh all lines together, to make sure no citation is lost because it landed on a separate line from the \cite part
           # and remove all the whitespace
-          alllines=$(sed ':a;N;$!ba;s/\n/\|/g;s/ //g' "${{ TEXFILE }}")
+          alllines=$(sed ':a;N;$!ba;s/\n/\|/g;s/ //g' "$TEXFILE")
           # remove square brackets so that we are just left with pure "\citep{  }" or \citet{  }" or \cite{ }, etc.  
           touch inpaperCites.txt
           doesNotUsePruned=true
