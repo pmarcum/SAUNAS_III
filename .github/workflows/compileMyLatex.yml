@@ -228,17 +228,17 @@ jobs:
           # ====================================  Set up an array that will hold all the errors and warnings listed in the _full.log
           warnErrArr=()
           # ============= get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render. 
-          readarray -t res < <( grep -F -- "LaTeX Error" "${{ FULLLOG }}" )
+          readarray -t res < <( grep -F -- "LaTeX Error" "${{ env.FULLLOG }}" )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           # ============= now get the warnings, but note that some of the warnings are actually errors (like figure files that are mispelled) and need to 
           # be consolidated with the associated line in the error section here
-          readarray -t res < <( grep -F -- "LaTeX Warning" "${{ FULLLOG }}" )
+          readarray -t res < <( grep -F -- "LaTeX Warning" "${{ env.FULLLOG }}" )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           # ============= now get the items that are not labeled as 'warning' or "error", but are problems w/ associated line numbers
           # be consolidated with the associated line in the error section here
-          readarray -t res < <( grep -E -- '^ *\./.*\.tex:[0-9]+:' "${{ FULLLOG }}" )
+          readarray -t res < <( grep -E -- '^ *\./.*\.tex:[0-9]+:' "${{ env.FULLLOG }}" )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
-          readarray -t res < <( grep -F -- "Package natbib Warning: Citation" "${{ FULLLOG }}" )
+          readarray -t res < <( grep -F -- "Package natbib Warning: Citation" "${{ env.FULLLOG }}" )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           #
           # ===================== Now add the relevant line number to front of each error/warning line that specifies a line number
