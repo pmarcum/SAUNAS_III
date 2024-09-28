@@ -1,0 +1,43 @@
+\begin{thebibliography}{}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\providecommand{\url}[1]{\href{#1}{#1}}
+\providecommand{\dodoi}[1]{doi:~\href{http://doi.org/#1}{\nolinkurl{#1}}}
+\providecommand{\doeprint}[1]{\href{http://ascl.net/#1}{\nolinkurl{http://ascl.net/#1}}}
+\providecommand{\doarXiv}[1]{\href{https://arxiv.org/abs/#1}{\nolinkurl{https://arxiv.org/abs/#1}}}
+
+\bibitem[{{Agertz} \& {Kravtsov}(2015)}]{agertz+2015apj804_18}
+{Agertz}, O., \& {Kravtsov}, A.~V. 2015, \apj, 804, 18,
+  \dodoi{10.1088/0004-637X/804/1/18}
+
+\bibitem[{{Aguerri} {et~al.}(1998){Aguerri}, {Beckman}, \&
+  {Prieto}}]{aguerri+1998aj116_2136}
+{Aguerri}, J.~A.~L., {Beckman}, J.~E., \& {Prieto}, M. 1998, \aj, 116, 2136,
+  \dodoi{10.1086/300615}
+
+\bibitem[{{Bell} {et~al.}(2006{\natexlab{a}}){Bell}, {Phleps}, {Somerville},
+  {Wolf}, {Borch}, \& {Meisenheimer}}]{bell+2006apj652_270}
+{Bell}, E.~F., {Phleps}, S., {Somerville}, R.~S., {et~al.} 2006{\natexlab{a}},
+  \apj, 652, 270, \dodoi{10.1086/508408}
+
+\bibitem[{{Bell} {et~al.}(2006{\natexlab{b}}){Bell}, {Naab}, {McIntosh},
+  {Somerville}, {Caldwell}, {Barden}, {Wolf}, {Rix}, {Beckwith}, \&
+  {Borch}}]{bell+2006apj640_241}
+{Bell}, E.~F., {Naab}, T., {McIntosh}, D.~H., {et~al.} 2006{\natexlab{b}},
+  \apj, 640, 241, \dodoi{10.1086/499931}
+
+\bibitem[{{Bernardi} {et~al.}(2006){Bernardi}, {Nichol}, {Sheth}, {Miller}, \&
+  {Brinkmann}}]{bernardi+2006aj131_1288}
+{Bernardi}, M., {Nichol}, R.~C., {Sheth}, R.~K., {Miller}, C.~J., \&
+  {Brinkmann}, J. 2006, \aj, 131, 1288, \dodoi{10.1086/499522}
+
+\bibitem[{{Erwin} \& {Debattista}(2017)}]{erwin+2017mnras468_2058}
+{Erwin}, P., \& {Debattista}, V.~P. 2017, \mnras, 468, 2058,
+  \dodoi{10.1093/mnras/stx620}
+
+\bibitem[{{Falchi} {et~al.}(2016){Falchi}, {Cinzano}, {Duriscoe}, {Kyba},
+  {Elvidge}, {Baugh}, {Portnov}, {Rybnikova}, \&
+  {Furgoni}}]{falchi+2016an2_1600377}
+{Falchi}, F., {Cinzano}, P., {Duriscoe}, D., {et~al.} 2016, \an, 2, e1600377,
+  \dodoi{10.1126/sciadv.1600377}
+
+\end{thebibliography}
