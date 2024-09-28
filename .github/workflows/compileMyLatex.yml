@@ -92,6 +92,8 @@ jobs:
           rm -f $CORENAME.blg
           rm -f $CORENAME.fdb_latexmk
           rm -f $CORENAME.fls
+          rm -f $CORENAME.synctex.gz
+          rm -f $CORENAME.out
           rm -f inpaperCites.txt
         continue-on-error: true
 
@@ -593,6 +595,8 @@ jobs:
           rm -f $CORENAME.fdb_latexmk
           rm -f $CORENAME.fls
           rm -f inpaperCites.txt
+          rm -f $CORENAME.synctex.gz
+          rm -f $CORENAME.out
         continue-on-error: true
         
       #- name: Upload PDF file
