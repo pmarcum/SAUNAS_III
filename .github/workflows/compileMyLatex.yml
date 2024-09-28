@@ -74,6 +74,7 @@ jobs:
           echo $TIMESTAMP >> $STARTFILE
           echo $JOBLINK   >> $STARTFILE
           echo $PDFLINK   >> $STARTFILE
+          echo "precomp"  >> $STARTFILE
         continue-on-error: true
                            
       - name: Initialize the folder
@@ -163,6 +164,7 @@ jobs:
                 if [[ "$citeblock" != "" ]]; then cites+=("$citeblock"); fi
              fi
           done < inpaperCites.txt
+          rm -f inpaperCites.txt
           if $doesNotUsePruned; then
              bibfiles=($(printf "%s\n" "${bibfiles[@]}" | sort -u))
              cites=($(printf "%s\n" "${cites[@]}" | sort -f -u))
@@ -185,6 +187,7 @@ jobs:
                    echo "$line" >> pruned.bib
                 fi
              done
+             rm -f consolidatedBib.tmp
           fi
         continue-on-error: true
 
@@ -240,6 +243,7 @@ jobs:
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           readarray -t res < <( grep -F -- "Package natbib Warning: Citation" "$FULLLOG" )
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
+          rm -f "$FULLLOG"
           #
           # ===================== Now add the relevant line number to front of each error/warning line that specifies a line number
           #
@@ -470,21 +474,21 @@ jobs:
           if [[ ${#res[@]} == 0 ]]; then echo "        None"; fi
           mv tout.txt "$OUTFILE"
         continue-on-error: true
-        
-      - name: Upload bib file
-        uses: actions/upload-artifact@v4
-        with: 
-          name: Setting path of pruned bib file
-          path: pruned.bib
-        continue-on-error: true
+
+      #- name: Upload bib file
+      #  uses: actions/upload-artifact@v4
+      #  with: 
+      #    name: Setting path of pruned bib file
+      #    path: pruned.bib
+      #  continue-on-error: true
             
-      - name: Publish pruned bib file to repo
-        id: create_release
-        uses: stefanzweifel/git-auto-commit-action@v5.0.0
-        with:
-          file_pattern:  pruned.bib
-          commit_message: 'Pruned bib file'
-        continue-on-error: true
+      #- name: Publish pruned bib file to repo
+      #  id: create_release
+      #  uses: stefanzweifel/git-auto-commit-action@v5.0.0
+      #  with:
+      #    file_pattern:  pruned.bib
+      #    commit_message: 'Pruned bib file'
+      #  continue-on-error: true
           
       - name: Convert errors to html file
         if: ${{ always() && hashFiles('thereAreErrors.txt') }}
@@ -493,8 +497,9 @@ jobs:
           # banner of this section in output file. But if there were errors, then remove the pdf file so that the pdf file
           # that gets shown in gooTeX is the compilation errors rather than a mangled pdf.
           # create a .html file from the out.txt file, then convert the html to pdf
+          rm -f tout.txt
           rm -f html.txt
-          #########rm -f "$PDFFILE"
+          rm -f "$PDFFILE"
           # make sure that long lines are split if they exceed 20 words
           fold -sw 90 "$OUTFILE" > html.txt
           echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
@@ -518,8 +523,15 @@ jobs:
           done < "html.txt"
           sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
           mv -f finHtml.html "$HTMLFILE"
+          rm -f red.txt
           echo '-------------------------------------------------------------'
           cat "$HTMLFILE"
+          rm -f $STARTFILE
+          touch $STARTFILE
+          echo $TIMESTAMP >> $STARTFILE
+          echo $JOBLINK   >> $STARTFILE
+          echo $PDFLINK   >> $STARTFILE
+          echo "html"  >> $STARTFILE
         continue-on-error: true
         
       #- name: Make the error PDF file
@@ -533,6 +545,14 @@ jobs:
 
       - name: Finalize compilation warning and errors output
         run: |
+          if [[ ! -n thereAreErrors.txt ]]; then 
+             rm -f $STARTFILE
+             touch $STARTFILE
+             echo $TIMESTAMP >> $STARTFILE
+             echo $JOBLINK   >> $STARTFILE
+             echo $PDFLINK   >> $STARTFILE
+             echo "pdf"  >> $STARTFILE
+          fi
           # finalize the compilation output file by putting a few sentences at the top
           touch fin.txt
           echo "$TIMESTAMP" >> fin.txt
@@ -545,57 +565,68 @@ jobs:
              thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
              echo "$thisline" >> fin.txt
           done < "$OUTFILE"
-          mv -f fin.txt "$OUTFILE"  
+          mv -f fin.txt "$OUTFILE"
+          rm -f fin.txt
+          rm -f "$FULLLOG"
+          rm -f "$LOG"
         continue-on-error: true
         
-      - name: Upload PDF file
-        id: uploadPdf
-        uses: actions/upload-artifact@v4
-        with: 
-          name: PDF
-          path: "${{ PDFFILE }}"
-        continue-on-error: true
+      #- name: Upload PDF file
+      #  id: uploadPdf
+      #  uses: actions/upload-artifact@v4
+      #  with: 
+      #    name: PDF
+      #    path: "$PDFFILE"
+      #  continue-on-error: true
          
-      - name: Publish PDF to repo
-        id: releasePdf
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          file_pattern: "${{ PDFFILE }}"
-          commit_message: 'Newly compiled PDF'
-        continue-on-error: true
+      #- name: Publish PDF to repo
+      #  id: releasePdf
+      #  uses: stefanzweifel/git-auto-commit-action@v5
+      #  with:
+      #    file_pattern: "$PDFFILE"
+      #    commit_message: 'Newly compiled PDF'
+      #  continue-on-error: true
 
-      - name: Upload compilation html file
-        uses: actions/upload-artifact@v4
-        if: ${{ always() && hashFiles("${{ HTMLFILE }}") }}
-        with: 
-          name: compileOutput
-          path: "${{ HTMLFILE }}"
-        continue-on-error: true
+      #- name: Upload compilation html file
+      #  uses: actions/upload-artifact@v4
+      #  if: ${{ always() && hashFiles("${{ HTMLFILE }}") }}
+      #  with: 
+      #    name: compileOutput
+      #    path: "${{ HTMLFILE }}"
+      #  continue-on-error: true
         
-      - name: Publish html to repo
-        id: releaseHtmlfile
-        uses: stefanzweifel/git-auto-commit-action@v5
-        if: ${{ always() && hashFiles("${{ HTMLFILE }}") }}
-        with:
-          file_pattern: "${{ HTMLFILE }}"
-          commit_message: 'Newly created html output file'
-        continue-on-error: true
+      #- name: Publish html to repo
+      #  id: releaseHtmlfile
+      #  uses: stefanzweifel/git-auto-commit-action@v5
+      #  if: ${{ always() && hashFiles("${{ HTMLFILE }}") }}
+      #  with:
+      #    file_pattern: "${{ HTMLFILE }}"
+      #    commit_message: 'Newly created html output file'
+      #  continue-on-error: true
         
-      - name: Upload compilation output file
-        uses: actions/upload-artifact@v4
-        if: ${{ always() && hashFiles("${{ OUTFILE }}") }}
-        with: 
-          name: compileOutput
-          path: "${{ OUTFILE }}"
-        continue-on-error: true
+      #- name: Upload compilation output file
+      #  uses: actions/upload-artifact@v4
+      #  if: ${{ always() && hashFiles("${{ OUTFILE }}") }}
+      #  with: 
+      #    name: compileOutput
+      #    path: "${{ OUTFILE }}"
+      #  continue-on-error: true
         
-      - name: Publish compilation output to repo
-        id: releaseOutfile
-        uses: stefanzweifel/git-auto-commit-action@v5
-        if: ${{ always() && hashFiles("${{ OUTFILE }}") }}
-        with:
-          file_pattern: "${{ OUTFILE }}"
-          commit_message: 'Newly created compilation output file'
+      #- name: Publish compilation output to repo
+      #  id: releaseOutfile
+      #  uses: stefanzweifel/git-auto-commit-action@v5
+      #  if: ${{ always() && hashFiles("${{ OUTFILE }}") }}
+      #  with:
+      #    file_pattern: "${{ OUTFILE }}"
+      #    commit_message: 'Newly created compilation output file'
+      #  continue-on-error: true
+      
+      - name: Post new files to folder
+        run: |
+          git config --global user.email "email@gmail.com"
+          git config --global user.name "github actions"
+          git add .
+          git commit -m "Upload changed files"
+          git push
         continue-on-error: true
-
  
