@@ -78,9 +78,9 @@ jobs:
                            
       - name: Initialize the folder
         run: |
-          rm -f "${{ OUTFILE }}"
-          rm -f "${{ PDFFILE }}"
-          rm -f "${{ HTMLFILE }}"
+          rm -f $OUTFILE
+          rm -f $PDFFILE
+          rm -f $HTMLFILE
           rm -f pruned.bib
           git config --global user.email "email@gmail.com"
           git config --global user.name "github actions"
