@@ -66,6 +66,8 @@ jobs:
           echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
           pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
           echo "PDFLINK=$pdflink" >> $GITHUB_ENV
+          htmllink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
+          echo "HTMLLINK=$htmllink" >> $GITHUB_ENV
         continue-on-error: true
 
       - name: Create file providing START status file
@@ -488,7 +490,7 @@ jobs:
           touch $STARTFILE
           echo $TIMESTAMP >> $STARTFILE
           echo $JOBLINK   >> $STARTFILE
-          echo $PDFLINK   >> $STARTFILE
+          echo $HTMLLINK  >> $STARTFILE
           echo "html"  >> $STARTFILE
         continue-on-error: true
         
@@ -503,7 +505,7 @@ jobs:
 
       - name: Finalize compilation warning and errors output
         run: |
-          if [[ ! -n thereAreErrors.txt ]]; then 
+          if [[ ! -f "thereAreErrors.txt" ]]; then 
              rm -f $STARTFILE
              touch $STARTFILE
              echo $TIMESTAMP >> $STARTFILE
