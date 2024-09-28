@@ -148,23 +148,23 @@ jobs:
              if [[ "$(grep -q -E -- "\\\bibliography\{" <<<"$line" )$?" == 0 ]]; then
                 biblio=$(sed -r 's/^.*\\bibliography\{([^}]*)\}.*$/\1/' <<<"$line")
                 echo " ===============================> "
-                #echo "biblio: $biblio
-                #while [[ "$(grep -q -F -- "," <<<"$biblio" )$?" == 0 ]]; do
-                #   thisbib=$(sed -r 's/^([^,]*)\,.*$/\1/' <<<"$biblio")
-                #   echo " =======================================> "
-                #   echo "thisbib:  $thisbib"
-                #   # remove this piece from citeblock
-                #   biblio=$(sed -r 's/^[^,]*\,//' <<<"$biblio")
-                #   if [[ ! "$thisbib" =~ "pruned" ]]; then
-                #      thisbib=$(sed -r 's/\.bib$//' <<<"$thisbib")
-                #      echo " ============================================> "
-                #      echo "now thisbib: $thisbib"
-                #      bibfiles+=("$thisbib.bib")
-                #   else
-                #      doesNotUsePruned=false
-                #   fi
-                #done
-                #if [[ "$biblio" != "" ]]; then bibfiles+=("$biblio"); fi
+                echo "biblio: $biblio"
+                while [[ "$(grep -q -F -- "," <<<"$biblio" )$?" == 0 ]]; do
+                   thisbib=$(sed -r 's/^([^,]*)\,.*$/\1/' <<<"$biblio")
+                   echo " =======================================> "
+                   echo "thisbib:  $thisbib"
+                   # remove this piece from citeblock
+                   biblio=$(sed -r 's/^[^,]*\,//' <<<"$biblio")
+                   if [[ ! "$thisbib" =~ "pruned" ]]; then
+                      thisbib=$(sed -r 's/\.bib$//' <<<"$thisbib")
+                      echo " ============================================> "
+                      echo "now thisbib: $thisbib"
+                      bibfiles+=("$thisbib.bib")
+                   else
+                      doesNotUsePruned=false
+                   fi
+                done
+                if [[ "$biblio" != "" ]]; then bibfiles+=("$biblio"); fi
              fi
              ## 
              #echo " ============================== does not use pruned ?   $doesNotUsePruned"
