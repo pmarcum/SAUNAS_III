@@ -144,6 +144,11 @@ jobs:
           touch inpaperCites.txt
           doesNotUsePruned=true
           sed -r 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\\cite/\n\\cite/ig' <<<"$alllines" >> inpaperCites.txt
+          echo ""
+          echo "--------------------------------------------------------------------------------------------------------------------------------"
+          cat inpaperCites.txt
+          echo "--------------------------------------------------------------------------------------------------------------------------------"
+          echo ""
           while IFS= read -r line; do
              if [[ "$(grep -q -E -- "\\\bibliography\{" <<<"$line" )$?" -eq 0 ]]; then
                 biblio=$(sed -r 's/^.*\\bibliography\{([^}]*)\}.*$/\1/' <<<"$line")
