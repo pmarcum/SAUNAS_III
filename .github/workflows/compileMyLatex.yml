@@ -95,6 +95,7 @@ jobs:
           rm -f $CORENAME.synctex.gz
           rm -f $CORENAME.out
           rm -f inpaperCites.txt
+          rm -f thereAreErrors.txt
         continue-on-error: true
 
       - name: Save folder for initialization
@@ -168,7 +169,6 @@ jobs:
                 fi
              fi
              # 
-             echo " ============================== does not use pruned ?   $doesNotUsePruned"
              if [[ "$(grep -q -E -- "^\\\cite" <<<"$line" )$?" == 0 ]]; then
                 citeblock=$(sed -r 's/^\\cite[a-z]*\{*([^}]*)\}.*$/\1/i' <<<"$line")
                 # Now get the individual citations in this block
@@ -318,14 +318,6 @@ jobs:
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           echo "              FATAL ERRORS IN $TEXFILE" >> tout.txt
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          echo ""
-          echo ""
-          echo "=========================================================================================="
-          cat tout.txt
-          echo "=========================================================================================="
-          echo ""
-          echo ""
-          rm -f thereAreErrors.txt
           error=""
           for (( i=0; i<${#sorted[@]}; i++ )); do
             if [[ "${sorted[$i]}" =~ "-ERROR-" ]]; then error="${sorted[$i]}"; touch thereAreErrors.txt; break; fi
@@ -365,13 +357,6 @@ jobs:
             done
             echo "=------------------------------------------------------------------------" >> tout.txt
           done
-          echo ""
-          echo ""
-          echo "=========================================================================================="
-          cat tout.txt
-          echo "=========================================================================================="
-          echo ""
-          echo "
           #
           #  ######################   START CONSOLIDATING THE WARNINGS ########################
           #
@@ -581,6 +566,7 @@ jobs:
           rm -f $CORENAME.fdb_latexmk
           rm -f $CORENAME.fls
           rm -f inpaperCites.txt
+          rm -f thereAreErrors.txt
           rm -f $CORENAME.synctex.gz
           rm -f $CORENAME.out
         continue-on-error: true
