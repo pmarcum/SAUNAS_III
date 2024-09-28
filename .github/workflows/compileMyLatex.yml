@@ -168,17 +168,17 @@ jobs:
              fi
              # 
              echo " ============================== does not use pruned ?   $doesNotUsePruned"
-             if [[ "$(grep -q -E -- "^\\\cite" <<<"$line" )$?" == 0 ]]; then
-                citeblock=$(sed -r 's/^\\cite[a-z]*\{*([^}]*)\}.*$/\1/i' <<<"$line")
-                # Now get the individual citations in this block
-                while [[ "$(grep -q -E -- "," <<<"$citeblock" )$?" == 0 ]]; do
-                   thiscite=$(sed -r 's/^([^,]*)\,.*$/\1/i' <<<"$citeblock")
-                   # remove this piece from citeblock
-                   citeblock=$(sed -r 's/^[^,]*\,//' <<<"$citeblock")
-                   cites+=("$thiscite")
-                done
-                if [[ "$citeblock" != "" ]]; then cites+=("$citeblock"); fi
-             fi
+             #if [[ "$(grep -q -E -- "^\\\cite" <<<"$line" )$?" == 0 ]]; then
+                #citeblock=$(sed -r 's/^\\cite[a-z]*\{*([^}]*)\}.*$/\1/i' <<<"$line")
+                ## Now get the individual citations in this block
+                #while [[ "$(grep -q -E -- "," <<<"$citeblock" )$?" == 0 ]]; do
+                   #thiscite=$(sed -r 's/^([^,]*)\,.*$/\1/i' <<<"$citeblock")
+                   ## remove this piece from citeblock
+                   #citeblock=$(sed -r 's/^[^,]*\,//' <<<"$citeblock")
+                   #cites+=("$thiscite")
+                #done
+                #if [[ "$citeblock" != "" ]]; then cites+=("$citeblock"); fi
+             #fi
           done < inpaperCites.txt
           rm -f inpaperCites.txt
           if $doesNotUsePruned; then
