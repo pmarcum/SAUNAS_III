@@ -55,6 +55,7 @@ jobs:
         run: |
           link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
           echo "JOBLINK=$link2job" >> $GITHUB_ENV
+          echo "CORENAME=${{ github.event.inputs.file2compile }}" >> $GITHUB_ENV
           echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >> $GITHUB_ENV
           echo "OUTFILE=${{ github.event.inputs.file2compile }}Out.txt" >> $GITHUB_ENV
           echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
@@ -77,19 +78,31 @@ jobs:
           echo "precomp"  >> $STARTFILE
         continue-on-error: true
                            
-      - name: Initialize the folder
+      - name: Remove files to initialize
         run: |
           rm -f $OUTFILE
           rm -f $PDFFILE
           rm -f $HTMLFILE
           rm -f pruned.bib
+          rm -f fin.txt
+          rm -f $FULLLOG
+          rm -f $LOG
+          rm -f $CORENAME.aux
+          rm -f $CORENAME.bbl
+          rm -f $CORENAME.blg
+          rm -f $CORENAME.fdb_latexmk
+          rm -f $CORENAME.fls
+          rm -f inpaperCites.txt
+        continue-on-error: true
+
+      - name: Save folder for initialization
           git config --global user.email "email@gmail.com"
           git config --global user.name "github actions"
           git add .
           git commit -m "Removing previous status and pdf files"
           git push
         continue-on-error: true
- 
+
       # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
       # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
       # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
@@ -566,9 +579,19 @@ jobs:
              echo "$thisline" >> fin.txt
           done < "$OUTFILE"
           mv -f fin.txt "$OUTFILE"
+        continue-on-error: true
+
+      - name: Clean up folder before saving files
+        run: |
           rm -f fin.txt
-          rm -f "$FULLLOG"
-          rm -f "$LOG"
+          rm -f $FULLLOG
+          rm -f $LOG
+          rm -f $CORENAME.aux
+          rm -f $CORENAME.bbl
+          rm -f $CORENAME.blg
+          rm -f $CORENAME.fdb_latexmk
+          rm -f $CORENAME.fls
+          rm -f inpaperCites.txt
         continue-on-error: true
         
       #- name: Upload PDF file
