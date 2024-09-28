@@ -69,11 +69,11 @@ jobs:
 
       - name: Create file providing START status file
         run: |
-          rm -f "${{ STARTFILE }}"
-          touch "${{ STARTFILE }}"
-          echo "${{ TIMESTAMP }}" >> "${{ STARTFILE }}"
-          echo "${{ JOBLINK }}"   >> "${{ STARTFILE }}"
-          echo "${{ PDFLINK }}"   >> "${{ STARTFILE }}"
+          rm -f ${{ STARTFILE }}
+          touch ${{ STARTFILE }}
+          echo ${{ TIMESTAMP }} >> ${{ STARTFILE }}
+          echo ${{ JOBLINK }}   >> ${{ STARTFILE }}
+          echo ${{ PDFLINK }}   >> ${{ STARTFILE }}
         continue-on-error: true
                            
       - name: Initialize the folder
