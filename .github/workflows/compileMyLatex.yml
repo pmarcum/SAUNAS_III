@@ -193,7 +193,7 @@ jobs:
              # remove unnecessary white space, remove " and ' and ` around the bibcode if such unnecesary things are present
              touch consolidatedBib.tmp
              allbib=$(sed -r 's/(@[a-z][a-z]*) *\{ */\1\{/ig;s/ *\, *\|/\,\|/g;s/\{\"([^"]+)\"\,/\{\1\,/g;s/\{`([^`]+)`\,/\{\1\,/g' <<<"$allbib")
-             allbib=$(sed -r "s/\{'([^']+)'\,/\{\1\,/g" <<<"$allbib")
+             #allbib=$(sed -r "s/\{'([^']+)'\,/\{\1\,/g" <<<"$allbib")
              #sed -r 's/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> consolidatedBib.tmp
              ## now look for the citations in this compiled set of citations
              #for (( i=0; i<${#cites[@]}; i++ )); do
