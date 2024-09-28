@@ -217,9 +217,9 @@ jobs:
           while [[ "$(grep -q -F -- "|" <<<"$alllog" )$?" -eq 0 ]]; do
              thisline=$(sed -r 's/^([^|]*)\|.*$/\1/' <<<"$alllog" )
              alllog=$(sed -r 's/^[^|]*\|//' <<<"$alllog" )
-             echo "$thisline" >> "${{ FULLLOG }}"
+             echo "$thisline" >> "$FULLLOG"
           done
-          if [[ -n "$alllog" ]]; then echo "$alllog" >> "${{ FULLLOG }}"; fi
+          if [[ -n "$alllog" ]]; then echo "$alllog" >> "$FULLLOG"; fi
         continue-on-error: true
 
       - name: Process the errors and warnings
