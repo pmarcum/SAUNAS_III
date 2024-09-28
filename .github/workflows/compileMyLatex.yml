@@ -186,9 +186,9 @@ jobs:
              cites=($(printf "%s\n" "${cites[@]}" | sort -f -u))
              # Get the .bib files used in this document
              allbib=''
-             for (( i=0; i<${#bibfiles[@]}; i++ )); do
-                while IFS= read -r line; do allbib+="$line|"; done < "${bibfiles[$i]}"
-             done
+             #for (( i=0; i<${#bibfiles[@]}; i++ )); do
+             #   while IFS= read -r line; do allbib+="$line|"; done < "${bibfiles[$i]}"
+             #done
              # now break on each citation item, so that a full citation occupies a whole line in the temp file
              # remove unnecessary white space, remove " and ' and ` around the bibcode if such unnecesary things are present
              touch consolidatedBib.tmp
