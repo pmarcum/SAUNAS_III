@@ -144,10 +144,10 @@ jobs:
           touch inpaperCites.txt
           doesNotUsePruned=true
           sed -r 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\\cite/\n\\cite/ig' <<<"$alllines" >> inpaperCites.txt
-          #while IFS= read -r line; do
-             #if [[ "$(grep -q -E -- "\\\bibliography\{" <<<"$line" )$?" == 0 ]]; then
+          while IFS= read -r line; do
+             if [[ "$(grep -q -E -- "\\\bibliography\{" <<<"$line" )$?" == 0 ]]; then
                 #biblio=$(sed -r 's/^.*\\bibliography\{([^}]*)\}.*$/\1/' <<<"$line")
-                #echo " ===============================> "
+                echo " ===============================> "
                 #echo "biblio: $biblio
                 #while [[ "$(grep -q -F -- "," <<<"$biblio" )$?" == 0 ]]; do
                 #   thisbib=$(sed -r 's/^([^,]*)\,.*$/\1/' <<<"$biblio")
@@ -165,7 +165,7 @@ jobs:
                 #   fi
                 #done
                 #if [[ "$biblio" != "" ]]; then bibfiles+=("$biblio"); fi
-             #fi
+             fi
              ## 
              #echo " ============================== does not use pruned ?   $doesNotUsePruned"
              #if [[ "$(grep -q -E -- "^\\\cite" <<<"$line" )$?" == 0 ]]; then
@@ -179,7 +179,7 @@ jobs:
                 #done
                 #if [[ "$citeblock" != "" ]]; then cites+=("$citeblock"); fi
              #fi
-          #done < inpaperCites.txt
+          done < inpaperCites.txt
           rm -f inpaperCites.txt
           if $doesNotUsePruned; then
              #bibfiles=($(printf "%s\n" "${bibfiles[@]}" | sort -u))
