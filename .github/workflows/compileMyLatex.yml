@@ -145,15 +145,11 @@ jobs:
           doesNotUsePruned=true
           sed -r 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\\cite/\n\\cite/ig' <<<"$alllines" >> inpaperCites.txt
           while IFS= read -r line; do
-             echo "line: $line"
-             echo $("$(grep -q -E -- "\\\bibliography\{" <<<"$line" )$?" -eq 0)
-             echo $("$(grep -q -E -- "\\\bibliography\{" <<<"$line" )$?" == 0)
-             echo "---------------------------------------------------------------------------------------------------------------------------------"
-             if [[ "$(grep -q -E -- "\\\bibliography\{" <<<"$line" )$?" -eq 0 ]]; then
+             if [[ "$(grep -q -E -- "\\\bibliography\{" <<<"$line" )$?" == 0 ]]; then
                 biblio=$(sed -r 's/^.*\\bibliography\{([^}]*)\}.*$/\1/' <<<"$line")
                 echo " ===============================> "
                 echo "biblio: $biblio
-                while [[ "$(grep -q -F -- "," <<<"$biblio" )$?" -eq 0 ]]; do
+                while [[ "$(grep -q -F -- "," <<<"$biblio" )$?" == 0 ]]; do
                    thisbib=$(sed -r 's/^([^,]*)\,.*$/\1/' <<<"$biblio")
                    echo " =======================================> "
                    echo "thisbib:  $thisbib"
@@ -172,10 +168,10 @@ jobs:
              fi
              # 
              echo " ============================== does not use pruned ?   $doesNotUsePruned"
-             if [[ "$(grep -q -E -- "^\\\cite" <<<"$line" )$?" -eq 0 ]]; then
+             if [[ "$(grep -q -E -- "^\\\cite" <<<"$line" )$?" == 0 ]]; then
                 citeblock=$(sed -r 's/^\\cite[a-z]*\{*([^}]*)\}.*$/\1/i' <<<"$line")
                 # Now get the individual citations in this block
-                while [[ "$(grep -q -E -- "," <<<"$citeblock" )$?" -eq 0 ]]; do
+                while [[ "$(grep -q -E -- "," <<<"$citeblock" )$?" == 0 ]]; do
                    thiscite=$(sed -r 's/^([^,]*)\,.*$/\1/i' <<<"$citeblock")
                    # remove this piece from citeblock
                    citeblock=$(sed -r 's/^[^,]*\,//' <<<"$citeblock")
@@ -201,7 +197,7 @@ jobs:
              sed -r 's/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> consolidatedBib.tmp
              # now look for the citations in this compiled set of citations
              for (( i=0; i<${#cites[@]}; i++ )); do
-                if [[ "$(grep -q -F -- "{${cites[$i]},"  consolidatedBib.tmp)$?" -eq 0 ]]; then
+                if [[ "$(grep -q -F -- "{${cites[$i]},"  consolidatedBib.tmp)$?" == 0 ]]; then
                    line="$(grep -F -- "{${cites[$i]},"  consolidatedBib.tmp)"
                    line=$(sed -r 's/\|/\n/g' <<<"$line")
                    echo "$line" >> pruned.bib
@@ -222,12 +218,12 @@ jobs:
              if [[ -n "$newline" ]]; then
                 if [[ "${#newline}" -eq 79 ]]; then
                    alllog+="$newline"
-                elif [[ "$(grep -q -E -- "^ *[),.][^/]" <<<"$newline" )$?" -eq 0 ]]; then
+                elif [[ "$(grep -q -E -- "^ *[),.][^/]" <<<"$newline" )$?" == 0 ]]; then
                    # if this piece of line only consists of a ) then attach to previous line
                    # remove the last end-of-line character and the attach this new piece of the line
                    alllog=$(sed -r 's/\|$//' <<<"$alllog")
                    alllog+="$newline|"
-                elif [[ "$(grep -q -E -- "\, *$" <<<"$newline" )$?" -eq 0 ]]; then
+                elif [[ "$(grep -q -E -- "\, *$" <<<"$newline" )$?" == 0 ]]; then
                    # if this line ends with comma, assume the next line is continuation
                    alllog+="$newline"
                 else
@@ -237,7 +233,7 @@ jobs:
           done < "$LOG"
           # write array to file
           touch "$FULLLOG"
-          while [[ "$(grep -q -F -- "|" <<<"$alllog" )$?" -eq 0 ]]; do
+          while [[ "$(grep -q -F -- "|" <<<"$alllog" )$?" == 0 ]]; do
              thisline=$(sed -r 's/^([^|]*)\|.*$/\1/' <<<"$alllog" )
              alllog=$(sed -r 's/^[^|]*\|//' <<<"$alllog" )
              echo "$thisline" >> "$FULLLOG"
@@ -268,7 +264,7 @@ jobs:
           # ===================== Now add the relevant line number to front of each error/warning line that specifies a line number
           #
           for (( i=0; i<${#warnErrArr[@]}; i++ )); do
-             if [[ "$(grep -q -E -- "on input line [0-9]" <<<"${warnErrArr[$i]}")$?" -eq 0 ]]; then
+             if [[ "$(grep -q -E -- "on input line [0-9]" <<<"${warnErrArr[$i]}")$?" == 0 ]]; then
                 linenum=$(sed -r 's/^.*on input line ([0-9][0-9]*).*/\1/' <<<"${warnErrArr[$i]}")
                 blanks="$(sed -r 's/ /ZZ/g' <<<"${warnErrArr[$i]}")"
                 if [[ "${warnErrArr[$i]}" =~ "LaTeX Error" ]]; then
@@ -282,7 +278,7 @@ jobs:
                 else
                     tmp="$linenum-WARNING-$blanks"
                 fi
-             elif [[ "$(grep -q -E -- "^\.\/[^:][^:]*:[0-9][0-9]*:" <<<"${warnErrArr[$i]}")$?" -eq 0 ]]; then
+             elif [[ "$(grep -q -E -- "^\.\/[^:][^:]*:[0-9][0-9]*:" <<<"${warnErrArr[$i]}")$?" == 0 ]]; then
                 linenum=$(sed -r 's/^[^:]*:([0-9][0-9]*).*/\1/' <<<"${warnErrArr[$i]}")
                 blanks="$(sed -r 's/ /ZZ/g' <<<"${warnErrArr[$i]}")"
                 if [[ "${warnErrArr[$i]}" =~ "LaTeX Error" ]]; then
@@ -340,7 +336,7 @@ jobs:
             if [[ $linenum > 0 ]]; then
                # look for all occurances of this line number in the error/warning list
                for (( i=0; i<${#sorted[@]}; i++ )); do
-                   if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$i]}" )$?" -eq 0 ]]; then
+                   if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$i]}" )$?" == 0 ]]; then
                       line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
                       echo $line >> tout.txt
                       # remove this item from the list
@@ -394,7 +390,7 @@ jobs:
             if [[ $linenum > 0 ]]; then
                # look for all occurances of this line number in the error/warning list
                for (( i=0; i<${#sorted[@]}; i++ )); do
-                   if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$i]}" )$?" -eq 0 ]]; then
+                   if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$i]}" )$?" == 0 ]]; then
                       line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
                       echo $line >> tout.txt
                       # remove this item from the list
@@ -442,7 +438,7 @@ jobs:
             if [[ $linenum > 0 ]]; then
                # look for all occurances of this line number in the error/biberr list
                for (( i=0; i<${#sorted[@]}; i++ )); do
-                   if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$i]}" )$?" -eq 0 ]]; then
+                   if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$i]}" )$?" == 0 ]]; then
                       line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
                       echo $line >> tout.txt
                       # remove this item from the list
