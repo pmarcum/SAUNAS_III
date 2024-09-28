@@ -183,7 +183,7 @@ jobs:
           rm -f inpaperCites.txt
           if $doesNotUsePruned; then
              bibfiles=($(printf "%s\n" "${bibfiles[@]}" | sort -u))
-             cites=($(printf "%s\n" "${cites[@]}" | sort -f -u))
+             #cites=($(printf "%s\n" "${cites[@]}" | sort -f -u))
              # Get the .bib files used in this document
              allbib=''
              #for (( i=0; i<${#bibfiles[@]}; i++ )); do
