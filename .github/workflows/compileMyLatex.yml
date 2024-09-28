@@ -494,14 +494,14 @@ jobs:
           # that gets shown in gooTeX is the compilation errors rather than a mangled pdf.
           # create a .html file from the out.txt file, then convert the html to pdf
           rm -f html.txt
-          #########rm -f "${{ PDFFILE }}"
+          #########rm -f "$PDFFILE"
           # make sure that long lines are split if they exceed 20 words
-          fold -sw 90 "${{ OUTFILE }}" > html.txt
+          fold -sw 90 "$OUTFILE" > html.txt
           echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
           echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> finHtml.html
-          echo "<span style='color:blue;'><i>${{ JOBLINK }}</i></span><br>" >> finHtml.html
+          echo "<span style='color:blue;'><i>${JOBLINK}</i></span><br>" >> finHtml.html
           echo "<hr><br>" >> finHtml.html
-          echo "${{ TIMESTAMP }}" >> finHtml.html
+          echo "$TIMESTAMP" >> finHtml.html
           # Go through the html.txt file and make the errors red to stand out
           touch red.txt
           red=false
@@ -517,9 +517,9 @@ jobs:
              fi
           done < "html.txt"
           sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
-          mv -f finHtml.html "${{ HTMLFILE }}"
+          mv -f finHtml.html "$HTMLFILE"
           echo '-------------------------------------------------------------'
-          cat "${{ HTMLFILE }}"
+          cat "$HTMLFILE"
         continue-on-error: true
         
       #- name: Make the error PDF file
@@ -527,7 +527,7 @@ jobs:
       #  uses: fifsky/html-to-pdf-action@master
       #  with:
       #    htmlFile: finHtml.html
-      #    outputFile: "${{ PDFFILE }}"
+      #    outputFile: "$PDFFILE"
       #    pdfOptions: '{"margin": {"top": "0.2in", "bottom": "0.3in", "left": "0.4in", "right": "0.3in" }}'
       #  continue-on-error: true
 
@@ -535,17 +535,17 @@ jobs:
         run: |
           # finalize the compilation output file by putting a few sentences at the top
           touch fin.txt
-          echo "${{ TIMESTAMP }}" >> fin.txt
+          echo "$TIMESTAMP" >> fin.txt
           echo "LATEX COMPILATION ERRORS and WARNINGS" >> fin.txt
           echo "" >> fin.txt
           echo "To view full GitHub Actions output, click on item at top of list here:" >> fin.txt
-          echo "${{ JOBLINK }}" >> fin.txt
+          echo "$JOBLINK" >> fin.txt
           echo "====================================================================================================" >> fin.txt
           while IFS= read -r line; do
              thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
              echo "$thisline" >> fin.txt
-          done < "${{ OUTFILE }}"
-          mv -f fin.txt "${{ OUTFILE }}"  
+          done < "$OUTFILE"
+          mv -f fin.txt "$OUTFILE"  
         continue-on-error: true
         
       - name: Upload PDF file
