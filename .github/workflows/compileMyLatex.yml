@@ -194,8 +194,8 @@ jobs:
              touch consolidatedBib.tmp
              allbib=$(sed -r 's/(@[a-z][a-z]*) *\{ */\1\{/ig;s/ *\, *\|/\,\|/g;s/\{\"([^"]+)\"\,/\{\1\,/g;s/\{`([^`]+)`\,/\{\1\,/g' <<<"$allbib")
              allbib=$(sed -r "s/\{'([^']+)'\,/\{\1\,/g" <<<"$allbib")
-             sed -r 's/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> consolidatedBib.tmp
-             # now look for the citations in this compiled set of citations
+             #sed -r 's/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> consolidatedBib.tmp
+             ## now look for the citations in this compiled set of citations
              #for (( i=0; i<${#cites[@]}; i++ )); do
              #   if [[ "$(grep -q -F -- "{${cites[$i]},"  consolidatedBib.tmp)$?" == 0 ]]; then
              #      line="$(grep -F -- "{${cites[$i]},"  consolidatedBib.tmp)"
