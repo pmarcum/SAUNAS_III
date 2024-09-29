@@ -1,17 +1,22 @@
+2024-09-29T08:35:06Z 1727598906789
+LATEX COMPILATION ERRORS and WARNINGS
+
+To view full GitHub Actions output, click on item at top of list here:
+https://github.com/pmarcum/SAUNAS_III/actions/runs/11091171177/job/30814506638
+====================================================================================================
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               FATAL ERRORS IN myPaper.tex
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 ./myPaper.tex:147: LaTeX Error: \begin{center} on input line 60 ended by \end{document}.
 ./myPaper.tex:147: LaTeX Error: \begin{center} on input line 60 ended by \end{document}.
-line #60 ----------------------- 
+Line #60 ----------------------- 
 \begin{center}
-=------------------------------------------------------------------------
+-------------------------------------------------------------------------
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               WARNINGS IN myPaper.tex
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-LaTeX Warning: You have requested document class `CORE-AAS/aastex631', but the document 
-class provides `aastex631'.
+LaTeX Warning: You have requested document class `CORE-AAS/aastex631', but the document class provides `aastex631'.
 -------------------------------------------------------------------------
 LaTeX Warning: Command \@footnotemark has changed.
 -------------------------------------------------------------------------
