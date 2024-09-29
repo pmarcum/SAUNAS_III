@@ -124,7 +124,7 @@ jobs:
         id: pruneBib
         run: |
           touch pruned.bib
-          perl -lne 'print $1 while /Warning: Citation `([^']+)\' on page [0-9]+ undefined on/g' $LOG
+          perl -lne 'print $1 while /Warning: Citation `([^']+)\\' on page [0-9]+ undefined on/g' $LOG
         continue-on-error: true
 
       #- name: Prune the bib file
