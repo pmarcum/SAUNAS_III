@@ -124,7 +124,7 @@ jobs:
         id: pruneBib
         run: |
           touch pruned.bib
-          grep -Fw -f "Warning: Citation" "$LOG"
+          grep -Fw  "Warning: Citation" "$LOG"
         continue-on-error: true
 
       #- name: Prune the bib file
