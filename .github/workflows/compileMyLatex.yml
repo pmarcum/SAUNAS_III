@@ -99,15 +99,15 @@ jobs:
           git push
         continue-on-error: true
 
-      - name: Create file providing START status file
-        run: |
-          rm -f $STARTFILE
-          touch $STARTFILE
-          echo $TIMESTAMP >> $STARTFILE
-          echo $JOBLINK   >> $STARTFILE
-          echo $PDFLINK   >> $STARTFILE
-          echo "precomp"  >> $STARTFILE
-        continue-on-error: true
+      #- name: Create file providing START status file
+      #  run: |
+      #    rm -f $STARTFILE
+      #    touch $STARTFILE
+      #    echo $TIMESTAMP >> $STARTFILE
+      #    echo $JOBLINK   >> $STARTFILE
+      #    echo $PDFLINK   >> $STARTFILE
+      #    echo "precomp"  >> $STARTFILE
+      #  continue-on-error: true
                            
       # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
       # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
