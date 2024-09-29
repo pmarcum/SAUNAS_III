@@ -1,0 +1,120 @@
+2024-09-29T01:17:59Z 1727572679551
+LATEX COMPILATION ERRORS and WARNINGS
+
+To view full GitHub Actions output, click on item at top of list here:
+https://github.com/pmarcum/SAUNAS_III/actions/runs/11088495353/job/30808471333
+====================================================================================================
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              FATAL ERRORS IN myPaper.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      none
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              WARNINGS IN myPaper.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+LaTeX Warning: You have requested document class `CORE-AAS/aastex631', but the document class provides `aastex631'.
+-------------------------------------------------------------------------
+LaTeX Warning: Command \@footnotemark has changed.
+-------------------------------------------------------------------------
+LaTeX Warning: \include should only be used after \begin{document} on input line 36.
+Line #36 ----------------------- 
+\include{variables}
+-------------------------------------------------------------------------
+ 
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              CITATION ISSUES IN myPaper.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Package natbib Warning: Citation `citeButtonmarcum+2004aj127_3213' on page 1 undefined on input line 65.
+Line #65 ----------------------- 
+A 3rd sentence  in the background. \citep{citeButtonmarcum+2004aj127_3213}
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              LIST OF REFERENCES IN myPaper.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Number of citations: 84
+agertz+2015apj804_18
+aguerri+1998aj116_2136
+bell+2006apj640_241
+bell+2006apj652_270
+bernardi+2006aj131_1288
+erwin+2017mnras468_2058
+falchi+2016an2_1600377
+agertz+2015apj804_18
+aguerri+1998aj116_2136
+bell+2006apj640_241
+bell+2006apj652_270
+bernardi+2006aj131_1288
+erwin+2017mnras468_2058
+falchi+2016an2_1600377
+agertz+2015apj804_18
+aguerri+1998aj116_2136
+bell+2006apj640_241
+bell+2006apj652_270
+bernardi+2006aj131_1288
+erwin+2017mnras468_2058
+falchi+2016an2_1600377
+agertz+2015apj804_18
+aguerri+1998aj116_2136
+bell+2006apj640_241
+bell+2006apj652_270
+bernardi+2006aj131_1288
+erwin+2017mnras468_2058
+falchi+2016an2_1600377
+agertz+2015apj804_18
+aguerri+1998aj116_2136
+bell+2006apj640_241
+bell+2006apj652_270
+bernardi+2006aj131_1288
+erwin+2017mnras468_2058
+falchi+2016an2_1600377
+agertz+2015apj804_18
+aguerri+1998aj116_2136
+bell+2006apj640_241
+bell+2006apj652_270
+bernardi+2006aj131_1288
+erwin+2017mnras468_2058
+falchi+2016an2_1600377
+agertz+2015apj804_18
+aguerri+1998aj116_2136
+bell+2006apj640_241
+bell+2006apj652_270
+bernardi+2006aj131_1288
+erwin+2017mnras468_2058
+falchi+2016an2_1600377
+agertz+2015apj804_18
+aguerri+1998aj116_2136
+bell+2006apj640_241
+bell+2006apj652_270
+bernardi+2006aj131_1288
+erwin+2017mnras468_2058
+falchi+2016an2_1600377
+agertz+2015apj804_18
+aguerri+1998aj116_2136
+bell+2006apj640_241
+bell+2006apj652_270
+bernardi+2006aj131_1288
+erwin+2017mnras468_2058
+falchi+2016an2_1600377
+agertz+2015apj804_18
+aguerri+1998aj116_2136
+bell+2006apj640_241
+bell+2006apj652_270
+bernardi+2006aj131_1288
+erwin+2017mnras468_2058
+falchi+2016an2_1600377
+agertz+2015apj804_18
+aguerri+1998aj116_2136
+bell+2006apj640_241
+bell+2006apj652_270
+bernardi+2006aj131_1288
+erwin+2017mnras468_2058
+falchi+2016an2_1600377
+agertz+2015apj804_18
+aguerri+1998aj116_2136
+bell+2006apj640_241
+bell+2006apj652_270
+bernardi+2006aj131_1288
+erwin+2017mnras468_2058
+falchi+2016an2_1600377
