@@ -124,8 +124,7 @@ jobs:
         id: pruneBib
         run: |
           touch pruned.bib
-          grep -Pzo -- "Warning: Citation" $LOG
-          printf '%s\n' "${cites[@]}"
+          grep -Pzo "Warning: Citation" $LOG
         continue-on-error: true
 
       #- name: Prune the bib file
