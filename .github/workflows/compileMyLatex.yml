@@ -128,7 +128,7 @@ jobs:
           # resolved but rather will appear as errors in the compilation log.  Use those errors to get a list
           # of all the citations in the paper
           # smoosh all lines together then break the string apart on appearance of a reference warning
-          cites=$(grep -Pzo 'Warning: Citation \`[^']+\'' "$LOG")
+          readarray -t cites < <( grep --Pzo -- "Warning: Citation `[^'][^']*'" "$LOG" )
           printf '%s\n' "${cites[@]}"
           ## going to strip out all the used citations and make a pruned.bib file that can be used as the final 
           ## bib file for submission purposes rather than having to use the whole master bib file.  based on the
