@@ -69,6 +69,35 @@ jobs:
           htmllink="https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"
           echo "HTMLLINK=$htmllink" >> $GITHUB_ENV
         continue-on-error: true
+        
+      - name: Remove files to initiate compilation process
+        run: |
+          rm -f fin.txt
+          rm -f $FULLLOG
+          rm -f $LOG
+          rm -f $CORENAME.aux
+          rm -f $CORENAME.bbl
+          rm -f $CORENAME.blg
+          rm -f $CORENAME.fdb_latexmk
+          rm -f $CORENAME.fls
+          rm -f inpaperCites.txt
+          rm -f thereAreErrors.txt
+          rm -f $CORENAME.synctex.gz
+          rm -f $CORENAME.out
+          rm -f $STARTFILE
+          rm -f $PDFFILE
+          rm -f $HTMLFILE
+          rm -f $OUTFILE
+        continue-on-error: true
+      
+      - name: Complete initialization of folder
+        run: |
+          git config --global user.email "email@gmail.com"
+          git config --global user.name "github actions"
+          git add .
+          git commit -m "Upload changed files"
+          git push
+        continue-on-error: true
 
       - name: Create file providing START status file
         run: |
