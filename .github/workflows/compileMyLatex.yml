@@ -98,16 +98,6 @@ jobs:
           git commit -m "Upload changed files"
           git push
         continue-on-error: true
-
-      #- name: Create file providing START status file
-      #  run: |
-      #    rm -f $STARTFILE
-      #    touch $STARTFILE
-      #    echo $TIMESTAMP >> $STARTFILE
-      #    echo $JOBLINK   >> $STARTFILE
-      #    echo $PDFLINK   >> $STARTFILE
-      #    echo "precomp"  >> $STARTFILE
-      #  continue-on-error: true
                            
       # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
       # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
@@ -127,6 +117,7 @@ jobs:
         id: compilation
         run: |
           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE"
+          cat "$LOG"
         continue-on-error: true
         
       - name: Prune the bib file
@@ -147,6 +138,7 @@ jobs:
           touch inpaperCites.txt
           doesNotUsePruned=true
           sed -r 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\\cite/\n\\cite/ig' <<<"$alllines" >> inpaperCites.txt
+          sort -u inpaperCites.txt -o inpaperCites.txt
           while IFS= read -r line; do
              if [[ "$(grep -q -E -- "\\\bibliography\{" <<<"$line" )$?" == 0 ]]; then
                 biblio=$(sed -r 's/^.*\\bibliography\{([^}]*)\}.*$/\1/' <<<"$line")
@@ -208,6 +200,7 @@ jobs:
              done
              rm -f consolidatedBib.tmp
           fi
+          sort -u pruned.bib -o pruned.bib
         continue-on-error: true
 
       - name: Capture full compilation output
