@@ -124,7 +124,7 @@ jobs:
         id: pruneBib
         run: |
           touch pruned.bib
-          grep -Fw  "Warning: Citation" "$LOG"
+          sed ':a;N;$!ba;s/\n//g;s/ //g' "$LOG" | grep -Eo "warning:citation[^'][^']*"
         continue-on-error: true
 
       #- name: Prune the bib file
