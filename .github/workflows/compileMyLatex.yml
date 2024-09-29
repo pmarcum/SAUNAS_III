@@ -124,7 +124,7 @@ jobs:
         id: pruneBib
         run: |
           touch pruned.bib
-          grep -Pzl 'Citation' "$LOG"
+          grep -Pozi '(?s)citation[^.]+\.' $LOG
         continue-on-error: true
 
       #- name: Prune the bib file
