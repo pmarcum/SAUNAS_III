@@ -200,7 +200,6 @@ jobs:
              done
              rm -f consolidatedBib.tmp
           fi
-          sort -u pruned.bib -o pruned.bib
         continue-on-error: true
 
       - name: Capture full compilation output
