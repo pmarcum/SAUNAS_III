@@ -124,7 +124,7 @@ jobs:
         id: pruneBib
         run: |
           touch pruned.bib
-          pcregrep -M 'Warning: Citation' "$LOG"
+          grep -Pzl 'Citation' "$LOG"
         continue-on-error: true
 
       #- name: Prune the bib file
