@@ -124,7 +124,7 @@ jobs:
         id: pruneBib
         run: |
           touch pruned.bib
-          grep -Pzo -- "Warning: Citation `[^'][^']*'" $LOG
+          grep -Pzo -- "Warning: Citation" $LOG
           printf '%s\n' "${cites[@]}"
         continue-on-error: true
 
