@@ -542,6 +542,14 @@ jobs:
              echo $PDFLINK   >> $STARTFILE
              echo "pdf"  >> $STARTFILE
           fi
+          if [[ ! -f "$STARTFILE" ]]; then
+             touch $STARTFILE
+             echo $TIMESTAMP >> $STARTFILE
+             echo $JOBLINK   >> $STARTFILE
+             echo $PDFLINK   >> $STARTFILE
+             echo "precomp"  >> $STARTFILE
+          fi
+             
           # finalize the compilation output file by putting a few sentences at the top
           touch fin.txt
           echo "$TIMESTAMP" >> fin.txt
