@@ -139,6 +139,11 @@ jobs:
           doesNotUsePruned=true
           sed -r 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\\cite/\n\\cite/ig' <<<"$alllines" >> inpaperCites.txt
           sort -u inpaperCites.txt -o inpaperCites.txt
+          echo ""
+          echo "---------------------------------------------"
+          cat inpaperCites.txt
+          echo "---------------------------------------------"
+          echo ""
           while IFS= read -r line; do
              if [[ "$(grep -q -E -- "\\\bibliography\{" <<<"$line" )$?" == 0 ]]; then
                 biblio=$(sed -r 's/^.*\\bibliography\{([^}]*)\}.*$/\1/' <<<"$line")
