@@ -135,7 +135,7 @@ jobs:
           # all the below because pruned bib file does not need to be created.
           if [[ "$(grep -Eiq -- 'prune[^.]*\.bib' compileOut.txt)$?" == 0 ]]; then doesNotUsePruned=false; fi
           echo ''
-          echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>> doesNotUsedPruned: "$doesNotUsePruned" <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'
+          echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>> doesNotUsedPruned: $doesNotUsePruned <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'
           echo ''
           if $doesNotUsePruned; then
              rm -f pruned.bib
@@ -147,7 +147,7 @@ jobs:
              echo "=================================>>>>>>>> ${cites[0]} <<<<<<<====================================="
              echo ''
              #grep -PEo "@[^{][^{]*\{ *${cites[0]}[^@][^@]*" Extragalactic.bib
-             grep -PEo "agertz+2015apj804_18" Extragalactic.bib
+             grep -FEo "agertz+2015apj804_18" Extragalactic.bib
              # get list of bib files used in document
              #readarray -t bibfiles < <( grep '\.\/[^.][^.]*\.bib' compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
              #printf '%s\n' "${bibfiles[@]}"
