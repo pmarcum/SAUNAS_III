@@ -117,15 +117,18 @@ jobs:
         id: compilation
         run: |
           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE"
-          cat "$LOG"
+          #cat "$LOG"
         continue-on-error: true
         
       - name: Prune the bib file
         # https://www.baeldung.com/linux/regex-matching
         id: pruneBib
         run: |
+          cat "$LOG"
+          echo ""
+          echo "==========================================================="
           touch pruned.bib
-          grep Citation $LOG
+          grep Citation "$LOG"
         continue-on-error: true
 
       #- name: Prune the bib file
