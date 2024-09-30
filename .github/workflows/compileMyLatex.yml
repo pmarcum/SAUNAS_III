@@ -133,7 +133,7 @@ jobs:
           readarray -t cites < <( grep 'Citation `' compileOut.txt | sed -r 's/^[^`][^`]*`//g;s/'\''.*$//g' | sort -f -u )
           printf '%s\n' "${cites[@]}"
           # get list of bib files used in document
-          readarray -t bibfiles < <( grep '\.\/[^.][^.]*\.bib' compileOut.txt | sort -f -u)
+          readarray -t bibfiles < <( grep '\.\/[^.][^.]*\.bib' compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
           printf '%s\n' "${bibfiles[@]}"
           # Now match this list of citations to the bib file and pull out the full bibitem for each cites
           ###sed ':a;N;$!ba;s/\n
