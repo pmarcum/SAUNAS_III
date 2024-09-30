@@ -392,7 +392,7 @@ ype1/public/amsfonts/cm/cmsy7.pfb></home/runner/work/_temp/setup-texlive-action
 emp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
 pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmti12.pfb>
-Output written on myPaper.pdf (3 pages, 9726715 bytes).
+Output written on myPaper.pdf (3 pages, 9726528 bytes).
 SyncTeX written on myPaper.synctex.gz.
 Transcript written on myPaper.log.
 Latexmk: Getting log file 'myPaper.log'
@@ -794,7 +794,7 @@ ype1/public/amsfonts/cm/cmsy7.pfb></home/runner/work/_temp/setup-texlive-action
 emp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
 pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmti12.pfb>
-Output written on myPaper.pdf (3 pages, 9730093 bytes).
+Output written on myPaper.pdf (3 pages, 9729908 bytes).
 SyncTeX written on myPaper.synctex.gz.
 Transcript written on myPaper.log.
 Latexmk: Getting log file 'myPaper.log'
@@ -1150,7 +1150,7 @@ ype1/public/amsfonts/cm/cmsy7.pfb></home/runner/work/_temp/setup-texlive-action
 emp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
 pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmti12.pfb>
-Output written on myPaper.pdf (3 pages, 9731931 bytes).
+Output written on myPaper.pdf (3 pages, 9731929 bytes).
 SyncTeX written on myPaper.synctex.gz.
 Transcript written on myPaper.log.
 Latexmk: Getting log file 'myPaper.log'
@@ -1505,7 +1505,7 @@ ype1/public/amsfonts/cm/cmsy7.pfb></home/runner/work/_temp/setup-texlive-action
 emp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
 pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmti12.pfb>
-Output written on myPaper.pdf (3 pages, 9731931 bytes).
+Output written on myPaper.pdf (3 pages, 9731929 bytes).
 SyncTeX written on myPaper.synctex.gz.
 Transcript written on myPaper.log.
 Latexmk: Getting log file 'myPaper.log'
@@ -1520,14 +1520,14 @@ Latexmk: Errors, in force_mode: so I tried finishing targets
 Collected error summary (may duplicate other messages):
   pdflatex: Command for 'pdflatex' gave return code 1
       Refer to 'myPaper.log' and/or above output for details
-'pdflatex': time = 3.96
+'pdflatex': time = 3.99
 'bibtex myPaper': time = 0.05
-'pdflatex': time = 3.94
+'pdflatex': time = 3.95
 'bibtex myPaper': time = 0.03
-'pdflatex': time = 3.95
-'bibtex myPaper': time = 0.05
-'pdflatex': time = 3.95
-Processing time = 16.49, of which invoked processes = 15.93, other = 0.56.
-Elapsed clock time = 16.51.
+'pdflatex': time = 3.97
+'bibtex myPaper': time = 0.03
+'pdflatex': time = 3.98
+Processing time = 16.60, of which invoked processes = 16, other = 0.60.
+Elapsed clock time = 16.63.
 Number of rules run = 7
 
