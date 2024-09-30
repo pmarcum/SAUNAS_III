@@ -125,7 +125,7 @@ jobs:
         id: pruneBib
         run: |
           touch pruned.bib
-          awk '{ gensub(/Warning: Citation `([^'][^']*)'/, "\nCITE\\1CITE\n"); print }' $LOG | sed '/^$/d'
+          awk '{ gensub(/Warning: Citation `([^'][^']*)\'/, "\nCITE\\1CITE\n"); print }' $LOG | sed '/^$/d'
         continue-on-error: true
 
       #- name: Prune the bib file
