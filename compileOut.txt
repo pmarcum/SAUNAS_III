@@ -392,7 +392,7 @@ ype1/public/amsfonts/cm/cmsy7.pfb></home/runner/work/_temp/setup-texlive-action
 emp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
 pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmti12.pfb>
-Output written on myPaper.pdf (3 pages, 9726557 bytes).
+Output written on myPaper.pdf (3 pages, 9726582 bytes).
 SyncTeX written on myPaper.synctex.gz.
 Transcript written on myPaper.log.
 Latexmk: Getting log file 'myPaper.log'
@@ -794,7 +794,7 @@ ype1/public/amsfonts/cm/cmsy7.pfb></home/runner/work/_temp/setup-texlive-action
 emp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
 pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmti12.pfb>
-Output written on myPaper.pdf (3 pages, 9729940 bytes).
+Output written on myPaper.pdf (3 pages, 9729948 bytes).
 SyncTeX written on myPaper.synctex.gz.
 Transcript written on myPaper.log.
 Latexmk: Getting log file 'myPaper.log'
@@ -1520,13 +1520,13 @@ Latexmk: Errors, in force_mode: so I tried finishing targets
 Collected error summary (may duplicate other messages):
   pdflatex: Command for 'pdflatex' gave return code 1
       Refer to 'myPaper.log' and/or above output for details
-'pdflatex': time = 3.99
+'pdflatex': time = 3.98
 'bibtex myPaper': time = 0.04
-'pdflatex': time = 4.00
-'bibtex myPaper': time = 0.04
-'pdflatex': time = 4.00
+'pdflatex': time = 4.05
 'bibtex myPaper': time = 0.05
-'pdflatex': time = 4.00
+'pdflatex': time = 3.98
+'bibtex myPaper': time = 0.04
+'pdflatex': time = 3.98
 Processing time = 16.70, of which invoked processes = 16.12, other = 0.58.
 Elapsed clock time = 16.71.
 Number of rules run = 7
