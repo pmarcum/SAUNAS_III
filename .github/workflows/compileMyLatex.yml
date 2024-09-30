@@ -125,7 +125,7 @@ jobs:
         id: pruneBib
         run: |
           touch pruned.bib
-          tr -d '\n' < $LOG
+          grep Citation $LOG
         continue-on-error: true
 
       #- name: Prune the bib file
