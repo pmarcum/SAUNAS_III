@@ -128,7 +128,8 @@ jobs:
           echo ""
           echo "==========================================================="
           touch pruned.bib
-          grep Citation tmp.out
+          readarray -t cites < <( grep Citation tmp.out )
+          printf '%s\n' "${cites[@]}"
         continue-on-error: true
 
       #- name: Prune the bib file
