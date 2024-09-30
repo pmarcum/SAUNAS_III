@@ -125,7 +125,7 @@ jobs:
         id: pruneBib
         run: |
           touch pruned.bib
-          tr '\n' ',' $LOG ; echo
+          cat $LOG | tr -d '\n'
         continue-on-error: true
 
       #- name: Prune the bib file
