@@ -122,42 +122,27 @@ jobs:
         
       - name: Prune the bib file
         # https://www.baeldung.com/linux/regex-matching
+        # going to strip out all the used citations and make a pruned.bib file that can be used as the final 
+        # bib file for submission purposes rather than having to use the whole master bib file.  based on the
+        # stand-alone "pruneMyBibfile" github action file
         id: pruneBib
         run: |
           touch pruned.bib
           # In the first one or two iterations of the latex compilation, bibliography references wont be resolved but rather
           # will appear as errors in the compilation log.  Use those errors to get a list of all  citations in the paper
-          readarray -t cites < <( grep 'Citation `' compileOut.txt | sed -r 's/^[^`][^`]*`//g;s/'\''.*$//g' | sort -f -u)
+          readarray -t cites < <( grep 'Citation `' compileOut.txt | sed -r 's/^[^`][^`]*`//g;s/'\''.*$//g' | sort -f -u )
           printf '%s\n' "${cites[@]}"
+          # get list of bib files used in document
+          readarray -t bibfiles < <( grep '\.\/[^.][^.]*\.bib' compileOut.txt )
+          printf '%s\n' "${bibfiles[@]}"
+          # Now match this list of citations to the bib file and pull out the full bibitem for each cites
+          ###sed ':a;N;$!ba;s/\n
         continue-on-error: true
 
-      #- name: Prune the bib file
-      #  id: pruneBib
-      #  run: |
-      #    touch pruned.bib
-      #    # smoosh all lines together then break the string apart on appearance of a reference warning
-      #    readarray -t cites < <( grep --Pzo -- "Warning: Citation `[^'][^']*'" "$LOG" )
-      #    printf '%s\n' "${cites[@]}"
-      #    ## going to strip out all the used citations and make a pruned.bib file that can be used as the final 
-      #    ## bib file for submission purposes rather than having to use the whole master bib file.  based on the
-      #    ## stand-alone "pruneMyBibfile" github action file
-      #    ## grab all the citations in the .tex file
-      #    #lines=()
-      #    #cites=()
       #    #bibfiles=()
-      #    ## smoosh all lines together, to make sure no citation is lost because it landed on a separate line from the \cite part
-      #    ## and remove all the whitespace
-      #    #alllines=$(sed ':a;N;$!ba;s/\n/\|/g;s/ //g' "$TEXFILE")
-      #    ## remove square brackets so that we are just left with pure "\citep{  }" or \citet{  }" or \cite{ }, etc.  
-      #    #touch inpaperCites.txt
       #    #doesNotUsePruned=true
       #    #sed -r 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\\cite/\n\\cite/ig' <<<"$alllines" >> inpaperCites.txt
       #    #sort -u inpaperCites.txt -o inpaperCites.txt
-      #    #echo ""
-      #    #echo "---------------------------------------------"
-      #    #cat inpaperCites.txt
-      #    #echo "---------------------------------------------"
-      #    #echo ""
       #    #while IFS= read -r line; do
       #    #   if [[ "$(grep -q -E -- "\\\bibliography\{" <<<"$line" )$?" == 0 ]]; then
       #    #      biblio=$(sed -r 's/^.*\\bibliography\{([^}]*)\}.*$/\1/' <<<"$line")
@@ -182,19 +167,6 @@ jobs:
       #    #      fi
       #    #   fi
       #    #   # 
-      #    #   if [[ "$(grep -q -E -- "^\\\cite" <<<"$line" )$?" == 0 ]]; then
-      #    #      citeblock=$(sed -r 's/^\\cite[a-z]*\{*([^}]*)\}.*$/\1/i' <<<"$line")
-      #    #      # Now get the individual citations in this block
-      #    #      while [[ "$(grep -q -E -- "," <<<"$citeblock" )$?" == 0 ]]; do
-      #    #         thiscite=$(sed -r 's/^([^,]*)\,.*$/\1/i' <<<"$citeblock")
-      #    #         # remove this piece from citeblock
-      #    #         citeblock=$(sed -r 's/^[^,]*\,//' <<<"$citeblock")
-      #    #         cites+=("$thiscite")
-      #    #      done
-      #    #      if [[ -n "$citeblock" ]]; then cites+=("$citeblock"); fi
-      #    #   fi
-      #    #done < inpaperCites.txt
-      #    #rm -f inpaperCites.txt
       #    #if $doesNotUsePruned; then
       #    #   bibfiles=($(printf "%s\n" "${bibfiles[@]}" | sort -u))
       #    #   cites=($(printf "%s\n" "${cites[@]}" | sort -f -u))
