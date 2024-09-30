@@ -116,19 +116,20 @@ jobs:
       - name: Compile paper
         id: compilation
         run: |
-          latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" > tmp.out
-          #cat "$LOG"
+          latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" > compileOut.txt
+          cat compileOut.txt
+          mv -f compileOut.txt $LOG
         continue-on-error: true
         
       - name: Prune the bib file
         # https://www.baeldung.com/linux/regex-matching
         id: pruneBib
         run: |
-          cat tmp.out
-          echo ""
-          echo "==========================================================="
           touch pruned.bib
-          readarray -t cites < <( grep Citation tmp.out )
+          # In the first one or two iterations of the latex compilation, the bibliography references wont be
+          # resolved but rather will appear as errors in the compilation log.  Use those errors to get a list
+          # of all the citations in the paper
+          readarray -t cites < <( grep Citation $LOG )
           printf '%s\n' "${cites[@]}"
         continue-on-error: true
 
@@ -136,9 +137,6 @@ jobs:
       #  id: pruneBib
       #  run: |
       #    touch pruned.bib
-      #    # In the first one or two iterations of the latex compilation, the bibliography references wont be
-      #    # resolved but rather will appear as errors in the compilation log.  Use those errors to get a list
-      #    # of all the citations in the paper
       #    # smoosh all lines together then break the string apart on appearance of a reference warning
       #    readarray -t cites < <( grep --Pzo -- "Warning: Citation `[^'][^']*'" "$LOG" )
       #    printf '%s\n' "${cites[@]}"
