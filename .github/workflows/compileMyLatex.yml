@@ -129,7 +129,7 @@ jobs:
           # In the first one or two iterations of the latex compilation, the bibliography references wont be
           # resolved but rather will appear as errors in the compilation log.  Use those errors to get a list
           # of all the citations in the paper
-          readarray -t cites < <( grep Citation $LOG )
+          readarray -t cites < <( grep Citation "$LOG" )
           printf '%s\n' "${cites[@]}"
         continue-on-error: true
 
