@@ -137,7 +137,7 @@ jobs:
           echo ''
           echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>> doesNotUsedPruned: "$doesNotUsePruned" <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'
           echo ''
-          if doesNotUsePruned; then
+          if $doesNotUsePruned; then
              # In the first one or two iterations of the latex compilation, bibliography references wont be resolved but rather
              # will appear as errors in the compilation log.  Use those errors to get a list of all  citations in the paper
              readarray -t cites < <( grep 'Citation `' compileOut.txt | sed -r 's/^[^`][^`]*`//g;s/'\''.*$//g' | sort -f -u )
