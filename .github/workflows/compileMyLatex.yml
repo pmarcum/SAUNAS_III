@@ -125,7 +125,7 @@ jobs:
         id: pruneBib
         run: |
           touch pruned.bib
-          cat $LOG | tr -d '\n'
+          cat $LOG | tr -cd "`[^']+'"
         continue-on-error: true
 
       #- name: Prune the bib file
