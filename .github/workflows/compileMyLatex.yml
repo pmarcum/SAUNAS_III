@@ -121,10 +121,11 @@ jobs:
         continue-on-error: true
         
       - name: Prune the bib file
+        # https://www.baeldung.com/linux/regex-matching
         id: pruneBib
         run: |
           touch pruned.bib
-          perl -lne "print $1 while /Warning: Citation `([^']+)' on page [0-9]+ undefined on/g" $LOG
+          awk '{ gensub(/Warning: Citation `([^'][^']*)'/, "\nCITE\\1CITE\n"); print }' $LOG | sed '/^$/d'
         continue-on-error: true
 
       #- name: Prune the bib file
