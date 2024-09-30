@@ -136,12 +136,18 @@ jobs:
           readarray -t cites < <( grep 'Citation `' compileOut.txt | sed -r 's/^[^`][^`]*`//g;s/'\''.*$//g' | sort -f -u )
           printf '%s\n' "${cites[@]}"
           # get list of bib files used in document
-          readarray -t bibfiles < <( grep '\.\/[^.][^.]*\.bib' compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
-          printf '%s\n' "${bibfiles[@]}"
+          #readarray -t bibfiles < <( grep '\.\/[^.][^.]*\.bib' compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
+          grep '\.\/[^.][^.]*\.bib' compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u | xargs cat > mergedBibfiles.txt
+          echo ''
+          echo '=================== mergedBibfiles ====================='
+          cat mergedBibfiles.txt
+          echo '======================================================'
+          echo ''
+          #printf '%s\n' "${bibfiles[@]}"
           # concatenate all the bibfiles together into a single temporary file
           # Now match this list of citations to the bib file and pull out the full bibitem for each cites
-          xargs cat << bibfiles > mergedBibfiles.txt
-          cat mergedBibfiles.txt
+          #xargs cat << bibfiles > mergedBibfiles.txt
+          #cat mergedBibfiles.txt
           ###sed ':a;N;$!ba;s/\n
         continue-on-error: true
 
