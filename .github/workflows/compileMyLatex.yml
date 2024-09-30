@@ -125,7 +125,7 @@ jobs:
         id: pruneBib
         run: |
           touch pruned.bib
-          awk '{a=$0; gsub(/^.*Citation | .*$/,"",a); print a}' $LOG
+          tr -d '\n' < $LOG
         continue-on-error: true
 
       #- name: Prune the bib file
