@@ -135,14 +135,9 @@ jobs:
           # will appear as errors in the compilation log.  Use those errors to get a list of all  citations in the paper
           readarray -t cites < <( grep 'Citation `' compileOut.txt | sed -r 's/^[^`][^`]*`//g;s/'\''.*$//g' | sort -f -u )
           printf '%s\n' "${cites[@]}"
+          grep -PEo '@[^{][^{]*\{ *${cites[0]}[^@][^@]*' *.bib
           # get list of bib files used in document
           #readarray -t bibfiles < <( grep '\.\/[^.][^.]*\.bib' compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
-          grep '\.\/[^.][^.]*\.bib' compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u | xargs cat > mergedBibfiles.txt
-          echo ''
-          echo '=================== mergedBibfiles ====================='
-          cat mergedBibfiles.txt
-          echo '======================================================'
-          echo ''
           #printf '%s\n' "${bibfiles[@]}"
           # concatenate all the bibfiles together into a single temporary file
           # Now match this list of citations to the bib file and pull out the full bibitem for each cites
