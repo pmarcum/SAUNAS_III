@@ -136,9 +136,9 @@ jobs:
           readarray -t cites < <( grep 'Citation `' compileOut.txt | sed -r 's/^[^`][^`]*`//g;s/'\''.*$//g' | sort -f -u )
           printf '%s\n' "${cites[@]}"
           echo ''
-          echo '=================================>>>>>>>> ${cites[0]} <<<<<<<====================================='
+          echo '=================================>>>>>>>> "${cites[0]}" <<<<<<<====================================='
           echo ''
-          grep -PEo '@[^{][^{]*\{ *${cites[0]}[^@][^@]*' Extragalactic.bib
+          grep -PEo '@[^{][^{]*\{ *"${cites[0]}"[^@][^@]*' Extragalactic.bib
           # get list of bib files used in document
           #readarray -t bibfiles < <( grep '\.\/[^.][^.]*\.bib' compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
           #printf '%s\n' "${bibfiles[@]}"
