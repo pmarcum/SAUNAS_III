@@ -130,23 +130,31 @@ jobs:
         id: pruneBib
         run: |
           touch pruned.bib
-          #################  need to first check that pruned is not already being used in doc.  if so, remove
-          # In the first one or two iterations of the latex compilation, bibliography references wont be resolved but rather
-          # will appear as errors in the compilation log.  Use those errors to get a list of all  citations in the paper
-          readarray -t cites < <( grep 'Citation `' compileOut.txt | sed -r 's/^[^`][^`]*`//g;s/'\''.*$//g' | sort -f -u )
-          printf '%s\n' "${cites[@]}"
+          doesNotUsePruned=true
+          # determine if the pruned bib file is already being used in the document. If so, we should bypass 
+          # all the below because pruned bib file does not need to be created.
+          if [[ "$(grep -Eiq -- 'prune[^.]*\.bib' compileOut.txt)$?" == 0 ]]; then doesNotUsePruned=false; fi
           echo ''
-          echo '=================================>>>>>>>> "${cites[0]}" <<<<<<<====================================='
+          echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>> doesNotUsedPruned: "$doesNotUsePruned" <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'
           echo ''
-          grep -PEo '@[^{][^{]*\{ *"${cites[0]}"[^@][^@]*' Extragalactic.bib
-          # get list of bib files used in document
-          #readarray -t bibfiles < <( grep '\.\/[^.][^.]*\.bib' compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
-          #printf '%s\n' "${bibfiles[@]}"
-          # concatenate all the bibfiles together into a single temporary file
-          # Now match this list of citations to the bib file and pull out the full bibitem for each cites
-          #xargs cat << bibfiles > mergedBibfiles.txt
-          #cat mergedBibfiles.txt
-          ###sed ':a;N;$!ba;s/\n
+          if doesNotUsePruned; then
+             # In the first one or two iterations of the latex compilation, bibliography references wont be resolved but rather
+             # will appear as errors in the compilation log.  Use those errors to get a list of all  citations in the paper
+             readarray -t cites < <( grep 'Citation `' compileOut.txt | sed -r 's/^[^`][^`]*`//g;s/'\''.*$//g' | sort -f -u )
+             printf '%s\n' "${cites[@]}"
+             echo ''
+             echo "=================================>>>>>>>> ${cites[0]} <<<<<<<====================================="
+             echo ''
+             grep -PEo "@[^{][^{]*\{ *${cites[0]}[^@][^@]*" Extragalactic.bib
+             # get list of bib files used in document
+             #readarray -t bibfiles < <( grep '\.\/[^.][^.]*\.bib' compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
+             #printf '%s\n' "${bibfiles[@]}"
+             # concatenate all the bibfiles together into a single temporary file
+             # Now match this list of citations to the bib file and pull out the full bibitem for each cites
+             #xargs cat << bibfiles > mergedBibfiles.txt
+             #cat mergedBibfiles.txt
+             ###sed ':a;N;$!ba;s/\n
+          fi
         continue-on-error: true
 
       #    #bibfiles=()
