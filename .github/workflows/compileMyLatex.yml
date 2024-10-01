@@ -117,12 +117,10 @@ jobs:
         continue-on-error: true
             
       - name: Compile paper
+        # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
         id: compilation
         run: |
-          latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE"
-          #cat $LOG
-          rm -f compileOut.txt
-          cp -f $LOG compileOut.txt
+          latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" 2>&1 | tee compileOut.txt
           cat compileOut.txt
         continue-on-error: true
         
