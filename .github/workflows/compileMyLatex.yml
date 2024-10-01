@@ -188,25 +188,25 @@ jobs:
           warnErrArr=()
           # ============= get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render.
           grep -zoE "LaTeX Error:[^.]+\." compileOut.txt
-          grep -zoE "LaTeX Error:[^.]+\." compileOut.txt | sed -r 's/on input line ([0-9]*)/\1-ERROR-\0/g'
-          readarray -t res < <(grep -zoE "LaTeX Error:[^.]+\." compileOut.txt | sed -r 's/on input line ([0-9]*)/\1-ERROR-\0/g')
-          #for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
+          grep -zoE "LaTeX Error:[^.]+\." compileOut.txt | sed -r 's/(LaTeX Error:[^.]+on input line )([0-9]+)\./\2-ERROR-\1\2\./g'
+          readarray -t res < <(grep -zoE "LaTeX Error:[^.]+\." compileOut.txt | sed -r 's/(LaTeX Error:[^.]+on input line )([0-9]+)\./\2-ERROR-\1\2\./g')
+          for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           # ============= now get the items that are not labeled as 'warning' or "error", but are problems w/ associated line numbers
           # be consolidated with the associated line in the error section here
           grep -zoE "\.[^.]+\.tex:[0-9]+:[^.]+\." compileOut.txt
-          grep -zoE "\.[^.]+\.tex:[0-9]+:[^.]+\." compileOut.txt  | sed -r 's/\.[^.]+\.tex:([0-9]+):/\1-ERROR-\0/g'
-          readarray -t res < <(grep -zoE "\.[^.]+\.tex:[0-9]+:[^.]+\." compileOut.txt | sed -r 's/\.[^.]+\.tex:([0-9]+):/\1-ERROR-\0/g')
+          grep -zoE "\.[^.]+\.tex:[0-9]+:[^.]+\." compileOut.txt  | sed -r 's/(\.[^.]+\.tex:)([0-9]+)(:[^.]+\.)/\2-ERROR-\1\2\3/g'
+          readarray -t res < <(grep -zoE "\.[^.]+\.tex:[0-9]+:[^.]+\." compileOut.txt | sed -r 's/(\.[^.]+\.tex:)([0-9]+)(:[^.]+\.)/\2-ERROR-\1\2\3/g')
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           # ============= now get the warnings, but note that some of the warnings are actually errors (like figure files that are mispelled) and need to 
           # be consolidated with the associated line in the error section here
           grep -zoE "LaTeX Warning:[^.]+\." compileOut.txt
-          grep -zoE "LaTeX Warning:[^.]+\." compileOut.txt | sed -r 's/on input line ([0-9]+)/\1-WARNING-\0/g'
-          readarray -t res < <(grep -zoE "LaTeX Warning:[^.]+\." compileOut.txt | sed -r 's/on input line ([0-9]+)/\1-WARNING-\0/g')
+          grep -zoE "LaTeX Warning:[^.]+\." compileOut.txt | sed -r 's/(LaTeX Warning:[^.]+on input line )([0-9]+)\./\2-WARNING-\1\2\./g'
+          readarray -t res < <(grep -zoE "LaTeX Warning:[^.]+\." compileOut.txt | sed -r 's/(LaTeX Warning:[^.]+on input line )([0-9]+)\./\2-WARNING-\1\2\./g')
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           # ============= now get the citation issues
           grep -zoE "Package natbib Warning: Citation[^.]+\." compileOut.txt
-          grep -zoE "Package natbib Warning: Citation[^.]+\." compileOut.txt | sed -r 's/on input line ([0-9]+)/\1-BIB-\0/g'
-          readarray -t res < <(grep -zoE "Package natbib Warning: Citation[^.]+\." compileOut.txt | sed -r 's/on input line ([0-9]+)/\1-BIB-\0/g')
+          grep -zoE "Package natbib Warning: Citation[^.]+\." compileOut.txt | sed -r 's/(Package natbib Warning: Citation[^.]+on input line )([0-9]+)\./\2-BIB-\1\2\./g'
+          readarray -t res < <(grep -zoE "Package natbib Warning: Citation[^.]+\." compileOut.txt | sed -r 's/(Package natbib Warning: Citation[^.]+on input line )([0-9]+)\./\2-BIB-\1\2\./g')
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           #alllog=''
           ## ========================  make sure that all lines related to a sentence are all smooshed together into single line
