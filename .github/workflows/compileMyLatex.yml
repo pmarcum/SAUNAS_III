@@ -154,12 +154,11 @@ jobs:
              modcites=( "${cites[@]//\+/\\+}" )
              modcites=( "${modcites[@]//\-/\\-}" )
              modcites=( "${modcites[@]//\./\\.}" )
-             echo ' &&&&&&&&&&&&&&&&&&&&&&  getting ready to show what grep produces on the bib file &&&&&&&&&&&&&&&&& '
              for (( i=0; i<${#modcites[@]}; i++ )); do
-                echo "now doing ${modcites[$i]}"
-                grep -zoE "@[^{]+\{ *${modcites[$i]}[^@]+" "${bibfiles[@]}"
+                if [[ "$(grep -q -E -- "${modcites[$i]}" "${bibfiles[@]}")$?" == 0 ]]; then
+                   grep -zoE "@[^{]+\{ *${modcites[$i]}[^@]+" "${bibfiles[@]}"
+                fi
              done            
-             echo ' &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
              # get list of bib files used in document
              #printf '%s\n' "${bibfiles[@]}"
              # concatenate all the bibfiles together into a single temporary file
