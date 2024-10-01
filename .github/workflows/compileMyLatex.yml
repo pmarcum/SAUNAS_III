@@ -142,6 +142,7 @@ jobs:
              touch pruned.bib
              # get a list of bib files used in this document:
              readarray -t bibfiles < <( grep '\.\/[^.][^.]*\.bib' compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
+             echo "${bibfiles[@]}"
              # In the first one or two iterations of the latex compilation, bibliography references wont be resolved but rather
              # will appear as errors in the compilation log.  Use those errors to get a list of all  citations in the paper
              readarray -t cites < <( grep 'Citation `' compileOut.txt | sed -r 's/^[^`][^`]*`//g;s/'\''.*$//g' | sort -f -u )
