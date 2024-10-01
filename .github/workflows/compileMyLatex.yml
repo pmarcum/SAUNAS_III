@@ -140,20 +140,24 @@ jobs:
           echo ''
           if $doesNotUsePruned; then
              rm -f pruned.bib
+             touch pruned.bib
              # In the first one or two iterations of the latex compilation, bibliography references wont be resolved but rather
              # will appear as errors in the compilation log.  Use those errors to get a list of all  citations in the paper
              readarray -t cites < <( grep 'Citation `' compileOut.txt | sed -r 's/^[^`][^`]*`//g;s/'\''.*$//g' | sort -f -u )
-             modcites=( "${cites[@]//\+/\\+}" )
-             modcites=( "${modcites[@]//\-/\\-}" )
-             modcites=( "${modcites[@]//\./\\.}" )
-             echo ' &&&&&&&&&&&&&&&&&&&&&&  getting ready to show what grep produces on the bib file &&&&&&&&&&&&&&&&& '
              # any plus signs in the citation bib code causes problems because they are not escaped. The 
              # below substitutes all the plus signs and replaces with escaped pluses, so that grep will 
              # perform search on literal plus sign rather than interpret the plus sign as meaning "search for 2 or 
              # more of the character to the left of the plus sign". Periods also cause problems, as do dashes, and have 
              # to likewise be treated. 
-             #sed ':a;N;$!ba;s/\, *\n/\,\a/g;s/^([^=]+=[^\n]+\n)$/\1\a/g' Extragalactic.bib > all.bib
-             grep -zoE "@[^{]+\{ *${modcites[0]}|${modcites[1]}|${modcites[2]}|${modcites[3]}[^@]+" Extragalactic.bib
+             modcites=( "${cites[@]//\+/\\+}" )
+             modcites=( "${modcites[@]//\-/\\-}" )
+             modcites=( "${modcites[@]//\./\\.}" )
+             for 
+             echo ' &&&&&&&&&&&&&&&&&&&&&&  getting ready to show what grep produces on the bib file &&&&&&&&&&&&&&&&& '
+             for (( i=0; i<${#modcites[@]}; i++ )); do
+                grep -zoE "@[^{]+\{ *${modcites[$i]}[^@]+" Extragalactic.bib
+             done            
+             #grep -zoE "@[^{]+\{ *${modcites[0]}[^@]+" Extragalactic.bib
              echo ' &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
              # get list of bib files used in document
              #readarray -t bibfiles < <( grep '\.\/[^.][^.]*\.bib' compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
