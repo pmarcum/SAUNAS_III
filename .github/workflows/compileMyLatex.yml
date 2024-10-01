@@ -143,8 +143,8 @@ jobs:
           if $doesNotUsePruned; then
              rm -f pruned.bib
              touch pruned.bib
-          #   # get a list of bib files used in this document:
-          #   grep -E "\.\/[^.]+\.bib" compileOut.txt
+             # get a list of bib files used in this document:
+             grep -E "\.\/[^.]+\.bib" compileOut.txt
           #   echo '----------------------'
           #   grep -E "\.\/[^.]+\.bib" compileOut.txt | sed -r 's/^[^\.][^\.]*\.\///g;s/\.bib.*$/\.bib/g'
           #   echo '----------------------------------------------------------'
