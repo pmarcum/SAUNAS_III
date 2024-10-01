@@ -158,8 +158,9 @@ jobs:
              # more of the character to the left of the plus sign". Periods also cause problems, as do dashes, and have 
              # to likewise be treated. 
              #grep -Po "@[^{]+\{ *${cites[0]//\+/\\+;cites[0]//\-/\\-;cites[0]//\./\\.}[^@]" Extragalactic.bib
-             #grep -Po "@[^{]+\{ *${modcites[0]}[^@]+" Extragalactic.bib
-             perl -nle'print $& while m{@[^{]+\{ *${modcites[0]}[^@]+}g' Extragalactic.bib
+             sed ':a;N;$!ba;s/\, *\n/\,/g' Extragalactic.bib > all.bib
+             grep -E "@[^{]+\{ *${modcites[0]}[^@]+" all.bib
+             rm -f all.bib
              echo ' &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
              # get list of bib files used in document
              #readarray -t bibfiles < <( grep '\.\/[^.][^.]*\.bib' compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
