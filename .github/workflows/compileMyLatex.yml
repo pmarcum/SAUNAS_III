@@ -139,7 +139,7 @@ jobs:
           # all the below because pruned bib file does not need to be created.
           if [[ "$(grep -Eiq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then doesNotUsePruned=false; fi
           if [[ "$(grep -Eiq "\.bib" compileOut.txt)$?" == 0 ]]; then usedBibfile=true; fi
-          #if [ $doesNotUsePruned && $usedBibfile ]; then
+          if [ $doesNotUsePruned && $usedBibfile ]; then
           #   rm -f pruned.bib
           #   touch pruned.bib
           #   # get a list of bib files used in this document:
@@ -176,7 +176,7 @@ jobs:
           #      grep -zoE "@[^{]+\{[^a-zA-Z0-9]*${modcites[$i]}[^@]+" "${bibfiles[@]}"
           #   done
           #   ###sed ':a;N;$!ba;s/\n
-          #fi
+          fi
         continue-on-error: true
 
       - name: Capture full compilation output
