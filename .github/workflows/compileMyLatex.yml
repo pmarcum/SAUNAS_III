@@ -120,7 +120,9 @@ jobs:
         run: |
           touch compileOut.txt
           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE"
-          cat compileOut.txt
+          echo ''
+          echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+          cat $LOG
         continue-on-error: true
         
       - name: Prune the bib file
