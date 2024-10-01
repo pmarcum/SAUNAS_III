@@ -147,7 +147,7 @@ jobs:
              echo "=================================>>>>>>>> ${cites[0]} <<<<<<<====================================="
              echo ''
              #grep -PEo "@[^{][^{]*\{ *${cites[0]}[^@][^@]*" Extragalactic.bib
-             grep -F "agertz+2015apj804_18" Extragalactic.bib
+             grep -Po "${cites[0]/\+/\\+}" Extragalactic.bib
              # get list of bib files used in document
              #readarray -t bibfiles < <( grep '\.\/[^.][^.]*\.bib' compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
              #printf '%s\n' "${bibfiles[@]}"
