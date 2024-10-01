@@ -163,9 +163,7 @@ jobs:
              modcites=( "${modcites[@]//\-/\\-}" )
              modcites=( "${modcites[@]//\./\\.}" )
              for (( i=0; i<${#modcites[@]}; i++ )); do
-                if [[ $(grep -qE "${modcites[$i]}" "${bibfiles[@]}")$? == 0 ]]; then
-                   grep -zoE "@[^{]+\{[^a-zA-Z0-9]*${modcites[$i]}[^@]+" "${bibfiles[@]}"
-                fi
+                grep -zoE "@[^{]+\{[^a-zA-Z0-9]*${modcites[$i]}[^@]+" "${bibfiles[@]}"
              done            
              ###sed ':a;N;$!ba;s/\n
           fi
@@ -186,7 +184,7 @@ jobs:
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           # ============= now get the warnings, but note that some of the warnings are actually errors (like figure files that are mispelled) and need to 
           # be consolidated with the associated line in the error section here
-          grep zoE "LaTeX Warning:[^.]+\." compileOut.txt
+          grep -zoE "LaTeX Warning:[^.]+\." compileOut.txt
           readarray -t res < <(grep zoE "LaTeX Warning:[^.]+\." compileOut.txt | sed -r 's/on input line ([0-9]+)/\1-WARNING-\0/g')
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           # ============= now get the citation issues
