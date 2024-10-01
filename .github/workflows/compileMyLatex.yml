@@ -138,8 +138,6 @@ jobs:
           echo ''
           echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>> doesNotUsedPruned: $doesNotUsePruned <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'
           echo ''
-          char="`rm -f te$xt.txt`"
-          echo "^${char/\$/\\$}"
           if $doesNotUsePruned; then
              rm -f pruned.bib
              # In the first one or two iterations of the latex compilation, bibliography references wont be resolved but rather
@@ -151,8 +149,8 @@ jobs:
              echo ''
              #grep -PEo "@[^{][^{]*\{ *${cites[0]}[^@][^@]*" Extragalactic.bib
              echo ''
-             tst="echo 'I added 2+2 together and then added -1 to get a total of 3."
-             echo "${tst//\+/\\+;tst//\-/\\-;tst//\./\\.}"
+             tst="echo 'I added 2+2 together and then added -1 to get a total of 3.'"
+             echo "${tst//\+/\\+//\-/\\-//\./\\.}"
              echo ' &&&&&&&&&&&&&&&&&&&&&&  getting ready to show what grep produces on the bib file &&&&&&&&&&&&&&&&& '
              # any plus signs in the citation bib code causes problems because they are not escaped. The 
              # below substitutes all the plus signs and replaces with escaped pluses, so that grep will 
