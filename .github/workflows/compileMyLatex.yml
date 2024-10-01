@@ -137,8 +137,8 @@ jobs:
           usedBibfile=false
           # determine if the pruned bib file is already being used in the document. If so, we should bypass 
           # all the below because pruned bib file does not need to be created.
-          if [[ "$(grep -Eiq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then doesNotUsePruned=false; fi
-          if [[ "$(grep -Eiq "\.bib" compileOut.txt)$?" == 0 ]]; then usedBibfile=true; fi
+          if [[ "$(grep -Eiq "pruned\.bib" $LOG)$?" == 0 ]]; then doesNotUsePruned=false; fi
+          if [[ "$(grep -Eiq "\.bib" $LOG)$?" == 0 ]]; then usedBibfile=true; fi
           if ! usedBibfile; then doesNotUsePruned=false; fi
           if $doesNotUsePruned; then
              rm -f pruned.bib
