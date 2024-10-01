@@ -137,8 +137,8 @@ jobs:
           echo ''
           echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>> doesNotUsedPruned: $doesNotUsePruned <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'
           echo ''
-          char="`dd if=text.txt ibs=1 skip=$skipcount count=1`"
-          echo "^${char/\$/\\$}\K[[:digit:]]+"
+          char="`text.txt ibs=1 skip=$skipcount count=1`"
+          echo "^${char/\$/\\$}"
           if $doesNotUsePruned; then
              rm -f pruned.bib
              # In the first one or two iterations of the latex compilation, bibliography references wont be resolved but rather
