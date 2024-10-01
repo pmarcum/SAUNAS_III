@@ -186,7 +186,7 @@ jobs:
           # ============= now get the warnings, but note that some of the warnings are actually errors (like figure files that are mispelled) and need to 
           # be consolidated with the associated line in the error section here
           grep -zoE "LaTeX Warning:[^.]+\." compileOut.txt
-          readarray -t res < <(grep zoE "LaTeX Warning:[^.]+\." compileOut.txt | sed -r 's/on input line ([0-9]+)/\1-WARNING-\0/g')
+          readarray -t res < <(grep -zoE "LaTeX Warning:[^.]+\." compileOut.txt | sed -r 's/on input line ([0-9]+)/\1-WARNING-\0/g')
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           # ============= now get the citation issues
           grep -zoE "Package natbib Warning: Citation[^.]+\." compileOut.txt | sed -r 's/on input line ([0-9]+)/\1-BIB-\0/g'
