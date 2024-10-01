@@ -138,13 +138,15 @@ jobs:
         id: pruneBib
         run: |
           doesNotUsePruned=true
+          usedBibfile=false
           # determine if the pruned bib file is already being used in the document. If so, we should bypass 
           # all the below because pruned bib file does not need to be created.
           if [[ "$(grep -Eiq -- 'prune[^.]*\.bib' compileOut.txt)$?" == 0 ]]; then doesNotUsePruned=false; fi
+          if [[ "$(grep -Eiq -- '\.bib' compileOut.txt)$?" == 0 ]]; then usedBibfile=true; fi
           echo ''
           echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>> doesNotUsedPruned: $doesNotUsePruned <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'
           echo ''
-          if $doesNotUsePruned; then
+          if [ $doesNotUsePruned && $usedBibfile ]; then
              rm -f pruned.bib
              touch pruned.bib
              # get a list of bib files used in this document:
@@ -162,7 +164,7 @@ jobs:
              modcites=( "${modcites[@]//\./\\.}" )
              for (( i=0; i<${#modcites[@]}; i++ )); do
                 if [[ "$(grep -q -E -- "${modcites[$i]}" "${bibfiles[@]}")$?" == 0 ]]; then
-                   grep -zoE "@[^{]+\{[ `'"]*${modcites[$i]}[^@]+" "${bibfiles[@]}"
+                   grep -zoE "@[^{]+\{[^a-zA-Z0-9]*${modcites[$i]}[^@]+" "${bibfiles[@]}"
                 fi
              done            
              ###sed ':a;N;$!ba;s/\n
