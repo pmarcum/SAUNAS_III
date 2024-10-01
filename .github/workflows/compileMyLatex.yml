@@ -141,6 +141,17 @@ jobs:
           # all the below because pruned bib file does not need to be created.
           echo '142'
           grep "pruned.bib" compileOut.txt
+          echo '144'
+          grep "pruned\.bib" compileOut.txt
+          echo '146'
+          grep ".bib" compileOut.txt
+          echo '148'
+          grep "\.bib" compileOut.txt
+          echo '150'
+          grep '.bib' compileOut.txt
+          echo '152'
+          grep '\.bib' compileOut.txt
+          echo '154'
           if [[ "$(grep "pruned\.bib" compileOut.txt)$?" == 0 ]]; then rm -f doesNotUsePruned.txt; fi
           if [[ "$(grep "\.bib" compileOut.txt)$?" == 0 ]]; then touch usedBibfile.txt; fi
           if [ ! -f usedBibfile.txt ]; then touch doesNotUsePruned.txt; fi
