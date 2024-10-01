@@ -132,19 +132,16 @@ jobs:
         # purposes rather than having to use whole master bib file.  based on stand-alone "pruneMyBibfile" github action file
         id: pruneBib
         run: |
-          head compileOut.txt
           usesPrunedBib=false
           usesBibfile=false
           makeNewPrunedBib=false
           # determine if the pruned bib file is already being used in the document. If so, we should bypass 
           # all the below because pruned bib file does not need to be created.
           echo '142'
-          #grep "pruned\.bib" compileOut.txt
-          #echo '146'
           grep "\.bib" compileOut.txt
           echo '148'
-          #if [[ "$(grep -Fxq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then usesPrunedBib=true; fi
-          #if [[ "$(grep -Fxq "\.bib" compileOut.txt)$?" == 0 ]]; then usesBibfile=true; fi
+          #if [[ "$(grep -Fq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then usesPrunedBib=true; fi
+          #if [[ "$(grep -Fq "\.bib" compileOut.txt)$?" == 0 ]]; then usesBibfile=true; fi
           #if usesBibfile; then makeNewPrunedBib=true; fi
           #if usesPrunedBib; then makeNewPrunedBib=false; fi
           if makeNewPrunedBib; then
