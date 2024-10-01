@@ -120,9 +120,8 @@ jobs:
         run: |
           touch compileOut.txt
           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE"
-          echo ''
-          echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
           cat $LOG
+          cp $LOG compileOut.txt
         continue-on-error: true
         
       - name: Prune the bib file
@@ -137,12 +136,12 @@ jobs:
           usedBibfile=false
           # determine if the pruned bib file is already being used in the document. If so, we should bypass 
           # all the below because pruned bib file does not need to be created.
-          grep -F "pruned\.bib" $LOG
-          echo "$(grep -Fq "pruned\.bib" $LOG)$?"
-          grep -F "\.bib" $LOG
-          echo "$(grep -F "\.bib" $LOG)$?"
-          if [[ "$(grep -Fq "pruned\.bib" $LOG)$?" == 0 ]]; then doesNotUsePruned=false; fi
-          if [[ "$(grep -Fq "\.bib" $LOG)$?" == 0 ]]; then usedBibfile=true; fi
+          grep -F "pruned\.bib" compileOut.txt
+          echo "$(grep -Fq "pruned\.bib" compileOut.txt)$?"
+          grep -F "\.bib" compileOut.txt
+          echo "$(grep -F "\.bib" compileOut.txt)$?"
+          if [[ "$(grep -Fq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then doesNotUsePruned=false; fi
+          if [[ "$(grep -Fq "\.bib" compileOut.txt)$?" == 0 ]]; then usedBibfile=true; fi
           if ! $usedBibfile; then doesNotUsePruned=false; fi
           echo $usedBibfile
           echo $doesNotUsePruned
@@ -150,13 +149,13 @@ jobs:
              rm -f pruned.bib
              touch pruned.bib
              # get a list of bib files used in this document:
-             grep -E "\.\/[^.]+\.bib" "$LOG"
+             grep -E "\.\/[^.]+\.bib" compileOut.txt
              echo '----------------------'
-             grep -E "\.\/[^.]+\.bib" "$LOG" | sed -r 's/^[^\.][^\.]*\.\///g;s/\.bib.*$/\.bib/g'
+             grep -E "\.\/[^.]+\.bib" compileOut.txt | sed -r 's/^[^\.][^\.]*\.\///g;s/\.bib.*$/\.bib/g'
              echo '----------------------------------------------------------'
-             grep -E "\.\/[^.]+\.bib" "$LOG" | sed -r 's/^[^\.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u
+             grep -E "\.\/[^.]+\.bib" compileOut.txt | sed -r 's/^[^\.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u
              echo '---------------------------------------------------------------------------------------------------'
-             readarray -t bibfiles < <(grep -E "\.\/[^.]+\.bib" "$LOG" | sed -r 's/^[^\.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
+             readarray -t bibfiles < <(grep -E "\.\/[^.]+\.bib" compileOut.txt | sed -r 's/^[^\.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
              echo ''
              echo '------------------------'
              printf '%s\n' "${bibfiles[@]}"
