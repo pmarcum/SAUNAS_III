@@ -139,8 +139,8 @@ jobs:
           # all the below because pruned bib file does not need to be created.
           if [[ "$(grep -Fq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then usesPrunedBib=true; fi
           if [[ "$(grep -Fq "\.bib" compileOut.txt)$?" == 0 ]]; then usesBibfile=true; fi
-          if usesBibfile; then makeNewPrunedBib=true; fi
-          if usesPrunedBib; then makeNewPrunedBib=false; fi
+          if $usesBibfile; then makeNewPrunedBib=true; fi
+          if $usesPrunedBib; then makeNewPrunedBib=false; fi
           if $makeNewPrunedBib; then
              rm -f pruned.bib
              touch pruned.bib
