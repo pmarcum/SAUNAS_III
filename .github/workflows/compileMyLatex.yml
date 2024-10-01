@@ -142,7 +142,8 @@ jobs:
              rm -f pruned.bib
              # In the first one or two iterations of the latex compilation, bibliography references wont be resolved but rather
              # will appear as errors in the compilation log.  Use those errors to get a list of all  citations in the paper
-             readarray -t cites < <( grep 'Citation `' compileOut.txt | sed -r 's/^[^`][^`]*`//g;s/'\''.*$//g;s/\+/\\+/g' | sort -f -u )
+             readarray -t cites < <( grep 'Citation `' compileOut.txt | sed -r 's/^[^`][^`]*`//g;s/'\''.*$//g' | sort -f -u )
+             echo "${cites[@]//\+/\\+}"
              printf '%s\n' "${cites[@]}"
              echo ''
              echo "=================================>>>>>>>> ${cites[0]} <<<<<<<====================================="
