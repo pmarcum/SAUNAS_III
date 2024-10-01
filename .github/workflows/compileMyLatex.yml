@@ -118,8 +118,9 @@ jobs:
       - name: Compile paper
         id: compilation
         run: |
-          latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" > compileOut.txt
-          cat compileOut.txt
+          latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" >& compileOut.txt
+          head compileOut.txt
+          tail compileOut.txt
           echo ' '
           echo ' '
           echo '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
@@ -161,66 +162,12 @@ jobs:
              modcites=( "${modcites[@]//\./\\.}" )
              for (( i=0; i<${#modcites[@]}; i++ )); do
                 if [[ "$(grep -q -E -- "${modcites[$i]}" "${bibfiles[@]}")$?" == 0 ]]; then
-                   grep -zoE "@[^{]+\{ *${modcites[$i]}[^@]+" "${bibfiles[@]}"
+                   grep -zoE "@[^{]+\{[ `'"]*${modcites[$i]}[^@]+" "${bibfiles[@]}"
                 fi
              done            
              ###sed ':a;N;$!ba;s/\n
           fi
         continue-on-error: true
-
-      #    #bibfiles=()
-      #    #doesNotUsePruned=true
-      #    #sed -r 's/\[[^]]*\]//g;s/\\cite([^{]*)\{/\\cite\{/ig;s/\\cite/\n\\cite/ig' <<<"$alllines" >> inpaperCites.txt
-      #    #sort -u inpaperCites.txt -o inpaperCites.txt
-      #    #while IFS= read -r line; do
-      #    #   if [[ "$(grep -q -E -- "\\\bibliography\{" <<<"$line" )$?" == 0 ]]; then
-      #    #      biblio=$(sed -r 's/^.*\\bibliography\{([^}]*)\}.*$/\1/' <<<"$line")
-      #    #      while [[ "$(grep -q -F -- "," <<<"$biblio" )$?" == 0 ]]; do
-      #    #         thisbib=$(sed -r 's/^([^,]*)\,.*$/\1/' <<<"$biblio")
-      #    #         # remove this piece from citeblock
-      #    #         biblio=$(sed -r 's/^[^,]*\,//' <<<"$biblio")
-      #    #         if [[ ! "$thisbib" =~ "pruned" ]]; then
-      #    #            thisbib=$(sed -r 's/\.bib$//' <<<"$thisbib")
-      #    #            bibfiles+=("$thisbib.bib")
-      #    #         else
-      #    #            doesNotUsePruned=false
-      #    #         fi
-      #    #      done
-      #    #      if [[ -n "$biblio" ]]; then
-      #    #         if [[ ! "$biblio" =~ "pruned" ]]; then
-      #    #            thisbib=$(sed -r 's/\.bib$//' <<<"$biblio")
-      #    #            bibfiles+=("$biblio.bib")
-      #    #         else
-      #    #            doesNotUsePruned=false
-      #    #         fi
-      #    #      fi
-      #    #   fi
-      #    #   # 
-      #    #if $doesNotUsePruned; then
-      #    #   bibfiles=($(printf "%s\n" "${bibfiles[@]}" | sort -u))
-      #    #   cites=($(printf "%s\n" "${cites[@]}" | sort -f -u))
-      #    #   # Get the .bib files used in this document
-      #    #   allbib=''
-      #    #   for (( i=0; i<${#bibfiles[@]}; i++ )); do
-      #    #      while IFS= read -r line; do allbib+="$line|"; done < "${bibfiles[$i]}"
-      #    #   done
-      #    #   # now break on each citation item, so that a full citation occupies a whole line in the temp file
-      #    #   # remove unnecessary white space, remove " and ' and ` around the bibcode if such unnecesary things are present
-      #    #   touch consolidatedBib.tmp
-      #    #   allbib=$(sed -r 's/(@[a-z][a-z]*) *\{ */\1\{/ig;s/ *\, *\|/\,\|/g;s/\{\"([^"]+)\"\,/\{\1\,/g;s/\{`([^`]+)`\,/\{\1\,/g' <<<"$allbib")
-      #    #   allbib=$(sed -r "s/\{'([^']+)'\,/\{\1\,/g" <<<"$allbib")
-      #    #   sed -r 's/\} *\|(@[a-z][a-z]*\{)/\}\n\1/ig' <<<"$allbib" >> consolidatedBib.tmp
-      #    #   # now look for the citations in this compiled set of citations
-      #    #   for (( i=0; i<${#cites[@]}; i++ )); do
-      #    #      if [[ "$(grep -q -F -- "{${cites[$i]},"  consolidatedBib.tmp)$?" == 0 ]]; then
-      #    #         line="$(grep -F -- "{${cites[$i]},"  consolidatedBib.tmp)"
-      #    #         line=$(sed -r 's/\|/\n/g' <<<"$line")
-      #    #         echo "$line" >> pruned.bib
-      #    #      fi
-      #    #   done
-      #    #   rm -f consolidatedBib.tmp
-      #    #fi
-      #  continue-on-error: true
 
       - name: Capture full compilation output
         run: |
