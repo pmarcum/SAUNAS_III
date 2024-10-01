@@ -145,16 +145,28 @@ jobs:
           if [[ "$(grep -Eiq -- 'prune[^.]*\.bib' compileOut.txt)$?" == 0 ]]; then doesNotUsePruned=false; fi
           if [[ "$(grep -Eiq -- '\.bib' compileOut.txt)$?" == 0 ]]; then usedBibfile=true; fi
           echo ''
-          echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>> doesNotUsedPruned: $doesNotUsePruned <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'
+          echo $doesNotUsePruned
+          echo $usedBibfile
           echo ''
           if [ $doesNotUsePruned && $usedBibfile ]; then
              rm -f pruned.bib
              touch pruned.bib
              # get a list of bib files used in this document:
              readarray -t bibfiles < <( grep '\.\/[^.][^.]*\.bib' compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
+             echo ''
+             echo '------------------------'
+             printf '%s\n' "${bibfiles[@]}"
+             echo '=-----------------------'
              # In the first one or two iterations of the latex compilation, bibliography references wont be resolved but rather
              # will appear as errors in the compilation log.  Use those errors to get a list of all  citations in the paper
              readarray -t cites < <( grep 'Citation `' compileOut.txt | sed -r 's/^[^`][^`]*`//g;s/'\''.*$//g' | sort -f -u )
+             echo ''
+             echo ''
+             echo '#######################################################'
+             printf '%s\n' "${cites[@]}"
+             echo ''
+             echo ''
+             echo '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
              # any plus signs in the citation bib code causes problems because they are not escaped. The 
              # below substitutes all the plus signs and replaces with escaped pluses, so that grep will 
              # perform search on literal plus sign rather than interpret the plus sign as meaning "search for 2 or 
@@ -165,7 +177,7 @@ jobs:
              modcites=( "${modcites[@]//\./\\.}" )
              for (( i=0; i<${#modcites[@]}; i++ )); do
                 grep -zoE "@[^{]+\{[^a-zA-Z0-9]*${modcites[$i]}[^@]+" "${bibfiles[@]}"
-             done            
+             done
              ###sed ':a;N;$!ba;s/\n
           fi
         continue-on-error: true
@@ -175,20 +187,24 @@ jobs:
           # ====================================  Set up an array that will hold all the errors and warnings listed in the _full.log
           warnErrArr=()
           # ============= get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render.
+          grep -zoE "LaTeX Error:[^.]+\." compileOut.txt
           grep -zoE "LaTeX Error:[^.]+\." compileOut.txt | sed -r 's/on input line ([0-9]*)/\1-ERROR-\0/g'
           readarray -t res < <(grep -zoE "LaTeX Error:[^.]+\." compileOut.txt | sed -r 's/on input line ([0-9]*)/\1-ERROR-\0/g')
           #for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           # ============= now get the items that are not labeled as 'warning' or "error", but are problems w/ associated line numbers
           # be consolidated with the associated line in the error section here
+          grep -zoE "\.[^.]+\.tex:[0-9]+:[^.]+\." compileOut.txt
           grep -zoE "\.[^.]+\.tex:[0-9]+:[^.]+\." compileOut.txt  | sed -r 's/\.[^.]+\.tex:([0-9]+):/\1-ERROR-\0/g'
           readarray -t res < <(grep -zoE "\.[^.]+\.tex:[0-9]+:[^.]+\." compileOut.txt | sed -r 's/\.[^.]+\.tex:([0-9]+):/\1-ERROR-\0/g')
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           # ============= now get the warnings, but note that some of the warnings are actually errors (like figure files that are mispelled) and need to 
           # be consolidated with the associated line in the error section here
           grep -zoE "LaTeX Warning:[^.]+\." compileOut.txt
+          grep -zoE "LaTeX Warning:[^.]+\." compileOut.txt | sed -r 's/on input line ([0-9]+)/\1-WARNING-\0/g'
           readarray -t res < <(grep -zoE "LaTeX Warning:[^.]+\." compileOut.txt | sed -r 's/on input line ([0-9]+)/\1-WARNING-\0/g')
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           # ============= now get the citation issues
+          grep -zoE "Package natbib Warning: Citation[^.]+\." compileOut.txt
           grep -zoE "Package natbib Warning: Citation[^.]+\." compileOut.txt | sed -r 's/on input line ([0-9]+)/\1-BIB-\0/g'
           readarray -t res < <(grep -zoE "Package natbib Warning: Citation[^.]+\." compileOut.txt | sed -r 's/on input line ([0-9]+)/\1-BIB-\0/g')
           for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
