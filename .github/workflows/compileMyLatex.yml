@@ -120,6 +120,12 @@ jobs:
         run: |
           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" > compileOut.txt
           cat compileOut.txt
+          echo ' '
+          echo ' '
+          echo '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          echo ' '
+          echo ' '
+          cat $LOG
         continue-on-error: true
         
       - name: Prune the bib file
@@ -142,7 +148,6 @@ jobs:
              touch pruned.bib
              # get a list of bib files used in this document:
              readarray -t bibfiles < <( grep '\.\/[^.][^.]*\.bib' compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
-             echo "${bibfiles[@]}"
              # In the first one or two iterations of the latex compilation, bibliography references wont be resolved but rather
              # will appear as errors in the compilation log.  Use those errors to get a list of all  citations in the paper
              readarray -t cites < <( grep 'Citation `' compileOut.txt | sed -r 's/^[^`][^`]*`//g;s/'\''.*$//g' | sort -f -u )
@@ -159,12 +164,6 @@ jobs:
                    grep -zoE "@[^{]+\{ *${modcites[$i]}[^@]+" "${bibfiles[@]}"
                 fi
              done            
-             # get list of bib files used in document
-             #printf '%s\n' "${bibfiles[@]}"
-             # concatenate all the bibfiles together into a single temporary file
-             # Now match this list of citations to the bib file and pull out the full bibitem for each cites
-             #xargs cat << bibfiles > mergedBibfiles.txt
-             #cat mergedBibfiles.txt
              ###sed ':a;N;$!ba;s/\n
           fi
         continue-on-error: true
