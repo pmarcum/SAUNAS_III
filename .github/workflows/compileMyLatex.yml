@@ -153,11 +153,18 @@ jobs:
              modcites=( "${modcites[@]//\./\\.}" )
              for 
              echo ' &&&&&&&&&&&&&&&&&&&&&&  getting ready to show what grep produces on the bib file &&&&&&&&&&&&&&&&& '
+             grep -zoE "@[^{]+\{ *${modcites[0]}[^@]+" Extragalactic.bib
+             grep -zoE "@[^{]+\{ *${modcites[1]}[^@]+" Extragalactic.bib
+             grep -zoE "@[^{]+\{ *${modcites[2]}[^@]+" Extragalactic.bib
+             grep -zoE "@[^{]+\{ *${modcites[3]}[^@]+" Extragalactic.bib
+             grep -zoE "@[^{]+\{ *${modcites[4]}[^@]+" Extragalactic.bib
+             grep -zoE "@[^{]+\{ *${modcites[5]}[^@]+" Extragalactic.bib
+             grep -zoE "@[^{]+\{ *${modcites[6]}[^@]+" Extragalactic.bib
+             grep -zoE "@[^{]+\{ *${modcites[7]}[^@]+" Extragalactic.bib
              for (( i=0; i<${#modcites[@]}; i++ )); do
                 echo "now doing ${modcites[$i]}"
                 grep -zoE "@[^{]+\{ *${modcites[$i]}[^@]+" Extragalactic.bib
              done            
-             #grep -zoE "@[^{]+\{ *${modcites[0]}[^@]+" Extragalactic.bib
              echo ' &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
              # get list of bib files used in document
              #readarray -t bibfiles < <( grep '\.\/[^.][^.]*\.bib' compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
