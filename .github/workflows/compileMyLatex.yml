@@ -82,8 +82,9 @@ jobs:
           rm -f $CORENAME.fls
           rm -f inpaperCites.txt
           rm -f thereAreErrors.txt
+          rm -f doesNotUsePruned.txt
+          rm -f usedBibfile.txt
           rm -f compileOut.txt
-          rm -f mergedBibfiles.txt
           rm -f $CORENAME.synctex.gz
           rm -f $CORENAME.out
           rm -f $STARTFILE
@@ -134,24 +135,21 @@ jobs:
         # purposes rather than having to use whole master bib file.  based on stand-alone "pruneMyBibfile" github action file
         id: pruneBib
         run: |
-          doesNotUsePruned=true
-          usedBibfile=false
+          touch doesNotUsePruned.txt
+          rm -f usedBibfile.txt
           # determine if the pruned bib file is already being used in the document. If so, we should bypass 
           # all the below because pruned bib file does not need to be created.
-          grep -F "pruned\.bib" compileOut.txt
-          echo "$(grep -Fq "pruned\.bib" compileOut.txt)$?"
-          grep -F "\.bib" compileOut.txt
-          echo "$(grep -F "\.bib" compileOut.txt)$?"
-          if [[ "$(grep -Fq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then doesNotUsePruned=false; fi
-          if [[ "$(grep -Fq "\.bib" compileOut.txt)$?" == 0 ]]; then usedBibfile=true; fi
-          if ! $usedBibfile; then doesNotUsePruned=false; fi
-          echo $usedBibfile
-          echo $doesNotUsePruned
-          if $doesNotUsePruned; then
+          echo '142'
+          grep "pruned\.bib" compileOut.txt
+          if [[ "$(grep "pruned\.bib" compileOut.txt)$?" == 0 ]]; then rm -f doesNotUsePruned.txt; fi
+          if [[ "$(grep "\.bib" compileOut.txt)$?" == 0 ]]; then touch usedBibfile.txt; fi
+          if [ ! -f usedBibfile.txt ]; then touch doesNotUsePruned.txt; fi
+          if [ ! -f doesNotUsePruned.txt ]; then
+             rm -f doesNotUsePruned.txt
              rm -f pruned.bib
              touch pruned.bib
              # get a list of bib files used in this document:
-             readarray -t bibfiles < <(grep -E "^[^.]+\.bib" compileOut.txt | sed -r 's/^[^\.][^\.]*\.\///g' | awk '!seen[$0]++')
+             readarray -t bibfiles < <(grep "\.bib" compileOut.txt | sed -r 's/^[^\.][^\.]*\.\///g' | awk '!seen[$0]++')
              echo ''
              echo '------------------------'
              printf '%s\n' "${bibfiles[@]}"
@@ -572,6 +570,9 @@ jobs:
           rm -f $CORENAME.fls
           rm -f inpaperCites.txt
           rm -f thereAreErrors.txt
+          rm -f doesNotUsePruned.txt
+          rm -f usedBibfile.txt
+          rm -f compileOut.txt
           rm -f $CORENAME.synctex.gz
           rm -f $CORENAME.out
         continue-on-error: true
