@@ -137,7 +137,7 @@ jobs:
           echo ''
           echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>> doesNotUsedPruned: $doesNotUsePruned <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'
           echo ''
-          char="`text.txt ibs=1 skip=$skipcount count=1`"
+          char="`text.txt`"
           echo "^${char/\$/\\$}"
           if $doesNotUsePruned; then
              rm -f pruned.bib
