@@ -137,18 +137,15 @@ jobs:
           makeNewPrunedBib=false
           # determine if the pruned bib file is already being used in the document. If so, we should bypass 
           # all the below because pruned bib file does not need to be created.
-          echo '142'
-          grep "\.bib" compileOut.txt
-          echo '148'
-          #if [[ "$(grep -Fq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then usesPrunedBib=true; fi
-          #if [[ "$(grep -Fq "\.bib" compileOut.txt)$?" == 0 ]]; then usesBibfile=true; fi
-          #if usesBibfile; then makeNewPrunedBib=true; fi
-          #if usesPrunedBib; then makeNewPrunedBib=false; fi
-          if makeNewPrunedBib; then
+          if [[ "$(grep -Fq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then usesPrunedBib=true; fi
+          if [[ "$(grep -Fq "\.bib" compileOut.txt)$?" == 0 ]]; then usesBibfile=true; fi
+          if usesBibfile; then makeNewPrunedBib=true; fi
+          if usesPrunedBib; then makeNewPrunedBib=false; fi
+          if $makeNewPrunedBib; then
              rm -f pruned.bib
              touch pruned.bib
              # get a list of bib files used in this document:
-             readarray -t res < <(grep -Fx "\.bib" compileOut.txt | sed -r 's/^[^\.][^\.]*\.\///g')
+             readarray -t res < <(grep -F "\.bib" compileOut.txt | sed -r 's/^[^\.][^\.]*\.\///g')
              readarray -t bibfiles < <(printf '%s\n' "${res[@]}" | awk '!seen[$0]++')
              echo ''
              echo '------------------------'
