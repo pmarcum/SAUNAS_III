@@ -124,9 +124,9 @@ jobs:
         
       - name: Prune the bib file
         # https://www.baeldung.com/linux/regex-matching
-        # going to strip out all the used citations and make a pruned.bib file that can be used as the final 
-        # bib file for submission purposes rather than having to use the whole master bib file.  based on the
-        # stand-alone "pruneMyBibfile" github action file
+        # https://askubuntu.com/questions/1502281/using-grep-to-search-for-line-that-begins-with-a-variable-whose-value-is-a-dolla
+        # going to strip out all used citations and make a pruned.bib file that can be used as final bib file for submission
+        # purposes rather than having to use whole master bib file.  based on stand-alone "pruneMyBibfile" github action file
         id: pruneBib
         run: |
           touch pruned.bib
@@ -137,6 +137,7 @@ jobs:
           echo ''
           echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>> doesNotUsedPruned: $doesNotUsePruned <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'
           echo ''
+          char="`dd if=text.txt ibs=1 skip=$skipcount count=1`"
           echo "^${char/\$/\\$}\K[[:digit:]]+"
           if $doesNotUsePruned; then
              rm -f pruned.bib
