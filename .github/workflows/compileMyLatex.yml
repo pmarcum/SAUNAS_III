@@ -119,7 +119,7 @@ jobs:
         id: compilation
         run: |
           touch compileOut.txt
-          latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" >> compileOut.txt
+          latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE"
           cat compileOut.txt
         continue-on-error: true
         
