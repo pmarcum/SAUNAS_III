@@ -132,25 +132,27 @@ jobs:
         # purposes rather than having to use whole master bib file.  based on stand-alone "pruneMyBibfile" github action file
         id: pruneBib
         run: |
-          cat compileOut.txt
-          touch doesNotUsePruned.txt
-          rm -f usedBibfile.txt
+          head compileOut.txt
+          usesPrunedBib=false
+          usesBibfile=false
+          makeNewPrunedBib=false
           # determine if the pruned bib file is already being used in the document. If so, we should bypass 
           # all the below because pruned bib file does not need to be created.
           echo '142'
-          grep -E -- "pruned[.]bib" compileOut.txt
+          grep -Fx "pruned\.bib" compileOut.txt
           echo '146'
-          grep -E -- "[.]bib" compileOut.txt
+          grep -Fx "\.bib" compileOut.txt
           echo '148'
-          if [[ "$(grep -E -- "pruned[.]bib" compileOut.txt)$?" == 0 ]]; then rm -f doesNotUsePruned.txt; fi
-          if [[ "$(grep -E -- "[.]bib" compileOut.txt)$?" == 0 ]]; then touch usedBibfile.txt; fi
-          if [ ! -f usedBibfile.txt ]; then touch doesNotUsePruned.txt; fi
-          if [ ! -f doesNotUsePruned.txt ]; then
-             rm -f doesNotUsePruned.txt
+          if [[ "$(grep -Fxq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then usesPrunedBib=true; fi
+          if [[ "$(grep -Fxq "\.bib" compileOut.txt)$?" == 0 ]]; then usesBibfile=true; fi
+          if usesBibfile; then makeNewPrunedBib=true; fi
+          if usesPrunedBib; then makeNewPrunedBib=false; fi
+          if makeNewPrunedBib; then
              rm -f pruned.bib
              touch pruned.bib
              # get a list of bib files used in this document:
-             readarray -t bibfiles < <(grep -E -- "[.]bib" compileOut.txt | sed -r 's/^[^\.][^\.]*\.\///g' | awk '!seen[$0]++')
+             readarray -t res < <(grep -Fx "\.bib" compileOut.txt | sed -r 's/^[^\.][^\.]*\.\///g')
+             readarray -t bibfiles < <(printf '%s\n' "${res[@]}" | awk '!seen[$0]++')
              echo ''
              echo '------------------------'
              printf '%s\n' "${bibfiles[@]}"
