@@ -142,8 +142,8 @@ jobs:
           usedBibfile=false
           # determine if the pruned bib file is already being used in the document. If so, we should bypass 
           # all the below because pruned bib file does not need to be created.
-          if [[ "$(grep -Eiq -- 'prune[^.]*\.bib' compileOut.txt)$?" == 0 ]]; then doesNotUsePruned=false; fi
-          if [[ "$(grep -Eiq -- '\.bib' compileOut.txt)$?" == 0 ]]; then usedBibfile=true; fi
+          if [[ "$(grep -Eiq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then doesNotUsePruned=false; fi
+          if [[ "$(grep -Eiq "\.bib" compileOut.txt)$?" == 0 ]]; then usedBibfile=true; fi
           echo ''
           echo $doesNotUsePruned
           echo $usedBibfile
@@ -152,7 +152,7 @@ jobs:
              rm -f pruned.bib
              touch pruned.bib
              # get a list of bib files used in this document:
-             readarray -t bibfiles < <( grep '\.\/[^.][^.]*\.bib' compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
+             readarray -t bibfiles < <( grep -E "\.\/[^.][^.]*\.bib" compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
              echo ''
              echo '------------------------'
              printf '%s\n' "${bibfiles[@]}"
