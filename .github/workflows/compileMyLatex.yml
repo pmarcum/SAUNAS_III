@@ -143,13 +143,13 @@ jobs:
              rm -f pruned.bib
              touch pruned.bib
              # get a list of bib files used in this document:
-             grep -E "\.\/[^.][^.]*\.bib" compileOut.txt
+             grep -E "\.\/[^.]+\.bib" compileOut.txt
              echo '----------------------'
-             grep -E "\.\/[^.][^.]*\.bib" compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g'
+             grep -E "\.\/[^.]+\.bib" compileOut.txt | sed -r 's/^[^\.][^\.]*\.\///g;s/\.bib.*$/\.bib/g'
              echo '----------------------------------------------------------'
-             grep -E "\.\/[^.][^.]*\.bib" compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u
+             grep -E "\.\/[^.]+\.bib" compileOut.txt | sed -r 's/^[^\.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u
              echo '---------------------------------------------------------------------------------------------------'
-             readarray -t bibfiles < <(grep -E "\.\/[^.][^.]*\.bib" compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
+             readarray -t bibfiles < <(grep -E "\.\/[^.]+\.bib" compileOut.txt | sed -r 's/^[^\.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
              echo ''
              echo '------------------------'
              printf '%s\n' "${bibfiles[@]}"
