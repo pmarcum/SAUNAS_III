@@ -130,7 +130,6 @@ jobs:
         # purposes rather than having to use whole master bib file.  based on stand-alone "pruneMyBibfile" github action file
         id: pruneBib
         run: |
-          touch pruned.bib
           doesNotUsePruned=true
           # determine if the pruned bib file is already being used in the document. If so, we should bypass 
           # all the below because pruned bib file does not need to be created.
@@ -155,6 +154,7 @@ jobs:
              for 
              echo ' &&&&&&&&&&&&&&&&&&&&&&  getting ready to show what grep produces on the bib file &&&&&&&&&&&&&&&&& '
              for (( i=0; i<${#modcites[@]}; i++ )); do
+                echo "now doing ${modcites[$i]}"
                 grep -zoE "@[^{]+\{ *${modcites[$i]}[^@]+" Extragalactic.bib
              done            
              #grep -zoE "@[^{]+\{ *${modcites[0]}[^@]+" Extragalactic.bib
