@@ -137,7 +137,7 @@ jobs:
           echo ''
           echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>> doesNotUsedPruned: $doesNotUsePruned <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'
           echo ''
-          char="`text.txt`"
+          char="`ls text.txt`"
           echo "^${char/\$/\\$}"
           if $doesNotUsePruned; then
              rm -f pruned.bib
@@ -151,7 +151,7 @@ jobs:
              #grep -PEo "@[^{][^{]*\{ *${cites[0]}[^@][^@]*" Extragalactic.bib
              echo ''
              echo ' &&&&&&&&&&&&&&&&&&&&&&  getting ready to show what grep produces on the bib file &&&&&&&&&&&&&&&&& '
-             grep -Po "${cites[0]/\+/\\+}" Extragalactic.bib
+             grep -Po "@[^{]+\{ *${cites[0]/\+/\\+}[^@]" Extragalactic.bib
              echo ' &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
              # get list of bib files used in document
              #readarray -t bibfiles < <( grep '\.\/[^.][^.]*\.bib' compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
