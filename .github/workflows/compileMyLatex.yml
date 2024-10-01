@@ -120,14 +120,7 @@ jobs:
         run: |
           touch compileOut.txt
           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" >> compileOut.txt
-          head compileOut.txt
-          tail compileOut.txt
-          echo ' '
-          echo ' '
-          echo '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          echo ' '
-          echo ' '
-          cat $LOG
+          cat compileOut.txt
         continue-on-error: true
         
       - name: Prune the bib file
@@ -144,15 +137,17 @@ jobs:
           # all the below because pruned bib file does not need to be created.
           if [[ "$(grep -Eiq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then doesNotUsePruned=false; fi
           if [[ "$(grep -Eiq "\.bib" compileOut.txt)$?" == 0 ]]; then usedBibfile=true; fi
-          echo ''
-          echo $doesNotUsePruned
-          echo $usedBibfile
-          echo ''
           if [ $doesNotUsePruned && $usedBibfile ]; then
              rm -f pruned.bib
              touch pruned.bib
              # get a list of bib files used in this document:
-             readarray -t bibfiles < <( grep -E "\.\/[^.][^.]*\.bib" compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
+             grep -E "\.\/[^.][^.]*\.bib" compileOut.txt
+             echo '----------------------'
+             grep -E "\.\/[^.][^.]*\.bib" compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g'
+             echo '----------------------------------------------------------'
+             grep -E "\.\/[^.][^.]*\.bib" compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u
+             echo '---------------------------------------------------------------------------------------------------'
+             readarray -t bibfiles < <(grep -E "\.\/[^.][^.]*\.bib" compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
              echo ''
              echo '------------------------'
              printf '%s\n' "${bibfiles[@]}"
