@@ -146,23 +146,14 @@ jobs:
              modcites=( "${cites[@]//\+/\\+}" )
              modcites=( "${modcites[@]//\-/\\-}" )
              modcites=( "${modcites[@]//\./\\.}" )
-             printf '%s\n' "${modcites[@]}"
-             echo ''
-             echo "=================================>>>>>>>> ${cites[0]} <<<<<<<====================================="
-             echo ''
-             #grep -PEo "@[^{][^{]*\{ *${cites[0]}[^@][^@]*" Extragalactic.bib
              echo ' &&&&&&&&&&&&&&&&&&&&&&  getting ready to show what grep produces on the bib file &&&&&&&&&&&&&&&&& '
              # any plus signs in the citation bib code causes problems because they are not escaped. The 
              # below substitutes all the plus signs and replaces with escaped pluses, so that grep will 
              # perform search on literal plus sign rather than interpret the plus sign as meaning "search for 2 or 
              # more of the character to the left of the plus sign". Periods also cause problems, as do dashes, and have 
              # to likewise be treated. 
-             #grep -Po "@[^{]+\{ *${cites[0]//\+/\\+;cites[0]//\-/\\-;cites[0]//\./\\.}[^@]" Extragalactic.bib
              #sed ':a;N;$!ba;s/\, *\n/\,\a/g;s/^([^=]+=[^\n]+\n)$/\1\a/g' Extragalactic.bib > all.bib
-             #head all.bib
-             #grep -E "@[^{]+\{ *${modcites[0]}[^@]+" all.bib
-             #rm -f all.bib
-             grep -zoE "@[^{]+\{ *${modcites[0]}[^@]+" Extragalactic.bib
+             grep -zoE "@[^{]+\{ *${modcites[@]}[^@]+" Extragalactic.bib
              echo ' &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
              # get list of bib files used in document
              #readarray -t bibfiles < <( grep '\.\/[^.][^.]*\.bib' compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
