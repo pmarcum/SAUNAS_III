@@ -172,37 +172,57 @@ jobs:
         continue-on-error: true
 
       - name: Capture full compilation output
-        run: |
-          alllog=''
-          # ========================  make sure that all lines related to a sentence are all smooshed together into single line
-          while IFS= read -r line; do
-             # turn any multiple stretches of horizontal white space into a single white space, and any occurances of 
-             # square brackets (either with or without numbers) and dollar signs alone on a line, to be removed. 
-             newline=$(sed -r 's/  */ /g;s/^ *[[$]]* *$//g;s/^ *\[ *[0-9][0-9]* *\] *$//g' <<<"$line")
-             if [[ -n "$newline" ]]; then
-                if [[ "${#newline}" -eq 79 ]]; then
-                   alllog+="$newline"
-                elif [[ "$(grep -q -E -- "^ *[),.][^/]" <<<"$newline" )$?" == 0 ]]; then
-                   # if this piece of line only consists of a ) then attach to previous line
-                   # remove the last end-of-line character and the attach this new piece of the line
-                   alllog=$(sed -r 's/\|$//' <<<"$alllog")
-                   alllog+="$newline|"
-                elif [[ "$(grep -q -E -- "\, *$" <<<"$newline" )$?" == 0 ]]; then
-                   # if this line ends with comma, assume the next line is continuation
-                   alllog+="$newline"
-                else
-                   alllog+="$newline|"
-                fi
-             fi
-          done < "$LOG"
-          # write array to file
-          touch "$FULLLOG"
-          while [[ "$(grep -q -F -- "|" <<<"$alllog" )$?" == 0 ]]; do
-             thisline=$(sed -r 's/^([^|]*)\|.*$/\1/' <<<"$alllog" )
-             alllog=$(sed -r 's/^[^|]*\|//' <<<"$alllog" )
-             echo "$thisline" >> "$FULLLOG"
-          done
-          if [[ -n "$alllog" ]]; then echo "$alllog" >> "$FULLLOG"; fi
+        run: |  
+          # ====================================  Set up an array that will hold all the errors and warnings listed in the _full.log
+          warnErrArr=()
+          # ============= get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render.
+          grep -zoE "LaTeX Error:[^.]+\." compileOut.txt | sed -r 's/on input line ([0-9]*)/\1-ERROR-\0/g'
+          readarray -t res < <(grep -zoE "LaTeX Error:[^.]+\." compileOut.txt | sed -r 's/on input line ([0-9]*)/\1-ERROR-\0/g')
+          #for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
+          # ============= now get the items that are not labeled as 'warning' or "error", but are problems w/ associated line numbers
+          # be consolidated with the associated line in the error section here
+          grep -zoE "\.[^.]+\.tex:[0-9]+:[^.]+\." compileOut.txt  | sed -r 's/\.[^.]+\.tex:([0-9]+):/\1-ERROR-\0/g'
+          readarray -t res < <(grep -zoE "\.[^.]+\.tex:[0-9]+:[^.]+\." compileOut.txt | sed -r 's/\.[^.]+\.tex:([0-9]+):/\1-ERROR-\0/g')
+          for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
+          # ============= now get the warnings, but note that some of the warnings are actually errors (like figure files that are mispelled) and need to 
+          # be consolidated with the associated line in the error section here
+          grep zoE "LaTeX Warning:[^.]+\." compileOut.txt
+          readarray -t res < <(grep zoE "LaTeX Warning:[^.]+\." compileOut.txt | sed -r 's/on input line ([0-9]+)/\1-WARNING-\0/g')
+          for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
+          # ============= now get the citation issues
+          grep -zoE "Package natbib Warning: Citation[^.]+\." compileOut.txt | sed -r 's/on input line ([0-9]+)/\1-BIB-\0/g'
+          readarray -t res < <(grep -zoE "Package natbib Warning: Citation[^.]+\." compileOut.txt | sed -r 's/on input line ([0-9]+)/\1-BIB-\0/g')
+          for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
+          #alllog=''
+          ## ========================  make sure that all lines related to a sentence are all smooshed together into single line
+          #while IFS= read -r line; do
+          #   # turn any multiple stretches of horizontal white space into a single white space, and any occurances of 
+          #   # square brackets (either with or without numbers) and dollar signs alone on a line, to be removed. 
+          #   newline=$(sed -r 's/  */ /g;s/^ *[[$]]* *$//g;s/^ *\[ *[0-9][0-9]* *\] *$//g' <<<"$line")
+          #   if [[ -n "$newline" ]]; then
+          #      if [[ "${#newline}" -eq 79 ]]; then
+          #         alllog+="$newline"
+          #      elif [[ "$(grep -q -E -- "^ *[),.][^/]" <<<"$newline" )$?" == 0 ]]; then
+          #         # if this piece of line only consists of a ) then attach to previous line
+          #         # remove the last end-of-line character and the attach this new piece of the line
+          #         alllog=$(sed -r 's/\|$//' <<<"$alllog")
+          #         alllog+="$newline|"
+          #      elif [[ "$(grep -q -E -- "\, *$" <<<"$newline" )$?" == 0 ]]; then
+          #         # if this line ends with comma, assume the next line is continuation
+          #         alllog+="$newline"
+          #      else
+          #         alllog+="$newline|"
+          #      fi
+          #   fi
+          #done < "$LOG"
+          ## write array to file
+          #touch "$FULLLOG"
+          #while [[ "$(grep -q -F -- "|" <<<"$alllog" )$?" == 0 ]]; do
+          #   thisline=$(sed -r 's/^([^|]*)\|.*$/\1/' <<<"$alllog" )
+          #   alllog=$(sed -r 's/^[^|]*\|//' <<<"$alllog" )
+          #   echo "$thisline" >> "$FULLLOG"
+          #done
+          #if [[ -n "$alllog" ]]; then echo "$alllog" >> "$FULLLOG"; fi
         continue-on-error: true
 
       - name: Process the errors and warnings
