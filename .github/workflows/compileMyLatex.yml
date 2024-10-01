@@ -140,6 +140,8 @@ jobs:
           if $doesNotUsePruned; then
              rm -f pruned.bib
              touch pruned.bib
+             # get a list of bib files used in this document:
+             readarray -t bibfiles < <( grep '\.\/[^.][^.]*\.bib' compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
              # In the first one or two iterations of the latex compilation, bibliography references wont be resolved but rather
              # will appear as errors in the compilation log.  Use those errors to get a list of all  citations in the paper
              readarray -t cites < <( grep 'Citation `' compileOut.txt | sed -r 's/^[^`][^`]*`//g;s/'\''.*$//g' | sort -f -u )
@@ -152,24 +154,12 @@ jobs:
              modcites=( "${modcites[@]//\-/\\-}" )
              modcites=( "${modcites[@]//\./\\.}" )
              echo ' &&&&&&&&&&&&&&&&&&&&&&  getting ready to show what grep produces on the bib file &&&&&&&&&&&&&&&&& '
-             grep -zoE "@[^{]+\{ *${modcites[0]}[^@]+" Extragalactic.bib
-             grep -zoE "@[^{]+\{ *${modcites[1]}[^@]+" Extragalactic.bib
-             grep -zoE "@[^{]+\{ *${modcites[2]}[^@]+" Extragalactic.bib
-             grep -zoE "@[^{]+\{ *${modcites[3]}[^@]+" Extragalactic.bib
-             grep -zoE "@[^{]+\{ *${modcites[4]}[^@]+" Extragalactic.bib
-             grep -zoE "@[^{]+\{ *${modcites[5]}[^@]+" Extragalactic.bib
-             grep -zoE "@[^{]+\{ *${modcites[6]}[^@]+" Extragalactic.bib
-             grep -zoE "@[^{]+\{ *${modcites[7]}[^@]+" Extragalactic.bib
-             echo ''
-             echo ''
-             echo '----------------------------------------------------------------------------------------------------------------------------------'
              for (( i=0; i<${#modcites[@]}; i++ )); do
                 echo "now doing ${modcites[$i]}"
-                grep -zoE "@[^{]+\{ *${modcites[$i]}[^@]+" Extragalactic.bib
+                grep -zoE "@[^{]+\{ *${modcites[$i]}[^@]+" "${bibfiles[@]}"
              done            
              echo ' &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
              # get list of bib files used in document
-             #readarray -t bibfiles < <( grep '\.\/[^.][^.]*\.bib' compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
              #printf '%s\n' "${bibfiles[@]}"
              # concatenate all the bibfiles together into a single temporary file
              # Now match this list of citations to the bib file and pull out the full bibitem for each cites
