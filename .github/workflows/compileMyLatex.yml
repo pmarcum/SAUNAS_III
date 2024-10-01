@@ -137,7 +137,7 @@ jobs:
           echo ''
           echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>> doesNotUsedPruned: $doesNotUsePruned <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'
           echo ''
-          char="`ls text.txt`"
+          char="`rm -f te$xt.txt`"
           echo "^${char/\$/\\$}"
           if $doesNotUsePruned; then
              rm -f pruned.bib
@@ -151,6 +151,11 @@ jobs:
              #grep -PEo "@[^{][^{]*\{ *${cites[0]}[^@][^@]*" Extragalactic.bib
              echo ''
              echo ' &&&&&&&&&&&&&&&&&&&&&&  getting ready to show what grep produces on the bib file &&&&&&&&&&&&&&&&& '
+             # any plus signs in the citation bib code causes problems because they are not escaped. The 
+             # below substitutes all the plus signs and replaces with escaped pluses, so that grep will 
+             # perform search on literal plus sign rather than interpret the plus sign as meaning "search for 2 or 
+             # more of the character to the left of the plus sign". Periods also cause problems, as do dashes, and have 
+             # to likewise be treated. 
              grep -Po "@[^{]+\{ *${cites[0]/\+/\\+}[^@]" Extragalactic.bib
              echo ' &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
              # get list of bib files used in document
