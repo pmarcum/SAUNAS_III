@@ -118,7 +118,8 @@ jobs:
       - name: Compile paper
         id: compilation
         run: |
-          latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" >& compileOut.txt
+          touch compileOut.txt
+          latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" >> compileOut.txt
           head compileOut.txt
           tail compileOut.txt
           echo ' '
