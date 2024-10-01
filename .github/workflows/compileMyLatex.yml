@@ -137,11 +137,10 @@ jobs:
         run: |
           touch doesNotUsePruned.txt
           rm -f usedBibfile.txt
+          cat compileOut.txt
           # determine if the pruned bib file is already being used in the document. If so, we should bypass 
           # all the below because pruned bib file does not need to be created.
           echo '142'
-          grep "pruned.bib" compileOut.txt
-          echo '144'
           grep "pruned\.bib" compileOut.txt
           echo '146'
           grep ".bib" compileOut.txt
