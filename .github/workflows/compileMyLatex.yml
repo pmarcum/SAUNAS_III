@@ -163,7 +163,7 @@ jobs:
              modcites=( "${modcites[@]//\-/\\-}" )
              modcites=( "${modcites[@]//\./\\.}" )
              for (( i=0; i<${#modcites[@]}; i++ )); do
-                if [[ "$(grep -q -E -- "${modcites[$i]}" "${bibfiles[@]}")$?" == 0 ]]; then
+                if [[ $(grep -qE "${modcites[$i]}" "${bibfiles[@]}")$? == 0 ]]; then
                    grep -zoE "@[^{]+\{[^a-zA-Z0-9]*${modcites[$i]}[^@]+" "${bibfiles[@]}"
                 fi
              done            
