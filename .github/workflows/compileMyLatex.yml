@@ -125,6 +125,7 @@ jobs:
       - name: Prune the bib file
         # https://www.baeldung.com/linux/regex-matching
         # https://askubuntu.com/questions/1502281/using-grep-to-search-for-line-that-begins-with-a-variable-whose-value-is-a-dolla
+        # https://stackoverflow.com/questions/13210880/replace-one-substring-for-another-string-in-shell-script
         # going to strip out all used citations and make a pruned.bib file that can be used as final bib file for submission
         # purposes rather than having to use whole master bib file.  based on stand-alone "pruneMyBibfile" github action file
         id: pruneBib
@@ -150,13 +151,15 @@ jobs:
              echo ''
              #grep -PEo "@[^{][^{]*\{ *${cites[0]}[^@][^@]*" Extragalactic.bib
              echo ''
+             tst="echo 'I added 2+2 together and then added -1 to get a total of 3."
+             echo "${tst//\+/\\+;tst//\-/\\-;tst//\./\\.}"
              echo ' &&&&&&&&&&&&&&&&&&&&&&  getting ready to show what grep produces on the bib file &&&&&&&&&&&&&&&&& '
              # any plus signs in the citation bib code causes problems because they are not escaped. The 
              # below substitutes all the plus signs and replaces with escaped pluses, so that grep will 
              # perform search on literal plus sign rather than interpret the plus sign as meaning "search for 2 or 
              # more of the character to the left of the plus sign". Periods also cause problems, as do dashes, and have 
              # to likewise be treated. 
-             grep -Po "@[^{]+\{ *${cites[0]/\+/\\+}[^@]" Extragalactic.bib
+             grep -Po "@[^{]+\{ *${cites[0]//\+/\\+;cites[0]//\-/\\-;cites[0]//\./\\.}[^@]" Extragalactic.bib
              echo ' &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
              # get list of bib files used in document
              #readarray -t bibfiles < <( grep '\.\/[^.][^.]*\.bib' compileOut.txt | sed -r 's/^[^.][^\.]*\.\///g;s/\.bib.*$/\.bib/g' | sort -f -u)
