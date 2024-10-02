@@ -137,11 +137,6 @@ jobs:
           # all the below because pruned bib file does not need to be created.
           if [[ "$(grep -Eq "\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=true; fi
           if [[ "$(grep -Eq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=false; fi
-          echo ''
-          echo ''
-          echo $makeNewPrunedBib
-          echo ''
-          echo ''
           if $makeNewPrunedBib; then
              rm -f pruned.bib
              touch pruned.bib
@@ -157,8 +152,10 @@ jobs:
              modcites=( "${cites[@]//\+/\\+}" )
              modcites=( "${modcites[@]//\-/\\-}" )
              modcites=( "${modcites[@]//\./\\.}" )
+             # Search for each of the cites in the bibfile(s) and extract the relevant full bib item for that citation, to 
+             # put into the pruned bibfile
              for (( i=0; i<${#modcites[@]}; i++ )); do
-                grep -zoE "@[^{]+\{[^a-zA-Z0-9]*${modcites[$i]}[^@]+" "${bibfiles[@]}"
+                grep -zoE "@[^{]+\{[^a-zA-Z0-9]*${modcites[$i]}[^@]+" "${bibfiles[@]}" | sed -r 's/^ *([^@}])/   \1/g'
              done
              ###sed ':a;N;$!ba;s/\n
           fi
