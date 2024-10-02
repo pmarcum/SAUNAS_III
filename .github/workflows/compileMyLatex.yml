@@ -146,7 +146,7 @@ jobs:
              rm -f pruned.bib
              touch pruned.bib
              # get a list of bib files used in this document:
-             readarray -t res < <(grep -F "\.bib" compileOut.txt | sed -r 's/^[^\.][^\.]*\.\///g')
+             readarray -t res < <(grep -E "\.bib" compileOut.txt | sed -r 's/^[^\.][^\.]*\.\///g')
              readarray -t bibfiles < <(printf '%s\n' "${res[@]}" | awk '!seen[$0]++')
              echo ''
              echo '------------------------'
