@@ -176,10 +176,12 @@ jobs:
           ## ============= now get the warnings, but note that some of the warnings are actually errors (like figure files that are mispelled) and need to 
           # be consolidated with the associated line in the error section here
           readarray -t res < <(grep -zoE "LaTeX Warning:[^.]+\." compileOut.txt)
-          newres=()
           tmpstr=''
           for (( i=0; i<${#res[@]}; i++ )); do tmpstr+="${res[$i]}"; done
-          readarray -t res < <(sed -r 's/\. *LaTeX Warning:/\.\nLaTeX Warning:/g' <<<tmpstr)
+          echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+          echo $tmpstr
+          echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+          readarray -t res < <(sed -r 's/\. *LaTeX Warning:/\.\nLaTeX Warning:/g' <<<"${tmpstr}")
           printf '%s\n' "${res[@]}"
           echo ''
           echo '=================================================================================================================================='
