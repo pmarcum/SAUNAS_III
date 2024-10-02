@@ -164,6 +164,9 @@ jobs:
 
       - name: Capture full compilation output
         run: |  
+          cat compileOut.txt
+          echo ''
+          echo '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$'
           # ====================================  Set up an array that will hold all the errors and warnings listed in the _full.log
           warnErrArr=()
           ## ============= get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render.
