@@ -177,7 +177,10 @@ jobs:
           # be consolidated with the associated line in the error section here
           readarray -t res < <(grep -zoE "LaTeX Warning:[^\\.]+\\." compileOut.txt)
           tmpstr=""
-          for (( i=0;  i<${#res[@]}; i++ )); do tmpstr="$tmpstr${res[$i]}"; done
+          for (( i=0;  i<${#res[@]}; i++ )); do 
+             tmpstr="$tmpstr${res[$i]}"
+             echo "${res[$i]}"
+          done
           echo "$tmpstr"
           #tmpstr=''
           #for (( i=0; i<${#res[@]}; i++ )); do tmpstr+="${res[$i]}"; done
