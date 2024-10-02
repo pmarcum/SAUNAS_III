@@ -175,7 +175,7 @@ jobs:
           #for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           ## ============= now get the warnings, but note that some of the warnings are actually errors (like figure files that are mispelled) and need to 
           # be consolidated with the associated line in the error section here
-          readarray -t res < <(grep -zoE "LaTeX Warning:[^.]+\." compileOut.txt)
+          readarray -t res < <(grep -zoE "LaTeX Warning:[^.]+\." compileOut.txt | sed -r 's/^([^.]+)\n/\1/g')
           echo "${res[0]}"
           echo '-----------------------------------------------------------------------------------------------------------------------------'
           echo "${res[1]}"
