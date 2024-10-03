@@ -190,10 +190,19 @@ jobs:
           # ===================================================== WARNINGS
           touch warnout.txt
           sed -r 's/(LaTeX Warning:[^.][^.]*on input line )([0-9][0-9]*)\./\x0\2-WARNING-\1\2\.\a/g' core.txt >> warnout.txt
+          echo "----------------------------------------------------------------------------------------------------- 193"
+          cat warnout.txt
           rm -f tmp.txt && sed -r 's/^[^\x0][^\x0]*\x0//i' warnout.txt > tmp.txt && mv -f tmp.txt warnout.txt
+          echo "------------------------------------------------------------------------------------------ 195"
+          cat warnout.txt
           rm -f tmp.txt && sed -r 's/\a.*$//i' warnout.txt > tmp.txt && mv -f tmp.txt warnout.txt
+          echo "------------------------------------------------------------------------------- 199"
+          cat warnout.txt
           rm -f tmp.txt && sed -r 's/\a[^\x0][^\x0]*\x0/\n/g' warnout.txt > tmp.txt && mv -f tmp.txt warnout.txt
+          echo "------------------------------------------------------------------- 202"
+          cat warnout.txt
           rm -f tmp.txt && sort warnout.txt | uniq > tmp.txt && mv -f tmp.txt warnout.txt
+          echo "------------------------------------------------------ 205"
           cat warnout.txt
           
           # ====================================  Set up an array that will hold all the errors and warnings listed in the _full.log
