@@ -184,10 +184,10 @@ jobs:
           touch errout.txt
           sed -r 's/LaTeX ((Error)|(Warning)):([^.][^.]*on input line )([0-9][0-9]*)\./\x0\5-\1-LaTeX \1:\4\5\.\t/g' core.txt >> errout.txt
           rm -f tmp.txt && sed -r 's/(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.][^.]*\.)/\x0\2-Error-\1\2\3\t/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
-          rm -f tmp.txt && sed -r 's/^[^\x0][^\x0]*\x0//i' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
-          rm -f tmp.txt && sed -r 's/\t[^\t][^\t]*$//i' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
+          rm -f tmp.txt && sed -r 's/^[^\x0][^\x0]*\x0//' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
+          rm -f tmp.txt && sed -r 's/\t[^\t][^\t]*$//' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           rm -f tmp.txt && sed -r 's/\t[^\x0][^\x0]*\x0/ZZZZZZZZZ/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
-          rm -f tmp.txt && sort errout.txt | uniq > tmp.txt && mv -f tmp.txt errout.txt
+          #rm -f tmp.txt && sort errout.txt | uniq > tmp.txt && mv -f tmp.txt errout.txt
           cat errout.txt
           # ===================================================== WARNINGS
           #touch warnout.txt
