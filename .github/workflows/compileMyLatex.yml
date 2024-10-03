@@ -187,6 +187,7 @@ jobs:
           echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 187'
           sed -ir 's/  */ /g' core.txt
           echo '>>>>>>>>>>>>>>>>>> 189'
+          cat core.txt
           sed -r 's/(LaTeX Error:/\x0LaTeX Error:[^.]+on input line )([0-9][0-9]*)\./\x0\2\-ERROR\-\1\2\.\a/g' core.txt >> errout.txt
           sed -ir 's/(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.][^.]*\.)/\x0\2\-ERROR\-\1\2\a/g' errout.txt
           sed -ir 's/^[^\x0][^\x0]*\x0//;s/\a.*$//;s/\a[^\x0][^\x0]*\x0/\n/' errout.txt
