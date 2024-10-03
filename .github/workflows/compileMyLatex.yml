@@ -180,10 +180,7 @@ jobs:
           sed -ir 's/[(] *[(]/ /g' core.txt
           sed -ir 's/[)] *[)]/ /g' core.txt
           sed -ir 's/  */ /g' core.txt
-          echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 183'
-          #sed -r 's/(LaTeX Error\:[^.][^.]*on input line )([0-9][0-9]*)\./\x0\2-ERROR-\1\2.\a/g' core.txt >> errout.txt
-          sed -E 's/LaTeX Error/XXXXXX          XXXXX/g' core.txt >> errout.txt
-          cat errout.txt
+          sed -r 's/(LaTeX Error:[^.][^.]*on input line )([0-9][0-9]*)\./\x0\2-ERROR-\1\2.\a/g' core.txt >> errout.txt
           echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 184'
           sed -ir 's/(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.][^.]*\.)/\x0\2\-ERROR\-\1\2\3\a/g' errout.txt
           echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 186'
