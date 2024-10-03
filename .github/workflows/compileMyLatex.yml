@@ -85,6 +85,9 @@ jobs:
           rm -f doesNotUsePruned.txt
           rm -f usedBibfile.txt
           rm -f compileOut.txt
+          rm -f errout.txt
+          rm -f warnout.txt
+          rm -f bibout.txt
           rm -f $CORENAME.synctex.gz
           rm -f $CORENAME.out
           rm -f $STARTFILE
@@ -158,12 +161,18 @@ jobs:
                 grep -zoE "@[^{]+\{[^a-zA-Z0-9]*${modcites[$i]}[^@]+" "${bibfiles[@]}" >> pruned.bib
              done
              sed -ri 's/^[^@]+@/@/g;s/^([^@}])/  \1/g' pruned.bib
-             ###sed ':a;N;$!ba;s/\n
           fi
         continue-on-error: true
 
       - name: Capture full compilation output
-        run: |  
+        run: |
+          # prepare the compilation log for processing by first removing all end-of-line characters
+          #sed ':a;N;$!ba;s/\n/\a/g' compileOut.txt
+          #awk '{printf "%s\a",$0} END {print ""}'
+          #awk NF=NF RS= OFS=\a <compileOut.txt
+          tr -d "\n" < compileOut.txt | \
+           sed -r 's/(LaTeX Error:/\x0LaTeX Error:[^.]+on input line )([0-9][0-9]*)\./\x0\2\-ERROR\-\1\2\.\a/g;s/(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.][^.]*\.)/\x0\2\-ERROR\-\1\2\a/g'
+          
           # ====================================  Set up an array that will hold all the errors and warnings listed in the _full.log
           warnErrArr=()
           ## ============= get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render.
@@ -175,13 +184,6 @@ jobs:
           #for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           ## ============= now get the warnings, but note that some of the warnings are actually errors (like figure files that are mispelled) and need to 
           # be consolidated with the associated line in the error section here
-          readarray -t res < <(grep -zoE "LaTeX Warning:[^\\.]+\\." compileOut.txt)
-          tmpstr=""
-          for (( i=0;  i<${#res[@]}; i++ )); do 
-             tmpstr="$tmpstr${res[$i]}"
-             echo "${res[$i]}"
-          done
-          echo "$tmpstr"
           #tmpstr=''
           #for (( i=0; i<${#res[@]}; i++ )); do tmpstr+="${res[$i]}"; done
           #echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
