@@ -181,7 +181,7 @@ jobs:
           sed -ir 's/[)] *[)]/ /g' core.txt
           sed -ir 's/  */ /g' core.txt
           # ===================================================== ERRORS
-          sed -r 's/(LaTeX Error:[^.][^.]*on input line )([0-9][0-9]*)\./\x0\2-ERROR-\1\2.\a/g' core.txt >> errout.txt
+          sed -r 's/(LaTeX Error:[^.][^.]*on input line )([0-9][0-9]*)\./\x0\2-ERROR-\1\2\.\a/g' core.txt >> errout.txt
           rm -f tmp.txt && sed -r 's/(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.][^.]*\.)/\x0\2-ERROR-\1\2\3\a/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           rm -f tmp.txt && sed -r 's/^[^\x0][^\x0]*\x0//i' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           rm -f tmp.txt && sed -r 's/\a.*$//i' errout.tmp > tmp.txt > tmp.txt && mv -f tmp.txt errout.txt
@@ -189,7 +189,7 @@ jobs:
           rm -f tmp.txt && sort errout.txt | uniq > tmp.txt && mv -f tmp.txt errout.txt
           # ===================================================== WARNINGS
           touch warnout.txt
-          sed -r 's/(LaTeX Warning:[^.][^.]*on input line )([0-9][0-9]*)\./\x0\2-WARNING-\1\2.\a/g' core.txt >> warnout.txt
+          sed -r 's/(LaTeX Warning:[^.][^.]*on input line )([0-9][0-9]*)\./\x0\2-WARNING-\1\2\.\a/g' core.txt >> warnout.txt          
           rm -f tmp.txt && sed -r 's/^[^\x0][^\x0]*\x0//i' warnout.txt > tmp.txt && mv -f tmp.txt warnout.txt
           rm -f tmp.txt && sed -r 's/\a.*$//i'  errout.tmp > warnout.txt > tmp.txt && mv -f tmp.txt warnout.txt
           rm -f tmp.txt && sed -r 's/\a[^\x0][^\x0]*\x0/\n/g' warnout.txt > tmp.txt && mv -f tmp.txt warnout.txt
@@ -198,41 +198,11 @@ jobs:
           
           # ====================================  Set up an array that will hold all the errors and warnings listed in the _full.log
           warnErrArr=()
-          ## ============= get the errors (in log, labelled as "LaTeX Error") that should make the pdf file not render.
-          #readarray -t res < <(grep -zoE "LaTeX Error:[^.]+\." compileOut.txt | sed -r 's/(LaTeX Error:[^.]+on input line )([0-9]+)\./\2-ERROR-\1\2\./g')
-          #for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
-          # ============= now get the items that are not labeled as 'warning' or "error", but are problems w/ associated line numbers
-          # be consolidated with the associated line in the error section here
-          #readarray -t res < <(grep -zoE "\.[^.]+\.tex:[0-9]+:[^.]+\." compileOut.txt | sed -r 's/(\.[^.]+\.tex:)([0-9]+)(:[^.]+\.)/\2-ERROR-\1\2\3/g')
-          #for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
-          ## ============= now get the warnings, but note that some of the warnings are actually errors (like figure files that are mispelled) and need to 
-          # be consolidated with the associated line in the error section here
-          #tmpstr=''
-          #for (( i=0; i<${#res[@]}; i++ )); do tmpstr+="${res[$i]}"; done
-          #echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
-          #echo $tmpstr
-          #echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
-          #readarray -t res < <(sed -r 's/\. *LaTeX Warning:/\.\nLaTeX Warning:/g' <<<"${tmpstr}")
-          #printf '%s\n' "${res[@]}"
-          #echo ''
-          #echo '=================================================================================================================================='
-          #readarray -t res < <(grep -zoE "LaTeX Warning:[^.]+\." compileOut.txt | sed -r 's/(LaTeX Warning:[^.]+on input line )([0-9]+)\./\2-WARNING-\1\2\./g')
-          #for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
           ## ============= now get the citation issues
           #readarray -t res < <(grep -zoE "Package natbib Warning: Citation[^.]+\." compileOut.txt | sed -r 's/(Package natbib Warning: Citation[^.]+on input line )([0-9]+)\./\2-BIB-\1\2\./g')
           #for (( i=0; i<${#res[@]}; i++ )); do warnErrArr[${#warnErrArr[@]}]="${res[$i]}"; done
-          #echo ''
-          #echo ''
-          #printf '%s\n' "${warnErrArr[@]}"
-          #echo ''
-          #echo ''
           ## ============== sort and remove redundances in the error/warning list
           #sorted=($( printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s ))
-          #echo ''
-          #echo ''
-          #printf '%s\n' "${sorted[@]}"
-          #echo ''
-          #echo ''
           #alllog=''
           ## ========================  make sure that all lines related to a sentence are all smooshed together into single line
           #while IFS= read -r line; do
