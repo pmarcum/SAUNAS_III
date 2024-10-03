@@ -86,6 +86,7 @@ jobs:
           rm -f usedBibfile.txt
           rm -f compileOut.txt
           rm -f errout.txt
+          rm -f core.txt
           rm -f warnout.txt
           rm -f bibout.txt
           rm -f $CORENAME.synctex.gz
@@ -170,8 +171,14 @@ jobs:
           #sed ':a;N;$!ba;s/\n/\a/g' compileOut.txt
           #awk '{printf "%s\a",$0} END {print ""}'
           #awk NF=NF RS= OFS=\a <compileOut.txt
-          tr -d "\n" < compileOut.txt | sed -r 's/\(\/home\/runner[^)][^)]*\)/ /g;s/\)\)*/ /g;s/<\/home\/runner[^>][^>]*\>/ /g;s/\[ *\]/ /g;s/\|/ /g;s/  */ /g'
-          #sed -r 's/(LaTeX Error:/\x0LaTeX Error:[^.]+on input line )([0-9][0-9]*)\./\x0\2\-ERROR\-\1\2\.\a/g;s/(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.][^.]*\.)/\x0\2\-ERROR\-\1\2\a/g'
+          touch core.txt
+          touch errout.txt
+          tr -d "\n" < compileOut.txt >> errout.txt
+          sed -ir 's/\(\/home\/runner[^)][^)]*\)/ /g;s/\)\)*/ /g;s/<\/home\/runner[^>][^>]*\>/ /g;s/\[ *\]/ /g;s/\|/ /g;s/  */ /g' core.txt
+          sed -r 's/(LaTeX Error:/\x0LaTeX Error:[^.]+on input line )([0-9][0-9]*)\./\x0\2\-ERROR\-\1\2\.\a/g' core.txt >> errout.txt
+          sed -ir 's/(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.][^.]*\.)/\x0\2\-ERROR\-\1\2\a/g' errout.txt
+          sed -ir 's/^[^\x0][^\x0]*\x0//;s/\a.*$//;s/\a[^\x0][^\x0]*\x0/\n/' errout.txt
+          cat errout.txt
           
           # ====================================  Set up an array that will hold all the errors and warnings listed in the _full.log
           warnErrArr=()
@@ -578,6 +585,9 @@ jobs:
           rm -f doesNotUsePruned.txt
           rm -f usedBibfile.txt
           rm -f compileOut.txt
+          rm -f core.txt
+          rm -f warnout.txt
+          rm -f bibout.txt
           rm -f $CORENAME.synctex.gz
           rm -f $CORENAME.out
         continue-on-error: true
