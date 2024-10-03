@@ -177,8 +177,8 @@ jobs:
           sed -r 's/\(\/home\/runner[^)][^)]*\)/ /g' errout.txt >> core.txt
           sed -ir 's/<\/home\/runner[^>][^>]*\>/ /g' core.txt
           sed -ir 's/\[ *\]/ /g' core.txt
-          #sed -ir 's/\( *\( *\(/ /g' core.txt
-          sed -ir "s/\) *\) *\)/ /g" core.txt
+          sed -ir 's/[(] *[(]/ /g' core.txt
+          sed -ir "s/[)] *[)]/ /g" core.txt
           sed -ir 's/  */ /g' core.txt
           echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 183'
           #sed -r 's/(LaTeX Error\:[^.][^.]*on input line )([0-9][0-9]*)\./\x0\2-ERROR-\1\2.\a/g' core.txt >> errout.txt
