@@ -180,9 +180,16 @@ jobs:
           sed -ir 's/\( *\( *\(/ /g' core.txt
           sed -ir 's/\) *\) *\)/ /g' core.txt
           sed -ir 's/  */ /g' core.txt
-          sed -r 's/(LaTeX Error:[^.]+on input line )([0-9][0-9]*)\./\x0\2\-ERROR\-\1\2\.\a/g' core.txt >> errout.txt
-          sed -ir 's/(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.][^.]*\.)/\x0\2\-ERROR\-\1\2\a/g' errout.txt
-          sed -ir 's/^[^\x0][^\x0]*\x0//;s/\a.*$//;s/\a[^\x0][^\x0]*\x0/\n/' errout.txt
+          sed -r 's/(LaTeX Error:[^.]+on input line )([0-9][0-9]*)\./\x0\2-ERROR-\1\2\.\a/g' core.txt >> errout.txt
+          echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 184'
+          sed -ir 's/(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.][^.]*\.)/\x0\2\-ERROR\-\1\2\3\a/g' errout.txt
+          echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 186'
+          sed -ir 's/^[^\x0][^\x0]*\x0//i' errout.txt
+          echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 188'
+          sed -ir 's/\a.*$//i' errout.txt
+          echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 190'
+          sed -ir 's/\a[^\x0][^\x0]*\x0/\n/g' errout.txt
+          echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 192'
           cat errout.txt
           
           # ====================================  Set up an array that will hold all the errors and warnings listed in the _full.log
