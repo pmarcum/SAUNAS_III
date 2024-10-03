@@ -174,29 +174,16 @@ jobs:
           touch core.txt
           touch errout.txt
           tr -d "\n" < compileOut.txt >> errout.txt
-          echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 177'
           sed -r 's/\(\/home\/runner[^)][^)]*\)/ /g' errout.txt >> core.txt
-          cat core.txt
-          echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 179'
-          sed -ir 's/[)]{2,}/ /g' core.txt
-          cat core.txt
-          echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 181'
           sed -ir 's/<\/home\/runner[^>][^>]*\>/ /g' core.txt
-          cat core.txt
-          echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 183'
           sed -ir 's/\[ *\]/ /g' core.txt
-          cat core.txt
-          echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 185'
-          sed -ir 's/\\|/ /g' core.txt
-          cat core.txt
-          echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 187'
+          sed -ir 's/\( *\( *\(/ /g' core.txt
+          sed -ir 's/\) *\) *\)/ /g' core.txt
           sed -ir 's/  */ /g' core.txt
-          cat core.txt
-          echo '>>>>>>>>>>>>>>>>>> 189'
-          #sed -r 's/(LaTeX Error:/\x0LaTeX Error:[^.]+on input line )([0-9][0-9]*)\./\x0\2\-ERROR\-\1\2\.\a/g' core.txt >> errout.txt
-          #sed -ir 's/(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.][^.]*\.)/\x0\2\-ERROR\-\1\2\a/g' errout.txt
-          #sed -ir 's/^[^\x0][^\x0]*\x0//;s/\a.*$//;s/\a[^\x0][^\x0]*\x0/\n/' errout.txt
-          #cat errout.txt
+          sed -r 's/(LaTeX Error:[^.]+on input line )([0-9][0-9]*)\./\x0\2\-ERROR\-\1\2\.\a/g' core.txt >> errout.txt
+          sed -ir 's/(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.][^.]*\.)/\x0\2\-ERROR\-\1\2\a/g' errout.txt
+          sed -ir 's/^[^\x0][^\x0]*\x0//;s/\a.*$//;s/\a[^\x0][^\x0]*\x0/\n/' errout.txt
+          cat errout.txt
           
           # ====================================  Set up an array that will hold all the errors and warnings listed in the _full.log
           warnErrArr=()
