@@ -172,21 +172,27 @@ jobs:
           #awk '{printf "%s\a",$0} END {print ""}'
           #awk NF=NF RS= OFS=\a <compileOut.txt
           touch core.txt
-          tr -d "\n" < compileOut.txt >> errout.txt
-          sed -r 's/[(]\/home\/runner[^)][^)]*[)]/ /g' errout.txt >> core.txt
+          # before removing end of line carriage returns, mark the citations that could not be found in the bib file(s)
+          sed -r 's/^ *(Citation `.*on input line )([0-9][0-9]*) *$/ \x0\2-BIB-\1\2\./g' compileOut.txt >> core.txt
+          sed -r 's/LaTeX ((Error)|(Warning)):([^.][^.]*on input line )([0-9][0-9]*)\./\x0\5-\1-LaTeX \1:\4\5\.\a/g' core.txt >> errout.txt
+          # now remove all the end of line returns
+          rm -f tmp.txt && tr -d "\n" < core.txt > tmp.txt && mv -f tmp.txt core.txt
+          # remove a lot of the lines that have noithing to do with errors and warnings, to make the next searches go faster
+          rm -f tmp.txt && sed -r 's/[(]\/home\/runner[^)][^)]*[)]/ /g' core.txt >> tmp.txt && mv -f tmp.txt core.txt
           sed -ir 's/<\/home\/runner[^>][^>]*\>/ /g' core.txt
+          # remove [] [] that are just clutter in the file
           sed -ir 's/\[ *\]/ /g' core.txt
+          # remove the ((( left behind in the above substitutions
           sed -ir 's/[(] *[(]/ /g' core.txt
+          # remove the )))) left behind in above subs
           sed -ir 's/[)] *[)]/ /g' core.txt
-          sed -ir 's/[~]/ /g' core.txt
-          sed -ir 's/\t/ /g' core.txt
+          # remove all multiple white spaces to a single white space
           sed -ir 's/  */ /g' core.txt
           touch errout.txt
           sed -r 's/LaTeX ((Error)|(Warning)):([^.][^.]*on input line )([0-9][0-9]*)\./\x0\5-\1-LaTeX \1:\4\5\.\a/g' core.txt >> errout.txt
           rm -f tmp.txt && sed -r 's/\-Error\-/-ERROR-/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           rm -f tmp.txt && sed -r 's/\-Warning\-/-WARNING-/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           rm -f tmp.txt && sed -r 's/(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.][^.]*\.)/\x0\2-ERROR-\1\2\3\a/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
-          rm -f tmp.txt && sed -r 's/(Package natbib Warning: Citation[^.][^.]*on input line )([0-9][0-9]*)\./\x0\2-BIB-\1\2\.\a/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           rm -f tmp.txt && sed -r 's/^[^\x0]*\x0//' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           rm -f tmp.txt && sed -r 's/\a[^\a]*$//' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           rm -f tmp.txt && sed -r 's/\a[^\x0]*\x0/\n/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
