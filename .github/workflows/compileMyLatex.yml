@@ -182,15 +182,13 @@ jobs:
           sed -ir 's/  */ /g' core.txt
           sed -r 's/(LaTeX Error:[^.][^.]*on input line )([0-9][0-9]*)\./\x0\2-ERROR-\1\2.\a/g' core.txt >> errout.txt
           echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 184'
-          sed -r 's/([.][^.][^.]*[.]tex[:])/\x0\1-ERROR-\1\a/g' errout.txt
-          cat errout.txt
-          #sed -ir 's/([.][^.][^.]*[.]tex[:])([0-9][0-9]*)([:][^.][^.]*[.])/\x0\2-ERROR-\1\2\3\a/g' errout.txt
+          rm -f tmp.tmp && sed -r 's/(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.][^.]*\.)/\x0\2-ERROR-\1\2\3\a/g' tmp.tmp && mv -f tmp.tmp errout.txt
           echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 186'
-          sed -ir 's/^[^\x0][^\x0]*\x0//i' errout.txt
+          rm -f tmp.tmp && sed -r 's/^[^\x0][^\x0]*\x0//i' tmp.tmp && mv -f tmp.tmp errout.txt
           echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 188'
-          sed -ir 's/\a.*$//i' errout.txt
+          rm -f tmp.tmp && sed -r 's/\a.*$//i' tmp.tmp && mv -f tmp.tmp errout.txt
           echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 190'
-          sed -ir 's/\a[^\x0][^\x0]*\x0/\n/g' errout.txt
+          rm -f tmp.tmp && sed -r 's/\a[^\x0][^\x0]*\x0/\n/g' tmp.tmp && mv -f tmp.tmp errout.txt
           echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 192'
           cat errout.txt
           
