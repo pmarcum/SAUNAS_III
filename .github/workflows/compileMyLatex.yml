@@ -170,7 +170,7 @@ jobs:
           #sed ':a;N;$!ba;s/\n/\a/g' compileOut.txt
           #awk '{printf "%s\a",$0} END {print ""}'
           #awk NF=NF RS= OFS=\a <compileOut.txt
-          tr -d "\n" < compileOut.txt
+          tr -d "\n" < compileOut.txt | sed -r 's/\(\/home\/runner[^)][^)]*\)//g'
           #sed -r 's/(LaTeX Error:/\x0LaTeX Error:[^.]+on input line )([0-9][0-9]*)\./\x0\2\-ERROR\-\1\2\.\a/g;s/(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.][^.]*\.)/\x0\2\-ERROR\-\1\2\a/g'
           
           # ====================================  Set up an array that will hold all the errors and warnings listed in the _full.log
