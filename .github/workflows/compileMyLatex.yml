@@ -187,7 +187,7 @@ jobs:
           sed -ir 's/\[ *\]/ /g' core.txt
           cat core.txt
           echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 185'
-          sed -ir 's/\|/ /g' core.txt
+          sed -ir 's/\\|/ /g' core.txt
           cat core.txt
           echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 187'
           sed -ir 's/  */ /g' core.txt
