@@ -181,29 +181,30 @@ jobs:
           sed -ir 's/[)] *[)]/ /g' core.txt
           sed -ir 's/  */ /g' core.txt
           # ===================================================== ERRORS
-          sed -r 's/(LaTeX Error:[^.][^.]*on input line )([0-9][0-9]*)\./\x0\2-ERROR-\1\2\.\a/g' core.txt >> errout.txt
-          rm -f tmp.txt && sed -r 's/(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.][^.]*\.)/\x0\2-ERROR-\1\2\3\a/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
+          sed -r 's/LaTeX ((?:Error)|(?:Warning)):([^.][^.]*on input line )([0-9][0-9]*)\./\x0\3-LaTeX \1:\2\3\.\a/g' core.txt >> errout.txt
+          rm -f tmp.txt && sed -r 's/(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.][^.]*\.)/\x0\2-Error-\1\2\3\a/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           rm -f tmp.txt && sed -r 's/^[^\x0][^\x0]*\x0//i' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           rm -f tmp.txt && sed -r 's/\a[^\a][^\a]*$//i' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           rm -f tmp.txt && sed -r 's/\a[^\x0][^\x0]*\x0/\n/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           rm -f tmp.txt && sort errout.txt | uniq > tmp.txt && mv -f tmp.txt errout.txt
+          cat errout.txt
           # ===================================================== WARNINGS
-          touch warnout.txt
-          sed -r 's/(LaTeX Warning:[^.][^.]*on input line )([0-9][0-9]*)\./\x0\2-WARNING-\1\2\.\a/g' core.txt >> warnout.txt
-          echo "----------------------------------------------------------------------------------------------------- 193"
-          cat warnout.txt
-          rm -f tmp.txt && sed -r 's/^[^\x0][^\x0]*\x0//i' warnout.txt > tmp.txt && mv -f tmp.txt warnout.txt
-          echo "------------------------------------------------------------------------------------------ 195"
-          cat warnout.txt
-          rm -f tmp.txt && sed -r 's/\a[^\a][^\a]*$//i' warnout.txt > tmp.txt && mv -f tmp.txt warnout.txt
-          echo "------------------------------------------------------------------------------- 199"
-          cat warnout.txt
-          rm -f tmp.txt && sed -r 's/\a[^\x0][^\x0]*\x0/\n/g' warnout.txt > tmp.txt && mv -f tmp.txt warnout.txt
-          echo "------------------------------------------------------------------- 202"
-          cat warnout.txt
-          rm -f tmp.txt && sort warnout.txt | uniq > tmp.txt && mv -f tmp.txt warnout.txt
-          echo "------------------------------------------------------ 205"
-          cat warnout.txt
+          #touch warnout.txt
+          #sed -r 's/(LaTeX Warning:[^.][^.]*on input line )([0-9][0-9]*)\./\x0\2-WARNING-\1\2\.\a/g' core.txt >> warnout.txt
+          #echo "----------------------------------------------------------------------------------------------------- 193"
+          #cat warnout.txt
+          #rm -f tmp.txt && sed -r 's/^[^\x0][^\x0]*\x0//i' warnout.txt > tmp.txt && mv -f tmp.txt warnout.txt
+          #echo "------------------------------------------------------------------------------------------ 195"
+          #cat warnout.txt
+          #rm -f tmp.txt && sed -r 's/\a[^\a][^\a]*$//i' warnout.txt > tmp.txt && mv -f tmp.txt warnout.txt
+          #echo "------------------------------------------------------------------------------- 199"
+          #cat warnout.txt
+          #rm -f tmp.txt && sed -r 's/\a[^\x0][^\x0]*\x0/\n/g' warnout.txt > tmp.txt && mv -f tmp.txt warnout.txt
+          #echo "------------------------------------------------------------------- 202"
+          #cat warnout.txt
+          #rm -f tmp.txt && sort warnout.txt | uniq > tmp.txt && mv -f tmp.txt warnout.txt
+          #echo "------------------------------------------------------ 205"
+          #cat warnout.txt
           
           # ====================================  Set up an array that will hold all the errors and warnings listed in the _full.log
           warnErrArr=()
