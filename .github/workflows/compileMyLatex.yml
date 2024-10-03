@@ -193,6 +193,8 @@ jobs:
           rm -f tmp.txt && sort -r -t- -g -k1,1n -k2 -s errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           #sorted=($( printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s ))
           cat errout.txt
+          #Latexmk: ====Undefined refs and citations with line #s in .tex file:
+          #Citation `erwin2017mnras468_2058' on page 1 undefined on input line 64
           # ====================================  Set up an array that will hold all the errors and warnings listed in the _full.log
           warnErrArr=()
           ## ============= now get the citation issues
