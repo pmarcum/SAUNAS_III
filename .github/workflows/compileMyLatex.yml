@@ -190,7 +190,7 @@ jobs:
           rm -f tmp.txt && sed -r 's/^[^\x0]*\x0//' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           rm -f tmp.txt && sed -r 's/\a[^\a]*$//' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           rm -f tmp.txt && sed -r 's/\a[^\x0]*\x0/\n/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
-          rm -f tmp.txt && sort errout.txt | uniq > tmp.txt && mv -f tmp.txt errout.txt
+          rm -f tmp.txt && sort -r -t- -g -k1,1n -k2 -s errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           #sorted=($( printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s ))
           cat errout.txt
           # ====================================  Set up an array that will hold all the errors and warnings listed in the _full.log
