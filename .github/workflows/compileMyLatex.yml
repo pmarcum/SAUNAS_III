@@ -218,6 +218,13 @@ jobs:
              echo "              ${banners[$i]} IN $TEXFILE" >> tout.txt
              echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
              issue=""
+             echo "${sorted[0]}"
+             echo "-${errtypes[0]}-"
+             if [[ "${sorted[0]}" =~ "-${errtypes[0]}-" ]]; then
+                echo "this one needs to be processed"
+             else
+                echo "this one is going to be skipped"
+             fi
              for (( i=0; i<${#sorted[@]}; i++ )); do
                 if [[ "${sorted[$i]}" =~ "-${errtypes[$i]}-" ]]; then 
                    issue="${sorted[$i]}"
