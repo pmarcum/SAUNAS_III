@@ -222,7 +222,7 @@ jobs:
                 if [[ "${sorted[$i]}" =~ "-${errtypes[$i]}-" ]]; then 
                    issue="${sorted[$i]}"
                    if [ "${errtypes[$i]}" =~ "ERROR" ]; then touch thereAreErrors.txt; fi
-                   break; fi
+                   break;
                 fi
              done
              echo "issue: $issue"
