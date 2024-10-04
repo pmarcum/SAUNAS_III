@@ -202,123 +202,104 @@ jobs:
         run: |
           readarray -t sorted < errout.txt
           printf '%s\n' "${sorted[@]}"
-          # ===================== Now add the relevant line number to front of each error/warning line that specifies a line number
-          #
-          #      if [[ "${warnErrArr[$i]}" =~ "LaTeX Error" ]]; then
-          #          tmp="0-ERROR-$blanks" 
-          #      elif [[ "${warnErrArr[$i]}" =~ "natbib" ]]; then
-          #          tmp="0-BIB-$blanks"
-          #      elif [[ "${warnErrArr[$i]}" =~ "undefined" ]]; then
-          #          tmp="0-ERROR-$blanks"
-          #      elif [[ "${warnErrArr[$i]}" =~ "Undefined" ]]; then
-          #          tmp="0-ERROR-$blanks"
-          #      else
-          #          tmp="0-WARNING-$blanks"
-          #      fi
-          #   fi
-          #   warnErrArr[$i]="$tmp"
-          #done
-          #
           #  #######################   START CONSOLIDATING THE ERRORS ###################
+          touch tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          echo "              FATAL ERRORS IN $TEXFILE" >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          error=""
+          for (( i=0; i<${#sorted[@]}; i++ )); do
+            if [[ "${sorted[$i]}" =~ "-ERROR-" ]]; then error="${sorted[$i]}"; touch thereAreErrors.txt; break; fi
+          done
+          # if there were no errors, then put 'none'
+          if [ ! -f thereAreErrors.txt ]; then echo "      none" >> tout.txt; fi
+          while  [ "$error" != "" ]; do
+            linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$error" )
+            if [[ $linenum > 0 ]]; then
+               # look for all occurances of this line number in the error/warning list
+               for (( i=0; i<${#sorted[@]}; i++ )); do
+                   if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$i]}" )$?" == 0 ]]; then
+                      line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
+                      echo $line >> tout.txt
+                      # remove this item from the list
+                      sorted[$i]="DONE"
+                   fi
+               done
+               # now look up the line in the .tex file and place underneath
+               echo "line #$linenum ----------------------- " >> tout.txt
+               head -n $linenum "$TEXFILE" | tail -1 >> tout.txt
+            else
+               # look up where this line is in the list and remove it from the list
+               for (( i=0; i<${#sorted[@]}; i++ )); do
+                   if [[ "${sorted[$i]}" =~ "$error" ]]; then
+                     line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
+                     echo $line >> tout.txt
+                     # remove from list
+                     sorted[$i]="DONE"
+                  fi
+               done
+            fi
+            # See if any more errors remain in the list and need to be processed in the next loop iteration
+            error=""
+            for (( i=0; i<${#sorted[@]}; i++ )); do
+               if [[ "${sorted[$i]}" =~ "-ERROR-" ]]; then error="${sorted[$i]}"; break; fi
+            done
+            echo "=------------------------------------------------------------------------" >> tout.txt
+          done
           #
-          #touch tout.txt
-          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          #echo "              FATAL ERRORS IN $TEXFILE" >> tout.txt
-          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          #error=""
-          #for (( i=0; i<${#sorted[@]}; i++ )); do
-          #  if [[ "${sorted[$i]}" =~ "-ERROR-" ]]; then error="${sorted[$i]}"; touch thereAreErrors.txt; break; fi
-          #done
-          ## if there were no errors, then put 'none'
-          #if [ ! -f thereAreErrors.txt ]; then echo "      none" >> tout.txt; fi
-          #while  [ "$error" != "" ]; do
-          #  linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$error" )
-          #  if [[ $linenum > 0 ]]; then
-          #     # look for all occurances of this line number in the error/warning list
-          #     for (( i=0; i<${#sorted[@]}; i++ )); do
-          #         if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$i]}" )$?" == 0 ]]; then
-          #            line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
-          #            echo $line >> tout.txt
-          #            # remove this item from the list
-          #            sorted[$i]="DONE"
-          #         fi
-          #     done
-          #     # now look up the line in the .tex file and place underneath
-          #     echo "line #$linenum ----------------------- " >> tout.txt
-          #     head -n $linenum "$TEXFILE" | tail -1 >> tout.txt
-          #  else
-          #     # look up where this line is in the list and remove it from the list
-          #     for (( i=0; i<${#sorted[@]}; i++ )); do
-          #         if [[ "${sorted[$i]}" =~ "$error" ]]; then
-          #           line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
-          #           echo $line >> tout.txt
-          #           # remove from list
-          #           sorted[$i]="DONE"
-          #        fi
-          #     done
-          #  fi
-          #  # See if any more errors remain in the list and need to be processed in the next loop iteration
-          #  error=""
-          #  for (( i=0; i<${#sorted[@]}; i++ )); do
-          #     if [[ "${sorted[$i]}" =~ "-ERROR-" ]]; then error="${sorted[$i]}"; break; fi
-          #  done
-          #  echo "=------------------------------------------------------------------------" >> tout.txt
-          #done
-          ##
-          ##  ######################   START CONSOLIDATING THE WARNINGS ########################
-          ##
-          #echo "" >> tout.txt
-          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          #echo "              WARNINGS IN $TEXFILE" >> tout.txt
-          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          #warning=""
-          #for (( i=0; i<${#sorted[@]}; i++ )); do
-          #  line="${sorted[$i]}"
-          #  if [[ "$line" =~ "-WARNING-" ]]; then warning="$line"; break; fi
-          #done
-          ## if there were no errors, then put 'none'
-          #if [[ "$warning" = "" ]]; then echo "      none" >> tout.txt; fi
-          #while  [ "$warning" != "" ]; do
-          #  linenum=$(sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$warning")
-          #  if [[ $linenum > 0 ]]; then
-          #     # look for all occurances of this line number in the error/warning list
-          #     for (( i=0; i<${#sorted[@]}; i++ )); do
-          #         if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$i]}" )$?" == 0 ]]; then
-          #            line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
-          #            echo $line >> tout.txt
-          #            # remove this item from the list
-          #            sorted[$i]="DONE"
-          #         fi
-          #     done
-          #     # now look up the line in the .tex file and place underneath
-          #     echo "Line #$linenum ----------------------- " >> tout.txt
-          #     head -n $linenum "$TEXFILE" | tail -1 >> tout.txt
-          #  else
-          #     # look up where this line is in the list and remove it from the list
-          #     for (( i=0; i<${#sorted[@]}; i++ )); do
-          #         if [[ "${sorted[$i]}" =~ "$warning" ]]; then
-          #           line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
-          #           echo $line >> tout.txt
-          #           # remove from list
-          #           sorted[$i]="DONE"
-          #        fi
-          #     done
-          #  fi
-          #  # See if any more errors remain in the list and need to be processed in the next loop iteration
-          #  warning=""
-          #  for (( i=0; i<${#sorted[@]}; i++ )); do
-          #     line="${sorted[$i]}"
-          #     if [[ "$line" =~ "-WARNING-" ]]; then warning="$line"; break; fi
-          #  done
-          #  echo "-------------------------------------------------------------------------" >> tout.txt
-          #done
-          ##
-          ##  ##########################   START CITATION PROBLEMS ##########################
-          ##
-          #echo " " >> tout.txt
-          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-          #echo "              CITATION ISSUES IN $TEXFILE" >> tout.txt
-          #echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          #  ######################   START CONSOLIDATING THE WARNINGS ########################
+          #
+          echo "" >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          echo "              WARNINGS IN $TEXFILE" >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          warning=""
+          for (( i=0; i<${#sorted[@]}; i++ )); do
+             if [["${sorted[$i]}" =~ "-WARNING-" ]]; then warning="$line"; break; fi
+          done
+          # if there were no warnings, then put 'none'
+          if [[ "$warning" = "" ]]; then echo "      none" >> tout.txt; fi
+          while  [ "$warning" != "" ]; do
+            linenum=$(sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$warning")
+            if [[ $linenum > 0 ]]; then
+               # look for all occurances of this line number in the error/warning list
+               for (( i=0; i<${#sorted[@]}; i++ )); do
+                   if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$i]}" )$?" == 0 ]]; then
+                      line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
+                      echo $line >> tout.txt
+                      # remove this item from the list
+                      sorted[$i]="DONE"
+                   fi
+               done
+               # now look up the line in the .tex file and place underneath
+               echo "Line #$linenum ----------------------- " >> tout.txt
+               head -n $linenum "$TEXFILE" | tail -1 >> tout.txt
+            else
+               # look up where this line is in the list and remove it from the list
+               for (( i=0; i<${#sorted[@]}; i++ )); do
+                   if [[ "${sorted[$i]}" =~ "$warning" ]]; then
+                     line="$( echo "${sorted[$i]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
+                     echo $line >> tout.txt
+                     # remove from list
+                     sorted[$i]="DONE"
+                  fi
+               done
+            fi
+            # See if any more errors remain in the list and need to be processed in the next loop iteration
+            warning=""
+            for (( i=0; i<${#sorted[@]}; i++ )); do
+               line="${sorted[$i]}"
+               if [[ "$line" =~ "-WARNING-" ]]; then warning="$line"; break; fi
+            done
+            echo "-------------------------------------------------------------------------" >> tout.txt
+          done
+          #
+          #  ##########################   START CITATION PROBLEMS ##########################
+          #
+          echo " " >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+          echo "              CITATION ISSUES IN $TEXFILE" >> tout.txt
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
           #biberr=""
           #for (( i=0; i<${#sorted[@]}; i++ )); do
           #  line="${sorted[$i]}"
@@ -360,7 +341,8 @@ jobs:
           #  done
           #  echo "-------------------------------------------------------------------------" >> tout.txt
           #done
-          #echo "-------------------------------------------------------------------------" >> tout.txt 
+          #echo "-------------------------------------------------------------------------" >> tout.txt
+          cat tout.txt
         continue-on-error: true
           
       - name: Gather up list of references
