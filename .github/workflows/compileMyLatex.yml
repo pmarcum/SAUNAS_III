@@ -193,6 +193,7 @@ jobs:
           rm -f tmp.txt && sed -r 's/\a[^\a]*$//' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           rm -f tmp.txt && sed -r 's/\a[^\x0]*\x0/\n/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           rm -f tmp.txt && sed -r 's/ /\a/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
+          cat errout.txt
           # ============== sort and remove redundances in the error/warning list
           rm -f tmp.txt && cat errout.txt | sort -r -t- -g -k1,1n -k2 -s -u | sed -r 's/\a/ /g' > tmp.txt && mv -f tmp.txt errout.txt
         continue-on-error: true
@@ -219,11 +220,13 @@ jobs:
              echo "              ${banners[$i]} IN $TEXFILE" >> tout.txt
              echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
              issue=""
-             if [ "${errtypes[$i]}" =~ "ERROR" ]; then
-                for (( i=0; i<${#sorted[@]}; i++ )); do
-                   if [[ "${sorted[$i]}" =~ "-${errtypes[$i]}-" ]]; then issue="${sorted[$i]}"; touch thereAreErrors.txt; break; fi
-                done
-             fi
+             for (( i=0; i<${#sorted[@]}; i++ )); do
+                if [[ "${sorted[$i]}" =~ "-${errtypes[$i]}-" ]]; then 
+                   issue="${sorted[$i]}"
+                   if [ "${errtypes[$i]}" =~ "ERROR" ]; then touch thereAreErrors.txt; fi
+                   break; fi
+                fi
+             done
              # if there were no issues, then put 'none'
              if [[ "$issue" = "" ]]; then echo "      none" >> tout.txt; fi
              while  [ "$issue" != "" ]; do
