@@ -1,0 +1,7 @@
+36-WARNING-LaTeX Warning: \include should only be used after \begin{document} on input line 36.
+36-WARNING-LaTeX Warning: \include should only be used after \begin{document} on input line 36.
+36-WARNING-LaTeX Warning: \include should only be used after \begin{document} on input line 36.
+36-WARNING-LaTeX Warning: \include should only be used after \begin{document} on input line 36.
+72-WARNING-LaTeX Warning: Reference `subsub:goals' on page 1 undefined on input line 72.
+91-WARNING-LaTeX Warning: Reference `fig:NGC5084_spectra_regions' on page 1 undefined on input line 91.
+91-WARNING-LaTeX Warning: Reference `subsub:goals' on page 1 undefined on input line 91.
