@@ -173,10 +173,10 @@ jobs:
           #awk NF=NF RS= OFS=\a <compileOut.txt
           touch core.txt
           # before removing end of line carriage returns, mark the citations that could not be found in the bib file(s)
-          #sed -r 's/^ *(Citation `[[:print:]]*on input line )([0-9][0-9]*) *$/ \x0\2-BIB-\1\2\.\a/g' compileOut.txt >> core.txt
+          sed -r 's/^ *(Citation `[[:print:]]*on input line )([0-9][0-9]*) *$/ \x0\2-BIB-\1\2\.\a/g' compileOut.txt >> core.txt
           # now remove all the end of line returns
-          #rm -f tmp.txt && tr -d "\n" < core.txt > tmp.txt && mv -f tmp.txt core.txt
-          tr -d "\n" < compileOut.txt >> core.txt
+          rm -f tmp.txt && tr -d "\n" < core.txt > tmp.txt && mv -f tmp.txt core.txt
+          #tr -d "\n" < compileOut.txt >> core.txt
           # remove a lot of the lines that have noithing to do with errors and warnings, to make the next searches go faster
           sed -ir 's/[(]\/home\/runner[^)][^)]*[)]/ /g' core.txt
           sed -ir 's/<\/home\/runner[^>][^>]*\>/ /g' core.txt
