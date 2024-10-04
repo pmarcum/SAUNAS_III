@@ -168,9 +168,6 @@ jobs:
       - name: Capture full compilation output
         run: |
           # prepare the compilation log for processing by first removing all end-of-line characters
-          #sed ':a;N;$!ba;s/\n/\a/g' compileOut.txt
-          #awk '{printf "%s\a",$0} END {print ""}'
-          #awk NF=NF RS= OFS=\a <compileOut.txt
           touch core.txt
           # before removing end of line carriage returns, mark the citations that could not be found in the bib file(s)
           sed -r 's/^ *(Citation `[[:print:]]*on input line )([0-9][0-9]*) *$/ \x0\2-BIB-\1\2\.\a/g' compileOut.txt >> core.txt
@@ -195,9 +192,9 @@ jobs:
           rm -f tmp.txt && sed -r 's/^[^\x0]*\x0//' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           rm -f tmp.txt && sed -r 's/\a[^\a]*$//' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           rm -f tmp.txt && sed -r 's/\a[^\x0]*\x0/\n/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
-          rm -f tmp.txt && sort -r -t- -g -k1,1n -k2 -s errout.txt > tmp.txt && mv -f tmp.txt errout.txt
+          rm -f tmp.txt && sed -r 's/ /\a/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           readarray -t warnErrArr < errout.txt
-          #sorted=($( printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s ))
+          sorted=($( printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s ))
           printf '%s\n' "${warnErrArr[@]}"
           # ====================================  Set up an array that will hold all the errors and warnings listed in the _full.log
           warnErrArr=()
