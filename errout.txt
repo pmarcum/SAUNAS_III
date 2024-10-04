@@ -1,9 +1,0 @@
-36-WARNING-LaTeXWarning:\includeshouldonlybeusedafter\begin{document}oninputline36.
-72-WARNING-LaTeXWarning:Reference`subsub:goals'onpage1undefinedoninputline72.
-91-WARNING-LaTeXWarning:Reference`fig:NGC5084_spectra_regions'onpage1undefinedoninputline91.
-91-WARNING-LaTeXWarning:Reference`subsub:goals'onpage1undefinedoninputline91.
-36-WARNING-LaTeXWarning:\includeshouldonlybeusedafter\begin{document}oninputline36.
-36-WARNING-LaTeXWarning:\includeshouldonlybeusedafter\begin{document}oninputline36.
-36-WARNING-LaTeXWarning:\includeshouldonlybeusedafter\begin{document}oninputline36.
-64-BIB-Citation`erwin2017mnras468_2058'onpage1undefinedoninputline64.
-74-BIB-Citation`zucca2006aap455_879'onpage1undefinedoninputline74.
