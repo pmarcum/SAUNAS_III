@@ -225,49 +225,69 @@ jobs:
              else
                 echo "this one is going to be skipped"
              fi
+             echo '228'
              for (( j=0; j<${#sorted[@]}; j++ )); do
+                echo '230'
                 if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then 
                    issue="${sorted[$j]}"
+                   echo '233'
                    if [ "${errtypes[$i]}" =~ "ERROR" ]; then touch thereAreErrors.txt; fi
                    break;
                 fi
+                echo '237'
              done
              echo "issue: $issue"
              # if there were no issues, then put 'none'
+             echo '241'
              if [[ "$issue" = "" ]]; then echo "      none" >> tout.txt; fi
+             echo '243'
              while  [ "$issue" != "" ]; do
                linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$issue" )
                echo "          linenum: $linenum"
+               echo '247'
                if [[ $linenum > 0 ]]; then
                   # look for all occurances of this line number in the error/warning list
+                  echo '250'
                   for (( j=0; j<${#sorted[@]}; j++ )); do
+                     echo '252'
                      if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$j]}" )$?" == 0 ]]; then
+                        echo '254'
                         line="$( echo "${sorted[$j]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' )"
                         echo $line >> tout.txt
                         # remove this item from the list
                         sorted[$j]="DONE"
                      fi
+                     echo '260'
                   done
                   # now look up the line in the .tex file and place underneath
                   echo "line #$linenum ----------------------- " >> tout.txt
                   head -n $linenum "$TEXFILE" | tail -1 >> tout.txt
                else
                   # look up where this line is in the list and remove it from the list
+                  echo '267'
                   for (( j=0; j<${#sorted[@]}; j++ )); do
+                     echo '269'
                      echo "sorted[$j]: ${sorted[$j]}  and issue: $issue"
                      if [[ "${sorted[$j]}" =~ "$issue" ]]; then
+                        echo '272'
                         line="$( echo "${sorted[$j]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' )"
                         echo $line >> tout.txt
                         # remove from list
                         sorted[$j]="DONE"
                      fi
+                     echo '277'
                   done
+                  echo '280'
                fi
                # See if any more issue remain in the list and need to be processed in the next loop iteration
                issue=""
+               echo '284'
                for (( j=0; j<${#sorted[@]}; j++ )); do
+                  echo '286'
                   if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then issue="${sorted[$j]}"; break; fi
+                  echo '288'
                done
+               echo '290'
                echo "=------------------------------------------------------------------------" >> tout.txt
              done
           done
