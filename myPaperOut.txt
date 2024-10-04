@@ -1,0 +1,10 @@
+2024-10-04T06:33:41Z 1728023621257
+LATEX COMPILATION ERRORS and WARNINGS
+
+To view full GitHub Actions output, click on item at top of list here:
+https://github.com/pmarcum/SAUNAS_III/actions/runs/11175175671/job/31066065363
+====================================================================================================
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              LIST OF REFERENCES IN myPaper.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
