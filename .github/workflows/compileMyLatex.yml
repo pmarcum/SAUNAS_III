@@ -225,9 +225,9 @@ jobs:
              else
                 echo "this one is going to be skipped"
              fi
-             for (( i=0; i<${#sorted[@]}; i++ )); do
-                if [[ "${sorted[$i]}" =~ "-${errtypes[$i]}-" ]]; then 
-                   issue="${sorted[$i]}"
+             for (( j=0; j<${#sorted[@]}; j++ )); do
+                if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then 
+                   issue="${sorted[$j]}"
                    if [ "${errtypes[$i]}" =~ "ERROR" ]; then touch thereAreErrors.txt; fi
                    break;
                 fi
@@ -266,7 +266,7 @@ jobs:
                # See if any more issue remain in the list and need to be processed in the next loop iteration
                issue=""
                for (( j=0; j<${#sorted[@]}; j++ )); do
-                  if [[ "${sorted[$j]}" =~ "-${errtypes[$j]}-" ]]; then issue="${sorted[$j]}"; break; fi
+                  if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then issue="${sorted[$j]}"; break; fi
                done
                echo "=------------------------------------------------------------------------" >> tout.txt
              done
