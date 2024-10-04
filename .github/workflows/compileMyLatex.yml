@@ -152,6 +152,7 @@ jobs:
           # In the first one or two iterations of the latex compilation, bibliography references wont be resolved but rather
           # will appear as errors in the compilation log.  Use those errors to get a list of all  citations in the paper
           readarray -t cites < <( grep 'Package natbib Warning: Citation `' compileOut.txt | sed -r 's/^[^`][^`]*`//g;s/'\''.*$//g' | sort -f -u )
+          # stuff this list into a file to retrieve later for the output file
           printf "%s\n" "${cites[@]}" > cites.txt
           if $makeNewPrunedBib; then
              # any plus signs in the citation bib code causes problems because they are not escaped. The  below substitutes all plus signs and 
