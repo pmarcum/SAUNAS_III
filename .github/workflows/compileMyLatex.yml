@@ -200,7 +200,6 @@ jobs:
       - name: Process the errors and warnings
         # remove lines in the output that are unrelated to the latex compilation itself
         run: |
-          cat errout.txt
           readarray -t sorted < errout.txt
           echo ''
           echo ''
@@ -226,15 +225,17 @@ jobs:
                    break; fi
                 fi
              done
+             echo "issue: $issue"
              # if there were no issues, then put 'none'
              if [[ "$issue" = "" ]]; then echo "      none" >> tout.txt; fi
              while  [ "$issue" != "" ]; do
                linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$issue" )
+               echo "          linenum: $linenum"
                if [[ $linenum > 0 ]]; then
                   # look for all occurances of this line number in the error/warning list
                   for (( j=0; j<${#sorted[@]}; j++ )); do
                      if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$j]}" )$?" == 0 ]]; then
-                        line="$( echo "${sorted[$j]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
+                        line="$( echo "${sorted[$j]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' )"
                         echo $line >> tout.txt
                         # remove this item from the list
                         sorted[$j]="DONE"
@@ -246,8 +247,9 @@ jobs:
                else
                   # look up where this line is in the list and remove it from the list
                   for (( j=0; j<${#sorted[@]}; j++ )); do
+                     echo "sorted[$j]: ${sorted[$j]}  and issue: $issue"
                      if [[ "${sorted[$j]}" =~ "$issue" ]]; then
-                        line="$( echo "${sorted[$j]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' | sed -r 's/ZZ/ /g' )"
+                        line="$( echo "${sorted[$j]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' )"
                         echo $line >> tout.txt
                         # remove from list
                         sorted[$j]="DONE"
