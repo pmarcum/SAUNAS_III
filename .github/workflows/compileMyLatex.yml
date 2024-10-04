@@ -198,8 +198,8 @@ jobs:
           rm -f tmp.txt && sed -r 's/\a[^\x0]*\x0/\n/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           rm -f tmp.txt && sort -r -t- -g -k1,1n -k2 -s errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           readarray -t warnErrArr < errout.txt
-          sorted=($( printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s ))
-          printf '%s\n' "${sorted[@]}"
+          #sorted=($( printf '%s\n' "${warnErrArr[@]}" | sort -r -t- -g -k1,1n -k2 -s ))
+          printf '%s\n' "${warnErrArr[@]}"
           # ====================================  Set up an array that will hold all the errors and warnings listed in the _full.log
           warnErrArr=()
           ## ============= now get the citation issues
