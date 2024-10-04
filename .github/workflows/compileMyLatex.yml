@@ -231,7 +231,7 @@ jobs:
                 if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then 
                    issue="${sorted[$j]}"
                    echo '233'
-                   if [ "${errtypes[$i]}" =~ "ERROR" ]; then touch thereAreErrors.txt; fi
+                   if [[ "${errtypes[$i]}" =~ "ERROR" ]]; then touch thereAreErrors.txt; fi
                    break;
                 fi
                 echo '237'
