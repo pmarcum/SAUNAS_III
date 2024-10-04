@@ -1,6 +1,0 @@
-36-WARNING-LaTeX Warning: \include should only be used after \begin{document} on input line 36.
-65-BIB-Citation `erwin2017mnras468_2058' on page 1 undefined on input line 65.
-73-WARNING-LaTeX Warning: Reference `subsub:goals' on page 1 undefined on input line 73.
-75-BIB-Citation `zucca2006aap455_879' on page 1 undefined on input line 75.
-92-WARNING-LaTeX Warning: Reference `fig:NGC5084_spectra_regions' on page 1 undefined on input line 92.
-147-ERROR-./myPaper.tex:147: LaTeX Error: \begin{center} on input line 60 ended by \end{document}.
