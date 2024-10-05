@@ -1,8 +1,14 @@
+2024-10-05T02:25:16Z 1728095116291
+LATEX COMPILATION ERRORS and WARNINGS
+
+To view full GitHub Actions output, click on item at top of list here:
+https://github.com/pmarcum/SAUNAS_III/actions/runs/11189643748/job/31110277380
+
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               FATAL ERRORS IN myPaper.tex
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 ./myPaper.tex:147: LaTeX Error: \begin{center} on input line 60 ended by \end{document}.
-line #60 ----------------------- 
+Line #60 ----------------------- 
 \begin{center}
 ________________________________________________________________________
  
@@ -10,17 +16,16 @@ ________________________________________________________________________
               WARNINGS IN myPaper.tex
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 LaTeX Warning: Reference `subsub:goals' on page 1 undefined on input line 69.
-line #69 ----------------------- 
-Will this turn grey ?? see Fig.\ref{fig:NGC5084_spectra_regions} in 
-Sect.\ref{subsub:goals} 
+Line #69 ----------------------- 
+Will this turn grey ?? see Fig.\ref{fig:NGC5084_spectra_regions} in Sect.\ref{subsub:goals} 
 ________________________________________________________________________
 LaTeX Warning: Reference `sec:methods' on page 1 undefined on input line 71.
 LaTeX Warning: Reference `tab:Observations' on page 1 undefined on input line 71.
-line #71 ----------------------- 
+Line #71 ----------------------- 
 Refer to Table\ref{tab:Observations} in Section\ref{sec:methods} 
 ________________________________________________________________________
 LaTeX Warning: Reference `subsub:goals' on page 1 undefined on input line 92.
-line #92 ----------------------- 
+Line #92 ----------------------- 
 By looking at Fig\ref{fig:NGC5084_spectra_regions} (see \ref{subsub:goals})
 ________________________________________________________________________
  
@@ -29,13 +34,12 @@ ________________________________________________________________________
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 Citation `erwin2017mnras468_2058' on page 1 undefined on input line 65.
 Citation `falchi2016an2_1600377' on page 1 undefined on input line 65.
-line #65 ----------------------- 
+Line #65 ----------------------- 
 The second sentence in the intro \citep{erwin2017mnras468_2058, falchi2016an2_1600377}.
 ________________________________________________________________________
 Citation `zucca2006aap455_879' on page 1 undefined on input line 75.
-line #75 ----------------------- 
-Adding another sentence to see if the recompilation will show the new stuff. 
-\citep{zucca2006aap455_879} 
+Line #75 ----------------------- 
+Adding another sentence to see if the recompilation will show the new stuff. \citep{zucca2006aap455_879} 
 ________________________________________________________________________
  
 

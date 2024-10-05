@@ -1,7 +1,10 @@
-73-WARNING-LaTeX Warning: Reference `subsub:goals' on page 1 undefined on input line 73.
+69-WARNING-LaTeX Warning: Reference `subsub:goals' on page 1 undefined on input line 69.
+71-WARNING-LaTeX Warning: Reference `sec:methods' on page 1 undefined on input line 71.
 92-WARNING-LaTeX Warning: Reference `subsub:goals' on page 1 undefined on input line 92.
 60-ERROR-./myPaper.tex:147: LaTeX Error: \begin{center} on input line 60 ended by \end{document}.
+71-WARNING-LaTeX Warning: Reference `tab:Observations' on page 1 undefined on input line 71.
 60-ERROR-./myPaper.tex:147: LaTeX Error: \begin{center} on input line 60 ended by \end{document}.
+71-WARNING-LaTeX Warning: Reference `tab:Observations' on page 1 undefined on input line 71.
 60-ERROR-./myPaper.tex:147: LaTeX Error: \begin{center} on input line 60 ended by \end{document}.
 65-BIB-Citation `erwin2017mnras468_2058' on page 1 undefined on input line 65.
 65-BIB-Citation `falchi2016an2_1600377' on page 1 undefined on input line 65.

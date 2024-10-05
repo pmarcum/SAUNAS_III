@@ -331,6 +331,20 @@ Package natbib Warning: Citation `marcum+2004aj127_3213' on page 1 undefined on
  input line 67.
 
 
+LaTeX Warning: Reference `fig:NGC5084_spectra_regions' on page 1 undefined on i
+nput line 69.
+
+
+LaTeX Warning: Reference `subsub:goals' on page 1 undefined on input line 69.
+
+
+LaTeX Warning: Reference `tab:Observations' on page 1 undefined on input line 7
+1.
+
+
+LaTeX Warning: Reference `sec:methods' on page 1 undefined on input line 71.
+
+
 LaTeX Warning: Reference `subsub:goals' on page 1 undefined on input line 73.
 
 
@@ -404,7 +418,7 @@ ype1/public/amsfonts/cm/cmsy7.pfb></home/runner/work/_temp/setup-texlive-action
 emp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
 pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmti12.pfb>
-Output written on myPaper.pdf (3 pages, 9726402 bytes).
+Output written on myPaper.pdf (3 pages, 9726678 bytes).
 SyncTeX written on myPaper.synctex.gz.
 Transcript written on myPaper.log.
 Latexmk: Missing bbl file 'myPaper.bbl' in following:
@@ -768,6 +782,10 @@ Package natbib Warning: Citation `marcum+2004aj127_3213' on page 1 undefined on
  input line 67.
 
 
+LaTeX Warning: Reference `tab:Observations' on page 1 undefined on input line 7
+1.
+
+
 Package natbib Warning: Citation `zucca2006aap455_879' on page 1 undefined on i
 nput line 75.
 
@@ -799,7 +817,11 @@ l.147 \end{document}
 Package natbib Warning: Citation(s) may have changed.
 (natbib)                Rerun to get citations correct.
 
-) )
+)
+
+LaTeX Warning: There were undefined references.
+
+ )
 (\end occurred inside a group at level 2)
 
 ### semi simple group (level 2) entered at line 60 (\begingroup)
@@ -822,7 +844,7 @@ ype1/public/amsfonts/cm/cmsy7.pfb></home/runner/work/_temp/setup-texlive-action
 emp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
 pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmti12.pfb>
-Output written on myPaper.pdf (3 pages, 9729236 bytes).
+Output written on myPaper.pdf (3 pages, 9729603 bytes).
 SyncTeX written on myPaper.synctex.gz.
 Transcript written on myPaper.log.
 Latexmk: Important warning:
@@ -1162,6 +1184,10 @@ Package natbib Warning: Citation `falchi2016an2_1600377' on page 1 undefined on
  input line 65.
 
 
+LaTeX Warning: Reference `tab:Observations' on page 1 undefined on input line 7
+1.
+
+
 Package natbib Warning: Citation `zucca2006aap455_879' on page 1 undefined on i
 nput line 75.
 
@@ -1184,7 +1210,11 @@ Type  H <return>  for immediate help.
                                                   
 l.147 \end{document}
                     
-(./myPaper.aux) )
+(./myPaper.aux)
+
+LaTeX Warning: There were undefined references.
+
+ )
 (\end occurred inside a group at level 2)
 
 ### semi simple group (level 2) entered at line 60 (\begingroup)
@@ -1207,7 +1237,7 @@ ype1/public/amsfonts/cm/cmsy7.pfb></home/runner/work/_temp/setup-texlive-action
 emp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
 pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmti12.pfb>
-Output written on myPaper.pdf (3 pages, 9730864 bytes).
+Output written on myPaper.pdf (3 pages, 9731276 bytes).
 SyncTeX written on myPaper.synctex.gz.
 Transcript written on myPaper.log.
 Latexmk: Important warning:
@@ -1221,21 +1251,23 @@ Latexmk: Log file says output to 'myPaper.pdf'
 Latexmk: ====Undefined refs and citations with line #s in .tex file:
   Citation `erwin2017mnras468_2058' on page 1 undefined on input line 65
   Citation `falchi2016an2_1600377' on page 1 undefined on input line 65
+  Reference `tab:Observations' on page 1 undefined on input line 71
   Citation `zucca2006aap455_879' on page 1 undefined on input line 75
 Latexmk: Found bibliography file(s):
   ./Extragalactic.bib
 Latexmk: Summary of warnings from last run of *latex:
+  Latex failed to resolve 1 reference(s)
   Latex failed to resolve 3 citation(s)
 Latexmk: Errors, in force_mode: so I tried finishing targets
 Collected error summary (may duplicate other messages):
   pdflatex: Command for 'pdflatex' gave return code 1
       Refer to 'myPaper.log' and/or above output for details
-'pdflatex': time = 3.94
-'bibtex myPaper': time = 0.06
-'pdflatex': time = 3.96
+'pdflatex': time = 3.97
 'bibtex myPaper': time = 0.04
-'pdflatex': time = 3.96
-Processing time = 12.39, of which invoked processes = 11.96, other = 0.43.
-Elapsed clock time = 12.40.
+'pdflatex': time = 3.98
+'bibtex myPaper': time = 0.04
+'pdflatex': time = 3.98
+Processing time = 12.47, of which invoked processes = 12.01, other = 0.46.
+Elapsed clock time = 12.50.
 Number of rules run = 5
 
