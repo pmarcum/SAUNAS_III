@@ -84,8 +84,8 @@ jobs:
           rm -f thereAreErrors.txt
           rm -f doesNotUsePruned.txt
           rm -f usedBibfile.txt
-          rm -f compileOut.txt
-          rm -f errout.txt
+          rm -f compileOut.txt*
+          rm -f errout.txt*
           rm -f cites.txt
           rm -f html.txt
           rm -f warnout.txt
@@ -405,8 +405,8 @@ jobs:
           rm -f thereAreErrors.txt
           rm -f doesNotUsePruned.txt
           rm -f usedBibfile.txt
-          rm -f compileOut.txt
-          rm -f errout.txt
+          rm -f compileOut.txt*
+          rm -f errout.txt*
           rm -f cites.txt
           rm -f html.txt
           rm -f warnout.txt
