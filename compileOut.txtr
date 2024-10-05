@@ -404,7 +404,7 @@ ype1/public/amsfonts/cm/cmsy7.pfb></home/runner/work/_temp/setup-texlive-action
 emp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
 pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmti12.pfb>
-Output written on myPaper.pdf (3 pages, 9726595 bytes).
+Output written on myPaper.pdf (3 pages, 9726588 bytes).
 SyncTeX written on myPaper.synctex.gz.
 Transcript written on myPaper.log.
 Latexmk: Missing bbl file 'myPaper.bbl' in following:
@@ -824,7 +824,7 @@ ype1/public/amsfonts/cm/cmsy7.pfb></home/runner/work/_temp/setup-texlive-action
 emp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
 pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmti12.pfb>
-Output written on myPaper.pdf (3 pages, 9729580 bytes).
+Output written on myPaper.pdf (3 pages, 9729571 bytes).
 SyncTeX written on myPaper.synctex.gz.
 Transcript written on myPaper.log.
 Latexmk: Important warning:
@@ -1229,12 +1229,12 @@ Latexmk: Errors, in force_mode: so I tried finishing targets
 Collected error summary (may duplicate other messages):
   pdflatex: Command for 'pdflatex' gave return code 1
       Refer to 'myPaper.log' and/or above output for details
-'pdflatex': time = 3.96
-'bibtex myPaper': time = 0.04
-'pdflatex': time = 3.96
+'pdflatex': time = 3.99
 'bibtex myPaper': time = 0.05
-'pdflatex': time = 3.96
-Processing time = 12.42, of which invoked processes = 11.97, other = 0.45.
-Elapsed clock time = 12.44.
+'pdflatex': time = 3.97
+'bibtex myPaper': time = 0.04
+'pdflatex': time = 3.97
+Processing time = 12.49, of which invoked processes = 12.02, other = 0.47.
+Elapsed clock time = 12.51.
 Number of rules run = 5
 

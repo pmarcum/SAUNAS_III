@@ -1,8 +1,14 @@
+2024-10-05T02:08:41Z 1728094121688
+LATEX COMPILATION ERRORS and WARNINGS
+
+To view full GitHub Actions output, click on item at top of list here:
+https://github.com/pmarcum/SAUNAS_III/actions/runs/11189535217/job/31110031511
+
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               FATAL ERRORS IN myPaper.tex
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 ./myPaper.tex:147: LaTeX Error: \begin{center} on input line 60 ended by \end{document}.
-line #60 ----------------------- 
+Line #60 ----------------------- 
 \begin{center}
 ________________________________________________________________________
  
@@ -10,11 +16,11 @@ ________________________________________________________________________
               WARNINGS IN myPaper.tex
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 LaTeX Warning: Reference `subsub:goals' on page 1 undefined on input line 73.
-line #73 ----------------------- 
+Line #73 ----------------------- 
 In Section\ref{subsub:goals}, we discuss the goal of our project.
 ________________________________________________________________________
 LaTeX Warning: Reference `subsub:goals' on page 1 undefined on input line 92.
-line #92 ----------------------- 
+Line #92 ----------------------- 
 By looking at Fig\ref{fig:NGC5084_spectra_regions} (see \ref{subsub:goals})
 ________________________________________________________________________
  
@@ -22,13 +28,12 @@ ________________________________________________________________________
               CITATION ISSUES IN myPaper.tex
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 Citation `erwin2017mnras468_2058' on page 1 undefined on input line 65.
-line #65 ----------------------- 
+Line #65 ----------------------- 
 The second sentence in the intro \citep{erwin2017mnras468_2058, falchi+2016an2_1600377}.
 ________________________________________________________________________
 Citation `zucca2006aap455_879' on page 1 undefined on input line 75.
-line #75 ----------------------- 
-Adding another sentence to see if the recompilation will show the new stuff. 
-\citep{zucca2006aap455_879} 
+Line #75 ----------------------- 
+Adding another sentence to see if the recompilation will show the new stuff. \citep{zucca2006aap455_879} 
 ________________________________________________________________________
  
 
