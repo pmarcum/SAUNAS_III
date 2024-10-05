@@ -2,13 +2,14 @@
 71-WARNING-LaTeX Warning: Reference `subsub:goals' on page 1 undefined on input line 71.
 73-WARNING-LaTeX Warning: Reference `sec:methods' on page 1 undefined on input line 73.
 94-WARNING-LaTeX Warning: Reference `subsub:goals' on page 1 undefined on input line 94.
-60-ERROR-./myPaper.tex:149: LaTeX Error: \begin{center} on input line 60 ended by \end{document}.
 62-ERROR-./myPaper.tex:62: Undefined control sequence.
 73-WARNING-LaTeX Warning: Reference `tab:Observations' on page 1 undefined on input line 73.
-60-ERROR-./myPaper.tex:149: LaTeX Error: \begin{center} on input line 60 ended by \end{document}.
 62-ERROR-./myPaper.tex:62: Undefined control sequence.
 73-WARNING-LaTeX Warning: Reference `tab:Observations' on page 1 undefined on input line 73.
-60-ERROR-./myPaper.tex:149: LaTeX Error: \begin{center} on input line 60 ended by \end{document}.
+58-BIB-Citation `aguerri+1998aj116_2136' on page 1 undefined on input line 58.
+58-BIB-Citation `bell+2006apj640_241' on page 1 undefined on input line 58.
+58-BIB-Citation `bell+2006apj652_270' on page 1 undefined on input line 58.
+65-BIB-Citation `agertz+2015apj804_18' on page 1 undefined on input line 65.
 67-BIB-Citation `erwin2017mnras468_2058' on page 1 undefined on input line 67.
 67-BIB-Citation `falchi2016an2_1600377' on page 1 undefined on input line 67.
-77-BIB-Citation `zucca2006aap455_879' on page 1 undefined on input line 77.
+69-BIB-Citation `marcum+2004aj127_3213' on page 1 undefined on input line 69.

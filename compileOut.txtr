@@ -371,69 +371,17 @@ Overfull \hbox (81.14305pt too wide) in paragraph at lines 124--125
 [1{/home/runner/work/_temp/setup-texlive-action/2024/texmf-var/fonts/map/pdftex
 /updmap/pdftex.map}]
 No file myPaper.bbl.
-
-Package natbib Warning: There were undefined citations.
-
-[2 <./NGC5084_6dF_spectra_comp.png>]
-
-./myPaper.tex:149: LaTeX Error: \begin{center} on input line 60 ended by \end{d
-ocument}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.149 \end{document}
-                    
-[3 <./NGC5084_spectra_regions_wide.png> <./NGC5084_regions_core.png>]
-(./myPaper.aux)
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package rerunfilecheck Warning: File `myPaper.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
- )
-(\end occurred inside a group at level 2)
-
-### semi simple group (level 2) entered at line 60 (\begingroup)
-### simple group (level 1) entered at line 42 ({)
-### bottom level
-(see the transcript file for additional information)</home/runner/work/_temp/se
-tup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></
-home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmbx12.pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf
--dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></home/runner/work/_temp/setup
--texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></hom
-e/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmr10.pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmr12.pfb></home/runner/work/_temp/setup-texli
-ve-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></home/runner
-/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmr8.pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmsy7.pfb></home/runner/work/_temp/setup-texlive-action
-/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></home/runner/work/_t
-emp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
-pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmti12.pfb>
-Output written on myPaper.pdf (3 pages, 9726852 bytes).
-SyncTeX written on myPaper.synctex.gz.
+)
+! Emergency stop.
+<*> myPaper.tex
+               
+!  ==> Fatal error occurred, no output PDF file produced!
 Transcript written on myPaper.log.
 Latexmk: Missing bbl file 'myPaper.bbl' in following:
  No file myPaper.bbl.
-Latexmk: Important warning:
-  (\end occurred inside a group at level 2)
 Latexmk: Getting log file 'myPaper.log'
 Latexmk: Examining 'myPaper.fls'
 Latexmk: Examining 'myPaper.log'
-Latexmk: References changed.
-Latexmk: References changed.
-Latexmk: Log file says output to 'myPaper.pdf'
 Latexmk: Found bibliography file(s):
   ./Extragalactic.bib
 Latexmk: applying rule 'bibtex myPaper'...
@@ -450,18 +398,13 @@ Running 'bibtex  "myPaper.aux"'
 ------------
 This is BibTeX, Version 0.99d (TeX Live 2024)
 The top-level auxiliary file: myPaper.aux
-The style file: CORE-AAS/aasjournal.bst
-Database file #1: Extragalactic.bib
-Warning--I didn't find a database entry for "erwin2017mnras468_2058"
-Warning--I didn't find a database entry for "falchi2016an2_1600377"
-Warning--I didn't find a database entry for "zucca2006aap455_879"
-(There were 3 warnings)
+I found no \bibstyle command---while reading file myPaper.aux
+(There was 1 error message)
 Latexmk: applying rule 'pdflatex'...
 Rule 'pdflatex':  Reasons for rerun
 Changed files or newly in use/created:
   myPaper.aux
   myPaper.bbl
-  myPaper.out
 
 ------------
 Run number 2 of rule 'pdflatex'
@@ -788,12 +731,20 @@ Package natbib Warning: Citation `marcum+2004aj127_3213' on page 1 undefined on
  input line 69.
 
 
+LaTeX Warning: Reference `fig:NGC5084_spectra_regions' on page 1 undefined on i
+nput line 71.
+
+
 LaTeX Warning: Reference `tab:Observations' on page 1 undefined on input line 7
 3.
 
 
 Package natbib Warning: Citation `zucca2006aap455_879' on page 1 undefined on i
 nput line 77.
+
+
+LaTeX Warning: Reference `fig:NGC5084_spectra_regions' on page 1 undefined on i
+nput line 94.
 
 
 Package natbib Warning: Citation `bernardi+2006aj131_1288' on page 1 undefined 
@@ -803,90 +754,23 @@ on input line 100.
 Overfull \hbox (81.14305pt too wide) in paragraph at lines 124--125
  [][] 
 [1{/home/runner/work/_temp/setup-texlive-action/2024/texmf-var/fonts/map/pdftex
-/updmap/pdftex.map}] (./myPaper.bbl [2 <./NGC5084_6dF_spectra_comp.png>])
-[3 <./NGC5084_spectra_regions_wide.png> <./NGC5084_regions_core.png>]
-
-Package natbib Warning: There were undefined citations.
-
-
-./myPaper.tex:149: LaTeX Error: \begin{center} on input line 60 ended by \end{d
-ocument}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.149 \end{document}
-                    
-(./myPaper.aux
-
-Package natbib Warning: Citation(s) may have changed.
-(natbib)                Rerun to get citations correct.
-
-)
-
-LaTeX Warning: There were undefined references.
-
- )
-(\end occurred inside a group at level 2)
-
-### semi simple group (level 2) entered at line 60 (\begingroup)
-### simple group (level 1) entered at line 42 ({)
-### bottom level
-(see the transcript file for additional information)</home/runner/work/_temp/se
-tup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></
-home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmbx12.pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf
--dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></home/runner/work/_temp/setup
--texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></hom
-e/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmr10.pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmr12.pfb></home/runner/work/_temp/setup-texli
-ve-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></home/runner
-/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmr8.pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmsy7.pfb></home/runner/work/_temp/setup-texlive-action
-/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></home/runner/work/_t
-emp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
-pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmti12.pfb>
-Output written on myPaper.pdf (3 pages, 9729779 bytes).
-SyncTeX written on myPaper.synctex.gz.
+/updmap/pdftex.map}] (./myPaper.bbl))
+! Emergency stop.
+<*> myPaper.tex
+               
+!  ==> Fatal error occurred, no output PDF file produced!
 Transcript written on myPaper.log.
-Latexmk: Important warning:
-  (\end occurred inside a group at level 2)
 Latexmk: Getting log file 'myPaper.log'
 Latexmk: Examining 'myPaper.fls'
 Latexmk: Examining 'myPaper.log'
 Latexmk: Found input bbl file 'myPaper.bbl'
 Latexmk: Found input bbl file 'myPaper.bbl'
-Latexmk: References changed.
-Latexmk: Log file says output to 'myPaper.pdf'
 Latexmk: Found bibliography file(s):
   ./Extragalactic.bib
-Latexmk: applying rule 'bibtex myPaper'...
-Rule 'bibtex myPaper':  Reasons for rerun
-Changed files or newly in use/created:
-  myPaper.aux
-
-------------
-Run number 2 of rule 'bibtex myPaper'
-------------
-------------
-Running 'bibtex  "myPaper.aux"'
-------------
-This is BibTeX, Version 0.99d (TeX Live 2024)
-The top-level auxiliary file: myPaper.aux
-The style file: CORE-AAS/aasjournal.bst
-Database file #1: Extragalactic.bib
-Warning--I didn't find a database entry for "erwin2017mnras468_2058"
-Warning--I didn't find a database entry for "falchi2016an2_1600377"
-Warning--I didn't find a database entry for "zucca2006aap455_879"
-(There were 3 warnings)
 Latexmk: applying rule 'pdflatex'...
 Rule 'pdflatex':  Reasons for rerun
 Changed files or newly in use/created:
-  myPaper.aux
+  myPaper.out
 
 ------------
 Run number 3 of rule 'pdflatex'
@@ -1181,9 +1065,25 @@ s/umsa.fd)
 s/umsb.fd)
 Overfull \hbox (15.35526pt too wide) in paragraph at lines 56--56
 [][]| $[]$ [][][]| 
+
+Package natbib Warning: Citation `aguerri+1998aj116_2136' on page 1 undefined o
+n input line 58.
+
+
+Package natbib Warning: Citation `bell+2006apj640_241' on page 1 undefined on i
+nput line 58.
+
+
+Package natbib Warning: Citation `bell+2006apj652_270' on page 1 undefined on i
+nput line 58.
+
 ./myPaper.tex:62: Undefined control sequence.
 l.62 \pam
          
+
+Package natbib Warning: Citation `agertz+2015apj804_18' on page 1 undefined on 
+input line 65.
+
 
 Package natbib Warning: Citation `erwin2017mnras468_2058' on page 1 undefined o
 n input line 67.
@@ -1191,6 +1091,14 @@ n input line 67.
 
 Package natbib Warning: Citation `falchi2016an2_1600377' on page 1 undefined on
  input line 67.
+
+
+Package natbib Warning: Citation `marcum+2004aj127_3213' on page 1 undefined on
+ input line 69.
+
+
+LaTeX Warning: Reference `fig:NGC5084_spectra_regions' on page 1 undefined on i
+nput line 71.
 
 
 LaTeX Warning: Reference `tab:Observations' on page 1 undefined on input line 7
@@ -1201,82 +1109,53 @@ Package natbib Warning: Citation `zucca2006aap455_879' on page 1 undefined on i
 nput line 77.
 
 
+LaTeX Warning: Reference `fig:NGC5084_spectra_regions' on page 1 undefined on i
+nput line 94.
+
+
+Package natbib Warning: Citation `bernardi+2006aj131_1288' on page 1 undefined 
+on input line 100.
+
+
 Overfull \hbox (81.14305pt too wide) in paragraph at lines 124--125
  [][] 
 [1{/home/runner/work/_temp/setup-texlive-action/2024/texmf-var/fonts/map/pdftex
-/updmap/pdftex.map}] (./myPaper.bbl [2 <./NGC5084_6dF_spectra_comp.png>])
-[3 <./NGC5084_spectra_regions_wide.png> <./NGC5084_regions_core.png>]
-
-Package natbib Warning: There were undefined citations.
-
-
-./myPaper.tex:149: LaTeX Error: \begin{center} on input line 60 ended by \end{d
-ocument}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.149 \end{document}
-                    
-(./myPaper.aux)
-
-LaTeX Warning: There were undefined references.
-
- )
-(\end occurred inside a group at level 2)
-
-### semi simple group (level 2) entered at line 60 (\begingroup)
-### simple group (level 1) entered at line 42 ({)
-### bottom level
-(see the transcript file for additional information)</home/runner/work/_temp/se
-tup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></
-home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmbx12.pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf
--dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></home/runner/work/_temp/setup
--texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></hom
-e/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmr10.pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmr12.pfb></home/runner/work/_temp/setup-texli
-ve-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></home/runner
-/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmr8.pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmsy7.pfb></home/runner/work/_temp/setup-texlive-action
-/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></home/runner/work/_t
-emp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
-pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmti12.pfb>
-Output written on myPaper.pdf (3 pages, 9731276 bytes).
-SyncTeX written on myPaper.synctex.gz.
+/updmap/pdftex.map}] (./myPaper.bbl))
+! Emergency stop.
+<*> myPaper.tex
+               
+!  ==> Fatal error occurred, no output PDF file produced!
 Transcript written on myPaper.log.
-Latexmk: Important warning:
-  (\end occurred inside a group at level 2)
 Latexmk: Getting log file 'myPaper.log'
 Latexmk: Examining 'myPaper.fls'
 Latexmk: Examining 'myPaper.log'
 Latexmk: Found input bbl file 'myPaper.bbl'
 Latexmk: Found input bbl file 'myPaper.bbl'
-Latexmk: Log file says output to 'myPaper.pdf'
+Failure to make 'myPaper.pdf'
 Latexmk: ====Undefined refs and citations with line #s in .tex file:
+  Citation `aguerri+1998aj116_2136' on page 1 undefined on input line 58
+  Citation `bell+2006apj640_241' on page 1 undefined on input line 58
+  Citation `bell+2006apj652_270' on page 1 undefined on input line 58
+  Citation `agertz+2015apj804_18' on page 1 undefined on input line 65
   Citation `erwin2017mnras468_2058' on page 1 undefined on input line 67
   Citation `falchi2016an2_1600377' on page 1 undefined on input line 67
-  Reference `tab:Observations' on page 1 undefined on input line 73
-  Citation `zucca2006aap455_879' on page 1 undefined on input line 77
+  Citation `marcum+2004aj127_3213' on page 1 undefined on input line 69
+ And 5 more --- see log file 'myPaper.log'
 Latexmk: Found bibliography file(s):
   ./Extragalactic.bib
 Latexmk: Summary of warnings from last run of *latex:
-  Latex failed to resolve 1 reference(s)
-  Latex failed to resolve 3 citation(s)
+  Latex failed to resolve 3 reference(s)
+  Latex failed to resolve 9 citation(s)
 Latexmk: Errors, in force_mode: so I tried finishing targets
 Collected error summary (may duplicate other messages):
+  bibtex myPaper: Bibtex errors: See file 'myPaper.blg'
   pdflatex: Command for 'pdflatex' gave return code 1
       Refer to 'myPaper.log' and/or above output for details
-'pdflatex': time = 3.94
-'bibtex myPaper': time = 0.06
-'pdflatex': time = 3.95
-'bibtex myPaper': time = 0.03
-'pdflatex': time = 3.96
-Processing time = 12.39, of which invoked processes = 11.94, other = 0.45.
-Elapsed clock time = 12.40.
-Number of rules run = 5
+'pdflatex': time = 0.53
+'bibtex myPaper': time = 0.01
+'pdflatex': time = 0.54
+'pdflatex': time = 0.54
+Processing time = 1.97, of which invoked processes = 1.62, other = 0.35.
+Elapsed clock time = 1.99.
+Number of rules run = 4
 

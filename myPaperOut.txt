@@ -1,8 +1,14 @@
+2024-10-05T02:42:44Z 1728096164062
+LATEX COMPILATION ERRORS and WARNINGS
+
+To view full GitHub Actions output, click on item at top of list here:
+https://github.com/pmarcum/SAUNAS_III/actions/runs/11189760540/job/31110570394
+
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               FATAL ERRORS IN myPaper.tex
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 ./myPaper.tex:62: Undefined control sequence.
-line #62 ----------------------- 
+Line #62 ----------------------- 
 \pam
 ________________________________________________________________________
  
@@ -10,17 +16,16 @@ ________________________________________________________________________
               WARNINGS IN myPaper.tex
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 LaTeX Warning: Reference `subsub:goals' on page 1 undefined on input line 71.
-line #71 ----------------------- 
-Will this turn grey ?? see Fig.\ref{fig:NGC5084_spectra_regions} in 
-Sect.\ref{subsub:goals} 
+Line #71 ----------------------- 
+Will this turn grey ?? see Fig.\ref{fig:NGC5084_spectra_regions} in Sect.\ref{subsub:goals} 
 ________________________________________________________________________
 LaTeX Warning: Reference `sec:methods' on page 1 undefined on input line 73.
 LaTeX Warning: Reference `tab:Observations' on page 1 undefined on input line 73.
-line #73 ----------------------- 
+Line #73 ----------------------- 
 Refer to Table\ref{tab:Observations} in Section\ref{sec:methods} 
 ________________________________________________________________________
 LaTeX Warning: Reference `subsub:goals' on page 1 undefined on input line 94.
-line #94 ----------------------- 
+Line #94 ----------------------- 
 By looking at Fig\ref{fig:NGC5084_spectra_regions} (see \ref{subsub:goals})
 ________________________________________________________________________
  
@@ -30,21 +35,20 @@ ________________________________________________________________________
 Citation `aguerri+1998aj116_2136' on page 1 undefined on input line 58.
 Citation `bell+2006apj640_241' on page 1 undefined on input line 58.
 Citation `bell+2006apj652_270' on page 1 undefined on input line 58.
-line #58 ----------------------- 
-Here is the intro section \citep{aguerri+1998aj116_2136, 
-bell+2006apj640_241,bell+2006apj652_270}. 
+Line #58 ----------------------- 
+Here is the intro section \citep{aguerri+1998aj116_2136, bell+2006apj640_241,bell+2006apj652_270}. 
 ________________________________________________________________________
 Citation `agertz+2015apj804_18' on page 1 undefined on input line 65.
-line #65 ----------------------- 
+Line #65 ----------------------- 
 \citep{agertz+2015apj804_18}
 ________________________________________________________________________
 Citation `erwin2017mnras468_2058' on page 1 undefined on input line 67.
 Citation `falchi2016an2_1600377' on page 1 undefined on input line 67.
-line #67 ----------------------- 
+Line #67 ----------------------- 
 The second sentence in the intro \citep{erwin2017mnras468_2058, falchi2016an2_1600377}.
 ________________________________________________________________________
 Citation `marcum+2004aj127_3213' on page 1 undefined on input line 69.
-line #69 ----------------------- 
+Line #69 ----------------------- 
 A 3rd sentence  in the background. \citep{marcum+2004aj127_3213}
 ________________________________________________________________________
  
