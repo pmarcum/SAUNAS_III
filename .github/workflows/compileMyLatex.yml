@@ -171,38 +171,45 @@ jobs:
 
       - name: Capture full compilation output
         run: |
-          # prepare the compilation log for processing by first removing all end-of-line characters
+          #_________prepare the compilation log for processing by first removing all end-of-line characters
           touch errout.txt
-          # just to be safe, remove all \a, \t and \x0 because we use these as special markers later
+          #_________just to be safe, remove all \a, \t and \x0 because we use these as special markers later
           sed -ir 's/[\x0\a\t]/ /g' compileOut.txt
-          # before removing end of line carriage returns, mark the citations that could not be found in the bib file(s)
+          #_________before removing end of line carriage returns, mark the citations that could not be found in the bib file(s)
           sed -r 's/^ *(Citation `[[:print:]]*on input line )([0-9][0-9]*) *$/ \x0\2-BIB-\1\2\.\a/g' compileOut.txt >> errout.txt
-          # before removing end of line carriage returns, we also need to mark the "on input line" phrases so they can 
-          # be easily found (and/or avoided) later: 
+          #_________before removing end of line carriage returns, mark "on input line" phrases so they can be easily found (and/or avoided) later: 
           rm -f tmp.txt && sed -r 's/on input line ([0-9][0-9]*)/on input line \t\1/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
-          # now remove all the end of line returns
+          #_________now remove all the end of line returns
           rm -f tmp.txt && tr -d "\n" < errout.txt > tmp.txt && mv -f tmp.txt errout.txt
-          # remove a lot of the lines that have noithing to do with errors and warnings, to make the next searches go faster
+          #_________remove a lot of the lines that have noithing to do with errors and warnings, to make the next searches go faster
           sed -ir 's/[(]\/home\/runner[^)][^)]*[)]/ /g' errout.txt
           sed -ir 's/<\/home\/runner[^>][^>]*\>/ /g' errout.txt
-          # remove [] [] that are just clutter in the file
+          #_________remove [] [] that are just clutter in the file
           sed -ir 's/\[ *\]/ /g' errout.txt
-          # remove the ((( left behind in the above substitutions
+          #_________remove the ((( left behind in the above substitutions
           sed -ir 's/[(] *[(]/ /g' errout.txt
-          # remove the )))) left behind in above subs
+          #_________remove the )))) left behind in above subs
           sed -ir 's/[)] *[)]/ /g' errout.txt
-          # remove all multiple white spaces to a single white space
+          #_________remove all multiple white spaces to a single white space
           sed -ir 's/  */ /g' errout.txt
-          rm -f tmp.txt && sed -r 's/(\.[^.][^.]*\.tex:[0-9][0-9]*:[^\t][^\t]*)([0-9][0-9]*)([^.]*\.)/\x0\2-ERROR-\1\2\3\a/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt         
+          rm -f tmp.txt && sed -r 's/(\.[^.][^.]*\.tex:[0-9][0-9]*:[^\t][^\t]*)([0-9][0-9]*)([^.]*\.)/\x0\2-ERROR-\1\2\3\a/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
+          echo '============================= 196'
+          cat errout.txt
           rm -f tmp.txt && sed -r 's/([^:][^:][^:])(LaTeX )((Error)|(Warning))(:[^\t][^\t]*)([0-9][0-9]*)([^.]*\.)/\1\x0\7-\3-\2\3\6\7\8\a/g' errout.txt >> tmp.txt && mv -f tmp.txt errout.txt
+          echo '============================= 199'
+          cat errout.txt
           sed -ir 's/\-Error\-/-ERROR-/g' errout.txt
           sed -ir 's/\-Warning\-/-WARNING-/g' errout.txt
           rm -f tmp.txt && sed -r 's/([^-])(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.\t][^.\t]*\.)/\1\x0\3-ERROR-\2\3\4\a/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
+          echo '============================ 204'
+          cat errout.txt
           sed -ir 's/^[^\x0]*\x0//' errout.txt
           sed -ir 's/\a[^\a]*$//' errout.txt
-          # remove all the \t placeholders
+          #_________remove all the \t placeholders
           sed -ir 's/\t//g' errout.txt
           sed -ir 's/\a[^\x0]*\x0/\n/g' errout.txt
+          echo '============================= 211'
+          cat errout.txt
           # the next step, sorting the entries, does not work as expected unless all the white space is gone, so replace white space with \a
           sed -ir 's/ /\a/g' errout.txt
           # ============== sort and remove redundances in the error/warning list
