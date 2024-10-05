@@ -323,8 +323,8 @@ Package natbib Warning: Citation `erwin2017mnras468_2058' on page 1 undefined o
 n input line 65.
 
 
-Package natbib Warning: Citation `falchi+2016an2_1600377' on page 1 undefined o
-n input line 65.
+Package natbib Warning: Citation `falchi2016an2_1600377' on page 1 undefined on
+ input line 65.
 
 
 Package natbib Warning: Citation `marcum+2004aj127_3213' on page 1 undefined on
@@ -404,7 +404,7 @@ ype1/public/amsfonts/cm/cmsy7.pfb></home/runner/work/_temp/setup-texlive-action
 emp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
 pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmti12.pfb>
-Output written on myPaper.pdf (3 pages, 9726588 bytes).
+Output written on myPaper.pdf (3 pages, 9726402 bytes).
 SyncTeX written on myPaper.synctex.gz.
 Transcript written on myPaper.log.
 Latexmk: Missing bbl file 'myPaper.bbl' in following:
@@ -436,8 +436,9 @@ The top-level auxiliary file: myPaper.aux
 The style file: CORE-AAS/aasjournal.bst
 Database file #1: Extragalactic.bib
 Warning--I didn't find a database entry for "erwin2017mnras468_2058"
+Warning--I didn't find a database entry for "falchi2016an2_1600377"
 Warning--I didn't find a database entry for "zucca2006aap455_879"
-(There were 2 warnings)
+(There were 3 warnings)
 Latexmk: applying rule 'pdflatex'...
 Rule 'pdflatex':  Reasons for rerun
 Changed files or newly in use/created:
@@ -759,8 +760,8 @@ Package natbib Warning: Citation `erwin2017mnras468_2058' on page 1 undefined o
 n input line 65.
 
 
-Package natbib Warning: Citation `falchi+2016an2_1600377' on page 1 undefined o
-n input line 65.
+Package natbib Warning: Citation `falchi2016an2_1600377' on page 1 undefined on
+ input line 65.
 
 
 Package natbib Warning: Citation `marcum+2004aj127_3213' on page 1 undefined on
@@ -778,11 +779,8 @@ on input line 98.
 Overfull \hbox (81.14305pt too wide) in paragraph at lines 122--123
  [][] 
 [1{/home/runner/work/_temp/setup-texlive-action/2024/texmf-var/fonts/map/pdftex
-/updmap/pdftex.map}] (./myPaper.bbl [2 <./NGC5084_6dF_spectra_comp.png>]
-./myPaper.bbl:36: Undefined control sequence.
-l.36 ...o}, P., {Duriscoe}, D., {et~al.} 2016, \an
-                                                  , 2, e1600377,
-) [3 <./NGC5084_spectra_regions_wide.png> <./NGC5084_regions_core.png>]
+/updmap/pdftex.map}] (./myPaper.bbl [2 <./NGC5084_6dF_spectra_comp.png>])
+[3 <./NGC5084_spectra_regions_wide.png> <./NGC5084_regions_core.png>]
 
 Package natbib Warning: There were undefined citations.
 
@@ -824,7 +822,7 @@ ype1/public/amsfonts/cm/cmsy7.pfb></home/runner/work/_temp/setup-texlive-action
 emp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
 pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmti12.pfb>
-Output written on myPaper.pdf (3 pages, 9729571 bytes).
+Output written on myPaper.pdf (3 pages, 9729236 bytes).
 SyncTeX written on myPaper.synctex.gz.
 Transcript written on myPaper.log.
 Latexmk: Important warning:
@@ -854,8 +852,9 @@ The top-level auxiliary file: myPaper.aux
 The style file: CORE-AAS/aasjournal.bst
 Database file #1: Extragalactic.bib
 Warning--I didn't find a database entry for "erwin2017mnras468_2058"
+Warning--I didn't find a database entry for "falchi2016an2_1600377"
 Warning--I didn't find a database entry for "zucca2006aap455_879"
-(There were 2 warnings)
+(There were 3 warnings)
 Latexmk: applying rule 'pdflatex'...
 Rule 'pdflatex':  Reasons for rerun
 Changed files or newly in use/created:
@@ -1159,6 +1158,10 @@ Package natbib Warning: Citation `erwin2017mnras468_2058' on page 1 undefined o
 n input line 65.
 
 
+Package natbib Warning: Citation `falchi2016an2_1600377' on page 1 undefined on
+ input line 65.
+
+
 Package natbib Warning: Citation `zucca2006aap455_879' on page 1 undefined on i
 nput line 75.
 
@@ -1166,11 +1169,8 @@ nput line 75.
 Overfull \hbox (81.14305pt too wide) in paragraph at lines 122--123
  [][] 
 [1{/home/runner/work/_temp/setup-texlive-action/2024/texmf-var/fonts/map/pdftex
-/updmap/pdftex.map}] (./myPaper.bbl [2 <./NGC5084_6dF_spectra_comp.png>]
-./myPaper.bbl:36: Undefined control sequence.
-l.36 ...o}, P., {Duriscoe}, D., {et~al.} 2016, \an
-                                                  , 2, e1600377,
-) [3 <./NGC5084_spectra_regions_wide.png> <./NGC5084_regions_core.png>]
+/updmap/pdftex.map}] (./myPaper.bbl [2 <./NGC5084_6dF_spectra_comp.png>])
+[3 <./NGC5084_spectra_regions_wide.png> <./NGC5084_regions_core.png>]
 
 Package natbib Warning: There were undefined citations.
 
@@ -1207,7 +1207,7 @@ ype1/public/amsfonts/cm/cmsy7.pfb></home/runner/work/_temp/setup-texlive-action
 emp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
 pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmti12.pfb>
-Output written on myPaper.pdf (3 pages, 9731147 bytes).
+Output written on myPaper.pdf (3 pages, 9730864 bytes).
 SyncTeX written on myPaper.synctex.gz.
 Transcript written on myPaper.log.
 Latexmk: Important warning:
@@ -1220,21 +1220,22 @@ Latexmk: Found input bbl file 'myPaper.bbl'
 Latexmk: Log file says output to 'myPaper.pdf'
 Latexmk: ====Undefined refs and citations with line #s in .tex file:
   Citation `erwin2017mnras468_2058' on page 1 undefined on input line 65
+  Citation `falchi2016an2_1600377' on page 1 undefined on input line 65
   Citation `zucca2006aap455_879' on page 1 undefined on input line 75
 Latexmk: Found bibliography file(s):
   ./Extragalactic.bib
 Latexmk: Summary of warnings from last run of *latex:
-  Latex failed to resolve 2 citation(s)
+  Latex failed to resolve 3 citation(s)
 Latexmk: Errors, in force_mode: so I tried finishing targets
 Collected error summary (may duplicate other messages):
   pdflatex: Command for 'pdflatex' gave return code 1
       Refer to 'myPaper.log' and/or above output for details
-'pdflatex': time = 3.99
-'bibtex myPaper': time = 0.05
-'pdflatex': time = 3.97
+'pdflatex': time = 3.94
+'bibtex myPaper': time = 0.06
+'pdflatex': time = 3.96
 'bibtex myPaper': time = 0.04
-'pdflatex': time = 3.97
-Processing time = 12.49, of which invoked processes = 12.02, other = 0.47.
-Elapsed clock time = 12.51.
+'pdflatex': time = 3.96
+Processing time = 12.39, of which invoked processes = 11.96, other = 0.43.
+Elapsed clock time = 12.40.
 Number of rules run = 5
 
