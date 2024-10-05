@@ -87,6 +87,7 @@ jobs:
           rm -f compileOut.txt
           rm -f errout.txt
           rm -f cites.txt
+          rm -f html.txt
           rm -f warnout.txt
           rm -f bibout.txt
           rm -f $CORENAME.synctex.gz
@@ -394,6 +395,7 @@ jobs:
           rm -f compileOut.txt
           rm -f errout.txt
           rm -f cites.txt
+          rm -f html.txt
           rm -f warnout.txt
           rm -f bibout.txt
           rm -f $CORENAME.synctex.gz
