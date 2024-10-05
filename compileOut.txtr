@@ -404,7 +404,7 @@ ype1/public/amsfonts/cm/cmsy7.pfb></home/runner/work/_temp/setup-texlive-action
 emp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
 pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmti12.pfb>
-Output written on myPaper.pdf (3 pages, 9726402 bytes).
+Output written on myPaper.pdf (3 pages, 9726595 bytes).
 SyncTeX written on myPaper.synctex.gz.
 Transcript written on myPaper.log.
 Latexmk: Missing bbl file 'myPaper.bbl' in following:
@@ -824,7 +824,7 @@ ype1/public/amsfonts/cm/cmsy7.pfb></home/runner/work/_temp/setup-texlive-action
 emp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
 pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmti12.pfb>
-Output written on myPaper.pdf (3 pages, 9729399 bytes).
+Output written on myPaper.pdf (3 pages, 9729580 bytes).
 SyncTeX written on myPaper.synctex.gz.
 Transcript written on myPaper.log.
 Latexmk: Important warning:
@@ -1231,10 +1231,10 @@ Collected error summary (may duplicate other messages):
       Refer to 'myPaper.log' and/or above output for details
 'pdflatex': time = 3.96
 'bibtex myPaper': time = 0.04
-'pdflatex': time = 3.97
-'bibtex myPaper': time = 0.03
 'pdflatex': time = 3.96
-Processing time = 12.40, of which invoked processes = 11.96, other = 0.44.
-Elapsed clock time = 12.43.
+'bibtex myPaper': time = 0.05
+'pdflatex': time = 3.96
+Processing time = 12.42, of which invoked processes = 11.97, other = 0.45.
+Elapsed clock time = 12.44.
 Number of rules run = 5
 
