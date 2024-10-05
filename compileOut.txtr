@@ -314,56 +314,59 @@ nput line 58.
 Package natbib Warning: Citation `bell+2006apj652_270' on page 1 undefined on i
 nput line 58.
 
+./myPaper.tex:62: Undefined control sequence.
+l.62 \pam
+         
 
 Package natbib Warning: Citation `agertz+2015apj804_18' on page 1 undefined on 
-input line 63.
+input line 65.
 
 
 Package natbib Warning: Citation `erwin2017mnras468_2058' on page 1 undefined o
-n input line 65.
+n input line 67.
 
 
 Package natbib Warning: Citation `falchi2016an2_1600377' on page 1 undefined on
- input line 65.
-
-
-Package natbib Warning: Citation `marcum+2004aj127_3213' on page 1 undefined on
  input line 67.
 
 
+Package natbib Warning: Citation `marcum+2004aj127_3213' on page 1 undefined on
+ input line 69.
+
+
 LaTeX Warning: Reference `fig:NGC5084_spectra_regions' on page 1 undefined on i
-nput line 69.
+nput line 71.
 
 
-LaTeX Warning: Reference `subsub:goals' on page 1 undefined on input line 69.
+LaTeX Warning: Reference `subsub:goals' on page 1 undefined on input line 71.
 
 
 LaTeX Warning: Reference `tab:Observations' on page 1 undefined on input line 7
-1.
+3.
 
 
-LaTeX Warning: Reference `sec:methods' on page 1 undefined on input line 71.
+LaTeX Warning: Reference `sec:methods' on page 1 undefined on input line 73.
 
 
-LaTeX Warning: Reference `subsub:goals' on page 1 undefined on input line 73.
+LaTeX Warning: Reference `subsub:goals' on page 1 undefined on input line 75.
 
 
 Package natbib Warning: Citation `zucca2006aap455_879' on page 1 undefined on i
-nput line 75.
+nput line 77.
 
 
 LaTeX Warning: Reference `fig:NGC5084_spectra_regions' on page 1 undefined on i
-nput line 92.
+nput line 94.
 
 
-LaTeX Warning: Reference `subsub:goals' on page 1 undefined on input line 92.
+LaTeX Warning: Reference `subsub:goals' on page 1 undefined on input line 94.
 
 
 Package natbib Warning: Citation `bernardi+2006aj131_1288' on page 1 undefined 
-on input line 98.
+on input line 100.
 
 
-Overfull \hbox (81.14305pt too wide) in paragraph at lines 122--123
+Overfull \hbox (81.14305pt too wide) in paragraph at lines 124--125
  [][] 
 [1{/home/runner/work/_temp/setup-texlive-action/2024/texmf-var/fonts/map/pdftex
 /updmap/pdftex.map}]
@@ -373,14 +376,14 @@ Package natbib Warning: There were undefined citations.
 
 [2 <./NGC5084_6dF_spectra_comp.png>]
 
-./myPaper.tex:147: LaTeX Error: \begin{center} on input line 60 ended by \end{d
+./myPaper.tex:149: LaTeX Error: \begin{center} on input line 60 ended by \end{d
 ocument}.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.147 \end{document}
+l.149 \end{document}
                     
 [3 <./NGC5084_spectra_regions_wide.png> <./NGC5084_regions_core.png>]
 (./myPaper.aux)
@@ -418,7 +421,7 @@ ype1/public/amsfonts/cm/cmsy7.pfb></home/runner/work/_temp/setup-texlive-action
 emp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
 pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmti12.pfb>
-Output written on myPaper.pdf (3 pages, 9726678 bytes).
+Output written on myPaper.pdf (3 pages, 9726852 bytes).
 SyncTeX written on myPaper.synctex.gz.
 Transcript written on myPaper.log.
 Latexmk: Missing bbl file 'myPaper.bbl' in following:
@@ -765,36 +768,39 @@ nput line 58.
 Package natbib Warning: Citation `bell+2006apj652_270' on page 1 undefined on i
 nput line 58.
 
+./myPaper.tex:62: Undefined control sequence.
+l.62 \pam
+         
 
 Package natbib Warning: Citation `agertz+2015apj804_18' on page 1 undefined on 
-input line 63.
+input line 65.
 
 
 Package natbib Warning: Citation `erwin2017mnras468_2058' on page 1 undefined o
-n input line 65.
+n input line 67.
 
 
 Package natbib Warning: Citation `falchi2016an2_1600377' on page 1 undefined on
- input line 65.
-
-
-Package natbib Warning: Citation `marcum+2004aj127_3213' on page 1 undefined on
  input line 67.
 
 
+Package natbib Warning: Citation `marcum+2004aj127_3213' on page 1 undefined on
+ input line 69.
+
+
 LaTeX Warning: Reference `tab:Observations' on page 1 undefined on input line 7
-1.
+3.
 
 
 Package natbib Warning: Citation `zucca2006aap455_879' on page 1 undefined on i
-nput line 75.
+nput line 77.
 
 
 Package natbib Warning: Citation `bernardi+2006aj131_1288' on page 1 undefined 
-on input line 98.
+on input line 100.
 
 
-Overfull \hbox (81.14305pt too wide) in paragraph at lines 122--123
+Overfull \hbox (81.14305pt too wide) in paragraph at lines 124--125
  [][] 
 [1{/home/runner/work/_temp/setup-texlive-action/2024/texmf-var/fonts/map/pdftex
 /updmap/pdftex.map}] (./myPaper.bbl [2 <./NGC5084_6dF_spectra_comp.png>])
@@ -803,14 +809,14 @@ Overfull \hbox (81.14305pt too wide) in paragraph at lines 122--123
 Package natbib Warning: There were undefined citations.
 
 
-./myPaper.tex:147: LaTeX Error: \begin{center} on input line 60 ended by \end{d
+./myPaper.tex:149: LaTeX Error: \begin{center} on input line 60 ended by \end{d
 ocument}.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.147 \end{document}
+l.149 \end{document}
                     
 (./myPaper.aux
 
@@ -844,7 +850,7 @@ ype1/public/amsfonts/cm/cmsy7.pfb></home/runner/work/_temp/setup-texlive-action
 emp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
 pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmti12.pfb>
-Output written on myPaper.pdf (3 pages, 9729603 bytes).
+Output written on myPaper.pdf (3 pages, 9729779 bytes).
 SyncTeX written on myPaper.synctex.gz.
 Transcript written on myPaper.log.
 Latexmk: Important warning:
@@ -1175,24 +1181,27 @@ s/umsa.fd)
 s/umsb.fd)
 Overfull \hbox (15.35526pt too wide) in paragraph at lines 56--56
 [][]| $[]$ [][][]| 
+./myPaper.tex:62: Undefined control sequence.
+l.62 \pam
+         
 
 Package natbib Warning: Citation `erwin2017mnras468_2058' on page 1 undefined o
-n input line 65.
+n input line 67.
 
 
 Package natbib Warning: Citation `falchi2016an2_1600377' on page 1 undefined on
- input line 65.
+ input line 67.
 
 
 LaTeX Warning: Reference `tab:Observations' on page 1 undefined on input line 7
-1.
+3.
 
 
 Package natbib Warning: Citation `zucca2006aap455_879' on page 1 undefined on i
-nput line 75.
+nput line 77.
 
 
-Overfull \hbox (81.14305pt too wide) in paragraph at lines 122--123
+Overfull \hbox (81.14305pt too wide) in paragraph at lines 124--125
  [][] 
 [1{/home/runner/work/_temp/setup-texlive-action/2024/texmf-var/fonts/map/pdftex
 /updmap/pdftex.map}] (./myPaper.bbl [2 <./NGC5084_6dF_spectra_comp.png>])
@@ -1201,14 +1210,14 @@ Overfull \hbox (81.14305pt too wide) in paragraph at lines 122--123
 Package natbib Warning: There were undefined citations.
 
 
-./myPaper.tex:147: LaTeX Error: \begin{center} on input line 60 ended by \end{d
+./myPaper.tex:149: LaTeX Error: \begin{center} on input line 60 ended by \end{d
 ocument}.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.147 \end{document}
+l.149 \end{document}
                     
 (./myPaper.aux)
 
@@ -1249,10 +1258,10 @@ Latexmk: Found input bbl file 'myPaper.bbl'
 Latexmk: Found input bbl file 'myPaper.bbl'
 Latexmk: Log file says output to 'myPaper.pdf'
 Latexmk: ====Undefined refs and citations with line #s in .tex file:
-  Citation `erwin2017mnras468_2058' on page 1 undefined on input line 65
-  Citation `falchi2016an2_1600377' on page 1 undefined on input line 65
-  Reference `tab:Observations' on page 1 undefined on input line 71
-  Citation `zucca2006aap455_879' on page 1 undefined on input line 75
+  Citation `erwin2017mnras468_2058' on page 1 undefined on input line 67
+  Citation `falchi2016an2_1600377' on page 1 undefined on input line 67
+  Reference `tab:Observations' on page 1 undefined on input line 73
+  Citation `zucca2006aap455_879' on page 1 undefined on input line 77
 Latexmk: Found bibliography file(s):
   ./Extragalactic.bib
 Latexmk: Summary of warnings from last run of *latex:
@@ -1262,12 +1271,12 @@ Latexmk: Errors, in force_mode: so I tried finishing targets
 Collected error summary (may duplicate other messages):
   pdflatex: Command for 'pdflatex' gave return code 1
       Refer to 'myPaper.log' and/or above output for details
-'pdflatex': time = 3.97
-'bibtex myPaper': time = 0.04
-'pdflatex': time = 3.98
-'bibtex myPaper': time = 0.04
-'pdflatex': time = 3.98
-Processing time = 12.47, of which invoked processes = 12.01, other = 0.46.
-Elapsed clock time = 12.50.
+'pdflatex': time = 3.94
+'bibtex myPaper': time = 0.06
+'pdflatex': time = 3.95
+'bibtex myPaper': time = 0.03
+'pdflatex': time = 3.96
+Processing time = 12.39, of which invoked processes = 11.94, other = 0.45.
+Elapsed clock time = 12.40.
 Number of rules run = 5
 

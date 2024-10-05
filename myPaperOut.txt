@@ -1,12 +1,18 @@
+2024-10-05T02:38:36Z 1728095916458
+LATEX COMPILATION ERRORS and WARNINGS
+
+To view full GitHub Actions output, click on item at top of list here:
+https://github.com/pmarcum/SAUNAS_III/actions/runs/11189734061/job/31110500240
+
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               FATAL ERRORS IN myPaper.tex
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 ./myPaper.tex:149: LaTeX Error: \begin{center} on input line 60 ended by \end{document}.
-line #60 ----------------------- 
+Line #60 ----------------------- 
 \begin{center}
 ________________________________________________________________________
 ./myPaper.tex:62: Undefined control sequence.
-line #62 ----------------------- 
+Line #62 ----------------------- 
 \pam
 ________________________________________________________________________
  
@@ -14,17 +20,16 @@ ________________________________________________________________________
               WARNINGS IN myPaper.tex
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 LaTeX Warning: Reference `subsub:goals' on page 1 undefined on input line 71.
-line #71 ----------------------- 
-Will this turn grey ?? see Fig.\ref{fig:NGC5084_spectra_regions} in 
-Sect.\ref{subsub:goals} 
+Line #71 ----------------------- 
+Will this turn grey ?? see Fig.\ref{fig:NGC5084_spectra_regions} in Sect.\ref{subsub:goals} 
 ________________________________________________________________________
 LaTeX Warning: Reference `sec:methods' on page 1 undefined on input line 73.
 LaTeX Warning: Reference `tab:Observations' on page 1 undefined on input line 73.
-line #73 ----------------------- 
+Line #73 ----------------------- 
 Refer to Table\ref{tab:Observations} in Section\ref{sec:methods} 
 ________________________________________________________________________
 LaTeX Warning: Reference `subsub:goals' on page 1 undefined on input line 94.
-line #94 ----------------------- 
+Line #94 ----------------------- 
 By looking at Fig\ref{fig:NGC5084_spectra_regions} (see \ref{subsub:goals})
 ________________________________________________________________________
  
@@ -33,13 +38,12 @@ ________________________________________________________________________
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 Citation `erwin2017mnras468_2058' on page 1 undefined on input line 67.
 Citation `falchi2016an2_1600377' on page 1 undefined on input line 67.
-line #67 ----------------------- 
+Line #67 ----------------------- 
 The second sentence in the intro \citep{erwin2017mnras468_2058, falchi2016an2_1600377}.
 ________________________________________________________________________
 Citation `zucca2006aap455_879' on page 1 undefined on input line 77.
-line #77 ----------------------- 
-Adding another sentence to see if the recompilation will show the new stuff. 
-\citep{zucca2006aap455_879} 
+Line #77 ----------------------- 
+Adding another sentence to see if the recompilation will show the new stuff. \citep{zucca2006aap455_879} 
 ________________________________________________________________________
  
 
