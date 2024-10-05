@@ -205,7 +205,7 @@ jobs:
           sed -ri 's/\a[^\x0]*\x0/\n/g' errout.txt
           # the next step, sorting the entries, does not work as expected unless all the white space is gone, so replace white space with \a
           sed -ri 's/ /\a/g' errout.txt
-          # ============== sort and remove redundances in the error/warning list
+          #_________sort and remove redundances in the error/warning list
           rm -f tmp.txt && cat errout.txt | sort -r -t- -g -k1,1n -k2 -s | uniq | sed -r 's/\a/ /g' > tmp.txt && mv -f tmp.txt errout.txt
         continue-on-error: true
 
@@ -263,7 +263,7 @@ jobs:
                for (( j=0; j<${#sorted[@]}; j++ )); do
                   if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then issue="${sorted[$j]}"; break; fi
                done
-               echo "________________________________________________________________________" >> tout.txt
+               echo "._______________________________________________________________________" >> tout.txt
              done
              echo " " >> tout.txt
           done
@@ -309,9 +309,9 @@ jobs:
           red=false
           while IFS= read -r line; do
              start='^line #[0-9]+'
-             end='^=-----'
+             end='^\.__________'
              if [[ $line =~ $start ]]; then red=true; elif [[ $line =~ $end ]]; then red=false; fi
-             thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
+             thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^\.__________/___________/g' )"
              if $red; then
                 echo "<span style='color:red;'>$thisline</span>" >> red.txt
              else
