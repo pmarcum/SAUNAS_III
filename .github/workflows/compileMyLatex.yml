@@ -263,7 +263,7 @@ jobs:
                for (( j=0; j<${#sorted[@]}; j++ )); do
                   if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then issue="${sorted[$j]}"; break; fi
                done
-               echo "-------------------------------------------------------------------------" >> tout.txt
+               echo "________________________________________________________________________" >> tout.txt
              done
              echo " " >> tout.txt
           done
@@ -321,8 +321,6 @@ jobs:
           sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
           mv -f finHtml.html "$HTMLFILE"
           rm -f red.txt
-          echo '-------------------------------------------------------------'
-          cat "$HTMLFILE"
           rm -f $STARTFILE
           touch $STARTFILE
           echo $TIMESTAMP >> $STARTFILE
@@ -364,7 +362,7 @@ jobs:
           echo "" >> fin.txt
           echo "To view full GitHub Actions output, click on item at top of list here:" >> fin.txt
           echo "$JOBLINK" >> fin.txt
-          echo "====================================================================================================" >> fin.txt
+          echo "" >> fin.txt
           while IFS= read -r line; do
              thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
              echo "$thisline" >> fin.txt
