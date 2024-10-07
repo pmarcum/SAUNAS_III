@@ -227,6 +227,9 @@ jobs:
                  if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then 
                    issue="${sorted[$j]}"
                    if [[ "${errtypes[$i]}" =~ "ERROR" ]]; then touch thereAreErrors.txt; fi
+                   echo '' 
+                   echo '=============================> there are errors '
+                   echo ''
                    break;
                 fi
              done
@@ -297,6 +300,8 @@ jobs:
           rm -f tout.txt
           rm -f html.txt
           rm -f "$PDFFILE"
+          echo ''
+          echo "------------------------> just removed $PDFFILE"
           # make sure that long lines are split if they exceed 20 words
           fold -sw 90 "$OUTFILE" > html.txt
           echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
