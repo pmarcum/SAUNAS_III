@@ -127,7 +127,6 @@ jobs:
         run: |
           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" 2>&1 | tee compileOut.txt
           cat compileOut.txt
-          ls *.pdf*
         continue-on-error: true
         
       - name: Prune the bib file
@@ -196,7 +195,7 @@ jobs:
           sed -ri 's/  */ /g' errout.txt
           rm -f tmp.txt && sed -r 's/(\.[^.][^.]*\.tex:[0-9][0-9]*:[^.\t][^.\t]*\t)([0-9][0-9]*)([^.]*\.)/\x0\2-ERROR-\1\2\3\a/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           rm -f tmp.txt && sed -r 's/([^:][^:][^:])(LaTeX )((Error)|(Warning))(:[^.\t][^.\t]*\t)([0-9][0-9]*)([^.]*\.)/\1\x0\7-\3-\2\3\6\7\8\a/g' errout.txt >> tmp.txt && mv -f tmp.txt errout.txt
-          rm -f tmp.txt && sed -r 's/(\!pdfTeX error[^!][^!]*\!)/\x00-ERROR-\1/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
+          rm -f tmp.txt && sed -r 's/(!pdfTeX error[^!][^!]*!)/\x00-ERROR-\1/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           sed -ri 's/\-Error\-/-ERROR-/g' errout.txt
           sed -ri 's/\-Warning\-/-WARNING-/g' errout.txt
           rm -f tmp.txt && sed -r 's/([^-])(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.\t][^.\t]*\.)/\1\x0\3-ERROR-\2\3\4\a/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
@@ -214,7 +213,6 @@ jobs:
       - name: Process the errors and warnings
         # remove lines in the output that are unrelated to the latex compilation itself
         run: |
-          ls *.pdf*
           readarray -t sorted < errout.txt
           #  #######################   START CONSOLIDATING THE ERRORS ###################
           rm -f thereAreErrors.txt
