@@ -224,6 +224,9 @@ jobs:
              echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
              issue=""
              for (( j=0; j<${#sorted[@]}; j++ )); do
+                 echo ''
+                 echo "---> ${sorted[$j]}"
+                 echo ''
                  if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then 
                    issue="${sorted[$j]}"
                    if [[ "${errtypes[$i]}" =~ "ERROR" ]]; then touch thereAreErrors.txt; fi
