@@ -229,10 +229,13 @@ jobs:
                  echo ''
                  if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then 
                    issue="${sorted[$j]}"
-                   if [[ "${errtypes[$i]}" =~ "ERROR" ]]; then touch thereAreErrors.txt; fi
-                   echo '' 
-                   echo '=============================> there are errors '
-                   echo ''
+                   if [[ "${errtypes[$i]}" =~ "ERROR" ]]; then 
+                      touch thereAreErrors.txt
+                      echo '' 
+                      echo '=============================> there are errors '
+                      echo "-----===----====> ${sorted[$j]}"
+                      echo ''
+                   fi
                    break;
                 fi
              done
