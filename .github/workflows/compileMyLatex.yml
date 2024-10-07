@@ -127,6 +127,7 @@ jobs:
         run: |
           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" 2>&1 | tee compileOut.txt
           cat compileOut.txt
+          ls *.pdf*
         continue-on-error: true
         
       - name: Prune the bib file
@@ -212,6 +213,7 @@ jobs:
       - name: Process the errors and warnings
         # remove lines in the output that are unrelated to the latex compilation itself
         run: |
+          ls *.pdf*
           readarray -t sorted < errout.txt
           #  #######################   START CONSOLIDATING THE ERRORS ###################
           rm -f thereAreErrors.txt
@@ -299,6 +301,7 @@ jobs:
       - name: Convert errors to html file
         if: ${{ always() && hashFiles('thereAreErrors.txt') }}
         run: |
+          ls *.pdf*
           # determine if there were no errors, meaning that errors.txt is empty file. If so, place the word none under the
           # banner of this section in output file. But if there were errors, then remove the pdf file so that the pdf file
           # that gets shown in gooTeX is the compilation errors rather than a mangled pdf.
@@ -306,6 +309,7 @@ jobs:
           rm -f tout.txt
           rm -f html.txt
           rm -f "$PDFFILE"
+          ls *.pdf*
           echo ''
           echo "------------------------> just removed $PDFFILE"
           # make sure that long lines are split if they exceed 20 words
