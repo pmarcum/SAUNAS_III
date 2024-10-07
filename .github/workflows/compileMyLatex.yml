@@ -195,7 +195,7 @@ jobs:
           sed -ri 's/  */ /g' errout.txt
           rm -f tmp.txt && sed -r 's/(\.[^.][^.]*\.tex:[0-9][0-9]*:[^.\t][^.\t]*\t)([0-9][0-9]*)([^.]*\.)/\x0\2-ERROR-\1\2\3\a/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           rm -f tmp.txt && sed -r 's/([^:][^:][^:])(LaTeX )((Error)|(Warning))(:[^.\t][^.\t]*\t)([0-9][0-9]*)([^.]*\.)/\1\x0\7-\3-\2\3\6\7\8\a/g' errout.txt >> tmp.txt && mv -f tmp.txt errout.txt
-          rm -f tmp.txt && sed -r 's/(!pdfTeX error[^!][^!]*!)/\x00-ERROR-\1/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
+          rm -f tmp.txt && sed -r 's/(!pdfTeX error[^!][^!]*!)/\x0 0-ERROR-\1/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
           sed -ri 's/\-Error\-/-ERROR-/g' errout.txt
           sed -ri 's/\-Warning\-/-WARNING-/g' errout.txt
           rm -f tmp.txt && sed -r 's/([^-])(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.\t][^.\t]*\.)/\1\x0\3-ERROR-\2\3\4\a/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
@@ -203,7 +203,7 @@ jobs:
           sed -ri 's/\a[^\a]*$//' errout.txt
           #_________remove all the \t placeholders
           sed -ri 's/\t//g' errout.txt
-          sed -ri 's/\a[^\x0]*\x0/\n/g' errout.txt
+          sed -ri 's/\a[^\x0]*\x0 */\n/g' errout.txt
           # the next step, sorting the entries, does not work as expected unless all the white space is gone, so replace white space with \a
           sed -ri 's/ /\a/g' errout.txt
           #_________sort and remove redundances in the error/warning list
