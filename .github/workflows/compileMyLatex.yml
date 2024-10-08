@@ -53,7 +53,7 @@ jobs:
 
       - name: Copy over the files from the Google Drive
         run: |
-          
+          curl -o test.png https://drive.google.com/uc?id=1X5ZfM9pSIdwLIFgvHwV26SfpMewfN_r8
         
       - name: Define environmental variables
         run: |
