@@ -297,7 +297,6 @@ jobs:
       - name: Convert errors to html file
         if: ${{ always() && hashFiles('thereAreErrors.txt') }}
         run: |
-          ls *.pdf*
           # determine if there were no errors, meaning that errors.txt is empty file. If so, place the word none under the
           # banner of this section in output file. But if there were errors, then remove the pdf file so that the pdf file
           # that gets shown in gooTeX is the compilation errors rather than a mangled pdf.
@@ -305,9 +304,6 @@ jobs:
           rm -f tout.txt
           rm -f html.txt
           rm -f "$PDFFILE"
-          ls *.pdf*
-          echo ''
-          echo "------------------------> just removed $PDFFILE"
           # make sure that long lines are split if they exceed 20 words
           fold -sw 90 "$OUTFILE" > html.txt
           echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
