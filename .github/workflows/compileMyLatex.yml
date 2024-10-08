@@ -84,6 +84,7 @@ jobs:
           rm -f $CORENAME.blg
           rm -f $CORENAME.fdb_latexmk
           rm -f $CORENAME.fls
+          rm -f $CORENAME.sync*
           rm -f inpaperCites.txt
           rm -f thereAreErrors.txt
           rm -f doesNotUsePruned.txt
@@ -389,6 +390,7 @@ jobs:
           rm -f $CORENAME.blg
           rm -f $CORENAME.fdb_latexmk
           rm -f $CORENAME.fls
+          rm -f $CORENAME.sync*
           rm -f inpaperCites.txt
           rm -f thereAreErrors.txt
           rm -f doesNotUsePruned.txt
