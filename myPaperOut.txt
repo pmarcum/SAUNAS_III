@@ -1,0 +1,146 @@
+2024-10-08T01:15:18Z 1728350118645
+LATEX COMPILATION ERRORS and WARNINGS
+
+To view full GitHub Actions output, click on item at top of list here:
+https://github.com/pmarcum/SAUNAS_III/actions/runs/11226748741/job/31207810664
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              FATAL ERRORS IN myPaper.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+!pdfTeX error: pdflatex (file ./FIGURES/HST_Torus_model.png): reading image file failed ==> Fatal error occurred, no output PDF file produced!Latexmk: Missing input file 'FIGURES/NGC5084_broad_kev300_2000_result_deco_voro_smooth_drz.png' (or dependence on it) from following: LaTeX Warning: File `FIGURES/NGC5084_broad_kev300_2000_result_deco_voro_smooth_drz.png' not found on input line 487.Latexmk: Getting log file 'myPaper.log'Latexmk: Examining 'myPaper.fls'Latexmk: Examining 'myPaper.log'Latexmk: applying rule 'pdflatex'...Rule 'pdflatex': Reasons for rerunChanged files or newly in use/created: myPaper.aux------------Run number 2 of rule 'pdflatex'------------------------Running 'pdflatex -file-line-error -synctex=1 -interaction=nonstopmode -recorder "myPaper.tex"'------------This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex) restricted \write18 enabled.entering extended mode(./myPaper.texLaTeX2e <2024-06-01> patch level 2L3 programming layer <2024-08-16>(./CORE-AAS/aastex631.clsLaTeX Warning: You have requested document class `CORE-AAS/aastex631', but the document class provides `aastex631'.Document Class: aastex631 2020/12/20 Version 6.3.1d/AAS markup document class ltxutil[2020/09/30 4.1s utilities package (portions licensed from W. E. Baxter web at superscript.com)]ltxfront[2020/09/30 4.1s frontmatter package (AO,DPC)]ltxgrid[2020/09/30 4.1s page grid package (portions licensed from W. E. Baxter web at superscript.com)] Package nameref Warning: The definition of \label has changed! (nameref) Check your packages! (nameref) Replacing it with the kernel definition on input line 149. ) Package breakurl Warning: You are using breakurl while processing via pdflatex.(breakurl) \burl will be just a synonym of \url.(breakurl) on input line 48. ) LaTeX Warning: Command \@footnotemark has changed. Check if current package is valid. ) LaTeX Warning: \include should only be used after \begin{document} on input line 63.(./variables.tex ) (./myPaper.aux) .] (./myPaper.out) (./myPaper.out) [1{/home/runner/work/_temp/setup-texlive-action/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]Package natbib Warning: Citation `kormendy+2013araa51_511' on page 2 undefined on input line 356.Package natbib Warning: Citation `antonucci1993araa31_473' on page 2 undefined on input line 359.Package natbib Warning: Citation `urry+1995pasp107_803' on page 2 undefined on input line 359.Package natbib Warning: Citation `marin2014mnras441_551' on page 2 undefined on input line 359.Package natbib Warning: Citation `netzer2015araa53_365' on page 2 undefined on input line 359.Package natbib Warning: Citation `peterson2006incollection_77' on page 2 undefined on input line 359.Package natbib Warning: Citation `netzer2015araa53_365' on page 2 undefined on input line 359.Package natbib Warning: Citation `ramosalmeida+2017nat1_679' on page 2 undefined on input line 359.Package natbib Warning: Citation `boyle+1998mnras293_49' on page 2 undefined on input line 363.Package natbib Warning: Citation `delvecchio+2014mnras439_2736' on page 2 undefined on input line 363.Package natbib Warning: Citation `madau+2014araa52_415' on page 2 undefined on input line 363.Package natbib Warning: Citation `shankar+2009apj690_20' on page 2 undefined on input line 363.Package natbib Warning: Citation `dressler+1997apj490_577' on page 2 undefined on input line 363.Package natbib Warning: Citation `laurikainen+2010mnras405_1089' on page 2 undefined on input line 369.Package natbib Warning: Citation `larson+1980apj237_692' on page 2 undefined on input line 369.Package natbib Warning: Citation `moore+1996nat379_613' on page 2 undefined on input line 369.Package natbib Warning: Citation `barway+2009mnras394_1991' on page 2 undefined on input line 369.Package natbib Warning: Citation `borlaff+2014aap570_103' on page 2 undefined on input line 369.Package natbib Warning: Citation `elichemoral+2018aap617_113' on page 2 undefined on input line 369.Package natbib Warning: Citation `frasermckelvie+2018mnras481_5580' on page 2 undefined on input line 369.Package natbib Warning: Citation `machacek+2010apj711_1316' on page 2 undefined on input line 369.Package natbib Warning: Citation `wang+2019apj870_132' on page 2 undefined on input line 369.Package natbib Warning: Citation `juravnova+2019mnras484_2886' on page 2 undefined on input line 369.Package natbib Warning: Citation `gottesman+1986mnras219_759' on page 2 undefined on input line 371.Package natbib Warning: Citation `devaucouleurs+1991book' on page 2 undefined on input line 371.Package natbib Warning: Citation `koribalski+2004aj128_16' on page 2 undefined on input line 371.LaTeX Warning: Reference `fig:NGC5084_poster' on page 2 undefined on input line 371.Package natbib Warning: Citation `ohlson+2024aj167_31' on page 2 undefined on input line 372.Package natbib Warning: Citation `koribalski+2004aj128_16' on page 2 undefined on input line 372.[2]Package natbib Warning: Citation `zeilinger+1990mnras246_324' on page 3 undefined on input line 386.Package natbib Warning: Citation `carignan+1997aj113_1585' on page 3 undefined on input line 386.Package natbib Warning: Citation `williams+2009mnras400_1665' on page 3 undefined on input line 387.Package natbib Warning: Citation `zaw+2019apj872_134' on page 3 undefined on input line 387.Package natbib Warning: Citation `kewley+2001apj556_121' on page 3 undefined on input line 387.Package natbib Warning: Citation `jones+2004mnras355_747' on page 3 undefined on input line 387.Package natbib Warning: Citation `jones+2009mnras399_683' on page 3 undefined on input line 387.Package natbib Warning: Citation `irwin+2019aj158_21' on page 3 undefined on input line 387.Package natbib Warning: Citation `comeron+2012apj759_98' on page 3 undefined on input line 387.Package natbib Warning: Citation `younger+2007apj670_269' on page 3 undefined on input line 387.Package natbib Warning: Citation `borlaff+2014aap570_103' on page 3 undefined on input line 387.Package natbib Warning: Citation `osullivan+2017mnras472_1482' on page 3 undefined on input line 389.Package natbib Warning: Citation `osullivan+2017mnras472_1482' on page 3 undefined on input line 390.Overfull \hbox (15.24416pt too wide) in paragraph at lines 390--390 | | Package natbib Warning: Citation `borlaff+2024apj967_169' on page 3 undefined on input line 392.
+._______________________________________________________________________
+!pdfTeX error: pdflatex (file ./FIGURES/HST_Torus_model.png): reading image file failed ==> Fatal error occurred, no output PDF file produced!Latexmk: Missing input file 'FIGURES/NGC5084_broad_kev300_2000_result_deco_voro_smooth_drz.png' (or dependence on it) from following: LaTeX Warning: File `FIGURES/NGC5084_broad_kev300_2000_result_deco_voro_smooth_drz.png' not found on input line 487.Latexmk: Getting log file 'myPaper.log'Latexmk: Examining 'myPaper.fls'Latexmk: Examining 'myPaper.log'Latexmk: applying rule 'pdflatex'...Rule 'pdflatex': Reasons for rerunChanged files or newly in use/created: myPaper.out------------Run number 3 of rule 'pdflatex'------------------------Running 'pdflatex -file-line-error -synctex=1 -interaction=nonstopmode -recorder "myPaper.tex"'------------This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex) restricted \write18 enabled.entering extended mode(./myPaper.texLaTeX2e <2024-06-01> patch level 2L3 programming layer <2024-08-16>(./CORE-AAS/aastex631.clsLaTeX Warning: You have requested document class `CORE-AAS/aastex631', but the document class provides `aastex631'.Document Class: aastex631 2020/12/20 Version 6.3.1d/AAS markup document class ltxutil[2020/09/30 4.1s utilities package (portions licensed from W. E. Baxter web at superscript.com)]ltxfront[2020/09/30 4.1s frontmatter package (AO,DPC)]ltxgrid[2020/09/30 4.1s page grid package (portions licensed from W. E. Baxter web at superscript.com)] Package nameref Warning: The definition of \label has changed! (nameref) Check your packages! (nameref) Replacing it with the kernel definition on input line 149. ) Package breakurl Warning: You are using breakurl while processing via pdflatex.(breakurl) \burl will be just a synonym of \url.(breakurl) on input line 48. ) LaTeX Warning: Command \@footnotemark has changed. Check if current package is valid. ) LaTeX Warning: \include should only be used after \begin{document} on input line 63.(./variables.tex ) (./myPaper.aux) .] (./myPaper.out) (./myPaper.out) [1{/home/runner/work/_temp/setup-texlive-action/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]Package natbib Warning: Citation `kormendy+2013araa51_511' on page 2 undefined on input line 356.Package natbib Warning: Citation `antonucci1993araa31_473' on page 2 undefined on input line 359.Package natbib Warning: Citation `urry+1995pasp107_803' on page 2 undefined on input line 359.Package natbib Warning: Citation `marin2014mnras441_551' on page 2 undefined on input line 359.Package natbib Warning: Citation `netzer2015araa53_365' on page 2 undefined on input line 359.Package natbib Warning: Citation `peterson2006incollection_77' on page 2 undefined on input line 359.Package natbib Warning: Citation `netzer2015araa53_365' on page 2 undefined on input line 359.Package natbib Warning: Citation `ramosalmeida+2017nat1_679' on page 2 undefined on input line 359.Package natbib Warning: Citation `boyle+1998mnras293_49' on page 2 undefined on input line 363.Package natbib Warning: Citation `delvecchio+2014mnras439_2736' on page 2 undefined on input line 363.Package natbib Warning: Citation `madau+2014araa52_415' on page 2 undefined on input line 363.Package natbib Warning: Citation `shankar+2009apj690_20' on page 2 undefined on input line 363.Package natbib Warning: Citation `dressler+1997apj490_577' on page 2 undefined on input line 363.Package natbib Warning: Citation `laurikainen+2010mnras405_1089' on page 2 undefined on input line 369.Package natbib Warning: Citation `larson+1980apj237_692' on page 2 undefined on input line 369.Package natbib Warning: Citation `moore+1996nat379_613' on page 2 undefined on input line 369.Package natbib Warning: Citation `barway+2009mnras394_1991' on page 2 undefined on input line 369.Package natbib Warning: Citation `borlaff+2014aap570_103' on page 2 undefined on input line 369.Package natbib Warning: Citation `elichemoral+2018aap617_113' on page 2 undefined on input line 369.Package natbib Warning: Citation `frasermckelvie+2018mnras481_5580' on page 2 undefined on input line 369.Package natbib Warning: Citation `machacek+2010apj711_1316' on page 2 undefined on input line 369.Package natbib Warning: Citation `wang+2019apj870_132' on page 2 undefined on input line 369.Package natbib Warning: Citation `juravnova+2019mnras484_2886' on page 2 undefined on input line 369.Package natbib Warning: Citation `gottesman+1986mnras219_759' on page 2 undefined on input line 371.Package natbib Warning: Citation `devaucouleurs+1991book' on page 2 undefined on input line 371.Package natbib Warning: Citation `koribalski+2004aj128_16' on page 2 undefined on input line 371.LaTeX Warning: Reference `fig:NGC5084_poster' on page 2 undefined on input line 371.Package natbib Warning: Citation `ohlson+2024aj167_31' on page 2 undefined on input line 372.Package natbib Warning: Citation `koribalski+2004aj128_16' on page 2 undefined on input line 372.[2]Package natbib Warning: Citation `zeilinger+1990mnras246_324' on page 3 undefined on input line 386.Package natbib Warning: Citation `carignan+1997aj113_1585' on page 3 undefined on input line 386.Package natbib Warning: Citation `williams+2009mnras400_1665' on page 3 undefined on input line 387.Package natbib Warning: Citation `zaw+2019apj872_134' on page 3 undefined on input line 387.Package natbib Warning: Citation `kewley+2001apj556_121' on page 3 undefined on input line 387.Package natbib Warning: Citation `jones+2004mnras355_747' on page 3 undefined on input line 387.Package natbib Warning: Citation `jones+2009mnras399_683' on page 3 undefined on input line 387.Package natbib Warning: Citation `irwin+2019aj158_21' on page 3 undefined on input line 387.Package natbib Warning: Citation `comeron+2012apj759_98' on page 3 undefined on input line 387.Package natbib Warning: Citation `younger+2007apj670_269' on page 3 undefined on input line 387.Package natbib Warning: Citation `borlaff+2014aap570_103' on page 3 undefined on input line 387.Package natbib Warning: Citation `osullivan+2017mnras472_1482' on page 3 undefined on input line 389.Package natbib Warning: Citation `osullivan+2017mnras472_1482' on page 3 undefined on input line 390.Overfull \hbox (15.24416pt too wide) in paragraph at lines 390--390 | | Package natbib Warning: Citation `borlaff+2024apj967_169' on page 3 undefined on input line 392.
+._______________________________________________________________________
+!pdfTeX error: pdflatex (file ./FIGURES/HST_Torus_model.png): reading image file failed ==> Fatal error occurred, no output PDF file produced!Latexmk: Missing input file 'FIGURES/NGC5084_broad_kev300_2000_result_deco_voro_smooth_drz.png' (or dependence on it) from following: LaTeX Warning: File `FIGURES/NGC5084_broad_kev300_2000_result_deco_voro_smooth_drz.png' not found on input line 487.Failure to make 'myPaper.pdf'Latexmk: ====Undefined refs and citations with line #s in .tex file:
+._______________________________________________________________________
+./myPaper.tex:487: Package pdftex.
+Line #487 ----------------------- 
+{FIGURES/NGC5084_broad_kev300_2000_result_deco_voro_smooth_drz.png}
+._______________________________________________________________________
+ 
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              WARNINGS IN myPaper.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+LaTeX Warning: Reference `sec:methods' on page 3 undefined on input line 393.
+LaTeX Warning: Reference `sec:DIS' on page 3 undefined on input line 393.
+Line #393 ----------------------- 
+This paper is organized as follows. The datasets and methodology pipeline is described in Sec.\,\ref{sec:methods}. The results are presented in Sec.\,\ref{sec:results}. The discussion and conclusions are presented in Sec.\,\ref{sec:DIS} and \ref{sec:CON}, respectively. All magnitudes are in the AB system \citep{oke1971apj170_193} unless otherwise noted.
+._______________________________________________________________________
+LaTeX Warning: Reference `tab:Observations' on page 5 undefined on input line 440.
+Line #440 ----------------------- 
+A total of 9.92~ks of \Chandra\ observations, using the \texttt{VFAINT} mode, have been archived for NGC\,5084 (ACIS-I, Obs.\,ID:12173, PI:~Stephen~Murray; August~2011 under \Chandra\ Cycle~12, see Table \ref{tab:Observations}). We analyze NGC\,5084's X-ray emission in four different bands: 0.3 -- 1.0~keV (soft), 1.0 -- 2.0~keV (medium), 0.3 -- 2.0~keV (broad), and 2.0 -- 8.0~keV (hard). PSF models were generated for each band, taking into account the spectra of the source, following the prescriptions from \texttt{MARX}\footnote{\url{https://cxc.cfa.harvard.edu/ciao/threads/marx_sim/}}. After PSF deconvolution, point sources -- potentially associated with background objects, X-ray binaries, or AGNs -- are identified and removed from the resulting images. Finally, the resulting frames are adaptive smoothed, and the background is subtracted. 
+._______________________________________________________________________
+LaTeX Warning: Reference `tab:Observations' on page 5 undefined on input line 449.
+Line #449 ----------------------- 
+Proposal ID: 6785, F702W and F658N, June 1996), WFC3/IR (F160W, Proposal PI: Boizelle, Benjamin, Proposal ID: 15909, and WFC3/UVIS (F475W, same Proposal ID as WFC3/IR, see Table \ref{tab:Observations}). Planetary Camera (PC) observations of WFPC2 allow for an angular resolution of $0.05$ arcsec, while WFC3s IR and UVIS channels have a resolution of $0.13$ and $0.04$ arcsec respectively. At a distance of $D=	29.91\pm2.12$~Mpc \citep[6.90~arcsec~kpc$^{-1}$,][]{koribalski+2004aj128_16}, and assuming a Nyquist sampled PSF, the physical spatial resolution scales are $\sim12$ pc (WFC3/UVIS) and $\sim36$ pc (WFC3/IR), respectively. Table\,\ref{tab:Observations} summarizes the available observations.
+._______________________________________________________________________
+LaTeX Warning: Reference `fig:NGC5084' on page 7 undefined on input line 497.
+Line #497 ----------------------- 
+Figure \,\ref{fig:NGC5084} presents the new \SAUNAS-processed images in the selected broad X-ray band (0.3--2.0 keV), overlayed on the optical morphology of the galaxy \citep[large FOV optical and near-infrared $gri$ image from Pan-STARRS, ][]{chambers+2016arXiv1612.05560}. Additionally, Fig.\,\ref{fig:NGC5084_per_band} in Appendix \ref{Appendix:Xray_subbands} shows the three X-ray (\emph{soft:} 0.3-1.0 keV, \emph{medium:} 1.0-2.0 keV, \emph{hard:} 2.0 - 8.0 keV) bands. \par 
+._______________________________________________________________________
+LaTeX Warning: Reference `fig:NGC5084' on page 8 undefined on input line 502.
+Line #502 ----------------------- 
+flux inside the $3\sigma$ contour in Fig.\,\ref{fig:NGC5084}; (2) Core ($R<10"$); (3) Extended emission ($10"<R<1.5'$, and $>3\sigma$); and (4-7) North, West, South, and East lobes. The lobe regions are defined by dividing the extended emission in 4 quadrants (with separations at 45$^{\circ}$, 135$^{\circ}$, 225$^{\circ}$, 315$^{\circ}$), excluding the emission from the core ($R<10"$) with a limit at $R=1.5'$. The separation between the core and extended regions $R=10"$ is defined based on the inspection of the X-ray morphology as the maximum radius where the X-ray emission does not show a significant elongation. The results are presented in Table \ref{tab:Xray_flux}. The fluxes take into account PSF deconvolution, and they exclude the emission from point sources identified by the \Chandra\ catalog of point sources (XRBs, AGN core). The analysis shows that the integrated emission from the north and east lobes is in excess of a 10$\sigma$ detection. The south and west are substantially dimmer but significant above the background at 6.6$\sigma$ and 3.2$\sigma$. 
+._______________________________________________________________________
+LaTeX Warning: Reference `fig:NGC5084' on page 9 undefined on input line 507.
+Line #507 ----------------------- 
+In order to verify the results from the pipeline, we study the significance of the extended emission in Appendix \ref{Appendix:Xray_noPSFdeco_test} using two different, additional methodologies widely used in the literature. First, we determine if there is an excess of emission around the bright core of the galaxy by comparing the PSF surface brightness profile with the observed profile in the original \Chandra/ACIS observations, without applying Voronoi binning or PSF deconvolution. This methodology has been extensively used in the literature \citep{fabbiano+2017apj842_4,fabbiano+2018apj855_131, jones+2020apj891_133,ma+2020apj900_164,ma+2023apj948_61} to identify hot gas halos and other extended emission components. The results (see Fig.\,\ref{fig:NGC5084_psf_profile}) show a clear excess of emission above that expected PSF scattering up to the same radial distance as predicted by the $3\sigma$ contours on Fig.\,\ref{fig:NGC5084}, confirming that the X-ray emission of NGC\,5084 is not caused by PSF-scattered light from the bright core and that the extended emission is significant.
+._______________________________________________________________________
+LaTeX Warning: Reference `fig:NGC5084_hst' on page 10 undefined on input line 543.
+Line #543 ----------------------- 
+To further investigate the nature of this complex emission, we explored the available HST observations of NGC\,5084 (see Table \ref{tab:Observations}), presented in Fig.\,\ref{fig:NGC5084_hst}. 
+._______________________________________________________________________
+ 
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              CITATION ISSUES IN myPaper.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Citation `antonucci1993araa31_473' on page 2 undefined on input line 359.
+Citation `urry+1995pasp107_803' on page 2 undefined on input line 359.
+Citation `marin2014mnras441_551' on page 2 undefined on input line 359.
+Citation `netzer2015araa53_365' on page 2 undefined on input line 359.
+Citation `peterson2006incollection_77' on page 2 undefined on input line 359.
+Citation `netzer2015araa53_365' on page 2 undefined on input line 359.
+Line #359 ----------------------- 
+The main hypothesis of the unified scheme of active galactic nuclei (AGNs) is that the broad range of spectro-photometric properties is caused by the angle of inclination between the observer and an obstructing circumnuclear disk \citep{antonucci1993araa31_473, urry+1995pasp107_803}. The circumnuclear disk is a dusty and molecular gas component of outflowing and inflowing material surrounding the AGN, the so-called `torus'. According to this theory, when AGN's are observed at low inclination angles \citep[$i<45$--$60^{\circ}$, where $i=0^{\circ}$ would be face-on,][]{marin2014mnras441_551}, broad optical and ultraviolet (UV) spectral features (full width at half maximum; FWHM $\geq 1000-20,000$ km s$^{-1}$) are expected, corresponding to the Broad Line Region (BLR); a bright, non-stellar, central compact source visible at all wave-lengths, and with low polarization degree \citep[Type 1 AGNs,][]{netzer2015araa53_365}. At higher inclination angles, the BLR would be obscured by the torus showing only the narrow line region emission (NLR, Type 2 AGNs). See \citet{peterson2006incollection_77, netzer2015araa53_365, ramosalmeida+2017nat1_679} for reviews in the field.
+._______________________________________________________________________
+ 
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              LIST OF REFERENCES IN myPaper.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Number of citations: 75
+antonucci1993araa31_473
+barway+2009mnras394_1991
+beck+2013inbook_641
+borlaff+2014aap570_103
+borlaff+2024apj967_169
+boyle+1998mnras293_49
+broos+2010apj714_1582
+cappellari+2003mnras342_345
+carignan+1997aj113_1585
+chambers+2016arXiv1612.05560
+comeron+2012apj759_98
+davis+2013nat494_328
+davis+2022mnras512_1522
+delvecchio+2014mnras439_2736
+devaucouleurs+1991book
+dressler+1997apj490_577
+ebeling+2006mnras368_65
+ebeling+2007apj661_33
+ebeling+2010mnras407_83
+elichemoral+2018aap617_113
+fabbiano+2017apj842_4
+fabbiano+2018apj855_131
+ferrarese+1996apj470_444
+frasermckelvie+2018mnras481_5580
+garciaburillo+2021aap652_98
+gonzalezmartin+2009aap506_1107
+gottesman+1986mnras219_759
+hardcastle+2020na88_101539
+haverkorn+2004aap421_1011
+hodgeskluck+2012apj746_167
+irwin+2012aj144_43
+irwin+2019aj158_21
+jaffe+1993nat364_213
+jones+2004mnras355_747
+jones+2009mnras399_683
+jones+2020apj891_133
+juravnova+2019mnras484_2886
+kewley+2001apj556_121
+koribalski+2004aj128_16
+kormendy+1994inproceedings_147
+kormendy+2013araa51_511
+KRISHNAMOORTHY200423
+larson+1980apj237_692
+laurikainen+2010mnras405_1089
+leroy+2021apj257_43
+ma+2020apj900_164
+ma+2023apj948_61
+machacek+2010apj711_1316
+madau+2014araa52_415
+marin2014mnras441_551
+moellenhoff+1987aap174_63
+moore+1996nat379_613
+netzer2015araa53_365
+ohlson+2024aj167_31
+oke1971apj170_193
+onishi+2015apj806_39
+onishi+2017mnras468_4663
+osullivan+2017mnras472_1482
+pasetto+2018aap613_74
+peterson2006incollection_77
+ramosalmeida+2017nat1_679
+sebastian+2019apj883_189
+sebastian+2020mnras499_334
+shankar+2009apj690_20
+smith+2021mnras500_1933
+urry+1995pasp107_803
+vandermarel+1998aj116_2220
+wang+2019apj870_132
+wang+2024apj962_188
+wiegert+2015aj150_81
+williams+2009mnras400_1665
+xue+2011apj195_10
+younger+2007apj670_269
+zaw+2019apj872_134
+zeilinger+1990mnras246_324
