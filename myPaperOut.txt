@@ -1,0 +1,51 @@
+2024-10-10T02:40:50Z 1728528050401
+LATEX COMPILATION ERRORS and WARNINGS
+
+To view full GitHub Actions output, click on item at top of list here:
+https://github.com/pmarcum/SAUNAS_III/actions/runs/11266458832/job/31329969479
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              FATAL ERRORS IN myPaper.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      none
+ 
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              WARNINGS IN myPaper.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      none
+ 
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              CITATION ISSUES IN myPaper.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      none
+ 
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              LIST OF REFERENCES IN myPaper.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Number of citations: 25
+antonucci1993araa31_473
+barway+2009mnras394_1991
+borlaff+2014aap570_103
+boyle+1998mnras293_49
+delvecchio+2014mnras439_2736
+devaucouleurs+1991book
+dressler+1997apj490_577
+elichemoral+2018aap617_113
+frasermckelvie+2018mnras481_5580
+gottesman+1986mnras219_759
+juravnova+2019mnras484_2886
+koribalski+2004aj128_16
+kormendy+2013araa51_511
+larson+1980apj237_692
+laurikainen+2010mnras405_1089
+machacek+2010apj711_1316
+madau+2014araa52_415
+marin2014mnras441_551
+moore+1996nat379_613
+netzer2015araa53_365
+peterson2006incollection_77
+ramosalmeida+2017nat1_679
+shankar+2009apj690_20
+urry+1995pasp107_803
+wang+2019apj870_132
