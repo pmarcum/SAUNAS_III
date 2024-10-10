@@ -622,6 +622,64 @@ This work was co-authored by an employee of Caltech/IPAC under Contract No. 80GS
 %% Figure and Table counter will not reset. 
 
 
+\appendix
+
+\section{Extended X-ray Emission Detection Tests}
+\label{Appendix:xray_tests}
+
+In this Appendix we expand on the technical aspects of \SAUNAS's \citep{borlaff+2024apj967_169} adaptively smoothed surface brightness maps (Sec.\,\ref{Appendix:xray_SNR}) for NGC\,5084. The quality checks described below provide additional verification of the detection of  extended X-ray emission in NGC\,5084, independent of both PSF deconvolution (Sec.\,\ref{Appendix:Xray_noPSFdeco_test}) and Voronoi binning (Sec.\,\ref{Appendix:Xray_novoro_test}).
+
+\subsection{Signal Detection in Extended Sources}
+\label{Appendix:xray_SNR}
+
+One of the main advantages of \SAUNAS's spatial binning application to the X-ray event maps is the improvement in detectability of extended low surface brightness sources. Extended emission sensitivity limits in binned maps are considerably fainter than the reference point source sensitivity of \Chandra/ACIS\footnote{\Chandra/ACIS proposer guide: \url{https://cxc.harvard.edu/proposer/POG/html/chap6.html}} ($4\times10^{-15}$ erg cm$^{-2}$ s$^{-1}$ in 10$^4$ s, at 0.4--6.0 keV). In general, the sensitivity limit of \Chandra/ACIS ($f_{\rm lim}$) at a given signal-to-noise ratio ($\sigma$) detection level is a function of photon energy ($E$), binning area ($A$), exposure time ($t$), and equivalent effective area \citep[$M$, which has a complex variation with energy, see Fig.\,6 in][]{evans+2010apj189_37}:
+
+\begin{equation}
+\label{eq:F_lim_Xray}
+f_{\rm{lim}}\,[\rm{erg}\,\rm{cm}^{-2}\,\rm{s}^{-1}\,\rm{arcsec}^{-2} ] =\\ 1.6\cdot10^{-9}\,[\rm{erg} \, \rm{keV}^{-1}] \times\frac{\emph{E\,[\rm{keV}]}\,\sigma^2}{\emph{A}\,[arcsec^2]\,\emph{M}\,[cm^2]\,\emph{t}\,[s]}
+\end{equation}
+
+At $E=1$ keV and $t=10$~ks, the equivalent exposure\footnote{\ciao/\Chandra\ exposure maps: \url{https://cxc.cfa.harvard.edu/ciao/threads/expmap_acis_single/}} ($\emph{M}\,\emph{t}$) is approximately $3.8\times10^{6}$ cm$^{2}$ s$^{1}$. For a point source detection of $\sigma=3$, with flux integration over an area associated with the PSF at the center of the ACIS detector ($FWHM\sim1.1"$), Eqn.\,\ref{eq:F_lim_Xray} implies a limiting sensitivity of $f_{\rm{lim}} = 4\times10^{-15}$ erg cm$^{-2}$ s$^{-1}$, equal to the reference instrument point source sensitivity limits.
+
+For extended sources, increased aperture size results in fainter limiting sensitivities. For example, binning on areas of $25"\times25"$ produces a $\sigma=3$ detection of an extended source with average surface brightness of $5\times10^{-18}$ erg cm$^{-2}$ s$^{-1}$ arcsec$^{-2}$ ($3\times10^{-9}$ cm$^{-2}$ s$^{-1}$ arcsec$^{-2}$ at $E\sim0.3-2.0$ keV). The extended surface brightness limit is substantially dimmer ($\times1/500$) than the reference point source sensitivity.
+
+The use of large spatial binning is not needed for the brighter regions of emission. Adaptive binning methods such as CSMOOTH \citep{ebeling+2006mnras368_65} or Voronoi binning \citep{cappellari+2003mnras342_345, diehl+2006mnras368_497} take advantage of the anisotropies of the emission in the detector and bin the low surface brightness regions (typically the outskirts or halos) more aggressively than for brighter sections of the image (typically the core of the galaxy). These methods, including Voronoi binning (used by \SAUNAS), have been extensively used in the literature to analyze extended low surface brightness emission Chandra and XMM-Newton observations \citep[see ][and references therein]{ebeling+2007apj661_33,gonzalezmartin+2009aap506_1107,broos+2010apj714_1582, ebeling+2010mnras407_83, xue+2011apj195_10, hodgeskluck+2012apj746_167, wang+2024apj962_188}. While \citet[][\SAUNAS\, I]{borlaff+2024apj967_169} provides extensive quality-checks (see Sec.\,2.3 in the original paper), we triple-check the results presented in Sec.\,\ref{subsec:results_xray_ima} by presenting two additional tests to assess the detection of extended emission around the core of NGC\,5084 (see Appendix \ref{Appendix:Xray_noPSFdeco_test} and \ref{Appendix:Xray_novoro_test}).
+
+
+\subsection{Detection of X-ray extended emission without PSF deconvolution or Voronoi binning}
+\label{Appendix:Xray_noPSFdeco_test}
+
+To test if the significance of the detected extended X-ray emission is independent of the processing methodology applied by \SAUNAS\ (PSF deconvolution, Voronoi binning), this section applies an alternative methodology widely used in extragalactic X-ray astronomy to detect extended sources: compare the radial emission profile of the target with that of the PSF of the instrument \citep{fabbiano+2017apj842_4,fabbiano+2018apj855_131, jones+2020apj891_133,ma+2020apj900_164,ma+2023apj948_61}. If a significant excess flux is detected above those predicted by the scaled PSF, then extended emission must be present in the source.
+
+We simulate the \Chandra/ACIS PSF using the \texttt{MARX} software following the procedure described in the \ciao\ documentation\footnote{\ciao/\texttt{MARX}: \url{https://cxc.cfa.harvard.edu/ciao/threads/marx_sim/}}. The PSF takes into account the exact location of the source in the focal plane of ACIS, and the spectral energy distribution of the source as well. The PSF generation process is also described in steps 4--6 of Sec.\,2.2.1 in \citet{borlaff+2024apj967_169}. To ensure that the PSF profile is well-sampled at high radii (associated with the outskirts of the galaxy, the region of interest), the generated PSF contains $3\times10^6$ events generated through multiple ray-tracing simulations (more than two orders of magnitude higher than all the events registered in the \Chandra/ACIS observations of NGC\,5084). This approach ensures that any potential excess of source counts compared with those of the PSF is not a false positive.
+
+To generate the galaxy profile, all point sources (potentially associated with XRBs or background quasars) are removed similar to \SAUNAS's approach, with the exception of the core of the galaxy which, given its role as the main contributor to the scattered light emission, is left intact. Finally, the PSF central surface brightness profile is scaled to the central surface brightness of the observed galaxy, comparing their radial variation of surface brightness.
+
+The results are shown in Fig.\,\ref{fig:NGC5084_psf_profile}. The left panel shows the broadband ($0.3-2.0$ keV) \Chandra/ACIS X-ray flux map as generated by the \ciao\ pipeline, demonstrating signs of potential extended emission. No PSF deconvolution or adaptive smoothing was applied in this image. In the right panel, the surface brightness profile of the broadband X-ray flux is compared to the scaled PSF of the \Chandra/ACIS observations at the position of NGC\,5084. The \Chandra/ACIS PSF at the observational setup of NGC\,5084 has a FWHM of 1.1".
+
+Compared to the PSF and the background, we detect a $>>3\sigma$ excess of X-ray emission up to a radial distance of $\sim90$ arcsec from the core in the observations of NGC\,5084. Between 25-90 arcsec, the PSF scattered light is two orders of magnitude dimmer than the detected extended emission of NGC\,5084. The radial limit of the profile is compatible with the $3\sigma$ radial limit of the emission detected by \SAUNAS\ (see Sec.\,\ref{subsec:results_xray_ima}).
+
+The test presented in this section demonstrates three important points:
+
+\begin{enumerate}
+    \item The extended emission of NGC\,5084 is not caused by PSF contamination from the strong core emission or by a Voronoi binning artifact.
+    
+    \item The statistical significance of the extended X-ray emission is independent of the PSF deconvolution and spatial binning applied.
+
+    \item The total extension of NGC\,5084's broad-band emission in the \SAUNAS-generated maps is compatible with the $3\sigma$ limit measured using a completely independent methodology (X-ray surface brightness profile limit).
+\end{enumerate}
+
+\begin{figure*}[]
+\begin{center}
+ % trim left bottom right top 
+\begin{overpic}[trim={60 0 60 0}, clip, width=\textwidth]{FIGURES/NGC5084_nodeco_psf_test.png}
+\end{overpic}
+\caption{Detection of the X-ray extended emission around NGC\,5084 without PSF deconvolution or adaptive smoothing. \emph{Left:} \Chandra/ACIS X-ray flux ($0.3-2.0$ keV) map rebinned to $12.2\times12.2$ arcsec$^2$ ($25\times25$ pixels) for visualization purposes. No PSF deconvolution or adaptive smoothing was applied (i.e., Voronoi binning). \emph{Yellow contours:} [$2$,$3$]$\sigma$ (dotted, dashed respectively) detection limits as estimated by \SAUNAS\ (see Sec.\,\ref{subsec:results_xray_ima}, for reference. \emph{Right:} Surface brightness profile of the non-PSF deconvolved, non-adaptively smoothed flux map (purple circles) and scaled \Chandra/ACIS PSF (blue solid line). \emph{Red dashed circle and vertical line:} \SAUNAS\ $3\sigma$ radial detection limit. \emph{Silver solid circle and vertical line:} Surface brightness profile radial detection limit of the non-PSF deconvolved, non-adaptive smoothed flux map. Sky background subtraction was applied to the flux map and surface brightness profile. We remark that the spatial binning of the flux map in the left panel of Fig.\,\ref{fig:NGC5084_psf_profile} is only for visualization purposes, and the surface brightness profile was generated based on the full resolution (0.492") dataset. See legend for details.}
+\label{fig:NGC5084_psf_profile}
+\end{center}
+\end{figure*}
+
+
 \bibliography{Extragalactic}\bibliographystyle{CORE-AAS/aasjournal}
 
 
