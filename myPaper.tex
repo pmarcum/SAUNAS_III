@@ -680,6 +680,79 @@ The test presented in this section demonstrates three important points:
 \end{figure*}
 
 
+\subsection{Independent detection of NGC\,5084 X-ray lobes without Voronoi binning}
+\label{Appendix:Xray_novoro_test}
+
+In this section we assess the statistical significance of the detection of the four X-ray emission lobes reported in Sec.\,\ref{subsec:results_xray_ima}, using the PSF deconvolved observations but without employing Voronoi binning. First, four simple box regions are defined, based on the contours detected in Sec.\,\ref{subsec:results_xray_ima} to isolate the emission from the brighter galactic core. The region parameters are listed in Table \ref{tab:Xray_flux} and represented in the left panel of Fig.\,\ref{fig:NGC5084_Aperture_Histograms} (see legend in the right panel). Second, a Poisson means test \citep[$E$-test, ][]{KRISHNAMOORTHY200423} evaluates the null hypothesis that the difference between the observed and background emission is statistically zero. We repeat the test 500 times using Monte Carlo and Bootstrapping simulations in order to obtain the probability distributions for the surface brightness represented in the right panel of Fig.\,\ref{fig:NGC5084_Aperture_Histograms}.
+
+The analysis indicates that the surface brightness X-ray emission in the apertures is significantly higher than that of the background. The null hypothesis that the surface brightness distributions of lobe emission and the background are sampled from a common parent population is rejected at a p-value of $p<0.05$ in all four lobe regions. In other words, this analysis provides strong statistical support for the existence of the lobe emission: north ($p=6.8\times10^{-7}$), east ($p=1.1\times10^{-6}$), south ($p=1.3\times10^{-4}$) and west ($p\sim0.01$). The fluxes integrated over the different apertures are tabulated in Table \ref{tab:Xray_flux}. This result supports and verifies the findings described in Sec.\,\ref{subsec:results_xray_ima} and Appendix \ref{Appendix:Xray_noPSFdeco_test}. We conclude that the extended X-ray emission detected by \SAUNAS\ around NGC\,5084 is (1) statistically significant; (2) independent of the PSF deconvolution process; and  (3) independent of the Voronoi binning methodology applied.
+
+
+
+\begin{figure*}[]
+\begin{center}
+ % trim left bottom right top 
+\begin{overpic}[trim={60 0 60 0}, clip, width=\textwidth]{FIGURES/NGC5084_Regions_Probability_Test.png}
+\put(55,175){\color{yellow} {\textsf{Bin 25"$\times$25" - PSF deconvolved}}}
+\end{overpic}
+\caption{Detection of the X-ray extended lobes around NGC\,5084 without Voronoi binning. \emph{Left:} \Chandra/ACIS X-ray flux ($0.3-2.0$ keV) map rebinned to $12.2\times12.2$ arcsec ($25\times25$ pixels) for visualization purposes. PSF deconvolution was applied \citep[see Sec.\,\ref{sec:methods}, and ][]{borlaff+2024apj967_169} \emph{Color rectangles:} Fixed apertures to measure X-ray emission in the North (blue), West (red), South (green), and East (orange) lobes. \emph{Yellow contours:} [$2$,$3$]$\sigma$ (dotted, dashed respectively) detection limits as estimated by \SAUNAS\ (see Sec.\,\ref{subsec:results_xray_ima}, for reference. \emph{Right:} Color coded histograms represent the event probability distributions for the background (grey) and the four lobe apertures. The $p$-values for the null hypothesis that the flux distributions in the lobe apertures are compatible with the background are represented in the legend.}
+\label{fig:NGC5084_Aperture_Histograms}
+\end{center}
+\end{figure*}
+
+
+
+\section{\Chandra\ X-ray images in sub-bands}
+\label{Appendix:Xray_subbands}
+
+Figure \ref{fig:NGC5084_per_band} shows the X-ray mosaics in the individual bands (\emph{soft:} 0.3-1.0 keV, \emph{medium:} 1.0-2.0 keV, \emph{hard:} 2.0 - 8.0 keV) processed with \texttt{SAUNAS I} \citep{borlaff+2024apj967_169}.
+
+\begin{figure*}[t!]
+\begin{center}
+ % trim left bottom right top 
+ \begin{overpic}[trim={75 38 0 40}, clip, width=\textwidth]{FIGURES/NGC5084_soft_kev300_1000_result_deco_voro_smooth_drz.png}
+\put(70,152.0){\large \color{yellow} {\textsf{0.3-1.0 keV}}}
+\end{overpic}
+ 
+\begin{overpic}[trim={75 38 0 40}, clip, width=\textwidth]{FIGURES/NGC5084_medium_kev1000_2000_result_deco_voro_smooth_drz.png}
+%\put(49,170.5){\color{black} \colorbox{white}{\textsf{1.0-2.0 keV}}} 
+\put(70,152.0){\large \color{yellow} {\textsf{1.0-2.0 keV}}}
+\end{overpic}
+
+\begin{overpic}[trim={75 0 0 38}, clip, width=\textwidth]{FIGURES/NGC5084_hard_kev2000_8000_result_deco_voro_smooth_drz.png}
+\put(70,173.0){\large \color{yellow} {\textsf{2.0-8.0 keV}}}
+\end{overpic}
+
+\caption{Diffuse X-ray emission of NGC\,5084 as detected with \SAUNAS/\Chandra\ in 0.3--1.0 keV (\emph{top}), 1.0--2.0 keV (\emph{center}), 2.0--8.0 keV (\emph{bottom}). \emph{Left:} Optical $gri$ color Pan-STARRS image \citep{chambers+2016arXiv1612.05560}. \emph{Right:} \SAUNAS\ map of the diffuse X-ray emission, corrected for PSF, point-sources, and sky-background. Dashed and solid contours represent the $2\sigma$ and the $3\sigma$ detection levels of X-ray emission, represented in white (left panel) and black (right panel) for contrast.} 
+\label{fig:NGC5084_per_band}
+\end{center}
+\end{figure*}
+
+\section{\emph{Hubble} Space Telescope multiband imaging}
+\label{Appendix:Hubble_subbands}
+
+Figure \ref{fig:NGC5084_multiband} shows the emission in each individual HST band analyzed in Sec.\,\ref{subsec:results_hst}, including the F658N - F702W color image. 
+
+\begin{figure*}[]
+\begin{center}
+ % trim left bottom right top 
+\includegraphics[trim={0 25 60 0}, clip, height=8.85cm]{FIGURES/NGC5084_F475W.png}
+\includegraphics[trim={140 25 60 0}, clip, height=8.85cm]{FIGURES/NGC5084_F658N.png}
+\includegraphics[trim={0 0 60 57}, clip, height=8.4cm]{FIGURES/NGC5084_F702W.png}
+\includegraphics[trim={140 0 60 57}, clip, height=8.4cm]{FIGURES/NGC5084_F658N_F702W.png}
+
+\caption{Morphology of the core of NGC\,5084 obtained with \emph{Hubble}. \emph{Top left:} WFC3/UVIS F475W, \emph{Top right:} WFPC2 F658N, \emph{Bottom left:} WFPC2 F702W, \emph{Bottom right:} F658N - F702W (proxy of the [NII, $\lambda$6548] + $H\alpha$ emission). The area shown is $12.6\times12.6$~arcsec$^2$ ($1.82\times1.82$~kpc$^2$ at a distance of 29.91~Mpc). See the scales and colorbars for reference.} 
+\label{fig:NGC5084_multiband}
+\end{center}
+\end{figure*}
+
+%\section{Optical spectral energy distribution} 
+\label{Appendix:OpticalSpectra}
+
+%In this section we show the optical spectral energy distribution of the inner regions of NGC\,5084, as obtained by the 6dF Galaxy Survey \citep{jones+2004mnras355_747}. The spectral range covered is 4000-7500 $\AA$. The observations used an aperture of $R=6.7$ arcsec around the core of the galaxy. 
+
+%\bibliography{do_NOT_manually_edit/bibFile}\bibliographystyle{CORE-AAS/aasjournal} 
+
 \bibliography{Extragalactic}\bibliographystyle{CORE-AAS/aasjournal}
 
 
