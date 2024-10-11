@@ -51,9 +51,25 @@ jobs:
           echo "job_id=$job_id" >> $GITHUB_OUTPUT
         continue-on-error: true
 
-      - name: Copy over the files from the Google Drive
+      #- name: Copy over the files from the Google Drive
+      #  run: |
+      #    curl -o test.png https://drive.google.com/uc?id=1X5ZfM9pSIdwLIFgvHwV26SfpMewfN_r8
+
+      - name: install ocamlfuse to mount Google Drive
         run: |
-          curl -o test.png https://drive.google.com/uc?id=1X5ZfM9pSIdwLIFgvHwV26SfpMewfN_r8
+          sudo add-apt-repository ppa:alessandro-strada/ppa
+          sudo apt-get update
+          sudo apt-get install google-drive-ocamlfuse
+          google-drive-ocamlfuse
+
+      - name: authorize access to Google Drive 
+        run: |
+          google-drive-ocamlfuse
+
+      - name: mount Google Drive to local folder:
+        run: |
+          mkdir ~/googleDriveRemoteDir
+          google-drive-ocamlfuse ~/googleDriveRemoteDir
         
       - name: Define environmental variables
         run: |
