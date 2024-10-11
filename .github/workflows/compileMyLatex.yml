@@ -60,11 +60,10 @@ jobs:
           sudo add-apt-repository ppa:alessandro-strada/ppa
           sudo apt-get update
           sudo apt-get install google-drive-ocamlfuse
-          google-drive-ocamlfuse
-
+       
       - name: authorize access to Google Drive 
         run: |
-          google-drive-ocamlfuse
+          google-drive-ocamlfuse  -id 617421351479-v2sm7ub8bud1v8bdf18vot1j4hjth9dt.apps.googleusercontent.com -secret 
 
       - name: mount Google Drive to local folder
         run: |
