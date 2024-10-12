@@ -44,7 +44,7 @@ jobs:
         id: job-id
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GDRIVE: ${{ secrets.GOOGLEDRIVEMOUNT }}
+          GDRIVE: ${{ secrets.GDRIVE }}
           
         run: |
           jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
