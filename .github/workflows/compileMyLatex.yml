@@ -71,6 +71,11 @@ jobs:
         run: |
           mkdir ~/googleDriveRemoteDir
           google-drive-ocamlfuse ~/googleDriveRemoteDir
+          ls
+          ls googleDriveRemoteDir
+          fusermount -u ~/google-drive
+          ls
+          ls googleDriveRemoteDir
         
       - name: Define environmental variables
         run: |
@@ -120,14 +125,14 @@ jobs:
           rm -f $OUTFILE
         continue-on-error: true
       
-      - name: Complete initialization of folder
-        run: |
-          git config --global user.email "email@gmail.com"
-          git config --global user.name "github actions"
-          git add .
-          git commit -m "Upload changed files"
-          git push
-        continue-on-error: true
+      #- name: Complete initialization of folder
+      #  run: |
+      #    git config --global user.email "email@gmail.com"
+      #    git config --global user.name "github actions"
+      #    git add .
+      #    git commit -m "Upload changed files"
+      #    git push
+      #  continue-on-error: true
                            
       # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
       # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
@@ -438,12 +443,12 @@ jobs:
           rm -f $CORENAME.out
         continue-on-error: true
       
-      - name: Post new files to folder
-        run: |
-          git config --global user.email "email@gmail.com"
-          git config --global user.name "github actions"
-          git add .
-          git commit -m "Upload changed files"
-          git push
-        continue-on-error: true
+      #- name: Post new files to folder
+      #  run: |
+      #    git config --global user.email "email@gmail.com"
+      #    git config --global user.name "github actions"
+      #    git add .
+      #    git commit -m "Upload changed files"
+      #    git push
+      #  continue-on-error: true
  
