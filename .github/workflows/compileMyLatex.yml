@@ -66,7 +66,7 @@ jobs:
        
       - name: authorize access to Google Drive 
         run: |
-          echo '--------------------------------- client id $CLIENTID'
+          echo $CLIENTID
           google-drive-ocamlfuse  -id 617421351479-v2sm7ub8bud1v8bdf18vot1j4hjth9dt.apps.googleusercontent.com -secret $GDRIVE
 
       - name: mount Google Drive to local folder
