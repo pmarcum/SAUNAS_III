@@ -44,7 +44,7 @@ jobs:
         id: job-id
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-         
+
         run: |
           jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
           job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
@@ -55,7 +55,7 @@ jobs:
       #- name: Copy over the files from the Google Drive
       #  run: |
       #    curl -o test.png https://drive.google.com/uc?id=1X5ZfM9pSIdwLIFgvHwV26SfpMewfN_r8
-                  
+
       - name: Define environmental variables
         run: |
           link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
@@ -104,14 +104,14 @@ jobs:
           rm -f $OUTFILE
         continue-on-error: true
       
-      #- name: Complete initialization of folder
-      #  run: |
-      #    git config --global user.email "email@gmail.com"
-      #    git config --global user.name "github actions"
-      #    git add .
-      #    git commit -m "Upload changed files"
-      #    git push
-      #  continue-on-error: true
+      - name: Complete initialization of folder
+        run: |
+          git config --global user.email "email@gmail.com"
+          git config --global user.name "github actions"
+          git add .
+          git commit -m "Upload changed files"
+          git push
+        continue-on-error: true
                            
       # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
       # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
@@ -422,12 +422,12 @@ jobs:
           rm -f $CORENAME.out
         continue-on-error: true
       
-      #- name: Post new files to folder
-      #  run: |
-      #    git config --global user.email "email@gmail.com"
-      #    git config --global user.name "github actions"
-      #    git add .
-      #    git commit -m "Upload changed files"
-      #    git push
-      #  continue-on-error: true
+      - name: Post new files to folder
+        run: |
+          git config --global user.email "email@gmail.com"
+          git config --global user.name "github actions"
+          git add .
+          git commit -m "Upload changed files"
+          git push
+        continue-on-error: true
  
