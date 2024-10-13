@@ -63,16 +63,12 @@ jobs:
           sudo add-apt-repository ppa:alessandro-strada/ppa
           sudo apt-get update
           sudo apt-get install google-drive-ocamlfuse
-       
-      - name: authorize access to Google Drive 
-        run: |
-          echo $CLIENTID
-          google-drive-ocamlfuse  -id 617421351479-v2sm7ub8bud1v8bdf18vot1j4hjth9dt.apps.googleusercontent.com -secret "$env:GDRIVE"
-
+          
+      # https://olgabotvinnik.com/blog/googledrive-ubuntu/
       - name: mount Google Drive to local folder
         run: |
           mkdir ~/googleDriveRemoteDir
-          google-drive-ocamlfuse ~/googleDriveRemoteDir
+          google-drive-ocamlfuse ~/googleDriveRemoteDir -headless -id 617421351479-v2sm7ub8bud1v8bdf18vot1j4hjth9dt.apps.googleusercontent.com -secret "$env:GDRIVE"
           ls
           ls googleDriveRemoteDir
           fusermount -u ~/google-drive
