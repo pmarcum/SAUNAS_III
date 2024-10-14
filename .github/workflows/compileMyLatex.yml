@@ -135,7 +135,6 @@ jobs:
         run: |
           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" 2>&1 | tee compileOut.txt
           mv -f "$PDFFILE" "$PDFHIRES"
-          ls *.pdf
           cat compileOut.txt
         continue-on-error: true
        
@@ -147,7 +146,6 @@ jobs:
         # purposes rather than having to use whole master bib file.  based on stand-alone "pruneMyBibfile" github action file
         id: pruneBib
         run: |
-          ls *.pdf
           makeNewPrunedBib=false
           # determine if the pruned bib file is already being used in the document. If so, we should bypass 
           # all the below because pruned bib file does not need to be created.
@@ -364,8 +362,8 @@ jobs:
         if: ${{ always() && ! hashFiles('thereAreErrors.txt') }}
         uses: jy95/ghostscript-action@v1
         with:
-          file: $PDFHIRES
-          output: $PDFFILE
+          file: '"$PDFHIRES"'
+          output: '"$PDFFILE"'
           arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/printer'
         continue-on-error: true
         
