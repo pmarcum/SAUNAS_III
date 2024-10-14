@@ -1,0 +1,277 @@
+2024-10-14T02:29:15Z 1728872955548
+LATEX COMPILATION ERRORS and WARNINGS
+
+To view full GitHub Actions output, click on item at top of list here:
+https://github.com/pmarcum/SAUNAS_III/actions/runs/11319983257/job/31476826647
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              FATAL ERRORS IN myPaper.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      none
+ 
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              WARNINGS IN myPaper.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+LaTeX Warning: Reference `sec:methods' on page 4 undefined on input line 129.
+LaTeX Warning: Reference `sec:DIS' on page 4 undefined on input line 129.
+Line #129 ----------------------- 
+This paper is organized as follows. The datasets and methodology pipeline is described in Sec.\,\ref{sec:methods}. The results are presented in Sec.\,\ref{sec:results}. The discussion and conclusions are presented in Sec.\,\ref{sec:DIS} and \ref{sec:CON}, respectively. All magnitudes are in the AB system \citep{oke1971apj170_193} unless otherwise noted.
+._______________________________________________________________________
+LaTeX Warning: Reference `tab:Observations' on page 4 undefined on input line 176.
+Line #176 ----------------------- 
+A total of 9.92~ks of \Chandra\ observations, using the \texttt{VFAINT} mode, have been archived for NGC\,5084 (ACIS-I, Obs.\,ID:12173, PI:~Stephen~Murray; August~2011 under \Chandra\ Cycle~12, see Table \ref{tab:Observations}). We analyze NGC\,5084's X-ray emission in four different bands: 0.3 -- 1.0~keV (soft), 1.0 -- 2.0~keV (medium), 0.3 -- 2.0~keV (broad), and 2.0 -- 8.0~keV (hard). PSF models were generated for each band, taking into account the spectra of the source, following the prescriptions from \texttt{MARX}\footnote{\url{https://cxc.cfa.harvard.edu/ciao/threads/marx_sim/}}. After PSF deconvolution, point sources -- potentially associated with background objects, X-ray binaries, or AGNs -- are identified and removed from the resulting images. Finally, the resulting frames are adaptive smoothed, and the background is subtracted. 
+._______________________________________________________________________
+LaTeX Warning: Reference `tab:Observations' on page 6 undefined on input line 185.
+Line #185 ----------------------- 
+Proposal ID: 6785, F702W and F658N, June 1996), WFC3/IR (F160W, Proposal PI: Boizelle, Benjamin, Proposal ID: 15909, and WFC3/UVIS (F475W, same Proposal ID as WFC3/IR, see Table \ref{tab:Observations}). Planetary Camera (PC) observations of WFPC2 allow for an angular resolution of $0.05$ arcsec, while WFC3s IR and UVIS channels have a resolution of $0.13$ and $0.04$ arcsec respectively. At a distance of $D=	29.91\pm2.12$~Mpc \citep[6.90~arcsec~kpc$^{-1}$,][]{koribalski+2004aj128_16}, and assuming a Nyquist sampled PSF, the physical spatial resolution scales are $\sim12$ pc (WFC3/UVIS) and $\sim36$ pc (WFC3/IR), respectively. Table\,\ref{tab:Observations} summarizes the available observations.
+._______________________________________________________________________
+LaTeX Warning: Reference `fig:NGC5084' on page 8 undefined on input line 233.
+Line #233 ----------------------- 
+Figure \,\ref{fig:NGC5084} presents the new \SAUNAS-processed images in the selected broad X-ray band (0.3--2.0 keV), overlayed on the optical morphology of the galaxy \citep[large FOV optical and near-infrared $gri$ image from Pan-STARRS, ][]{chambers+2016arXiv1612.05560}. Additionally, Fig.\,\ref{fig:NGC5084_per_band} in Appendix \ref{Appendix:Xray_subbands} shows the three X-ray (\emph{soft:} 0.3-1.0 keV, \emph{medium:} 1.0-2.0 keV, \emph{hard:} 2.0 - 8.0 keV) bands. \par 
+._______________________________________________________________________
+LaTeX Warning: Reference `fig:NGC5084' on page 9 undefined on input line 238.
+Line #238 ----------------------- 
+flux inside the $3\sigma$ contour in Fig.\,\ref{fig:NGC5084}; (2) Core ($R<10"$); (3) Extended emission ($10"<R<1.5'$, and $>3\sigma$); and (4-7) North, West, South, and East lobes. The lobe regions are defined by dividing the extended emission in 4 quadrants (with separations at 45$^{\circ}$, 135$^{\circ}$, 225$^{\circ}$, 315$^{\circ}$), excluding the emission from the core ($R<10"$) with a limit at $R=1.5'$. The separation between the core and extended regions $R=10"$ is defined based on the inspection of the X-ray morphology as the maximum radius where the X-ray emission does not show a significant elongation. The results are presented in Table \ref{tab:Xray_flux}. The fluxes take into account PSF deconvolution, and they exclude the emission from point sources identified by the \Chandra\ catalog of point sources (XRBs, AGN core). The analysis shows that the integrated emission from the north and east lobes is in excess of a 10$\sigma$ detection. The south and west are substantially dimmer but significant above the background at 6.6$\sigma$ and 3.2$\sigma$. 
+._______________________________________________________________________
+LaTeX Warning: Reference `fig:NGC5084' on page 9 undefined on input line 243.
+Line #243 ----------------------- 
+In order to verify the results from the pipeline, we study the significance of the extended emission in Appendix \ref{Appendix:Xray_noPSFdeco_test} using two different, additional methodologies widely used in the literature. First, we determine if there is an excess of emission around the bright core of the galaxy by comparing the PSF surface brightness profile with the observed profile in the original \Chandra/ACIS observations, without applying Voronoi binning or PSF deconvolution. This methodology has been extensively used in the literature \citep{fabbiano+2017apj842_4,fabbiano+2018apj855_131, jones+2020apj891_133,ma+2020apj900_164,ma+2023apj948_61} to identify hot gas halos and other extended emission components. The results (see Fig.\,\ref{fig:NGC5084_psf_profile}) show a clear excess of emission above that expected PSF scattering up to the same radial distance as predicted by the $3\sigma$ contours on Fig.\,\ref{fig:NGC5084}, confirming that the X-ray emission of NGC\,5084 is not caused by PSF-scattered light from the bright core and that the extended emission is significant.
+._______________________________________________________________________
+LaTeX Warning: Reference `fig:NGC5084_hst' on page 10 undefined on input line 279.
+Line #279 ----------------------- 
+To further investigate the nature of this complex emission, we explored the available HST observations of NGC\,5084 (see Table \ref{tab:Observations}), presented in Fig.\,\ref{fig:NGC5084_hst}. 
+._______________________________________________________________________
+LaTeX Warning: Reference `fig:NGC5084_hst' on page 12 undefined on input line 300.
+Line #300 ----------------------- 
+The results are shown in the right panel of Fig.\,\ref{fig:NGC5084_hst}. The model ellipse fit is shown displaced from the observed disk for clarity. The center of the ellipse is $\alpha, \delta = (200\fdg0701, -21\fdg8272) \pm 0.1$ arcsec, compatible with the location of the core of the galaxy. The disk diameter is  $D=304^{+10}_{-11}$ pc, with a median inclination of $i=71.2^{+1.8}_{-1.7}$ degrees, and a position angle of $\theta = -5.1^{+1.1}_{-1.0}$ degrees, indicating that the relative orientation of the circumnuclear disk is perpendicular to the galactic plane.
+._______________________________________________________________________
+LaTeX Warning: Reference `fig:ALMA' on page 12 undefined on input line 309.
+Line #309 ----------------------- 
+The positions that do not contain emission with an associated intensity higher than the noise at a $95\%$ probability confidence level are masked. The velocity map (moment 1) of the CO(2-1) emission lines is represented in a color scale over the F702W HST/ACS image in the right panel of Fig.\,\ref{fig:ALMA}. The results show an unmistakable edge-on rotation pattern, with the north (south) edge of the disk moving towards (away from) the observer along the line of sight. The peaks of CO(2-1) emission are coincident with the edges of the circumnuclear disk, where the column density is expected to be highest due to projection effects.\\ 
+._______________________________________________________________________
+LaTeX Warning: Reference `fig:ALMA' on page 12 undefined on input line 311.
+Line #311 ----------------------- 
+The spectra of the locations with significant emission are combined (summed) to study the line profile and characterize the amplitude of the rotation pattern. The combined spectra is shown in the left panel of Fig.\,\ref{fig:ALMA}. We characterize the rotation amplitude using the line width at the half-maximum, following a similar procedure as in \citep[W$_{50}$,][]{smith+2021mnras500_1933}. The velocities (lowest and highest) at which the spectrum reaches its half-maximum are measured through interpolation of the combined spectra. This process is repeated using $N=1000$ Monte Carlo simulations, with each data point being displaced by its spectral flux uncertainty (noise level). The measured rotation velocity is V$_{\rm rot} = 249.1^{+12.8}_{-9.6}$ km s$^{-1}$ (W$_{50}=498^{+26}_{-19}$ km s$^{-1}$).\\
+._______________________________________________________________________
+LaTeX Warning: Reference `tab:Radio_Lobes' on page 13 undefined on input line 339.
+Line #339 ----------------------- 
+Interestingly, \citet{wiegert+2015aj150_81} identifies extended emission to the east and west of the central bright core. This emission is highlighted in Fig.\,\ref{fig:NGC5084_EVLA}, and was identified as radio lobes in \citet[][see their Table 10]{irwin+2019aj158_21}. These two radio sources are detected at a 10$\sigma$ level, being located at a symmetric distance from the core. The distance from the east lobe to the core is $R=31.5^{+4.5}_{-4.5}$ arcsec or $R=4.52^{+0.66}_{-0.65}$ kpc, while the equivalent from the west lobe is $R=31.1^{+4.5}_{-4.6}$ arcsec ($R=4.51^{+0.65}_{-0.67}$ kpc), being compatible at a 3$\sigma$ confidence level. The position angles from the east and west lobes to the center are also compatible at a 3$\sigma$ level, PA$_{\rm east - core} =92.8^{+6.4\circ}_{-7.1}$, PA$_{\rm core - west} =92.2^{+7.1\circ}_{-7.6}$. Taking into account the inclination of the circumnuclear disk ($i=71.2^{+1.8\circ}_{-1.7}$), and assuming that the lobes are oriented along the line of the AGN radio jet axis, the deprojected distance to the core is $R=4.8\pm0.70$ kpc, taking into account the uncertainties in the location of the core, radio lobes, and inclination. The results are compatible at the 1.4 and 5 GHz bands. The total luminosity of each lobe in 5 GHz is $L_{\rm 5 GHz} = [1.5,1.8] \times 10^{+19}$ W Hz$^{-1}$ while the core is two orders of magnitude brighter with $L_{\rm 5 GHz, core} = 3.60\pm0.01 \times 10^{+21}$ W Hz$^{-1}$. In 1.4 GHz, the lobes are brighter $L_{\rm 1.4 GHz} = [4,6] \times 10^{+19}$ W Hz$^{-1}$, with $L_{\rm 5 GHz, core} = 3.60\pm0.01 \times 10^{+21}$ W Hz$^{-1}$ in the core. The distances to the core of each lobe and the luminosities of each component are included in Table \ref{tab:Radio_Lobes}.  
+._______________________________________________________________________
+LaTeX Warning: Command \r invalid in math mode on input line 426.
+Line #426 ----------------------- 
+using five regions: (1) the central 1.5 arcsec from the core of the galaxy; (2-5) north, south, east, and west sides of the galaxy, resp. (not including the core). The results are shown in Fig.\,\ref{fig:NGC5084_optical_spectra}. The APO/DIS spectra do not reveal any signs of H$\alpha$ [$\lambda=6562.8\AA$], H$\beta$ [$\lambda=4861.35\AA$], or H$\gamma$ [$\lambda=4340.47\AA$] absorption, in any of the regions analyzed, suggesting that the stellar population at the core is not dominated by a classic post-starburst stellar population. 
+._______________________________________________________________________
+LaTeX Warning: Reference `subsec:discussion_fadedstarburst' on page 18 undefined on input line 458.
+Line #458 ----------------------- 
+These scenarios are idealized; in reality, a mixture of these cases may be responsible for the observed phenomena. In particular, the HI tilt and the disk warp of NGC\,5084 suggest that the galaxy suffered a major merger at some point in its past. Rather than directly eliminating other scenarios, mergers serve as a potential triggering factor in two of the other cases (orientation change and faded starburst). The observational evidence for merger activity is gathered in Sec.\,\ref{subsec:discussion_merger}. Secs.\,\ref{subsec:discussion_fadedstarburst}, \ref{subsec:discussion_cocoon}, and \ref{subsec:discussion_realignment} discuss each of the scenarios presented in Fig.\,\ref{fig:NGC5084_scenarios}.
+._______________________________________________________________________
+LaTeX Warning: Reference `subsec:discussion_fadedstarburst' on page 18 undefined on input line 466.
+Line #466 ----------------------- 
+\caption{Summary of the formation scenarios for the vertical X-ray emission of NGC\,5084. Cosmic time increases from left to right. \emph{Top row:} (1) Orientation change of AGN jet. Mergers, inflows, precession, and SMBH interactions can reorient the jet direction of an AGN over time; \emph{Central row:} (2) Overpressured cocoon. AGN-jet emission directed against the galactic disk can result in an expansion along the minor axis of the galaxy; \emph{Top:} (3) Faded starburst. Circumnuclear starbursts can generate galactic winds, expelling hot gas in the direction vertical to the galactic plane. However, this scenario requires active star formation or at least a relatively young population of stars at the core, which is not observed (see Sec.\,\ref{subsec:discussion_fadedstarburst}).} 
+._______________________________________________________________________
+LaTeX Warning: Reference `fig:NGC5084' on page 20 undefined on input line 509.
+Line #509 ----------------------- 
+\caption{NGC\,5084 color maps. \emph{Left panel:} Ground-based VLT/ATLAS $g-i$ maps. Black contours represent the X-ray emission (see Fig.\,\ref{fig:NGC5084}). Dark blue square in the core represents the FOV in the right panel. \emph{Right panel:} F475W - F702W color from \emph{Hubble} WFPC2/WFC3 photometry. The circumnuclear disk is clearly visible in red. See the colorbar for reference.} 
+._______________________________________________________________________
+LaTeX Warning: Reference `subsec:results_Optical_spectra' on page 20 undefined on input line 515.
+Line #515 ----------------------- 
+Secondly, the optical spectra (see Sec.\,\ref{subsec:results_Optical_spectra}, Fig.\,\ref{fig:NGC5084_optical_spectra}) do not present any Balmer absorption lines typical of post-starburst objects \citep[also called E+A or K+A galaxies,][]{dressler+1983apj270_7}, not even in regions away from the core, where the AGN could dominate the emission. Given that the post-starburst phase lasts about 300\,Myr, the lack of a Balmer absorption line signal in the optical spectra suggest that the age of the stellar population in the core is older than a Gyr. 
+._______________________________________________________________________
+LaTeX Warning: Reference `tab:Radio_Lobes' on page 22 undefined on input line 523.
+Line #523 ----------------------- 
+Unfortunately, the systematic effects observed in radio observations along the vertical direction (Sec.\,\ref{subsec:results_radiopol}) prevent the identification of additional radio lobes along the minor axis of the galaxy, challenging the ability to determine whether NGC\,5084 also has an X-shape radio morphology. Given the detected radio-lobes, NGC\,5084 would be classified between high-luminosity LINER/Seyferts and FR~0 galaxies \citep[see Table \ref{tab:Radio_Lobes},][]{baldi2023aap31_3}, emitting $\sim$4--5 orders of magnitude less than the X-shaped radio galaxies from \citet{cheung+2009apj181_548}. This classification correlates with the prediction from \citet{hodgeskluck2011thesis} that X-shaped sources should be decaying AGN jets. 
+._______________________________________________________________________
+LaTeX Warning: Command \r invalid in math mode on input line 553.
+Line #553 ----------------------- 
+Another example of such phenomena is the lenticular galaxy NGC\,5252. Classified as a Seyfert 1.9 galaxy \citep{argyle+1990mnras243_504, osterbrock+1993apj414_552}, NGC\,5252 presents a large-scale ionization bi-cone \citep{tadhunter+1989nat341_422} detectable in [OIII] emission line at $\lambda=5007\AA$ that extends for $R\sim20$ kpc. \emph{Hubble} Space Telescope and Fabry--P\'{e}rot spectrograph observations of NGC\,5252 by \citet{morse+1998apj505_159} revealed different kinematic components, including an inclined circumnuclear gas disk with a diameter of 3 kpc, suggesting that NGC\,5252 underwent a galaxy merger in its past history. This scenario is supported by observational evidence of the presence of both a supermassive (main) and an intermediate (accreting) mass black hole in NGC\,5252, both active and emitting in radio \citep{kim+2015apj814_8, kim+2017apj844_21, yang+2017mnras464_70}. Moreover, recent results presented by \citet{wang+2024arXiv2401.09172} show a strong ($\sim20^{\circ}$) misalignment between the X-ray emission in soft bands (0.3--2.0 keV) and the optical major axis of the galaxy. The case of NGC\,5252 shows that the combination of observational evidence such as the presence of off-axis morphological components and AGN-related features is one strategy to shed light on the formation pathways of specific galaxies. 
+._______________________________________________________________________
+LaTeX Warning: Reference `sec:DIS' on page 25 undefined on input line 577.
+Line #577 ----------------------- 
+The horizontal (in-plane) component of the X-ray emission is aligned with both the rotation axis of the newly discovered circumnuclear disk and the symmetric radio lobes, identified by \citet{irwin+2019aj158_21} as part of a radio AGN jet. Taking into account all available observational evidence consolidated in this paper (see Fig.\,\ref{fig:NGC5084_scenarios}), we consider three potential hypotheses for the formation of the observed cross-shaped X-ray emission: (1) it is the remnant of a re-oriented AGN; (2) it is an outflow generated by an overpressured cocoon of hot gas powered by the AGN pointing into the dense ISM within midplane of the galactic disk; or (3) it is part of a faded starburst at the core of the galaxy. Spectroscopic observations on the core of NGC\,5084 do not support the latter scenario, given the lack of spectral evidence for recent (massive stars) or on-going star formation in the core.  Combining the new observational evidence presented in this paper with previous analysis based on environment and morphology (see Sec.\,\ref{sec:DIS}), we conclude that NGC\,5084 is with high probability the remnant of at least one merger in the past, which is actively accreting its multiple satellites.}
+._______________________________________________________________________
+LaTeX Warning: Reference `eq:F_lim_Xray' on page 27 undefined on input line 642.
+Line #642 ----------------------- 
+At $E=1$ keV and $t=10$~ks, the equivalent exposure\footnote{\ciao/\Chandra\ exposure maps: \url{https://cxc.cfa.harvard.edu/ciao/threads/expmap_acis_single/}} ($\emph{M}\,\emph{t}$) is approximately $3.8\times10^{6}$ cm$^{2}$ s$^{1}$. For a point source detection of $\sigma=3$, with flux integration over an area associated with the PSF at the center of the ACIS detector ($FWHM\sim1.1"$), Eqn.\,\ref{eq:F_lim_Xray} implies a limiting sensitivity of $f_{\rm{lim}} = 4\times10^{-15}$ erg cm$^{-2}$ s$^{-1}$, equal to the reference instrument point source sensitivity limits.
+._______________________________________________________________________
+ 
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              CITATION ISSUES IN myPaper.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Citation `ohlson+2024aj167_31' on page 3 undefined on input line 107.
+Line #107 ----------------------- 
+NGC\,5084 is one of the most massive lenticular galaxies in the Local Universe \citep[]{ohlson+2024aj167_31}, with a total dynamical mass of approximately $1.3\times10^{12}$~M$_{\odot}$ \citep{koribalski+2004aj128_16} and a mass-to-light ratio $\Upsilon \geq 65$. Several features of this galaxy make it an interesting case study. \par 
+._______________________________________________________________________
+Citation `jones+2009mnras399_683' on page 3 undefined on input line 122.
+Line #122 ----------------------- 
+effective radius $R_{\rm e}$. For this galaxy, $R_{25}$ is 20 times larger than $R_e$, in contrast to $R_{25}=3.6 \times R_e$, the nominal average for spirals and S0s measured by  \citet[][]{williams+2009mnras400_1665}.  \citet{zaw+2019apj872_134} classified NGC\,5084 as an AGN according to the \citet{kewley+2001apj556_121} optical spectral line ratio criteria, based on 6dF Galaxy Survey spectra \citep{jones+2004mnras355_747,jones+2009mnras399_683}, as did \citet{irwin+2019aj158_21}, based on its radio emission (see Sec.\,\ref{subsec:data_radiopol}). In addition, NGC\,5084 is the host of a large spheroidal bulge that generates an anti-truncated surface brightness profile \citep{comeron+2012apj759_98}, a potential sign of past gravitational interactions, such as minor and major mergers \citep{younger+2007apj670_269, borlaff+2014aap570_103}.
+._______________________________________________________________________
+Citation `borlaff+2024apj967_169' on page 4 undefined on input line 128.
+Line #128 ----------------------- 
+This project is the second publication in a series that will study the hot gas halos around galaxies using X-ray observations from the \Chandra\ X-ray observatory. The first paper \citep[][\texttt{SAUNAS I}, hereafter]{borlaff+2024apj967_169} describes the \SAUNAS\ (Selective Amplification of Ultra Noisy Astronomical Signal) pipeline to detect low surface brightness emission in \Chandra/ACIS observations. See \texttt{SAUNAS I} for the details and description of the X-ray image reduction methodology. \par 
+._______________________________________________________________________
+Citation `borlaff+2024apj967_169' on page 4 undefined on input line 174.
+Line #174 ----------------------- 
+The two main products of \SAUNAS\ are surface brightness and signal-to-noise ratio maps, allowing the observer to identify potential sources and their extension up to a certain statistical limit. Since the objective is to identify the underlying shape of the X-ray extended emission in NGC\,5084, PSF deconvolution is a particularly critical step. \citet{borlaff+2024apj967_169} provides a full description of the methodology.
+._______________________________________________________________________
+Citation `ebeling+2007apj661_33' on page 6 undefined on input line 180.
+Citation `ebeling+2010mnras407_83' on page 6 undefined on input line 180.
+Citation `xue+2011apj195_10' on page 6 undefined on input line 180.
+Line #180 ----------------------- 
+Adaptive spatial binning techniques (Voronoi, CSMOOTH) \citep{cappellari+2003mnras342_345, ebeling+2006mnras368_65} have been widely applied in X-ray astronomy for several decades \citep[see][and references therein]{ebeling+2007apj661_33,gonzalezmartin+2009aap506_1107,broos+2010apj714_1582, ebeling+2010mnras407_83, xue+2011apj195_10, hodgeskluck+2012apj746_167, wang+2024apj962_188} allowing the detection of extended sources below the canonical point source sensitivity of the observations. While \texttt{SAUNAS I} \citep{borlaff+2024apj967_169} is dedicated to the presentation, benchmarking, and testing of the adaptive binning technique used by the pipeline, Appendix \ref{Appendix:xray_tests} in this paper provides a more in-depth discussion of point source and extended source sensitivities, and a series of tests to further verify the significance of the X-ray emission of NGC\,5084 reported in Sec.\,\ref{subsec:results_xray_ima}.
+._______________________________________________________________________
+ 
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              LIST OF REFERENCES IN myPaper.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Number of citations: 150
+2000ascl.soft03002S
+2012ascl.soft08017R
+2021pdaa.book.....N
+anantharamaiah+1996apj466_13
+antonucci1993araa31_473
+argyle+1990mnras243_504
+athanassoula+2016apj821_90
+baldi2023aap31_3
+barway+2009mnras394_1991
+beck+2013inbook_641
+beckman2021book
+blandford+1974mnras169_395
+borlaff+2014aap570_103
+borlaff+2024apj967_169
+boyle+1998mnras293_49
+bridle+1984araa22_319
+britzen+2018mnras478_3199
+britzen+2023apj951_106
+broos+2010apj714_1582
+byrnemamahit+2024arXiv2402.05196
+capetti+2002aap394_39
+cappellari+2003mnras342_345
+carignan+1997aj113_1585
+cerulo+2017mnras472_254
+chambers+2016arXiv1612.05560
+chen+2020apj897_102
+cheung+2009apj181_548
+clarke+1998apj495_189
+collaboration+2013aap558_33
+collaboration+2018aj156_123
+collaboration+2022apj935_167
+combes2017inproceedings_Di
+comeron+2010mnras402_2462
+comeron+2012apj759_98
+davis+2013nat494_328
+davis+2022mnras512_1522
+delvecchio+2014mnras439_2736
+devaucouleurs+1991book
+diehl+2006mnras368_497
+dimatteo+2005nat433_604
+donath+2022inproceedings_98
+dressler+1983apj270_7
+dressler+1997apj490_577
+ebeling+2006mnras368_65
+ebeling+2007apj661_33
+ebeling+2010mnras407_83
+elichemoral+2018aap617_113
+emsellem+2015mnras446_2468
+evans+2010apj189_37
+fabbiano+2017apj842_4
+fabbiano+2018apj855_131
+ferrarese+1996apj470_444
+frasermckelvie+2018mnras481_5580
+freeman+2001inproceedings_76
+fruscione+2006inproceedings_62701V
+gallimore+2006aj132_546
+garciaburillo+2021aap652_98
+giri+2024sci11_1371101
+gonzalezmartin+2009aap506_1107
+gottesman+1986mnras219_759
+hardcastle+2020na88_101539
+haverkorn+2004aap421_1011
+heckman+1993inproceedings_455
+heckman+2017incollection_2431
+hodgeskluck+2010apj710_1205
+hodgeskluck+2010apj717_37
+hodgeskluck+2012apj746_167
+hodgeskluck+2020apj903_35
+hodgeskluck2011thesis
+hopkins+2009apj691_1168
+hopkins+2013mnras430_1901
+hunter2007sci9_90
+irwin+2012aj144_43
+irwin+2019aj158_21
+jaffe+1993nat364_213
+jiang+2023apj959_11
+jones+2004mnras355_747
+jones+2009mnras399_683
+jones+2020apj891_133
+juravnova+2019mnras484_2886
+keel+2012mnras420_878
+kewley+2001apj556_121
+khim+2015apj220_3
+kim+2015apj814_8
+kim+2017apj844_21
+kinney+2000apj537_152
+koribalski+2004aj128_16
+kormendy+1994inproceedings_147
+kormendy+2004araa42_603
+kormendy+2013araa51_511
+KRISHNAMOORTHY200423
+larson+1980apj237_692
+laurikainen+2010mnras405_1089
+lawrence+2010apj714_561
+leroy+2021apj257_43
+ma+2020apj900_164
+ma+2023apj948_61
+machacek+2010apj711_1316
+madau+2014araa52_415
+marin2014mnras441_551
+mcquinn+2018mnras477_3164
+moellenhoff+1987aap174_63
+moore+1996nat379_613
+morse+1998apj505_159
+moustakas+2006apj164_81
+nagar+1999apj516_97
+nandi+2021apj908_178
+netzer2015araa53_365
+ohlson+2024aj167_31
+oke1971apj170_193
+onishi+2015apj806_39
+onishi+2017mnras468_4663
+osterbrock+1993apj414_552
+osullivan+2017mnras472_1482
+osullivan+2018aap618_126
+pasetto+2018aap613_74
+peschken+2017mnras468_994
+peterson2006incollection_77
+ramosalmeida+2017nat1_679
+renaud+2015mnras454_3299
+rubin+2014apj794_156
+sanchezalmeida+2012apj756_163
+saripalli+2013mnras436_690
+schmitt+2002apj575_150
+sebastian+2019apj883_189
+sebastian+2020mnras499_334
+shankar+2009apj690_20
+shopbell+1998apj493_129
+silchenko1998aap330_412
+smith+2021mnras500_1933
+springel+2005mnras361_776
+tadhunter+1989nat341_422
+tully1982apj257_389
+urry+1995pasp107_803
+vandermarel+1998aj116_2220
+vika+2009mnras400_1451
+vollmer+2012aap537_143
+wang+2019apj870_132
+wang+2024apj962_188
+wang+2024arXiv2401.09172
+wiegert+2015aj150_81
+williams+2009mnras400_1665
+xue+2011apj195_10
+yang+2017mnras464_70
+younger+2007apj670_269
+yu2002mnras331_935
+zaw+2019apj872_134
+zeilinger+1990mnras246_324
+zheng+2022afz22_085004
+zubovas+2022mnras515_1705
