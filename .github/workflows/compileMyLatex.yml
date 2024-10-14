@@ -363,7 +363,7 @@ jobs:
         with:
           file: 'myPaper.pdf'
           output: 'myPaper_comp.pdf'
-          arbitrary-parameters: '-dCompatibilityLevel-1.4 -dPDFSETTINGS=/printer'
+          arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/printer'
         continue-on-error: true
         
       #- name: Make the error PDF file
