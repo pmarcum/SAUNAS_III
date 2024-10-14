@@ -143,7 +143,8 @@ jobs:
           file: "$PDFFILE"
           output: "$PDFCOMP"
           arbitrary-parameters: '-dCompatibilityLevel-1.4 -dPDFSETTINGS=/printer'
-        
+        continue-on-error: true
+       
       - name: Prune the bib file
         # https://www.baeldung.com/linux/regex-matching
         # https://askubuntu.com/questions/1502281/using-grep-to-search-for-line-that-begins-with-a-variable-whose-value-is-a-dolla
