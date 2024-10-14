@@ -379,6 +379,7 @@ jobs:
 
       - name: Finalize compilation warning and errors output
         run: |
+          ls *.pdf
           if [[ ! -f "thereAreErrors.txt" ]]; then 
              rm -f $STARTFILE
              touch $STARTFILE
