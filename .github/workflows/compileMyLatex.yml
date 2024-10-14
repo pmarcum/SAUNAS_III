@@ -136,14 +136,6 @@ jobs:
           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" 2>&1 | tee compileOut.txt
           cat compileOut.txt
         continue-on-error: true
-
-      - name: compress PDF
-        uses: jy95/ghostscript-action@v1
-        with:
-          file: $PDFFILE
-          output: $PDFCOMP
-          arbitrary-parameters: '-dCompatibilityLevel-1.4 -dPDFSETTINGS=/printer'
-        continue-on-error: true
        
       - name: Prune the bib file
         # https://www.baeldung.com/linux/regex-matching
@@ -363,6 +355,15 @@ jobs:
           echo $JOBLINK   >> $STARTFILE
           echo $HTMLLINK  >> $STARTFILE
           echo "html"  >> $STARTFILE
+        continue-on-error: true
+
+      - name: compress PDF
+        if: ${{ always() && ! hashFiles('thereAreErrors.txt') }}
+        uses: jy95/ghostscript-action@v1
+        with:
+          file: $PDFFILE
+          output: $PDFCOMP
+          arbitrary-parameters: '-dCompatibilityLevel-1.4 -dPDFSETTINGS=/printer'
         continue-on-error: true
         
       #- name: Make the error PDF file
