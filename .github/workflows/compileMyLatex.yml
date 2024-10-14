@@ -363,7 +363,7 @@ jobs:
         uses: jy95/ghostscript-action@v1
         with:
           file: "${{ github.event.inputs.file2compile }}_hiRes.pdf"
-          output: myPaper.pdf
+          output: "${{ github.event.inputs.file2compile }}.pdf"
           arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/printer'
         continue-on-error: true
         
