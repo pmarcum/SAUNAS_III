@@ -361,8 +361,8 @@ jobs:
         if: ${{ always() && ! hashFiles('thereAreErrors.txt') }}
         uses: jy95/ghostscript-action@v1
         with:
-          file: $PDFFILE
-          output: $PDFCOMP
+          file: myPaper.pdf
+          output: myPaper_comp.pdf
           arbitrary-parameters: '-dCompatibilityLevel-1.4 -dPDFSETTINGS=/printer'
         continue-on-error: true
         
