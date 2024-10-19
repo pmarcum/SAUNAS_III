@@ -1,5 +1,7 @@
 \documentclass[modern]{CORE-AAS/aastex631} 
+%\documentclass[linenumbers,twocolumn,tighten,times]{CORE-AAS/aastex631} 
 %!! user commands }
+%\usepackage{CORE-AAS/variables} 
 \usepackage{datetime}
 \newcommand{\vdag}{(v)^\dagger}
 \newcommand\aastex{AAS\TeX}
@@ -14,9 +16,11 @@
 \usepackage{graphicx}
 \usepackage{amssymb}
 \usepackage[toc,page]{appendix}
+%\usepackage{floatrow} % <=breaks deluxetable by making the table title appear at bottom instead of top of table 
 \usepackage{nicefrac}
 \usepackage{svg}
 \usepackage[utf8]{inputenc}
+% Table float box with bottom caption, box width adjusted to content 
 \usepackage{varwidth}
 \usepackage{scrextend}
 \usepackage{xcolor}
@@ -93,17 +97,21 @@ including \SAUNAS\ (Selective Amplification of Ultra Noisy Astronomical Signal),
 
 \section{Introduction} \label{sec:intro}
 Observational evidence suggests that supermassive black holes (SMBHs; $M_{\rm BH}=10^{6-9.5}$) are present at the core of most massive galaxies \citep{kormendy+2013araa51_511}. The accretion of material by SMBHs has been observed to be tightly connected with the evolution of the entire galaxy, enabling periods of nuclear activity in which the total luminosity of the galaxy is enhanced. 
+%"modified" does not imply a direction - the luminosity could increase or decrease. Active Galactic Nuclei \citep[AGNs,][]{mulchaey+1996apj467_197} are powered by the release of gravitational energy in a compact accretion disk surrounding the SMBH at the core of the galaxy, generating emission across the whole electromagnetic spectrum \citep{heckman+2014araa52_589}. 
 
 The main hypothesis of the unified scheme of active galactic nuclei (AGNs) is that the broad range of spectro-photometric properties is caused by the angle of inclination between the observer and an obstructing circumnuclear disk \citep{antonucci1993araa31_473, urry+1995pasp107_803}. The circumnuclear disk is a dusty and molecular gas component of outflowing and inflowing material surrounding the AGN, the so-called `torus'. According to this theory, when AGN's are observed at low inclination angles \citep[$i<45$--$60^{\circ}$, where $i=0^{\circ}$ would be face-on,][]{marin2014mnras441_551}, broad optical and ultraviolet (UV) spectral features (full width at half maximum; FWHM $\geq 1000-20,000$ km s$^{-1}$) are expected, corresponding to the Broad Line Region (BLR); a bright, non-stellar, central compact source visible at all wave-lengths, and with low polarization degree \citep[Type 1 AGNs,][]{netzer2015araa53_365}. At higher inclination angles, the BLR would be obscured by the torus showing only the narrow line region emission (NLR, Type 2 AGNs). See \citet{peterson2006incollection_77, netzer2015araa53_365, ramosalmeida+2017nat1_679} for reviews in the field.
 
+%Studying AGNs are also important to address the origin of the Hubble sequence. 
+
 A large fraction of the total mass of SMBHs is thought to have been accreted during the peak of quasar activity in the early Universe \citep[$z=2-3$,][]{boyle+1998mnras293_49, delvecchio+2014mnras439_2736, madau+2014araa52_415}. During that period ($z\sim2-3$), the star-formation rate (SFR) and SMBH growth rate peaked and then decreased by a factor of ten from $z=1$ to the local Universe \citep{shankar+2009apj690_20}. The observed decrease in SFR is coincident with one of the most notable changes in the population of galaxies: the decline of the population of spirals and the rise of lenticular galaxies in the Local Universe \citep{dressler+1997apj490_577}.
 
+%The number density of spiral galaxies has decreased since $z\sim 1$ at the expense of the growing population of lenticular (S0) galaxies \citep{dressler+1997apj490_577}. As a consequence, S0s have become numerically dominant in the Local Universe \citep{bernardi+2010mnras404_2087}. Such evidence suggests that a significant fraction of S0s were spirals in the past, and that their star formation was suddenly shut down. S0 galaxies are thus a key piece in the challenge to understand the evolution of the Hubble diagram. 
 
 Lenticular galaxies seem to acquire their morphology by moving along multiple evolutionary paths 
+% the paratheses should not precede the list of possible formation mechanisms 
 \citep[accretion, mergers, secular evolution, thermal stripping of the gas content][]{laurikainen+2010mnras405_1089, larson+1980apj237_692, moore+1996nat379_613, barway+2009mnras394_1991, borlaff+2014aap570_103, elichemoral+2018aap617_113, frasermckelvie+2018mnras481_5580}. However, the identification of the formation mechanism for particular galaxies continues to be a difficult task. Observational works have found signs of past \citep{machacek+2010apj711_1316} and ongoing \citep{wang+2019apj870_132} accretion events in the extended X-ray emission of lenticular galaxies, associated to the hot gas phase of the ISM, as well as in their core morphology \citep{juravnova+2019mnras484_2886}. In addition, multiple studies point towards the action of supernovae feedback, AGN activity, and their associated galactic winds as the cause for the soft X-ray band emission. \par 
 
 In this paper, we present previously undetected features likely related to the presence of an AGN in the edge-on supermassive lenticular galaxy NGC\,5084 \citep[$\alpha=200\fdg0705$, $\delta=-21\fdg8276$ ICRS, $D=	29.9\pm2.1$~Mpc, $z=0.005741$, 6.90~arcsec~kpc$^{-1}$,][Fig.\,\ref{fig:NGC5084_poster}]{gottesman+1986mnras219_759, devaucouleurs+1991book, koribalski+2004aj128_16} using optical and near-infrared (NIR) Hubble, Chandra X-ray, EVLA radio continuum, and ALMA observations. 
-
 NGC\,5084 is one of the most massive lenticular galaxies in the Local Universe \citep[]{ohlson+2024aj167_31}, with a total dynamical mass of approximately $1.3\times10^{12}$~M$_{\odot}$ \citep{koribalski+2004aj128_16} and a mass-to-light ratio $\Upsilon \geq 65$. Several features of this galaxy make it an interesting case study. \par 
 
 
@@ -127,7 +135,6 @@ source contributing the majority of the emission.}"}. No further attempt to deco
 
 This project is the second publication in a series that will study the hot gas halos around galaxies using X-ray observations from the \Chandra\ X-ray observatory. The first paper \citep[][\texttt{SAUNAS I}, hereafter]{borlaff+2024apj967_169} describes the \SAUNAS\ (Selective Amplification of Ultra Noisy Astronomical Signal) pipeline to detect low surface brightness emission in \Chandra/ACIS observations. See \texttt{SAUNAS I} for the details and description of the X-ray image reduction methodology. \par 
 This paper is organized as follows. The datasets and methodology pipeline is described in Sec.\,\ref{sec:methods}. The results are presented in Sec.\,\ref{sec:results}. The discussion and conclusions are presented in Sec.\,\ref{sec:DIS} and \ref{sec:CON}, respectively. All magnitudes are in the AB system \citep{oke1971apj170_193} unless otherwise noted.
-
 
 \section{Methods and datasets} \label{sec:methods}
 
@@ -621,7 +628,6 @@ This work was co-authored by an employee of Caltech/IPAC under Contract No. 80GS
 %% command and will number appendix equations (A1), (A2), etc. The 
 %% Figure and Table counter will not reset. 
 
-
 \appendix
 
 \section{Extended X-ray Emission Detection Tests}
@@ -646,7 +652,124 @@ For extended sources, increased aperture size results in fainter limiting sensit
 The use of large spatial binning is not needed for the brighter regions of emission. Adaptive binning methods such as CSMOOTH \citep{ebeling+2006mnras368_65} or Voronoi binning \citep{cappellari+2003mnras342_345, diehl+2006mnras368_497} take advantage of the anisotropies of the emission in the detector and bin the low surface brightness regions (typically the outskirts or halos) more aggressively than for brighter sections of the image (typically the core of the galaxy). These methods, including Voronoi binning (used by \SAUNAS), have been extensively used in the literature to analyze extended low surface brightness emission Chandra and XMM-Newton observations \citep[see ][and references therein]{ebeling+2007apj661_33,gonzalezmartin+2009aap506_1107,broos+2010apj714_1582, ebeling+2010mnras407_83, xue+2011apj195_10, hodgeskluck+2012apj746_167, wang+2024apj962_188}. While \citet[][\SAUNAS\, I]{borlaff+2024apj967_169} provides extensive quality-checks (see Sec.\,2.3 in the original paper), we triple-check the results presented in Sec.\,\ref{subsec:results_xray_ima} by presenting two additional tests to assess the detection of extended emission around the core of NGC\,5084 (see Appendix \ref{Appendix:Xray_noPSFdeco_test} and \ref{Appendix:Xray_novoro_test}).
 
 
+\subsection{Detection of X-ray extended emission without PSF deconvolution or Voronoi binning}
+\label{Appendix:Xray_noPSFdeco_test}
+
+To test if the significance of the detected extended X-ray emission is independent of the processing methodology applied by \SAUNAS\ (PSF deconvolution, Voronoi binning), this section applies an alternative methodology widely used in extragalactic X-ray astronomy to detect extended sources: compare the radial emission profile of the target with that of the PSF of the instrument \citep{fabbiano+2017apj842_4,fabbiano+2018apj855_131, jones+2020apj891_133,ma+2020apj900_164,ma+2023apj948_61}. If a significant excess flux is detected above those predicted by the scaled PSF, then extended emission must be present in the source.
+
+We simulate the \Chandra/ACIS PSF using the \texttt{MARX} software following the procedure described in the \ciao\ documentation\footnote{\ciao/\texttt{MARX}: \url{https://cxc.cfa.harvard.edu/ciao/threads/marx_sim/}}. The PSF takes into account the exact location of the source in the focal plane of ACIS, and the spectral energy distribution of the source as well. The PSF generation process is also described in steps 4--6 of Sec.\,2.2.1 in \citet{borlaff+2024apj967_169}. To ensure that the PSF profile is well-sampled at high radii (associated with the outskirts of the galaxy, the region of interest), the generated PSF contains $3\times10^6$ events generated through multiple ray-tracing simulations (more than two orders of magnitude higher than all the events registered in the \Chandra/ACIS observations of NGC\,5084). This approach ensures that any potential excess of source counts compared with those of the PSF is not a false positive.
+
+To generate the galaxy profile, all point sources (potentially associated with XRBs or background quasars) are removed similar to \SAUNAS's approach, with the exception of the core of the galaxy which, given its role as the main contributor to the scattered light emission, is left intact. Finally, the PSF central surface brightness profile is scaled to the central surface brightness of the observed galaxy, comparing their radial variation of surface brightness.
+
+The results are shown in Fig.\,\ref{fig:NGC5084_psf_profile}. The left panel shows the broadband ($0.3-2.0$ keV) \Chandra/ACIS X-ray flux map as generated by the \ciao\ pipeline, demonstrating signs of potential extended emission. No PSF deconvolution or adaptive smoothing was applied in this image. In the right panel, the surface brightness profile of the broadband X-ray flux is compared to the scaled PSF of the \Chandra/ACIS observations at the position of NGC\,5084. The \Chandra/ACIS PSF at the observational setup of NGC\,5084 has a FWHM of 1.1".
+
+Compared to the PSF and the background, we detect a $>>3\sigma$ excess of X-ray emission up to a radial distance of $\sim90$ arcsec from the core in the observations of NGC\,5084. Between 25-90 arcsec, the PSF scattered light is two orders of magnitude dimmer than the detected extended emission of NGC\,5084. The radial limit of the profile is compatible with the $3\sigma$ radial limit of the emission detected by \SAUNAS\ (see Sec.\,\ref{subsec:results_xray_ima}).
+
+The test presented in this section demonstrates three important points:
+
+\begin{enumerate}
+    \item The extended emission of NGC\,5084 is not caused by PSF contamination from the strong core emission or by a Voronoi binning artifact.
+    
+    \item The statistical significance of the extended X-ray emission is independent of the PSF deconvolution and spatial binning applied.
+
+    \item The total extension of NGC\,5084's broad-band emission in the \SAUNAS-generated maps is compatible with the $3\sigma$ limit measured using a completely independent methodology (X-ray surface brightness profile limit).
+\end{enumerate}
+
+\begin{figure*}[]
+\begin{center}
+ % trim left bottom right top 
+\begin{overpic}[trim={60 0 60 0}, clip, width=\textwidth]{FIGURES/NGC5084_nodeco_psf_test.png}
+\end{overpic}
+\caption{Detection of the X-ray extended emission around NGC\,5084 without PSF deconvolution or adaptive smoothing. \emph{Left:} \Chandra/ACIS X-ray flux ($0.3-2.0$ keV) map rebinned to $12.2\times12.2$ arcsec$^2$ ($25\times25$ pixels) for visualization purposes. No PSF deconvolution or adaptive smoothing was applied (i.e., Voronoi binning). \emph{Yellow contours:} [$2$,$3$]$\sigma$ (dotted, dashed respectively) detection limits as estimated by \SAUNAS\ (see Sec.\,\ref{subsec:results_xray_ima}, for reference. \emph{Right:} Surface brightness profile of the non-PSF deconvolved, non-adaptively smoothed flux map (purple circles) and scaled \Chandra/ACIS PSF (blue solid line). \emph{Red dashed circle and vertical line:} \SAUNAS\ $3\sigma$ radial detection limit. \emph{Silver solid circle and vertical line:} Surface brightness profile radial detection limit of the non-PSF deconvolved, non-adaptive smoothed flux map. Sky background subtraction was applied to the flux map and surface brightness profile. We remark that the spatial binning of the flux map in the left panel of Fig.\,\ref{fig:NGC5084_psf_profile} is only for visualization purposes, and the surface brightness profile was generated based on the full resolution (0.492") dataset. See legend for details.}
+\label{fig:NGC5084_psf_profile}
+\end{center}
+\end{figure*}
+
+
+\subsection{Independent detection of NGC\,5084 X-ray lobes without Voronoi binning}
+\label{Appendix:Xray_novoro_test}
+
+In this section we assess the statistical significance of the detection of the four X-ray emission lobes reported in Sec.\,\ref{subsec:results_xray_ima}, using the PSF deconvolved observations but without employing Voronoi binning. First, four simple box regions are defined, based on the contours detected in Sec.\,\ref{subsec:results_xray_ima} to isolate the emission from the brighter galactic core. The region parameters are listed in Table \ref{tab:Xray_flux} and represented in the left panel of Fig.\,\ref{fig:NGC5084_Aperture_Histograms} (see legend in the right panel). Second, a Poisson means test \citep[$E$-test, ][]{KRISHNAMOORTHY200423} evaluates the null hypothesis that the difference between the observed and background emission is statistically zero. We repeat the test 500 times using Monte Carlo and Bootstrapping simulations in order to obtain the probability distributions for the surface brightness represented in the right panel of Fig.\,\ref{fig:NGC5084_Aperture_Histograms}.
+
+The analysis indicates that the surface brightness X-ray emission in the apertures is significantly higher than that of the background. The null hypothesis that the surface brightness distributions of lobe emission and the background are sampled from a common parent population is rejected at a p-value of $p<0.05$ in all four lobe regions. In other words, this analysis provides strong statistical support for the existence of the lobe emission: north ($p=6.8\times10^{-7}$), east ($p=1.1\times10^{-6}$), south ($p=1.3\times10^{-4}$) and west ($p\sim0.01$). The fluxes integrated over the different apertures are tabulated in Table \ref{tab:Xray_flux}. This result supports and verifies the findings described in Sec.\,\ref{subsec:results_xray_ima} and Appendix \ref{Appendix:Xray_noPSFdeco_test}. We conclude that the extended X-ray emission detected by \SAUNAS\ around NGC\,5084 is (1) statistically significant; (2) independent of the PSF deconvolution process; and  (3) independent of the Voronoi binning methodology applied.
+
+
+
+\begin{figure*}[]
+\begin{center}
+ % trim left bottom right top 
+\begin{overpic}[trim={60 0 60 0}, clip, width=\textwidth]{FIGURES/NGC5084_Regions_Probability_Test.png}
+\put(55,175){\color{yellow} {\textsf{Bin 25"$\times$25" - PSF deconvolved}}}
+\end{overpic}
+\caption{Detection of the X-ray extended lobes around NGC\,5084 without Voronoi binning. \emph{Left:} \Chandra/ACIS X-ray flux ($0.3-2.0$ keV) map rebinned to $12.2\times12.2$ arcsec ($25\times25$ pixels) for visualization purposes. PSF deconvolution was applied \citep[see Sec.\,\ref{sec:methods}, and ][]{borlaff+2024apj967_169} \emph{Color rectangles:} Fixed apertures to measure X-ray emission in the North (blue), West (red), South (green), and East (orange) lobes. \emph{Yellow contours:} [$2$,$3$]$\sigma$ (dotted, dashed respectively) detection limits as estimated by \SAUNAS\ (see Sec.\,\ref{subsec:results_xray_ima}, for reference. \emph{Right:} Color coded histograms represent the event probability distributions for the background (grey) and the four lobe apertures. The $p$-values for the null hypothesis that the flux distributions in the lobe apertures are compatible with the background are represented in the legend.}
+\label{fig:NGC5084_Aperture_Histograms}
+\end{center}
+\end{figure*}
+
+
+
+\section{\Chandra\ X-ray images in sub-bands}
+\label{Appendix:Xray_subbands}
+
+Figure \ref{fig:NGC5084_per_band} shows the X-ray mosaics in the individual bands (\emph{soft:} 0.3-1.0 keV, \emph{medium:} 1.0-2.0 keV, \emph{hard:} 2.0 - 8.0 keV) processed with \texttt{SAUNAS I} \citep{borlaff+2024apj967_169}.
+
+\begin{figure*}[t!]
+\begin{center}
+ % trim left bottom right top 
+ \begin{overpic}[trim={75 38 0 40}, clip, width=\textwidth]{FIGURES/NGC5084_soft_kev300_1000_result_deco_voro_smooth_drz.png}
+\put(70,152.0){\large \color{yellow} {\textsf{0.3-1.0 keV}}}
+\end{overpic}
+ 
+\begin{overpic}[trim={75 38 0 40}, clip, width=\textwidth]{FIGURES/NGC5084_medium_kev1000_2000_result_deco_voro_smooth_drz.png}
+%\put(49,170.5){\color{black} \colorbox{white}{\textsf{1.0-2.0 keV}}} 
+\put(70,152.0){\large \color{yellow} {\textsf{1.0-2.0 keV}}}
+\end{overpic}
+
+\begin{overpic}[trim={75 0 0 38}, clip, width=\textwidth]{FIGURES/NGC5084_hard_kev2000_8000_result_deco_voro_smooth_drz.png}
+\put(70,173.0){\large \color{yellow} {\textsf{2.0-8.0 keV}}}
+\end{overpic}
+
+\caption{Diffuse X-ray emission of NGC\,5084 as detected with \SAUNAS/\Chandra\ in 0.3--1.0 keV (\emph{top}), 1.0--2.0 keV (\emph{center}), 2.0--8.0 keV (\emph{bottom}). \emph{Left:} Optical $gri$ color Pan-STARRS image \citep{chambers+2016arXiv1612.05560}. \emph{Right:} \SAUNAS\ map of the diffuse X-ray emission, corrected for PSF, point-sources, and sky-background. Dashed and solid contours represent the $2\sigma$ and the $3\sigma$ detection levels of X-ray emission, represented in white (left panel) and black (right panel) for contrast.} 
+\label{fig:NGC5084_per_band}
+\end{center}
+\end{figure*}
+
+\section{\emph{Hubble} Space Telescope multiband imaging}
+\label{Appendix:Hubble_subbands}
+
+Figure \ref{fig:NGC5084_multiband} shows the emission in each individual HST band analyzed in Sec.\,\ref{subsec:results_hst}, including the F658N - F702W color image. 
+
+\begin{figure*}[]
+\begin{center}
+ % trim left bottom right top 
+\includegraphics[trim={0 25 60 0}, clip, height=8.85cm]{FIGURES/NGC5084_F475W.png}
+\includegraphics[trim={140 25 60 0}, clip, height=8.85cm]{FIGURES/NGC5084_F658N.png}
+\includegraphics[trim={0 0 60 57}, clip, height=8.4cm]{FIGURES/NGC5084_F702W.png}
+\includegraphics[trim={140 0 60 57}, clip, height=8.4cm]{FIGURES/NGC5084_F658N_F702W.png}
+
+\caption{Morphology of the core of NGC\,5084 obtained with \emph{Hubble}. \emph{Top left:} WFC3/UVIS F475W, \emph{Top right:} WFPC2 F658N, \emph{Bottom left:} WFPC2 F702W, \emph{Bottom right:} F658N - F702W (proxy of the [NII, $\lambda$6548] + $H\alpha$ emission). The area shown is $12.6\times12.6$~arcsec$^2$ ($1.82\times1.82$~kpc$^2$ at a distance of 29.91~Mpc). See the scales and colorbars for reference.} 
+\label{fig:NGC5084_multiband}
+\end{center}
+\end{figure*}
+
+%\section{Optical spectral energy distribution} 
+\label{Appendix:OpticalSpectra}
+
+%In this section we show the optical spectral energy distribution of the inner regions of NGC\,5084, as obtained by the 6dF Galaxy Survey \citep{jones+2004mnras355_747}. The spectral range covered is 4000-7500 $\AA$. The observations used an aperture of $R=6.7$ arcsec around the core of the galaxy. 
+
+%\bibliography{do_NOT_manually_edit/bibFile}\bibliographystyle{CORE-AAS/aasjournal} 
 \bibliography{Extragalactic}\bibliographystyle{CORE-AAS/aasjournal}
+
+%% This command is needed to show the entire author+affiliation list when 
+%% the collaboration and author truncation commands are used.  It has to 
+%% go at the end of the manuscript. 
+%\allauthors 
+
+%% Include this line if you are using the \added, \replaced, \deleted 
+%% commands to see a summary list of all changes at the end of the article. 
+%\listofchanges 
+
 
 
 \end{document}
+
