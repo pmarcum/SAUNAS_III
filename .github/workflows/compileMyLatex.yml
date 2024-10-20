@@ -77,7 +77,7 @@ jobs:
         continue-on-error: true
 
       - name: Listfiles in google drive folder
-      - uses: pmarcum/upload-to-drive@master
+        uses: pmarcum/upload-to-drive@master
         id: list
         with:
           credentials: ${{ secrets.GSA_BASE64_KEY }}
