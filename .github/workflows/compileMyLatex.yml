@@ -81,7 +81,9 @@ jobs:
         with:
           service_account: ${{ secrets.GSA_BASE64_KEY }}
 
-      - run: gdrive --service-account gdrive.json about
+      - run: |
+         gdrive --service-account gdrive.json about
+         ls -la
         
       #- name: Remove files to initiate compilation process
       #  run: |
