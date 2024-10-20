@@ -76,14 +76,16 @@ jobs:
           echo "HTMLLINK=$htmllink" >> $GITHUB_ENV
         continue-on-error: true
 
-      - name: Set up gdrive
-        uses: AnimMouse/setup-gdrive@v3
+      - name: Listfiles in google drive folder
+      - uses: pmarcum/upload-to-drive@master
+        id: list
         with:
-          service_account: ${{ secrets.GSA_BASE64_KEY }}
+          credentials: ${{ secrets.GSA_BASE64_KEY }}
+          actionType: list
+          googleFolderId: 1_3kdWp3eQ8sC36GVSkeiP-Wz8HZhj0oA
 
-      - run: |
-         gdrive --service-account gdrive.json about
-         ls /usr/local/bin
+      - name: Print folder files
+        run: echo "${{ steps.list.outputs.folderFiles }}"
         
       #- name: Remove files to initiate compilation process
       #  run: |
