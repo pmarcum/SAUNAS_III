@@ -75,45 +75,52 @@ jobs:
           htmllink="https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"
           echo "HTMLLINK=$htmllink" >> $GITHUB_ENV
         continue-on-error: true
+
+      - name: Set up gdrive
+        uses: AnimMouse/setup-gdrive@v3
+        with:
+          service_account: ${{ secrets.GSA_BASE64_KEY }}
+
+      - run: gdrive --service-account gdrive.json about
         
-      - name: Remove files to initiate compilation process
-        run: |
-          rm -f fin.txt
-          rm -f $FULLLOG
-          rm -f $LOG
-          rm -f $CORENAME.aux
-          rm -f $CORENAME.bbl
-          rm -f $CORENAME.blg
-          rm -f $CORENAME.fdb_latexmk
-          rm -f $CORENAME.fls
-          rm -f $CORENAME.sync*
-          rm -f inpaperCites.txt
-          rm -f thereAreErrors.txt
-          rm -f doesNotUsePruned.txt
-          rm -f usedBibfile.txt
-          rm -f compileOut.txt*
-          rm -f errout.txt*
-          rm -f cites.txt
-          rm -f html.txt
-          rm -f warnout.txt
-          rm -f bibout.txt
-          rm -f $CORENAME.synctex.gz
-          rm -f $CORENAME.out
-          rm -f $STARTFILE
-          rm -f $PDFFILE
-          rm -f $PDFHIRES
-          rm -f $HTMLFILE
-          rm -f $OUTFILE
-        continue-on-error: true
+      #- name: Remove files to initiate compilation process
+      #  run: |
+      #    rm -f fin.txt
+      #    rm -f $FULLLOG
+      #    rm -f $LOG
+      #    rm -f $CORENAME.aux
+      #    rm -f $CORENAME.bbl
+      #    rm -f $CORENAME.blg
+      #    rm -f $CORENAME.fdb_latexmk
+      #    rm -f $CORENAME.fls
+      #    rm -f $CORENAME.sync*
+      #    rm -f inpaperCites.txt
+      #    rm -f thereAreErrors.txt
+      #    rm -f doesNotUsePruned.txt
+      #    rm -f usedBibfile.txt
+      #    rm -f compileOut.txt*
+      #    rm -f errout.txt*
+      #    rm -f cites.txt
+      #    rm -f html.txt
+      #    rm -f warnout.txt
+      #    rm -f bibout.txt
+      #    rm -f $CORENAME.synctex.gz
+      #    rm -f $CORENAME.out
+      #    rm -f $STARTFILE
+      #    rm -f $PDFFILE
+      #    rm -f $PDFHIRES
+      #    rm -f $HTMLFILE
+      #    rm -f $OUTFILE
+      #  continue-on-error: true
       
-      - name: Complete initialization of folder
-        run: |
-          git config --global user.email "email@gmail.com"
-          git config --global user.name "github actions"
-          git add .
-          git commit -m "Upload changed files"
-          git push
-        continue-on-error: true
+      #- name: Complete initialization of folder
+      #  run: |
+      #    git config --global user.email "email@gmail.com"
+      #    git config --global user.name "github actions"
+      #    git add .
+      #    git commit -m "Upload changed files"
+      #    git push
+      #  continue-on-error: true
                            
       # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
       # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
@@ -409,39 +416,39 @@ jobs:
           mv -f fin.txt "$OUTFILE"
         continue-on-error: true
 
-      - name: Clean up folder before saving files
-        run: |
-          echo '394'
-          ls -la compileOut.txt*
-          rm -f fin.txt
-          rm -f $FULLLOG
-          rm -f $LOG
-          rm -f $CORENAME.aux
-          rm -f $CORENAME.bbl
-          rm -f $CORENAME.blg
-          rm -f $CORENAME.fdb_latexmk
-          rm -f $CORENAME.fls
-          rm -f $CORENAME.sync*
-          rm -f inpaperCites.txt
-          rm -f thereAreErrors.txt
-          rm -f doesNotUsePruned.txt
-          rm -f usedBibfile.txt
-          rm -f compileOut.txt*
-          rm -f errout.txt*
-          rm -f cites.txt
-          rm -f html.txt
-          rm -f warnout.txt
-          rm -f bibout.txt
-          rm -f $CORENAME.synctex.gz
-          rm -f $CORENAME.out
-        continue-on-error: true
+      #- name: Clean up folder before saving files
+      #  run: |
+      #    echo '394'
+      #    ls -la compileOut.txt*
+      #    rm -f fin.txt
+      #    rm -f $FULLLOG
+      #    rm -f $LOG
+      #    rm -f $CORENAME.aux
+      #    rm -f $CORENAME.bbl
+      #    rm -f $CORENAME.blg
+      #    rm -f $CORENAME.fdb_latexmk
+      #    rm -f $CORENAME.fls
+      #    rm -f $CORENAME.sync*
+      #    rm -f inpaperCites.txt
+      #    rm -f thereAreErrors.txt
+      #    rm -f doesNotUsePruned.txt
+      #    rm -f usedBibfile.txt
+      #    rm -f compileOut.txt*
+      #    rm -f errout.txt*
+      #    rm -f cites.txt
+      #    rm -f html.txt
+      #    rm -f warnout.txt
+      #    rm -f bibout.txt
+      #    rm -f $CORENAME.synctex.gz
+      #    rm -f $CORENAME.out
+      #  continue-on-error: true
       
-      - name: Post new files to folder
-        run: |
-          git config --global user.email "email@gmail.com"
-          git config --global user.name "github actions"
-          git add .
-          git commit -m "Upload changed files"
-          git push
-        continue-on-error: true
+      #- name: Post new files to folder
+      #  run: |
+      #    git config --global user.email "email@gmail.com"
+      #    git config --global user.name "github actions"
+      #    git add .
+      #    git commit -m "Upload changed files"
+      #    git push
+      #  continue-on-error: true
  
