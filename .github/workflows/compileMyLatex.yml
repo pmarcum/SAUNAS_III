@@ -83,7 +83,7 @@ jobs:
 
       - run: |
          gdrive --service-account gdrive.json about
-         ls -la
+         ls /usr/local/bin
         
       #- name: Remove files to initiate compilation process
       #  run: |
