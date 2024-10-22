@@ -105,7 +105,7 @@ jobs:
           rm -f $HTMLFILE
           rm -f $OUTFILE
         continue-on-error: true
-      
+     
       - name: Complete initialization of folder
         run: |
           git config --global user.email "email@gmail.com"
@@ -364,7 +364,7 @@ jobs:
         with:
           file: "${{ github.event.inputs.file2compile }}_hiRes.pdf"
           output: "${{ github.event.inputs.file2compile }}.pdf"
-          arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/printer'
+          arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
         continue-on-error: true
         
       #- name: Make the error PDF file
