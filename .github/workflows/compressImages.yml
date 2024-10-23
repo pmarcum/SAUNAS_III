@@ -1,5 +1,6 @@
 name: Compress Images
 # https://safnaj.medium.com/image-compression-for-the-web-using-github-actions-f1156d281cda
+
 on:
   push:
     branches:
