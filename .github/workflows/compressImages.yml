@@ -1,0 +1,26 @@
+name: Compress Images
+# https://safnaj.medium.com/image-compression-for-the-web-using-github-actions-f1156d281cda
+# https://github.com/marketplace/actions/image-actions
+
+on:
+  pull_request:
+    paths:
+      - '**/*.jpg'
+      - '**/*.jpeg'
+      - '**/*.png'
+      - '**/*.webp'
+jobs:
+  build:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    name: calibreapp/image-actions
+    permissions: write-all
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Compress Images
+        uses: calibreapp/image-actions@main
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+    
