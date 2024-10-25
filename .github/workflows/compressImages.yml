@@ -3,19 +3,20 @@ name: Compress Images
 # https://github.com/marketplace/actions/image-actions
 
 on:
-  push:
+  pull_request:
     paths:
       - '**.jpg'
       - '**.jpeg'
       - '**.png'
       - '**.webp'
   workflow_dispatch:
+  
 jobs:
   build:
     if: github.event.pull_request.head.repo.full_name == github.repository
     name: calibreapp/image-actions
-    permissions: write-all
     runs-on: ubuntu-latest
+    permissions: write
     
     steps:
       - name: Checkout Repo
