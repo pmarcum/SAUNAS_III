@@ -18,6 +18,11 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
+      - name: Move large images to temporary subdir
+        run: |
+          touch tmpImg.txt
+          ls -lah *.jpg >> tmpImg.txt
+
       - name: Compress images
         id: resize-images
         uses: petems/image-resizer-gh-action@master
