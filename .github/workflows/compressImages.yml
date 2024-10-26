@@ -1,6 +1,7 @@
 name: Compress Images
 # https://safnaj.medium.com/image-compression-for-the-web-using-github-actions-f1156d281cda
 # https://github.com/marketplace/actions/image-actions
+# https://github.com/MarketingPipeline/Image-Optimizer-Action/blob/main/.github/workflows/example_workflow.yaml
 
 on:
   workflow_dispatch:
@@ -18,6 +19,9 @@ jobs:
 
       - name: Compress Images
         uses: MarketingPipeline/Image-Optimizer-Action@main
+        with:
+          filename: /
+          recursion: true
 
       - name: Commit and push optimized images
         run: |
