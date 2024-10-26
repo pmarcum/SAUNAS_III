@@ -18,15 +18,10 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Compress Images
-        uses: calibreapp/image-actions@main
-        with:
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
-
-      #- name: Move large images to temporary subdir
-      #  run: |
-      #    touch tmpImg.txt
-      #    ls -lah *.jpg >> tmpImg.txt
+      - name: Move large images to temporary subdir
+        run: |
+          find -type f -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.gif' -printf '%h %s\n' \
+          | awk -F '[ /]' '{a[$2] += $NF} END{for(i in a){print i, a[i]}}'
 
       #- name: Compress images
       #  id: resize-images
@@ -37,14 +32,14 @@ jobs:
       #    widthLimit: 1024  # max width to check
       #    heightLimit: 768  # max height to check
 
-      - name: Complete initialization of folder
-        run: |
-          git config --global user.email "email@gmail.com"
-          git config --global user.name "github actions"
-          git add .
-          git commit -m "Upload changed files"
-          git push
-        continue-on-error: true
+      #- name: Complete initialization of folder
+      #  run: |
+      #    git config --global user.email "email@gmail.com"
+      #    git config --global user.name "github actions"
+      #    git add .
+      #    git commit -m "Upload changed files"
+      #    git push
+      #  continue-on-error: true
 
       #- name: Install ImageMagick
       #  uses: mfinelli/setup-imagemagick@v5
