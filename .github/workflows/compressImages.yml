@@ -18,19 +18,24 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Move large images to temporary subdir
-        run: |
-          touch tmpImg.txt
-          ls -lah *.jpg >> tmpImg.txt
-
-      - name: Compress images
-        id: resize-images
-        uses: petems/image-resizer-gh-action@master
+      - name: Compress Images
+        uses: calibreapp/image-actions@main
         with:
-          target: FIGURES/HST_Torus_model.png FIGURES/NGC5084_F702W.png # directory to look for images in
-          dimensions: 90%   # parameter to change size
-          widthLimit: 1024  # max width to check
-          heightLimit: 768  # max height to check
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      #- name: Move large images to temporary subdir
+      #  run: |
+      #    touch tmpImg.txt
+      #    ls -lah *.jpg >> tmpImg.txt
+
+      #- name: Compress images
+      #  id: resize-images
+      #  uses: petems/image-resizer-gh-action@master
+      #  with:
+      #    target: FIGURES/HST_Torus_model.png FIGURES/NGC5084_F702W.png # directory to look for images in
+      #    dimensions: 90%   # parameter to change size
+      #    widthLimit: 1024  # max width to check
+      #    heightLimit: 768  # max height to check
 
       - name: Complete initialization of folder
         run: |
