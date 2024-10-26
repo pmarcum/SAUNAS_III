@@ -18,18 +18,36 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Install ImageMagick
-        uses: mfinelli/setup-imagemagick@v5
-        with:
-          cache: false
-        #run: |
-        #  sudo apt install imagemagick
-
       - name: Compress images
+        id: resize-images
+        uses: petems/image-resizer-gh-action@master
+        with:
+          target: FIGURES/  # directory to look for images in
+          dimensions: 90%   # parameter to change size
+          widthLimit: 1024  # max width to check
+          heightLimit: 768  # max height to check
+
+      - name: Complete initialization of folder
         run: |
-          mogrify -path text.png -filter Triangle -define filter:support=2 -thumbnail 300 \
-          -unsharp 0.25x0.08+8.3+0.045 -dither None -posterize 136 -quality 82 \
-          -define jpeg:fancy-upsampling=off -define png:compression-filter=5 -define png:compression-level=9 \
-          -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none \
-          -colorspace sRGB -strip FIGURES/Composition_NGC5084_poster_v6_paper.png
+          git config --global user.email "email@gmail.com"
+          git config --global user.name "github actions"
+          git add .
+          git commit -m "Upload changed files"
+          git push
+        continue-on-error: true
+
+      #- name: Install ImageMagick
+      #  uses: mfinelli/setup-imagemagick@v5
+      #  with:
+      #    cache: true
+      #  #run: |
+      #  #  sudo apt install imagemagick
+
+      #- name: Compress images
+      #  run: |
+          #mogrify -path text.png -filter Triangle -define filter:support=2 -thumbnail 300 \
+          #-unsharp 0.25x0.08+8.3+0.045 -dither None -posterize 136 -quality 82 \
+          #-define jpeg:fancy-upsampling=off -define png:compression-filter=5 -define png:compression-level=9 \
+          #-define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none \
+          #-colorspace sRGB -strip FIGURES/Composition_NGC5084_poster_v6_paper.png
           
