@@ -2,6 +2,7 @@ name: Compress Images
 # https://safnaj.medium.com/image-compression-for-the-web-using-github-actions-f1156d281cda
 # https://github.com/marketplace/actions/image-actions
 # https://github.com/MarketingPipeline/Image-Optimizer-Action/blob/main/.github/workflows/example_workflow.yaml
+# https://www.smashingmagazine.com/2015/06/efficient-image-resizing-with-imagemagick/
 
 on:
   workflow_dispatch:
@@ -23,4 +24,12 @@ jobs:
           cache: false
         #run: |
         #  sudo apt install imagemagick
+
+      - name: Compress images
+        run: |
+          mogrify -path Composition_NGC5084_poster_v6_paper.png 300 -filter Triangle \
+          -define filter:support=2 -thumbnail  -unsharp 0.25x0.08+8.3+0.045 -dither None \
+          -posterize 136 -quality 82 -define jpeg:fancy-upsampling=off -define png:compression-filter=5 \
+          -define png:compression-level=9 -define png:compression-strategy=1 -define png:exclude-chunk=all \
+          -interlace none -colorspace sRGB FIGURES/Composition_NGC5084_poster_v6_paper.png
           
