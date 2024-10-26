@@ -17,16 +17,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Compress Images
-        uses: MarketingPipeline/Image-Optimizer-Action@main
-        with:
-          filename: /
-          recursion: true
-
-      - name: Commit and push optimized images
+      - name: Install ImageMagick
         run: |
-           git config --global user.name "github actions"
-           git config --global user.email "email@gmail.com"
-           git add -A
-           git commit -m "Added Optimized Image"
-           git push
+          sudo apt install imagemagick
+          
