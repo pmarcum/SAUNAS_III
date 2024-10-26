@@ -20,9 +20,10 @@ jobs:
 
       - name: Move large images to temporary subdir
         run: |
-          find FIGURES/ -type f -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.gif' -printf '%h %s\n' \
-          | awk -F '[ /]' '{a[$2] += $NF} END{for(i in a){print i, a[i]}}'
-          ls -lahR
+          rm -f filesNames.txt
+          find . -type d -exec sh -c "cd {} ; ls | grep -v '^filesNames.txt$' > filesNames.txt"
+          cat filesNames.txt
+          #ls -lahR
 
       #- name: Compress images
       #  id: resize-images
