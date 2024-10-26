@@ -22,7 +22,7 @@ jobs:
         id: resize-images
         uses: petems/image-resizer-gh-action@master
         with:
-          target: **/*model*.png  # directory to look for images in
+          target: FIGURES/HST_Torus_model.png,FIGURES/NGC5084_F702W.png # directory to look for images in
           dimensions: 90%   # parameter to change size
           widthLimit: 1024  # max width to check
           heightLimit: 768  # max height to check
