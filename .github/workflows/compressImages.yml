@@ -3,27 +3,26 @@ name: Compress Images
 # https://github.com/marketplace/actions/image-actions
 
 on:
-  pull_request:
-    paths:
-      - '**.jpg'
-      - '**.jpeg'
-      - '**.png'
-      - '**.webp'
   workflow_dispatch:
   
 jobs:
-  build:
-    if: github.event.pull_request.head.repo.full_name == github.repository
-    name: calibreapp/image-actions
+  image_compress:
     runs-on: ubuntu-latest
-    permissions: write
+    continue-on-error: true
+    permissions: 
+      contents: write
     
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
       - name: Compress Images
-        uses: calibreapp/image-actions@main
-        with:
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
-    
+        uses: MarketingPipeline/Image-Optimizer-Action@main
+
+      - name: Commit and push optimized images
+        run: |
+           git config --global user.name "github actions"
+           git config --global user.email "email@gmail.com"
+           git add -A
+           git commit -m "Added Optimized Image"
+           git push
