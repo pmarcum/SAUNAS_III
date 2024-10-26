@@ -20,7 +20,19 @@ jobs:
 
       - name: Move large images to temporary subdir
         run: |
-          tree -ifs $PWD
+          shopt -s globstar
+          largest_file_size=0
+          for filepath in **; do
+            if [[ -f "$filepath" && ! -L "$filepath" ]]; then
+              size=$( stat -c %s -- "$filepath" )
+              if (( size > largest_file_size )); then
+                largest_file_size=$size
+                largest_file_path=$filepath 
+              fi
+            fi
+          done
+          echo "$largest_file_size $largest_file_path"
+          #tree -ifs $PWD
           #ls -lahR
 
       #- name: Compress images
