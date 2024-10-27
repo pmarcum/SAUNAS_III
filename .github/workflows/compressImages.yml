@@ -44,8 +44,10 @@ jobs:
             if [[ -f "$imagefile" && ! -L "$imagefile" && $size > $bigfile && "${imagefile}" =~ FIGURE && "${imagefile}" =~ \.(png|jpg|jpeg|gif|pdf|bmp|PNG|JPG|JPEG|GIF|PDF|BMP)$ ]]; then
               isInTex=0
               for texfile in **.tex; do
+                echo "$texfile"
                 if cat "${texfile}" | grep -q "${imagefile}"; then
                   isInTex=1
+                  echo "found the image in the tex file"
                 fi
               done
               if $isInTex>0; then
