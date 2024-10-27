@@ -23,7 +23,7 @@ jobs:
           shopt -s globstar
           for filepath in **; do
             #if cat myPaper.tex | grep -q "$filepath"; then
-            if [[ -f "$filepath" && ! -L "$filepath" && $( stat -c %s -- "$filepath" ) > 500000 && "$filepath" =~ "png" ]]; then
+            if [[ -f "$filepath" && ! -L "$filepath" && $( stat -c %s -- "$filepath" ) > 500000 ]]; then
               #isInTex="none"
               #while IFS= read -r -d $'\0' file; do
               #  if cat "$file" | grep -q "$filepath"; then
