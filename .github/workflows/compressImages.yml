@@ -20,17 +20,13 @@ jobs:
 
       - name: Move large images to temporary subdir
         run: |
+          
           shopt -s globstar
-          largest_file_size=0
           for filepath in **; do
+            isInTex = $( grep -q "$filepath" *.tex )
             if cat myPaper.tex | grep -q "$filepath"; then
               if [[ -f "$filepath" && ! -L "$filepath" && $( stat -c %s -- "$filepath" ) > 500000 ]]; then
-                #grep -q "$filepath" myPaper.tex 
                 size=$( stat -c %s -- "$filepath" )
-                if (( size > largest_file_size )); then
-                  largest_file_size=$size
-                  largest_file_path=$filepath 
-                fi
               fi
             fi
           done
