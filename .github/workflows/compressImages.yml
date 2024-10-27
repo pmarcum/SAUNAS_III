@@ -3,6 +3,7 @@ name: Compress Images
 # https://github.com/marketplace/actions/image-actions
 # https://github.com/MarketingPipeline/Image-Optimizer-Action/blob/main/.github/workflows/example_workflow.yaml
 # https://www.smashingmagazine.com/2015/06/efficient-image-resizing-with-imagemagick/
+# https://www.overleaf.com/learn/how-to/Optimising_very_large_image_files
 
 on:
   workflow_dispatch:
@@ -18,34 +19,44 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Move large images to temporary subdir
+      - name: Install ImageMagick
+        uses: mfinelli/setup-imagemagick@v5
+        with:
+          cache: true
+        #run: |
+        #  sudo apt install imagemagick
+
+      #- name: Compress images
+      #  run: |
+      #    #mogrify -path text.png -filter Triangle -define filter:support=2 -thumbnail 300 \
+      #    #-unsharp 0.25x0.08+8.3+0.045 -dither None -posterize 136 -quality 82 \
+      #    #-define jpeg:fancy-upsampling=off -define png:compression-filter=5 -define png:compression-level=9 \
+      #    #-define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none \
+      #    #-colorspace sRGB -strip FIGURES/Composition_NGC5084_poster_v6_paper.png
+    
+          
+      - name: Compress images
         run: |
+          bigfile=500000
           shopt -s globstar
-          for filepath in **; do
-            if [[ -f "$filepath" && ! -L "$filepath" && $( stat -c %s -- "$filepath" ) > 500000 && "${filepath}" =~ \.(png|jpg|jpeg|gif|pdf)$ ]]; then
-              echo "line 26  ${filepath}"
+          for imagefile in **.jpg **.jpeg **.JPG **.JPEG **.png **.PNG **.gif **.GIF **.bmp **.BMP **.pdf **.PDF; do
+            size=$( stat -c %s -- "$imagefile"  )
+            if [[ -f "$imagefile" && ! -L "$imagefile" && $size > $bigfile && "${imagefile}" =~ \.(png|jpg|jpeg|gif|pdf|bmp|PNG|JPG|JPEG|GIF|PDF|BMP)$ ]]; then
               isInTex=0
               for texfile in **.tex; do
-                echo "$texfile"
-                if cat "${texfile}" | grep -q "${filepath}"; then
+                if cat "${texfile}" | grep -q "${imagefile}"; then
                   isInTex=1
                 fi
-                if cat "${texfile}" | grep -q "fake.png"; then
-                  echo "could not find fake.png in ${texfile}"
-                fi
               done
-              echo $isInTex
               if $isInTex>0; then
-                echo "$filepath is in one of the tex files"
-              else
-                echo "$filepath is NOT in one of the tex files"
+                mogrify -path text.png -filter Triangle -define filter:support=2 -thumbnail 300 \
+                  -unsharp 0.25x0.08+8.3+0.045 -dither None -posterize 136 -quality 82 \
+                  -define jpeg:fancy-upsampling=off -define png:compression-filter=5 -define png:compression-level=9 \
+                  -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none \
+                  -colorspace sRGB -strip FIGURES/Composition_NGC5084_poster_v6_paper.png
               fi
-              size=$( stat -c %s -- "$filepath" )
             fi
           done
-          echo "$largest_file_size $largest_file_path"
-          #tree -ifs $PWD
-          #ls -lahR
 
       #- name: Compress images
       #  id: resize-images
@@ -65,18 +76,4 @@ jobs:
       #    git push
       #  continue-on-error: true
 
-      #- name: Install ImageMagick
-      #  uses: mfinelli/setup-imagemagick@v5
-      #  with:
-      #    cache: true
-      #  #run: |
-      #  #  sudo apt install imagemagick
-
-      #- name: Compress images
-      #  run: |
-          #mogrify -path text.png -filter Triangle -define filter:support=2 -thumbnail 300 \
-          #-unsharp 0.25x0.08+8.3+0.045 -dither None -posterize 136 -quality 82 \
-          #-define jpeg:fancy-upsampling=off -define png:compression-filter=5 -define png:compression-level=9 \
-          #-define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none \
-          #-colorspace sRGB -strip FIGURES/Composition_NGC5084_poster_v6_paper.png
           
