@@ -41,21 +41,23 @@ jobs:
           shopt -s globstar
           for imagefile in **.jpg **.jpeg **.JPG **.JPEG **.png **.PNG **.gif **.GIF **.bmp **.BMP **.pdf **.PDF; do
             size=$( stat -c %s -- "$imagefile"  )
-            if [[ -f "$imagefile" && ! -L "$imagefile" && $size > $bigfile && "${imagefile}" =~ \.(png|jpg|jpeg|gif|pdf|bmp|PNG|JPG|JPEG|GIF|PDF|BMP)$ ]]; then
-              isInTex=0
-              for texfile in **.tex; do
-                if cat "${texfile}" | grep -q "${imagefile}"; then
-                  isInTex=1
-                fi
-              done
-              if $isInTex>0; then
-                mogrify -path text.png -filter Triangle -define filter:support=2 -thumbnail 300 \
-                  -unsharp 0.25x0.08+8.3+0.045 -dither None -posterize 136 -quality 82 \
-                  -define jpeg:fancy-upsampling=off -define png:compression-filter=5 -define png:compression-level=9 \
-                  -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none \
-                  -colorspace sRGB -strip FIGURES/Composition_NGC5084_poster_v6_paper.png
-              fi
-            fi
+            echo "$imagefile"
+            echo $size
+            #if [[ -f "$imagefile" && ! -L "$imagefile" && $size > $bigfile && "${imagefile}" =~ \.(png|jpg|jpeg|gif|pdf|bmp|PNG|JPG|JPEG|GIF|PDF|BMP)$ ]]; then
+            #  isInTex=0
+            #  for texfile in **.tex; do
+            #    if cat "${texfile}" | grep -q "${imagefile}"; then
+            #      isInTex=1
+            #    fi
+            #  done
+            #  #if $isInTex>0; then
+            #  #  mogrify -path text.png -filter Triangle -define filter:support=2 -thumbnail 300 \
+            #  #    -unsharp 0.25x0.08+8.3+0.045 -dither None -posterize 136 -quality 82 \
+            #  #    -define jpeg:fancy-upsampling=off -define png:compression-filter=5 -define png:compression-level=9 \
+            #  #    -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none \
+            #  #    -colorspace sRGB -strip FIGURES/Composition_NGC5084_poster_v6_paper.png
+            #  #fi
+            #fi
           done
 
       #- name: Compress images
