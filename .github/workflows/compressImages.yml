@@ -23,15 +23,15 @@ jobs:
           shopt -s globstar
           for filepath in **; do
             if [[ -f "$filepath" && ! -L "$filepath" && $( stat -c %s -- "$filepath" ) > 500000 && "${filepath}" =~ \.(png|jpg|jpeg|gif|pdf)$ ]]; then
-              echo "${filepath}"
+              echo "line 26  ${filepath}"
               isInTex=0
               while IFS= read -r -d $'\0' file; do
-                echo "${file}"
+                echo "line 29  ${file}"
                 if cat "${file}" | grep -q "${filepath}"; then
                   isInTex=1
                 fi
               done < <(find . -type f -name "*.tex")
-              echo $isInTex
+              echo "line 34 $isInTex"
               if $isInTex>0; then
                 echo "$filepath is in one of the tex files"
               else
