@@ -30,7 +30,7 @@ jobs:
                 if cat "${file}" | grep -q "${filepath}"; then
                   isInTex=1
                 fi
-              done < <(find . -type f -name "*.tex")
+              done < <(find . -type f -name *.tex)
               echo "line 34 $isInTex"
               if $isInTex>0; then
                 echo "$filepath is in one of the tex files"
