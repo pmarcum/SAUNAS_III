@@ -22,6 +22,7 @@ jobs:
         run: |
           texList=$(find . -name "*.tex")
           echo $texList
+          grep -q "$filepath" $texList
           shopt -s globstar
           for filepath in **; do
             if cat myPaper.tex | grep -q "$filepath"; then
