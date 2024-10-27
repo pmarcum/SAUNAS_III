@@ -22,8 +22,8 @@ jobs:
         run: |
           shopt -s globstar
           for filepath in **; do
-            if [[ -f "$filepath" && ! -L "$filepath" && $( stat -c %s -- "$filepath" ) > 500000 && ("$filepath"=~"png"||"$filepath"=~"jpg"||"$filepath"=~"jpeg"||"$filepath"=~"gif"||"$filepath"=~"pdf") ]]; then
-              echo "$filepath"
+            if [[ -f "$filepath" && ! -L "$filepath" && $( stat -c %s -- "$filepath" ) > 500000 && "$filepath" =~ \.(png|jpg|jpeg|gif|pdf)$ ]]; then
+              echo "${filepath:1}"
               isInTex="none"
               while IFS= read -r -d $'\0' file; do
                 if cat "$file" | grep -q "${filepath:1}"; then
