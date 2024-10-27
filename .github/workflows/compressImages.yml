@@ -30,7 +30,9 @@ jobs:
                 if cat "${texfile}" | grep -q "${filepath}"; then
                   isInTex=1
                 fi
-                cat "${texfile}" | grep -q "fake.png"
+                if cat "${texfile}" | grep -q "fake.png"; then
+                  echo "could not find fake.png in ${texfile}"
+                fi
               done
               echo $isInTex
               if $isInTex>0; then
