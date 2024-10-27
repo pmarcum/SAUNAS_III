@@ -24,13 +24,18 @@ jobs:
           for filepath in **; do
             #if cat myPaper.tex | grep -q "$filepath"; then
             if [[ -f "$filepath" && ! -L "$filepath" && $( stat -c %s -- "$filepath" ) > 500000 ]]; then
-              isInTex=false
+              isInTex="none"
               while IFS= read -r -d $'\0' file; do
                 if cat "$file" | grep -q "$filepath"; then
-                  isInTex=true
+                  isInTex=$file
                 fi
               done < <(find . -type f -name "*.tex")
               echo $isInTex
+              if isInTex ~= "none"; then
+                echo "$filepath is in one of the tex files"
+              else
+                echo "$filepath is NOT in one of the tex files"
+              fi
               size=$( stat -c %s -- "$filepath" )
             fi
           done
