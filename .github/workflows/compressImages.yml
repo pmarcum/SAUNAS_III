@@ -26,7 +26,9 @@ jobs:
             if [[ -f "$filepath" && ! -L "$filepath" && $( stat -c %s -- "$filepath" ) > 500000 ]]; then
               isInTex=false
               while IFS= read -r -d $'\0' file; do
-                isInTex=$( cat "$file" | grep -q "$filepath" )
+                if cat "$file" | grep -q "$filepath"; then
+                  isInTex=true
+                fi
               done < <(find . -type f -name "*.tex"
               echo $isInTex
               size=$( stat -c %s -- "$filepath" )
