@@ -24,8 +24,8 @@ jobs:
           echo $texList
           shopt -s globstar
           for filepath in **; do
-            grep -q "$filepath" $texList
             if cat myPaper.tex | grep -q "$filepath"; then
+              grep -q "$filepath" $texList
               if [[ -f "$filepath" && ! -L "$filepath" && $( stat -c %s -- "$filepath" ) > 500000 ]]; then
                 size=$( stat -c %s -- "$filepath" )
               fi
