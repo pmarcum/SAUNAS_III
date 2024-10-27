@@ -22,16 +22,17 @@ jobs:
         run: |
           shopt -s globstar
           for filepath in **; do
-            if [[ -f "$filepath" && ! -L "$filepath" && $( stat -c %s -- "$filepath" ) > 500000 && "$filepath" =~ \.(png|jpg|jpeg|gif|pdf)$ ]]; then
-              echo "${filepath:1}"
+            if [[ -f "$filepath" && ! -L "$filepath" && $( stat -c %s -- "$filepath" ) > 500000 && "${filepath}" =~ \.(png|jpg|jpeg|gif|pdf)$ ]]; then
+              echo "${filepath}"
               isInTex="none"
               while IFS= read -r -d $'\0' file; do
-                if cat "$file" | grep -q "${filepath:1}"; then
-                  isInTex="$file"
+                echo "${file}"
+                if cat "${file}" | grep -q "${filepath}"; then
+                  isInTex="found"
                 fi
               done < <(find . -type f -name "*.tex")
-              echo "$isInTex"
-              if "$isInTex" ~= "none"; then
+              echo "${isInTex}"
+              if "${isInTex}" == "found"; then
                 echo "$filepath is in one of the tex files"
               else
                 echo "$filepath is NOT in one of the tex files"
