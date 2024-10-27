@@ -23,7 +23,7 @@ jobs:
           
           shopt -s globstar
           for filepath in **; do
-            grep -q "$filepath" '*.tex'
+            grep -q "$filepath" "*.tex"
             if cat myPaper.tex | grep -q "$filepath"; then
               if [[ -f "$filepath" && ! -L "$filepath" && $( stat -c %s -- "$filepath" ) > 500000 ]]; then
                 size=$( stat -c %s -- "$filepath" )
