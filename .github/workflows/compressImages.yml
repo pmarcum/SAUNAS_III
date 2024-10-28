@@ -38,25 +38,16 @@ jobs:
       - name: Compress images
         run: |
           bigfile=500000
-          tst='FIGURES/UNCOMPRESSEDtest_image-name.jpg'
-          $(echo "${tst}" | tr 'UNCOMPRESSED' '')
+          mindpi=500  # optimal dpi for pdf files
+          avgimgsize=5 # inches
+          maxsize=$mindpi*$avgimgsize
           shopt -s globstar
           for imagefile in **; do
-            size=$( stat -c %s -- "$imagefile"  )
+            newname=$( echo "${imagefile}" | tr 'UNCOMPRESSED' '')
+            size=$( stat -c %s -- "${imagefile}"  )
             if [[ -f "$imagefile" && ! -L "$imagefile" && $size > $bigfile && "${imagefile}" =~ UNCOMPRESSED && "${imagefile}" =~ \.(png|jpg|jpeg|gif|pdf|bmp|PNG|JPG|JPEG|GIF|PDF|BMP)$ ]]; then
-              isInTex=0
-              for texfile in **.tex; do
-                echo "$texfile"
-                if cat "${texfile}" | grep -q "${imagefile}"; then
-                  isInTex=1
-                  echo "found the image in the tex file"
-                fi
-              done
-              if $isInTex>0; then
-                echo "$imagefile"
-              else
-                mv -f "${imagefile}" ${imagefile//UNCOMPRESSED//}
-              fi
+              mogrify -resize $maxsizex$maxsize "${imagefile}"
+              mv -f "${imagefile}" "${newname}"
             fi
           done
 
