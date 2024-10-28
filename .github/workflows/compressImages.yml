@@ -39,7 +39,7 @@ jobs:
         run: |
           bigfile=500000
           tst='FIGURES/UNCOMPRESSEDtest_image-name.jpg'
-          echo ${tst//UNCOMPRESSED//}
+          $(echo "${tst}" | tr 'UNCOMPRESSED' '')
           shopt -s globstar
           for imagefile in **; do
             size=$( stat -c %s -- "$imagefile"  )
