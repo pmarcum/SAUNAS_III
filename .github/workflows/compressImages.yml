@@ -38,6 +38,8 @@ jobs:
       - name: Compress images
         run: |
           bigfile=500000
+          tst='FIGURES/UNCOMPRESSEDtest_image-name.jpg'
+          echo ${tst//UNCOMPRESSED//}
           shopt -s globstar
           for imagefile in **; do
             size=$( stat -c %s -- "$imagefile"  )
@@ -54,13 +56,6 @@ jobs:
                 echo "$imagefile"
               else
                 mv -f "${imagefile}" ${imagefile//UNCOMPRESSED//}
-                tst="IMAGES/UNCOMPRESSEDa_test_image_name.jpg"
-                echo ${tst//UNCOMPRESSED//}
-              #  mogrify -path text.png -filter Triangle -define filter:support=2 -thumbnail 300 \
-              #    -unsharp 0.25x0.08+8.3+0.045 -dither None -posterize 136 -quality 82 \
-              #    -define jpeg:fancy-upsampling=off -define png:compression-filter=5 -define png:compression-level=9 \
-              #    -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none \
-              #    -colorspace sRGB -strip FIGURES/Composition_NGC5084_poster_v6_paper.png
               fi
             fi
           done
