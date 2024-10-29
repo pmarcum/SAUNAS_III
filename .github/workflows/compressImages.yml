@@ -47,7 +47,7 @@ jobs:
             echo "======================================================================================================================================="
             echo "${newname}"
             echo "file size:  $fileSize   bigger than ???  $bigfile"
-            if [[ -f "${imagefile}" && ! -L "${imagefile}" && $fileSize > $bigfile && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
+            if [[ -f "${imagefile}" && ! -L "${imagefile}" && "$fileSize" -gt "$bigfile" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
               echo "${imagefile} needs to be resized"
               # Get the current dimensions of the image
               dimensions=$(identify -format "%wx%h" "${imagefile}")
