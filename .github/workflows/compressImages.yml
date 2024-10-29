@@ -44,12 +44,23 @@ jobs:
           for imagefile in **; do
             newname=$(echo "${imagefile} | sed 's/UNCOMPRESSED//)
             echo "${newname}"
-            size=$( stat -c %s -- "${imagefile}"  )
-            if [[ -f "$imagefile" && ! -L "$imagefile" && $size > $bigfile && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
-              mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -posterize 136 -quality 82 \
+            fileSize=$( stat -c %s -- "${imagefile}"  )
+            if [[ -f "${imagefile}" && ! -L "${imagefile}" && $fileSize > $bigfile && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
+              # Get the current dimensions of the image
+              dimensions=$(identify -format "%wx%h" "${imagefile}")
+              read -r currentWidth currentHeight <<< "$dimensions"
+              # determine which, if either, dimension exceeds the max desirable size (maxsize)
+              if [[ $currentWidth > $currentHeight && $currentWidth > $maxsize ]]; then
+                newWidth=$maxsize
+                newHeight=$((currentHeight * maxsize / currentWidth))
+              else
+                newHeight=$maxsize
+                newWidth=$((currentWidth * maxsize / currentHeight))
+              fir
+              mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality 82 \
                 -define jpeg:fancy-upsampling=off -define png:compression=filter=5 -define png:compression-level=9 \
                 -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colerspace sRGB \
-                -strip -resize $maxsizex$maxsize "${imagefile}"
+                -strip -thumbnail "${newWidth}x${newHeight}>" "${imagefile}"
               mv -f "${imagefile}" "${newname}"
             fi
           done
