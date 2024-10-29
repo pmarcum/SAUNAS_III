@@ -42,7 +42,7 @@ jobs:
           maxsize=$mindpi*$avgimgsize
           shopt -s globstar
           for imagefile in **; do
-            newname=$(echo "${imagefile} | sed 's/UNCOMPRESSED//)
+            newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
             echo "${newname}"
             fileSize=$( stat -c %s -- "${imagefile}"  )
             if [[ -f "${imagefile}" && ! -L "${imagefile}" && $fileSize > $bigfile && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
@@ -60,7 +60,7 @@ jobs:
               mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality 82 \
                 -define jpeg:fancy-upsampling=off -define png:compression=filter=5 -define png:compression-level=9 \
                 -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colerspace sRGB \
-                -strip -thumbnail 2500x2500> $imagefile
+                -strip -thumbnail "${newWidth}x${newHeight}>" $imagefile
               mv -f "${imagefile}" "${newname}"
             fi
           done
