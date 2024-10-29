@@ -71,6 +71,8 @@ jobs:
               echo "the image size is lower than the trigger size"
               #mv -f "${imagefile}" "${newname}"
             fi
+            echo ""
+            echo ""
           done
 
       #- name: Compress images
