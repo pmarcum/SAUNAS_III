@@ -67,7 +67,7 @@ jobs:
               #  -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colerspace sRGB \
               #  -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
               #mv -f "${imagefile}" "${newname}"
-            else
+            elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
               echo "the image size is lower than the trigger size"
               #mv -f "${imagefile}" "${newname}"
             fi
