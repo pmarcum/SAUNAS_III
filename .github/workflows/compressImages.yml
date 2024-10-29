@@ -57,10 +57,10 @@ jobs:
               # determine which, if either, dimension exceeds the max desirable size (maxsize)
               if [[ $currentWidth > $currentHeight && $currentWidth > $maxsize ]]; then
                 newWidth=$maxsize
-                newHeight=$(echo "scale=0;(($currentHeight * $maxsize / $currentWidth)+0.5)/1" | bc -l)
+                newHeight=$(echo "scale=0;(($currentHeight * $maxsize / $currentWidth)+0.5)/1" | bc)
               else
                 newHeight=$maxsize
-                newWidth=$(echo "scale=0;(($currentWidth * $maxsize / $currentHeight)+0.5)/1" | bc -l)
+                newWidth=$(echo "scale=0;(($currentWidth * $maxsize / $currentHeight)+0.5)/1" | bc)
               fi
               echo "the new dimensions:  $newWidth  $newHeight"
               #mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality 82 \
