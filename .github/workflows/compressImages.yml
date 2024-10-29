@@ -88,13 +88,13 @@ jobs:
       #    widthLimit: 1024  # max width to check
       #    heightLimit: 768  # max height to check
 
-      #- name: Complete initialization of folder
-      #  run: |
-      #    git config --global user.email "email@gmail.com"
-      #    git config --global user.name "github actions"
-      #    git add .
-      #    git commit -m "Upload changed files"
-      #    git push
-      #  continue-on-error: true
+      - name: Complete initialization of folder
+        run: |
+          git config --global user.email "email@gmail.com"
+          git config --global user.name "github actions"
+          git add .
+          git commit -m "Upload changed files"
+          git push
+        continue-on-error: true
 
           
