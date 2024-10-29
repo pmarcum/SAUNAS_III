@@ -1,4 +1,4 @@
-name: Compress Images
+oname: Compress Images
 # https://safnaj.medium.com/image-compression-for-the-web-using-github-actions-f1156d281cda
 # https://github.com/marketplace/actions/image-actions
 # https://github.com/MarketingPipeline/Image-Optimizer-Action/blob/main/.github/workflows/example_workflow.yaml
@@ -67,9 +67,16 @@ jobs:
               fi
               echo "the new dimensions:  $newWidth  $newHeight"
               qualityValue=70
-              if [[ "$fileSize" -gt 3000000 ]]; then
+              if [[ "$fileSize" -gt 10000000 ]]; then
+                qualityValue=10
+              elif [[ "$fileSize" -gt 5000000 ]]; then
+                qualityValue=20
+              elif [[ "$fileSize" -gt 3000000 ]]; then
+                qualityValue=33
+              elif [[ "$fileSize" -gt 2000000 ]]; then
                 qualityValue=50
               fi
+              echo "${qualityValue}"
               mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality ''"$qualityValue"'' \
                 -define jpeg:fancy-upsampling=off -define png:compression=filter=5 -define png:compression-level=9 \
                 -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB \
