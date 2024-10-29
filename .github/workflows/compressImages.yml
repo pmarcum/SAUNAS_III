@@ -66,7 +66,7 @@ jobs:
                 newWidth=${newWidth%.*}
               fi
               echo "the new dimensions:  $newWidth  $newHeight"
-              mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality 82 \
+              mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality 70 \
                 -define jpeg:fancy-upsampling=off -define png:compression=filter=5 -define png:compression-level=9 \
                 -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB \
                 -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
