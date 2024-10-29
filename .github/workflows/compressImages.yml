@@ -37,8 +37,8 @@ jobs:
       - name: Compress images
         run: |
           bigfile=500000
-          mindpi=500  # optimal dpi for pdf files
-          avgimgsize=5 # inches
+          mindpi=300  # optimal dpi for pdf files
+          avgimgsize=6.5 # inches
           maxsize=$((mindpi * avgimgsize))
           shopt -s globstar
           for imagefile in **; do
