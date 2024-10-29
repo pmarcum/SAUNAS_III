@@ -42,7 +42,8 @@ jobs:
           maxsize=$mindpi*$avgimgsize
           shopt -s globstar
           for imagefile in **; do
-            newname="${imagefile/UNCOMPRESSED//}"
+            newname=$(echo "${imagefile} | sed 's/UNCOMPRESSED//)
+            echo "${newname}"
             size=$( stat -c %s -- "${imagefile}"  )
             if [[ -f "$imagefile" && ! -L "$imagefile" && $size > $bigfile && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
               mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -posterize 136 -quality 82 \
