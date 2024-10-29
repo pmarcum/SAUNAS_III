@@ -46,15 +46,16 @@ jobs:
           for imagefile in **; do
             newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
             fileSize=$( stat -c %s -- "${imagefile}"  )
+            echo ""
             echo "======================================================================================================================================="
-            echo "${newname}"
-            echo "file size:  $fileSize   bigger than ???  $bigfile"
+            echo "Determining if ${newname} needs to be compressed"
+            echo "Is the current file size:  ${fileSize}   bigger than the target maximum size: ${bigfile} ?"
             if [[ -f "${imagefile}" && ! -L "${imagefile}" && "$fileSize" -gt "$bigfile" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
-              echo "${imagefile} needs to be resized"
+              echo "${newname} needs to be resized"
               # Get the current dimensions of the image
               dimensions=$(identify -format "%w %h" "${imagefile}")
               read -r currentWidth currentHeight <<< "$dimensions"
-              echo "the original dimensions:  $currentWidth  $currentHeight"
+              echo "the original image dimensions:  $currentWidth  $currentHeight"
               # determine which, if either, dimension exceeds the max desirable size (maxsize)
               if [[ $currentWidth > $currentHeight && $currentWidth > $maxsize ]]; then
                 newWidth=$maxsize
@@ -65,7 +66,7 @@ jobs:
                 newWidth=$(echo "(($currentWidth * $maxsize) / $currentHeight) + 0.5" | bc)
                 newWidth=${newWidth%.*}
               fi
-              echo "the new dimensions:  $newWidth  $newHeight"
+              echo "the new image dimensions:  $newWidth  $newHeight"
               qualityValue=30
               if [[ "$fileSize" -gt 10000000 ]]; then
                 qualityValue=90
@@ -76,19 +77,16 @@ jobs:
               elif [[ "$fileSize" -gt 2000000 ]]; then
                 qualityValue=50
               fi
-              echo "${qualityValue}"
-              qualityValue=90
+              # Note: the quality value seems to not matter at all.  The size seems to be the main factor behind the size of the file.
               mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality ''"$qualityValue"'' \
                 -define jpeg:fancy-upsampling=off -define png:compression=filter=5 -define png:compression-level=9 \
                 -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB \
                 -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
               mv -f "${imagefile}" "${newname}"
             elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
-              echo "the image size is lower than the trigger size"
+              echo "the image size is lower than the trigger size and therefore is not going to be compressed."
               mv -f "${imagefile}" "${newname}"
             fi
-            echo ""
-            echo ""
           done
 
       #- name: Compress images
