@@ -39,7 +39,7 @@ jobs:
           bigfile=500000
           mindpi=500  # optimal dpi for pdf files
           avgimgsize=5 # inches
-          maxsize=$mindpi*$avgimgsize
+          maxsize=$((mindpi * avgimgsize))
           shopt -s globstar
           for imagefile in **; do
             newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
