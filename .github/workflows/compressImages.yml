@@ -50,7 +50,7 @@ jobs:
             if [[ -f "${imagefile}" && ! -L "${imagefile}" && "$fileSize" -gt "$bigfile" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
               echo "${imagefile} needs to be resized"
               # Get the current dimensions of the image
-              dimensions=$(identify -format "%wx%h" "${imagefile}")
+              dimensions=$(identify -format "%w %h" "${imagefile}")
               read -r currentWidth currentHeight <<< "$dimensions"
               echo "the original dimensions:  $currentWidth  $currentHeight"
               # determine which, if either, dimension exceeds the max desirable size (maxsize)
