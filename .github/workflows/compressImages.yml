@@ -66,13 +66,13 @@ jobs:
                 newWidth=${newWidth%.*}
               fi
               echo "the new dimensions:  $newWidth  $newHeight"
-              qualityValue=70
+              qualityValue=30
               if [[ "$fileSize" -gt 10000000 ]]; then
-                qualityValue=10
+                qualityValue=90
               elif [[ "$fileSize" -gt 5000000 ]]; then
-                qualityValue=20
+                qualityValue=80
               elif [[ "$fileSize" -gt 3000000 ]]; then
-                qualityValue=33
+                qualityValue=67
               elif [[ "$fileSize" -gt 2000000 ]]; then
                 qualityValue=50
               fi
