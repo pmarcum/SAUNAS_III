@@ -49,6 +49,7 @@ jobs:
               # Get the current dimensions of the image
               dimensions=$(identify -format "%wx%h" "${imagefile}")
               read -r currentWidth currentHeight <<< "$dimensions"
+              echo "$currentWidth x $currentHeight"
               # determine which, if either, dimension exceeds the max desirable size (maxsize)
               if [[ $currentWidth > $currentHeight && $currentWidth > $maxsize ]]; then
                 newWidth=$maxsize
@@ -57,11 +58,14 @@ jobs:
                 newHeight=$maxsize
                 newWidth=$((currentWidth * maxsize / currentHeight))
               fi
-              mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality 82 \
-                -define jpeg:fancy-upsampling=off -define png:compression=filter=5 -define png:compression-level=9 \
-                -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colerspace sRGB \
-                -strip -thumbnail ''"${newWidth}x${newHeight}>"'' $imagefile
-              mv -f "${imagefile}" "${newname}"
+              echo "$newWidth x $newHeight"
+              #mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality 82 \
+              #  -define jpeg:fancy-upsampling=off -define png:compression=filter=5 -define png:compression-level=9 \
+              #  -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colerspace sRGB \
+              #  -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
+              #mv -f "${imagefile}" "${newname}"
+            else
+              #mv -f "${imagefile}" "${newname}"
             fi
           done
 
