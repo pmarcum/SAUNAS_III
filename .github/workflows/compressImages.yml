@@ -39,7 +39,8 @@ jobs:
           bigfile=500000
           mindpi=300  # optimal dpi for pdf files
           avgimgsize=6.5 # inches
-          maxsize=$(echo "scale=0;(($mindpi * $avgimgsize)+0.5)/1" | bc)
+          maxsize=$(echo "(($mindpi * $avgimgsize)+0.5)/1" | bc)
+          maxsize=${maxsize%.*}
           echo " max size $maxsize"
           shopt -s globstar
           for imagefile in **; do
@@ -57,10 +58,12 @@ jobs:
               # determine which, if either, dimension exceeds the max desirable size (maxsize)
               if [[ $currentWidth > $currentHeight && $currentWidth > $maxsize ]]; then
                 newWidth=$maxsize
-                newHeight=$(echo "(($currentHeight * $maxsize / $currentWidth)+0.5)/1" | bc)
+                newHeight=$(echo "(($currentHeight * $maxsize / $currentWidth)) + 0.5" | bc)
+                newHeight=${newHeight%.*}
               else
                 newHeight=$maxsize
-                newWidth=$(echo "(($currentWidth * $maxsize / $currentHeight)+0.5)/1" | bc)
+                newWidth=$(echo "(($currentWidth * $maxsize / $currentHeight)) + 0.5" | bc)
+                newWidth=${newWidth%.*}
               fi
               echo "the new dimensions:  $newWidth  $newHeight"
               #mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality 82 \
