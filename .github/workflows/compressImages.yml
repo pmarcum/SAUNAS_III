@@ -1,4 +1,4 @@
-oname: Compress Images
+name: Compress Images
 # https://safnaj.medium.com/image-compression-for-the-web-using-github-actions-f1156d281cda
 # https://github.com/marketplace/actions/image-actions
 # https://github.com/MarketingPipeline/Image-Optimizer-Action/blob/main/.github/workflows/example_workflow.yaml
