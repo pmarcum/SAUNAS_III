@@ -65,6 +65,7 @@ jobs:
               #  -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
               #mv -f "${imagefile}" "${newname}"
             else
+              echo "the image size is lower than the trigger size"
               #mv -f "${imagefile}" "${newname}"
             fi
           done
