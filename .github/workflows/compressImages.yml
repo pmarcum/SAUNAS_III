@@ -79,12 +79,12 @@ jobs:
                 qualityValue=50
               fi
               # Note: the quality value seems to not matter at all.  The size seems to be the main factor behind the size of the file.
-              magick -density 300 -trim "${pdfname}" -quality 100 "${imagefile}"
-              #mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality ''"$qualityValue"'' \
-              #  -define jpeg:fancy-upsampling=off -define png:compression=filter=5 -define png:compression-level=9 \
-              #  -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB \
-              #  -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
-              #mv -f "${imagefile}" "${newname}"
+              #magick -density 300 -trim "${pdfname}" -quality 100 "${imagefile}"
+              mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality ''"$qualityValue"'' \
+                -define jpeg:fancy-upsampling=off -define png:compression=filter=5 -define png:compression-level=9 \
+                -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB \
+                -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
+              mv -f "${imagefile}" "${newname}"
             elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
               echo "the image size is lower than the trigger size and therefore is not going to be compressed."
               mv -f "${imagefile}" "${newname}"
