@@ -38,8 +38,8 @@ jobs:
         run: |
           bigfile=500000
           mindpi=300  # optimal dpi for pdf files
-          avgimgsize=6.5 # inches
-          maxsize=$(echo "(($mindpi * $avgimgsize)+0.5)/1" | bc)
+          maximgsize=6.5 # inches
+          maxsize=$(echo "(($mindpi * $maximgsize)+0.5)/1" | bc)
           maxsize=${maxsize%.*}
           echo " max size $maxsize"
           shopt -s globstar
