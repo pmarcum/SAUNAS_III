@@ -105,7 +105,51 @@ jobs:
           rm -f $HTMLFILE
           rm -f $OUTFILE
         continue-on-error: true
-     
+        
+      - name: Install ImageMagick
+        uses: mfinelli/setup-imagemagick@v5
+        with:
+          cache: true
+    
+      - name: Compress images
+        run: |
+          bigfile=500000
+          mindpi=300  # optimal dpi for pdf files
+          maximgsize=6 # inches
+          maxsize=$(echo "(($mindpi * $maximgsize)+0.5)/1" | bc)
+          maxsize=${maxsize%.*}
+          echo " max size $maxsize"
+          shopt -s globstar
+          for imagefile in **; do
+            newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
+            pdfname=$(echo "${newname}" | sed 's/\..*$/\.pdf/')
+            fileSize=$( stat -c %s -- "${imagefile}"  )
+            if [[ -f "${imagefile}" && ! -L "${imagefile}" && "$fileSize" -gt "$bigfile" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
+              # Get the current dimensions of the image
+              dimensions=$(identify -format "%w %h" "${imagefile}")
+              read -r currentWidth currentHeight <<< "$dimensions"
+              # determine which, if either, dimension exceeds the max desirable size (maxsize)
+              if [[ $currentWidth > $currentHeight && $currentWidth > $maxsize ]]; then
+                newWidth=$maxsize
+                newHeight=$(echo "(($currentHeight * $maxsize) / $currentWidth) + 0.5" | bc)
+                newHeight=${newHeight%.*}
+              else
+                newHeight=$maxsize
+                newWidth=$(echo "(($currentWidth * $maxsize) / $currentHeight) + 0.5" | bc)
+                newWidth=${newWidth%.*}
+              fi
+              qualityValue=82
+              # Note: the quality value seems to not matter at all.  The size seems to be the main factor behind the size of the file.
+              mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality ''"${qualityValue}"'' \
+                -define jpeg:fancy-upsampling=off -define png:compression=filter=5 -define png:compression-level=9 \
+                -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB \
+                -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
+              mv -f "${imagefile}" "${newname}"
+            elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
+              mv -f "${imagefile}" "${newname}"
+            fi
+          done
+
       - name: Complete initialization of folder
         run: |
           git config --global user.email "email@gmail.com"
