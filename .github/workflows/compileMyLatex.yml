@@ -120,7 +120,7 @@ jobs:
           maxsize=${maxsize%.*}
           echo " max size $maxsize"
           shopt -s globstar
-          for imagefile in **; do
+          for imagefile in **/*UNCOMPRESSED.*; do
             newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
             pdfname=$(echo "${newname}" | sed 's/\..*$/\.pdf/')
             fileSize=$( stat -c %s -- "${imagefile}"  )
