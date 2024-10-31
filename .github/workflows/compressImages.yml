@@ -27,8 +27,8 @@ jobs:
       - name: Compress images
         run: |
           bigfile=500000
-          mindpi=75  # optimal dpi for pdf files
-          maximgsize=6 # inches
+          mindpi=150  # optimal dpi for pdf files
+          maximgsize=6.5 # inches
           maxsize=$(echo "(($mindpi * $maximgsize)+0.5)/1" | bc)
           maxsize=${maxsize%.*}
           echo " max size $maxsize"
