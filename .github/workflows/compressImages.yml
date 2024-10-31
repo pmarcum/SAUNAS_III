@@ -23,22 +23,12 @@ jobs:
         uses: mfinelli/setup-imagemagick@v5
         with:
           cache: true
-        #run: |
-        #  sudo apt install imagemagick
-
-      #- name: Compress images
-      #  run: |
-      #    #mogrify -path text.png -filter Triangle -define filter:support=2 -thumbnail 300 \
-      #    #-unsharp 0.25x0.08+8.3+0.045 -dither None -posterize 136 -quality 82 \
-      #    #-define jpeg:fancy-upsampling=off -define png:compression-filter=5 -define png:compression-level=9 \
-      #    #-define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none \
-      #    #-colorspace sRGB -strip FIGURES/Composition_NGC5084_poster_v6_paper.png
     
       - name: Compress images
         run: |
           bigfile=500000
           mindpi=300  # optimal dpi for pdf files
-          maximgsize=6.5 # inches
+          maximgsize=6 # inches
           maxsize=$(echo "(($mindpi * $maximgsize)+0.5)/1" | bc)
           maxsize=${maxsize%.*}
           echo " max size $maxsize"
@@ -69,37 +59,18 @@ jobs:
                 newWidth=${newWidth%.*}
               fi
               echo "the new image dimensions:  $newWidth  $newHeight"
-              qualityValue=30
-              if [[ "$fileSize" -gt 10000000 ]]; then
-                qualityValue=90
-              elif [[ "$fileSize" -gt 5000000 ]]; then
-                qualityValue=80
-              elif [[ "$fileSize" -gt 3000000 ]]; then
-                qualityValue=67
-              elif [[ "$fileSize" -gt 2000000 ]]; then
-                qualityValue=50
-              fi
+              qualityValue=82
               # Note: the quality value seems to not matter at all.  The size seems to be the main factor behind the size of the file.
-              magick "${imagefile}" -density 300 -format pdf -quality 100 "${pdfname}"
-              #mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality ''"$qualityValue"'' \
-              #  -define jpeg:fancy-upsampling=off -define png:compression=filter=5 -define png:compression-level=9 \
-              #  -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB \
-              #  -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
-              #mv -f "${imagefile}" "${newname}"
+              mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality ''"${qualityValue}"'' \
+                -define jpeg:fancy-upsampling=off -define png:compression=filter=5 -define png:compression-level=9 \
+                -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB \
+                -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
+              mv -f "${imagefile}" "${newname}"
             elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
               echo "the image size is lower than the trigger size and therefore is not going to be compressed."
               mv -f "${imagefile}" "${newname}"
             fi
           done
-
-      #- name: Compress images
-      #  id: resize-images
-      #  uses: petems/image-resizer-gh-action@master
-      #  with:
-      #    target: FIGURES/HST_Torus_model.png FIGURES/NGC5084_F702W.png # directory to look for images in
-      #    dimensions: 90%   # parameter to change size
-      #    widthLimit: 1024  # max width to check
-      #    heightLimit: 768  # max height to check
 
       - name: Complete initialization of folder
         run: |
