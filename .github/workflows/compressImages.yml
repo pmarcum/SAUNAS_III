@@ -58,8 +58,7 @@ jobs:
                 newWidth=$(echo "(($currentWidth * $maxsize) / $currentHeight) + 0.5" | bc)
                 newWidth=${newWidth%.*}
               fi
-              convert "${imagefile}" -gravity center -extent ''"${newWidth}x${newHeight}"'' \
-                -units PixelsPerInch - density 300 -format pdf "${pdffile}"
+              convert "${imagefile}" -gravity center -units PixelsPerInch - density 300 -format pdf "${pdffile}"
               echo "the new image dimensions:  $newWidth  $newHeight"
               qualityValue=82
               # Note: the quality value seems to not matter at all.  The size seems to be the main factor behind the size of the file.
