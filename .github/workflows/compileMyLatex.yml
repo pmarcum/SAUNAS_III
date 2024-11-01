@@ -176,6 +176,7 @@ jobs:
               mv -f "${imagefile}" "${newname}"
             fi
           done
+        continue-on-error: true
 
       - name: Complete initialization of folder
         run: |
