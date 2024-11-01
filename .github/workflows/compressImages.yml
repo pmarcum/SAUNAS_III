@@ -27,18 +27,20 @@ jobs:
       - name: Compress images
         run: |
           bigfile=500000
-          mindpi=150  # optimal dpi for pdf files
-          maximgsize=6.5 # inches
-          maxsize=$(echo "(($mindpi * $maximgsize)+0.5)/1" | bc)
-          maxsize=${maxsize%.*}
-          echo " max size $maxsize"
+          minDpi=150  # optimal dpi for pdf files
+          maxWidthInches=6.5   #inches
+          maxHeightInches=9.0  #inches
+          maxWidth=$(echo "(($minDpi * $maxWidthInches)+0.5)/1" | bc)
+          maxWidth=${maxWidth%.*}
+          maxHeight=$(echo "(($minDpi * $maxHeightInches)+0.5)/1" | bc)
+          maxHeight=${maxHeight%.*}
           shopt -s globstar
           for imagefile in **/*UNCOMPRESSED.*; do
             newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
             pdfname=$(echo "${newname}" | sed 's/\..*$/\.pdf/')
             fileSize=$( stat -c %s -- "${imagefile}"  )
             echo ""
-            echo "======================================================================================================================================="
+            echo "=================================================================================================================="
             echo "Determining if ${newname} needs to be compressed"
             echo "Is the current file size:  ${fileSize}   bigger than the target maximum size: ${bigfile} ?"
             echo "${pdfname}"
@@ -46,16 +48,16 @@ jobs:
               echo "${newname} needs to be resized"
               # Get the current dimensions of the image
               dimensions=$(identify -format "%w %h" "${imagefile}")
-              read -r currentWidth currentHeight <<< "$dimensions"
-              echo "the original image dimensions:  $currentWidth  $currentHeight"
-              # determine which, if either, dimension exceeds the max desirable size (maxsize)
-              if [[ $currentWidth > $currentHeight && $currentWidth > $maxsize ]]; then
-                newWidth=$maxsize
-                newHeight=$(echo "(($currentHeight * $maxsize) / $currentWidth) + 0.5" | bc)
+              read -r origWidth origHeight <<< "$dimensions"
+              echo "the original image dimensions:  $origWidth  $origHeight"
+              # determine which, if either, dimension exceeds the max desirable size (origWidth origHeight)
+              if [[ $origWidth > $origHeight && $origWidth > $maxWidth ]]; then
+                newWidth=$maxWidth
+                newHeight=$(echo "(($origHeight * $newWidth) / $origWidth) + 0.5" | bc)
                 newHeight=${newHeight%.*}
-              else
-                newHeight=$maxsize
-                newWidth=$(echo "(($currentWidth * $maxsize) / $currentHeight) + 0.5" | bc)
+              else 
+                newHeight=$maxHeight
+                newWidth=$(echo "(($origWidth * $newHeight) / $origHeight) + 0.5" | bc)
                 newWidth=${newWidth%.*}
               fi
               echo "the new image dimensions:  $newWidth  $newHeight"
