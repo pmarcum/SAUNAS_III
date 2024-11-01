@@ -51,22 +51,47 @@ jobs:
               read -r origWidth origHeight <<< "$dimensions"
               echo "the original image dimensions:  $origWidth  $origHeight"
               # determine which, if either, dimension exceeds the max desirable size (origWidth origHeight)
-              if [[ $origWidth > $origHeight && $origWidth > $maxWidth ]]; then
+              changeSize=0
+              if [[ "$origWidth" -gt "$origHeight" && "$origWidth" -gt "$maxWidth" ]]; then
+                echo "======> the width is larger than the height, setting new width to $maxWidth"
                 newWidth=$maxWidth
                 newHeight=$(echo "(($origHeight * $newWidth) / $origWidth) + 0.5" | bc)
                 newHeight=${newHeight%.*}
-              else 
+                changeSize=1
+              elif [[ "$origWidth" -lt "$origHeight" && "$origHeight" -gt "$maxHeight" ]]; then
+                echo "=====> the height is larger than the width, setting new height to $maxHeight"
                 newHeight=$maxHeight
                 newWidth=$(echo "(($origWidth * $newHeight) / $origHeight) + 0.5" | bc)
                 newWidth=${newWidth%.*}
+                changeSize=1
+              elif [[ "$origWidth" -gt "$maxWidth" ]]; then
+                echo "............... the width is larger than allowable width"
+                newWidth=$maxWidth
+                newHeight=$(echo "(($origHeight * $newWidth) / $origWidth) + 0.5" | bc)
+                newHeight=${newHeight%.*}
+                changeSize=1
+              elif [[ "$origHeight" -gt "$maxHeight" ]]; then
+                echo "=====> the height is larger than the width, setting new height to $maxHeight"
+                newHeight=$maxHeight
+                newWidth=$(echo "(($origWidth * $newHeight) / $origHeight) + 0.5" | bc)
+                newWidth=${newWidth%.*}
+                changeSize=1
               fi
               echo "the new image dimensions:  $newWidth  $newHeight"
               qualityValue=82
               # Note: the quality value seems to not matter at all.  The size seems to be the main factor behind the size of the file.
-              mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality ''"${qualityValue}"'' \
-                -define jpeg:fancy-upsampling=off -define png:compression=filter=5 -define png:compression-level=9 \
-                -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB \
-                -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
+              if [[ "$changeSize" -eq 1 ]]; then
+                mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality ''"${qualityValue}"'' \
+                  -define jpeg:fancy-upsampling=off -define png:compression=filter=5 -define png:compression-level=9 \
+                  -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB \
+                  -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
+              else
+                # The dimensions seem to be ok, so maybe metadata is making the file too big. Try to apply strip to make file smaller
+                mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality ''"${qualityValue}"'' \
+                  -define jpeg:fancy-upsampling=off -define png:compression=filter=5 -define png:compression-level=9 \
+                  -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB \
+                  -strip "${imagefile}"
+              fi
               mv -f "${imagefile}" "${newname}"
             elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
               echo "the image size is lower than the trigger size and therefore is not going to be compressed."
