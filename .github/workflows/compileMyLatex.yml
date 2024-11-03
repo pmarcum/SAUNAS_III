@@ -206,8 +206,10 @@ jobs:
         id: compilation
         run: |
           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" 2>&1 | tee compileOut.txt
-          mv -f "$PDFFILE" "$PDFHIRES"
+          echo "$PDFFILE"
+          ls -la *.pdf
           cat compileOut.txt
+          mv -f "$PDFFILE" "$PDFHIRES"
         continue-on-error: true
        
       - name: Prune the bib file
