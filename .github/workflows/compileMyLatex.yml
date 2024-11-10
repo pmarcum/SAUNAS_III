@@ -105,6 +105,23 @@ jobs:
           rm -f $HTMLFILE
           rm -f $OUTFILE
         continue-on-error: true
+
+      - name: Post note showing that processing has started
+        run: |
+          touch $STARTFILE
+          echo $TIMESTAMP >> $STARTFILE
+          echo $JOBLINK   >> $STARTFILE
+          echo $HTMLLINK  >> $STARTFILE
+          echo "precomp"  >> $STARTFILE
+
+      - name: Post updated files and START action notice to folder
+        run: |
+          git config --global user.email "email@gmail.com"
+          git config --global user.name "github actions"
+          git add .
+          git commit -m "Upload changed files"
+          git push
+        continue-on-error: true
         
       - name: Install ImageMagick
         uses: mfinelli/setup-imagemagick@v5
@@ -460,13 +477,6 @@ jobs:
              echo $JOBLINK   >> $STARTFILE
              echo $PDFLINK   >> $STARTFILE
              echo "pdf"  >> $STARTFILE
-          fi
-          if [[ ! -f "$STARTFILE" ]]; then
-             touch $STARTFILE
-             echo $TIMESTAMP >> $STARTFILE
-             echo $JOBLINK   >> $STARTFILE
-             echo $PDFLINK   >> $STARTFILE
-             echo "precomp"  >> $STARTFILE
           fi
           # finalize the compilation output file by putting a few sentences at the top
           touch fin.txt
