@@ -78,6 +78,7 @@ jobs:
         
       - name: Remove files to initiate compilation process
         run: |
+          cat $STARTFILE
           rm -f fin.txt
           rm -f $FULLLOG
           rm -f $LOG
