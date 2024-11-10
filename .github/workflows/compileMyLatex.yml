@@ -218,12 +218,15 @@ jobs:
             collection-fontutils
           cache: true
         continue-on-error: true
+
+      - name: check latexmk
+        run: |
+          which latexmk
             
       - name: Compile paper
         # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
         id: compilation
         run: |
-          which latexmk
           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" 2>&1 | tee compileOut.txt
           cat compileOut.txt
           mv -f "$PDFFILE" "$PDFHIRES"
