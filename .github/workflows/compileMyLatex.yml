@@ -223,10 +223,14 @@ jobs:
         id: compilation
         run: |
           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" 2>&1 | tee compileOut.txt
-          echo "$PDFFILE"
-          ls -la *.pdf
           cat compileOut.txt
           mv -f "$PDFFILE" "$PDFHIRES"
+          rm -f $STARTFILE
+          touch $STARTFILE
+          echo $TIMESTAMP >> $STARTFILE
+          echo $JOBLINK   >> $STARTFILE
+          echo $HTMLLINK  >> $STARTFILE
+          echo "pdf"  >> $STARTFILE
         continue-on-error: true
        
       - name: Prune the bib file
@@ -469,15 +473,6 @@ jobs:
 
       - name: Finalize compilation warning and errors output
         run: |
-          ls *.pdf
-          if [[ ! -f "thereAreErrors.txt" ]]; then 
-             rm -f $STARTFILE
-             touch $STARTFILE
-             echo $TIMESTAMP >> $STARTFILE
-             echo $JOBLINK   >> $STARTFILE
-             echo $PDFLINK   >> $STARTFILE
-             echo "pdf"  >> $STARTFILE
-          fi
           # finalize the compilation output file by putting a few sentences at the top
           touch fin.txt
           echo "$TIMESTAMP" >> fin.txt
@@ -495,8 +490,6 @@ jobs:
 
       - name: Clean up folder before saving files
         run: |
-          echo '394'
-          ls -la compileOut.txt*
           rm -f fin.txt
           rm -f $FULLLOG
           rm -f $LOG
