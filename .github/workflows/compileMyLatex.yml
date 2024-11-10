@@ -221,6 +221,7 @@ jobs:
 
       - name: check latexmk
         run: |
+          which pdflatex
           which latexmk
             
       - name: Compile paper
