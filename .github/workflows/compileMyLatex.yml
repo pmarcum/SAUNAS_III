@@ -209,20 +209,15 @@ jobs:
       # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
       # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
       - name: Install texlive
-        uses: teatimeguest/setup-texlive-action@v3
+        uses: teatimeguest/setup-texlive-action@latest
         with:
           packages:
             scheme-basic
             collection-mathscience
             collection-bibtexextra
             collection-fontutils
-          #cache: true
+          cache: true
         continue-on-error: true
-
-      - name: check latexmk
-        run: |
-          which pdflatex
-          which latexmk
             
       - name: Compile paper
         # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
