@@ -128,6 +128,7 @@ jobs:
         uses: mfinelli/setup-imagemagick@v5
         with:
           cache: true
+        continue-on-error: true
     
       - name: Compress images
         run: |
@@ -223,9 +224,10 @@ jobs:
         # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
         id: compilation
         run: |
-          latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" 2>&1 | tee compileOut.txt
-          cat compileOut.txt
-          mv -f "$PDFFILE" "$PDFHIRES"
+          latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE"
+          #latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" 2>&1 | tee compileOut.txt
+          #cat compileOut.txt
+          #mv -f "$PDFFILE" "$PDFHIRES"
           rm -f $STARTFILE
           touch $STARTFILE
           echo $TIMESTAMP >> $STARTFILE
@@ -275,50 +277,50 @@ jobs:
           fi
         continue-on-error: true
 
-      - name: Capture full compilation output
-        run: |
-          #_________prepare the compilation log for processing by first removing all end-of-line characters
-          touch errout.txt
-          #_________just to be safe, remove all \a, \t and \x0 because we use these as special markers later
-          sed -ri 's/[\x0\a\t]/ /g' compileOut.txt
-          #_________before removing end of line carriage returns, mark the citations that could not be found in the bib file(s)
-          sed -r 's/^ *(Citation `[[:print:]]*on input line )([0-9][0-9]*) *$/ \x0\2-BIB-\1\2\.\a/g' compileOut.txt >> errout.txt
-          #_________before removing end of line carriage returns, mark "on input line" phrases so they can be easily found (and/or avoided) later: 
-          rm -f tmp.txt && sed -r 's/on input line ([0-9][0-9]*)/on input line \t\1/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
-          #_________also indicate any pdfTeX error that will not have a line number and involves explamation marks which mess sed up
-          rm -f tmp.txt && sed -r 's/pdfTeX error: / \x0 0-ERROR-pdfTeX error:/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
-          rm -f tmp.txt && sed -r 's/failed *$/failed\a/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
-          #_________now remove all the end of line returns
-          rm -f tmp.txt && tr -d "\n" < errout.txt > tmp.txt && mv -f tmp.txt errout.txt
-          #_________remove a lot of the lines that have noithing to do with errors and warnings, to make the next searches go faster
-          sed -ri 's/[(]\/home\/runner[^)][^)]*[)]/ /g' errout.txt
-          sed -ri 's/<\/home\/runner[^>][^>]*\>/ /g' errout.txt
-          #_________remove [] [] that are just clutter in the file
-          sed -ri 's/\[ *\]/ /g' errout.txt
-          #_________remove the ((( left behind in the above substitutions
-          sed -ri 's/[(] *[(]/ /g' errout.txt
-          #_________remove the )))) left behind in above subs
-          sed -ri 's/[)] *[)]/ /g' errout.txt
-          #_________remove all multiple white spaces to a single white space
-          sed -ri 's/  */ /g' errout.txt
-          rm -f tmp.txt && sed -r 's/(\.[^.][^.]*\.tex:[0-9][0-9]*:[^.\t][^.\t]*\t)([0-9][0-9]*)([^.]*\.)/\x0\2-ERROR-\1\2\3\a/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
-          rm -f tmp.txt && sed -r 's/([^:][^:][^:])(LaTeX )((Error)|(Warning))(:[^.\t][^.\t]*\t)([0-9][0-9]*)([^.]*\.)/\1\x0\7-\3-\2\3\6\7\8\a/g' errout.txt >> tmp.txt && mv -f tmp.txt errout.txt
-          sed -ri 's/\-Error\-/-ERROR-/g' errout.txt
-          sed -ri 's/\-Warning\-/-WARNING-/g' errout.txt
-          rm -f tmp.txt && sed -r 's/([^-])(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.\t][^.\t]*\.)/\1\x0\3-ERROR-\2\3\4\a/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
-          sed -ri 's/^[^\x0]*\x0//' errout.txt
-          sed -ri 's/\a[^\a]*$//' errout.txt
-          #_________remove all the \t placeholders
-          sed -ri 's/\t//g' errout.txt
-          sed -ri 's/\a[^\x0]*\x0 */\n/g' errout.txt
-          # the next step, sorting the entries, does not work as expected unless all the white space is gone, so replace white space with \a
-          sed -ri 's/ /\a/g' errout.txt
-          #_________sort and remove redundances in the error/warning list
-          rm -f tmp.txt && cat errout.txt | sort -r -t- -g -k1,1n -k2 -s | uniq | sed -r 's/\a/ /g' > tmp.txt && mv -f tmp.txt errout.txt
-          echo ''
-          echo '-------------------------------------------------------------------------------------------------------------------------------'
-          cat errout.txt
-        continue-on-error: true
+      #- name: Capture full compilation output
+      #  run: |
+      #    #_________prepare the compilation log for processing by first removing all end-of-line characters
+      #    touch errout.txt
+      #    #_________just to be safe, remove all \a, \t and \x0 because we use these as special markers later
+      #    sed -ri 's/[\x0\a\t]/ /g' compileOut.txt
+      #    #_________before removing end of line carriage returns, mark the citations that could not be found in the bib file(s)
+      #    sed -r 's/^ *(Citation `[[:print:]]*on input line )([0-9][0-9]*) *$/ \x0\2-BIB-\1\2\.\a/g' compileOut.txt >> errout.txt
+      #    #_________before removing end of line carriage returns, mark "on input line" phrases so they can be easily found (and/or avoided) later: 
+      #    rm -f tmp.txt && sed -r 's/on input line ([0-9][0-9]*)/on input line \t\1/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
+      #    #_________also indicate any pdfTeX error that will not have a line number and involves explamation marks which mess sed up
+      #    rm -f tmp.txt && sed -r 's/pdfTeX error: / \x0 0-ERROR-pdfTeX error:/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
+      #    rm -f tmp.txt && sed -r 's/failed *$/failed\a/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
+      #    #_________now remove all the end of line returns
+      #    rm -f tmp.txt && tr -d "\n" < errout.txt > tmp.txt && mv -f tmp.txt errout.txt
+      #    #_________remove a lot of the lines that have noithing to do with errors and warnings, to make the next searches go faster
+      #    sed -ri 's/[(]\/home\/runner[^)][^)]*[)]/ /g' errout.txt
+      #    sed -ri 's/<\/home\/runner[^>][^>]*\>/ /g' errout.txt
+      #    #_________remove [] [] that are just clutter in the file
+      #    sed -ri 's/\[ *\]/ /g' errout.txt
+      #    #_________remove the ((( left behind in the above substitutions
+      #    sed -ri 's/[(] *[(]/ /g' errout.txt
+      #    #_________remove the )))) left behind in above subs
+      #    sed -ri 's/[)] *[)]/ /g' errout.txt
+      #    #_________remove all multiple white spaces to a single white space
+      #    sed -ri 's/  */ /g' errout.txt
+      #    rm -f tmp.txt && sed -r 's/(\.[^.][^.]*\.tex:[0-9][0-9]*:[^.\t][^.\t]*\t)([0-9][0-9]*)([^.]*\.)/\x0\2-ERROR-\1\2\3\a/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
+      #    rm -f tmp.txt && sed -r 's/([^:][^:][^:])(LaTeX )((Error)|(Warning))(:[^.\t][^.\t]*\t)([0-9][0-9]*)([^.]*\.)/\1\x0\7-\3-\2\3\6\7\8\a/g' errout.txt >> tmp.txt && mv -f tmp.txt errout.txt
+      #    sed -ri 's/\-Error\-/-ERROR-/g' errout.txt
+      #    sed -ri 's/\-Warning\-/-WARNING-/g' errout.txt
+      #    rm -f tmp.txt && sed -r 's/([^-])(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.\t][^.\t]*\.)/\1\x0\3-ERROR-\2\3\4\a/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
+      #    sed -ri 's/^[^\x0]*\x0//' errout.txt
+      #    sed -ri 's/\a[^\a]*$//' errout.txt
+      #    #_________remove all the \t placeholders
+      #    sed -ri 's/\t//g' errout.txt
+      #    sed -ri 's/\a[^\x0]*\x0 */\n/g' errout.txt
+      #    # the next step, sorting the entries, does not work as expected unless all the white space is gone, so replace white space with \a
+      #    sed -ri 's/ /\a/g' errout.txt
+      #    #_________sort and remove redundances in the error/warning list
+      #    rm -f tmp.txt && cat errout.txt | sort -r -t- -g -k1,1n -k2 -s | uniq | sed -r 's/\a/ /g' > tmp.txt && mv -f tmp.txt errout.txt
+      #    echo ''
+      #    echo '-------------------------------------------------------------------------------------------------------------------------------'
+      #    cat errout.txt
+      #  continue-on-error: true
 
       - name: Process the errors and warnings
         # remove lines in the output that are unrelated to the latex compilation itself
