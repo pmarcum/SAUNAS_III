@@ -214,10 +214,26 @@ jobs:
         with:
           packages:
             scheme-basic
-            collection-mathscience
             collection-bibtexextra
+            collection-binextra
+            collection-context
+            collection-fontsextra
+            collection-fontsrecommended
             collection-fontutils
+            collection-formatsextra
+            collection-langenglish
+            collection-langgerman
+            collection-latex
+            collection-latexextra
             collection-latexrecommended
+            collection-luatex
+            collection-mathscience
+            collection-metapost
+            collection-pictures
+            collection-plaingeneric
+            collection-pstricks
+            collection-publishers
+            collection-xetex
           cache: true
         continue-on-error: true
             
