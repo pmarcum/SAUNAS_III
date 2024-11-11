@@ -456,46 +456,13 @@ jobs:
           echo "pdf"  >> $STARTFILE
         continue-on-error: true
         
-      #- name: Make the error PDF file
-      #  if: ${{ always() && hashFiles('finHtml.html') }}
-      #  uses: fifsky/html-to-pdf-action@master
-      #  with:
-      #    htmlFile: finHtml.html
-      #    outputFile: "$PDFFILE"
-      #    pdfOptions: '{"margin": {"top": "0.2in", "bottom": "0.3in", "left": "0.4in", "right": "0.3in" }}'
-      #  continue-on-error: true
-
       - name: Make the error PDF file
-        if: ${{ always() && hashFiles('thereAreErrors.txt') }}
-        run: |
-          rm -f errLatex.tex
-          echo "\documentclass{article}" > errLatex.tex
-          echo "\usepackage[margin=0.2in]{geometry}" >> errLatex.tex
-          echo "\usepackage{url}" >> errLatex.tex
-          echo "\usepackage{xcolor}" >> errLatex.tex
-          echo "\begin{document}" >> errLatex.tex
-          echo "\noindent{\color{blue}FATAL LATEX COMPILATION ERROR(s)}\\\\" >> errLatex.tex
-          echo "\noindent\emph{To view full GitHub Actions output, click on item at top of list here:}\\\\" >> errLatex.tex
-          echo "\noindent{\color{blue}\emph{ ${JOBLINK} }} \color{black} \\\\" >> errLatex.tex
-          echo "\noindent\rule{7in}{0.7pt}\\\\" >> errLatex.tex
-          red=false
-          while IFS= read -r line; do
-             start='^line #[0-9]+'
-             end='^\.__________'
-             if [[ $line =~ $start ]]; then red=true; elif [[ $line =~ $end ]]; then red=false; fi
-             thisline="$( echo "$line" | sed -r 's/^line #/Line \#/g' | sed -r 's/^\.____+\n$/\\rule\{7in\}\{0.7pt\}\n/g' )"
-             if $red; then
-                echo "\noindent{\color{red} ${thisline} } \color{black} \\\\" >> errLatex.tex
-             else
-                echo "\noindent ${thisline} \color{black} \\\\" >> errLatex.tex
-             fi
-          done < "${OUTFILE}"
-          echo "\end{document}" >> errLatex.tex
-          latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode errLatex.tex
-          mv -f errLatex.pdf "$PDFFILE"
-          rm -f errLatex.log
-          rm -f errLatex.aux
-          rm -f errLatex.f*
+        if: ${{ always() && hashFiles('finHtml.html') }}
+        uses: fifsky/html-to-pdf-action@master
+        with:
+          htmlFile: finHtml.html
+          outputFile: "$PDFFILE"
+          pdfOptions: '{"margin": {"top": "0.2in", "bottom": "0.3in", "left": "0.4in", "right": "0.3in" }}'
         continue-on-error: true
 
       - name: Finalize compilation warning and errors output
