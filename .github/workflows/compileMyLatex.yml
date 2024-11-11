@@ -145,44 +145,31 @@ jobs:
             newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
             pdfname=$(echo "${newname}" | sed 's/\..*$/\.pdf/')
             fileSize=$( stat -c %s -- "${imagefile}"  )
-            echo ""
-            echo "=================================================================================================================="
-            echo "Determining if ${newname} needs to be compressed"
-            echo "Is the current file size:  ${fileSize}   bigger than the target maximum size: ${bigfile} ?"
-            echo "${pdfname}"
             if [[ -f "${imagefile}" && ! -L "${imagefile}" && "$fileSize" -gt "$bigfile" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
-              echo "${newname} needs to be resized"
               # Get the current dimensions of the image
               dimensions=$(identify -format "%w %h" "${imagefile}")
               read -r origWidth origHeight <<< "$dimensions"
-              echo "the original image dimensions:  $origWidth  $origHeight"
               # determine which, if either, dimension exceeds the max desirable size (origWidth origHeight)
               if [[ "$origWidth" -gt "$origHeight" && "$origWidth" -gt "$maxWidth" ]]; then
-                echo "======> the width is larger than the height, setting new width to $maxWidth"
                 newWidth=$maxWidth
                 newHeight=$(echo "(($origHeight * $newWidth) / $origWidth) + 0.5" | bc)
                 newHeight=${newHeight%.*}
               elif [[ "$origWidth" -lt "$origHeight" && "$origHeight" -gt "$maxHeight" ]]; then
-                echo "=====> the height is larger than the width, setting new height to $maxHeight"
                 newHeight=$maxHeight
                 newWidth=$(echo "(($origWidth * $newHeight) / $origHeight) + 0.5" | bc)
                 newWidth=${newWidth%.*}
               elif [[ "$origWidth" -gt "$maxWidth" ]]; then
-                echo "............... the width is larger than allowable width"
                 newWidth=$maxWidth
                 newHeight=$(echo "(($origHeight * $newWidth) / $origWidth) + 0.5" | bc)
                 newHeight=${newHeight%.*}
               elif [[ "$origHeight" -gt "$maxHeight" ]]; then
-                echo "=====> the height is larger than the width, setting new height to $maxHeight"
                 newHeight=$origHeight
                 newWidth=$(echo "(($origWidth * $newHeight) / $origHeight) + 0.5" | bc)
                 newWidth=${newWidth%.*}
               else
-                echo "=====> the height and width are within bounds but the file is large, so going to try to strip out metadata"
                 newHeight=$origHeight
                 newWidth=$origWidth
               fi
-              echo "the new image dimensions:  $newWidth  $newHeight"
               qualityValue=82
               # Note: the quality value seems to not matter at all.  The size seems to be the main factor behind the size of the file.
               mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality ''"${qualityValue}"'' \
@@ -191,7 +178,6 @@ jobs:
                 -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
               mv -f "${imagefile}" "${newname}"
             elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
-              echo "the image size is lower than the trigger size and therefore is not going to be compressed."
               mv -f "${imagefile}" "${newname}"
             fi
           done
@@ -327,20 +313,12 @@ jobs:
           sed -ri 's/ /\a/g' errout.txt
           #_________sort and remove redundances in the error/warning list
           rm -f tmp.txt && cat errout.txt | sort -r -t- -g -k1,1n -k2 -s | uniq | sed -r 's/\a/ /g' > tmp.txt && mv -f tmp.txt errout.txt
-          echo ''
-          echo '-------------------------------------------------------------------------------------------------------------------------------'
-          cat errout.txt
         continue-on-error: true
 
       - name: Process the errors and warnings
         # remove lines in the output that are unrelated to the latex compilation itself
         run: |
           readarray -t sorted < errout.txt
-          echo ''
-          echo '----------------------------------------------------------------------------------------------------------------------'
-          printf '%s\n' "${sorted[@]}"
-          echo '                          -------------------------------------------------------------'
-          echo ''
           #  #######################   START CONSOLIDATING THE ERRORS ###################
           rm -f thereAreErrors.txt
           touch tout.txt
@@ -395,7 +373,6 @@ jobs:
              done
              echo " " >> tout.txt
           done
-          cat tout.txt
         continue-on-error: true
           
       - name: Gather up list of references
@@ -489,7 +466,7 @@ jobs:
       #  continue-on-error: true
 
       - name: Make the error PDF file
-        if: ${{ always() && hashFiles('finHtml.html') }}
+        if: ${{ always() && hashFiles('thereAreErrors.txt') }}
         run: |
           rm -f errLatex.tex
           echo "\documentclass{article}" > errLatex.tex
@@ -516,7 +493,7 @@ jobs:
           done < "${OUTFILE}"
           echo "\end{document}" >> errLatex.tex
           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode errLatex.tex
-          mv -f errLatex.tex "${PDFFILE}"
+          mv -f errLatex.pdf "$PDFFILE"
         continue-on-error: true
 
       - name: Finalize compilation warning and errors output
