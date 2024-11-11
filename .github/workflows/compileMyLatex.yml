@@ -475,24 +475,27 @@ jobs:
           echo "\usepackage{xcolor}" >> errLatex.tex
           echo "\begin{document}" >> errLatex.tex
           echo "\noindent{\color{blue}FATAL LATEX COMPILATION ERROR(s)}\\\\" >> errLatex.tex
-          echo "\noindent\emph{To view full GitHub Actions output, click on item at top of list here:}\\" >> errLatex.tex
-          echo "\noindent{\color{blue}\emph{ ${JOBLINK} }}\\" >> errLatex.tex
-          echo "\noindent\rule{7in}{0.7pt}\\" >> errLatex.tex
+          echo "\noindent\emph{To view full GitHub Actions output, click on item at top of list here:}\\\\" >> errLatex.tex
+          echo "\noindent{\color{blue}\emph{ ${JOBLINK} }}\\\\" >> errLatex.tex
+          echo "\noindent\rule{7in}{0.7pt}\\\\" >> errLatex.tex
           red=false
           while IFS= read -r line; do
              start='^line #[0-9]+'
              end='^\.__________'
              if [[ $line =~ $start ]]; then red=true; elif [[ $line =~ $end ]]; then red=false; fi
-             thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^\.__________/___________/g' )"
+             thisline="$( echo "$line" | sed -r 's/^line #/Line \#/g' | sed -r 's/^\._+$/\rule\{2in\}\{0.7pt\}/g' )"
              if $red; then
-                echo "\noindent{\color{red} ${thisline} }\\" >> errLatex.tex
+                echo "\noindent{\color{red} ${thisline} }\\\\" >> errLatex.tex
              else
-                echo "\noindent ${thisline} \\" >> errLatex.tex
+                echo "\noindent ${thisline} \\\\" >> errLatex.tex
              fi
           done < "${OUTFILE}"
           echo "\end{document}" >> errLatex.tex
           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode errLatex.tex
           mv -f errLatex.pdf "$PDFFILE"
+          rm -f errLatex.log
+          rm -f errLatex.aux
+          rm -f errLatex.f*
         continue-on-error: true
 
       - name: Finalize compilation warning and errors output
