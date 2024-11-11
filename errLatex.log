@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.11.11)  11 NOV 2024 09:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.11.11)  11 NOV 2024 09:14
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -165,8 +165,8 @@ mkii/supp-pdf.mkii
 ./errLatex.tex:8: Missing $ inserted.
 <inserted text> 
                 $
-l.8 .../actions/runs/11775344180/job/32795614085 }
-                                                  }\
+l.8 .../actions/runs/11775511169/job/32796099303 }
+                                                  }\\
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
@@ -177,8 +177,8 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 ./errLatex.tex:8: Extra }, or forgotten $.
 <recently read> \egroup 
                         
-l.8 .../actions/runs/11775344180/job/32795614085 }
-                                                  }\
+l.8 .../actions/runs/11775511169/job/32796099303 }
+                                                  }\\
 I've deleted a group-closing symbol because it seems to be
 spurious, as in `$x}$'. But perhaps the } is legitimate and
 you forgot something else, as in `\hbox{$x}'. In such cases
@@ -186,8 +186,8 @@ the way to recover is to insert both the forgotten and the
 deleted material, e.g., by typing `I$}'.
 
 ./errLatex.tex:8: Extra }, or forgotten $.
-l.8 ...actions/runs/11775344180/job/32795614085 }}
-                                                  \
+l.8 ...actions/runs/11775511169/job/32796099303 }}
+                                                  \\
 I've deleted a group-closing symbol because it seems to be
 spurious, as in `$x}$'. But perhaps the } is legitimate and
 you forgot something else, as in `\hbox{$x}'. In such cases
@@ -196,7 +196,7 @@ deleted material, e.g., by typing `I$}'.
 
 ./errLatex.tex:14: You can't use `macro parameter character #' in math mode.
 l.14 \noindent{\color{red} Line #
-                                 132 -----------------------  }\
+                                 132 -----------------------  }\\
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
 If you're in the wrong mode, you might be able to
@@ -204,755 +204,35 @@ return to the right one by typing `I}' or `I$' or `I\par'.
 
 ./errLatex.tex:15: Undefined control sequence.
 l.15 \noindent{\color{red} \aNewCommand
-                                       {new} }\
+                                       {new} }\\
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent __
-                 ___________________________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent ___
-                  __________________________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent ____
-                   _________________________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent _____
-                    ________________________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent ______
-                     _______________________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent _______
-                      ______________________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent ________
-                       _____________________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent _________
-                        ____________________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent __________
-                         ___________________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent ___________
-                          __________________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent ____________
-                           _________________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent _____________
-                            ________________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent ______________
-                             _______________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent _______________
-                              ______________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent ________________
-                               _____________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent _________________
-                                ____________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent __________________
-                                 ___________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent ___________________
-                                  __________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent ____________________
-                                   _________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent _____________________
-                                    ________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent ______________________
-                                     _______________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent _______________________
-                                      ______________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent ________________________
-                                       _____________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent _________________________
-                                        ____________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent __________________________
-                                         ___________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent ___________________________
-                                          __________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent ____________________________
-                                           _________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent _____________________________
-                                            ________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent ______________________________
-                                             _______________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent _______________________________
-                                              ______________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent ________________________________
-                                               _____________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent _________________________________
-                                                ____________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent __________________________________
-                                                 ___________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 \noindent ___________________________________
-                                                  __________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...ndent ____________________________________
-                                                  __________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...dent _____________________________________
-                                                  __________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...ent ______________________________________
-                                                  __________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...nt _______________________________________
-                                                  __________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...t ________________________________________
-                                                  __________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ... _________________________________________
-                                                  __________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  __________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  __________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  __________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  ___________________________ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  __________________________ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  _________________________ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  ________________________ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  _______________________ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  ______________________ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  _____________________ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  ____________________ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  ___________________ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  __________________ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  _________________ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  ________________ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  _______________ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  ______________ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  _____________ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  ____________ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  ___________ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  __________ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  _________ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  ________ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  _______ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  ______ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  _____ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  ____ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  ___ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  __ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                  _ \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   _
-l.16 ...__________________________________________
-                                                   \
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:16: Missing { inserted.
-<to be read again> 
-                   \ 
-l.16 ...________________________________________ \
-                                                  
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./errLatex.tex:23: You can't use `macro parameter character #' in math mode.
-l.23 \noindent{\color{red} Line #
-                                 142 -----------------------  }\
+./errLatex.tex:24: You can't use `macro parameter character #' in math mode.
+l.24 \noindent{\color{red} Line #
+                                 142 -----------------------  }\\
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
 If you're in the wrong mode, you might be able to
 return to the right one by typing `I}' or `I$' or `I\par'.
 
 
-LaTeX Warning: Reference `sec:methods' on page 1 undefined on input line 24.
+LaTeX Warning: Reference `sec:methods' on page 1 undefined on input line 25.
 
 
-LaTeX Warning: Reference `sec:results' on page 1 undefined on input line 24.
+LaTeX Warning: Reference `sec:results' on page 1 undefined on input line 25.
 
 
-LaTeX Warning: Reference `sec:DIS' on page 1 undefined on input line 24.
+LaTeX Warning: Reference `sec:DIS' on page 1 undefined on input line 25.
 
 
-LaTeX Warning: Reference `sec:CON' on page 1 undefined on input line 24.
+LaTeX Warning: Reference `sec:CON' on page 1 undefined on input line 25.
 
-./errLatex.tex:24: Undefined control sequence.
-l.24 ...All magnitudes are in the AB system \citep
+./errLatex.tex:25: Undefined control sequence.
+l.25 ...All magnitudes are in the AB system \citep
                                                   {oke1971apj170_193} unless...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -960,219 +240,1863 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./errLatex.tex:25: Missing { inserted.
-<to be read again> 
-                   _
-l.25 \noindent __
-                 ___________________________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
+./errLatex.tex:29: You can't use `macro parameter character #' in math mode.
+l.29 \noindent{\color{red} Line #
+                                 188 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
 
-./errLatex.tex:25: Missing { inserted.
-<to be read again> 
-                   _
-l.25 \noindent ___
-                  __________________________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
+./errLatex.tex:30: Undefined control sequence.
+l.30 ...\color{red} A total of 9.92~ks of \Chandra
+                                                  \ observations, using the ...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
-./errLatex.tex:25: Missing { inserted.
-<to be read again> 
-                   _
-l.25 \noindent ____
-                   _________________________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
+./errLatex.tex:30: Undefined control sequence.
+l.30 ...Stephen~Murray; August~2011 under \Chandra
+                                                  \ Cycle~12, see Table \ref...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
-./errLatex.tex:25: Missing { inserted.
-<to be read again> 
-                   _
-l.25 \noindent _____
-                    ________________________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
 
-./errLatex.tex:25: Missing { inserted.
-<to be read again> 
-                   _
-l.25 \noindent ______
-                     _______________________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
+LaTeX Warning: Reference `tab:Observations' on page 1 undefined on input line 3
+0.
 
-./errLatex.tex:25: Missing { inserted.
-<to be read again> 
-                   _
-l.25 \noindent _______
-                      ______________________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 30.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 30.
+./errLatex.tex:34: You can't use `macro parameter character #' in math mode.
+l.34 \noindent{\color{red} Line #
+                                 197 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
 
-./errLatex.tex:25: Missing { inserted.
-<to be read again> 
-                   _
-l.25 \noindent ________
-                       _____________________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
 
-./errLatex.tex:25: Missing { inserted.
-<to be read again> 
-                   _
-l.25 \noindent _________
-                        ____________________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
+LaTeX Warning: Reference `tab:Observations' on page 1 undefined on input line 3
+5.
 
-./errLatex.tex:25: Missing { inserted.
-<to be read again> 
-                   _
-l.25 \noindent __________
-                         ___________________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
+./errLatex.tex:35: Missing } inserted.
+<inserted text> 
+                }
+l.35 ...WFPC2 allow for an angular resolution of $
+                                                  0.05$ arcsec, while WFC3s ...
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
 
-./errLatex.tex:25: Missing { inserted.
-<to be read again> 
-                   _
-l.25 \noindent ___________
-                          __________________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
+./errLatex.tex:35: Missing $ inserted.
+<inserted text> 
+                $
+l.35 ...espectively. At a distance of $D=	29.91\pm
+                                                  2.12$~Mpc \citep[6.90~arcs...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
 
-./errLatex.tex:25: Missing { inserted.
-<to be read again> 
-                   _
-l.25 \noindent ____________
-                           _________________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
+./errLatex.tex:35: Undefined control sequence.
+l.35 ...a distance of $D=	29.91\pm2.12$~Mpc \citep
+                                                  [6.90~arcsec~kpc$^{-1}$,][...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
-./errLatex.tex:25: Missing { inserted.
-<to be read again> 
-                   _
-l.25 \noindent _____________
-                            ________________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
+./errLatex.tex:35: Missing $ inserted.
+<inserted text> 
+                $
+l.35 ...rcsec~kpc$^{-1}$,][]{koribalski+2004aj128_
+                                                  16}, and assuming a Nyquis...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
 
-./errLatex.tex:25: Missing { inserted.
-<to be read again> 
-                   _
-l.25 \noindent ______________
-                             _______________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
+./errLatex.tex:35: Extra }, or forgotten $.
+l.35 ...ec~kpc$^{-1}$,][]{koribalski+2004aj128_16}
+                                                  , and assuming a Nyquist s...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
 
-./errLatex.tex:25: Missing { inserted.
-<to be read again> 
-                   _
-l.25 \noindent _______________
-                              ______________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
+./errLatex.tex:35: Missing $ inserted.
+<inserted text> 
+                $
+l.35 ...ysical spatial resolution scales are $\sim
+                                                  12$ pc (WFC3/UVIS) and $\s...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
 
-./errLatex.tex:25: Missing { inserted.
-<to be read again> 
-                   _
-l.25 \noindent ________________
-                               _____________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
 
-./errLatex.tex:25: Missing { inserted.
-<to be read again> 
-                   _
-l.25 \noindent _________________
-                                ____________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
+LaTeX Warning: Reference `tab:Observations' on page 1 undefined on input line 3
+5.
 
-./errLatex.tex:25: Missing { inserted.
-<to be read again> 
-                   _
-l.25 \noindent __________________
-                                 ___________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
+./errLatex.tex:39: You can't use `macro parameter character #' in horizontal mo
+de.
+l.39 \noindent{\color{red} Line #
+                                 222 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
 
-./errLatex.tex:25: Missing { inserted.
-<to be read again> 
-                   _
-l.25 \noindent ___________________
-                                  __________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
 
-./errLatex.tex:25: Missing { inserted.
-<to be read again> 
-                   _
-l.25 \noindent ____________________
-                                   _________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
+LaTeX Warning: Reference `fig:NGC5084' on page 1 undefined on input line 40.
 
-./errLatex.tex:25: Missing { inserted.
-<to be read again> 
-                   _
-l.25 \noindent _____________________
-                                    ________________________________________...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
 
-./errLatex.tex:25: Missing { inserted.
-<to be read again> 
-                   _
-l.25 \noindent ______________________
-                                     _______________________________________...
-(That makes 100 errors; please try again.) 
+LaTeX Warning: Reference `subsec:results_xray_ima' on page 1 undefined on input
+ line 40.
+
+./errLatex.tex:44: You can't use `macro parameter character #' in horizontal mo
+de.
+l.44 \noindent{\color{red} Line #
+                                 247 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+LaTeX Warning: Reference `fig:NGC5084' on page 1 undefined on input line 45.
+
+./errLatex.tex:45: Undefined control sequence.
+l.45 ...\ref{fig:NGC5084} presents the new \SAUNAS
+                                                  -processed images in the s...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:45: Undefined control sequence.
+l.45 ...he optical morphology of the galaxy \citep
+                                                  [large FOV optical and nea...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: Reference `fig:NGC5084_per_band' on page 1 undefined on input li
+ne 45.
+
+
+LaTeX Warning: Reference `Appendix:Xray_subbands' on page 1 undefined on input 
+line 45.
+
+
+Overfull \hbox (29.05885pt too wide) in paragraph at lines 6--45
+\OML/cmm/m/it/10 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>
+ []
+
+
+Overfull \hbox (29.05885pt too wide) in paragraph at lines 6--45
+\OML/cmm/m/it/10 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>
+ []
+
+
+Overfull \hbox (29.05885pt too wide) in paragraph at lines 6--45
+\OML/cmm/m/it/10 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>
+ []
+
+
+Overfull \hbox (29.05885pt too wide) in paragraph at lines 6--45
+\OML/cmm/m/it/10 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>
+ []
+
+
+Overfull \hbox (616.7602pt too wide) in paragraph at lines 6--45
+[][][] 
+ []
+
+
+Overfull \hbox (2597.75854pt too wide) in paragraph at lines 6--45
+[][][] 
+ []
+
+
+Overfull \hbox (1158.18124pt too wide) in paragraph at lines 6--45
+[][]$\OT1/cmr/m/it/10 0.05$\OML/cmm/m/it/10 arcsec; whileWFC\OT1/cmr/m/n/10 3\O
+ML/cmm/m/it/10 sIRandUVISchannelshavearesolutionof$\OT1/cmr/m/it/10 0.13$\OML/c
+mm/m/it/10 and$\OT1/cmr/m/it/10 0.04$\OML/cmm/m/it/10 arcsecrespectively:Atadis
+tanceof$\OT1/cmr/m/it/10 D=
+ []
+
+
+Overfull \hbox (23.94725pt too wide) in paragraph at lines 6--45
+\OT1/cmr/m/it/10 29.91$\OMS/cmsy/m/n/10 ^^F\OT1/cmr/m/n/10 2\OML/cmm/m/it/10 :\
+OT1/cmr/m/n/10 12$ \OT1/cmr/m/it/10 Mpc [6.90 arc-sec kpc$[]$,][]koribalski+200
+4aj128$[]\OT1/cmr/m/n/10 6\OML/cmm/m/it/10 ; andassumingaNyquistsampledPSF; the
+physicalspatialresolutionscalesare$$\OMS/cmsy/m/n/10 ^^X
+ []
+
+
+./errLatex.tex:46: LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.46 \noindent
+              
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+./errLatex.tex:49: You can't use `macro parameter character #' in horizontal mo
+de.
+l.49 \noindent{\color{red} Line #
+                                 252 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+LaTeX Warning: Reference `fig:NGC5084' on page 1 undefined on input line 50.
+
+
+LaTeX Warning: Reference `tab:Xray_flux' on page 1 undefined on input line 50.
+
+./errLatex.tex:50: Undefined control sequence.
+l.50 ...m point sources identified by the \Chandra
+                                                  \ catalog of point sources...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:54: You can't use `macro parameter character #' in horizontal mo
+de.
+l.54 \noindent{\color{red} Line #
+                                 257 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+LaTeX Warning: Reference `Appendix:Xray_noPSFdeco_test' on page 1 undefined on 
+input line 55.
+
+./errLatex.tex:55: Undefined control sequence.
+l.55 ... observed profile in the original \Chandra
+                                                  /ACIS observations, withou...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:55: Undefined control sequence.
+l.55 ... extensively used in the literature \citep
+                                                  {fabbiano+2017apj842_4,fab...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:55: Missing $ inserted.
+<inserted text> 
+                $
+l.55 ...the literature \citep{fabbiano+2017apj842_
+                                                  4,fabbiano+2018apj855_131,...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./errLatex.tex:55: Extra }, or forgotten $.
+l.55 ...91_133,ma+2020apj900_164,ma+2023apj948_61}
+                                                   to identify hot gas halos...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+LaTeX Warning: Reference `fig:NGC5084_psf_profile' on page 1 undefined on input
+ line 55.
+
+./errLatex.tex:55: Missing $ inserted.
+<inserted text> 
+                $
+l.55 ...dial distance as predicted by the $3\sigma
+                                                  $ contours on Fig.\,\ref{f...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Reference `fig:NGC5084' on page 1 undefined on input line 55.
+
+./errLatex.tex:58: Missing $ inserted.
+<inserted text> 
+                $
+l.58 ...ent LaTeX Warning: Reference `fig:NGC5084_
+                                                  hst' on page 10 undefined ...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./errLatex.tex:59: You can't use `macro parameter character #' in math mode.
+l.59 \noindent{\color{red} Line #
+                                 293 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+LaTeX Warning: Reference `tab:Observations' on page 1 undefined on input line 6
+0.
+
+
+LaTeX Warning: Reference `fig:NGC5084_hst' on page 1 undefined on input line 60
+.
+
+./errLatex.tex:64: You can't use `macro parameter character #' in math mode.
+l.64 \noindent{\color{red} Line #
+                                 314 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+LaTeX Warning: Reference `fig:NGC5084_hst' on page 1 undefined on input line 65
+.
+
+./errLatex.tex:65: Missing } inserted.
+<inserted text> 
+                }
+l.65 ...or clarity. The center of the ellipse is $
+                                                  \alpha, \delta = (200\fdg0...
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+./errLatex.tex:65: Missing $ inserted.
+<inserted text> 
+                $
+l.65 ...rity. The center of the ellipse is $\alpha
+                                                  , \delta = (200\fdg0701, -...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./errLatex.tex:65: Undefined control sequence.
+l.65 ... the ellipse is $\alpha, \delta = (200\fdg
+                                                  0701, -21\fdg8272) \pm 0.1...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:65: Undefined control sequence.
+l.65 ...is $\alpha, \delta = (200\fdg0701, -21\fdg
+                                                  8272) \pm 0.1$ arcsec, com...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:69: You can't use `macro parameter character #' in horizontal mo
+de.
+l.69 \noindent{\color{red} Line #
+                                 323 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+LaTeX Warning: Reference `fig:ALMA' on page 1 undefined on input line 70.
+
+./errLatex.tex:74: You can't use `macro parameter character #' in horizontal mo
+de.
+l.74 \noindent{\color{red} Line #
+                                 325 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+LaTeX Warning: Reference `fig:ALMA' on page 1 undefined on input line 75.
+
+./errLatex.tex:75: Undefined control sequence.
+l.75 ...following a similar procedure as in \citep
+                                                  [W$_{50}$,][]{smith+2021mn...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:75: Missing $ inserted.
+<inserted text> 
+                $
+l.75 ...in \citep[W$_{50}$,][]{smith+2021mnras500_
+                                                  1933}. The velocities (low...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./errLatex.tex:75: Extra }, or forgotten $.
+l.75 ...itep[W$_{50}$,][]{smith+2021mnras500_1933}
+                                                  . The velocities (lowest a...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+./errLatex.tex:75: Missing $ inserted.
+<inserted text> 
+                $
+l.75 ...el). The measured rotation velocity is V$_
+                                                  {\rm rot} = 249.1^{+12.8}_...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./errLatex.tex:78: Missing $ inserted.
+<inserted text> 
+                $
+l.78 ...ndent LaTeX Warning: Reference `tab:Radio_
+                                                  Lobes' on page 13 undefine...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./errLatex.tex:79: You can't use `macro parameter character #' in math mode.
+l.79 \noindent{\color{red} Line #
+                                 353 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+./errLatex.tex:80: Undefined control sequence.
+l.80 \noindent{\color{red} Interestingly, \citet
+                                                {wiegert+2015aj150_81} ident...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: Reference `fig:NGC5084_EVLA' on page 1 undefined on input line 8
+0.
+
+./errLatex.tex:80: Undefined control sequence.
+l.80 ...nd was identified as radio lobes in \citet
+                                                  [][see their Table 10]{irw...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:80: Missing } inserted.
+<inserted text> 
+                }
+l.80 ...se two radio sources are detected at a 10$
+                                                  \sigma$ level, being locat...
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+./errLatex.tex:80: Missing $ inserted.
+<inserted text> 
+                $
+l.80 ... radio sources are detected at a 10$\sigma
+                                                  $ level, being located at ...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Reference `tab:Radio_Lobes' on page 1 undefined on input line 80
+.
+
+./errLatex.tex:84: You can't use `macro parameter character #' in horizontal mo
+de.
+l.84 \noindent{\color{red} Line #
+                                 440 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+LaTeX Warning: Reference `fig:NGC5084_optical_spectra' on page 1 undefined on i
+nput line 85.
+
+
+LaTeX Warning: Command \r invalid in math mode on input line 85.
+
+
+LaTeX Warning: Command \r invalid in math mode on input line 85.
+
+
+LaTeX Warning: Command \r invalid in math mode on input line 85.
+
+./errLatex.tex:88: Missing $ inserted.
+<inserted text> 
+                $
+l.88 ...TeX Warning: Reference `subsec:discussion_
+                                                  fadedstarburst' on page 18...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./errLatex.tex:89: You can't use `macro parameter character #' in math mode.
+l.89 \noindent{\color{red} Line #
+                                 472 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+LaTeX Warning: Reference `subsec:discussion_merger' on page 1 undefined on inpu
+t line 90.
+
+
+LaTeX Warning: Reference `subsec:discussion_fadedstarburst' on page 1 undefined
+ on input line 90.
+
+
+LaTeX Warning: Reference `subsec:discussion_cocoon' on page 1 undefined on inpu
+t line 90.
+
+
+LaTeX Warning: Reference `subsec:discussion_realignment' on page 1 undefined on
+ input line 90.
+
+
+LaTeX Warning: Reference `fig:NGC5084_scenarios' on page 1 undefined on input l
+ine 90.
+
+./errLatex.tex:94: You can't use `macro parameter character #' in math mode.
+l.94 \noindent{\color{red} Line #
+                                 480 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+./errLatex.tex:95: LaTeX Error: \caption outside float.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.95 \noindent{\color{red} \caption
+                                   {Summary of the formation scenarios for t...
+
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: Reference `subsec:discussion_fadedstarburst' on page 1 undefined
+ on input line 95.
+
+./errLatex.tex:99: You can't use `macro parameter character #' in math mode.
+l.99 \noindent{\color{red} Line #
+                                 523 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+./errLatex.tex:100: LaTeX Error: \caption outside float.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.100 \noindent{\color{red} \caption
+                                    {NGC\,5084 color maps. \emph{Left panel:...
+
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./errLatex.tex:100: Missing } inserted.
+<inserted text> 
+                }
+l.100 ...mph{Left panel:} Ground-based VLT/ATLAS $
+                                                  g-i$ maps. Black contours ...
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+./errLatex.tex:100: Missing } inserted.
+<inserted text> 
+                }
+l.100 ...mph{Left panel:} Ground-based VLT/ATLAS $
+                                                  g-i$ maps. Black contours ...
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+LaTeX Warning: Reference `fig:NGC5084' on page 1 undefined on input line 100.
+
+./errLatex.tex:100: Extra }, or forgotten $.
+l.100 ... in red. See the colorbar for reference.}
+                                                    }\\
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+./errLatex.tex:100: Extra }, or forgotten $.
+l.100 ... red. See the colorbar for reference.}  }
+                                                  \\
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+./errLatex.tex:104: You can't use `macro parameter character #' in math mode.
+l.104 \noindent{\color{red} Line #
+                                  529 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+LaTeX Warning: Reference `subsec:results_Optical_spectra' on page 1 undefined o
+n input line 105.
+
+
+LaTeX Warning: Reference `fig:NGC5084_optical_spectra' on page 1 undefined on i
+nput line 105.
+
+./errLatex.tex:105: Undefined control sequence.
+l.105 ... typical of post-starburst objects \citep
+                                                  [also called E+A or K+A ga...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:109: You can't use `macro parameter character #' in math mode.
+l.109 \noindent{\color{red} Line #
+                                  537 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+LaTeX Warning: Reference `subsec:results_radiopol' on page 1 undefined on input
+ line 110.
+
+./errLatex.tex:110: Undefined control sequence.
+l.110 ...y LINER/Seyferts and FR~0 galaxies \citep
+                                                  [see Table \ref{tab:Radio_...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: Reference `tab:Radio_Lobes' on page 1 undefined on input line 11
+0.
+
+./errLatex.tex:110: Missing } inserted.
+<inserted text> 
+                }
+l.110 ..._Lobes},][]{baldi2023aap31_3}, emitting $
+                                                  \sim$4--5 orders of magnit...
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+./errLatex.tex:110: Missing $ inserted.
+<inserted text> 
+                $
+l.110 ...es},][]{baldi2023aap31_3}, emitting $\sim
+                                                  $4--5 orders of magnitude ...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./errLatex.tex:110: Undefined control sequence.
+l.110 ...n the X-shaped radio galaxies from \citet
+                                                  {cheung+2009apj181_548}. T...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:110: Missing $ inserted.
+<inserted text> 
+                $
+l.110 ...o galaxies from \citet{cheung+2009apj181_
+                                                  548}. This classification ...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./errLatex.tex:110: Extra }, or forgotten $.
+l.110 ...laxies from \citet{cheung+2009apj181_548}
+                                                  . This classification corr...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+./errLatex.tex:110: Undefined control sequence.
+l.110 ...orrelates with the prediction from \citet
+                                                  {hodgeskluck2011thesis} th...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:110: Extra }, or forgotten $.
+l.110 ...d sources should be decaying AGN jets.  }
+                                                  \\
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+LaTeX Warning: Command \r invalid in math mode on input line 113.
+
+./errLatex.tex:113: Please use \mathaccent for accents in math mode.
+\add@accent ... \let \ignorespaces \relax \accent 
+                                                  #1 #2\egroup \ifmmode \els...
+l.113 \noindent LaTeX Warning: Command \r i
+                                           nvalid in math mode on input line...
+I'm changing \accent to \mathaccent here; wish me luck.
+(Accents are not the same in formulas as they are in text.)
+
+./errLatex.tex:114: You can't use `macro parameter character #' in math mode.
+l.114 \noindent{\color{red} Line #
+                                  567 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+./errLatex.tex:115: Undefined control sequence.
+l.115 ...Classified as a Seyfert 1.9 galaxy \citep
+                                                  {argyle+1990mnras243_504, ...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:115: Undefined control sequence.
+l.115 ...s a large-scale ionization bi-cone \citep
+                                                  {tadhunter+1989nat341_422}...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:115: Missing } inserted.
+<inserted text> 
+                }
+l.115 ...} detectable in [OIII] emission line at $
+                                                  \lambda=5007\AA$ that exte...
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+./errLatex.tex:115: Missing $ inserted.
+<inserted text> 
+                $
+l.115 ...table in [OIII] emission line at $\lambda
+                                                  =5007\AA$ that extends for...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \r invalid in math mode on input line 115.
+
+./errLatex.tex:115: Undefined control sequence.
+l.115 ...graph observations of NGC\,5252 by \citet
+                                                  {morse+1998apj505_159} rev...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:115: Missing $ inserted.
+<inserted text> 
+                $
+l.115 ... of NGC\,5252 by \citet{morse+1998apj505_
+                                                  159} revealed different ki...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./errLatex.tex:115: Extra }, or forgotten $.
+l.115 ...NGC\,5252 by \citet{morse+1998apj505_159}
+                                                   revealed different kinema...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+./errLatex.tex:115: Undefined control sequence.
+l.115 ... both active and emitting in radio \citep
+                                                  {kim+2015apj814_8, kim+201...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:115: Undefined control sequence.
+l.115 ...eover, recent results presented by \citet
+                                                  {wang+2024arXiv2401.09172}...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:115: Missing $ inserted.
+<inserted text> 
+                $
+l.115 ...2024arXiv2401.09172} show a strong ($\sim
+                                                  20^{\circ}$) misalignment ...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./errLatex.tex:119: You can't use `macro parameter character #' in horizontal m
+ode.
+l.119 \noindent{\color{red} Line #
+                                  591 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+./errLatex.tex:120: Undefined control sequence.
+l.120 ...mmetric radio lobes, identified by \citet
+                                                  {irwin+2019aj158_21} as pa...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:120: Missing $ inserted.
+<inserted text> 
+                $
+l.120 ...es, identified by \citet{irwin+2019aj158_
+                                                  21} as part of a radio AGN...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./errLatex.tex:120: Extra }, or forgotten $.
+l.120 ... identified by \citet{irwin+2019aj158_21}
+                                                   as part of a radio AGN je...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+LaTeX Warning: Reference `fig:NGC5084_scenarios' on page 1 undefined on input l
+ine 120.
+
+
+LaTeX Warning: Reference `sec:DIS' on page 1 undefined on input line 120.
+
+./errLatex.tex:120: Extra }, or forgotten $.
+l.120 ...ively accreting its multiple satellites.}
+                                                   }\\
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+./errLatex.tex:120: Extra }, or forgotten $.
+l.120 ...ely accreting its multiple satellites.} }
+                                                  \\
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+./errLatex.tex:124: You can't use `macro parameter character #' in math mode.
+l.124 \noindent{\color{red} Line #
+                                  655 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+./errLatex.tex:125: Missing } inserted.
+<inserted text> 
+                }
+l.125 \noindent{\color{red} At $
+                                E=1$ keV and $t=10$~ks, the equivalent expos...
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+./errLatex.tex:125: Undefined control sequence.
+<argument> ...z@ \footnotesep \ignorespaces \ciao 
+                                                  /\Chandra \ exposure maps:...
+l.125 ...rd.edu/ciao/threads/expmap_acis_single/}}
+                                                   ($\emph{M}\,\emph{t}$) is...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:125: Undefined control sequence.
+<argument> ...tesep \ignorespaces \ciao /\Chandra 
+                                                  \ exposure maps: \url {htt...
+l.125 ...rd.edu/ciao/threads/expmap_acis_single/}}
+                                                   ($\emph{M}\,\emph{t}$) is...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:125: Missing $ inserted.
+<inserted text> 
+                $
+l.125 ...}\,\emph{t}$) is approximately $3.8\times
+                                                  10^{6}$ cm$^{2}$ s$^{1}$. ...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Reference `eq:F_lim_Xray' on page 1 undefined on input line 125.
+
+
+./errLatex.tex:128: Missing $ inserted.
+<inserted text> 
+                $
+l.128 ...ndent LaTeX Warning: Reference `tab:Xray_
+                                                  flux' on page 29 undefined...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./errLatex.tex:130: You can't use `macro parameter character #' in math mode.
+l.130 \noindent{\color{red} Line #
+                                  699 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+LaTeX Warning: Reference `subsec:results_xray_ima' on page 1 undefined on input
+ line 131.
+
+
+LaTeX Warning: Reference `subsec:results_xray_ima' on page 1 undefined on input
+ line 131.
+
+
+LaTeX Warning: Reference `tab:Xray_flux' on page 1 undefined on input line 131.
+
+
+
+LaTeX Warning: Reference `fig:NGC5084_Aperture_Histograms' on page 1 undefined 
+on input line 131.
+
+./errLatex.tex:131: Undefined control sequence.
+l.131 ...nel). Second, a Poisson means test \citep
+                                                  [$E$-test, ][]{KRISHNAMOOR...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:131: Missing } inserted.
+<inserted text> 
+                }
+l.131 ...l). Second, a Poisson means test \citep[$
+                                                  E$-test, ][]{KRISHNAMOORTH...
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+LaTeX Warning: Reference `fig:NGC5084_Aperture_Histograms' on page 1 undefined 
+on input line 131.
+
+./errLatex.tex:131: Extra }, or forgotten $.
+l.131 ...,\ref{fig:NGC5084_Aperture_Histograms}. }
+                                                  \\
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+./errLatex.tex:135: You can't use `macro parameter character #' in math mode.
+l.135 \noindent{\color{red} Line #
+                                  701 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+./errLatex.tex:136: Missing } inserted.
+<inserted text> 
+                }
+l.136 ... population is rejected at a p-value of $
+                                                  p<0.05$ in all four lobe r...
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+./errLatex.tex:136: Missing $ inserted.
+<inserted text> 
+                $
+l.136 ...of the lobe emission: north ($p=6.8\times
+                                                  10^{-7}$), east ($p=1.1\ti...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Reference `tab:Xray_flux' on page 1 undefined on input line 136.
+
+
+
+LaTeX Warning: Reference `subsec:results_xray_ima' on page 1 undefined on input
+ line 136.
+
+
+LaTeX Warning: Reference `Appendix:Xray_noPSFdeco_test' on page 1 undefined on 
+input line 136.
+
+./errLatex.tex:136: Undefined control sequence.
+l.136 ...tended X-ray emission detected by \SAUNAS
+                                                  \ around NGC\,5084 is (1) ...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:140: You can't use `macro parameter character #' in horizontal m
+ode.
+l.140 \noindent{\color{red} Line #
+                                  711 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+./errLatex.tex:141: LaTeX Error: \caption outside float.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.141 \noindent{\color{red} \caption
+                                    {Detection of the X-ray extended lobes a...
+
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./errLatex.tex:141: Undefined control sequence.
+l.141 ...ut Voronoi binning. \emph{Left:} \Chandra
+                                                  /ACIS X-ray flux ($0.3-2.0...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:141: Undefined control sequence.
+l.141 ...ses. PSF deconvolution was applied \citep
+                                                  [see Sec.\,\ref{sec:method...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: Reference `sec:methods' on page 1 undefined on input line 141.
+
+./errLatex.tex:141: Missing $ inserted.
+<inserted text> 
+                $
+l.141 ...sec:methods}, and ][]{borlaff+2024apj967_
+                                                  169} \emph{Color rectangle...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./errLatex.tex:141: Extra }, or forgotten $.
+l.141 ...methods}, and ][]{borlaff+2024apj967_169}
+                                                   \emph{Color rectangles:} ...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+./errLatex.tex:141: Missing $ inserted.
+<inserted text> 
+                $
+l.141 ... \emph{Yellow contours:} [$2$,$3$]$\sigma
+                                                  $ (dotted, dashed respecti...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./errLatex.tex:141: Undefined control sequence.
+l.141 ... detection limits as estimated by \SAUNAS
+                                                  \ (see Sec.\,\ref{subsec:r...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: Reference `subsec:results_xray_ima' on page 1 undefined on input
+ line 141.
+
+./errLatex.tex:148: Missing $ inserted.
+<inserted text> 
+                $
+l.148 \noindent Citation `ohlson+2024aj167_
+                                           31' on page 3 undefined on input ...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./errLatex.tex:149: You can't use `macro parameter character #' in math mode.
+l.149 \noindent{\color{red} Line #
+                                  118 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+./errLatex.tex:150: Undefined control sequence.
+l.150 ...lar galaxies in the Local Universe \citep
+                                                  []{ohlson+2024aj167_31}, w...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:150: Missing } inserted.
+<inserted text> 
+                }
+l.150 ...a total dynamical mass of approximately $
+                                                  1.3\times10^{12}$~M$_{\odo...
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+./errLatex.tex:150: Missing $ inserted.
+<inserted text> 
+                $
+l.150 ...ynamical mass of approximately $1.3\times
+                                                  10^{12}$~M$_{\odot}$ \cite...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./errLatex.tex:150: Undefined control sequence.
+l.150 ...ely $1.3\times10^{12}$~M$_{\odot}$ \citep
+                                                  {koribalski+2004aj128_16} ...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:150: Missing $ inserted.
+<inserted text> 
+                $
+l.150 ...~M$_{\odot}$ \citep{koribalski+2004aj128_
+                                                  16} and a mass-to-light ra...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./errLatex.tex:150: Extra }, or forgotten $.
+l.150 ..._{\odot}$ \citep{koribalski+2004aj128_16}
+                                                   and a mass-to-light ratio...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+./errLatex.tex:150: Missing $ inserted.
+<inserted text> 
+                $
+l.150 ...8_16} and a mass-to-light ratio $\Upsilon
+                                                   \geq 65$. Several feature...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Overfull \hbox (620.24385pt too wide) in paragraph at lines 46--150
+\OT1/cmr/m/n/10 2018\OML/cmm/m/it/10 apj\OT1/cmr/m/n/10 855[]31\OML/cmm/m/it/10
+ ; jones \OT1/cmr/m/n/10 + 2020\OML/cmm/m/it/10 apj\OT1/cmr/m/n/10 891[]33\OML/
+cmm/m/it/10 ; ma \OT1/cmr/m/n/10 + 2020\OML/cmm/m/it/10 apj\OT1/cmr/m/n/10 900[
+]64\OML/cmm/m/it/10 ; ma \OT1/cmr/m/n/10 + 2023\OML/cmm/m/it/10 apj\OT1/cmr/m/n
+/10 948[]1\OML/cmm/m/it/10 toidentifyhotgashalosandotherextendedemissioncompone
+nts:Theresults\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 seeFig: []\OT1/cmr/m/n/10 )\OML
+/cmm/m/it/10 showaclearexcessofemissionabovethatexpectedPSFscatteringuptothesam
+eradialdistanceaspredictedbythe$\OT1/cmr/m/it/10 3$\OML/cmm/m/it/10 ^^[$
+ []
+
+
+Overfull \hbox (55.41054pt too wide) in paragraph at lines 46--150
+[][][] 
+ []
+
+
+Overfull \hbox (62.79721pt too wide) in paragraph at lines 46--150
+[][]$$\OML/cmm/m/it/10 ; ^^N \OT1/cmr/m/n/10 =
+ []
+
+
+Overfull \hbox (143.36949pt too wide) in paragraph at lines 46--150
+\OT1/cmr/m/it/10 width at the half-maximum, fol-low-ing a sim-i-lar pro-ce-dure
+ as in [W$[]$,][]smith+2021mnras500$[]\OT1/cmr/m/n/10 933\OML/cmm/m/it/10 :Thev
+elocities\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 lowestandhighest\OT1/cmr/m/n/10 )\OM
+L/cmm/m/it/10 atwhichthespectrumreachesitshalf \OMS/cmsy/m/n/10 ^^@
+ []
+
+
+Overfull \hbox (492.60524pt too wide) in paragraph at lines 46--150
+\OML/cmm/m/it/10 maximumaremeasuredthroughinterpolationofthecombinedspectra:Thi
+sprocessisrepeatedusing$\OT1/cmr/m/it/10 N=1000$\OML/cmm/m/it/10 MonteCarlosimu
+lations; witheachdatapointbeingdisplacedbyitsspectralfluxuncertainty\OT1/cmr/m/
+n/10 (\OML/cmm/m/it/10 noiselevel\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 :Themeasured
+rotationvelocityisV$$[] \OT1/cmr/m/n/10 =
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 46--150
+
+ []
+
+
+Overfull \hbox (556.14917pt too wide) in paragraph at lines 46--150
+[][]$$\OML/cmm/m/it/10 ^^[$
+ []
+
+
+Overfull \hbox (1675.12479pt too wide) in paragraph at lines 46--150
+[][][] 
+ []
+
+
+Overfull \hbox (2443.97438pt too wide) in paragraph at lines 46--150
+[][][] 
+ []
+
+
+Overfull \hbox (346.27023pt too wide) in paragraph at lines 46--150
+[][]$\OT1/cmr/m/it/10 g-i$\OML/cmm/m/it/10 maps:BlackcontoursrepresenttheX \OMS
+/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 rayemission\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 
+seeFig: []\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 :Darkbluesquareinthecorerepresentst
+heFOVintherightpanel:[]F\OT1/cmr/m/n/10 475\OML/cmm/m/it/10 W \OMS/cmsy/m/n/10 
+^^@
+ []
+
+
+Overfull \hbox (1373.48657pt too wide) in paragraph at lines 46--150
+[][][] 
+ []
+
+
+Overfull \hbox (1362.2026pt too wide) in paragraph at lines 46--150
+[][]$$\OMS/cmsy/m/n/10 ^^X$\OT1/cmr/m/it/10 4--
+ []
+
+
+Overfull \hbox (163.37256pt too wide) in paragraph at lines 46--150
+\OT1/cmr/m/it/10 5 or-ders of mag-ni-tude less than the X-shaped ra-dio galax-i
+es from cheung+2009apj181$[]\OT1/cmr/m/n/10 48\OML/cmm/m/it/10 :Thisclassificat
+ioncorrelateswiththepredictionfrom[]thatX \OMS/cmsy/m/n/10 ^^@
+ []
+
+
+Overfull \hbox (629.90047pt too wide) in paragraph at lines 46--150
+[][]$$\OML/cmm/m/it/10 ^^U \OT1/cmr/m/n/10 =
+ []
+
+
+Overfull \hbox (2261.22787pt too wide) in paragraph at lines 46--150
+\OT1/cmr/m/n/10 5007[]\OML/cmm/m/it/10 A$ \OT1/cmr/m/it/10 that ex-tends for $\
+OML/cmm/m/it/10 R \OMS/cmsy/m/n/10 ^^X \OT1/cmr/m/n/10 20$ \OT1/cmr/m/it/10 kpc
+. \OT1/cmr/m/n/10 Hub-ble \OT1/cmr/m/it/10 Space Tele-scope and Fabry--P^^Serot
+ spec-tro-graph ob-ser-va-tions of NGC5252 by morse+1998apj505$[]\OT1/cmr/m/n/1
+0 59\OML/cmm/m/it/10 revealeddifferentkinematiccomponents; includinganinclinedc
+ircumnucleargasdiskwithadiameterof\OT1/cmr/m/n/10 3\OML/cmm/m/it/10 kpc; sugges
+tingthatNGC \OT1/cmr/m/n/10 5252\OML/cmm/m/it/10 underwentagalaxymergerinitspas
+thistory:Thisscenarioissupportedbyobservationalevidenceofthepresenceofbothasupe
+rmassive\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 main\OT1/cmr/m/n/10 )\OML/cmm/m/it/10
+ andanintermediate\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 accreting\OT1/cmr/m/n/10 )\
+OML/cmm/m/it/10 massblackholeinNGC \OT1/cmr/m/n/10 5252\OML/cmm/m/it/10 ; botha
+ctiveandemittinginradio[]:Moreover; recentresultspresentedby[]showastrong\OT1/c
+mr/m/n/10 ($$\OMS/cmsy/m/n/10 ^^X
+ []
+
+
+Overfull \hbox (546.15666pt too wide) in paragraph at lines 46--150
+\OT1/cmr/m/it/10 disk and the sym-met-ric ra-dio lobes, iden-ti-fied by irwin+2
+019aj158$[]\OT1/cmr/m/n/10 1\OML/cmm/m/it/10 aspartofaradioAGNjet:Takingintoacc
+ountallavailableobservationalevidenceconsolidatedinthispaper\OT1/cmr/m/n/10 (\O
+ML/cmm/m/it/10 seeFig: []\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ; weconsiderthreepot
+entialhypothesesfortheformationoftheobservedcross \OMS/cmsy/m/n/10 ^^@
+ []
+
+
+Overfull \hbox (1213.51335pt too wide) in paragraph at lines 46--150
+\OML/cmm/m/it/10 shapedX \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 rayemission \OT1
+/cmr/m/n/10 : (1)\OML/cmm/m/it/10 itistheremnantofare \OMS/cmsy/m/n/10 ^^@ \OML
+/cmm/m/it/10 orientedAGN\OT1/cmr/m/n/10 ; (2)\OML/cmm/m/it/10 itisanoutflowgene
+ratedbyanoverpressuredcocoonofhotgaspoweredbytheAGNpointingintothedenseISMwithi
+nmidplaneofthegalacticdisk\OT1/cmr/m/n/10 ; \OML/cmm/m/it/10 or\OT1/cmr/m/n/10 
+(3)\OML/cmm/m/it/10 itispartofafadedstarburstatthecoreofthegalaxy:Spectroscopic
+observationsonthecoreofNGC \OT1/cmr/m/n/10 5084\OML/cmm/m/it/10 donotsupportthe
+latterscenario; giventhelackofspectralevidenceforrecent\OT1/cmr/m/n/10 (\OML/cm
+m/m/it/10 massivestars\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 oron \OMS/cmsy/m/n/10 ^
+^@
+ []
+
+
+Overfull \hbox (745.651pt too wide) in paragraph at lines 46--150
+\OML/cmm/m/it/10 goingstarformationinthecore:Combiningthenewobservationaleviden
+cepresentedinthispaperwithpreviousanalysisbasedonenvironmentandmorphology\OT1/c
+mr/m/n/10 (\OML/cmm/m/it/10 seeSec: []\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ; wecon
+cludethatNGC \OT1/cmr/m/n/10 5084\OML/cmm/m/it/10 iswithhighprobabilitytheremna
+ntofatleastonemergerinthepast; whichisactivelyaccretingitsmultiplesatellites:[]
+ 
+ []
+
+
+Overfull \hbox (2914.08966pt too wide) in paragraph at lines 46--150
+[][]$\OT1/cmr/m/it/10 E$\OMS/cmsy/m/n/10 ^^@\OML/cmm/m/it/10 test; \OT1/cmr/m/n
+/10 ][][]\OML/cmm/m/it/10 evaluatesthenullhypothesisthatthedifferencebetweenthe
+observedandbackgroundemissionisstatisticallyzero:Werepeatthetest\OT1/cmr/m/n/10
+ 500\OML/cmm/m/it/10 timesusingMonteCarloandBootstrappingsimulationsinordertoob
+taintheprobabilitydistributionsforthesurfacebrightnessrepresentedintherightpane
+lofFig: []:[] 
+ []
+
+
+Overfull \hbox (1244.3177pt too wide) in paragraph at lines 46--150
+[][]$\OT1/cmr/m/it/10 p<0.05$\OML/cmm/m/it/10 inallfourloberegions:Inotherwords
+; thisanalysisprovidesstrongstatisticalsupportfortheexistenceofthelobeemission 
+\OT1/cmr/m/n/10 :
+ []
+
+
+Overfull \hbox (192.10944pt too wide) in paragraph at lines 46--150
+\OT1/cmr/m/n/10 12\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 2 \OMS/cmsy/m/n/10 ^^B \OT1
+/cmr/m/n/10 12\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 2$ \OT1/cmr/m/it/10 arc-sec ($\
+OT1/cmr/m/n/10 25 \OMS/cmsy/m/n/10 ^^B \OT1/cmr/m/n/10 25$ \OT1/cmr/m/it/10 pix
+-els) for vi-su-al-iza-tion pur-poses. PSF de-con-vo-lu-tion was ap-plied [see 
+Sec.[], and ][]borlaff+2024apj967$[]\OT1/cmr/m/n/10 69[]\OML/cmm/m/it/10 Fixeda
+perturestomeasureX \OMS/cmsy/m/n/10 ^^@
+ []
+
+
+Overfull \hbox (2.62933pt too wide) in paragraph at lines 46--150
+\OML/cmm/m/it/10 rayemissionintheNorth\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 blue\OT
+1/cmr/m/n/10 )\OML/cmm/m/it/10 ; West\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 red\OT1/
+cmr/m/n/10 )\OML/cmm/m/it/10 ; South\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 green\OT1
+/cmr/m/n/10 )\OML/cmm/m/it/10 ; andEast\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 orange
+\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 lobes:[]\OT1/cmr/m/n/10 [$\OT1/cmr/m/it/10 2$
+\OML/cmm/m/it/10 ;$\OT1/cmr/m/it/10 3$\OT1/cmr/m/n/10 ]$$\OML/cmm/m/it/10 ^^[$ 
+\OT1/cmr/m/it/10 (dot-ted, dashed re-spec-tively) de-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 46--150
+
+ []
+
+
+Overfull \hbox (95.0087pt too wide) in paragraph at lines 46--150
+[][]$\OT1/cmr/m/it/10 1.3$\OMS/cmsy/m/n/10 ^^B\OT1/cmr/m/n/10 10[]$ \OT1/cmr/m/
+it/10 M$[]$
+ []
+
+
+
+[1
+
+{/home/runner/work/_temp/setup-texlive-action/2024/texmf-var/fonts/map/pdftex/u
+pdmap/pdftex.map}]
+
+[2]
+
+./errLatex.tex:151: LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.151 \noindent
+               
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+./errLatex.tex:153: Missing $ inserted.
+<inserted text> 
+                $
+l.153 \noindent Citation `jones+2009mnras399_
+                                             683' on page 3 undefined on inp...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./errLatex.tex:154: You can't use `macro parameter character #' in math mode.
+l.154 \noindent{\color{red} Line #
+                                  135 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+./errLatex.tex:155: Missing } inserted.
+<inserted text> 
+                }
+l.155 \noindent{\color{red} effective radius $
+                                              R_{\rm e}$. For this galaxy, $...
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+./errLatex.tex:155: Missing $ inserted.
+<inserted text> 
+                $
+l.155 \noindent{\color{red} effective radius $R_
+                                                {\rm e}$. For this galaxy, $...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./errLatex.tex:155: Undefined control sequence.
+l.155 ...e for spirals and S0s measured by  \citet
+                                                  [][]{williams+2009mnras400...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:155: Missing $ inserted.
+<inserted text> 
+                $
+l.155 ...red by  \citet[][]{williams+2009mnras400_
+                                                  1665}.  \citet{zaw+2019apj...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./errLatex.tex:155: Extra }, or forgotten $.
+l.155 ...y  \citet[][]{williams+2009mnras400_1665}
+                                                  .  \citet{zaw+2019apj872_1...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+./errLatex.tex:155: Undefined control sequence.
+l.155 ...[][]{williams+2009mnras400_1665}.  \citet
+                                                  {zaw+2019apj872_134} class...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:155: Undefined control sequence.
+l.155 ...C\,5084 as an AGN according to the \citet
+                                                  {kewley+2001apj556_121} op...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:155: Undefined control sequence.
+l.155 ...based on 6dF Galaxy Survey spectra \citep
+                                                  {jones+2004mnras355_747,jo...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:155: Undefined control sequence.
+l.155 ...47,jones+2009mnras399_683}, as did \citet
+                                                  {irwin+2019aj158_21}, base...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: Reference `subsec:data_radiopol' on page 3 undefined on input li
+ne 155.
+
+./errLatex.tex:155: Undefined control sequence.
+l.155 ...uncated surface brightness profile \citep
+                                                  {comeron+2012apj759_98}, a...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:155: Undefined control sequence.
+l.155 ...s, such as minor and major mergers \citep
+                                                  {younger+2007apj670_269, b...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:155: Extra }, or forgotten $.
+l.155 ...007apj670_269, borlaff+2014aap570_103}. }
+                                                  \\
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+./errLatex.tex:159: You can't use `macro parameter character #' in math mode.
+l.159 \noindent{\color{red} Line #
+                                  141 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+./errLatex.tex:160: Undefined control sequence.
+l.160 ...sing X-ray observations from the \Chandra
+                                                  \ X-ray observatory. The f...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:160: Undefined control sequence.
+l.160 ...X-ray observatory. The first paper \citep
+                                                  [][\texttt{SAUNAS I}, here...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:160: Undefined control sequence.
+l.160 ...aff+2024apj967_169} describes the \SAUNAS
+                                                  \ (Selective Amplification...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:160: Undefined control sequence.
+l.160 ...w surface brightness emission in \Chandra
+                                                  /ACIS observations. See \t...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:160: Missing $ inserted.
+<inserted text> 
+                $
+l.160 ...e X-ray image reduction methodology. \par
+                                                    }\\
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./errLatex.tex:160: Missing } inserted.
+<inserted text> 
+                }
+l.160 ...e X-ray image reduction methodology. \par
+                                                    }\\
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+Overfull \hbox (1201.43819pt too wide) in paragraph at lines 151--160
+\OT1/cmr/m/it/10 S0s mea-sured by [][]williams+2009mnras400$[]\OT1/cmr/m/n/10 6
+65\OML/cmm/m/it/10 :[]classifiedNGC \OT1/cmr/m/n/10 5084\OML/cmm/m/it/10 asanAG
+Naccordingtothe[]opticalspectrallineratiocriteria; basedon\OT1/cmr/m/n/10 6\OML
+/cmm/m/it/10 dFGalaxySurveyspectra[]; asdid[]; basedonitsradioemission\OT1/cmr/
+m/n/10 (\OML/cmm/m/it/10 seeSec: []\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 :Inadditio
+n; NGC \OT1/cmr/m/n/10 5084\OML/cmm/m/it/10 isthehostofalargespheroidalbulgetha
+tgeneratesananti \OMS/cmsy/m/n/10 ^^@
+ []
+
+
+Overfull \hbox (271.30882pt too wide) in paragraph at lines 151--160
+\OML/cmm/m/it/10 truncatedsurfacebrightnessprofile[]; apotentialsignofpastgravi
+tationalinteractions; suchasminorandmajormergers[]:[] 
+ []
+
+
+Overfull \hbox (1344.9591pt too wide) in paragraph at lines 151--160
+[][]$ 
+ []
+
+
+
+[3]
+
+./errLatex.tex:161: LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.161 \noindent
+               
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+./errLatex.tex:163: Missing $ inserted.
+<inserted text> 
+                $
+l.163 \noindent Citation `borlaff+2024apj967_
+                                             169' on page 4 undefined on inp...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./errLatex.tex:164: You can't use `macro parameter character #' in math mode.
+l.164 \noindent{\color{red} Line #
+                                  186 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+./errLatex.tex:165: Undefined control sequence.
+l.165 ...lor{red} The two main products of \SAUNAS
+                                                  \ are surface brightness a...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:165: Undefined control sequence.
+l.165 ...n is a particularly critical step. \citet
+                                                  {borlaff+2024apj967_169} p...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:171: You can't use `macro parameter character #' in math mode.
+l.171 \noindent{\color{red} Line #
+                                  192 -----------------------  }\\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+./errLatex.tex:172: Undefined control sequence.
+l.172 ...ning techniques (Voronoi, CSMOOTH) \citep
+                                                  {cappellari+2003mnras342_3...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:172: Undefined control sequence.
+l.172 ...-ray astronomy for several decades \citep
+                                                  [see][and references there...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:172: Undefined control sequence.
+l.172 ...ervations. While \texttt{SAUNAS I} \citep
+                                                  {borlaff+2024apj967_169} i...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: Reference `Appendix:xray_tests' on page 4 undefined on input lin
+e 172.
+
+
+LaTeX Warning: Reference `subsec:results_xray_ima' on page 4 undefined on input
+ line 172.
+
+./errLatex.tex:332: Missing $ inserted.
+<inserted text> 
+                $
+l.332 \end{document}
+                    
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Overfull \hbox (1126.70174pt too wide) in paragraph at lines 161--332
+[][][] 
+ []
+
+
+Overfull \hbox (3191.91527pt too wide) in paragraph at lines 161--332
+[][][] 
+ []
+
+
+Overfull \hbox (29.05885pt too wide) in paragraph at lines 161--332
+\OML/cmm/m/it/10 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>
+ []
+
+
+Overfull \hbox (29.05885pt too wide) in paragraph at lines 161--332
+\OML/cmm/m/it/10 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 161--332
+
+ []
+
+
+
+[4]
+
+[5]
+
+[6] (./errLatex.aux)
+ ***********
+LaTeX2e <2024-06-01> patch level 2
+L3 programming layer <2024-10-09>
+ ***********
+
+
+LaTeX Warning: There were undefined references.
+
+ )
+(\end occurred inside a group at level 4)
+
+### simple group (level 4) entered at line 141 ({)
+### simple group (level 3) entered at line 110 ({)
+### simple group (level 2) entered at line 8 ({)
+### simple group (level 1) entered at line 8 ({)
+### bottom level 
 Here is how much of TeX's memory you used:
- 2055 strings out of 475443
- 32460 string characters out of 5770397
- 426818 words of memory out of 5000000
- 24768 multiletter control sequences out of 15000+600000
- 558723 words of font info for 38 fonts, out of 8000000 for 9000
+ 2108 strings out of 475443
+ 33335 string characters out of 5770397
+ 479460 words of memory out of 5000000
+ 24809 multiletter control sequences out of 15000+600000
+ 560882 words of font info for 46 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 57i,93n,65p,423b,402s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,10n,65p,1828b,398s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmbx10.pfb></home/runner/work/_temp/setup-texlive
+-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb></home/runne
+r/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmmi10.pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/font
+s/type1/public/amsfonts/cm/cmmi7.pfb></home/runner/work/_temp/setup-texlive-act
+ion/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></home/runner/work
+/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6
+.pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmr7.pfb></home/runner/work/_temp/setup-texlive-action/2024/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></home/runner/work/_temp/set
+up-texlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></h
+ome/runner/work/_temp/setup-texlive-action/2024/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmsy7.pfb></home/runner/work/_temp/setup-texlive-action/2024/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmti10.pfb></home/runner/work/_temp/setup-te
+xlive-action/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
+Output written on errLatex.pdf (6 pages, 179081 bytes).
+PDF statistics:
+ 83 PDF objects out of 1000 (max. 8388607)
+ 50 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
-./errLatex.tex:25:  ==> Fatal error occurred, no output PDF file produced!
