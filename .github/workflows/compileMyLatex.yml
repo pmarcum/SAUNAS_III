@@ -217,6 +217,7 @@ jobs:
             collection-mathscience
             collection-bibtexextra
             collection-fontutils
+            collection-latexrecommended
           cache: true
         continue-on-error: true
             
