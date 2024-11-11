@@ -460,8 +460,8 @@ jobs:
         if: ${{ always() && hashFiles('thereAreErrors.txt') }}
         uses: fifsky/html-to-pdf-action@master
         with:
-          htmlFile: "${{ HTMLFILE }}"
-          outputFile: "${{ PDFFILE }}"
+          htmlFile: $HTMLFILE
+          outputFile: $PDFFILE
           pdfOptions: '{"margin": {"top": "0.2in", "bottom": "0.3in", "left": "0.4in", "right": "0.3in" }}'
         continue-on-error: true
 
