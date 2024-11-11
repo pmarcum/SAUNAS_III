@@ -1,0 +1,1178 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.11.11)  11 NOV 2024 09:04
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**errLatex.tex
+(./errLatex.tex
+LaTeX2e <2024-06-01> patch level 2
+L3 programming layer <2024-10-09>
+
+(/home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/latex/base/ar
+ticle.cls
+Document Class: article 2024/02/08 v1.4n Standard LaTeX document class
+
+(/home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/latex/base/si
+ze10.clo
+File: size10.clo 2024/02/08 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count194
+\c@section=\count195
+\c@subsection=\count196
+\c@subsubsection=\count197
+\c@paragraph=\count198
+\c@subparagraph=\count199
+\c@figure=\count266
+\c@table=\count267
+\abovecaptionskip=\skip49
+\belowcaptionskip=\skip50
+\bibindent=\dimen141
+)
+(/home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/latex/geometr
+y/geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+
+(/home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/latex/graphic
+s/keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks17
+)
+(/home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/generic/iftex
+/ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+
+(/home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/generic/iftex
+/iftex.sty
+Package: iftex 2022/02/03 v1.0f TeX engine tests
+))
+\Gm@cnth=\count268
+\Gm@cntv=\count269
+\c@Gm@tempcnt=\count270
+\Gm@bindingoffset=\dimen142
+\Gm@wd@mp=\dimen143
+\Gm@odd@mp=\dimen144
+\Gm@even@mp=\dimen145
+\Gm@layoutwidth=\dimen146
+\Gm@layoutheight=\dimen147
+\Gm@layouthoffset=\dimen148
+\Gm@layoutvoffset=\dimen149
+\Gm@dimlist=\toks18
+)
+(/home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/latex/url/url
+.sty
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+(/home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/latex/xcolor/
+xcolor.sty
+Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
+
+(/home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/latex/graphic
+s-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 274.
+
+(/home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/latex/graphic
+s-def/pdftex.def
+File: pdftex.def 2024/04/13 v1.2c Graphics/color driver for pdftex
+)
+(/home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/latex/graphic
+s/mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
+Package xcolor Info: Model `RGB' extended on input line 1365.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
+)
+(/home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/latex/l3backe
+nd/l3backend-pdftex.def
+File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count271
+\l__pdf_internal_box=\box52
+) (./errLatex.aux)
+\openout1 = `errLatex.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(14.45377pt, 585.38747pt, 14.45377pt)
+* v-part:(T,H,B)=(14.45377pt, 766.06245pt, 14.45377pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=585.38747pt
+* \textheight=766.06245pt
+* \oddsidemargin=-57.81622pt
+* \evensidemargin=-57.81622pt
+* \topmargin=-94.81622pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=65.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+
+(/home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/context/base/
+mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count272
+\scratchdimen=\dimen150
+\scratchbox=\box53
+\nofMPsegments=\count273
+\nofMParguments=\count274
+\everyMPshowfont=\toks19
+\MPscratchCnt=\count275
+\MPscratchDim=\dimen151
+\MPnumerator=\count276
+\makeMPintoPDFobject=\count277
+\everyMPtoPDFconversion=\toks20
+)
+./errLatex.tex:8: Missing $ inserted.
+<inserted text> 
+                $
+l.8 .../actions/runs/11775344180/job/32795614085 }
+                                                  }\
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 8.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 8.
+./errLatex.tex:8: Extra }, or forgotten $.
+<recently read> \egroup 
+                        
+l.8 .../actions/runs/11775344180/job/32795614085 }
+                                                  }\
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+./errLatex.tex:8: Extra }, or forgotten $.
+l.8 ...actions/runs/11775344180/job/32795614085 }}
+                                                  \
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+./errLatex.tex:14: You can't use `macro parameter character #' in math mode.
+l.14 \noindent{\color{red} Line #
+                                 132 -----------------------  }\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+./errLatex.tex:15: Undefined control sequence.
+l.15 \noindent{\color{red} \aNewCommand
+                                       {new} }\
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent __
+                 ___________________________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent ___
+                  __________________________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent ____
+                   _________________________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent _____
+                    ________________________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent ______
+                     _______________________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent _______
+                      ______________________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent ________
+                       _____________________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent _________
+                        ____________________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent __________
+                         ___________________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent ___________
+                          __________________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent ____________
+                           _________________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent _____________
+                            ________________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent ______________
+                             _______________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent _______________
+                              ______________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent ________________
+                               _____________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent _________________
+                                ____________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent __________________
+                                 ___________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent ___________________
+                                  __________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent ____________________
+                                   _________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent _____________________
+                                    ________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent ______________________
+                                     _______________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent _______________________
+                                      ______________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent ________________________
+                                       _____________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent _________________________
+                                        ____________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent __________________________
+                                         ___________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent ___________________________
+                                          __________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent ____________________________
+                                           _________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent _____________________________
+                                            ________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent ______________________________
+                                             _______________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent _______________________________
+                                              ______________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent ________________________________
+                                               _____________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent _________________________________
+                                                ____________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent __________________________________
+                                                 ___________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 \noindent ___________________________________
+                                                  __________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...ndent ____________________________________
+                                                  __________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...dent _____________________________________
+                                                  __________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...ent ______________________________________
+                                                  __________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...nt _______________________________________
+                                                  __________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...t ________________________________________
+                                                  __________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ... _________________________________________
+                                                  __________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  __________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  __________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  __________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  ___________________________ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  __________________________ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  _________________________ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  ________________________ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  _______________________ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  ______________________ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  _____________________ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  ____________________ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  ___________________ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  __________________ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  _________________ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  ________________ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  _______________ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  ______________ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  _____________ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  ____________ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  ___________ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  __________ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  _________ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  ________ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  _______ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  ______ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  _____ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  ____ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  ___ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  __ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                  _ \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   _
+l.16 ...__________________________________________
+                                                   \
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:16: Missing { inserted.
+<to be read again> 
+                   \ 
+l.16 ...________________________________________ \
+                                                  
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:23: You can't use `macro parameter character #' in math mode.
+l.23 \noindent{\color{red} Line #
+                                 142 -----------------------  }\
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+LaTeX Warning: Reference `sec:methods' on page 1 undefined on input line 24.
+
+
+LaTeX Warning: Reference `sec:results' on page 1 undefined on input line 24.
+
+
+LaTeX Warning: Reference `sec:DIS' on page 1 undefined on input line 24.
+
+
+LaTeX Warning: Reference `sec:CON' on page 1 undefined on input line 24.
+
+./errLatex.tex:24: Undefined control sequence.
+l.24 ...All magnitudes are in the AB system \citep
+                                                  {oke1971apj170_193} unless...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./errLatex.tex:25: Missing { inserted.
+<to be read again> 
+                   _
+l.25 \noindent __
+                 ___________________________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:25: Missing { inserted.
+<to be read again> 
+                   _
+l.25 \noindent ___
+                  __________________________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:25: Missing { inserted.
+<to be read again> 
+                   _
+l.25 \noindent ____
+                   _________________________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:25: Missing { inserted.
+<to be read again> 
+                   _
+l.25 \noindent _____
+                    ________________________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:25: Missing { inserted.
+<to be read again> 
+                   _
+l.25 \noindent ______
+                     _______________________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:25: Missing { inserted.
+<to be read again> 
+                   _
+l.25 \noindent _______
+                      ______________________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:25: Missing { inserted.
+<to be read again> 
+                   _
+l.25 \noindent ________
+                       _____________________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:25: Missing { inserted.
+<to be read again> 
+                   _
+l.25 \noindent _________
+                        ____________________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:25: Missing { inserted.
+<to be read again> 
+                   _
+l.25 \noindent __________
+                         ___________________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:25: Missing { inserted.
+<to be read again> 
+                   _
+l.25 \noindent ___________
+                          __________________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:25: Missing { inserted.
+<to be read again> 
+                   _
+l.25 \noindent ____________
+                           _________________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:25: Missing { inserted.
+<to be read again> 
+                   _
+l.25 \noindent _____________
+                            ________________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:25: Missing { inserted.
+<to be read again> 
+                   _
+l.25 \noindent ______________
+                             _______________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:25: Missing { inserted.
+<to be read again> 
+                   _
+l.25 \noindent _______________
+                              ______________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:25: Missing { inserted.
+<to be read again> 
+                   _
+l.25 \noindent ________________
+                               _____________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:25: Missing { inserted.
+<to be read again> 
+                   _
+l.25 \noindent _________________
+                                ____________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:25: Missing { inserted.
+<to be read again> 
+                   _
+l.25 \noindent __________________
+                                 ___________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:25: Missing { inserted.
+<to be read again> 
+                   _
+l.25 \noindent ___________________
+                                  __________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:25: Missing { inserted.
+<to be read again> 
+                   _
+l.25 \noindent ____________________
+                                   _________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:25: Missing { inserted.
+<to be read again> 
+                   _
+l.25 \noindent _____________________
+                                    ________________________________________...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./errLatex.tex:25: Missing { inserted.
+<to be read again> 
+                   _
+l.25 \noindent ______________________
+                                     _______________________________________...
+(That makes 100 errors; please try again.) 
+Here is how much of TeX's memory you used:
+ 2055 strings out of 475443
+ 32460 string characters out of 5770397
+ 426818 words of memory out of 5000000
+ 24768 multiletter control sequences out of 15000+600000
+ 558723 words of font info for 38 fonts, out of 8000000 for 9000
+ 36 hyphenation exceptions out of 8191
+ 57i,93n,65p,423b,402s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+./errLatex.tex:25:  ==> Fatal error occurred, no output PDF file produced!
