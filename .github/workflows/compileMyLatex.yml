@@ -105,10 +105,15 @@ jobs:
           rm -f $PDFHIRES
           rm -f $HTMLFILE
           rm -f $OUTFILE
+          rm -f uncompressed.list
           # check to see if there are any images to be compressed
           rm -f uncompressed.list
           ls -la *UNCOMPRESSED.* > uncompressed.list
           cat uncompressed.list
+          if [ ! -s uncompressed.list ]; then 
+             # the file is empty so remove it
+             rm -f uncompressed.list
+          fi
         continue-on-error: true
 
       - name: Post note showing that processing has started
@@ -135,8 +140,9 @@ jobs:
         continue-on-error: true
     
       - name: Compress images to go into the paper
-        if: ${{ always() && ! -s uncompressed.list }}
+        if: ${{ always() && hashFiles('uncompressed.list') }}
         run: |
+          rm -f uncompressed.list
           bigfile=500000
           minDpi=150  # optimal dpi for pdf files
           maxWidthInches=6.5   #inches
@@ -511,6 +517,7 @@ jobs:
           rm -f bibout.txt
           rm -f $CORENAME.synctex.gz
           rm -f $CORENAME.out
+          rm -f uncompressed.list
         continue-on-error: true
       
       - name: Post new files to folder
