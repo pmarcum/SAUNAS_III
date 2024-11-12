@@ -130,7 +130,7 @@ jobs:
           cache: true
         continue-on-error: true
     
-      - name: Compress images
+      - name: Compress images to go into the paper
         run: |
           bigfile=500000
           minDpi=150  # optimal dpi for pdf files
@@ -208,18 +208,11 @@ jobs:
             collection-fontutils
             collection-formatsextra
             collection-langenglish
-            collection-langgerman
             collection-latex
             collection-latexextra
             collection-latexrecommended
-            collection-luatex
             collection-mathscience
-            collection-metapost
-            collection-pictures
-            collection-plaingeneric
-            collection-pstricks
             collection-publishers
-            collection-xetex
           cache: true
         continue-on-error: true
             
