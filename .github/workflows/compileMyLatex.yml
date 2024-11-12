@@ -419,6 +419,8 @@ jobs:
              fi
           done < "html.txt"
           sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
+          rm -f "$HTMLFILE"
+          mv -f finHtml.html "$HTMLFILE"
           rm -f red.txt
           rm -f $STARTFILE
           touch $STARTFILE
