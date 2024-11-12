@@ -107,13 +107,13 @@ jobs:
           rm -f $OUTFILE
           rm -f uncompressed.list
           # check to see if there are any images to be compressed
-          rm -f uncompressed.list
           ls -la *UNCOMPRESSED.* > uncompressed.list
           cat uncompressed.list
           if [ ! -s uncompressed.list ]; then 
              # the file is empty so remove it
              rm -f uncompressed.list
           fi
+          ls
         continue-on-error: true
 
       - name: Post note showing that processing has started
