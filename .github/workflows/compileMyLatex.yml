@@ -105,6 +105,10 @@ jobs:
           rm -f $PDFHIRES
           rm -f $HTMLFILE
           rm -f $OUTFILE
+          # check to see if there are any images to be compressed
+          rm -f uncompressed.list
+          ls -la *UNCOMPRESSED.* > uncompressed.list
+          cat uncompressed.list
         continue-on-error: true
 
       - name: Post note showing that processing has started
@@ -131,6 +135,7 @@ jobs:
         continue-on-error: true
     
       - name: Compress images to go into the paper
+        if: ${{ always() && ! -s uncompressed.list }}
         run: |
           bigfile=500000
           minDpi=150  # optimal dpi for pdf files
