@@ -233,6 +233,7 @@ jobs:
         run: |
           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" 2>&1 | tee compileOut.txt
           cat compileOut.txt
+          ls -la *.pdf
           mv -f "$PDFFILE" "$PDFHIRES"
         continue-on-error: true
        
