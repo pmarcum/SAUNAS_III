@@ -150,6 +150,8 @@ jobs:
             sudo apt-get install texlive texlive-basic texlive-latex texlive-latex-extra \  
                texlive-bibtex-extra texlive-fonts-recommended texlive-latex-recommended texlive-mathscience
           fi
+          ls /usr/*
+          which latexmk
 
       #- name: Install ImageMagick
       #  uses: mfinelli/setup-imagemagick@v5
