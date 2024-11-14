@@ -151,7 +151,7 @@ jobs:
             #   texlive-bibtex-extra texlive-fonts-recommended texlive-latex-recommended texlive-mathscience
             sudo apt update
             sudo apt install texlive-latex-recommended
-            sudo apt install texlive-fonts-recommended texlive-bibtex-extra texlive-latex texlive-latex-extra texlive-latex-recommended texlive-math-science           
+            sudo apt install texlive-fonts-recommended texlive-bibtex-extra texlive-latex-extra texlive-latex-recommended        
           fi
           ls /usr/*
           which latexmk
