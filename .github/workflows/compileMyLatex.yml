@@ -147,11 +147,7 @@ jobs:
           if [[ "$CACHE_HIT" == 'true' ]]; then
             sudo cp --verbose --force --recursive ~/usr/share* /
           else
-            #sudo apt-get install texlive texlive-basic texlive-latex texlive-latex-extra \  
-            #   texlive-bibtex-extra texlive-fonts-recommended texlive-latex-recommended texlive-mathscience
-            sudo apt update
-            sudo apt install texlive-latex-base
-            #sudo apt install texlive-fonts-recommended texlive-bibtex-extra texlive-latex-extra texlive-latex-recommended        
+            docker pull texlive/texlive     
           fi
           echo ""
           echo ""
