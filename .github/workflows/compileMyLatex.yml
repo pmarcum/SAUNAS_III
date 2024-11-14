@@ -149,7 +149,9 @@ jobs:
           else
             #sudo apt-get install texlive texlive-basic texlive-latex texlive-latex-extra \  
             #   texlive-bibtex-extra texlive-fonts-recommended texlive-latex-recommended texlive-mathscience
-            sudo apt-get install texlive
+            sudo apt update
+            sudo apt install texlive-latex-recommended
+            sudo apt install texlive-fonts-recommended texlive-bibtex-extra texlive-latex texlive-latex-extra texlive-latex-recommended texlive-math-science           
           fi
           ls /usr/*
           which latexmk
