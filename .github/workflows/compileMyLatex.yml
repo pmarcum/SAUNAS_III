@@ -213,12 +213,10 @@ jobs:
             scheme-basic
             collection-bibtexextra
             collection-fontsrecommended
-            collection-formatsextra
             collection-latex
             collection-latexextra
             collection-latexrecommended
             collection-mathscience
-            collection-publishers
           cache: true
         continue-on-error: true
             
