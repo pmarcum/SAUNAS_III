@@ -212,13 +212,8 @@ jobs:
           packages:
             scheme-basic
             collection-bibtexextra
-            collection-binextra
-            collection-context
-            collection-fontsextra
             collection-fontsrecommended
-            collection-fontutils
             collection-formatsextra
-            collection-langenglish
             collection-latex
             collection-latexextra
             collection-latexrecommended
