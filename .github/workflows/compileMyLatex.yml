@@ -151,6 +151,10 @@ jobs:
           #fi
           sudo apt update
           sudo snap install texlive-basic --beta
+        continue-on-error: true
+
+      - name: Text installation
+        run: |
           echo ""
           echo ""
           echo "================================================================================================================"
@@ -160,7 +164,7 @@ jobs:
           echo "                                            ==============="
           ls /usr/*
           which latexmk
-
+          
       #- name: Install ImageMagick
       #  uses: mfinelli/setup-imagemagick@v5
       #  with:
