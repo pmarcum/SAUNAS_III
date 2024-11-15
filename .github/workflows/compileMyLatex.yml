@@ -133,64 +133,23 @@ jobs:
           git push
         continue-on-error: true
 
-      - name: Cache latex installations
-        id: cache-latex
-        uses: actions/cache@v4
-        with:
-          path: "~/usr/share"
-          key:  ${{ runner.os }}-latex
+      #- name: Cache latex installations
+      #  id: cache-latex
+      #  uses: actions/cache@v4
+      #  with:
+      #    path: "~/usr/share"
+      #    key:  ${{ runner.os }}-latex
 
-      - name: Install latex
-        env:
-          CACHE_HIT: ${{ steps.cache-latex.outputs.cache-hit }}
-        run: |
-          #if [[ "$CACHE_HIT" == 'true' ]]; then
-          #  sudo cp --verbose --force --recursive ~/usr/share* /
-          #else
-          #  sudo apt-get install texlive     
-          #fi
-          sudo apt-get purge texlive*
-          sudo rm -rf /usr/local/texlive/*
-          rm -rf ~/.texlive
-          sudo rm -rf /usr/local/share/texmf
-          sudo rm -rf /var/lib/texmf
-          sudo rm -rf /etc/texmf
-          sudo apt-get remove tex-common --purge
-          rm -rf ~/.texlive
-          sudo apt install wget perl-tk
-          wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
-          tar -xzf install-tl-unx.tar.gz
-          cd install-tl-*
-          sudo ./install-tl
-          export PATH=/usr/local/texlive/2021/bin/x86_64-linux${PATH:+:${PATH}}
-          export INFOPATH=/usr/local/texlive/2021/texmf-dist/doc/info${INFOPATH:+${INFOPATH}}
-          sudo apt install equivs --no-install-recommends freeglut3
-          wget -O debian-equivs-2021-ex.txt https://www.tug.org/texlive/files/debian-equivs-2021-ex.txt
-          equivs-build debian-equivs-2021-ex.txt
-          sudo dpkg -i texlive-local_2021.99999999-1_all.deb
-          sudo apt install -f
-        continue-on-error: true
-
-      - name: Text installation
-        run: |
-          echo ""
-          echo ""
-          echo "================================================================================================================"
-          echo "      ================================================================================================="
-          echo "                 =========================================================================="
-          echo "                            ================================================="
-          echo "                                            ==============="
-          ls /usr/*
-          echo ""
-          echo ""
-          echo "-------------------------------------------------------------------------------------------------------------------"
-          echo "-------------------------------------------------------------------------------------------------------------------"
-          ls /usr/share/texinfo
-          echo ""
-          echo ""
-          echo "******************************************************************************************************************"
-          which latexmk
-          
+      #- name: Install latex
+      #  env:
+      #    CACHE_HIT: ${{ steps.cache-latex.outputs.cache-hit }}
+      #  run: |
+      #    #if [[ "$CACHE_HIT" == 'true' ]]; then
+      #    #  sudo cp --verbose --force --recursive ~/usr/share* /
+      #    #else
+      #    #  sudo apt-get install texlive     
+      #    #fi
+         
       #- name: Install ImageMagick
       #  uses: mfinelli/setup-imagemagick@v5
       #  with:
@@ -261,22 +220,31 @@ jobs:
           git push
         continue-on-error: true
 
-      ## https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
-      ## https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
-      ## https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
-      #- name: Install texlive
-      #  uses: teatimeguest/setup-texlive-action@v3.3.3
-      #  with:
-      #    packages:
-      #      scheme-basic
-      #      collection-bibtexextra
-      #      collection-fontsrecommended
-      #      collection-latex
-      #      collection-latexextra
-      #      collection-latexrecommended
-      #      collection-mathscience
-      #    cache: true
-      #  continue-on-error: true
+      # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
+      # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
+      # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
+      - name: Install texlive
+        uses: teatimeguest/setup-texlive-action@v3.3.3
+        with:
+          packages:
+            scheme-basic
+            collection-bibtexextra
+            collection-fontsrecommended
+            collection-latex
+            collection-latexextra
+            collection-latexrecommended
+            collection-mathscience
+          cache: false
+          run: |
+            echo ""
+            echo "       HERE WE ARE !!!!!!   "
+            echo ""
+            which latexmk
+            echo ""
+            echo "----------------------------------------------------------------------------------------------------"
+            echo "----------------------------------------------------------------------------------------------------"
+            ls
+        continue-on-error: true
             
       - name: Compile paper
         # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
