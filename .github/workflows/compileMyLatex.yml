@@ -150,7 +150,7 @@ jobs:
           #  sudo apt-get install texlive     
           #fi
           sudo apt update
-          sudo snap install texlive-basic
+          sudo snap install texlive-basic --beta
           echo ""
           echo ""
           echo "================================================================================================================"
