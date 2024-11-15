@@ -149,7 +149,8 @@ jobs:
           #else
           #  sudo apt-get install texlive     
           #fi
-          FROM registry.gitlab.com/islandoftex/images/texlive:latest
+          sudo apt-get install texlive
+          sudo apt-get update
         continue-on-error: true
 
       - name: Text installation
