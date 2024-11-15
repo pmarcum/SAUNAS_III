@@ -144,11 +144,12 @@ jobs:
         env:
           CACHE_HIT: ${{ steps.cache-latex.outputs.cache-hit }}
         run: |
-          if [[ "$CACHE_HIT" == 'true' ]]; then
-            sudo cp --verbose --force --recursive ~/usr/share* /
-          else
-            docker pull texlive/texlive     
-          fi
+          #if [[ "$CACHE_HIT" == 'true' ]]; then
+          #  sudo cp --verbose --force --recursive ~/usr/share* /
+          #else
+          #  sudo apt-get install texlive     
+          #fi
+          sudo apt-get install texlive
           echo ""
           echo ""
           echo "================================================================================================================"
