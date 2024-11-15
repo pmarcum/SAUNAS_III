@@ -149,7 +149,8 @@ jobs:
           #else
           #  sudo apt-get install texlive     
           #fi
-          sudo apt-get install texlive
+          sudo apt update
+          sudo snap install texlive-basic
           echo ""
           echo ""
           echo "================================================================================================================"
