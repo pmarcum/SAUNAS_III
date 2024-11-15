@@ -235,16 +235,19 @@ jobs:
             collection-latexrecommended
             collection-mathscience
           cache: false
-          run: |
-            echo ""
-            echo "       HERE WE ARE !!!!!!   "
-            echo ""
-            which latexmk
-            echo ""
-            echo "----------------------------------------------------------------------------------------------------"
-            echo "----------------------------------------------------------------------------------------------------"
-            ls
         continue-on-error: true
+
+      - name: check installation
+        run: |
+          which latex
+          echo ""
+          echo ""
+          echo ""
+          ls /usr/*
+          echo ""
+          echo ""
+          echo ""
+          which latexmk
             
       - name: Compile paper
         # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
