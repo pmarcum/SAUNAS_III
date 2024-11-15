@@ -150,7 +150,7 @@ jobs:
           #  sudo apt-get install texlive     
           #fi
           sudo apt update
-          sudo snap install texlive-basic --beta
+          sudo apt-get install texlive texlive-latex-extra cm-super
         continue-on-error: true
 
       - name: Text installation
