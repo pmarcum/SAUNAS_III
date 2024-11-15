@@ -149,8 +149,26 @@ jobs:
           #else
           #  sudo apt-get install texlive     
           #fi
-          sudo apt-get install texlive
-          sudo apt-get update
+          sudo apt-get purge texlive*
+          sudo rm -rf /usr/local/texlive/*
+          rm -rf ~/.texlive
+          sudo rm -rf /usr/local/share/texmf
+          sudo rm -rf /var/lib/texmf
+          sudo rm -rf /etc/texmf
+          sudo apt-get remove tex-common --purge
+          rm -rf ~/.texlive
+          sudo apt install wget perl-tk
+          wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
+          tar -xzf install-tl-unx.tar.gz
+          cd install-tl-*
+          sudo ./install-tl
+          export PATH=/usr/local/texlive/2021/bin/x86_64-linux${PATH:+:${PATH}}
+          export INFOPATH=/usr/local/texlive/2021/texmf-dist/doc/info${INFOPATH:+${INFOPATH}}
+          sudo apt install equivs --no-install-recommends freeglut3
+          wget -O debian-equivs-2021-ex.txt https://www.tug.org/texlive/files/debian-equivs-2021-ex.txt
+          equivs-build debian-equivs-2021-ex.txt
+          sudo dpkg -i texlive-local_2021.99999999-1_all.deb
+          sudo apt install -f
         continue-on-error: true
 
       - name: Text installation
@@ -168,6 +186,9 @@ jobs:
           echo "-------------------------------------------------------------------------------------------------------------------"
           echo "-------------------------------------------------------------------------------------------------------------------"
           ls /usr/share/texinfo
+          echo ""
+          echo ""
+          echo "******************************************************************************************************************"
           which latexmk
           
       #- name: Install ImageMagick
