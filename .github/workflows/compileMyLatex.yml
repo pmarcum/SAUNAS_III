@@ -150,11 +150,11 @@ jobs:
       #    #  sudo apt-get install texlive     
       #    #fi
          
-      #- name: Install ImageMagick
-      #  uses: mfinelli/setup-imagemagick@v5
-      #  with:
-      #    cache: true
-      #  continue-on-error: true
+      - name: Install ImageMagick
+        uses: mfinelli/setup-imagemagick@v5
+        with:
+          cache: true
+        continue-on-error: true
     
       - name: Compress images to go into the paper
         if: ${{ always() && hashFiles('uncompressed.list') }}
