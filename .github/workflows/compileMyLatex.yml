@@ -452,14 +452,14 @@ jobs:
           echo "html"  >> $STARTFILE
         continue-on-error: true
 
-      #- name: compress PDF
-      #  if: ${{ always() && ! hashFiles('thereAreErrors.txt') }}
-      #  uses: jy95/ghostscript-action@v1
-      #  with:
-      #    file: "${{ github.event.inputs.file2compile }}_hiRes.pdf"
-      #    output: "${{ github.event.inputs.file2compile }}.pdf"
-      #    arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
-      #  continue-on-error: true
+      - name: compress PDF
+        if: ${{ always() && ! hashFiles('thereAreErrors.txt') }}
+        uses: jy95/ghostscript-action@v1
+        with:
+          file: "${{ github.event.inputs.file2compile }}_hiRes.pdf"
+          output: "${{ github.event.inputs.file2compile }}.pdf"
+          arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
+        continue-on-error: true
 
       - name: update START status file if compilation successful
         if: ${{ always() && ! hashFiles('thereAreErrors.txt') }}
