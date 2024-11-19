@@ -260,6 +260,9 @@ jobs:
           # all the below because pruned bib file does not need to be created.
           if [[ "$(grep -Eq "\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=true; fi
           if [[ "$(grep -Eq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=false; fi
+          echo ""
+          echo "${makeNewPrunedBib}"
+          echo "- - - - - - - - - - - - - - - - - - - - - - - - - - "
           if $makeNewPrunedBib; then
              rm -f pruned.bib
              touch pruned.bib
