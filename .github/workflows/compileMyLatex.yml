@@ -276,7 +276,7 @@ jobs:
              # for 2 or more of the character to left of plus sign". Periods also cause problems, as do dashes, and have to likewise be treated. 
              modcites=( "${cites[@]//\+/\\+}" )
              modcites=( "${modcites[@]//\-/\\-}" )
-             modcites=( "${modcites[@]//\./\\.}" )
+             modcites=( "${modcites[@]//\./\[.\]}" )
              # Search for each of the cites in the bibfile(s) and extract the relevant full bib item for that citation, to 
              # put into the pruned bibfile
              for (( i=0; i<8; i++ )); do
