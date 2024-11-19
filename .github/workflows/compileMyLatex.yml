@@ -280,6 +280,9 @@ jobs:
              # Search for each of the cites in the bibfile(s) and extract the relevant full bib item for that citation, to 
              # put into the pruned bibfile
              echo ${bibfiles[@]}
+             for (( i=0; i<10; i++ )); do
+               echo "${modcites[$i]}"
+             done
              echo "============================================================================"
              grep -zoE "\@[^{]+\{[^a-zA-Z0-9 ]*${modcites[10]}[^@]+" ${bibfiles[@]}
              echo "==================================================================="
