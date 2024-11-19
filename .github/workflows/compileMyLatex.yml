@@ -267,27 +267,38 @@ jobs:
              echo "making a new pruned bib file!!!!"
              rm -f pruned.bib
              touch pruned.bib
+             echo "270"
              # get a list of bib files used in this document:
              readarray -t res < <(grep -Eo "Database file #[0-9]+: [^.]+\.bib" compileOut.txt | sed -r 's/^[^:][^:]*: ([^.][^.]*\.bib *$)/\1/g')
+             echo "273"
              readarray -t bibfiles < <(printf '%s\n' "${res[@]}" | awk '!seen[$0]++')
-          fi
-          # In the first one or two iterations of the latex compilation, bibliography references wont be resolved but rather
-          # will appear as errors in the compilation log.  Use those errors to get a list of all  citations in the paper
-          readarray -t cites < <( grep 'Package natbib Warning: Citation `' compileOut.txt | sed -r 's/^[^`][^`]*`//g;s/'\''.*$//g' | sort -f -u )
-          # stuff this list into a file to retrieve later for the output file
-          printf "%s\n" "${cites[@]}" > cites.txt
-          if $makeNewPrunedBib; then
+             echo "275"
+             printf "%s\n" "${bibfiles[@]}"
+             # In the first one or two iterations of the latex compilation, bibliography references wont be resolved but rather
+             # will appear as errors in the compilation log.  Use those errors to get a list of all  citations in the paper
+             readarray -t cites < <( grep 'Package natbib Warning: Citation `' compileOut.txt | sed -r 's/^[^`][^`]*`//g;s/'\''.*$//g' | sort -f -u )
+             echo "281"
+             printf "%s\n" "${cites[@]}"
+             # stuff this list into a file to retrieve later for the output file
+             printf "%s\n" "${cites[@]}" > cites.txt
+             echo "285"
              # any plus signs in the citation bib code causes problems because they are not escaped. The  below substitutes all plus signs and 
              # replaces with escaped pluses, so that grep will perform search on literal plus sign rather than interpret plus sign as meaning "search
              # for 2 or more of the character to left of plus sign". Periods also cause problems, as do dashes, and have to likewise be treated. 
              modcites=( "${cites[@]//\+/\\+}" )
+             echo "289"
              modcites=( "${modcites[@]//\-/\\-}" )
+             echo "291"
              modcites=( "${modcites[@]//\./\\.}" )
+             echo "293"
+             printf "%s\n" "${modcites[@]}"
              # Search for each of the cites in the bibfile(s) and extract the relevant full bib item for that citation, to 
              # put into the pruned bibfile
              for (( i=0; i<${#modcites[@]}; i++ )); do
+                echo "i=$i"
                 grep -zoE "@[^{]+\{[^a-zA-Z0-9]*${modcites[$i]}[^@]+" "${bibfiles[@]}" >> pruned.bib
              done
+             echo "301"
              sed -ri 's/^[^@]+@/@/g;s/^([^@}])/  \1/g' pruned.bib
           fi
         continue-on-error: true
