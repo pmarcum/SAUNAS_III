@@ -266,9 +266,9 @@ jobs:
              # get a list of bib files used in this document:
              readarray -t res < <(grep -Eo "Database file #[0-9]+: [^.]+\.bib" compileOut.txt | sed -r 's/^[^:][^:]*: ([^.][^.]*\.bib *$)/\1/g')
              readarray -t bibfiles < <(printf '%s\n' "${res[@]}" | awk '!seen[$0]++')
-             for (( i=0; i<${#bibfiles[@]}; i++ )); do
-               sed -r 's/\./_DOT/g' "${bibfiles[$i]}"
-             done
+             ####for (( i=0; i<${#bibfiles[@]}; i++ )); do
+             ####  sed -r 's/\./_DOT/g' "${bibfiles[$i]}"
+             ####done
              # In the first one or two iterations of the latex compilation, bibliography references wont be resolved but rather
              # will appear as errors in the compilation log.  Use those errors to get a list of all  citations in the paper
              readarray -t cites < <( grep 'Package natbib Warning: Citation `' compileOut.txt | sed -r 's/^[^`][^`]*`//g;s/'\''.*$//g' | sort -f -u )
@@ -279,7 +279,7 @@ jobs:
              # for 2 or more of the character to left of plus sign". Periods also cause problems, as do dashes, and have to likewise be treated. 
              modcites=( "${cites[@]//\+/\\+}" )
              modcites=( "${modcites[@]//\-/\\-}" )
-             modcites=( "${modcites[@]//\./_DOT}" )
+             modcites=( "${modcites[@]//\./\\\.}" )
              # Search for each of the cites in the bibfile(s) and extract the relevant full bib item for that citation, to 
              # put into the pruned bibfile
              for (( i=0; i<8; i++ )); do
