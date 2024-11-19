@@ -259,8 +259,12 @@ jobs:
           # determine if the pruned bib file is already being used in the document. If so, we should bypass 
           # all the below because pruned bib file does not need to be created.
           if [[ "$(grep -Eq "\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=true; fi
+          echo ''
+          echo "makeNewPrunedBib: ${makeNewPrunedBib}" 
           if [[ "$(grep -Eq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=false; fi
+          echo "makeNewPrunedBib: ${makeNewPrunedBib}" 
           if $makeNewPrunedBib; then
+             echo "making a new pruned bib file!!!!"
              rm -f pruned.bib
              touch pruned.bib
              # get a list of bib files used in this document:
