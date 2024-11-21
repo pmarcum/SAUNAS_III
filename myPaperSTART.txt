@@ -1,4 +1,4 @@
-2024-11-21T09:58:35Z 1732183115660
-https://github.com/pmarcum/SAUNAS_III/actions/runs/11950823733/job/33313126164
+2024-11-21T11:07:52Z 1732187272776
+https://github.com/pmarcum/SAUNAS_III/actions/runs/11951971610/job/33316721049
 https://raw.githubusercontent.com/pmarcum/SAUNAS_III/main/myPaper.html
-pdf
+precomp
