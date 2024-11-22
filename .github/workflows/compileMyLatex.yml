@@ -444,11 +444,6 @@ jobs:
            arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
         continue-on-error: true
 
-      - name: see if ghostscript is in /usr
-        run: |
-           ls /usr/bin
-           which gs
-
       - name: update START status file if compilation successful
         if: ${{ always() && ! hashFiles('thereAreErrors.txt') }}
         run: |
@@ -460,22 +455,6 @@ jobs:
            echo "pdf"  >> $STARTFILE
         continue-on-error: true
         
-      #- name: Make the error PDF file
-      #  if: ${{ always() && hashFiles('thereAreErrors.txt') }}
-      #  uses: fifsky/html-to-pdf-action@master
-      #  with:
-      #    htmlFile: finHtml.html
-      #    outputFile: finHtml.pdf
-      #    pdfOptions: '{"margin": {"top": "0.2in", "bottom": "0.3in", "left": "0.4in", "right": "0.3in" }}'
-      #  continue-on-error: true
-      #
-      #- name: Change error PDF file name
-      #  if: ${{ always() && hashFiles('thereAreErrors.txt') }}
-      #  run: |
-      #    mv -f finHtml.html "$HTMLFILE"
-      #    mv -f finHtml.pdf "$PDFFILE"
-      #  continue-on-error: true
-
       - name: Finalize compilation warning and errors output
         run: |
            # finalize the compilation output file by putting a few sentences at the top
