@@ -446,8 +446,8 @@ jobs:
 
       - name: see if ghostscript is in /usr
         run: |
-           ls /usr
-           which ghostscript
+           ls /usr/bin
+           which gs
 
       - name: update START status file if compilation successful
         if: ${{ always() && ! hashFiles('thereAreErrors.txt') }}
