@@ -32,7 +32,7 @@ jobs:
   # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
   build_latex:
     #runs-on: ubuntu-latest
-    runs-on: ubuntu-24.04-64core
+    runs-on: ubuntu-24.04
     continue-on-error: true
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
