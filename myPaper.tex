@@ -658,61 +658,57 @@ For extended sources, increased aperture size results in fainter limiting sensit
 The use of large spatial binning is not needed for the brighter regions of emission. Adaptive binning methods such as CSMOOTH \citep{ebeling+2006mnras368_65} or Voronoi binning \citep{cappellari+2003mnras342_345, diehl+2006mnras368_497} take advantage of the anisotropies of the emission in the detector and bin the low surface brightness regions (typically the outskirts or halos) more aggressively than for brighter sections of the image (typically the core of the galaxy). These methods, including Voronoi binning (used by \SAUNAS), have been extensively used in the literature to analyze extended low surface brightness emission Chandra and XMM-Newton observations \citep[see ][and references therein]{ebeling+2007apj661_33,gonzalezmartin+2009aap506_1107,broos+2010apj714_1582, ebeling+2010mnras407_83, xue+2011apj195_10, hodgeskluck+2012apj746_167, wang+2024apj962_188}. While \citet[][\SAUNAS\, I]{borlaff+2024apj967_169} provides extensive quality-checks (see Sec.\,2.3 in the original paper), we triple-check the results presented in Sec.\,\ref{subsec:results_xray_ima} by presenting two additional tests to assess the detection of extended emission around the core of NGC\,5084 (see Appendix \ref{Appendix:Xray_noPSFdeco_test} and \ref{Appendix:Xray_novoro_test}).
 
 
-\subsection{Detection of X-ray extended emission without PSF deconvolution or Voronoi binning}
-\label{Appendix:Xray_noPSFdeco_test}
+%\subsection{Detection of X-ray extended emission without PSF deconvolution or Voronoi binning}
+%\label{Appendix:Xray_noPSFdeco_test}
 
-To test if the significance of the detected extended X-ray emission is independent of the processing methodology applied by \SAUNAS\ (PSF deconvolution, Voronoi binning), this section applies an alternative methodology widely used in extragalactic X-ray astronomy to detect extended sources: compare the radial emission profile of the target with that of the PSF of the instrument \citep{fabbiano+2017apj842_4,fabbiano+2018apj855_131, jones+2020apj891_133,ma+2020apj900_164,ma+2023apj948_61}. If a significant excess flux is detected above those predicted by the scaled PSF, then extended emission must be present in the source.
+%To test if the significance of the detected extended X-ray emission is independent of the processing methodology applied by %\SAUNAS\ (PSF deconvolution, Voronoi binning), this section applies an alternative methodology widely used in extragalactic %X-ray astronomy to detect extended sources: compare the radial emission profile of the target with that of the PSF of the %instrument \citep{fabbiano+2017apj842_4,fabbiano+2018apj855_131, jones+2020apj891_133,ma+2020apj900_164,ma+2023apj948_61}. If a %significant excess flux is detected above those predicted by the scaled PSF, then extended emission must be present in the %source.
 
-We simulate the \Chandra/ACIS PSF using the \texttt{MARX} software following the procedure described in the \ciao\ documentation\footnote{\ciao/\texttt{MARX}: \url{https://cxc.cfa.harvard.edu/ciao/threads/marx_sim/}}. The PSF takes into account the exact location of the source in the focal plane of ACIS, and the spectral energy distribution of the source as well. The PSF generation process is also described in steps 4--6 of Sec.\,2.2.1 in \citet{borlaff+2024apj967_169}. To ensure that the PSF profile is well-sampled at high radii (associated with the outskirts of the galaxy, the region of interest), the generated PSF contains $3\times10^6$ events generated through multiple ray-tracing simulations (more than two orders of magnitude higher than all the events registered in the \Chandra/ACIS observations of NGC\,5084). This approach ensures that any potential excess of source counts compared with those of the PSF is not a false positive.
+%We simulate the \Chandra/ACIS PSF using the \texttt{MARX} software following the procedure described in the \ciao\ %documentation\footnote{\ciao/\texttt{MARX}: \url{https://cxc.cfa.harvard.edu/ciao/threads/marx_sim/}}. The PSF takes into %account the exact location of the source in the focal plane of ACIS, and the spectral energy distribution of the source as %well. The PSF generation process is also described in steps 4--6 of Sec.\,2.2.1 in \citet{borlaff+2024apj967_169}. To ensure %that the PSF profile is well-sampled at high radii (associated with the outskirts of the galaxy, the region of interest), the %generated PSF contains $3\times10^6$ events generated through multiple ray-tracing simulations (more than two orders of %magnitude higher than all the events registered in the \Chandra/ACIS observations of NGC\,5084). This approach ensures that %any potential excess of source counts compared with those of the PSF is not a false positive.
 
-To generate the galaxy profile, all point sources (potentially associated with XRBs or background quasars) are removed similar to \SAUNAS's approach, with the exception of the core of the galaxy which, given its role as the main contributor to the scattered light emission, is left intact. Finally, the PSF central surface brightness profile is scaled to the central surface brightness of the observed galaxy, comparing their radial variation of surface brightness.
+%To generate the galaxy profile, all point sources (potentially associated with XRBs or background quasars) are removed similar %to \SAUNAS's approach, with the exception of the core of the galaxy which, given its role as the main contributor to the %scattered light emission, is left intact. Finally, the PSF central surface brightness profile is scaled to the central surface %brightness of the observed galaxy, comparing their radial variation of surface brightness.
 
-The results are shown in Fig.\,\ref{fig:NGC5084_psf_profile}. The left panel shows the broadband ($0.3-2.0$ keV) \Chandra/ACIS X-ray flux map as generated by the \ciao\ pipeline, demonstrating signs of potential extended emission. No PSF deconvolution or adaptive smoothing was applied in this image. In the right panel, the surface brightness profile of the broadband X-ray flux is compared to the scaled PSF of the \Chandra/ACIS observations at the position of NGC\,5084. The \Chandra/ACIS PSF at the observational setup of NGC\,5084 has a FWHM of 1.1".
+%The results are shown in Fig.\,\ref{fig:NGC5084_psf_profile}. The left panel shows the broadband ($0.3-2.0$ keV) \Chandra/ACIS %X-ray flux map as generated by the \ciao\ pipeline, demonstrating signs of potential extended emission. No PSF deconvolution %or adaptive smoothing was applied in this image. In the right panel, the surface brightness profile of the broadband X-ray %flux is compared to the scaled PSF of the \Chandra/ACIS observations at the position of NGC\,5084. The \Chandra/ACIS PSF at the %observational setup of NGC\,5084 has a FWHM of 1.1".
 
-Compared to the PSF and the background, we detect a $>>3\sigma$ excess of X-ray emission up to a radial distance of $\sim90$ arcsec from the core in the observations of NGC\,5084. Between 25-90 arcsec, the PSF scattered light is two orders of magnitude dimmer than the detected extended emission of NGC\,5084. The radial limit of the profile is compatible with the $3\sigma$ radial limit of the emission detected by \SAUNAS\ (see Sec.\,\ref{subsec:results_xray_ima}).
+%Compared to the PSF and the background, we detect a $>>3\sigma$ excess of X-ray emission up to a radial distance of $\sim90$ %arcsec from the core in the observations of NGC\,5084. Between 25-90 arcsec, the PSF scattered light is two orders of %magnitude dimmer than the detected extended emission of NGC\,5084. The radial limit of the profile is compatible with the %$3\sigma$ radial limit of the emission detected by \SAUNAS\ (see Sec.\,\ref{subsec:results_xray_ima}).
 
-The test presented in this section demonstrates three important points:
+%The test presented in this section demonstrates three important points:
 
-\begin{enumerate}
-    \item The extended emission of NGC\,5084 is not caused by PSF contamination from the strong core emission or by a Voronoi binning artifact.
+%\begin{enumerate}
+%    \item The extended emission of NGC\,5084 is not caused by PSF contamination from the strong core emission or by a Voronoi %binning artifact.
     
-    \item The statistical significance of the extended X-ray emission is independent of the PSF deconvolution and spatial binning applied.
+%    \item The statistical significance of the extended X-ray emission is independent of the PSF deconvolution and spatial %binning applied.
 
-    \item The total extension of NGC\,5084's broad-band emission in the \SAUNAS-generated maps is compatible with the $3\sigma$ limit measured using a completely independent methodology (X-ray surface brightness profile limit).
-\end{enumerate}
+%    \item The total extension of NGC\,5084's broad-band emission in the \SAUNAS-generated maps is compatible with the $3\sigma$ %limit measured using a completely independent methodology (X-ray surface brightness profile limit).
+%\end{enumerate}
 
-\begin{figure*}[]
-\begin{center}
- % trim left bottom right top 
-\begin{overpic}[trim={60 0 60 0}, clip, width=\textwidth]{FIGURES/NGC5084_nodeco_psf_test.png}
-\end{overpic}
-\caption{Detection of the X-ray extended emission around NGC\,5084 without PSF deconvolution or adaptive smoothing. \emph{Left:} \Chandra/ACIS X-ray flux ($0.3-2.0$ keV) map rebinned to $12.2\times12.2$ arcsec$^2$ ($25\times25$ pixels) for visualization purposes. No PSF deconvolution or adaptive smoothing was applied (i.e., Voronoi binning). \emph{Yellow contours:} [$2$,$3$]$\sigma$ (dotted, dashed respectively) detection limits as estimated by \SAUNAS\ (see Sec.\,\ref{subsec:results_xray_ima}, for reference. \emph{Right:} Surface brightness profile of the non-PSF deconvolved, non-adaptively smoothed flux map (purple circles) and scaled \Chandra/ACIS PSF (blue solid line). \emph{Red dashed circle and vertical line:} \SAUNAS\ $3\sigma$ radial detection limit. \emph{Silver solid circle and vertical line:} Surface brightness profile radial detection limit of the non-PSF deconvolved, non-adaptive smoothed flux map. Sky background subtraction was applied to the flux map and surface brightness profile. We remark that the spatial binning of the flux map in the left panel of Fig.\,\ref{fig:NGC5084_psf_profile} is only for visualization purposes, and the surface brightness profile was generated based on the full resolution (0.492") dataset. See legend for details.}
-\label{fig:NGC5084_psf_profile}
-\end{center}
-\end{figure*}
-
-
-\subsection{Independent detection of NGC\,5084 X-ray lobes without Voronoi binning}
-\label{Appendix:Xray_novoro_test}
-
-In this section we assess the statistical significance of the detection of the four X-ray emission lobes reported in Sec.\,\ref{subsec:results_xray_ima}, using the PSF deconvolved observations but without employing Voronoi binning. First, four simple box regions are defined, based on the contours detected in Sec.\,\ref{subsec:results_xray_ima} to isolate the emission from the brighter galactic core. The region parameters are listed in Table \ref{tab:Xray_flux} and represented in the left panel of Fig.\,\ref{fig:NGC5084_Aperture_Histograms} (see legend in the right panel). Second, a Poisson means test \citep[$E$-test, ][]{KRISHNAMOORTHY200423} evaluates the null hypothesis that the difference between the observed and background emission is statistically zero. We repeat the test 500 times using Monte Carlo and Bootstrapping simulations in order to obtain the probability distributions for the surface brightness represented in the right panel of Fig.\,\ref{fig:NGC5084_Aperture_Histograms}.
-
-The analysis indicates that the surface brightness X-ray emission in the apertures is significantly higher than that of the background. The null hypothesis that the surface brightness distributions of lobe emission and the background are sampled from a common parent population is rejected at a p-value of $p<0.05$ in all four lobe regions. In other words, this analysis provides strong statistical support for the existence of the lobe emission: north ($p=6.8\times10^{-7}$), east ($p=1.1\times10^{-6}$), south ($p=1.3\times10^{-4}$) and west ($p\sim0.01$). The fluxes integrated over the different apertures are tabulated in Table \ref{tab:Xray_flux}. This result supports and verifies the findings described in Sec.\,\ref{subsec:results_xray_ima} and Appendix \ref{Appendix:Xray_noPSFdeco_test}. We conclude that the extended X-ray emission detected by \SAUNAS\ around NGC\,5084 is (1) statistically significant; (2) independent of the PSF deconvolution process; and  (3) independent of the Voronoi binning methodology applied.
+%\begin{figure*}[]
+%\begin{center}
+% % trim left bottom right top 
+%\begin{overpic}[trim={60 0 60 0}, clip, width=\textwidth]{FIGURES/NGC5084_nodeco_psf_test.png}
+%\end{overpic}
+%\caption{Detection of the X-ray extended emission around NGC\,5084 without PSF deconvolution or adaptive smoothing. \emph{Left:} %\Chandra/ACIS X-ray flux ($0.3-2.0$ keV) map rebinned to $12.2\times12.2$ arcsec$^2$ ($25\times25$ pixels) for visualization %purposes. No PSF deconvolution or adaptive smoothing was applied (i.e., Voronoi binning). \emph{Yellow contours:} %[$2$,$3$]$\sigma$ (dotted, dashed respectively) detection limits as estimated by \SAUNAS\ (see %Sec.\,\ref{subsec:results_xray_ima}, for reference. \emph{Right:} Surface brightness profile of the non-PSF deconvolved, %non-adaptively smoothed flux map (purple circles) and scaled \Chandra/ACIS PSF (blue solid line). \emph{Red dashed circle and %vertical line:} \SAUNAS\ $3\sigma$ radial detection limit. \emph{Silver solid circle and vertical line:} Surface brightness %profile radial detection limit of the non-PSF deconvolved, non-adaptive smoothed flux map. Sky background subtraction was %applied to the flux map and surface brightness profile. We remark that the spatial binning of the flux map in the left panel %of Fig.\,\ref{fig:NGC5084_psf_profile} is only for visualization purposes, and the surface brightness profile was generated %based on the full resolution (0.492") dataset. See legend for details.}
+%\label{fig:NGC5084_psf_profile}
+%\end{center}
+%\end{figure*}
 
 
+%\subsection{Independent detection of NGC\,5084 X-ray lobes without Voronoi binning}
+%\label{Appendix:Xray_novoro_test}
 
-\begin{figure*}[]
-\begin{center}
- % trim left bottom right top 
-\begin{overpic}[trim={60 0 60 0}, clip, width=\textwidth]{FIGURES/NGC5084_Regions_Probability_Test.png}
-\put(55,175){\color{yellow} {\textsf{Bin 25"$\times$25" - PSF deconvolved}}}
-\end{overpic}
-\caption{Detection of the X-ray extended lobes around NGC\,5084 without Voronoi binning. \emph{Left:} \Chandra/ACIS X-ray flux ($0.3-2.0$ keV) map rebinned to $12.2\times12.2$ arcsec ($25\times25$ pixels) for visualization purposes. PSF deconvolution was applied \citep[see Sec.\,\ref{sec:methods}, and ][]{borlaff+2024apj967_169} \emph{Color rectangles:} Fixed apertures to measure X-ray emission in the North (blue), West (red), South (green), and East (orange) lobes. \emph{Yellow contours:} [$2$,$3$]$\sigma$ (dotted, dashed respectively) detection limits as estimated by \SAUNAS\ (see Sec.\,\ref{subsec:results_xray_ima}, for reference. \emph{Right:} Color coded histograms represent the event probability distributions for the background (grey) and the four lobe apertures. The $p$-values for the null hypothesis that the flux distributions in the lobe apertures are compatible with the background are represented in the legend.}
-\label{fig:NGC5084_Aperture_Histograms}
-\end{center}
-\end{figure*}
+%In this section we assess the statistical significance of the detection of the four X-ray emission lobes reported in %Sec.\,\ref{subsec:results_xray_ima}, using the PSF deconvolved observations but without employing Voronoi binning. First, four %simple box regions are defined, based on the contours detected in Sec.\,\ref{subsec:results_xray_ima} to isolate the emission %from the brighter galactic core. The region parameters are listed in Table \ref{tab:Xray_flux} and represented in the left %panel of Fig.\,\ref{fig:NGC5084_Aperture_Histograms} (see legend in the right panel). Second, a Poisson means test %\citep[$E$-test, ][]{KRISHNAMOORTHY200423} evaluates the null hypothesis that the difference between the observed and %background emission is statistically zero. We repeat the test 500 times using Monte Carlo and Bootstrapping simulations in %order to obtain the probability distributions for the surface brightness represented in the right panel of %Fig.\,\ref{fig:NGC5084_Aperture_Histograms}.
 
+%The analysis indicates that the surface brightness X-ray emission in the apertures is significantly higher than that of the %background. The null hypothesis that the surface brightness distributions of lobe emission and the background are sampled from %a common parent population is rejected at a p-value of $p<0.05$ in all four lobe regions. In other words, this analysis %provides strong statistical support for the existence of the lobe emission: north ($p=6.8\times10^{-7}$), east %($p=1.1\times10^{-6}$), south ($p=1.3\times10^{-4}$) and west ($p\sim0.01$). The fluxes integrated over the different apertures %are tabulated in Table \ref{tab:Xray_flux}. This result supports and verifies the findings described in %Sec.\,\ref{subsec:results_xray_ima} and Appendix \ref{Appendix:Xray_noPSFdeco_test}. We conclude that the extended X-ray %emission detected by \SAUNAS\ around NGC\,5084 is (1) statistically significant; (2) independent of the PSF deconvolution %process; and  (3) independent of the Voronoi binning methodology applied.
 
+%\begin{figure*}[]
+%\begin{center}
+% % trim left bottom right top 
+%\begin{overpic}[trim={60 0 60 0}, clip, width=\textwidth]{FIGURES/NGC5084_Regions_Probability_Test.png}
+%\put(55,175){\color{yellow} {\textsf{Bin 25"$\times$25" - PSF deconvolved}}}
+%\end{overpic}
+%\caption{Detection of the X-ray extended lobes around NGC\,5084 without Voronoi binning. \emph{Left:} \Chandra/ACIS X-ray flux %($0.3-2.0$ keV) map rebinned to $12.2\times12.2$ arcsec ($25\times25$ pixels) for visualization purposes. PSF deconvolution was %applied \citep[see Sec.\,\ref{sec:methods}, and ][]{borlaff+2024apj967_169} \emph{Color rectangles:} Fixed apertures to measure %X-ray emission in the North (blue), West (red), South (green), and East (orange) lobes. \emph{Yellow contours:} %[$2$,$3$]$\sigma$ (dotted, dashed respectively) detection limits as estimated by \SAUNAS\ (see %Sec.\,\ref{subsec:results_xray_ima}, for reference. \emph{Right:} Color coded histograms represent the event probability %distributions for the background (grey) and the four lobe apertures. The $p$-values for the null hypothesis that the flux %distributions in the lobe apertures are compatible with the background are represented in the legend.}
+%\label{fig:NGC5084_Aperture_Histograms}
+%\end{center}
+%\end{figure*}
 
 %\section{\Chandra\ X-ray images in sub-bands}
 %\label{Appendix:Xray_subbands}
