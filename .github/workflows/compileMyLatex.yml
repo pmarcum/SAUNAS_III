@@ -202,7 +202,7 @@ jobs:
       # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
       # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
       - name: Install texlive
-        uses: teatimeguest/setup-texlive-action@v3.3.3
+        uses: teatimeguest/setup-texlive-action@v3
         with:
           packages:
              scheme-basic
@@ -212,6 +212,8 @@ jobs:
              collection-latexextra
              collection-latexrecommended
              collection-mathscience
+             collection-contrib
+             collection-binextra
           cache: true
         continue-on-error: true
             
