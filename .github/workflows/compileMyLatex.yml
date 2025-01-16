@@ -214,6 +214,7 @@ jobs:
              collection-mathscience
              collection-contrib
              collection-binextra
+             collection-publishers
           cache: true
         continue-on-error: true
             
