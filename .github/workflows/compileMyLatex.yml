@@ -213,6 +213,7 @@ jobs:
              collection-latexrecommended
              collection-mathscience
              collection-binextra
+             collection-publishers
           cache: true
         continue-on-error: true
             
