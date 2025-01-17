@@ -205,18 +205,24 @@ jobs:
         uses: teatimeguest/setup-texlive-action@v3
         with:
           packages:
-             scheme-basic
+             collection-basic
              collection-bibtexextra
              collection-binextra
-             collection-fontsrecommended
+             collection-context
              collection-fontsextra
+             collection-fontsrecommended
+             collection-formatsextra
+             collection-fontutils
              collection-latex
              collection-latexextra
              collection-latexrecommended
              collection-mathscience
-             collection-plaingeneric
+             collection-metapost
              collection-pictures
+             collection-plaingeneric
+             collection-pstricks
              collection-publishers
+             collection-texworks
              amsfonts
              graphics
              scrextend
