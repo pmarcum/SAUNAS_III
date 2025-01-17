@@ -209,6 +209,7 @@ jobs:
              collection-bibtexextra
              collection-binextra
              collection-fontsrecommended
+             collection-fontsextra
              collection-latex
              collection-latexextra
              collection-latexrecommended
@@ -216,7 +217,13 @@ jobs:
              collection-plaingeneric
              collection-pictures
              collection-publishers
-             a0poster
+             amsfonts
+             graphics
+             scrextend
+             rotating
+             tools
+             threeparttable
+             units
           cache: true
         continue-on-error: true
             
