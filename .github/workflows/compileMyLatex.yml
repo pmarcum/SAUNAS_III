@@ -207,14 +207,15 @@ jobs:
           packages:
              scheme-basic
              collection-bibtexextra
+             collection-binextra
              collection-fontsrecommended
              collection-latex
              collection-latexextra
              collection-latexrecommended
              collection-mathscience
-             collection-binextra
+             collection-plaingeneric
+             collection-pictures
              collection-publishers
-             aastex
              a0poster
           cache: true
         continue-on-error: true
