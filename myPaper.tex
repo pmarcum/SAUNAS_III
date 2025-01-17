@@ -12,48 +12,49 @@
 %  document, simply type:  
 %  \usepackage{FUpackages}
 % -------------------------------------------
+\usepackage[abs]{overpic} %  <===
+\usepackage{amssymb} %  <===
 \usepackage{amsmath}
-\usepackage{multirow}
-\usepackage{breakurl}
-\usepackage{hyperref}
-\usepackage{textcomp}
-\usepackage[abs]{overpic}
-\usepackage{cleveref}[2012/02/15]
-\usepackage{fancyhdr}
-\usepackage{graphicx}
-\usepackage{amssymb}
-\usepackage[toc,page]{appendix}
-\usepackage{floatrow}
-\usepackage{nicefrac}
-\usepackage{siunitx}
-\usepackage[dvipsnames]{xcolor}
-% Table float box with bottom caption, box width adjusted to content
-%\newfloatcommand{capbtabbox}{table}[][\FBwidth]
+\usepackage{array} \usepackage{fontawesome} \usepackage{tikz} % for NOTANONschedule.tex %  <===
 \usepackage{blindtext}
-%\usepackage{caption}% or \usepackage{capt-of}
-\usepackage{capt-of}% or \usepackage{caption}
 \usepackage{booktabs}
-\usepackage{varwidth}
-\usepackage{scrextend}
-\usepackage{titlesec}
-\usepackage[figuresright]{rotating}  % for sidewaystable
-\usepackage{array} \usepackage{fontawesome} \usepackage{tikz} % for NOTANONschedule.tex
+\usepackage{breakurl}
+\usepackage{capt-of}% or \usepackage{caption}
+\usepackage{cleveref}[2012/02/15]
 \usepackage{colortbl} 
+\usepackage[dvipsnames]{xcolor} %  <=== texlive-base???
+\usepackage{fancyhdr}
+\usepackage[figuresright]{rotating}  % for sidewaystable %  <===
+\usepackage{floatrow}
+\usepackage[flushleft]{threeparttable}  % for NOTANONtasks.tex %  <===
+\usepackage{graphicx} %  <===
+\usepackage{hyperref}
+\usepackage{multirow}
+\usepackage{nicefrac} %  <===
+\usepackage[parfill]{parskip}  % to control paragraph spacing %  <===
+\usepackage{scrextend} %  <===
+\usepackage{siunitx}
 \usepackage{tablefootnote}
-\usepackage[flushleft]{threeparttable}  % for NOTANONtasks.tex
+\usepackage{tcolorbox}
+\usepackage{textcomp}
+\usepackage{titlesec}
+\usepackage[toc,page]{appendix} %  <===
+\usepackage{tocloft}
+\usepackage{varwidth}
+\usepackage{wrapfig}
+%
 \usetikzlibrary{shapes.multipart} \usetikzlibrary{arrows.meta, positioning, fit, shapes.misc}
 \usetikzlibrary{tikzmark,overlay-beamer-styles,bending} \usepackage{colortbl}
 % create the no-dollar sign to use in NOTANONschedule.tex to represent FTEs not covered in the proposal budget 
-\newcommand{\noDollarIcon}[4][-0.3][0.4mm][0.2][0.15]{{\raisebox{#1\normalbaselineskip}[0pt][0pt]{\begin{tikzpicture}
+\newcommand{\noDollarIcon}[4][-0.3][0.4mm][0.2][0.15]{\raisebox{#1\normalbaselineskip}[0pt][0pt]{\begin{tikzpicture}
    \draw[fill=white,draw=red,line width=#2] (0,0) circle[radius=#3];
    \draw[line width=#2,red] node[midway,black]{\faDollar} (#4,#4) -- (-#4,-#4);
    \draw[line width=#2,red] (#4,#4) -- (-#4,-#4);
-   \end{tikzpicture}}}}
+   \end{tikzpicture}}}
 % create a callout box
-\usepackage{wrapfig}
-\usepackage{tcolorbox}
-\usepackage{tocloft}
-\usepackage[parfill]{parskip}  % to control paragraph spacing
+% Table float box with bottom caption, box width adjusted to content
+%\newfloatcommand{capbtabbox}{table}[][\FBwidth] 
+%\usepackage{caption}% or \usepackage{capt-of}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%% FREQUENTLY USED formatting
