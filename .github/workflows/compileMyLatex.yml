@@ -214,6 +214,8 @@ jobs:
              collection-mathscience
              collection-binextra
              collection-publishers
+             aastex
+             a0poster
           cache: true
         continue-on-error: true
             
