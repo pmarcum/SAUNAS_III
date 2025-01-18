@@ -150,8 +150,8 @@
 \def\LeftFontstyle#1{\textbf{#1}}   % boldface left column text
 %--- table preamble definition bundled into the "T" variable
 \newcolumntype{T}{
-  |p{\LeftSideWidth}   % grant descriptors, e.g. "Title", "Source of Support", etc.
-  |p{\RightSideWidth}| % right side, giving details for each descriptor
+  p{\LeftSideWidth}   % grant descriptors, e.g. "Title", "Source of Support", etc.
+  p{\RightSideWidth} % right side, giving details for each descriptor
 }
 \begin{longtable}{T}   % adjust width and centering
 %---- make colorized top name banner
