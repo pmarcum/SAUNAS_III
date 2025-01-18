@@ -149,11 +149,14 @@
 %---- controls the font style of the text in the left side of table
 \def\LeftFontstyle#1{\textbf{#1}}   % boldface left column text
 %--- table preamble definition bundled into the "T" variable
-\newcolumntype{T}{
+%\newcolumntype{T}{
+%  p{\LeftSideWidth}   % grant descriptors, e.g. "Title", "Source of Support", etc.
+%  p{\RightSideWidth} % right side, giving details for each descriptor
+%}
+\begin{longtable}{   % adjust width and centering
   p{\LeftSideWidth}   % grant descriptors, e.g. "Title", "Source of Support", etc.
   p{\RightSideWidth} % right side, giving details for each descriptor
-}
-\begin{longtable}{T}   % adjust width and centering
+  }
 %---- make colorized top name banner
 \hline
 \multicolumn{2}{|c|}{\cellcolor{\NameBannerColor}\color{\NameBannerFontColor}\NameBannerFontstyle{Dr. Pamela M. Marcum (Science PI)}}\\ 
