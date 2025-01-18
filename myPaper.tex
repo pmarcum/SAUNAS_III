@@ -70,6 +70,37 @@
 % make the vertical space between paragraphs smaller than default
 %\addtolength{\parskip}{-5pt}
 
+
+\def\@mkpream#1{\gdef\@preamble{}\@lastchclass 4 \@firstamptrue
+   \let\@sharp\relax
+   \def\@startpbox##1{\unexpanded\expandafter{\expandafter
+                      \@startpbox\expandafter{\expandafter\dimexpr##1}}}\let\@endpbox\relax %<-----------
+   \let\do@row@strut\relax
+   \let\ar@align@mcell\relax
+   \@temptokena{#1}\@tempswatrue
+   \@whilesw\if@tempswa\fi{\@tempswafalse\the\NC@list}%
+   \count@\m@ne
+   \let\the@toks\relax
+   \prepnext@tok
+   \expandafter \@tfor \expandafter \@nextchar
+    \expandafter :\expandafter =\the\@temptokena \do
+   {\@testpach
+   \ifcase \@chclass \@classz \or \@classi \or \@classii
+     \or \save@decl \or \or \@classv \or \@classvi
+     \or \@classvii \or \@classviii
+     \or \@classx
+     \or \@classx \fi
+   \@lastchclass\@chclass}%
+   \ifcase\@lastchclass
+   \@acol \or
+   \or
+   \@acol \or
+   \@preamerr \thr@@ \or
+   \@preamerr \tw@ \@addtopreamble\@sharp \or
+   \or
+   \else  \@preamerr \@ne \fi
+   \def\the@toks{\the\toks}}
+   
 \begin{document}
 \def\WorPTfolder{NOTANONcurrentPending} % set the folder name where WorPT files are contained
 %---- controls width of the left and right columns
