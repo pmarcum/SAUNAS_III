@@ -1,17 +1,5 @@
 \documentclass{CORE-AAS/aastex631} 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%% FREQUENTLY USED \usepackage
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   Consolidates the \usepackage lines used almost universally in our 
-%   documents into a single file
-%   Note that one-off \usepackage are best put durectly in the
-%   document's preamble
-%
-%  To incorporate these \usepackages, in the preamble of your 
-%  document, simply type:  
-%  \usepackage{FUpackages}
-% -------------------------------------------
 \usepackage{amssymb} %  <=== amsfonts
 \usepackage{array} \usepackage{fontawesome} \usepackage{tikz} % for NOTANONschedule.tex %  <=== tools, collection-fontsextra, 
 \usepackage[figuresright]{rotating}  % for sidewaystable %  <=== rotating package
@@ -42,95 +30,48 @@
 \usepackage{tocloft}
 \usepackage{varwidth}
 \usepackage{wrapfig}
-%
-%%\usetikzlibrary{shapes.multipart} \usetikzlibrary{arrows.meta, positioning, fit, shapes.misc}
-%%\usetikzlibrary{tikzmark,overlay-beamer-styles,bending} \usepackage{colortbl}
-%%% create the no-dollar sign to use in NOTANONschedule.tex to represent FTEs not covered in the proposal budget 
-%%\newcommand{\noDollarIcon}[4][-0.3][0.4mm][0.2][0.15]{\raisebox{#1\normalbaselineskip}[0pt][0pt]{\begin{tikzpicture}
-%%   \draw[fill=white,draw=red,line width=#2] (0,0) circle[radius=#3];
-%%   \draw[line width=#2,red] node[midway,black]{\faDollar} (#4,#4) -- (-#4,-#4);
-%%   \draw[line width=#2,red] (#4,#4) -- (-#4,-#4);
-%%   \end{tikzpicture}}}
-% create a callout box
-% Table float box with bottom caption, box width adjusted to content
-%\newfloatcommand{capbtabbox}{table}[][\FBwidth] 
-%\usepackage{caption}% or \usepackage{capt-of}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%% FREQUENTLY USED formatting
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   Consolidates the formatting applied to our documents in a single file
-%   Note that one-off changes are best put durectly in the document's preamble
-%
-%  To incorporate these formatting commands, in the preamble of your 
-%  document, simply type:  
-%  \usepackage{FUformatting}
-% -------------------------------------------
-
 % Set the page margins: 
 \usepackage[top=1.0in, left=1in, right=1in, bottom=1.0in]{geometry}
-
 % allow for wrapping long text strings inside a cell within a table
 \newcolumntype{M}[1]{>{\begin{varwidth}[t]{#1}}l<{\end{varwidth}}}
 \definecolor{mediumelectricblue}{rgb}{0.01, 0.31, 0.59}
-
 % place a line at the top with title to the right and the program name to the left
 \definecolor{WatermarkColor}{HTML}{8887AD}
 \pagestyle{fancy}
 \fancyhf{}
 \fancyfoot[C]{\thepage}
-
 \titleformat{\section}{\centering\color{NavyBlue}\normalfont\large\bfseries}{\thesection}{1em}{}
 \titleformat{\subsection}{\centering\color{NavyBlue}\normalfont\large\itshape}{\thesubsection}{1em}{}
 \titleformat{\subsubsection}{\centering\color{NavyBlue}\normalfont\normalsize}{\thesubsubsection}{1em}{}
-
 \interfootnotelinepenalty=10000
 \crefformat{footnote}{#2\footnotemark[#1]#3}
-
 \def\square{\vrule height 4.5pt width 4pt depth -0.5pt}
 \def\threesquares{\square~\square~\square\ }
-
 % suppress new paragraph indentation
 \setlength\parindent{0pt}
-
 % put any extra white space appearing on a page at the bottom of the page
 \raggedbottom
-
 \newtcolorbox{callout}[4][]
 {colback=#3!5!white,colframe=#3!75!black,fonttitle=\bfseries,title={#4},#2,}
-
 \makeatletter \def\expinput#1{\@@input#1} \makeatother % needed when a partial table (without the top part) is inserted by \input
-
 % make the references appear as "blah blah blah [1,3] instead of (1;3)
 \setcitestyle{square}
 \setcitestyle{citesep={,}}
-
 % Controls the spacing between lines in the Table of Contents
 \setlength\cftparskip{2pt}
 \setlength\cftbeforesecskip{2pt}
 \setlength\cftaftertoctitleskip{2pt}
-
 \captionsetup[table]{font={stretch=1}}     %% change 1.2 as you like
 \captionsetup[figure]{font={stretch=1}}    %% change 1.2 as you like
-
 % Set up the spacing between paragraphs.  The first number below is the 
 % preferred spacing, and the plus 1pt minus 2pt is the amount of flexibility
 % given to the code to make the best use of the available space
 \parskip =12pt plus 1pt minus 2pt
-
 % make the vertical space between paragraphs smaller than default
 %\addtolength{\parskip}{-5pt}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
-
-
-%:::::::::::::: start NOTANONcurrentPending ::::::::::::::::
-%\clearpage            % [optional] (could instead use \newpage, or comment out)
 \def\WorPTfolder{NOTANONcurrentPending} % set the folder name where WorPT files are contained
-% ___________________________________________
-%       Default formatting preferences
-% ___________________________________________
 %---- controls width of the left and right columns
 \def\LeftSideWidth{1.5in}          % width of left side column
 \def\RightSideWidth{5.0in}         % width of right side column
@@ -149,10 +90,6 @@
 %---- controls the font style of the text in the left side of table
 \def\LeftFontstyle#1{\textbf{#1}}   % boldface left column text
 %--- table preamble definition bundled into the "T" variable
-%\newcolumntype{T}{
-%  p{\LeftSideWidth}   % grant descriptors, e.g. "Title", "Source of Support", etc.
-%  p{\RightSideWidth} % right side, giving details for each descriptor
-%}
 \begin{longtable}{   % adjust width and centering
   p{\LeftSideWidth}   % grant descriptors, e.g. "Title", "Source of Support", etc.
   p{\RightSideWidth} % right side, giving details for each descriptor
@@ -254,17 +191,6 @@ UGC 7346\\
 \hline
 \hline
 \end{longtable}
-%::::::::::::::: end NOTANONcurrentPending :::::::::::::::::
-
-\clearpage
-
-%::::::::::::::: start NOTANONbiosketches ::::::::::::::::::
-%\clearpage       % [optional] (could instead use \newpage, or comment out)
-\expinput{do_NOT_manually_edit/NOTANONbiosketches} % reset file parameters
-
-\begin{NOTANONbiosketches}
-\end{NOTANONbiosketches}  
-%:::::::::::::::: end NOTANONbiosketches :::::::::::::::::::
 
 \end{document}
 
