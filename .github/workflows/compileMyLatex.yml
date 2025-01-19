@@ -237,9 +237,17 @@ jobs:
         # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
         id: compilation
         run: |
-           tlmgr restore array
-           #/home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/latex/tools/array.sty
-           ls /home/runner/work/_temp/setup-texlive-action/2024/bin/x86_64-linux/
+           # Need to replace the array.sty with older version because of incompatibility issue. Until fixed in mid-2025,
+           # will need to keep this fix (array.sty is used in WorPT files). See more details here: 
+           #             https://github.com/AASJournals/AASTeX60/issues/149
+           #  /home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/latex/tools/array.sty
+           #  ls /home/runner/work/_temp/setup-texlive-action/2024/bin/x86_64-linux/
+           # download old file and replace
+           mv -rf /home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/latex/tools/array.sty \
+             /home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/latex/tools/OLDarray.sty
+           curl --output /home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/latex/tools/array.sty \
+             "https://mirror.las.iastate.edu/tex-archive/macros/latex/required/tools/array-2020-02-10.sty"
+           ls /home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/latex/tools/*.sty
            latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" 2>&1 | tee compileOut.txt
            echo "______________________________________________________________________________"
            cat compileOut.txt
