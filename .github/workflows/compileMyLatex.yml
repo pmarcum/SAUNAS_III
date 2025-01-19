@@ -245,8 +245,8 @@ jobs:
            # download old file and replace
            mv -f /home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/latex/tools/array.sty \
              /home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/latex/tools/OLDarray.sty
-           curl --output /home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/latex/tools/array.sty \
-             "https://mirror.las.iastate.edu/tex-archive/macros/latex/required/tools/array-2020-02-10.sty"
+           cp -f /home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/latex/tools/array-2020-02-10.sty \
+             /home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/latex/tools/array.sty
            ls /home/runner/work/_temp/setup-texlive-action/2024/texmf-dist/tex/latex/tools/*.sty
            latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" 2>&1 | tee compileOut.txt
            echo "______________________________________________________________________________"
