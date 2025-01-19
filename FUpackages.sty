@@ -47,7 +47,14 @@
 %   \draw[line width=#2,red] node[midway,black]{\faDollar} (#4,#4) -- (-#4,-#4);
 %   \draw[line width=#2,red] (#4,#4) -- (-#4,-#4);
 %   \end{tikzpicture}}}}
-%\newcommand{\textpic}{\begin{tikzpicture} \draw(-1,0) -- (3,10pt) -- (35:3);}
+\newcommand{\textpic}{\begin{tikzpicture}
+\begin{tikzpicture}[scale=1.5]
+\draw [line width=1.5pt] (0,0) -- (60:3) -- (3,0) -- cycle;
+\draw (.4,.2) node{$60^{\circ}$};
+\draw (2.6,.2) node{$60^\circ$};
+\draw (1.5,2.2 ) node {$60^{\circ}$};
+\end{tikzpicture}
+}
 % create a callout box
 \usepackage{wrapfig}
 \usepackage{tcolorbox}
