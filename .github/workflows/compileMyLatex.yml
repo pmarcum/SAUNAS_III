@@ -363,6 +363,9 @@ jobs:
                   if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then 
                      issue="${sorted[$j]}"
                      if [[ "${errtypes[$i]}" =~ "ERROR" ]]; then touch thereAreErrors.txt; fi
+                     # ######################### TEMPORARY ###########################
+                     rm -f thereAreErrors.txt
+                     # ###############################################################
                      break;
                   fi
               done
