@@ -300,7 +300,7 @@ jobs:
            # ....... if the pdf file was generated, then the errors must have not been fatal.
            noFatalErrors=false
            echo ${PDFFILE}
-           #if [[ "$(grep -Eq "output to '${PDFFILE}'" compileOut.txt)$?" == 0 ]]; then noFatalErrors=true; fi
+           if [[ "$(grep -Eq "output to '${PDFFILE}'" compileOut.txt)$?" == 0 ]]; then noFatalErrors=true; fi
            echo $noFatalErrors
            # ....... prepare the compilation log for processing by first removing all end-of-line characters
            touch errout.txt
