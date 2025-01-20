@@ -343,6 +343,10 @@ jobs:
            rm -f tmp.txt
            cat errout.txt | sort -r -t- -g -k1,1n -k2 -s | uniq | sed -r 's/\a/ /g' > tmp.txt
            mv -f tmp.txt errout.txt
+           echo "                      =========="
+           echo "          =================================="
+           echo "======================================================="
+           cat errout.txt
         continue-on-error: true
 
       - name: Process the errors and warnings
