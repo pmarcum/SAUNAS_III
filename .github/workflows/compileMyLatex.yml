@@ -301,7 +301,7 @@ jobs:
            noFatalErrors = false;
            echo ${PDFFILE}
            #if [[ "$(grep -Eq "output to '${PDFFILE}'" compileOut.txt)$?" == 0 ]]; then noFatalErrors=true; fi
-           echo ${noFatalErrors}
+           echo $noFatalErrors
            # ....... prepare the compilation log for processing by first removing all end-of-line characters
            touch errout.txt
            # ....... just to be safe, remove all \a, \t and \x0 because we use these as special markers later
