@@ -298,7 +298,7 @@ jobs:
       - name: Capture full compilation output
         run: |
            # ....... if the pdf file was generated, then the errors must have not been fatal.
-           noFatalErrors = false;
+           noFatalErrors=false
            echo ${PDFFILE}
            #if [[ "$(grep -Eq "output to '${PDFFILE}'" compileOut.txt)$?" == 0 ]]; then noFatalErrors=true; fi
            echo $noFatalErrors
