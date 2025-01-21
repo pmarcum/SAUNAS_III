@@ -16,7 +16,7 @@
 }}
 
 \newcommand{\dollarIcon}[1][{{-0.4}{0.4mm}{0.2}{0.15}}]{\innerDollarIcon#1}
-\newcommand{\innerDollarIcon}[4]{
+\newcommand{\innerDollarIcon}[3]{
 \raisebox{#1\normalbaselineskip}[0pt][0pt]{
 \begin{tikzpicture}
 \draw[fill=green,draw=black] (0,0) circle[radius=#2];
@@ -28,7 +28,7 @@
 \begin{document}
 
 \noDollarIcon[{-0.3}{0.4mm}{0.2}{0.15}]
-\dollarIcon[{-0.4}{0.4mm}{0.2}{0.15}]
+\dollarIcon[{-0.4}{0.2}{0.015}]
 
 %:::::::::::::: start NOTANONcurrentPending ::::::::::::::::
 %\clearpage            % [optional] (could instead use \newpage, or comment out)
