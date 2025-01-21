@@ -30,7 +30,9 @@ jobs:
   # how-to-automatically-update-resume-on-your-personal-site-from-overleaf-1fld
   # https://superuser.com/questions/1455483/how-to-get-wsl-use-git-bash-to-run-a-latexmk-command
   # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
-  jobs1:
+
+  #==========================  COMPRESS THE IMAGES IF THEY NEED IT
+  compressImages:
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
@@ -41,126 +43,6 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
 
-      - name: make a test file
-        run: |
-          touch testing
-
-  jobs2:
-    needs: jobs1
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    permissions:
-      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
-      contents: write
-      
-    steps:
-      - name: Clone repo
-        uses: actions/checkout@v4
-
-      - name: make a test file
-        run: |
-          ls
-
-  build_latex:
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    permissions:
-      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
-      contents: write
-      
-    steps:
-      - name: Clone repo
-        uses: actions/checkout@v4
-
-      - name: Get Job ID from GH API
-        id: job-id
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-        run: |
-           jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
-           job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
-           echo "the job id is: $job_id"
-           echo "job_id=$job_id" >> $GITHUB_OUTPUT
-        continue-on-error: true
-
-      - name: Define environmental variables
-        run: |
-           link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
-           echo "JOBLINK=$link2job" >> $GITHUB_ENV
-           echo "CORENAME=${{ github.event.inputs.file2compile }}" >> $GITHUB_ENV
-           echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >> $GITHUB_ENV
-           echo "OUTFILE=${{ github.event.inputs.file2compile }}Out.txt" >> $GITHUB_ENV
-           echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
-           echo "PDFHIRES=${{ github.event.inputs.file2compile }}_hiRes.pdf" >> $GITHUB_ENV
-           echo "HTMLFILE=${{ github.event.inputs.file2compile }}.html" >> $GITHUB_ENV
-           echo "STARTFILE=${{ github.event.inputs.file2compile }}START.txt" >> $GITHUB_ENV
-           echo "FULLLOG=${{ github.event.inputs.file2compile }}_full.log" >> $GITHUB_ENV
-           echo "LOG=${{ github.event.inputs.file2compile }}.log" >> $GITHUB_ENV
-           echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
-           pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
-           echo "PDFLINK=$pdflink" >> $GITHUB_ENV
-           htmllink="https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"
-           echo "HTMLLINK=$htmllink" >> $GITHUB_ENV
-        continue-on-error: true
-        
-      - name: Remove files to initiate compilation process
-        run: |
-           cat $STARTFILE
-           rm -f fin.txt
-           rm -f $FULLLOG
-           rm -f $LOG
-           rm -f $CORENAME.aux
-           rm -f $CORENAME.bbl
-           rm -f $CORENAME.blg
-           rm -f $CORENAME.fdb_latexmk
-           rm -f $CORENAME.fls
-           rm -f $CORENAME.sync*
-           rm -f inpaperCites.txt
-           rm -f thereAreErrors.txt
-           rm -f noFatalErrors.txt
-           rm -f doesNotUsePruned.txt
-           rm -f usedBibfile.txt
-           rm -f compileOut.txt*
-           rm -f errout.txt*
-           rm -f cites.txt
-           rm -f html.txt
-           rm -f warnout.txt
-           rm -f bibout.txt
-           rm -f tout.txt
-           rm -f $CORENAME.synctex.gz
-           rm -f $CORENAME.out
-           rm -f $STARTFILE
-           rm -f $PDFFILE
-           rm -f $PDFHIRES
-           rm -f $HTMLFILE
-           rm -f $OUTFILE
-           rm -f uncompressed.list
-           # check to see if there are any images to be compressed
-           ls -la *UNCOMPRESSED.* > uncompressed.list
-           if [ ! -s uncompressed.list ]; then 
-               # the file is empty so remove it
-               rm -f uncompressed.list
-           fi
-        continue-on-error: true
-
-      - name: Post note showing that processing has started
-        run: |
-           touch $STARTFILE
-           echo $TIMESTAMP >> $STARTFILE
-           echo $JOBLINK   >> $STARTFILE
-           echo $HTMLLINK  >> $STARTFILE
-           echo "precomp"  >> $STARTFILE
-
-      - name: Post updated files and START action notice to folder
-        run: |
-           git config --global user.email "email@gmail.com"
-           git config --global user.name "github actions"
-           git add .
-           git commit -m "Upload changed files"
-           git push
-        continue-on-error: true
-         
       - name: Install ImageMagick
         uses: mfinelli/setup-imagemagick@v5
         with:
@@ -221,7 +103,199 @@ jobs:
               fi
            done
         continue-on-error: true
+        
+  #==========================  GET THE DIRECTORY SET UP BY REMOVING OLD FILES
+  initializeFolder:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+      
+    steps:
+      - name: Define environmental variables
+        run: |
+           link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
+           echo "JOBLINK=$link2job" >> $GITHUB_ENV
+           echo "CORENAME=${{ github.event.inputs.file2compile }}" >> $GITHUB_ENV
+           echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >> $GITHUB_ENV
+           echo "OUTFILE=${{ github.event.inputs.file2compile }}Out.txt" >> $GITHUB_ENV
+           echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
+           echo "PDFHIRES=${{ github.event.inputs.file2compile }}_hiRes.pdf" >> $GITHUB_ENV
+           echo "HTMLFILE=${{ github.event.inputs.file2compile }}.html" >> $GITHUB_ENV
+           echo "STARTFILE=${{ github.event.inputs.file2compile }}START.txt" >> $GITHUB_ENV
+           echo "FULLLOG=${{ github.event.inputs.file2compile }}_full.log" >> $GITHUB_ENV
+           echo "LOG=${{ github.event.inputs.file2compile }}.log" >> $GITHUB_ENV
+           echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
+           pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
+           echo "PDFLINK=$pdflink" >> $GITHUB_ENV
+           htmllink="https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"
+           echo "HTMLLINK=$htmllink" >> $GITHUB_ENV
+        continue-on-error: true
 
+      - name: Remove files to initiate compilation process
+        run: |
+           cat $STARTFILE
+           rm -f fin.txt
+           rm -f $FULLLOG
+           rm -f $LOG
+           rm -f $CORENAME.aux
+           rm -f $CORENAME.bbl
+           rm -f $CORENAME.blg
+           rm -f $CORENAME.fdb_latexmk
+           rm -f $CORENAME.fls
+           rm -f $CORENAME.sync*
+           rm -f inpaperCites.txt
+           rm -f thereAreErrors.txt
+           rm -f noFatalErrors.txt
+           rm -f doesNotUsePruned.txt
+           rm -f usedBibfile.txt
+           rm -f compileOut.txt*
+           rm -f errout.txt*
+           rm -f cites.txt
+           rm -f html.txt
+           rm -f warnout.txt
+           rm -f bibout.txt
+           rm -f tout.txt
+           rm -f $CORENAME.synctex.gz
+           rm -f $CORENAME.out
+           rm -f $STARTFILE
+           rm -f $PDFFILE
+           rm -f $PDFHIRES
+           rm -f $HTMLFILE
+           rm -f $OUTFILE
+           rm -f uncompressed.list
+           # check to see if there are any images to be compressed
+           ls -la *UNCOMPRESSED.* > uncompressed.list
+           if [ ! -s uncompressed.list ]; then 
+               # the file is empty so remove it
+               rm -f uncompressed.list
+           fi
+        continue-on-error: true
+
+      - name: Post note showing that processing has started
+        run: |
+           touch $STARTFILE
+           echo $TIMESTAMP >> $STARTFILE
+           echo $JOBLINK   >> $STARTFILE
+           echo $HTMLLINK  >> $STARTFILE
+           echo "precomp"  >> $STARTFILE
+
+      - name: Post updated files and START action notice to folder
+        run: |
+           git config --global user.email "email@gmail.com"
+           git config --global user.name "github actions"
+           git add .
+           git commit -m "Upload changed files"
+           git push
+        continue-on-error: true
+
+  #========================== STRIP OUT UNUSED REFERENCES AND CONSTRUCT A PRUNED BIB FILE
+  pruneBib:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+      
+    steps:
+      - name: Prune the bib file
+        # https://www.baeldung.com/linux/regex-matching
+        # https://askubuntu.com/questions/1502281/using-grep-to-search-for-line-that-begins-with-a-variable-whose-value-is-a-dolla
+        # https://stackoverflow.com/questions/13210880/replace-one-substring-for-another-string-in-shell-script
+        # going to strip out all used citations and make a pruned.bib file that can be used as final bib file for submission
+        # purposes rather than having to use whole master bib file.  based on stand-alone "pruneMyBibfile" github action file
+        id: pruneBib
+        run: |
+           makeNewPrunedBib=false
+           # determine if the pruned bib file is already being used in the document. If so, we should bypass 
+           # all the below because pruned bib file does not need to be created.
+           if [[ "$(grep -Eq "\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=true; fi
+           if [[ "$(grep -Eq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=false; fi
+           if $makeNewPrunedBib; then
+              rm -f pruned.bib
+              touch pruned.bib
+              # get a list of bib files used in this document:
+              ## redo this so that it is independent of the compilation log file, and rather gets a list of references straight from 
+              ## the latex file itself, so that this module can start right away and not have to wait until the compilation is done. 
+              readarray -t res < <(grep -Eo "Database file #[0-9]+: [^.]+\.bib" compileOut.txt | sed -r 's/^[^:][^:]*: ([^.][^.]*\.bib *$)/\1/g')
+              readarray -t bibfiles < <(printf '%s\n' "${res[@]}" | awk '!seen[$0]++')
+              # In the first one or two iterations of the latex compilation, bibliography references wont be resolved but rather
+              # will appear as errors in the compilation log.  Use those errors to get a list of all  citations in the paper
+              readarray -t cites < <( grep 'Package natbib Warning: Citation `' compileOut.txt | sed -r 's/^[^`][^`]*`//g;s/'\''.*$//g' | sort -f -u )
+              # stuff this list into a file to retrieve later for the output file
+              printf "%s\n" "${cites[@]}" > cites.txt
+              # any plus signs in the citation bib code causes problems because they are not escaped. The  below substitutes all plus signs and 
+              # replaces with escaped pluses, so that grep will perform search on literal plus sign rather than interpret plus sign as meaning "search
+              # for 2 or more of the character to left of plus sign". Periods also cause problems, as do dashes, and have to likewise be treated. 
+              modcites=( "${cites[@]//\+/\\+}" )
+              modcites=( "${modcites[@]//\-/\\-}" )
+              modcites=( "${modcites[@]//\./\\\.}" )
+              # Search for each of the cites in the bibfile(s) and extract the relevant full bib item for that citation, to 
+              # put into the pruned bibfile
+              for (( i=0; i<${#modcites[@]}; i++ )); do
+                  grep -zoE "@[^{]+\{[^a-zA-Z0-9]*${modcites[$i]}[^@]+" "${bibfiles[@]}" >> pruned.bib
+              done
+              sed -ri 's/^[^@]+@/@/g;s/^([^@}])/  \1/g' pruned.bib
+           fi
+        continue-on-error: true
+
+  #========================== COMPRESS THE PDF FILE INTO LOWER RESOLUTION FILE FOR DISPLAY
+  compressPdf:
+    needs: [initializeFolder,compressImages,build_latex]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+      
+    steps:
+
+  #============================== COMPILE THE FILE
+  build_latex:
+    needs: [initializeFolder,compressImages]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+      
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+
+      - name: Get Job ID from GH API
+        id: job-id
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+        run: |
+           jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
+           job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
+           echo "the job id is: $job_id"
+           echo "job_id=$job_id" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Define environmental variables
+        run: |
+           link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
+           echo "JOBLINK=$link2job" >> $GITHUB_ENV
+           echo "CORENAME=${{ github.event.inputs.file2compile }}" >> $GITHUB_ENV
+           echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >> $GITHUB_ENV
+           echo "OUTFILE=${{ github.event.inputs.file2compile }}Out.txt" >> $GITHUB_ENV
+           echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
+           echo "PDFHIRES=${{ github.event.inputs.file2compile }}_hiRes.pdf" >> $GITHUB_ENV
+           echo "HTMLFILE=${{ github.event.inputs.file2compile }}.html" >> $GITHUB_ENV
+           echo "STARTFILE=${{ github.event.inputs.file2compile }}START.txt" >> $GITHUB_ENV
+           echo "FULLLOG=${{ github.event.inputs.file2compile }}_full.log" >> $GITHUB_ENV
+           echo "LOG=${{ github.event.inputs.file2compile }}.log" >> $GITHUB_ENV
+           echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
+           pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
+           echo "PDFLINK=$pdflink" >> $GITHUB_ENV
+           htmllink="https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"
+           echo "HTMLLINK=$htmllink" >> $GITHUB_ENV
+        continue-on-error: true
+        
       - name: Complete initialization of folder
         run: |
            git config --global user.email "email@gmail.com"
@@ -282,43 +356,13 @@ jobs:
            mv -f "$PDFFILE" "$PDFHIRES"
         continue-on-error: true
        
-      - name: Prune the bib file
-        # https://www.baeldung.com/linux/regex-matching
-        # https://askubuntu.com/questions/1502281/using-grep-to-search-for-line-that-begins-with-a-variable-whose-value-is-a-dolla
-        # https://stackoverflow.com/questions/13210880/replace-one-substring-for-another-string-in-shell-script
-        # going to strip out all used citations and make a pruned.bib file that can be used as final bib file for submission
-        # purposes rather than having to use whole master bib file.  based on stand-alone "pruneMyBibfile" github action file
-        id: pruneBib
-        run: |
-           makeNewPrunedBib=false
-           # determine if the pruned bib file is already being used in the document. If so, we should bypass 
-           # all the below because pruned bib file does not need to be created.
-           if [[ "$(grep -Eq "\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=true; fi
-           if [[ "$(grep -Eq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=false; fi
-           if $makeNewPrunedBib; then
-              rm -f pruned.bib
-              touch pruned.bib
-              # get a list of bib files used in this document:
-              readarray -t res < <(grep -Eo "Database file #[0-9]+: [^.]+\.bib" compileOut.txt | sed -r 's/^[^:][^:]*: ([^.][^.]*\.bib *$)/\1/g')
-              readarray -t bibfiles < <(printf '%s\n' "${res[@]}" | awk '!seen[$0]++')
-              # In the first one or two iterations of the latex compilation, bibliography references wont be resolved but rather
-              # will appear as errors in the compilation log.  Use those errors to get a list of all  citations in the paper
-              readarray -t cites < <( grep 'Package natbib Warning: Citation `' compileOut.txt | sed -r 's/^[^`][^`]*`//g;s/'\''.*$//g' | sort -f -u )
-              # stuff this list into a file to retrieve later for the output file
-              printf "%s\n" "${cites[@]}" > cites.txt
-              # any plus signs in the citation bib code causes problems because they are not escaped. The  below substitutes all plus signs and 
-              # replaces with escaped pluses, so that grep will perform search on literal plus sign rather than interpret plus sign as meaning "search
-              # for 2 or more of the character to left of plus sign". Periods also cause problems, as do dashes, and have to likewise be treated. 
-              modcites=( "${cites[@]//\+/\\+}" )
-              modcites=( "${modcites[@]//\-/\\-}" )
-              modcites=( "${modcites[@]//\./\\\.}" )
-              # Search for each of the cites in the bibfile(s) and extract the relevant full bib item for that citation, to 
-              # put into the pruned bibfile
-              for (( i=0; i<${#modcites[@]}; i++ )); do
-                  grep -zoE "@[^{]+\{[^a-zA-Z0-9]*${modcites[$i]}[^@]+" "${bibfiles[@]}" >> pruned.bib
-              done
-              sed -ri 's/^[^@]+@/@/g;s/^([^@}])/  \1/g' pruned.bib
-           fi
+      - name: compress PDF
+        if: ${{ always() && ! hashFiles('thereAreErrors.txt') }}
+        uses: jy95/ghostscript-action@v1
+        with:
+           file: "${{ github.event.inputs.file2compile }}_hiRes.pdf"
+           output: "${{ github.event.inputs.file2compile }}.pdf"
+           arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
         continue-on-error: true
 
       - name: Capture full compilation output
@@ -496,15 +540,6 @@ jobs:
            echo $JOBLINK   >> $STARTFILE
            echo $HTMLLINK  >> $STARTFILE
            echo "html"  >> $STARTFILE
-        continue-on-error: true
-
-      - name: compress PDF
-        if: ${{ always() && ! hashFiles('thereAreErrors.txt') }}
-        uses: jy95/ghostscript-action@v1
-        with:
-           file: "${{ github.event.inputs.file2compile }}_hiRes.pdf"
-           output: "${{ github.event.inputs.file2compile }}.pdf"
-           arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
         continue-on-error: true
 
       - name: update START status file if compilation successful
