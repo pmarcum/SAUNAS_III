@@ -4,25 +4,17 @@
 \usepackage{FUformatting} % apply Frequently-used formatting definitions/setups
 %\usepackage{FUnewCommands} % apply Frequently-used usercommands
 
-\newcommand\textpic[1][{{(-1.5,0)}{(1.5,0)}{(0,-1.5)}{(0,1.5)}}]{\innerTextpic#1}
+\newcommand\textpic[1][{{-0.3}{0.4mm}{0.2}{0.15}}]{\innerTextpic#1}
 \newcommand{\innerTextpic}[4]{
 \normalbaselineskip{
 \begin{tikzpicture}
-\draw #1 -- #2;
-\draw #3 -- #4;
+\draw[fill=white,draw=red,line width=#2] (0,0) circle[radius=#3];
+\draw[line width=#2,red] node[midway,black]{\faDollar} (#4,#4) -- (-#4,-#4);
+\draw[line width=#2,red] (#4,#4) -- (-#4,-#4);
 \end{tikzpicture}
 }}
 
-%\normalbaselineskip{
-%\begin{tikzpicture}
-%\draw (-1.5,0) -- (1.5,0);
-%\draw (0,-1.5) -- (0,1.5);
-%\end{tikzpicture}
-%}}
-
-\begin{document}
-
-\textpic[{(-2.5,0)}{(1.5,0)}{(0,-1.5)}{(0,1.5)}]
+\textpic[{-0.2}{0.4mm}{0.2}{0.15}]
 
 %:::::::::::::: start NOTANONcurrentPending ::::::::::::::::
 \clearpage            % [optional] (could instead use \newpage, or comment out)
