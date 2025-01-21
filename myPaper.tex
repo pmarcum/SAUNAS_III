@@ -7,14 +7,16 @@
 \begin{document}
 
 
-%:::::::::::::::::::: start NOTANONhst ::::::::::::::::::::::
-\expinput{do_NOT_manually_edit/NOTANONhst} % reset file parameters
-\def\ProgramID{HST-xx-xxxxx (Cycle XX)} % fill in details
+%::::::::::::::::: start NOTANONschedule :::::::::::::::::::
+%\clearpage         % [optional] (could instead use \newpage, or comment out)
+\expinput{do_NOT_manually_edit/NOTANONschedule} % reset file parameters
 
-\begin{NOTANONhst}
-\caption{\textbf{Work Effort for All Members}\hspace{1em} Team members, identified by their name and role in the proposed project, are listed with their institutional affiliation and position, with a "F" or "US" indicating foreign or U.S. institution. A brief narrative of their role in the project is given.  A 'Y' or 'N' indicates if the person is funded by the proposed budget or not, respectively.  The total work-effort of the team member, summed over full life of the proposed  project, is in the rightmost column (multiply displayed FTE value by 12 to get work effort in number of months units).}
-\label{tab:NOTANONhst}
-\end{NOTANONhst}
-%::::::::::::::::::::: end NOTANONhst :::::::::::::::::::::::
+\begin{NOTANONschedule}
+\caption{Resource-loaded project schedule, where: 
+{\TotalFteUnfundedHeaderIcon\hspace{-0.3em}$=$\hspace{0.05em}}Not funded by this grant, {\TotalFteFundedHeaderIcon\hspace{-0.3em}$=$\hspace{0.05em}}funded by this grant, {\TotalFteSumHeaderIcon\hspace{0.1em}$=$\hspace{0.05em}}funded $+$ unfunded; Tasks are listed (left side), with duration of task activity indicated in blue-colored timelines that measure quarter-years (1,2,3,4). Task assignments identify specific team members responsible for implementation with associated work weeks, where color indicates institutional affiliation (blue$=$funded/U.S., black$=$not funded/U.S., red=international). "Total FTE" (right side) are integrated work-weeks converted into FTE per task (1~FTE$=$12~months), displayed as "total",  "unfunded by this grant", and "funded by this grant", resp.  Assignment identities: \RevealIdentities.}
+\end{NOTANONschedule}
+%:::::::::::::::::: end NOTANONschedule ::::::::::::::::::::
+
+
 \end{document}
 
