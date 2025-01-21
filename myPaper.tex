@@ -15,8 +15,8 @@
 %}
 %\noDollarIcon[{-0.2}{0.4mm}{0.2}{0.15}]
 
-\newcommand\textpic[1][{{(-1.5,0)}{(1.5,0)}{(0,-1.5)}{(0,1.5)}}]{\innerTextpic#1}
-\newcommand{\innerTextpic}[4]{
+\newcommand\noDollarIcon[1][{{(-1.5,0)}{(1.5,0)}{(0,-1.5)}{(0,1.5)}}]{\innerNoDollarIcon#1}
+\newcommand{\innerNoDollarIcon}[4]{
 \normalbaselineskip{
 \begin{tikzpicture}
 \draw #1 -- #2;
@@ -28,7 +28,7 @@
 
 \begin{document}[1]{2}{3}{4}
 
-\textpic[{(-1.5,0)}{(1.5,0)}{(0,-1.5)}{(0,1.5)}]
+\noDollarIcon[{(-1.5,0)}{(1.5,0)}{(0,-1.5)}{(0,1.5)}]
 
 
 
