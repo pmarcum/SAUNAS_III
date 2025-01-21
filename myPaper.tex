@@ -4,9 +4,11 @@
 \usepackage{FUformatting} % apply Frequently-used formatting definitions/setups
 %\usepackage{FUnewCommands} % apply Frequently-used usercommands
 
-\newcommand\textpic[1][{{-0.3}{0.4mm}{0.2}{0.15}}]{\innerTextpic#1}
-\newcommand{\innerTextpic}[4]{
-\normalbaselineskip{
+
+
+\newcommand\noDollarIcon[1][{{-0.3}{0.4mm}{0.2}{0.15}}]{\innerNoDollarIcon#1}
+\newcommand{\innerNoDollarIcon}[4]{
+\raisebox{#1\normalbaselineskip}[0pt][0pt]{
 \begin{tikzpicture}
 \draw[fill=white,draw=red,line width=#2] (0,0) circle[radius=#3];
 \draw[line width=#2,red] node[midway,black]{\faDollar} (#4,#4) -- (-#4,-#4);
