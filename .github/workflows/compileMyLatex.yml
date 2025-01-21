@@ -30,6 +30,37 @@ jobs:
   # how-to-automatically-update-resume-on-your-personal-site-from-overleaf-1fld
   # https://superuser.com/questions/1455483/how-to-get-wsl-use-git-bash-to-run-a-latexmk-command
   # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
+  jobs1:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+      
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+
+      - name: make a test file
+        run: |
+          touch testing
+
+  jobs2:
+    needs: jobs1
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+      
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+
+      - name: make a test file
+        run: |
+          ls
+
   build_latex:
     runs-on: ubuntu-latest
     continue-on-error: true
