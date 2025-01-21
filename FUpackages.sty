@@ -42,19 +42,15 @@
 \usetikzlibrary{shapes.multipart} \usetikzlibrary{arrows.meta, positioning, fit, shapes.misc}
 \usetikzlibrary{tikzmark,overlay-beamer-styles,bending} \usepackage{colortbl}
 % create the no-dollar sign to use in NOTANONschedule.tex to represent FTEs not covered in the proposal budget 
-%\newcommand{\noDollarIcon}[4][-0.3][0.4mm][0.2][0.15]{{\raisebox{#1\normalbaselineskip}[0pt][0pt]{\begin{tikzpicture}
-%   \draw[fill=white,draw=red,line width=#2] (0,0) circle[radius=#3];
-%   \draw[line width=#2,red] node[midway,black]{\faDollar} (#4,#4) -- (-#4,-#4);
-%   \draw[line width=#2,red] (#4,#4) -- (-#4,-#4);
-%   \end{tikzpicture}}}}
-%\newcommand{\textpic}[4][1][1][1][1]{
-%\begin{tikzpicture}[scale=1.5]
-%\draw [line width=1.5pt] (0,0) -- (60:3) -- (3,0) -- cycle;
-%\draw (.4,.2) node{$60^{\circ}$};
-%\draw (2.6,.2) node{$60^\circ$};
-%\draw (1.5,2.2 ) node {$60^{\circ}$};
-%\end{tikzpicture}
-%}
+\newcommand\noDollarIcon[1][{{-0.3}{0.4mm}{0.2}{0.15}}]{\innerNoDollarIcon#1}
+\newcommand{\innerNoDollarIcon}[4]{
+\raisebox{#1\normalbaselineskip}[0pt][0pt]{
+\begin{tikzpicture}
+\draw[fill=white,draw=red,line width=#2] (0,0) circle[radius=#3];
+\draw[line width=#2,red] node[midway,black]{\faDollar} (#4,#4) -- (-#4,-#4);
+\draw[line width=#2,red] (#4,#4) -- (-#4,-#4);
+\end{tikzpicture}
+}}
 % create a callout box
 \usepackage{wrapfig}
 \usepackage{tcolorbox}
