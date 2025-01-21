@@ -59,8 +59,6 @@ jobs:
            echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
            pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
            echo "PDFLINK=$pdflink" >> $GITHUB_ENV
-           htmllink="https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"
-           echo "HTMLLINK=$htmllink" >> $GITHUB_ENV
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -169,26 +167,6 @@ jobs:
       contents: write
       
     steps:
-      - name: Define environmental variables
-        run: |
-           link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
-           echo "JOBLINK=$link2job" >> $GITHUB_ENV
-           echo "CORENAME=${{ github.event.inputs.file2compile }}" >> $GITHUB_ENV
-           echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >> $GITHUB_ENV
-           echo "OUTFILE=${{ github.event.inputs.file2compile }}Out.txt" >> $GITHUB_ENV
-           echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
-           echo "PDFHIRES=${{ github.event.inputs.file2compile }}_hiRes.pdf" >> $GITHUB_ENV
-           echo "HTMLFILE=${{ github.event.inputs.file2compile }}.html" >> $GITHUB_ENV
-           echo "STARTFILE=${{ github.event.inputs.file2compile }}START.txt" >> $GITHUB_ENV
-           echo "FULLLOG=${{ github.event.inputs.file2compile }}_full.log" >> $GITHUB_ENV
-           echo "LOG=${{ github.event.inputs.file2compile }}.log" >> $GITHUB_ENV
-           echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
-           pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
-           echo "PDFLINK=$pdflink" >> $GITHUB_ENV
-           htmllink="https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"
-           echo "HTMLLINK=$htmllink" >> $GITHUB_ENV
-        continue-on-error: true
-
       - name: Remove files to initiate compilation process
         run: |
            cat $STARTFILE
@@ -228,7 +206,7 @@ jobs:
            touch $STARTFILE
            echo $TIMESTAMP >> $STARTFILE
            echo $JOBLINK   >> $STARTFILE
-           echo $HTMLLINK  >> $STARTFILE
+           echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"  >> $STARTFILE
            echo "precomp"  >> $STARTFILE
 
       - name: Post updated files and START action notice to folder
@@ -520,7 +498,7 @@ jobs:
            touch $STARTFILE
            echo $TIMESTAMP >> $STARTFILE
            echo $JOBLINK   >> $STARTFILE
-           echo $HTMLLINK  >> $STARTFILE
+           echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"  >> $STARTFILE
            echo "html"  >> $STARTFILE
         continue-on-error: true
         
@@ -553,7 +531,7 @@ jobs:
            touch $STARTFILE
            echo $TIMESTAMP >> $STARTFILE
            echo $JOBLINK   >> $STARTFILE
-           echo $HTMLLINK  >> $STARTFILE
+           echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"  >> $STARTFILE
            echo "pdf"  >> $STARTFILE
         continue-on-error: true
         
@@ -630,43 +608,13 @@ jobs:
         id: job-id
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
         run: |
            jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
            job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
            echo "the job id is: $job_id"
            echo "job_id=$job_id" >> $GITHUB_OUTPUT
         continue-on-error: true
-
-      - name: Define environmental variables
-        run: |
-           link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
-           echo "JOBLINK=$link2job" >> $GITHUB_ENV
-           echo "CORENAME=${{ github.event.inputs.file2compile }}" >> $GITHUB_ENV
-           echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >> $GITHUB_ENV
-           echo "OUTFILE=${{ github.event.inputs.file2compile }}Out.txt" >> $GITHUB_ENV
-           echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
-           echo "PDFHIRES=${{ github.event.inputs.file2compile }}_hiRes.pdf" >> $GITHUB_ENV
-           echo "HTMLFILE=${{ github.event.inputs.file2compile }}.html" >> $GITHUB_ENV
-           echo "STARTFILE=${{ github.event.inputs.file2compile }}START.txt" >> $GITHUB_ENV
-           echo "FULLLOG=${{ github.event.inputs.file2compile }}_full.log" >> $GITHUB_ENV
-           echo "LOG=${{ github.event.inputs.file2compile }}.log" >> $GITHUB_ENV
-           echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
-           pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
-           echo "PDFLINK=$pdflink" >> $GITHUB_ENV
-           htmllink="https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"
-           echo "HTMLLINK=$htmllink" >> $GITHUB_ENV
-        continue-on-error: true
         
-      - name: Complete initialization of folder
-        run: |
-           git config --global user.email "email@gmail.com"
-           git config --global user.name "github actions"
-           git add .
-           git commit -m "Upload changed files"
-           git push
-        continue-on-error: true
-
       # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
       # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
       # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
