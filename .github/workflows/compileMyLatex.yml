@@ -96,6 +96,7 @@ jobs:
            rm -f html.txt
            rm -f warnout.txt
            rm -f bibout.txt
+           rm -f tout.txt
            rm -f $CORENAME.synctex.gz
            rm -f $CORENAME.out
            rm -f $STARTFILE
@@ -542,4 +543,3 @@ jobs:
            git commit -m "Upload changed files"
            git push
         continue-on-error: true
- 
