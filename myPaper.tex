@@ -2,28 +2,7 @@
 
 \usepackage{FUpackages}  % applying Frequently-Used packages
 \usepackage{FUformatting} % apply Frequently-used formatting definitions/setups
-%\usepackage{FUnewCommands} % apply Frequently-used usercommands
-
-
-\newcommand\noDollarIcon[1][{{-0.3}{0.4mm}{0.2}{0.15}}]{\innerNoDollarIcon#1}
-\newcommand{\innerNoDollarIcon}[4]{
-\raisebox{#1\normalbaselineskip}[0pt][0pt]{
-\begin{tikzpicture}
-\draw[fill=white,draw=red,line width=#2] (0,0) circle[radius=#3];
-\draw[line width=#2,red] node[midway,black]{\faDollar} (#4,#4) -- (-#4,-#4);
-\draw[line width=#2,red] (#4,#4) -- (-#4,-#4);
-\end{tikzpicture}
-}}
-
-\newcommand{\dollarIcon}[1][{{-0.4}{0.4mm}{0.2}{0.15}}]{\innerDollarIcon#1}
-\newcommand{\innerDollarIcon}[3]{
-\raisebox{#1\normalbaselineskip}[0pt][0pt]{
-\begin{tikzpicture}
-\draw[fill=green,draw=black] (0,0) circle[radius=#2];
-\draw[draw=green] (-#3,#3) -- (#3,-#3) node[midway]{\faDollar};
-\end{tikzpicture}
-}}
-   
+%\usepackage{FUnewCommands} % apply Frequently-used usercommands   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
