@@ -31,7 +31,10 @@ jobs:
   # https://superuser.com/questions/1455483/how-to-get-wsl-use-git-bash-to-run-a-latexmk-command
   # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
 
-  #==========================  COMPRESS THE IMAGES IF THEY NEED IT
+  #_______________________________________________________________________
+  #|                                                                      |
+  #|                  COMPRESS THE IMAGES IF THEY NEED IT                 |
+  #|______________________________________________________________________|
   compressImages:
     runs-on: ubuntu-latest
     continue-on-error: true
@@ -48,7 +51,16 @@ jobs:
         with:
           cache: true
         continue-on-error: true
-    
+
+      - name: Look for uncompressed images
+        run: |
+          # check to see if there are any images to be compressed
+           ls -la *UNCOMPRESSED.* > uncompressed.list
+           if [ ! -s uncompressed.list ]; then 
+               # the file is empty so remove it
+               rm -f uncompressed.list
+           fi
+
       - name: Compress images to go into the paper
         if: ${{ always() && hashFiles('uncompressed.list') }}
         run: |
@@ -104,7 +116,19 @@ jobs:
            done
         continue-on-error: true
         
-  #==========================  GET THE DIRECTORY SET UP BY REMOVING OLD FILES
+      - name: Complete initialization of folder
+        run: |
+           git config --global user.email "email@gmail.com"
+           git config --global user.name "github actions"
+           git add .
+           git commit -m "Upload changed files"
+           git push
+        continue-on-error: true
+
+  #_______________________________________________________________________
+  #|                                                                      |
+  #|           GET THE DIRECTORY SET UP BY REMOVING OLD FILES             |
+  #|______________________________________________________________________|
   initializeFolder:
     runs-on: ubuntu-latest
     continue-on-error: true
@@ -165,12 +189,6 @@ jobs:
            rm -f $HTMLFILE
            rm -f $OUTFILE
            rm -f uncompressed.list
-           # check to see if there are any images to be compressed
-           ls -la *UNCOMPRESSED.* > uncompressed.list
-           if [ ! -s uncompressed.list ]; then 
-               # the file is empty so remove it
-               rm -f uncompressed.list
-           fi
         continue-on-error: true
 
       - name: Post note showing that processing has started
@@ -190,8 +208,12 @@ jobs:
            git push
         continue-on-error: true
 
-  #========================== STRIP OUT UNUSED REFERENCES AND CONSTRUCT A PRUNED BIB FILE
+  #_______________________________________________________________________
+  #|                                                                      |
+  #|     STRIP OUT UNUSED REFERENCES AND CONSTRUCT A PRUNED BIB FILE      |
+  #|______________________________________________________________________|
   pruneBib:
+    needs: [initializeFolder,compressImages,build_latex]
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
@@ -239,8 +261,20 @@ jobs:
               sed -ri 's/^[^@]+@/@/g;s/^([^@}])/  \1/g' pruned.bib
            fi
         continue-on-error: true
+        
+      - name: Complete initialization of folder
+        run: |
+           git config --global user.email "email@gmail.com"
+           git config --global user.name "github actions"
+           git add .
+           git commit -m "Upload changed files"
+           git push
+        continue-on-error: true
 
-  #========================== COMPRESS THE PDF FILE INTO LOWER RESOLUTION FILE FOR DISPLAY
+  #_______________________________________________________________________
+  #|                                                                      |
+  #|     COMPRESS THE PDF FILE INTO LOWER RESOLUTION FILE FOR DISPLAY     |
+  #|______________________________________________________________________|
   compressPdf:
     needs: [initializeFolder,compressImages,build_latex]
     runs-on: ubuntu-latest
@@ -250,50 +284,13 @@ jobs:
       contents: write
       
     steps:
-
-  #============================== COMPILE THE FILE
-  build_latex:
-    needs: [initializeFolder,compressImages]
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    permissions:
-      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
-      contents: write
-      
-    steps:
-      - name: Clone repo
-        uses: actions/checkout@v4
-
-      - name: Get Job ID from GH API
-        id: job-id
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-        run: |
-           jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
-           job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
-           echo "the job id is: $job_id"
-           echo "job_id=$job_id" >> $GITHUB_OUTPUT
-        continue-on-error: true
-
-      - name: Define environmental variables
-        run: |
-           link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
-           echo "JOBLINK=$link2job" >> $GITHUB_ENV
-           echo "CORENAME=${{ github.event.inputs.file2compile }}" >> $GITHUB_ENV
-           echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >> $GITHUB_ENV
-           echo "OUTFILE=${{ github.event.inputs.file2compile }}Out.txt" >> $GITHUB_ENV
-           echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
-           echo "PDFHIRES=${{ github.event.inputs.file2compile }}_hiRes.pdf" >> $GITHUB_ENV
-           echo "HTMLFILE=${{ github.event.inputs.file2compile }}.html" >> $GITHUB_ENV
-           echo "STARTFILE=${{ github.event.inputs.file2compile }}START.txt" >> $GITHUB_ENV
-           echo "FULLLOG=${{ github.event.inputs.file2compile }}_full.log" >> $GITHUB_ENV
-           echo "LOG=${{ github.event.inputs.file2compile }}.log" >> $GITHUB_ENV
-           echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
-           pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
-           echo "PDFLINK=$pdflink" >> $GITHUB_ENV
-           htmllink="https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"
-           echo "HTMLLINK=$htmllink" >> $GITHUB_ENV
+      - name: compress PDF
+        if: ${{ always() && ! hashFiles('thereAreErrors.txt') }}
+        uses: jy95/ghostscript-action@v1
+        with:
+           file: "${{ github.event.inputs.file2compile }}_hiRes.pdf"
+           output: "${{ github.event.inputs.file2compile }}.pdf"
+           arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
         continue-on-error: true
         
       - name: Complete initialization of folder
@@ -305,66 +302,19 @@ jobs:
            git push
         continue-on-error: true
 
-      # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
-      # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
-      # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
-      # 
-      # array.sty is incompatable with latest version of texlive and/or aastex. Until aastex is fixed in mid-2025,
-      # will need to keep this fix of using version 2023 instead of latest version. array.sty is used in WorPT files.
-      # See more details here:   https://github.com/AASJournals/AASTeX60/issues/149
-      - name: Install texlive
-        uses: teatimeguest/setup-texlive-action@v3
-        with:
-          version: 2023
-          packages:
-             collection-basic
-             collection-bibtexextra
-             collection-binextra
-             collection-context
-             collection-fontsextra
-             collection-fontsrecommended
-             collection-formatsextra
-             collection-fontutils
-             collection-latex
-             collection-latexextra
-             collection-latexrecommended
-             collection-mathscience
-             collection-metapost
-             collection-pictures
-             collection-plaingeneric
-             collection-pstricks
-             collection-publishers
-             collection-texworks
-             amsfonts
-             graphics
-             scrextend
-             rotating
-             tools
-             threeparttable
-             units
-          cache: true
-        continue-on-error: true
-
-      - name: Compile paper
-        # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
-        id: compilation
-        run: |
-           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" 2>&1 | tee compileOut.txt
-           echo "______________________________________________________________________________"
-           cat compileOut.txt
-           echo "______________________________________________________________________________"
-           mv -f "$PDFFILE" "$PDFHIRES"
-        continue-on-error: true
-       
-      - name: compress PDF
-        if: ${{ always() && ! hashFiles('thereAreErrors.txt') }}
-        uses: jy95/ghostscript-action@v1
-        with:
-           file: "${{ github.event.inputs.file2compile }}_hiRes.pdf"
-           output: "${{ github.event.inputs.file2compile }}.pdf"
-           arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
-        continue-on-error: true
-
+  #_______________________________________________________________________
+  #|                                                                      |
+  #|                     PROCESS COMPILATION OUTPUT                       |
+  #|______________________________________________________________________|
+  processLogFile:
+    needs: [initializeFolder,compressImages,build_latex]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+      
+    steps:
       - name: Capture full compilation output
         run: |
            # ....... if the pdf file was generated, then the errors must have NOT been fatal.
@@ -541,7 +491,29 @@ jobs:
            echo $HTMLLINK  >> $STARTFILE
            echo "html"  >> $STARTFILE
         continue-on-error: true
+        
+      - name: Complete initialization of folder
+        run: |
+           git config --global user.email "email@gmail.com"
+           git config --global user.name "github actions"
+           git add .
+           git commit -m "Upload changed files"
+           git push
+        continue-on-error: true
 
+  #_______________________________________________________________________
+  #|                                                                      |
+  #|                      FINALIZE THE FOLDER                             |
+  #|______________________________________________________________________|
+  finalizeFolder:
+    needs: [initializeFolder,compressImages]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+      
+    steps:
       - name: update START status file if compilation successful
         if: ${{ always() && ! hashFiles('thereAreErrors.txt') }}
         run: |
@@ -598,6 +570,123 @@ jobs:
         continue-on-error: true
       
       - name: Post new files to folder
+        run: |
+           git config --global user.email "email@gmail.com"
+           git config --global user.name "github actions"
+           git add .
+           git commit -m "Upload changed files"
+           git push
+        continue-on-error: true
+
+  #_______________________________________________________________________
+  #|                                                                      |
+  #|                        COMPILE THE FILE                              |
+  #|______________________________________________________________________|
+  build_latex:
+    needs: [initializeFolder,compressImages]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+      
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+
+      - name: Get Job ID from GH API
+        id: job-id
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+        run: |
+           jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
+           job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
+           echo "the job id is: $job_id"
+           echo "job_id=$job_id" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Define environmental variables
+        run: |
+           link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
+           echo "JOBLINK=$link2job" >> $GITHUB_ENV
+           echo "CORENAME=${{ github.event.inputs.file2compile }}" >> $GITHUB_ENV
+           echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >> $GITHUB_ENV
+           echo "OUTFILE=${{ github.event.inputs.file2compile }}Out.txt" >> $GITHUB_ENV
+           echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
+           echo "PDFHIRES=${{ github.event.inputs.file2compile }}_hiRes.pdf" >> $GITHUB_ENV
+           echo "HTMLFILE=${{ github.event.inputs.file2compile }}.html" >> $GITHUB_ENV
+           echo "STARTFILE=${{ github.event.inputs.file2compile }}START.txt" >> $GITHUB_ENV
+           echo "FULLLOG=${{ github.event.inputs.file2compile }}_full.log" >> $GITHUB_ENV
+           echo "LOG=${{ github.event.inputs.file2compile }}.log" >> $GITHUB_ENV
+           echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
+           pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
+           echo "PDFLINK=$pdflink" >> $GITHUB_ENV
+           htmllink="https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"
+           echo "HTMLLINK=$htmllink" >> $GITHUB_ENV
+        continue-on-error: true
+        
+      - name: Complete initialization of folder
+        run: |
+           git config --global user.email "email@gmail.com"
+           git config --global user.name "github actions"
+           git add .
+           git commit -m "Upload changed files"
+           git push
+        continue-on-error: true
+
+      # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
+      # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
+      # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
+      # 
+      # array.sty is incompatable with latest version of texlive and/or aastex. Until aastex is fixed in mid-2025,
+      # will need to keep this fix of using version 2023 instead of latest version. array.sty is used in WorPT files.
+      # See more details here:   https://github.com/AASJournals/AASTeX60/issues/149
+      - name: Install texlive
+        uses: teatimeguest/setup-texlive-action@v3
+        with:
+          version: 2023
+          packages:
+             collection-basic
+             collection-bibtexextra
+             collection-binextra
+             collection-context
+             collection-fontsextra
+             collection-fontsrecommended
+             collection-formatsextra
+             collection-fontutils
+             collection-latex
+             collection-latexextra
+             collection-latexrecommended
+             collection-mathscience
+             collection-metapost
+             collection-pictures
+             collection-plaingeneric
+             collection-pstricks
+             collection-publishers
+             collection-texworks
+             amsfonts
+             graphics
+             scrextend
+             rotating
+             tools
+             threeparttable
+             units
+          cache: true
+        continue-on-error: true
+
+      - name: Compile paper
+        # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
+        id: compilation
+        run: |
+           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" 2>&1 | tee compileOut.txt
+           echo "______________________________________________________________________________"
+           cat compileOut.txt
+           echo "______________________________________________________________________________"
+           mv -f "$PDFFILE" "$PDFHIRES"
+        continue-on-error: true
+       
+      - name: Complete initialization of folder
         run: |
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
