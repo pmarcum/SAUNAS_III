@@ -33,6 +33,41 @@ jobs:
 
   #_______________________________________________________________________
   #|                                                                      |
+  #|                  DEFINE THE ENVIRONMENTAL VARIABLES                  |
+  #|______________________________________________________________________|
+  defineVariables:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+      
+    steps:
+      - name: Define environmental variables
+        run: |
+           link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
+           echo "JOBLINK=$link2job" >> $GITHUB_ENV
+           echo "CORENAME=${{ github.event.inputs.file2compile }}" >> $GITHUB_ENV
+           echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >> $GITHUB_ENV
+           echo "OUTFILE=${{ github.event.inputs.file2compile }}Out.txt" >> $GITHUB_ENV
+           echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
+           echo "PDFHIRES=${{ github.event.inputs.file2compile }}_hiRes.pdf" >> $GITHUB_ENV
+           echo "HTMLFILE=${{ github.event.inputs.file2compile }}.html" >> $GITHUB_ENV
+           echo "STARTFILE=${{ github.event.inputs.file2compile }}START.txt" >> $GITHUB_ENV
+           echo "FULLLOG=${{ github.event.inputs.file2compile }}_full.log" >> $GITHUB_ENV
+           echo "LOG=${{ github.event.inputs.file2compile }}.log" >> $GITHUB_ENV
+           echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
+           pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
+           echo "PDFLINK=$pdflink" >> $GITHUB_ENV
+           htmllink="https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"
+           echo "HTMLLINK=$htmllink" >> $GITHUB_ENV
+        continue-on-error: true
+
+
+
+
+  #_______________________________________________________________________
+  #|                                                                      |
   #|                  COMPRESS THE IMAGES IF THEY NEED IT                 |
   #|______________________________________________________________________|
   compressImages:
