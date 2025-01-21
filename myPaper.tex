@@ -9,7 +9,8 @@
 
 \newcommand\noDollarIcon[1][{{-0.3}{0.4mm}{0.2}{0.15}}]{\innerNoDollarIcon#1}
 \newcommand{\innerNoDollarIcon}[4]{
-\raisebox{-0.3\normalbaselineskip}{
+%\raisebox{-0.3\normalbaselineskip}{
+\raisebox{0.5em}{
 \begin{tikzpicture}
 \draw[fill=white,draw=red,line width=#2] (0,0) circle[radius=#3];
 \draw[line width=#2,red] node[midway,black]{\faDollar} (#4,#4) -- (-#4,-#4);
