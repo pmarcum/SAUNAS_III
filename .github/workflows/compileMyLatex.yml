@@ -63,9 +63,6 @@ jobs:
            echo "HTMLLINK=$htmllink" >> $GITHUB_ENV
         continue-on-error: true
 
-
-
-
   #_______________________________________________________________________
   #|                                                                      |
   #|                  COMPRESS THE IMAGES IF THEY NEED IT                 |
