@@ -8,7 +8,7 @@
 
 \newcommand\noDollarIcon[1][{{-0.3}{0.4mm}{0.2}{0.15}}]{\innerNoDollarIcon#1}
 \newcommand{\innerNoDollarIcon}[4]{
-\raisebox{#1\normalbaselineskip}[0pt][0pt]{
+\normalbaselineskip{
 \begin{tikzpicture}
 \draw[fill=white,draw=red,line width=#2] (0,0) circle[radius=#3];
 \draw[line width=#2,red] node[midway,black]{\faDollar} (#4,#4) -- (-#4,-#4);
@@ -19,7 +19,7 @@
 \textpic[{-0.2}{0.4mm}{0.2}{0.15}]
 
 %:::::::::::::: start NOTANONcurrentPending ::::::::::::::::
-\clearpage            % [optional] (could instead use \newpage, or comment out)
+%\clearpage            % [optional] (could instead use \newpage, or comment out)
 \expinput{do_NOT_manually_edit/NOTANONcurrentPending} % reset file parameters
 
 \begin{NOTANONcurrentPending}
