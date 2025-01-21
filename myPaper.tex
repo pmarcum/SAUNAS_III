@@ -5,31 +5,18 @@
 %\usepackage{FUnewCommands} % apply Frequently-used usercommands
 
 
-%\newcommand\noDollarIcon[1][{{-0.3}{0.4mm}{0.2}{0.15}}]{\innerNoDollarIcon#1}
-%\newcommand{\innerNoDollarIcon}[4]{
-%\begin{tikzpicture}
-%\draw[fill=white,draw=red,line width=#2] (0,0) circle[radius=#3];
-%\draw[line width=#2,red] node[midway,black]{\faDollar} (#4,#4) -- (-#4,-#4);
-%\draw[line width=#2,red] (#4,#4) -- (-#4,-#4);
-%\end{tikzpicture}
-%}
-%\noDollarIcon[{-0.2}{0.4mm}{0.2}{0.15}]
-
-\newcommand\noDollarIcon[1][{{(-1.5,0)}{(1.5,0)}{(0,-1.5)}{(0,1.5)}}]{\innerNoDollarIcon#1}
+\newcommand\noDollarIcon[1][{{-0.3}{0.4mm}{0.2}{0.15}}]{\innerNoDollarIcon#1}
 \newcommand{\innerNoDollarIcon}[4]{
-\normalbaselineskip{
 \begin{tikzpicture}
-\draw #1 -- #2;
-\draw #3 -- #4;
+\draw[fill=white,draw=red,line width=#2] (0,0) circle[radius=#3];
+\draw[line width=#2,red] node[midway,black]{\faDollar} (#4,#4) -- (-#4,-#4);
+\draw[line width=#2,red] (#4,#4) -- (-#4,-#4);
 \end{tikzpicture}
-}}
+}
 
+\begin{document}
 
-
-\begin{document}[1]{2}{3}{4}
-
-\noDollarIcon[{(-1.5,0)}{(1.5,0)}{(0,-1.5)}{(0,1.5)}]
-
+\noDollarIcon[{-0.3}{0.4mm}{0.2}{0.15}]
 
 
 %:::::::::::::: start NOTANONcurrentPending ::::::::::::::::
