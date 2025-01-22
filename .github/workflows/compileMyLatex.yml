@@ -57,13 +57,11 @@ jobs:
            echo "FULLLOG=${{ github.event.inputs.file2compile }}_full.log" >> $GITHUB_ENV
            echo "LOG=${{ github.event.inputs.file2compile }}.log" >> $GITHUB_ENV
            echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
-           pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
-           echo "PDFLINK=$pdflink" >> $GITHUB_ENV
         continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
-  #|                  COMPRESS THE IMAGES IF THEY NEED IT                 |
+  #|         COMPRESS THE IMAGES IF THERE ARE UNCOMPRESSED ONES           |
   #|______________________________________________________________________|
   compressImages:
     runs-on: ubuntu-latest
@@ -71,30 +69,20 @@ jobs:
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
-      
+      #
     steps:
       - name: Clone repo
         uses: actions/checkout@v4
-
+        #
       - name: Install ImageMagick
         uses: mfinelli/setup-imagemagick@v5
         with:
           cache: true
         continue-on-error: true
-
-      - name: Look for uncompressed images
+        #
+      - name: Search for uncompressed images, and compress them
         run: |
-          # check to see if there are any images to be compressed
-           ls -la *UNCOMPRESSED.* > uncompressed.list
-           if [ ! -s uncompressed.list ]; then 
-               # the file is empty so remove it
-               rm -f uncompressed.list
-           fi
-
-      - name: Compress images to go into the paper
-        if: ${{ always() && hashFiles('uncompressed.list') }}
-        run: |
-           rm -f uncompressed.list
+           compressionDone=false
            bigfile=500000
            minDpi=150  # optimal dpi for pdf files
            maxWidthInches=6.5   #inches
@@ -108,6 +96,7 @@ jobs:
               newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
               pdfname=$(echo "${newname}" | sed 's/\..*$/\.pdf/')
               fileSize=$( stat -c %s -- "${imagefile}"  )
+              compressionDone=true
               if [[ -f "${imagefile}" && ! -L "${imagefile}" && "$fileSize" -gt "$bigfile" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
                   # Get the current dimensions of the image
                   dimensions=$(identify -format "%w %h" "${imagefile}")
@@ -144,15 +133,15 @@ jobs:
                   mv -f "${imagefile}" "${newname}"
               fi
            done
-        continue-on-error: true
-        
-      - name: Complete initialization of folder
-        run: |
-           git config --global user.email "email@gmail.com"
-           git config --global user.name "github actions"
-           git add .
-           git commit -m "Upload changed files"
-           git push
+           #
+           # Save the folder if compression was performed
+           if $compressionDone; then
+             git config --global user.email "email@gmail.com"
+             git config --global user.name "github actions"
+             git add .
+             git commit -m "Upload changed files"
+             git push
+           fi
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -160,47 +149,46 @@ jobs:
   #|           GET THE DIRECTORY SET UP BY REMOVING OLD FILES             |
   #|______________________________________________________________________|
   initializeFolder:
+    needs: defineVariables
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
-      
+      #
     steps:
       - name: Remove files to initiate compilation process
         run: |
-           cat $STARTFILE
-           rm -f fin.txt
-           rm -f $FULLLOG
-           rm -f $LOG
+           rm -f bibout.txt
+           rm -f cites.txt
+           rm -f compileOut.txt*
            rm -f $CORENAME.aux
            rm -f $CORENAME.bbl
            rm -f $CORENAME.blg
            rm -f $CORENAME.fdb_latexmk
            rm -f $CORENAME.fls
-           rm -f $CORENAME.sync*
-           rm -f inpaperCites.txt
-           rm -f thereAreErrors.txt
-           rm -f noFatalErrors.txt
-           rm -f doesNotUsePruned.txt
-           rm -f usedBibfile.txt
-           rm -f compileOut.txt*
-           rm -f errout.txt*
-           rm -f cites.txt
-           rm -f html.txt
-           rm -f warnout.txt
-           rm -f bibout.txt
-           rm -f tout.txt
-           rm -f $CORENAME.synctex.gz
            rm -f $CORENAME.out
-           rm -f $STARTFILE
+           rm -f $CORENAME.sync*
+           rm -f $CORENAME.synctex.gz
+           rm -f doesNotUsePruned.txt
+           rm -f errout.txt*
+           rm -f fin.txt
+           rm -f $FULLLOG
+           rm -f html.txt
+           rm -f $HTMLFILE
+           rm -f inpaperCites.txt
+           rm -f $LOG
+           rm -f noFatalErrors.txt
+           rm -f $OUTFILE
            rm -f $PDFFILE
            rm -f $PDFHIRES
-           rm -f $HTMLFILE
-           rm -f $OUTFILE
-           rm -f uncompressed.list
+           rm -f $STARTFILE
+           rm -f thereAreErrors.txt
+           rm -f tout.txt
+           rm -f usedBibfile.txt
+           rm -f warnout.txt
         continue-on-error: true
-
+        #
       - name: Post note showing that processing has started
         run: |
            touch $STARTFILE
@@ -208,9 +196,8 @@ jobs:
            echo $JOBLINK   >> $STARTFILE
            echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"  >> $STARTFILE
            echo "precomp"  >> $STARTFILE
-
-      - name: Post updated files and START action notice to folder
-        run: |
+           #
+           # Post the START file on the repository
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
            git add .
@@ -223,13 +210,13 @@ jobs:
   #|     STRIP OUT UNUSED REFERENCES AND CONSTRUCT A PRUNED BIB FILE      |
   #|______________________________________________________________________|
   pruneBib:
-    needs: [initializeFolder,compressImages,build_latex]
+    needs: [defineVariables,initializeFolder,compressImages,build_latex]
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
-      
+      #
     steps:
       - name: Prune the bib file
         # https://www.baeldung.com/linux/regex-matching
@@ -248,37 +235,47 @@ jobs:
               rm -f pruned.bib
               touch pruned.bib
               # get a list of bib files used in this document:
-              ## redo this so that it is independent of the compilation log file, and rather gets a list of references straight from 
-              ## the latex file itself, so that this module can start right away and not have to wait until the compilation is done. 
-              readarray -t res < <(grep -Eo "Database file #[0-9]+: [^.]+\.bib" compileOut.txt | sed -r 's/^[^:][^:]*: ([^.][^.]*\.bib *$)/\1/g')
+              readarray -t res < <(cut -d "," -f 1 <<<  grep -Eo "bibliography\{[^}]+\}" "${{ github.event.inputs.file2compile }}.tex" | \
+                 sed -r 's/^[^b]+bibliography\{([^}]+)\}[\n]*\n?/\1/i' | sed -r 's/ *//g')
+              # make sure the bib files are not duplicated
               readarray -t bibfiles < <(printf '%s\n' "${res[@]}" | awk '!seen[$0]++')
-              # In the first one or two iterations of the latex compilation, bibliography references wont be resolved but rather
-              # will appear as errors in the compilation log.  Use those errors to get a list of all  citations in the paper
-              readarray -t cites < <( grep 'Package natbib Warning: Citation `' compileOut.txt | sed -r 's/^[^`][^`]*`//g;s/'\''.*$//g' | sort -f -u )
-              # stuff this list into a file to retrieve later for the output file
-              printf "%s\n" "${cites[@]}" > cites.txt
+              #
+              # Now go through the .tex files and gather up all cited references
+              readarray -t refs < <( grep "\cite" *.tex )
+              refstr=$( printf "%s " "${refs[@]}" )
+              refstr=$( sed -r 's/\a//g' <<<"$refstr" | sed -r 's/\t//g' )
+              refstr=$( sed -r 's/\\cite/\a/ig' <<<"$refstr" )
+              refstr=$( sed -r 's/\a[^{]*(\{[^}]*\})*\{([^}]+)\}/\a\2\t/g' <<<"$refstr" )
+              refstr=$( sed -r 's/^[^\a]*\a//' <<<"$refstr" )
+              refstr=$( sed -r 's/\t[^\a]*$//' <<<"$refstr" )
+              refstr=$( sed -r 's/\t[^\a]*\a/\t\a/g' <<<"$refstr" )
+              refstr=$( sed -r 's/\a/ /g' <<<"$refstr" | sed -r 's/\t/ /g' )
+              refstr=$( sed -r "s/[^a-z0-9 +\-_.\`\']/ /ig" <<<"$refstr" )
+              refstr=$( sed -r 's/  +/ /g' <<<"$refstr" | sed -r 's/\a//g' | sed -r 's/\t//g' | sed -r 's/ /\n/g' )
               # any plus signs in the citation bib code causes problems because they are not escaped. The  below substitutes all plus signs and 
               # replaces with escaped pluses, so that grep will perform search on literal plus sign rather than interpret plus sign as meaning "search
               # for 2 or more of the character to left of plus sign". Periods also cause problems, as do dashes, and have to likewise be treated. 
-              modcites=( "${cites[@]//\+/\\+}" )
-              modcites=( "${modcites[@]//\-/\\-}" )
-              modcites=( "${modcites[@]//\./\\\.}" )
+              modstr=$( sed -r 's/\+/\\+/g' <<<"$refstr" | sed -r 's/\-/\\-/g' | sed -r 's/\./\\\./g' )
+              # break the references into individual entries that go into the array "cites"
+              cites=( $(IFS=" " echo "$refstr") )
+              modcites=( $(IFS=" " echo "$refstr") )
+              # stuff this list into a file to retrieve later for the output file
+              printf "%s\n" "${cites[@]}" > cites.txt
               # Search for each of the cites in the bibfile(s) and extract the relevant full bib item for that citation, to 
               # put into the pruned bibfile
               for (( i=0; i<${#modcites[@]}; i++ )); do
-                  grep -zoE "@[^{]+\{[^a-zA-Z0-9]*${modcites[$i]}[^@]+" "${bibfiles[@]}" >> pruned.bib
+                  grep -zoE "@[^{]+\{[^a-zA-Z0-9]*${cites[$i]}[^@]+" "${bibfiles[@]}" >> pruned.bib
               done
               sed -ri 's/^[^@]+@/@/g;s/^([^@}])/  \1/g' pruned.bib
+              #
+              #
+              # push changes to the repo
+              git config --global user.email "email@gmail.com"
+              git config --global user.name "github actions"
+              git add .
+              git commit -m "Upload changed files"
+              git push
            fi
-        continue-on-error: true
-        
-      - name: Complete initialization of folder
-        run: |
-           git config --global user.email "email@gmail.com"
-           git config --global user.name "github actions"
-           git add .
-           git commit -m "Upload changed files"
-           git push
         continue-on-error: true
 
   #_______________________________________________________________________
