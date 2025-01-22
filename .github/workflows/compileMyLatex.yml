@@ -210,7 +210,6 @@ jobs:
   #|     STRIP OUT UNUSED REFERENCES AND CONSTRUCT A PRUNED BIB FILE      |
   #|______________________________________________________________________|
   pruneBib:
-    needs: [defineVariables,initializeFolder,compressImages,build_latex]
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
@@ -258,13 +257,13 @@ jobs:
               modstr=$( sed -r 's/\+/\\+/g' <<<"$refstr" | sed -r 's/\-/\\-/g' | sed -r 's/\./\\\./g' )
               # break the references into individual entries that go into the array "cites"
               cites=( $(IFS=" " echo "$refstr") )
-              modcites=( $(IFS=" " echo "$refstr") )
-              # stuff this list into a file to retrieve later for the output file
-              printf "%s\n" "${cites[@]}" > cites.txt
+              modcites=( $(IFS=" " echo "$modstr") )
+              ## stuff this list into a file to retrieve later for the output file
+              ##printf "%s\n" "${cites[@]}" > cites.txt
               # Search for each of the cites in the bibfile(s) and extract the relevant full bib item for that citation, to 
               # put into the pruned bibfile
               for (( i=0; i<${#modcites[@]}; i++ )); do
-                  grep -zoE "@[^{]+\{[^a-zA-Z0-9]*${cites[$i]}[^@]+" "${bibfiles[@]}" >> pruned.bib
+                 grep -zoE "@[^{]+\{ *${modcites[$i]}[^@]+" "${bibfiles[@]}" >> pruned.bib
               done
               sed -ri 's/^[^@]+@/@/g;s/^([^@}])/  \1/g' pruned.bib
               #
