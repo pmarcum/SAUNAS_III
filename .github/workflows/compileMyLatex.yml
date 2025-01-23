@@ -43,6 +43,9 @@ jobs:
       contents: write
       #
     steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+        #
       - name: Prune the bib file
         # https://www.baeldung.com/linux/regex-matching
         # https://askubuntu.com/questions/1502281/using-grep-to-search-for-line-that-begins-with-a-variable-whose-value-is-a-dolla
@@ -110,6 +113,9 @@ jobs:
       contents: write
       #
     steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+        #
       - name: Define environmental variables
         run: |
            link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
@@ -138,6 +144,9 @@ jobs:
       contents: write
       #
     steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+        #
       - name: Remove files to initiate compilation process
         run: |
            fileliststr="$STARTFILE "
@@ -361,6 +370,9 @@ jobs:
       contents: write
       #
     steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+        #
       - name: compress PDF
         if: ${{ always() && hashFiles("${{ github.event.inputs.file2compile }}_hiRes.pdf") }}
         uses: jy95/ghostscript-action@v1
@@ -391,6 +403,9 @@ jobs:
       contents: write
       #
     steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+        #
       - name: Capture full compilation output
         run: |
            fatalErrors=false
@@ -588,6 +603,9 @@ jobs:
       contents: write
       #
     steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+        #
       - name: update START status file if compilation successful
         if: ${{ always() && ! ($FATALERRORS) }}
         run: |
