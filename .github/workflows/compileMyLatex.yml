@@ -121,7 +121,6 @@ jobs:
            echo "PDFHIRES=${{ github.event.inputs.file2compile }}_hiRes.pdf" >> $GITHUB_ENV
            echo "HTMLFILE=${{ github.event.inputs.file2compile }}.html" >> $GITHUB_ENV
            echo "STARTFILE=${{ github.event.inputs.file2compile }}START.txt" >> $GITHUB_ENV
-           echo "FULLLOG=${{ github.event.inputs.file2compile }}_full.log" >> $GITHUB_ENV
            echo "LOG=${{ github.event.inputs.file2compile }}.log" >> $GITHUB_ENV
            echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
         continue-on-error: true
@@ -143,7 +142,7 @@ jobs:
         run: |
            fileliststr="$STARTFILE "
            filelist=( \
-           "$FULLLOG","html.txt","$HTMLFILE","inpaperCites.txt","$LOG","$OUTFILE","$PDFFILE","$PDFHIRES", \
+           "html.txt","$HTMLFILE","inpaperCites.txt","$LOG","$OUTFILE","$PDFFILE","$PDFHIRES", \
            "$STARTFILE","usedBibfile.txt","warnout.txt" \
            )
            for (( i=0; i<${#filelist[@]}; i++ )); do
@@ -529,10 +528,7 @@ jobs:
       - name: Convert errors to html file
         if: ${{ always() && $fatalErrors }}
         run: |
-           # determine if there were no errors, meaning that errors.txt is empty file. If so, place the word none under the
-           # banner of this section in output file. But if there were errors, then remove the pdf file so that the pdf file
-           # that gets shown in gooTeX is the compilation errors rather than a mangled pdf.
-           # create a .html file from the out.txt file, then convert the html to pdf
+           # There were errors - Create a .html file from the out.txt file
            rm -f tout.txt
            rm -f html.txt
            rm -f "$PDFFILE"
@@ -626,7 +622,6 @@ jobs:
         run: |
            fileliststr="$OUTFILE "
            filelist=( \
-           "$FULLLOG",
            "html.txt",
            "inpaperCites.txt",
            "$LOG",
