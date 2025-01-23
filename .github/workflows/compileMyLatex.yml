@@ -264,16 +264,15 @@ jobs:
               # extract just the bibcode from the pruned bibfile to use for another file that will be used in the summary
               touch cites.txt
               grep "@" pruned.bib | sed -r 's/^[^ ]+\.bib: *//' | sed -r 's/@[^\{]+\{//' | sed -r 's/,//' >> cites.txt
-              #
-              #
-              # push changes to the repo
-              git config --global user.email "email@gmail.com"
-              git config --global user.name "github actions"
-              git add .
-              git commit -m "Upload changed files"
-              git push
-           fi
+            fi
         continue-on-error: true
+        #
+      - name: Prune the bib file
+        if: ${{ always() && hashFiles('pruned.bib') }}
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+           commit_message: post modified pruned.bib file
+           file_pattern: pruned.bib cites.txt
 
   #_______________________________________________________________________
   #|                                                                      |
