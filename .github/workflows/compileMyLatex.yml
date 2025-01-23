@@ -57,11 +57,18 @@ jobs:
            # determine if the pruned bib file is already being used in the document. If so, we should bypass 
            # all the below because pruned bib file does not need to be created.
            # First, make sure that there is a bibliography in the document.  Otherwise, don't even continue
-           makeNewPrunedBib=false          
+           makeNewPrunedBib=false
            if [[ "$(grep -Eq "\.bib" ${{ github.event.inputs.file2compile }}.tex")$?" == 0 ]]; then makeNewPrunedBib=true; fi
            # next, see if pruned.bib is already being used.  If so, then bail out now and dont try to recreate the pruned.bib
-           if [[ "$(grep -Eq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=false; fi           
+           if [[ "$(grep -Eq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=false; fi
+
+           echo " 65 ==========================================="
+           echo $makeNewPrunedBib
+           
            if $makeNewPrunedBib; then
+
+              echo " 70 ==============================="
+              
               rm -f pruned.bib
               touch pruned.bib
               # get a list of bib files used in this document:
@@ -69,25 +76,61 @@ jobs:
                  sed -r 's/^[^b]+bibliography\{([^}]+)\}[\n]*\n?/\1/i' | sed -r 's/ *//g')
               # make sure the bib files are not duplicated
               readarray -t bibfiles < <(printf '%s\n' "${res[@]}" | awk '!seen[$0]++')
+
+              echo " 80 =================================="
+              printf "%s\n" ${bibfiles[@]}
+              
               #
               # Now go through the .tex files and gather up all cited references
               readarray -t refs < <( grep "\cite" *.tex | sed -r 's/^[^ ]+\.tex: *//' | sed -r 's/^%.*$//' | \
                 sed -r 's/\a//g' | sed -r 's/\t//g' | sed -r 's/\\cite/\a/ig' | sed -r 's/\a[^{]*(\{[^}]*\})*\{([^}]+)\}/\a\2\t/g' | \
-                sed -r 's/^[^\a]+\a//' | sed -r 's/\t[^\a]+$//' | sed -r 's/\t[^\a]+\a/ /g' | sed -r 's/[,]/ /g' | sed -r 's/^[0-9]+$//g' )                
+                sed -r 's/^[^\a]+\a//' | sed -r 's/\t[^\a]+$//' | sed -r 's/\t[^\a]+\a/ /g' | sed -r 's/[,]/ /g' | sed -r 's/^[0-9]+$//g' )
+
+              echo " 89 ==============================="
+              printf "%s\n" ${refs[@]}
+              
               refstr=$( printf "%s " "${refs[@]}" )
+
+              echo " 94 =============================="
+              echo $refstr
+              
               refstr=$( sed -r 's/  +/ /g' <<<$refstr | sed -r 's/ [^ ]*[:(){}\\/]+[^ ]* / /g' )
+
+              echo " 99 ==========================="
+              echo $refstr
+              
               # any plus signs in the citation bib code causes problems because they are not escaped. The  below substitutes all plus signs and 
               # replaces with escaped pluses, so that grep will perform search on literal plus sign rather than interpret plus sign as meaning "search
               # for 2 or more of the character to left of plus sign". Periods also cause problems, as do dashes, and have to likewise be treated. 
               modstr=$( sed -r 's/\+/\\+/g' <<<"$refstr" | sed -r 's/\-/\\-/g' | sed -r 's/\./\\\./g' )
+
+              echo " 107 ========================="
+              echo $modstr
+              
               # break the references into individual entries that go into the array "cites"
               modcites=( $(IFS=" " echo "$modstr") )
+
+              echo "113 ========================="
+              printf "%s\n" ${modcites[@]}
+              
               # get a sorted unique list
               modcites=( $(echo "${modcites[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ') )
+
+              echo "119 ==========================="
+              printf "%s\n" ${modcites[@]}
+              
               # Search for each of the cites in the bibfile(s) and extract the relevant full bib item for that citation, to 
               # put into the pruned bibfile
               for (( i=0; i<${#modcites[@]}; i++ )); do -zoE "@[^{]+\{ *${modcites[$i]}[^@]+" "${bibfiles[@]}" | tr '\0' '\n' >> pruned.bib; done
+
+              echo " 126 =========================="
+              cat pruned.bib
+              
               sed -ri 's/^[^@]+@/@/g;s/^([^@}])/  \1/g' pruned.bib
+
+              echo " 131 ========================="
+              cat pruned.bib
+              
             fi
         continue-on-error: true
         #
