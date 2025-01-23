@@ -143,8 +143,6 @@ jobs:
         run: |
            fileliststr="$STARTFILE "
            filelist=( \
-           "$CORENAME.aux","$CORENAME.bbl","$CORENAME.blg","$CORENAME.fdb_latexmk", \
-           "$CORENAME.fls","$CORENAME.out","$CORENAME.sync*","$CORENAME.synctex.gz","doesNotUsePruned.txt","errout.txt*","fin.txt", \
            "$FULLLOG","html.txt","$HTMLFILE","inpaperCites.txt","$LOG","$OUTFILE","$PDFFILE","$PDFHIRES", \
            "$STARTFILE","usedBibfile.txt","warnout.txt" \
            )
@@ -333,12 +331,15 @@ jobs:
         # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
         id: compilation
         run: |
+           rm -f "$CORENAME.aux $CORENAME.bbl $CORENAME.blg $CORENAME.fdb_latexmk $CORENAME.fls $CORENAME.out $CORENAME.sync* $CORENAME.synctex.gz"
            rm -f compileOut.txt
            latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" 2>&1 | tee compileOut.txt
            echo "______________________________________________________________________________"
            cat compileOut.txt
            echo "______________________________________________________________________________"
            mv -f "$PDFFILE" "$PDFHIRES"
+           # clean up unneeded files from the compilation
+           rm -f "$CORENAME.aux $CORENAME.bbl $CORENAME.blg $CORENAME.fdb_latexmk $CORENAME.fls $CORENAME.out $CORENAME.sync* $CORENAME.synctex.gz"
         continue-on-error: true
         #
       - name: post the raw latex compilation output to repository for further processing
@@ -398,6 +399,7 @@ jobs:
            # ....... if the pdf file was generated, then the errors must have NOT been fatal.
            if [[ "$( -Eq "output to '${PDFFILE}'" compileOut.txt)$?" == 0 ]]; then fatalErrors=true; fi
            # ....... prepare the compilation log for processing by first removing all end-of-line characters
+           rm -f errout.txt
            touch errout.txt
            # ....... just to be safe, remove all \a, \t and \x0 because we use these as special markers later
            sed -ri 's/[\x0\a\t]/ /g' compileOut.txt
@@ -604,6 +606,8 @@ jobs:
       - name: Finalize compilation warning and errors output
         run: |
            # finalize the compilation output file by putting a few sentences at the top
+           rm -f fin.txt
+           rm -f "$OUTFILE"
            touch fin.txt
            echo "$TIMESTAMP" >> fin.txt
            echo "LATEX COMPILATION ERRORS and WARNINGS" >> fin.txt
@@ -622,17 +626,6 @@ jobs:
         run: |
            fileliststr="$OUTFILE "
            filelist=( \
-           "$CORENAME.aux",
-           "$CORENAME.bbl",
-           "$CORENAME.blg",
-           "$CORENAME.fdb_latexmk", \
-           "$CORENAME.fls",
-           "$CORENAME.out",
-           "$CORENAME.sync*",
-           "$CORENAME.synctex.gz",
-           "doesNotUsePruned.txt",
-           "errout.txt*",
-           "fin.txt", \
            "$FULLLOG",
            "html.txt",
            "inpaperCites.txt",
