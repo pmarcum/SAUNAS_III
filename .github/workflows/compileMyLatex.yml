@@ -76,7 +76,7 @@ jobs:
                 sed -r 's/^[^\a]+\a//' | sed -r 's/\t[^\a]+$//' | sed -r 's/\t[^\a]+\a/ /g' | sed -r 's/[,]/ /g' | sed -r 's/^[0-9]+$//g' )                
               refstr=$( printf "%s " "${refs[@]}" )
               refstr=$( sed -r 's/  +/ /g' <<<$refstr | sed -r 's/ [^ ]*[:(){}\\/]+[^ ]* / /g' )
-               # any plus signs in the citation bib code causes problems because they are not escaped. The  below substitutes all plus signs and 
+              # any plus signs in the citation bib code causes problems because they are not escaped. The  below substitutes all plus signs and 
               # replaces with escaped pluses, so that grep will perform search on literal plus sign rather than interpret plus sign as meaning "search
               # for 2 or more of the character to left of plus sign". Periods also cause problems, as do dashes, and have to likewise be treated. 
               modstr=$( sed -r 's/\+/\\+/g' <<<"$refstr" | sed -r 's/\-/\\-/g' | sed -r 's/\./\\\./g' )
