@@ -58,9 +58,9 @@ jobs:
            # all the below because pruned bib file does not need to be created.
            # First, make sure that there is a bibliography in the document.  Otherwise, don't even continue
            makeNewPrunedBib=false
-           if [[ "$(grep -Eq "\.bib" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then makeNewPrunedBib=true; fi
+           if [[ "$(grep -Eq "^ *\bibliography\{" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then makeNewPrunedBib=true; fi
            # next, see if pruned.bib is already being used.  If so, then bail out now and dont try to recreate the pruned.bib
-           if [[ "$(grep -Eq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=false; fi
+           if [[ "$(grep -Eq "^ *\bibliography\{pruned\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=false; fi
 
            echo " 65 ==========================================="
            echo $makeNewPrunedBib
