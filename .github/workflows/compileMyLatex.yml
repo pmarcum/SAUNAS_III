@@ -89,9 +89,6 @@ jobs:
                  grep -zoE "@[^{]+\{ *${modcites[$i]}[^@]+" "${bibfiles[@]}" | tr '\0' '\n' >> pruned.bib
               done
               sed -ri 's/^[^@]+@/@/g;s/^([^@}])/  \1/g' pruned.bib
-              # extract just the bibcode from the pruned bibfile to use for another file that will be used in the summary
-              touch cites.txt
-              grep "@" pruned.bib | sed -r 's/^[^ ]+\.bib: *//' | sed -r 's/@[^\{]+\{//' | sed -r 's/,//' >> cites.txt
             fi
         continue-on-error: true
         #
@@ -100,7 +97,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
            commit_message: post modified pruned.bib file
-           file_pattern: pruned.bib cites.txt
+           file_pattern: pruned.bib
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -148,7 +145,7 @@ jobs:
         run: |
            fileliststr="$STARTFILE "
            filelist=( \
-           "bibout.txt","cites.txt","compileOut.txt*","$CORENAME.aux","$CORENAME.bbl","$CORENAME.blg","$CORENAME.fdb_latexmk", \
+           "compileOut.txt*","$CORENAME.aux","$CORENAME.bbl","$CORENAME.blg","$CORENAME.fdb_latexmk", \
            "$CORENAME.fls","$CORENAME.out","$CORENAME.sync*","$CORENAME.synctex.gz","doesNotUsePruned.txt","errout.txt*","fin.txt", \
            "$FULLLOG","html.txt","$HTMLFILE","inpaperCites.txt","$LOG","$OUTFILE","$PDFFILE","$PDFHIRES", \
            "$STARTFILE","thereAreErrors.txt","tout.txt","usedBibfile.txt","warnout.txt" \
@@ -522,11 +519,17 @@ jobs:
            echo "              LIST OF REFERENCES IN $TEXFILE" >> tout.txt
            echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
            # create an array of just the bibcodes
+           # extract just the bibcode from the pruned bibfile to use for another file that will be used in the summary
+           rm -f cites.txt
+           touch cites.txt
+           grep "@" pruned.bib | sed -r 's/^[^ ]+\.bib: *//' | sed -r 's/@[^\{]+\{//' | sed -r 's/,//' >> cites.txt
+
            readarray -t res < cites.txt
            if [[ ${#res[@]} -gt 0 ]]; then echo "Number of citations: ${#res[@]}" >> tout.txt; fi
            for (( i=0; i<${#res[@]}; i++ )); do echo "${res[$i]}" >> tout.txt; done
            if [[ ${#res[@]} == 0 ]]; then echo "        None"; fi
            mv tout.txt "$OUTFILE"
+           rm -f cites.txt
         continue-on-error: true
         #
       - name: Convert errors to html file
@@ -627,10 +630,26 @@ jobs:
         run: |
            fileliststr="$OUTFILE "
            filelist=( \
-           "bibout.txt","cites.txt","compileOut.txt*","$CORENAME.aux","$CORENAME.bbl","$CORENAME.blg","$CORENAME.fdb_latexmk", \
-           "$CORENAME.fls","$CORENAME.out","$CORENAME.sync*","$CORENAME.synctex.gz","doesNotUsePruned.txt","errout.txt*","fin.txt", \
-           "$FULLLOG","html.txt","inpaperCites.txt","$LOG","thereAreErrors.txt","uncompressed.list", \
-           "usedBibfile.txt","warnout.txt" \
+           "compileOut.txt*",
+           "$CORENAME.aux",
+           "$CORENAME.bbl",
+           "$CORENAME.blg",
+           "$CORENAME.fdb_latexmk", \
+           "$CORENAME.fls",
+           "$CORENAME.out",
+           "$CORENAME.sync*",
+           "$CORENAME.synctex.gz",
+           "doesNotUsePruned.txt",
+           "errout.txt*",
+           "fin.txt", \
+           "$FULLLOG",
+           "html.txt",
+           "inpaperCites.txt",
+           "$LOG",
+           "thereAreErrors.txt",
+           "uncompressed.list", \
+           "usedBibfile.txt",
+           "warnout.txt" \
            )
            for (( i=0; i<${#filelist[@]}; i++ )); do
              if [ hashFiles("${filelist[$i]}") ]; then
