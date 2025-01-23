@@ -125,7 +125,6 @@ jobs:
            echo "PDFHIRES=${{ github.event.inputs.file2compile }}_hiRes.pdf" >> $GITHUB_ENV
            echo "HTMLFILE=${{ github.event.inputs.file2compile }}.html" >> $GITHUB_ENV
            echo "STARTFILE=${{ github.event.inputs.file2compile }}START.txt" >> $GITHUB_ENV
-           echo "LOG=${{ github.event.inputs.file2compile }}.log" >> $GITHUB_ENV
            echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
         continue-on-error: true
 
