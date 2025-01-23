@@ -86,7 +86,7 @@ jobs:
               # Search for each of the cites in the bibfile(s) and extract the relevant full bib item for that citation, to 
               # put into the pruned bibfile
               for (( i=0; i<${#modcites[@]}; i++ )); do
-                 grep -zoE "@[^{]+\{ *${modcites[$i]}[^@]+" "${bibfiles[@]}" | tr '\0' '\n' >> pruned.bib
+                  -zoE "@[^{]+\{ *${modcites[$i]}[^@]+" "${bibfiles[@]}" | tr '\0' '\n' >> pruned.bib
               done
               sed -ri 's/^[^@]+@/@/g;s/^([^@}])/  \1/g' pruned.bib
             fi
@@ -397,7 +397,7 @@ jobs:
            fileliststr=''
            # ....... if the pdf file was generated, then the errors must have NOT been fatal.
            rm -f noFatalErrors.txt
-           if [[ "$(grep -Eq "output to '${PDFFILE}'" compileOut.txt)$?" == 0 ]]; then touch noFatalErrors.txt; fi
+           if [[ "$( -Eq "output to '${PDFFILE}'" compileOut.txt)$?" == 0 ]]; then touch noFatalErrors.txt; fi
            # ....... prepare the compilation log for processing by first removing all end-of-line characters
            touch errout.txt
            # ....... just to be safe, remove all \a, \t and \x0 because we use these as special markers later
@@ -476,7 +476,7 @@ jobs:
                   if [[ $linenum > 0 ]]; then
                      # look for all occurances of this line number in the error/warning list
                      for (( j=0; j<${#sorted[@]}; j++ )); do
-                        if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$j]}" )$?" == 0 ]]; then
+                        if [[ "$(  -q -E -- "^$linenum-" <<<"${sorted[$j]}" )$?" == 0 ]]; then
                            line="$( echo "${sorted[$j]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' )"
                            echo $line >> tout.txt
                            # remove this item from the list
@@ -510,7 +510,7 @@ jobs:
         #
       - name: Gather up list of references
         run: |     
-           # https://stackoverflow.com/questions/57788813/grep-return-0-if-no-match
+           # https://stackoverflow.com/questions/57788813/-return-0-if-no-match
            # squash.io/extracting=numbers-from-strings-in-bash
            # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
            # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
@@ -520,16 +520,17 @@ jobs:
            echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
            # create an array of just the bibcodes
            # extract just the bibcode from the pruned bibfile to use for another file that will be used in the summary
-           rm -f cites.txt
-           touch cites.txt
-           grep "@" pruned.bib | sed -r 's/^[^ ]+\.bib: *//' | sed -r 's/@[^\{]+\{//' | sed -r 's/,//' >> cites.txt
-
-           readarray -t res < cites.txt
-           if [[ ${#res[@]} -gt 0 ]]; then echo "Number of citations: ${#res[@]}" >> tout.txt; fi
-           for (( i=0; i<${#res[@]}; i++ )); do echo "${res[$i]}" >> tout.txt; done
-           if [[ ${#res[@]} == 0 ]]; then echo "        None"; fi
+           ####grep "@" pruned.bib | sed -r 's/^[^ ]+\.bib: *//' | sed -r 's/@[^\{]+\{//' | sed -r 's/,//' >> cites.txt
+           readarray -t cites < <( grep "@" pruned.bib | sed -r 's/^[^ ]+\.bib: *//' | sed -r 's/@[^\{]+\{//' | sed -r 's/,//' )
+           if [[ ${#cites[@]} -gt 0 ]]; then echo "Number of citations: ${#cites[@]}" >> tout.txt; fi
+           for (( i=0; i<${#cites[@]}; i++ )); do echo "${cites[$i]}" >> tout.txt; done
+           if [[ ${#cites[@]} == 0 ]]; then echo "        None"; fi
+           ####readarray -t res < cites.txt
+           ####if [[ ${#res[@]} -gt 0 ]]; then echo "Number of citations: ${#res[@]}" >> tout.txt; fi
+           ####for (( i=0; i<${#res[@]}; i++ )); do echo "${res[$i]}" >> tout.txt; done
+           ####if [[ ${#res[@]} == 0 ]]; then echo "        None"; fi
            mv tout.txt "$OUTFILE"
-           rm -f cites.txt
+           ####rm -f cites.txt
         continue-on-error: true
         #
       - name: Convert errors to html file
