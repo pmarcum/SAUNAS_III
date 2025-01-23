@@ -62,7 +62,7 @@ jobs:
            # next, see if pruned.bib is already being used.  If so, then bail out now and dont try to recreate the pruned.bib
            if [[ "$(grep -Eq "^ *\\\\bibliography{pruned(\.bib)?" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=false; fi
 
-           echo makeNewPrunedBib
+           echo $makeNewPrunedBib
            
            if $makeNewPrunedBib; then
 
