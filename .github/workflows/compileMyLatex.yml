@@ -131,43 +131,9 @@ jobs:
 
   #_______________________________________________________________________
   #|                                                                      |
-  #|           GET THE DIRECTORY SET UP BY REMOVING OLD FILES             |
-  #|______________________________________________________________________|
-  initializeFolder:
-    needs: defineVariables
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    permissions:
-      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
-      contents: write
-      #
-    steps:
-      - name: Clone repo
-        uses: actions/checkout@v4
-        #
-      - name: Post note showing that processing has started
-        run: |
-           rm -f $STARTFILE
-           touch $STARTFILE
-           echo $TIMESTAMP >> $STARTFILE
-           echo $JOBLINK   >> $STARTFILE
-           echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}."  >> $STARTFILE
-           echo "precomp"  >> $STARTFILE
-        continue-on-error: true
-        #
-      - name: post the start file and removed files to repository
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-           commit_message: post initialized files/folders to repository
-           file_pattern: $STARTFILE
-        continue-on-error: true
-
-  #_______________________________________________________________________
-  #|                                                                      |
   #|         COMPRESS THE IMAGES IF THERE ARE UNCOMPRESSED ONES           |
   #|______________________________________________________________________|
   compressImages:
-    needs: initializeFolder
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
@@ -249,6 +215,39 @@ jobs:
         with:
            commit_message: post compressed images
            file_pattern: $COMPRESSEDIMAGES
+        continue-on-error: true
+
+  #_______________________________________________________________________
+  #|                                                                      |
+  #|           GET THE DIRECTORY SET UP BY REMOVING OLD FILES             |
+  #|______________________________________________________________________|
+  initializeFolder:
+    needs: defineVariables
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+      #
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+        #
+      - name: Post note showing that processing has started
+        run: |
+           rm -f $STARTFILE
+           touch $STARTFILE
+           echo $TIMESTAMP >> $STARTFILE
+           echo $JOBLINK   >> $STARTFILE
+           echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}."  >> $STARTFILE
+           echo "precomp"  >> $STARTFILE
+        continue-on-error: true
+        #
+      - name: post the start file and removed files to repository
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+           commit_message: post initialized files/folders to repository
+           file_pattern: $STARTFILE
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -363,17 +362,17 @@ jobs:
         if: ${{ always() && hashFiles("${{ github.event.inputs.file2compile }}_hiRes.pdf") }}
         uses: jy95/ghostscript-action@v1
         with:
-           file: "${{ github.event.inputs.file2compile }}_hiRes.pdf"
-           output: "${{ github.event.inputs.file2compile }}.pdf"
+           file: "$PDFHIRES"
+           output: "$PDFFILE"
            arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
         continue-on-error: true
         #
       - name: post reduced resolution PDF on repository
-        if: ${{ always() && hashFiles("${{ github.event.inputs.file2compile }}.pdf") }}
+        if: ${{ always() && hashFiles("$PDFFILE") }}
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-           commit_message: post hi- and low-resolution versions of PDF
-           file_pattern: "${{ github.event.inputs.file2compile }}.pdf"
+           commit_message: post low-resolution version of PDF
+           file_pattern: "$PDFFILE"
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -531,16 +530,15 @@ jobs:
            if [[ ${#cites[@]} == 0 ]]; then echo "        None"; fi
            rm -f $OUTFILE
            mv tout.txt "$OUTFILE"
+           rm -f html.txt
+           rm -f finHtml.html
+           rm -f $HTMLFILE
            if [$fatalErrors]; then
               #
               # =======================================================================
               #        construct the html file showing errors, if there were fatal ones
               # =======================================================================
               # There were errors - Create a .html file from the out.txt file
-              rm -f tout.txt
-              rm -f html.txt
-              rm -f finHtml.html
-              rm -f $HTMLFILE
               rm -f "$PDFFILE"
               rm -f "$PDFHIRES"
               # make sure that long lines are split if they exceed 20 words
@@ -604,36 +602,4 @@ jobs:
         with:
            commit_message: low-resolution version of PDF
            file_pattern: "$STARTFILE $OUTFILE $HTMLFILE"
-        continue-on-error: true
-
-  #_______________________________________________________________________
-  #|                                                                      |
-  #|                      FINALIZE THE FOLDER                             |
-  #|______________________________________________________________________|
-  finalizeFolder:
-    needs: [initializeFolder,compressImages]
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    permissions:
-      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
-      contents: write
-      #
-    steps:
-      - name: Clone repo
-        uses: actions/checkout@v4
-        #
-      - name: update START status file if compilation successful
-        if: ${{ always() && ! ($FATALERRORS) }}
-        run: |
-        #
-      - name: Clean up folder before saving files
-        run: |
-           fileliststr="$OUTFILE "
-           for (( i=0; i<${#filelist[@]}; i++ )); do
-             if [ hashFiles("${filelist[$i]}") ]; then
-               fileliststr+="${filelist[$i]} "
-               rm -f "${filelist[$i]}"
-             fi
-           done
-           echo "FINALIZEDFILES=$fileliststr" >> $GITHUB_ENV
         continue-on-error: true
