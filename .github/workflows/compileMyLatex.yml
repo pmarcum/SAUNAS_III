@@ -213,7 +213,6 @@ jobs:
   #|     STRIP OUT UNUSED REFERENCES AND CONSTRUCT A PRUNED BIB FILE      |
   #|______________________________________________________________________|
   pruneBib:
-    needs: initializeFolder
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
@@ -314,7 +313,7 @@ jobs:
   #|                     PROCESS COMPILATION OUTPUT                       |
   #|______________________________________________________________________|
   processLogFile:
-    needs: [build_latex,compressImages]
+    needs: build_latex
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
@@ -519,7 +518,7 @@ jobs:
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
-      
+      #
     steps:
       - name: update START status file if compilation successful
         if: ${{ always() && ! hashFiles('thereAreErrors.txt') }}
@@ -531,7 +530,7 @@ jobs:
            echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"  >> $STARTFILE
            echo "pdf"  >> $STARTFILE
         continue-on-error: true
-        
+        #
       - name: Finalize compilation warning and errors output
         run: |
            # finalize the compilation output file by putting a few sentences at the top
@@ -548,41 +547,31 @@ jobs:
            done < "$OUTFILE"
            mv -f fin.txt "$OUTFILE"
         continue-on-error: true
-
+        #
       - name: Clean up folder before saving files
         run: |
-           rm -f fin.txt
-           rm -f $FULLLOG
-           rm -f $LOG
-           rm -f $CORENAME.aux
-           rm -f $CORENAME.bbl
-           rm -f $CORENAME.blg
-           rm -f $CORENAME.fdb_latexmk
-           rm -f $CORENAME.fls
-           rm -f $CORENAME.sync*
-           rm -f inpaperCites.txt
-           rm -f thereAreErrors.txt
-           rm -f noFatalErrors.txt
-           rm -f doesNotUsePruned.txt
-           rm -f usedBibfile.txt
-           rm -f compileOut.txt*
-           rm -f errout.txt*
-           rm -f cites.txt
-           rm -f html.txt
-           rm -f warnout.txt
-           rm -f bibout.txt
-           rm -f $CORENAME.synctex.gz
-           rm -f $CORENAME.out
-           rm -f uncompressed.list
+           fileliststr="$OUTFILE "
+           filelist=( \
+           "bibout.txt","cites.txt","compileOut.txt*","$CORENAME.aux","$CORENAME.bbl","$CORENAME.blg","$CORENAME.fdb_latexmk", \
+           "$CORENAME.fls","$CORENAME.out","$CORENAME.sync*","$CORENAME.synctex.gz","doesNotUsePruned.txt","errout.txt*","fin.txt", \
+           "$FULLLOG","html.txt","inpaperCites.txt","$LOG","noFatalErrors.txt","thereAreErrors.txt","uncompressed.list", \
+           "usedBibfile.txt","warnout.txt" \
+           )
+           for (( i=0; i<${#filelist[@]}; i++ )); do
+             if [ hashFiles("${filelist[$i]}") ]; then
+               fileliststr+="${filelist[$i]} "
+               rm -f "${filelist[$i]}"
+             fi
+           done
+           echo "FINALIZEDFILES=$fileliststr" >> $GITHUB_ENV
         continue-on-error: true
-      
-      - name: Post new files to folder
-        run: |
-           git config --global user.email "email@gmail.com"
-           git config --global user.name "github actions"
-           git add .
-           git commit -m "Upload changed files"
-           git push
+        #
+      - name: post reduced resolution PDF on repository
+        if: ${{ always() && hashFiles("${{ github.event.inputs.file2compile }}.pdf") }}
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+           commit_message: $FINALIZEDFILES
+           file_pattern: "${{ github.event.inputs.file2compile }}.pdf"
         continue-on-error: true
 
   #_______________________________________________________________________
