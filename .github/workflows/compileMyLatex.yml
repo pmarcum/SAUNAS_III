@@ -145,7 +145,7 @@ jobs:
         run: |
            fileliststr="$STARTFILE "
            filelist=( \
-           "compileOut.txt*","$CORENAME.aux","$CORENAME.bbl","$CORENAME.blg","$CORENAME.fdb_latexmk", \
+           "$CORENAME.aux","$CORENAME.bbl","$CORENAME.blg","$CORENAME.fdb_latexmk", \
            "$CORENAME.fls","$CORENAME.out","$CORENAME.sync*","$CORENAME.synctex.gz","doesNotUsePruned.txt","errout.txt*","fin.txt", \
            "$FULLLOG","html.txt","$HTMLFILE","inpaperCites.txt","$LOG","$OUTFILE","$PDFFILE","$PDFHIRES", \
            "$STARTFILE","usedBibfile.txt","warnout.txt" \
@@ -335,6 +335,7 @@ jobs:
         # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
         id: compilation
         run: |
+           rm -f compileOut.txt
            latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" 2>&1 | tee compileOut.txt
            echo "______________________________________________________________________________"
            cat compileOut.txt
@@ -518,21 +519,15 @@ jobs:
            echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
            # create an array of just the bibcodes
            # extract just the bibcode from the pruned bibfile to use for another file that will be used in the summary
-           ####grep "@" pruned.bib | sed -r 's/^[^ ]+\.bib: *//' | sed -r 's/@[^\{]+\{//' | sed -r 's/,//' >> cites.txt
            readarray -t cites < <( grep "@" pruned.bib | sed -r 's/^[^ ]+\.bib: *//' | sed -r 's/@[^\{]+\{//' | sed -r 's/,//' )
            if [[ ${#cites[@]} -gt 0 ]]; then echo "Number of citations: ${#cites[@]}" >> tout.txt; fi
            for (( i=0; i<${#cites[@]}; i++ )); do echo "${cites[$i]}" >> tout.txt; done
            if [[ ${#cites[@]} == 0 ]]; then echo "        None"; fi
-           ####readarray -t res < cites.txt
-           ####if [[ ${#res[@]} -gt 0 ]]; then echo "Number of citations: ${#res[@]}" >> tout.txt; fi
-           ####for (( i=0; i<${#res[@]}; i++ )); do echo "${res[$i]}" >> tout.txt; done
-           ####if [[ ${#res[@]} == 0 ]]; then echo "        None"; fi
            mv tout.txt "$OUTFILE"
-           ####rm -f cites.txt
         continue-on-error: true
         #
       - name: Convert errors to html file
-        if: ${{ always() && fatalErrors }}
+        if: ${{ always() && $fatalErrors }}
         run: |
            # determine if there were no errors, meaning that errors.txt is empty file. If so, place the word none under the
            # banner of this section in output file. But if there were errors, then remove the pdf file so that the pdf file
@@ -629,7 +624,6 @@ jobs:
         run: |
            fileliststr="$OUTFILE "
            filelist=( \
-           "compileOut.txt*",
            "$CORENAME.aux",
            "$CORENAME.bbl",
            "$CORENAME.blg",
