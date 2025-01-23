@@ -61,6 +61,53 @@ jobs:
 
   #_______________________________________________________________________
   #|                                                                      |
+  #|           GET THE DIRECTORY SET UP BY REMOVING OLD FILES             |
+  #|______________________________________________________________________|
+  initializeFolder:
+    needs: defineVariables
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+      #
+    steps:
+      - name: Remove files to initiate compilation process
+        run: |
+           fileliststr="$STARTFILE "
+           filelist=( \
+           "bibout.txt","cites.txt","compileOut.txt*","$CORENAME.aux","$CORENAME.bbl","$CORENAME.blg","$CORENAME.fdb_latexmk", \
+           "$CORENAME.fls","$CORENAME.out","$CORENAME.sync*","$CORENAME.synctex.gz","doesNotUsePruned.txt","errout.txt*","fin.txt", \
+           "$FULLLOG","html.txt","$HTMLFILE","inpaperCites.txt","$LOG","$OUTFILE","$PDFFILE","$PDFHIRES", \
+           "$STARTFILE","thereAreErrors.txt","tout.txt","usedBibfile.txt","warnout.txt" \
+           )
+           for (( i=0; i<${#filelist[@]}; i++ )); do
+             if [ hashFiles("${filelist[$i]}") ]; then
+               fileliststr+="${filelist[$i]} "
+               rm -f "${filelist[$i]}"
+             fi
+           done           
+           echo "INITIALIZEDFILES=$fileliststr" >> $GITHUB_ENV
+        continue-on-error: true
+        #
+      - name: Post note showing that processing has started
+        run: |
+           touch $STARTFILE
+           echo $TIMESTAMP >> $STARTFILE
+           echo $JOBLINK   >> $STARTFILE
+           echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"  >> $STARTFILE
+           echo "precomp"  >> $STARTFILE
+        continue-on-error: true
+        #
+      - name: post the start file and removed files to repository
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+           commit_message: post initialized files/folders to repository
+           file_pattern: $INITIALIZEDFILES
+        continue-on-error: true
+
+  #_______________________________________________________________________
+  #|                                                                      |
   #|         COMPRESS THE IMAGES IF THERE ARE UNCOMPRESSED ONES           |
   #|______________________________________________________________________|
   compressImages:
@@ -146,53 +193,6 @@ jobs:
         with:
            commit_message: post compressed images
            file_pattern: $COMPRESSEDIMAGES
-        continue-on-error: true
-
-  #_______________________________________________________________________
-  #|                                                                      |
-  #|           GET THE DIRECTORY SET UP BY REMOVING OLD FILES             |
-  #|______________________________________________________________________|
-  initializeFolder:
-    needs: defineVariables
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    permissions:
-      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
-      contents: write
-      #
-    steps:
-      - name: Remove files to initiate compilation process
-        run: |
-           fileliststr="$STARTFILE "
-           filelist=( \
-           "bibout.txt","cites.txt","compileOut.txt*","$CORENAME.aux","$CORENAME.bbl","$CORENAME.blg","$CORENAME.fdb_latexmk", \
-           "$CORENAME.fls","$CORENAME.out","$CORENAME.sync*","$CORENAME.synctex.gz","doesNotUsePruned.txt","errout.txt*","fin.txt", \
-           "$FULLLOG","html.txt","$HTMLFILE","inpaperCites.txt","$LOG","$OUTFILE","$PDFFILE","$PDFHIRES", \
-           "$STARTFILE","thereAreErrors.txt","tout.txt","usedBibfile.txt","warnout.txt" \
-           )
-           for (( i=0; i<${#filelist[@]}; i++ )); do
-             if [ hashFiles("${filelist[$i]}") ]; then
-               fileliststr+="${filelist[$i]} "
-               rm -f "${filelist[$i]}"
-             fi
-           done           
-           echo "INITIALIZEDFILES=$fileliststr" >> $GITHUB_ENV
-        continue-on-error: true
-        #
-      - name: Post note showing that processing has started
-        run: |
-           touch $STARTFILE
-           echo $TIMESTAMP >> $STARTFILE
-           echo $JOBLINK   >> $STARTFILE
-           echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"  >> $STARTFILE
-           echo "precomp"  >> $STARTFILE
-        continue-on-error: true
-        #
-      - name: post the start file and removed files to repository
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-           commit_message: post initialized files/folders to repository
-           file_pattern: $INITIALIZEDFILES
         continue-on-error: true
 
   #_______________________________________________________________________
