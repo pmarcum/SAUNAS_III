@@ -59,7 +59,7 @@ jobs:
            # First, make sure that there is a bibliography in the document.  Otherwise, don't even continue
            makeNewPrunedBib=false
 
-           if [[ "$(grep -Eq "bibliography" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then
+           if [[ "$(grep -Eq "\\bibliography" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then
               echo 'yes'
            else
               echo 'no'
