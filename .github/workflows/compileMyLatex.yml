@@ -64,6 +64,7 @@ jobs:
   #|         COMPRESS THE IMAGES IF THERE ARE UNCOMPRESSED ONES           |
   #|______________________________________________________________________|
   compressImages:
+    needs: initializeFolder
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
@@ -82,6 +83,7 @@ jobs:
         #
       - name: Search for uncompressed images, and compress them
         run: |
+           listOfCompressedFiles=''
            compressionDone=false
            bigfile=500000
            minDpi=150  # optimal dpi for pdf files
@@ -93,6 +95,7 @@ jobs:
            maxHeight=${maxHeight%.*}
            shopt -s globstar
            for imagefile in **/*UNCOMPRESSED.*; do
+              listOfCompressedFiles+="${imagefile} "
               newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
               pdfname=$(echo "${newname}" | sed 's/\..*$/\.pdf/')
               fileSize=$( stat -c %s -- "${imagefile}"  )
@@ -133,15 +136,16 @@ jobs:
                   mv -f "${imagefile}" "${newname}"
               fi
            done
-           #
-           # Save the folder if compression was performed
-           if $compressionDone; then
-             git config --global user.email "email@gmail.com"
-             git config --global user.name "github actions"
-             git add .
-             git commit -m "Upload changed files"
-             git push
-           fi
+           echo "COMPRESSEDIMAGES=${listOfCompressedFiles}" >> $GITHUB_ENV
+           echo "COMPRESSIONDONE=${compressionDone}" >> $GITHUB_ENV
+        continue-on-error: true
+        #
+      - name: post newly compressed images to repository
+        if: ${{ always() && $COMPRESSIONDONE }}
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+           commit_message: post compressed images
+           file_pattern: $COMPRESSEDIMAGES
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -159,34 +163,25 @@ jobs:
     steps:
       - name: Remove files to initiate compilation process
         run: |
-           rm -f bibout.txt
-           rm -f cites.txt
-           rm -f compileOut.txt*
-           rm -f $CORENAME.aux
-           rm -f $CORENAME.bbl
-           rm -f $CORENAME.blg
-           rm -f $CORENAME.fdb_latexmk
-           rm -f $CORENAME.fls
-           rm -f $CORENAME.out
-           rm -f $CORENAME.sync*
-           rm -f $CORENAME.synctex.gz
-           rm -f doesNotUsePruned.txt
-           rm -f errout.txt*
-           rm -f fin.txt
-           rm -f $FULLLOG
-           rm -f html.txt
-           rm -f $HTMLFILE
-           rm -f inpaperCites.txt
-           rm -f $LOG
-           rm -f noFatalErrors.txt
-           rm -f $OUTFILE
-           rm -f $PDFFILE
-           rm -f $PDFHIRES
-           rm -f $STARTFILE
-           rm -f thereAreErrors.txt
-           rm -f tout.txt
-           rm -f usedBibfile.txt
-           rm -f warnout.txt
+           fileliststr="$STARTFILE "
+           filelist=( \
+           "bibout.txt","cites.txt","compileOut.txt*","$CORENAME.aux","$CORENAME.bbl","$CORENAME.blg","$CORENAME.fdb_latexmk", \
+           "$CORENAME.fls","$CORENAME.out","$CORENAME.sync*","$CORENAME.synctex.gz","doesNotUsePruned.txt","errout.txt*","fin.txt", \
+           "$FULLLOG","html.txt","$HTMLFILE","inpaperCites.txt","$LOG","noFatalErrors.txt","$OUTFILE","$PDFFILE","$PDFHIRES", \
+           "$STARTFILE","thereAreErrors.txt","tout.txt","usedBibfile.txt","warnout.txt" \
+           )
+           for (( i=0; i<${#filelist[@]}; i++ )); do
+             if [ hashFiles("${filelist[$i]}") ]; then
+               fileliststr+="${filelist[$i]} "
+               rm -f "${filelist[$i]}"
+             fi
+           done           
+           #rm -f bibout.txt   #rm -f cites.txt    #rm -f compileOut.txt*   #rm -f $CORENAME.aux   #rm -f $CORENAME.bbl   #rm -f $CORENAME.blg
+           #rm -f $CORENAME.fdb_latexmk   #rm -f $CORENAME.fls   #rm -f $CORENAME.out  #rm -f $CORENAME.sync*  #rm -f $CORENAME.synctex.gz
+           #rm -f doesNotUsePruned.txt  #rm -f errout.txt*  #rm -f fin.txt  #rm -f $FULLLOG  #rm -f html.txt  #rm -f $HTMLFILE #rm -f inpaperCites.txt
+           #rm -f $LOG  #rm -f noFatalErrors.txt  #rm -f $OUTFILE  #rm -f $PDFFILE #rm -f $PDFHIRES  #rm -f $STARTFILE #rm -f thereAreErrors.tx
+           #rm -f tout.txt  #rm -f usedBibfile.txt #rm -f warnout.txt
+           echo "INITIALIZEDFILES=$fileliststr" >> $GITHUB_ENV
         continue-on-error: true
         #
       - name: Post note showing that processing has started
@@ -196,20 +191,29 @@ jobs:
            echo $JOBLINK   >> $STARTFILE
            echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"  >> $STARTFILE
            echo "precomp"  >> $STARTFILE
-           #
-           # Post the START file on the repository
-           git config --global user.email "email@gmail.com"
-           git config --global user.name "github actions"
-           git add .
-           git commit -m "Upload changed files"
-           git push
         continue-on-error: true
+        #
+      - name: post the start file and removed files to repository
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+           commit_message: post initialized files/folders to repository
+           file_pattern: $INITIALIZEDFILES
+        continue-on-error: true
+        #    #
+        #    # Post the START file on the repository
+        #    git config --global user.email "email@gmail.com"
+        #    git config --global user.name "github actions"
+        #    git add .
+        #    git commit -m "Upload changed files"
+        #    git push
+        # continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
   #|     STRIP OUT UNUSED REFERENCES AND CONSTRUCT A PRUNED BIB FILE      |
   #|______________________________________________________________________|
   pruneBib:
+    needs: initializeFolder
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
@@ -267,42 +271,42 @@ jobs:
             fi
         continue-on-error: true
         #
-      - name: Prune the bib file
+      - name: post pruned bibfile on repository
         if: ${{ always() && hashFiles('pruned.bib') }}
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
            commit_message: post modified pruned.bib file
            file_pattern: pruned.bib cites.txt
+        continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
   #|     COMPRESS THE PDF FILE INTO LOWER RESOLUTION FILE FOR DISPLAY     |
   #|______________________________________________________________________|
   compressPdf:
-    needs: [initializeFolder,compressImages,build_latex]
+    needs: build_latex
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
-      
+      #
     steps:
       - name: compress PDF
-        if: ${{ always() && ! hashFiles('thereAreErrors.txt') }}
+        if: ${{ always() && hashFiles("${{ github.event.inputs.file2compile }}_hiRes.pdf") }}
         uses: jy95/ghostscript-action@v1
         with:
            file: "${{ github.event.inputs.file2compile }}_hiRes.pdf"
            output: "${{ github.event.inputs.file2compile }}.pdf"
            arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
         continue-on-error: true
-        
-      - name: Complete initialization of folder
-        run: |
-           git config --global user.email "email@gmail.com"
-           git config --global user.name "github actions"
-           git add .
-           git commit -m "Upload changed files"
-           git push
+        #
+      - name: post reduced resolution PDF on repository
+        if: ${{ always() && hashFiles("${{ github.event.inputs.file2compile }}.pdf") }}
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+           commit_message: post reduced resolution version of the PDF
+           file_pattern: "${{ github.event.inputs.file2compile }}.pdf"
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -310,13 +314,13 @@ jobs:
   #|                     PROCESS COMPILATION OUTPUT                       |
   #|______________________________________________________________________|
   processLogFile:
-    needs: [initializeFolder,compressImages,build_latex]
+    needs: [build_latex,compressImages]
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
-      
+      #
     steps:
       - name: Capture full compilation output
         run: |
@@ -370,7 +374,7 @@ jobs:
            cat errout.txt | sort -r -t- -g -k1,1n -k2 -s | uniq | sed -r 's/\a/ /g' > tmp.txt
            mv -f tmp.txt errout.txt
         continue-on-error: true
-
+        #
       - name: Process the errors and warnings
         # remove lines in the output that are unrelated to the latex compilation itself
         run: |
@@ -432,7 +436,7 @@ jobs:
               echo " " >> tout.txt
            done
         continue-on-error: true
-          
+        #
       - name: Gather up list of references
         run: |     
            # https://stackoverflow.com/questions/57788813/grep-return-0-if-no-match
@@ -450,7 +454,7 @@ jobs:
            if [[ ${#res[@]} == 0 ]]; then echo "        None"; fi
            mv tout.txt "$OUTFILE"
         continue-on-error: true
-
+        #
       - name: Convert errors to html file
         if: ${{ always() && hashFiles('thereAreErrors.txt') }}
         run: |
@@ -494,7 +498,7 @@ jobs:
            echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"  >> $STARTFILE
            echo "html"  >> $STARTFILE
         continue-on-error: true
-        
+        #
       - name: Complete initialization of folder
         run: |
            git config --global user.email "email@gmail.com"
