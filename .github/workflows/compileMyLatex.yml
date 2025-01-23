@@ -12,7 +12,7 @@ name: Build LaTeX document and Release PDF
 # https://mrturkmen.com/posts/build-release-latex/
 # https://github.com/PHPirates/travis-ci-latex-pdf/blob/master/.github/workflows/texlive.yml
 # https://github.com/teatimeguest/setup-texlive-action  includes caching
-
+#
 on:
   workflow_dispatch:
     inputs: 
@@ -24,7 +24,7 @@ on:
 concurrency:
   group: "pages"
   cancel-in-progress: true
-  
+  #
 jobs:
   # followed: https://dev.to/dessygil/
   # how-to-automatically-update-resume-on-your-personal-site-from-overleaf-1fld
@@ -41,7 +41,7 @@ jobs:
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
-      
+      #
     steps:
       - name: Define environmental variables
         run: |
@@ -167,7 +167,7 @@ jobs:
            filelist=( \
            "bibout.txt","cites.txt","compileOut.txt*","$CORENAME.aux","$CORENAME.bbl","$CORENAME.blg","$CORENAME.fdb_latexmk", \
            "$CORENAME.fls","$CORENAME.out","$CORENAME.sync*","$CORENAME.synctex.gz","doesNotUsePruned.txt","errout.txt*","fin.txt", \
-           "$FULLLOG","html.txt","$HTMLFILE","inpaperCites.txt","$LOG","noFatalErrors.txt","$OUTFILE","$PDFFILE","$PDFHIRES", \
+           "$FULLLOG","html.txt","$HTMLFILE","inpaperCites.txt","$LOG","$OUTFILE","$PDFFILE","$PDFHIRES", \
            "$STARTFILE","thereAreErrors.txt","tout.txt","usedBibfile.txt","warnout.txt" \
            )
            for (( i=0; i<${#filelist[@]}; i++ )); do
@@ -176,11 +176,6 @@ jobs:
                rm -f "${filelist[$i]}"
              fi
            done           
-           #rm -f bibout.txt   #rm -f cites.txt    #rm -f compileOut.txt*   #rm -f $CORENAME.aux   #rm -f $CORENAME.bbl   #rm -f $CORENAME.blg
-           #rm -f $CORENAME.fdb_latexmk   #rm -f $CORENAME.fls   #rm -f $CORENAME.out  #rm -f $CORENAME.sync*  #rm -f $CORENAME.synctex.gz
-           #rm -f doesNotUsePruned.txt  #rm -f errout.txt*  #rm -f fin.txt  #rm -f $FULLLOG  #rm -f html.txt  #rm -f $HTMLFILE #rm -f inpaperCites.txt
-           #rm -f $LOG  #rm -f noFatalErrors.txt  #rm -f $OUTFILE  #rm -f $PDFFILE #rm -f $PDFHIRES  #rm -f $STARTFILE #rm -f thereAreErrors.tx
-           #rm -f tout.txt  #rm -f usedBibfile.txt #rm -f warnout.txt
            echo "INITIALIZEDFILES=$fileliststr" >> $GITHUB_ENV
         continue-on-error: true
         #
@@ -221,10 +216,14 @@ jobs:
         id: pruneBib
         run: |
            makeNewPrunedBib=false
+
+           
            # determine if the pruned bib file is already being used in the document. If so, we should bypass 
            # all the below because pruned bib file does not need to be created.
            if [[ "$(grep -Eq "\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=true; fi
            if [[ "$(grep -Eq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=false; fi
+
+           
            if $makeNewPrunedBib; then
               rm -f pruned.bib
               touch pruned.bib
@@ -315,6 +314,7 @@ jobs:
     steps:
       - name: Capture full compilation output
         run: |
+           fileliststr=''
            # ....... if the pdf file was generated, then the errors must have NOT been fatal.
            rm -f noFatalErrors.txt
            if [[ "$(grep -Eq "output to '${PDFFILE}'" compileOut.txt)$?" == 0 ]]; then touch noFatalErrors.txt; fi
@@ -546,7 +546,7 @@ jobs:
            filelist=( \
            "bibout.txt","cites.txt","compileOut.txt*","$CORENAME.aux","$CORENAME.bbl","$CORENAME.blg","$CORENAME.fdb_latexmk", \
            "$CORENAME.fls","$CORENAME.out","$CORENAME.sync*","$CORENAME.synctex.gz","doesNotUsePruned.txt","errout.txt*","fin.txt", \
-           "$FULLLOG","html.txt","inpaperCites.txt","$LOG","noFatalErrors.txt","thereAreErrors.txt","uncompressed.list", \
+           "$FULLLOG","html.txt","inpaperCites.txt","$LOG","thereAreErrors.txt","uncompressed.list", \
            "usedBibfile.txt","warnout.txt" \
            )
            for (( i=0; i<${#filelist[@]}; i++ )); do
