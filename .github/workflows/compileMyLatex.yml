@@ -76,15 +76,13 @@ jobs:
                 sed -r 's/^[^\a]+\a//' | sed -r 's/\t[^\a]+$//' | sed -r 's/\t[^\a]+\a/ /g' | sed -r 's/[,]/ /g' | sed -r 's/^[0-9]+$//g' )                
               refstr=$( printf "%s " "${refs[@]}" )
               refstr=$( sed -r 's/  +/ /g' <<<$refstr | sed -r 's/ [^ ]*[:(){}\\/]+[^ ]* / /g' )
-              # break the references into individual entries that go into the array "cites"
-              cites=( $(IFS=" " echo "$refstr") )
-              # get a sorted unique list
-              cites=( $(echo "${cites[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ') )
-              # any plus signs in the citation bib code causes problems because they are not escaped. The  below substitutes all plus signs and 
+               # any plus signs in the citation bib code causes problems because they are not escaped. The  below substitutes all plus signs and 
               # replaces with escaped pluses, so that grep will perform search on literal plus sign rather than interpret plus sign as meaning "search
               # for 2 or more of the character to left of plus sign". Periods also cause problems, as do dashes, and have to likewise be treated. 
               modstr=$( sed -r 's/\+/\\+/g' <<<"$refstr" | sed -r 's/\-/\\-/g' | sed -r 's/\./\\\./g' )
+              # break the references into individual entries that go into the array "cites"
               modcites=( $(IFS=" " echo "$modstr") )
+              # get a sorted unique list
               modcites=( $(echo "${modcites[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ') )
               # Search for each of the cites in the bibfile(s) and extract the relevant full bib item for that citation, to 
               # put into the pruned bibfile
@@ -97,7 +95,7 @@ jobs:
         if: ${{ always() && hashFiles('pruned.bib') }}
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-           commit_message: post modified pruned.bib file
+           commit_message: Post modified pruned.bib file
            file_pattern: pruned.bib
         continue-on-error: true
 
@@ -147,28 +145,13 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         #
-      - name: Remove files to initiate compilation process
-        run: |
-           fileliststr="$STARTFILE "
-           filelist=( \
-           "html.txt","$HTMLFILE","inpaperCites.txt","$LOG","$OUTFILE","$PDFFILE","$PDFHIRES", \
-           "$STARTFILE","usedBibfile.txt","warnout.txt" \
-           )
-           for (( i=0; i<${#filelist[@]}; i++ )); do
-             if [ hashFiles("${filelist[$i]}") ]; then
-               fileliststr+="${filelist[$i]} "
-               rm -f "${filelist[$i]}"
-             fi
-           done           
-           echo "INITIALIZEDFILES=$fileliststr" >> $GITHUB_ENV
-        continue-on-error: true
-        #
       - name: Post note showing that processing has started
         run: |
+           rm -f $STARTFILE
            touch $STARTFILE
            echo $TIMESTAMP >> $STARTFILE
            echo $JOBLINK   >> $STARTFILE
-           echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"  >> $STARTFILE
+           echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}."  >> $STARTFILE
            echo "precomp"  >> $STARTFILE
         continue-on-error: true
         #
@@ -176,7 +159,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
            commit_message: post initialized files/folders to repository
-           file_pattern: $INITIALIZEDFILES
+           file_pattern: $STARTFILE
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -345,16 +328,19 @@ jobs:
            echo "______________________________________________________________________________"
            cat compileOut.txt
            echo "______________________________________________________________________________"
+           rm -f "$PDFHIRES"
            mv -f "$PDFFILE" "$PDFHIRES"
            # clean up unneeded files from the compilation
            rm -f "$CORENAME.aux $CORENAME.bbl $CORENAME.blg $CORENAME.fdb_latexmk $CORENAME.fls $CORENAME.out $CORENAME.sync* $CORENAME.synctex.gz"
+           rm -f $OUTFILE
+           mv -f compileOut.txt $OUTFILE
         continue-on-error: true
         #
       - name: post the raw latex compilation output to repository for further processing
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-           commit_message: post raw latex compilation log output for additional processing
-           file_pattern: compileOut.txt
+           commit_message: post high-res PDF and the raw latex compilation log output for additional processing
+           file_pattern: "$OUTFILE $PDFHIRES"
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -387,7 +373,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
            commit_message: post hi- and low-resolution versions of PDF
-           file_pattern: "${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}_hiRes.pdf"
+           file_pattern: "${{ github.event.inputs.file2compile }}.pdf"
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -408,13 +394,19 @@ jobs:
         #
       - name: Capture full compilation output
         run: |
+           #
+           # =============================================================================
+           # open up the compilation output log file and strip out a lot of unnecessary stuff
+           # =============================================================================
            fatalErrors=false
            fileliststr=''
            # ....... if the pdf file was generated, then the errors must have NOT been fatal.
            if [[ "$( -Eq "output to '${PDFFILE}'" compileOut.txt)$?" == 0 ]]; then fatalErrors=true; fi
            # ....... prepare the compilation log for processing by first removing all end-of-line characters
            rm -f errout.txt
+           rm -f compileOut.txt
            touch errout.txt
+           mv -f $OUTFILE compileOut.txt
            # ....... just to be safe, remove all \a, \t and \x0 because we use these as special markers later
            sed -ri 's/[\x0\a\t]/ /g' compileOut.txt
            # ....... before removing end of line carriage returns, mark the citations that could not be found in the bib file(s)
@@ -460,9 +452,9 @@ jobs:
            cat errout.txt | sort -r -t- -g -k1,1n -k2 -s | uniq | sed -r 's/\a/ /g' > tmp.txt
            mv -f tmp.txt errout.txt
            #
-           # ==========================================================
+           # =============================================================================
            # remove lines in the output that are unrelated to the latex compilation itself
-           # ==========================================================
+           # =============================================================================
            readarray -t sorted < errout.txt
            #  #######################   START CONSOLIDATING THE ERRORS ###################
            rm -f tout.txt
@@ -537,57 +529,81 @@ jobs:
            if [[ ${#cites[@]} -gt 0 ]]; then echo "Number of citations: ${#cites[@]}" >> tout.txt; fi
            for (( i=0; i<${#cites[@]}; i++ )); do echo "${cites[$i]}" >> tout.txt; done
            if [[ ${#cites[@]} == 0 ]]; then echo "        None"; fi
+           rm -f $OUTFILE
            mv tout.txt "$OUTFILE"
+           if [$fatalErrors]; then
+              #
+              # =======================================================================
+              #        construct the html file showing errors, if there were fatal ones
+              # =======================================================================
+              # There were errors - Create a .html file from the out.txt file
+              rm -f tout.txt
+              rm -f html.txt
+              rm -f finHtml.html
+              rm -f $HTMLFILE
+              rm -f "$PDFFILE"
+              rm -f "$PDFHIRES"
+              # make sure that long lines are split if they exceed 20 words
+              fold -sw 90 "$OUTFILE" > html.txt
+              echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
+              echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> finHtml.html
+              echo "<span style='color:blue;'><i>${JOBLINK}</i></span><br>" >> finHtml.html
+              echo "<hr><br>" >> finHtml.html
+              echo "$TIMESTAMP" >> finHtml.html
+              # Go through the html.txt file and make the errors red to stand out
+              touch red.txt
+              red=false
+              while IFS= read -r line; do
+                 start='^line #[0-9]+'
+                 end='^\.__________'
+                 if [[ $line =~ $start ]]; then red=true; elif [[ $line =~ $end ]]; then red=false; fi
+                 thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^\.__________/___________/g' )"
+                 if $red; then
+                    echo "<span style='color:red;'>$thisline</span>" >> red.txt
+                 else
+                    echo "$thisline" >> red.txt
+                 fi
+              done < "html.txt"
+              sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
+              rm -f $HTMLFILE
+              mv -f finHtml.html "$HTMLFILE"
+              rm -f red.txt
+              rm -f $STARTFILE
+              touch $STARTFILE
+              echo $TIMESTAMP >> $STARTFILE
+              echo $JOBLINK   >> $STARTFILE
+              echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"  >> $STARTFILE
+              echo "html"  >> $STARTFILE
+           else
+              rm -f $STARTFILE
+              touch $STARTFILE
+              echo $TIMESTAMP >> $STARTFILE
+              echo $JOBLINK   >> $STARTFILE
+              echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"  >> $STARTFILE
+              echo "pdf"  >> $STARTFILE
+              # finalize the compilation output file by putting a few sentences at the top
+              rm -f fin.txt
+              rm -f "$OUTFILE"
+              touch fin.txt
+              echo "$TIMESTAMP" >> fin.txt
+              echo "LATEX COMPILATION ERRORS and WARNINGS" >> fin.txt
+              echo "" >> fin.txt
+              echo "To view full GitHub Actions output, click on item at top of list here:" >> fin.txt
+              echo "$JOBLINK" >> fin.txt
+              echo "" >> fin.txt
+              while IFS= read -r line; do
+                 thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
+                 echo "$thisline" >> fin.txt
+              done < "$OUTFILE"
+              mv -f fin.txt "$OUTFILE"
+           fi
         continue-on-error: true
         #
-      - name: Convert errors to html file
-        if: ${{ always() && $fatalErrors }}
-        run: |
-           # There were errors - Create a .html file from the out.txt file
-           rm -f tout.txt
-           rm -f html.txt
-           rm -f "$PDFFILE"
-           rm -f "$PDFHIRES"
-           # make sure that long lines are split if they exceed 20 words
-           fold -sw 90 "$OUTFILE" > html.txt
-           echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
-           echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> finHtml.html
-           echo "<span style='color:blue;'><i>${JOBLINK}</i></span><br>" >> finHtml.html
-           echo "<hr><br>" >> finHtml.html
-           echo "$TIMESTAMP" >> finHtml.html
-           # Go through the html.txt file and make the errors red to stand out
-           touch red.txt
-           red=false
-           while IFS= read -r line; do
-              start='^line #[0-9]+'
-              end='^\.__________'
-              if [[ $line =~ $start ]]; then red=true; elif [[ $line =~ $end ]]; then red=false; fi
-              thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^\.__________/___________/g' )"
-              if $red; then
-                 echo "<span style='color:red;'>$thisline</span>" >> red.txt
-              else
-                 echo "$thisline" >> red.txt
-              fi
-           done < "html.txt"
-           sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
-           rm -f "$HTMLFILE"
-           mv -f finHtml.html "$HTMLFILE"
-           rm -f red.txt
-           rm -f $STARTFILE
-           touch $STARTFILE
-           echo $TIMESTAMP >> $STARTFILE
-           echo $JOBLINK   >> $STARTFILE
-           echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"  >> $STARTFILE
-           echo "html"  >> $STARTFILE
-        continue-on-error: true
-        #
-      - name: Complete initialization of folder
-        run: |
-           git config --global user.email "email@gmail.com"
-           git config --global user.name "github actions"
-           git add .
-           git commit -m "Upload changed files"
-           git push
+      - name: post finalized compilation errors and notice of completion to the repository
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+           commit_message: low-resolution version of PDF
+           file_pattern: "$STARTFILE $OUTFILE $HTMLFILE"
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -609,44 +625,10 @@ jobs:
       - name: update START status file if compilation successful
         if: ${{ always() && ! ($FATALERRORS) }}
         run: |
-           rm -f $STARTFILE
-           touch $STARTFILE
-           echo $TIMESTAMP >> $STARTFILE
-           echo $JOBLINK   >> $STARTFILE
-           echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"  >> $STARTFILE
-           echo "pdf"  >> $STARTFILE
-        continue-on-error: true
-        #
-      - name: Finalize compilation warning and errors output
-        run: |
-           # finalize the compilation output file by putting a few sentences at the top
-           rm -f fin.txt
-           rm -f "$OUTFILE"
-           touch fin.txt
-           echo "$TIMESTAMP" >> fin.txt
-           echo "LATEX COMPILATION ERRORS and WARNINGS" >> fin.txt
-           echo "" >> fin.txt
-           echo "To view full GitHub Actions output, click on item at top of list here:" >> fin.txt
-           echo "$JOBLINK" >> fin.txt
-           echo "" >> fin.txt
-           while IFS= read -r line; do
-              thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
-              echo "$thisline" >> fin.txt
-           done < "$OUTFILE"
-           mv -f fin.txt "$OUTFILE"
-        continue-on-error: true
         #
       - name: Clean up folder before saving files
         run: |
            fileliststr="$OUTFILE "
-           filelist=( \
-           "html.txt",
-           "inpaperCites.txt",
-           "$LOG",
-           "uncompressed.list", \
-           "usedBibfile.txt",
-           "warnout.txt" \
-           )
            for (( i=0; i<${#filelist[@]}; i++ )); do
              if [ hashFiles("${filelist[$i]}") ]; then
                fileliststr+="${filelist[$i]} "
@@ -654,12 +636,4 @@ jobs:
              fi
            done
            echo "FINALIZEDFILES=$fileliststr" >> $GITHUB_ENV
-        continue-on-error: true
-        #
-      - name: post reduced resolution PDF on repository
-        if: ${{ always() && hashFiles("${{ github.event.inputs.file2compile }}.pdf") }}
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-           commit_message: $FINALIZEDFILES
-           file_pattern: "${{ github.event.inputs.file2compile }}.pdf"
         continue-on-error: true
