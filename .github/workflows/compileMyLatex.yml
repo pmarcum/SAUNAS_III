@@ -51,15 +51,13 @@ jobs:
         # purposes rather than having to use whole master bib file.  based on stand-alone "pruneMyBibfile" github action file
         id: pruneBib
         run: |
-           makeNewPrunedBib=false
-
-           
            # determine if the pruned bib file is already being used in the document. If so, we should bypass 
            # all the below because pruned bib file does not need to be created.
-           if [[ "$(grep -Eq "\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=true; fi
-           if [[ "$(grep -Eq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=false; fi
-
-           
+           # First, make sure that there is a bibliography in the document.  Otherwise, don't even continue
+           makeNewPrunedBib=false          
+           if [[ "$(grep -Eq "\.bib" ${{ github.event.inputs.file2compile }}.tex")$?" == 0 ]]; then makeNewPrunedBib=true; fi
+           # next, see if pruned.bib is already being used.  If so, then bail out now and dont try to recreate the pruned.bib
+           if [[ "$(grep -Eq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=false; fi           
            if $makeNewPrunedBib; then
               rm -f pruned.bib
               touch pruned.bib
@@ -280,11 +278,11 @@ jobs:
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
-      
+      #
     steps:
       - name: Clone repo
         uses: actions/checkout@v4
-
+        #
       - name: Get Job ID from GH API
         id: job-id
         env:
@@ -335,7 +333,7 @@ jobs:
              units
           cache: true
         continue-on-error: true
-
+        #
       - name: Compile paper
         # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
         id: compilation
@@ -346,14 +344,12 @@ jobs:
            echo "______________________________________________________________________________"
            mv -f "$PDFFILE" "$PDFHIRES"
         continue-on-error: true
-       
-      - name: Complete initialization of folder
-        run: |
-           git config --global user.email "email@gmail.com"
-           git config --global user.name "github actions"
-           git add .
-           git commit -m "Upload changed files"
-           git push
+        #
+      - name: post the raw latex compilation output to repository for further processing
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+           commit_message: post raw latex compilation log output for additional processing
+           file_pattern: compileOut.txt
         continue-on-error: true
 
   #_______________________________________________________________________
