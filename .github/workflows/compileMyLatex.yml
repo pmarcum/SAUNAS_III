@@ -199,14 +199,6 @@ jobs:
            commit_message: post initialized files/folders to repository
            file_pattern: $INITIALIZEDFILES
         continue-on-error: true
-        #    #
-        #    # Post the START file on the repository
-        #    git config --global user.email "email@gmail.com"
-        #    git config --global user.name "github actions"
-        #    git add .
-        #    git commit -m "Upload changed files"
-        #    git push
-        # continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
@@ -304,8 +296,8 @@ jobs:
         if: ${{ always() && hashFiles("${{ github.event.inputs.file2compile }}.pdf") }}
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-           commit_message: post reduced resolution version of the PDF
-           file_pattern: "${{ github.event.inputs.file2compile }}.pdf"
+           commit_message: post hi- and low-resolution versions of PDF
+           file_pattern: "${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}_hiRes.pdf"
         continue-on-error: true
 
   #_______________________________________________________________________
