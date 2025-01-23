@@ -33,6 +33,80 @@ jobs:
 
   #_______________________________________________________________________
   #|                                                                      |
+  #|     STRIP OUT UNUSED REFERENCES AND CONSTRUCT A PRUNED BIB FILE      |
+  #|______________________________________________________________________|
+  pruneBib:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+      #
+    steps:
+      - name: Prune the bib file
+        # https://www.baeldung.com/linux/regex-matching
+        # https://askubuntu.com/questions/1502281/using-grep-to-search-for-line-that-begins-with-a-variable-whose-value-is-a-dolla
+        # https://stackoverflow.com/questions/13210880/replace-one-substring-for-another-string-in-shell-script
+        # going to strip out all used citations and make a pruned.bib file that can be used as final bib file for submission
+        # purposes rather than having to use whole master bib file.  based on stand-alone "pruneMyBibfile" github action file
+        id: pruneBib
+        run: |
+           makeNewPrunedBib=false
+
+           
+           # determine if the pruned bib file is already being used in the document. If so, we should bypass 
+           # all the below because pruned bib file does not need to be created.
+           if [[ "$(grep -Eq "\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=true; fi
+           if [[ "$(grep -Eq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=false; fi
+
+           
+           if $makeNewPrunedBib; then
+              rm -f pruned.bib
+              touch pruned.bib
+              # get a list of bib files used in this document:
+              readarray -t res < <(cut -d "," -f 1 <<<  grep -Eo "bibliography\{[^}]+\}" "${{ github.event.inputs.file2compile }}.tex" | \
+                 sed -r 's/^[^b]+bibliography\{([^}]+)\}[\n]*\n?/\1/i' | sed -r 's/ *//g')
+              # make sure the bib files are not duplicated
+              readarray -t bibfiles < <(printf '%s\n' "${res[@]}" | awk '!seen[$0]++')
+              #
+              # Now go through the .tex files and gather up all cited references
+              readarray -t refs < <( grep "\cite" *.tex | sed -r 's/^[^ ]+\.tex: *//' | sed -r 's/^%.*$//' | \
+                sed -r 's/\a//g' | sed -r 's/\t//g' | sed -r 's/\\cite/\a/ig' | sed -r 's/\a[^{]*(\{[^}]*\})*\{([^}]+)\}/\a\2\t/g' | \
+                sed -r 's/^[^\a]+\a//' | sed -r 's/\t[^\a]+$//' | sed -r 's/\t[^\a]+\a/ /g' | sed -r 's/[,]/ /g' | sed -r 's/^[0-9]+$//g' )                
+              refstr=$( printf "%s " "${refs[@]}" )
+              refstr=$( sed -r 's/  +/ /g' <<<$refstr | sed -r 's/ [^ ]*[:(){}\\/]+[^ ]* / /g' )
+              # break the references into individual entries that go into the array "cites"
+              cites=( $(IFS=" " echo "$refstr") )
+              # get a sorted unique list
+              cites=( $(echo "${cites[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ') )
+              # any plus signs in the citation bib code causes problems because they are not escaped. The  below substitutes all plus signs and 
+              # replaces with escaped pluses, so that grep will perform search on literal plus sign rather than interpret plus sign as meaning "search
+              # for 2 or more of the character to left of plus sign". Periods also cause problems, as do dashes, and have to likewise be treated. 
+              modstr=$( sed -r 's/\+/\\+/g' <<<"$refstr" | sed -r 's/\-/\\-/g' | sed -r 's/\./\\\./g' )
+              modcites=( $(IFS=" " echo "$modstr") )
+              modcites=( $(echo "${modcites[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ') )
+              # Search for each of the cites in the bibfile(s) and extract the relevant full bib item for that citation, to 
+              # put into the pruned bibfile
+              for (( i=0; i<${#modcites[@]}; i++ )); do
+                 grep -zoE "@[^{]+\{ *${modcites[$i]}[^@]+" "${bibfiles[@]}" | tr '\0' '\n' >> pruned.bib
+              done
+              sed -ri 's/^[^@]+@/@/g;s/^([^@}])/  \1/g' pruned.bib
+              # extract just the bibcode from the pruned bibfile to use for another file that will be used in the summary
+              touch cites.txt
+              grep "@" pruned.bib | sed -r 's/^[^ ]+\.bib: *//' | sed -r 's/@[^\{]+\{//' | sed -r 's/,//' >> cites.txt
+            fi
+        continue-on-error: true
+        #
+      - name: post pruned bibfile on repository
+        if: ${{ always() && hashFiles('pruned.bib') }}
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+           commit_message: post modified pruned.bib file
+           file_pattern: pruned.bib cites.txt
+        continue-on-error: true
+
+  #_______________________________________________________________________
+  #|                                                                      |
   #|                  DEFINE THE ENVIRONMENTAL VARIABLES                  |
   #|______________________________________________________________________|
   defineVariables:
@@ -193,80 +267,6 @@ jobs:
         with:
            commit_message: post compressed images
            file_pattern: $COMPRESSEDIMAGES
-        continue-on-error: true
-
-  #_______________________________________________________________________
-  #|                                                                      |
-  #|     STRIP OUT UNUSED REFERENCES AND CONSTRUCT A PRUNED BIB FILE      |
-  #|______________________________________________________________________|
-  pruneBib:
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    permissions:
-      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
-      contents: write
-      #
-    steps:
-      - name: Prune the bib file
-        # https://www.baeldung.com/linux/regex-matching
-        # https://askubuntu.com/questions/1502281/using-grep-to-search-for-line-that-begins-with-a-variable-whose-value-is-a-dolla
-        # https://stackoverflow.com/questions/13210880/replace-one-substring-for-another-string-in-shell-script
-        # going to strip out all used citations and make a pruned.bib file that can be used as final bib file for submission
-        # purposes rather than having to use whole master bib file.  based on stand-alone "pruneMyBibfile" github action file
-        id: pruneBib
-        run: |
-           makeNewPrunedBib=false
-
-           
-           # determine if the pruned bib file is already being used in the document. If so, we should bypass 
-           # all the below because pruned bib file does not need to be created.
-           if [[ "$(grep -Eq "\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=true; fi
-           if [[ "$(grep -Eq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=false; fi
-
-           
-           if $makeNewPrunedBib; then
-              rm -f pruned.bib
-              touch pruned.bib
-              # get a list of bib files used in this document:
-              readarray -t res < <(cut -d "," -f 1 <<<  grep -Eo "bibliography\{[^}]+\}" "${{ github.event.inputs.file2compile }}.tex" | \
-                 sed -r 's/^[^b]+bibliography\{([^}]+)\}[\n]*\n?/\1/i' | sed -r 's/ *//g')
-              # make sure the bib files are not duplicated
-              readarray -t bibfiles < <(printf '%s\n' "${res[@]}" | awk '!seen[$0]++')
-              #
-              # Now go through the .tex files and gather up all cited references
-              readarray -t refs < <( grep "\cite" *.tex | sed -r 's/^[^ ]+\.tex: *//' | sed -r 's/^%.*$//' | \
-                sed -r 's/\a//g' | sed -r 's/\t//g' | sed -r 's/\\cite/\a/ig' | sed -r 's/\a[^{]*(\{[^}]*\})*\{([^}]+)\}/\a\2\t/g' | \
-                sed -r 's/^[^\a]+\a//' | sed -r 's/\t[^\a]+$//' | sed -r 's/\t[^\a]+\a/ /g' | sed -r 's/[,]/ /g' | sed -r 's/^[0-9]+$//g' )                
-              refstr=$( printf "%s " "${refs[@]}" )
-              refstr=$( sed -r 's/  +/ /g' <<<$refstr | sed -r 's/ [^ ]*[:(){}\\/]+[^ ]* / /g' )
-              # break the references into individual entries that go into the array "cites"
-              cites=( $(IFS=" " echo "$refstr") )
-              # get a sorted unique list
-              cites=( $(echo "${cites[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ') )
-              # any plus signs in the citation bib code causes problems because they are not escaped. The  below substitutes all plus signs and 
-              # replaces with escaped pluses, so that grep will perform search on literal plus sign rather than interpret plus sign as meaning "search
-              # for 2 or more of the character to left of plus sign". Periods also cause problems, as do dashes, and have to likewise be treated. 
-              modstr=$( sed -r 's/\+/\\+/g' <<<"$refstr" | sed -r 's/\-/\\-/g' | sed -r 's/\./\\\./g' )
-              modcites=( $(IFS=" " echo "$modstr") )
-              modcites=( $(echo "${modcites[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ') )
-              # Search for each of the cites in the bibfile(s) and extract the relevant full bib item for that citation, to 
-              # put into the pruned bibfile
-              for (( i=0; i<${#modcites[@]}; i++ )); do
-                 grep -zoE "@[^{]+\{ *${modcites[$i]}[^@]+" "${bibfiles[@]}" | tr '\0' '\n' >> pruned.bib
-              done
-              sed -ri 's/^[^@]+@/@/g;s/^([^@}])/  \1/g' pruned.bib
-              # extract just the bibcode from the pruned bibfile to use for another file that will be used in the summary
-              touch cites.txt
-              grep "@" pruned.bib | sed -r 's/^[^ ]+\.bib: *//' | sed -r 's/@[^\{]+\{//' | sed -r 's/,//' >> cites.txt
-            fi
-        continue-on-error: true
-        #
-      - name: post pruned bibfile on repository
-        if: ${{ always() && hashFiles('pruned.bib') }}
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-           commit_message: post modified pruned.bib file
-           file_pattern: pruned.bib cites.txt
         continue-on-error: true
 
   #_______________________________________________________________________
