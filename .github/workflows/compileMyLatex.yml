@@ -71,7 +71,6 @@ jobs:
               readarray -t bibfiles < <(printf '%s\n' "${bibfiles[@]}" | awk '!seen[$0]++')
               # the .bib extension might not have been included in the bibfile name, so make sure the extension is there
               readarray -t bibfiles < <(printf '%s\n' "${bibfiles[@]}" | sed -r 's/\.bib//')
-              readarray -t bibfiles < <(printf '%s.bib\n' "${bibfiles[@]}")
 
               echo " 80 =================================="
               printf "%s\n" ${bibfiles[@]}
