@@ -62,17 +62,6 @@ jobs:
            # next, see if pruned.bib is already being used.  If so, then bail out now and dont try to recreate the pruned.bib
            if [[ "$(grep -Eq "^ *\\\\bibliography[{]pruned([.]bib)?" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then makeNewPrunedBib=false; fi
            #
-
-           echo '66 ========='
-           echo $makeNewPrunedBib
-           
-           if [[ $makeNewPrunedBib ]]; then
-             echo '70'
-             echo "MADEPRUNEDBIB=T" >> $GITHUB_ENV
-           else
-             echo '73'
-             echo "MADEPRUNEDBIB=F" >> $GITHUB_ENV
-           fi          
            if $makeNewPrunedBib; then
               rm -f pruned.bib
               touch pruned.bib
@@ -100,27 +89,15 @@ jobs:
               # break the references into individual entries that go into the array "cites"
               cites=( $(IFS=" " echo "$citesstr") )
               # get a sorted unique list
-              cites=( $(echo "${cites[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ') )
-
-              printf '%s\n' ${cites[@]}
-              
+              cites=( $(echo "${cites[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ') )             
               # Search for each of the cites in the bibfile(s) and extract the relevant full bib item for that citation, to 
               # put into the pruned bibfile
               for (( i=0; i<${#cites[@]}; i++ )); do grep -zoE "@[^{]+\{ *${cites[$i]}[^@]+" "${bibfiles[@]}" | tr '\0' '\n' >> pruned.bib; done
-
-              echo " 126 =========================="
-              cat pruned.bib
-              
               sed -ri 's/^[^@]+@/@/g;s/^([^@}])/  \1/g' pruned.bib
-
-              echo " 131 ========================="
-              cat pruned.bib
-              
             fi
         continue-on-error: true
         #
       - name: post pruned bibfile on repository
-        if: ${{ always() && $MADEPRUNEDBIB == 'T' }}
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
            commit_message: Post modified pruned.bib file
