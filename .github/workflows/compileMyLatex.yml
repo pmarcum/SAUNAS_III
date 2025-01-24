@@ -65,8 +65,14 @@ jobs:
               rm -f pruned.bib
               touch pruned.bib
               # get a list of bib files used in this document:
-              readarray -t bibfiles < <(cut -d "," -f 1 <<<  grep -Eo "^ *\\\\bibliography[{][^}]+[}]" "${{ github.event.inputs.file2compile }}.tex" | \
-                 sed -r 's/^ *\\\\bibliography[{]([^}]+)[}][\n]*\n?/\1/i' | sed -r 's/ *//g')
+              bibfilesstr=$( grep -Eo "^ *\\\\bibliography[{][^}]+[}]" "${{ github.event.inputs.file2compile }}.tex" | \
+                 sed -r 's/^ *\\\\bibliography[{]([^}]+)[}][\n]*\n?/\1/i' | sed -r 's/ *//g )
+              
+              echo '70'
+              echo $bibfilesstr
+              bibfiles=$( cut -d "," -f 1 <<< $bibfilesstr )
+              printf '%s\n' ${bibfiles[@]}
+              
               # make sure the bib files are not duplicated
               readarray -t bibfiles < <(printf '%s\n' "${bibfiles[@]}" | awk '!seen[$0]++')
               # the .bib extension might not have been included in the bibfile name, so make sure the extension is there
