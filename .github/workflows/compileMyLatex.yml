@@ -211,16 +211,20 @@ jobs:
                   mv -f "${imagefile}" "${newname}"
               fi
            done
-           echo "COMPRESSEDIMAGES=$listOfCompressedFiles" >> $GITHUB_OUTPUT
-           compressImages
+           echo "listOfImages=$listOfCompressedFiles" >> $GITHUB_OUTPUT
+           if [[ $compressionDone" ]]; then
+              echo "didCompression=T" >> $GITHUB_OUTPUT
+           else
+              echo "didCompression=F" >> $GITHUB_OUTPUT
+           fi
         continue-on-error: true
         #
       - name: post newly compressed images to repository
-        if: 
+        if: ${{ always() && "${{ steps.compressImages.outputs.didCompression }}" == 'T' }}
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
            commit_message: post compressed images
-           file_pattern: $COMPRESSEDIMAGES
+           file_pattern: "${{ steps.compressImages.outputs.listOfImages }}"
         continue-on-error: true
 
   #_______________________________________________________________________
