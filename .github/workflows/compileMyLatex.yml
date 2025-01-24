@@ -62,7 +62,10 @@ jobs:
            # next, see if pruned.bib is already being used.  If so, then bail out now and dont try to recreate the pruned.bib
            if [[ "$(grep -Eq "^ *\\\\bibliography[{]pruned([.]bib)?" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then makeNewPrunedBib=false; fi
            #
-           echo "MADEPRUNEDBIB=$makeNewPrunedBib" >> $GITHUB_ENV         
+           echo "MADEPRUNEDBIB=$makeNewPrunedBib" >> $GITHUB_ENV
+
+           echo $MADEPRUNEDBIB
+           
            if $makeNewPrunedBib; then
               rm -f pruned.bib
               touch pruned.bib
