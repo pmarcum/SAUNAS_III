@@ -61,6 +61,7 @@ jobs:
            if [[ "$(grep -Eq "^ *\\\\bibliography[{]" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then makeNewPrunedBib=true; fi
            # next, see if pruned.bib is already being used.  If so, then bail out now and dont try to recreate the pruned.bib
            if [[ "$(grep -Eq "^ *\\\\bibliography[{]pruned([.]bib)?" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then makeNewPrunedBib=false; fi
+           echo "MADEPRUNEDFILE=true" >> $GITHUB_OUTPUT
            #
            if $makeNewPrunedBib; then
               rm -f pruned.bib
@@ -155,6 +156,7 @@ jobs:
         continue-on-error: true
         #
       - name: Search for uncompressed images, and compress them
+        id: compressImages
         run: |
            listOfCompressedFiles=''
            compressionDone=false
@@ -169,12 +171,6 @@ jobs:
            shopt -s globstar
            for imagefile in **/*UNCOMPRESSED.*; do
               listOfCompressedFiles+="${imagefile} "
-
-              echo '173'
-              echo $imagefile
-              echo $listOfCompressedFiles
-
-              
               newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
               pdfname=$(echo "${newname}" | sed 's/\..*$/\.pdf/')
               fileSize=$( stat -c %s -- "${imagefile}"  )
@@ -215,13 +211,12 @@ jobs:
                   mv -f "${imagefile}" "${newname}"
               fi
            done
-           echo "COMPRESSEDIMAGES=${listOfCompressedFiles}" >> $GITHUB_ENV
-           echo ''
-           echo '= = = = = = = = = = = = ='
-           echo "$COMPRESSEDIMAGES"
+           echo "COMPRESSEDIMAGES=$listOfCompressedFiles" >> $GITHUB_OUTPUT
+           compressImages
         continue-on-error: true
         #
       - name: post newly compressed images to repository
+        if: 
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
            commit_message: post compressed images
