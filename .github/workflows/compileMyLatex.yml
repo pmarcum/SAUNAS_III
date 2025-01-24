@@ -232,34 +232,34 @@ jobs:
   #|                                                                      |
   #|           GET THE DIRECTORY SET UP BY REMOVING OLD FILES             |
   #|______________________________________________________________________|
-  #initializeFolder:
-  #  needs: defineVariables
-  #  runs-on: ubuntu-latest
-  #  continue-on-error: true
-  #  permissions:
-  #    # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
-  #    contents: write
-  #    #
-  #  steps:
-  #    - name: Clone repo
-  #      uses: actions/checkout@v4
-  #      #
-  #    - name: Post note showing that processing has started
-  #      run: |
-  #         rm -f $STARTFILE
-  #         touch $STARTFILE
-  #         echo $TIMESTAMP >> $STARTFILE
-  #         echo $JOBLINK   >> $STARTFILE
-  #         echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}."  >> $STARTFILE
-  #         echo "precomp"  >> $STARTFILE
-  #      continue-on-error: true
-  #      #
-  #    - name: post the start file and removed files to repository
-  #      uses: stefanzweifel/git-auto-commit-action@v5
-  #      with:
-  #         commit_message: post initialized files/folders to repository
-  #         file_pattern: $STARTFILE
-  #      continue-on-error: true
+  initializeFolder:
+    needs: defineVariables
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+      #
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+        #
+      - name: Post note showing that processing has started
+        run: |
+           rm -f $STARTFILE
+           touch $STARTFILE
+           echo $TIMESTAMP >> $STARTFILE
+           echo $JOBLINK   >> $STARTFILE
+           echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}."  >> $STARTFILE
+           echo "precomp"  >> $STARTFILE
+        continue-on-error: true
+        #
+      - name: post the start file and removed files to repository
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+           commit_message: post initialized files/folders to repository
+           file_pattern: $STARTFILE
+        continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
