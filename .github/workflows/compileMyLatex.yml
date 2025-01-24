@@ -170,6 +170,10 @@ jobs:
            maxHeight=${maxHeight%.*}
            shopt -s globstar
            for imagefile in **/*UNCOMPRESSED.*; do
+
+              echo '174'
+              echo $imagefile
+              
               newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
               pdfname=$(echo "${newname}" | sed 's/\..*$/\.pdf/')
               fileSize=$( stat -c %s -- "${imagefile}"  )             
