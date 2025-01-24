@@ -80,10 +80,6 @@ jobs:
               readarray -t cites < <( grep "\cite" *.tex | sed -r 's/^[^ ]+\.tex: *//' | sed -r 's/^%.*$//' | \
                 sed -r 's/\a//g' | sed -r 's/\t//g' | sed -r 's/\\cite/\a/ig' | sed -r 's/\a[^{]*(\{[^}]*\})*\{([^}]+)\}/\a\2\t/g' | \
                 sed -r 's/^[^\a]+\a//' | sed -r 's/\t[^\a]+$//' | sed -r 's/\t[^\a]+\a/ /g' | sed -r 's/[,]/ /g' | sed -r 's/^[0-9]+$//g' )
-
-              echo '84'
-              printf '%s\n' ${cites[@]}
-              
               citesstr=$( printf "%s " "${cites[@]}" )
 
               echo '89'
