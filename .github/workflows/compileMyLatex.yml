@@ -73,7 +73,7 @@ jobs:
               printf '%s\n' ${bibfiles[@]}
               
               # the .bib extension might not have been included in the bibfile name, so make sure the extension is there
-              bibfilesstr=$( printf "%s," "${bibfiles[@]}" )
+              bibfilesstr=$( printf "%s" "${bibfiles[@]}" )
 
               bibfilesstr=$( sed -r 's/\.bib//g' <<<$bibfilesstr )
               #bibfilesstr=$( sed -r 's/\.bib//g' <<<$bibfilesstr | sed -r 's/,/\.bib,/g' )
