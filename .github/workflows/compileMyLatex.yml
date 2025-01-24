@@ -67,7 +67,7 @@ jobs:
               touch pruned.bib
               # get a list of bib files used in this document:
               readarray -t bibfiles < <( grep -E "^ *\\\\bibliography[{][^}]+[}]" "${{ github.event.inputs.file2compile }}.tex" | \
-                sed -r 's/^ *\\\\bibliography[{]//i' | sed -r 's/} *$//' | sed -r 's/ *//g' ) 
+                sed -r 's/^ *\\bibliography[{]//i' | sed -r 's/} *$//' | sed -r 's/ *//g' ) 
 
               echo '72'
               printf '%s\n' ${bibfiles[@]}
