@@ -247,6 +247,7 @@ jobs:
       - name: Post note showing that processing has started
         run: |
            rm -f $STARTFILE
+           echo $STARTFILE
            touch $STARTFILE
            echo $TIMESTAMP >> $STARTFILE
            echo $JOBLINK   >> $STARTFILE
