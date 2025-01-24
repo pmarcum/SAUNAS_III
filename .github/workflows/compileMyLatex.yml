@@ -116,14 +116,22 @@ jobs:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
       #
+    outputs:
+      corename: ${{ steps.vardefn.outputs.CORENAME }}
+      texfile: ${{ steps.vardefn.outputs.TEXFILE }}
+      outfile: ${{ steps.vardefn.outputs.OUTFILE }}
+      pdffile: ${{ steps.vardefn.outputs.PDFFILE }}
+      pdfhires: ${{ steps.vardefn.outputs.PDFHIRES }}
+      htmlfile: ${{ steps.vardefn.outputs.HTMLFILE }}
+      startfile: ${{ steps.vardefn.outputs.STARTFILE }}
+      timestamp: ${{ steps.vardefn.outputs.TIMESTAMP }}
     steps:
       - name: Clone repo
         uses: actions/checkout@v4
         #
       - name: Define environmental variables
+        id: vardefn
         run: |
-           link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
-           echo "JOBLINK=$link2job" >> $GITHUB_ENV
            echo "CORENAME=${{ github.event.inputs.file2compile }}" >> $GITHUB_ENV
            echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >> $GITHUB_ENV
            echo "OUTFILE=${{ github.event.inputs.file2compile }}Out.txt" >> $GITHUB_ENV
@@ -233,24 +241,32 @@ jobs:
   #|           GET THE DIRECTORY SET UP BY REMOVING OLD FILES             |
   #|______________________________________________________________________|
   initializeFolder:
-    needs: defineVariables
     runs-on: ubuntu-latest
+    needs: [defineVariables]
     continue-on-error: true
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
+    outputs:
+      joblink:   ${{ steps.createJoblink.outputs.JOBLINK }}
+    env:
+      STARTFILE: ${{ needs.defineVariables.outputs.startfile }}
+      HTMLFILE:  ${{ needs.defineVariables.outputs.htmlfile }}
+      TIMESTAMP: ${{ needs.defineVariables.outputs.timestamp }}
       #
     steps:
+        #
       - name: Clone repo
         uses: actions/checkout@v4
         #
-      - name: Post note showing that processing has started
+      - name: create the job link
+        id: createJoblink
         run: |
-           echo "STARTFILE=${{ github.event.inputs.file2compile }}START.txt" >> $GITHUB_ENV
-           echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
            link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
            echo "JOBLINK=$link2job" >> $GITHUB_ENV
-           echo "HTMLFILE=${{ github.event.inputs.file2compile }}.html" >> $GITHUB_ENV
+       #
+      - name: Post note showing that processing has started
+        run: |
            rm -f $STARTFILE
            touch $STARTFILE
            echo "$TIMESTAMP" >> $STARTFILE
@@ -291,6 +307,8 @@ jobs:
   #         job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
   #         echo "the job id is: $job_id"
   #         echo "job_id=$job_id" >> $GITHUB_OUTPUT
+  #         link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
+  #         echo "JOBLINK=$link2job" >> $GITHUB_ENV
   #      continue-on-error: true
   #      #
   #      # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
