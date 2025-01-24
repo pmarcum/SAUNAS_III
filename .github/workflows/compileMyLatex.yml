@@ -65,7 +65,7 @@ jobs:
               rm -f pruned.bib
               touch pruned.bib
               # get a list of bib files used in this document:
-              bibfilesstr=$( grep -Eo "^ *\\\\bibliography[{][^}]+[}]" "${{ github.event.inputs.file2compile }}.tex" | \
+              readarray -t bibfiles < <( grep -E "^ *\\\\bibliography[{][^}]+[}]" "${{ github.event.inputs.file2compile }}.tex" | \
                  sed -r 's/^ *\\\\bibliography[{]([^}]+)[}][\n]*\n?/\1/i' | sed -r 's/ *//g )
               
               echo '70'
