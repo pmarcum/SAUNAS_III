@@ -179,7 +179,6 @@ jobs:
 
                   echo '180'
                   echo ${imagefile}
-                  which identify
                   magick identify -format "%w %h" "${imagefile}"
                   
                   dimensions=$(identify -format "%w %h" "${imagefile}")
