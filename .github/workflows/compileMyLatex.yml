@@ -246,13 +246,14 @@ jobs:
         #
       - name: Post note showing that processing has started
         run: |
-           startfile="${{ github.event.inputs.file2compile }}START.txt"
-           rm -f $startfile
-           touch $startfile
-           echo $TIMESTAMP >> $startfile
-           echo $JOBLINK   >> $startfile
-           echo $HTMLLINK  >> $startfile
-           echo "precomp"  >> ${{ github.event.inputs.file2compile }}START.txt"
+           echo "$STARTFILE"
+           #startfile="${{ github.event.inputs.file2compile }}START.txt"
+           #rm -f $startfile
+           #touch $startfile
+           #echo $TIMESTAMP >> $startfile
+           #echo $JOBLINK   >> $startfile
+           #echo $HTMLLINK  >> $startfile
+           #echo "precomp"  >> ${{ github.event.inputs.file2compile }}START.txt"
         continue-on-error: true
         #
       - name: post the start file and removed files to repository
