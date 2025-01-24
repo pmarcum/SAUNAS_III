@@ -64,7 +64,7 @@ jobs:
            #
            echo "MADEPRUNEDBIB=$makeNewPrunedBib" >> $GITHUB_ENV
 
-           echo $MADEPRUNEDBIB
+           echo $makeNewPrunedBib
            
            if $makeNewPrunedBib; then
               rm -f pruned.bib
@@ -111,10 +111,11 @@ jobs:
               
             fi
 
-            echo $MADEPRUNEDBIB
+            echo $makeNewPrunedBib
         continue-on-error: true
         #
       - name: post pruned bibfile on repository
+        if: ${{ always() && $makeNewPrunedBib }}
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
            commit_message: Post modified pruned.bib file
