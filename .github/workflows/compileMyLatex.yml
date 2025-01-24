@@ -60,7 +60,7 @@ jobs:
            makeNewPrunedBib=false    
 
            
-           if [[ "$(grep -Eq "^ *\\\\bibliography{pruned" compileOut.txt)$?" == 0 ]]; then
+           if [[ "$(grep -Eq "^ *\\\\bibliography{pruned" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then
               echo "yes"
            else
               echo "no"
@@ -69,7 +69,7 @@ jobs:
            
            if [[ "$(grep -Eq "^ *\\\\bibliography{" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then makeNewPrunedBib=true; fi
            # next, see if pruned.bib is already being used.  If so, then bail out now and dont try to recreate the pruned.bib
-           if [[ "$(grep -Eq "^ *\\\\bibliography{pruned(\.bib)?" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=false; fi
+           if [[ "$(grep -Eq "^ *\\\\bibliography{pruned(\.bib)?" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then makeNewPrunedBib=false; fi
 
 
            
