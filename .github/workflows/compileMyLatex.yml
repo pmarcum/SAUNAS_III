@@ -81,23 +81,11 @@ jobs:
                 sed -r 's/\a//g' | sed -r 's/\t//g' | sed -r 's/\\cite/\a/ig' | sed -r 's/\a[^{]*(\{[^}]*\})*\{([^}]+)\}/\a\2\t/g' | \
                 sed -r 's/^[^\a]+\a//' | sed -r 's/\t[^\a]+$//' | sed -r 's/\t[^\a]+\a/ /g' | sed -r 's/[,]/ /g' | sed -r 's/^[0-9]+$//g' )
               citesstr=$( printf "%s " "${cites[@]}" )
-
-              echo '89'
-              echo $citesstr
-              
               citesstr=$( sed -r 's/[\a\t]/ /g' <<<$citesstr |  sed -r 's/  +/ /g' | sed -r 's/ [^ ]*[:(){}\\/]+[^ ]* / /g' )
-
-              echo '94'
-              echo $citesstr
-              
               # any plus signs in the citation bib code causes problems because they are not escaped. The  below substitutes all plus signs and 
               # replaces with escaped pluses, so that grep will perform search on literal plus sign rather than interpret plus sign as meaning "search
               # for 2 or more of the character to left of plus sign". Periods also cause problems, as do dashes, and have to likewise be treated. 
               citesstr=$( sed -r 's/\+/\\+/g' <<<"$citesstr" | sed -r 's/\-/\\-/g' | sed -r 's/\./\\\./g' )
-
-              echo '102'
-              echo $citesstr
-              
               # break the references into individual entries that go into the array "cites"
               cites=( $(IFS=" " echo "$citesstr") )
               # get a sorted unique list
@@ -105,16 +93,7 @@ jobs:
               # Search for each of the cites in the bibfile(s) and extract the relevant full bib item for that citation, to 
               # put into the pruned bibfile              
               for (( i=0; i<${#cites[@]}; i++ )); do grep -zoE "@[^{]+\{ *${cites[$i]}[^@]+" "${bibfiles[@]}" | tr '\0' '\n' >> pruned.bib; done
-
-              cat pruned.bib
-              echo ''
-              echo '============================'
-              echo ''
-              
               sed -ri 's/^[^@]+@/@/g;s/^([^@}])/  \1/g' pruned.bib
-
-              cat pruned.bib
-              
             fi
         continue-on-error: true
         #
