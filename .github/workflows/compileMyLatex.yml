@@ -60,7 +60,7 @@ jobs:
            makeNewPrunedBib=false    
 
            
-           if [[ "$(grep -Eq "^ *\\\\bibliography[{]pruned[.]bib" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then
+           if [[ "$(grep -Eq "^ *\\\\bibliography[{]pruned([.]bib)?" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then
               echo "yes"
            else
               echo "no"
