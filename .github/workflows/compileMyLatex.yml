@@ -246,20 +246,24 @@ jobs:
         #
       - name: Post note showing that processing has started
         run: |
-           echo "${{ env.STARTFILE }}"
-           rm -f "${{ env.STARTFILE }}"
-           touch "${{ env.STARTFILE }}"
-           echo "${{ env.TIMESTAMP }}" >> "${{ env.STARTFILE }}"
-           echo "${{ env.JOBLINK }}" >> "${{ env.STARTFILE }}"
-           echo "${{ env.HTMLLINK }}" >> "${{ env.STARTFILE }}"
-           echo "precomp" >> "${{ env.STARTFILE }}"
+           echo "STARTFILE=${{ github.event.inputs.file2compile }}START.txt" >> $GITHUB_ENV
+           echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
+           link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
+           echo "JOBLINK=$link2job" >> $GITHUB_ENV
+           echo "HTMLFILE=${{ github.event.inputs.file2compile }}.html" >> $GITHUB_ENV
+           rm -f $STARTFILE
+           touch $STARTFILE
+           echo "$TIMESTAMP" >> $STARTFILE
+           echo "$JOBLINK" >> $STARTFILE
+           echo "$HTMLFILE" >> $STARTFILE
+           echo "precomp" >> $STARTFILE
         continue-on-error: true
         #
       - name: post the start file and removed files to repository
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
            commit_message: post initialized files/folders to repository
-           file_pattern: "${{ env.STARTFILE }}"
+           file_pattern: "$STARTFILE"
         continue-on-error: true
 
   #_______________________________________________________________________
