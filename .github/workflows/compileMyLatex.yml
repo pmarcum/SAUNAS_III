@@ -169,6 +169,12 @@ jobs:
            shopt -s globstar
            for imagefile in **/*UNCOMPRESSED.*; do
               listOfCompressedFiles+="${imagefile} "
+
+              echo '173'
+              echo $imagefile
+              echo $listOfCompressedFiles
+
+              
               newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
               pdfname=$(echo "${newname}" | sed 's/\..*$/\.pdf/')
               fileSize=$( stat -c %s -- "${imagefile}"  )
