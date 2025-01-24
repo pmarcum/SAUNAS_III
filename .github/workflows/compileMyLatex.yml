@@ -175,6 +175,8 @@ jobs:
               fileSize=$( stat -c %s -- "${imagefile}"  )
 
               echo $imagefile
+              echo $newname
+              echo $pdfname
               echo $listOfCompressedFiles
               echo '==============='
               
