@@ -170,7 +170,6 @@ jobs:
            maxHeight=${maxHeight%.*}
            shopt -s globstar
            for imagefile in **/*UNCOMPRESSED.*; do
-              listOfCompressedFiles+="${imagefile} "
               newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
               pdfname=$(echo "${newname}" | sed 's/\..*$/\.pdf/')
               fileSize=$( stat -c %s -- "${imagefile}"  )
@@ -215,6 +214,7 @@ jobs:
               elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
                   mv -f "${imagefile}" "${newname}"
               fi
+              listOfCompressedFiles+="${imagefile} ${newname} "
            done
            echo "listOfImages=$listOfCompressedFiles" >> $GITHUB_OUTPUT
            if [[ $compressionDone" ]]; then
