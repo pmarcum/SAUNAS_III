@@ -89,7 +89,7 @@ jobs:
               echo '89'
               echo $citesstr
               
-              citesstr=$( sed -r 's/  +/ /g' <<<$citesstr | sed -r 's/ [^ ]*[:(){}\\/]+[^ ]* / /g' )
+              citesstr=$( sed -r 's/[\a\t]/ /g' <<<$citesstr |  sed -r 's/  +/ /g' | sed -r 's/ [^ ]*[:(){}\\/]+[^ ]* / /g' )
 
               echo '94'
               echo $citesstr
