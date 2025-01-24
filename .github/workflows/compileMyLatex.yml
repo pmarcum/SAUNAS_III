@@ -252,6 +252,9 @@ jobs:
            echo $JOBLINK   >> $STARTFILE
            echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}."  >> $STARTFILE
            echo "precomp"  >> $STARTFILE
+
+           cat $STARTFILE
+           
         continue-on-error: true
         #
       - name: post the start file and removed files to repository
