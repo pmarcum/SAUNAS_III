@@ -137,89 +137,89 @@ jobs:
   #|                                                                      |
   #|         COMPRESS THE IMAGES IF THERE ARE UNCOMPRESSED ONES           |
   #|______________________________________________________________________|
-  #compressImages:
-  #  runs-on: ubuntu-latest
-  #  continue-on-error: true
-  #  permissions:
-  #    # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
-  #    contents: write
-  #    #
-  #  steps:
-  #    - name: Clone repo
-  #      uses: actions/checkout@v4
-  #      #
-  #    - name: Install ImageMagick
-  #      uses: mfinelli/setup-imagemagick@v5
-  #      with:
-  #        cache: true
-  #      continue-on-error: true
-  #      #
-  #    - name: Search for uncompressed images, and compress them
-  #      run: |
-  #         listOfCompressedFiles=''
-  #         compressionDone=false
-  #         bigfile=500000
-  #         minDpi=150  # optimal dpi for pdf files
-  #         maxWidthInches=6.5   #inches
-  #         maxHeightInches=9.0  #inches
-  #         maxWidth=$(echo "(($minDpi * $maxWidthInches)+0.5)/1" | bc)
-  #         maxWidth=${maxWidth%.*}
-  #         maxHeight=$(echo "(($minDpi * $maxHeightInches)+0.5)/1" | bc)
-  #         maxHeight=${maxHeight%.*}
-  #         shopt -s globstar
-  #         for imagefile in **/*UNCOMPRESSED.*; do
-  #            listOfCompressedFiles+="${imagefile} "
-  #            newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
-  #            pdfname=$(echo "${newname}" | sed 's/\..*$/\.pdf/')
-  #            fileSize=$( stat -c %s -- "${imagefile}"  )
-  #            compressionDone=true
-  #            if [[ -f "${imagefile}" && ! -L "${imagefile}" && "$fileSize" -gt "$bigfile" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
-  #                # Get the current dimensions of the image
-  #                dimensions=$(identify -format "%w %h" "${imagefile}")
-  #                read -r origWidth origHeight <<< "$dimensions"
-  #                # determine which, if either, dimension exceeds the max desirable size (origWidth origHeight)
-  #                if [[ "$origWidth" -gt "$origHeight" && "$origWidth" -gt "$maxWidth" ]]; then
-  #                    newWidth=$maxWidth
-  #                    newHeight=$(echo "(($origHeight * $newWidth) / $origWidth) + 0.5" | bc)
-  #                    newHeight=${newHeight%.*}
-  #                elif [[ "$origWidth" -lt "$origHeight" && "$origHeight" -gt "$maxHeight" ]]; then
-  #                    newHeight=$maxHeight
-  #                    newWidth=$(echo "(($origWidth * $newHeight) / $origHeight) + 0.5" | bc)
-  #                    newWidth=${newWidth%.*}
-  #                elif [[ "$origWidth" -gt "$maxWidth" ]]; then
-  #                    newWidth=$maxWidth
-  #                    newHeight=$(echo "(($origHeight * $newWidth) / $origWidth) + 0.5" | bc)
-  #                    newHeight=${newHeight%.*}
-  #                elif [[ "$origHeight" -gt "$maxHeight" ]]; then
-  #                    newHeight=$origHeight
-  #                    newWidth=$(echo "(($origWidth * $newHeight) / $origHeight) + 0.5" | bc)
-  #                    newWidth=${newWidth%.*}
-  #                else
-  #                    newHeight=$origHeight
-  #                    newWidth=$origWidth
-  #                fi
-  #                qualityValue=82
-  #                # Note: the quality value seems to not matter at all.  The size seems to be the main factor behind the size of the file.
-  #                mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality ''"${qualityValue}"'' \
-  #                  -define jpeg:fancy-upsampling=off -define png:compression=filter=5 -define png:compression-level=9 \
-  #                  -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB \
-  #                  -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
-  #                mv -f "${imagefile}" "${newname}"
-  #            elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
-  #                mv -f "${imagefile}" "${newname}"
-  #            fi
-  #         done
-  #         echo "COMPRESSEDIMAGES=${listOfCompressedFiles}" >> $GITHUB_ENV
-  #         echo "COMPRESSIONDONE=${compressionDone}" >> $GITHUB_ENV
-  #      continue-on-error: true
-  #      #
-  #    - name: post newly compressed images to repository
-  #      if: ${{ always() && $COMPRESSIONDONE }}
-  #      uses: stefanzweifel/git-auto-commit-action@v5
-  #      with:
-  #         commit_message: post compressed images
-  #         file_pattern: $COMPRESSEDIMAGES
-  #      continue-on-error: true
+  compressImages:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+      #
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+        #
+      - name: Install ImageMagick
+        uses: mfinelli/setup-imagemagick@v5
+        with:
+          cache: true
+        continue-on-error: true
+        #
+      - name: Search for uncompressed images, and compress them
+        run: |
+           listOfCompressedFiles=''
+           compressionDone=false
+           bigfile=500000
+           minDpi=150  # optimal dpi for pdf files
+           maxWidthInches=6.5   #inches
+           maxHeightInches=9.0  #inches
+           maxWidth=$(echo "(($minDpi * $maxWidthInches)+0.5)/1" | bc)
+           maxWidth=${maxWidth%.*}
+           maxHeight=$(echo "(($minDpi * $maxHeightInches)+0.5)/1" | bc)
+           maxHeight=${maxHeight%.*}
+           shopt -s globstar
+           for imagefile in **/*UNCOMPRESSED.*; do
+              listOfCompressedFiles+="${imagefile} "
+              newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
+              pdfname=$(echo "${newname}" | sed 's/\..*$/\.pdf/')
+              fileSize=$( stat -c %s -- "${imagefile}"  )
+              compressionDone=true
+              if [[ -f "${imagefile}" && ! -L "${imagefile}" && "$fileSize" -gt "$bigfile" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
+                  # Get the current dimensions of the image
+                  dimensions=$(identify -format "%w %h" "${imagefile}")
+                  read -r origWidth origHeight <<< "$dimensions"
+                  # determine which, if either, dimension exceeds the max desirable size (origWidth origHeight)
+                  if [[ "$origWidth" -gt "$origHeight" && "$origWidth" -gt "$maxWidth" ]]; then
+                      newWidth=$maxWidth
+                      newHeight=$(echo "(($origHeight * $newWidth) / $origWidth) + 0.5" | bc)
+                      newHeight=${newHeight%.*}
+                  elif [[ "$origWidth" -lt "$origHeight" && "$origHeight" -gt "$maxHeight" ]]; then
+                      newHeight=$maxHeight
+                      newWidth=$(echo "(($origWidth * $newHeight) / $origHeight) + 0.5" | bc)
+                      newWidth=${newWidth%.*}
+                  elif [[ "$origWidth" -gt "$maxWidth" ]]; then
+                      newWidth=$maxWidth
+                      newHeight=$(echo "(($origHeight * $newWidth) / $origWidth) + 0.5" | bc)
+                      newHeight=${newHeight%.*}
+                  elif [[ "$origHeight" -gt "$maxHeight" ]]; then
+                      newHeight=$origHeight
+                      newWidth=$(echo "(($origWidth * $newHeight) / $origHeight) + 0.5" | bc)
+                      newWidth=${newWidth%.*}
+                  else
+                      newHeight=$origHeight
+                      newWidth=$origWidth
+                  fi
+                  qualityValue=82
+                  # Note: the quality value seems to not matter at all.  The size seems to be the main factor behind the size of the file.
+                  mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality ''"${qualityValue}"'' \
+                    -define jpeg:fancy-upsampling=off -define png:compression=filter=5 -define png:compression-level=9 \
+                    -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB \
+                    -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
+                  mv -f "${imagefile}" "${newname}"
+              elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
+                  mv -f "${imagefile}" "${newname}"
+              fi
+           done
+           echo "COMPRESSEDIMAGES=${listOfCompressedFiles}" >> $GITHUB_ENV
+           echo "COMPRESSIONDONE=${compressionDone}" >> $GITHUB_ENV
+        continue-on-error: true
+        #
+      - name: post newly compressed images to repository
+        if: ${{ always() && $COMPRESSIONDONE }}
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+           commit_message: post compressed images
+           file_pattern: $COMPRESSEDIMAGES
+        continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
