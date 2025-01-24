@@ -57,7 +57,7 @@ jobs:
            # determine if the pruned bib file is already being used in the document. If so, we should bypass 
            # all the below because pruned bib file does not need to be created.
            # First, make sure that there is a bibliography in the document.  Otherwise, don't even continue
-           makeNewPrunedBib=false              
+           makeNewPrunedBib=false
            if [[ "$(grep -Eq "^ *\\\\bibliography[{]" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then makeNewPrunedBib=true; fi
            # next, see if pruned.bib is already being used.  If so, then bail out now and dont try to recreate the pruned.bib
            if [[ "$(grep -Eq "^ *\\\\bibliography[{]pruned([.]bib)?" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then makeNewPrunedBib=false; fi
@@ -67,11 +67,11 @@ jobs:
               touch pruned.bib
               # get a list of bib files used in this document:
               readarray -t bibfiles < <( grep -E "^ *\\\\bibliography[{][^}]+[}]" "${{ github.event.inputs.file2compile }}.tex" | \
-                sed -r 's/^ *\\bibliography[{]//i' | sed -r 's/} *$//' | sed -r 's/ *//g' )               
+                sed -r 's/^ *\\bibliography[{]//i' | sed -r 's/} *$//' | sed -r 's/ *//g' )
               # the .bib extension might not have been included in the bibfile name, so make sure the extension is there
               bibfilesstr=$( printf "%s" "${bibfiles[@]}" )
               bibfilesstr=$( sed -r 's/\.bib//g' <<<$bibfilesstr | sed -r 's/,/\.bib,/g' | sed -r 's/,/ /g' )
-              bibfilesstr+='.bib'            
+              bibfilesstr+='.bib'
               bibfiles=( $(IFS=" " echo "$bibfilesstr") )
               # make sure the bib files are not duplicated
               readarray -t bibfiles < <(printf '%s\n' "${bibfiles[@]}" | awk '!seen[$0]++')
@@ -80,12 +80,28 @@ jobs:
               readarray -t cites < <( grep "\cite" *.tex | sed -r 's/^[^ ]+\.tex: *//' | sed -r 's/^%.*$//' | \
                 sed -r 's/\a//g' | sed -r 's/\t//g' | sed -r 's/\\cite/\a/ig' | sed -r 's/\a[^{]*(\{[^}]*\})*\{([^}]+)\}/\a\2\t/g' | \
                 sed -r 's/^[^\a]+\a//' | sed -r 's/\t[^\a]+$//' | sed -r 's/\t[^\a]+\a/ /g' | sed -r 's/[,]/ /g' | sed -r 's/^[0-9]+$//g' )
+
+              echo '84'
+              printf '%s\n' ${cites[@]}
+              
               citesstr=$( printf "%s " "${cites[@]}" )
+
+              echo '89'
+              echo $citesstr
+              
               citesstr=$( sed -r 's/  +/ /g' <<<$citesstr | sed -r 's/ [^ ]*[:(){}\\/]+[^ ]* / /g' )
+
+              echo '94'
+              echo $citesstr
+              
               # any plus signs in the citation bib code causes problems because they are not escaped. The  below substitutes all plus signs and 
               # replaces with escaped pluses, so that grep will perform search on literal plus sign rather than interpret plus sign as meaning "search
               # for 2 or more of the character to left of plus sign". Periods also cause problems, as do dashes, and have to likewise be treated. 
               citesstr=$( sed -r 's/\+/\\+/g' <<<"$citesstr" | sed -r 's/\-/\\-/g' | sed -r 's/\./\\\./g' )
+
+              echo '102'
+              echo $citesstr
+              
               # break the references into individual entries that go into the array "cites"
               cites=( $(IFS=" " echo "$citesstr") )
               # get a sorted unique list
