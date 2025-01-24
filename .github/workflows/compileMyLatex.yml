@@ -176,12 +176,8 @@ jobs:
               compressionDone=true
               if [[ -f "${imagefile}" && ! -L "${imagefile}" && "$fileSize" -gt "$bigfile" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then                 
                   # Get the current dimensions of the image
-
-                  echo '180'
-                  echo ${imagefile}
                   magick identify -format "%w %h" "${imagefile}"
-                  
-                  dimensions=$(identify -format "%w %h" "${imagefile}")
+                  dimensions=$(magick identify -format "%w %h" "${imagefile}")
                   read -r origWidth origHeight <<< "$dimensions"
                   # determine which, if either, dimension exceeds the max desirable size (origWidth origHeight)
 
