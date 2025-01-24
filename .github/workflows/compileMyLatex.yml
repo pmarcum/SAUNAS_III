@@ -62,9 +62,15 @@ jobs:
            # next, see if pruned.bib is already being used.  If so, then bail out now and dont try to recreate the pruned.bib
            if [[ "$(grep -Eq "^ *\\\\bibliography[{]pruned([.]bib)?" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then makeNewPrunedBib=false; fi
            #
+
+           echo '66 ========='
+           echo $makeNewPrunedBib
+           
            if [[ $makeNewPrunedBib ]]; then
+             echo '70'
              echo "MADEPRUNEDBIB=T" >> $GITHUB_ENV
            else
+             echo '73'
              echo "MADEPRUNEDBIB=F" >> $GITHUB_ENV
            fi          
            if $makeNewPrunedBib; then
