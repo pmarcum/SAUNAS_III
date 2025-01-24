@@ -107,6 +107,8 @@ jobs:
               cat pruned.bib
               
             fi
+
+            echo $MADEPRUNEDBIB
         continue-on-error: true
         #
       - name: post pruned bibfile on repository
