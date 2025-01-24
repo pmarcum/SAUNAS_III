@@ -182,6 +182,9 @@ jobs:
               
               compressionDone=true
               if [[ -f "${imagefile}" && ! -L "${imagefile}" && "$fileSize" -gt "$bigfile" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
+
+                  echo '186'
+                  
                   # Get the current dimensions of the image
                   dimensions=$(identify -format "%w %h" "${imagefile}")
                   read -r origWidth origHeight <<< "$dimensions"
@@ -206,6 +209,11 @@ jobs:
                       newHeight=$origHeight
                       newWidth=$origWidth
                   fi
+
+                  echo '213'
+                  echo $newHeight
+                  echo $newWidth
+                  
                   qualityValue=82
                   # Note: the quality value seems to not matter at all.  The size seems to be the main factor behind the size of the file.
                   mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality ''"${qualityValue}"'' \
@@ -213,8 +221,17 @@ jobs:
                     -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB \
                     -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
                   mv -f "${imagefile}" "${newname}"
+
+                  ls FIGURES/*
+                  
               elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
+
+                  echo '229'
+                  
                   mv -f "${imagefile}" "${newname}"
+
+                  ls FIGURES/*
+                  
               fi
               listOfCompressedFiles+="${imagefile} ${newname} "
            done
