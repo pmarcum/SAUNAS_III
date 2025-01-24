@@ -57,31 +57,16 @@ jobs:
            # determine if the pruned bib file is already being used in the document. If so, we should bypass 
            # all the below because pruned bib file does not need to be created.
            # First, make sure that there is a bibliography in the document.  Otherwise, don't even continue
-           makeNewPrunedBib=false    
-
-           
-           if [[ "$(grep -Eq "^ *\\\\bibliography[{]pruned([.]bib)?" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then
-              echo "yes"
-           else
-              echo "no"
-           fi
-
-           
-           if [[ "$(grep -Eq "^ *\\\\bibliography{" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then makeNewPrunedBib=true; fi
+           makeNewPrunedBib=false              
+           if [[ "$(grep -Eq "^ *\\\\bibliography[{]" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then makeNewPrunedBib=true; fi
            # next, see if pruned.bib is already being used.  If so, then bail out now and dont try to recreate the pruned.bib
-           if [[ "$(grep -Eq "^ *\\\\bibliography{pruned(\.bib)?" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then makeNewPrunedBib=false; fi
-
-
-           
+           if [[ "$(grep -Eq "^ *\\\\bibliography[{]pruned([.]bib)?" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then makeNewPrunedBib=false; fi
            if $makeNewPrunedBib; then
-
-              echo " 70 ==============================="
-              
               rm -f pruned.bib
               touch pruned.bib
               # get a list of bib files used in this document:
-              readarray -t res < <(cut -d "," -f 1 <<<  grep -Eo "bibliography\{[^}]+\}" "${{ github.event.inputs.file2compile }}.tex" | \
-                 sed -r 's/^[^b]+bibliography\{([^}]+)\}[\n]*\n?/\1/i' | sed -r 's/ *//g')
+              readarray -t res < <(cut -d "," -f 1 <<<  grep -Eo "^ *\\\\bibliography[{][^}]+[}]" "${{ github.event.inputs.file2compile }}.tex" | \
+                 sed -r 's/^ *\\\\bibliography[{]([^}]+)[}][\n]*\n?/\1/i' | sed -r 's/ *//g')
               # make sure the bib files are not duplicated
               readarray -t bibfiles < <(printf '%s\n' "${res[@]}" | awk '!seen[$0]++')
 
