@@ -180,9 +180,6 @@ jobs:
                   read -r origWidth origHeight <<< "$dimensions"
                   # determine which, if either, dimension exceeds the max desirable size (origWidth origHeight)
 
-                  echo $origWidth
-                  echo $origHeight
-                  echo $maxWidth
                   echo $dimensions
 
                   
