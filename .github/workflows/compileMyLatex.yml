@@ -211,6 +211,10 @@ jobs:
            done
            echo "COMPRESSEDIMAGES=${listOfCompressedFiles}" >> $GITHUB_ENV
            echo "COMPRESSIONDONE=${compressionDone}" >> $GITHUB_ENV
+
+           echo ''
+           echo '= = = = = = = = = = = = ='
+           echo "$COMPRESSEDIMAGES"
         continue-on-error: true
         #
       - name: post newly compressed images to repository
