@@ -75,40 +75,32 @@ jobs:
               bibfiles=( $(IFS=" " echo "$bibfilesstr") )
               # make sure the bib files are not duplicated
               readarray -t bibfiles < <(printf '%s\n' "${bibfiles[@]}" | awk '!seen[$0]++')
-
-              echo '91'
-              printf '%s\n' ${bibfiles[@]}
-                            
-              # Now go through the .tex files and gather up all cited references
-              readarray -t refs < <( grep "\cite" *.tex | sed -r 's/^[^ ]+\.tex: *//' | sed -r 's/^%.*$//' | \
+              #
+              # =========== Now go through the .tex files and gather up all cited references
+              readarray -t cites < <( grep "\cite" *.tex | sed -r 's/^[^ ]+\.tex: *//' | sed -r 's/^%.*$//' | \
                 sed -r 's/\a//g' | sed -r 's/\t//g' | sed -r 's/\\cite/\a/ig' | sed -r 's/\a[^{]*(\{[^}]*\})*\{([^}]+)\}/\a\2\t/g' | \
                 sed -r 's/^[^\a]+\a//' | sed -r 's/\t[^\a]+$//' | sed -r 's/\t[^\a]+\a/ /g' | sed -r 's/[,]/ /g' | sed -r 's/^[0-9]+$//g' )
-              echo " 89 ==============================="
-              printf "%s\n" ${refs[@]}              
-              refstr=$( printf "%s " "${refs[@]}" )
-              echo " 94 =============================="
-              echo $refstr
-
-              refstr=$( sed -r 's/  +/ /g' <<<$refstr | sed -r 's/ [^ ]*[:(){}\\/]+[^ ]* / /g' )
+              citesstr=$( printf "%s " "${cites[@]}" )
+              citesstr=$( sed -r 's/  +/ /g' <<<$citesstr | sed -r 's/ [^ ]*[:(){}\\/]+[^ ]* / /g' )
               # any plus signs in the citation bib code causes problems because they are not escaped. The  below substitutes all plus signs and 
               # replaces with escaped pluses, so that grep will perform search on literal plus sign rather than interpret plus sign as meaning "search
               # for 2 or more of the character to left of plus sign". Periods also cause problems, as do dashes, and have to likewise be treated. 
-              modstr=$( sed -r 's/\+/\\+/g' <<<"$refstr" | sed -r 's/\-/\\-/g' | sed -r 's/\./\\\./g' )
+              citesstr=$( sed -r 's/\+/\\+/g' <<<"$citesstr" | sed -r 's/\-/\\-/g' | sed -r 's/\./\\\./g' )
               # break the references into individual entries that go into the array "cites"
-              modcites=( $(IFS=" " echo "$modstr") )
+              cites=( $(IFS=" " echo "$citesstr") )
 
               echo "113 ========================="
-              printf "%s\n" ${modcites[@]}
+              printf "%s\n" ${cites[@]}
               
               # get a sorted unique list
-              modcites=( $(echo "${modcites[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ') )
+              cites=( $(echo "${cites[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ') )
 
               echo "119 ==========================="
-              printf "%s\n" ${modcites[@]}
+              printf "%s\n" ${cites[@]}
               
               # Search for each of the cites in the bibfile(s) and extract the relevant full bib item for that citation, to 
               # put into the pruned bibfile
-              for (( i=0; i<${#modcites[@]}; i++ )); do -zoE "@[^{]+\{ *${modcites[$i]}[^@]+" "${bibfiles[@]}" | tr '\0' '\n' >> pruned.bib; done
+              for (( i=0; i<${#cites[@]}; i++ )); do -zoE "@[^{]+\{ *${cites[$i]}[^@]+" "${bibfiles[@]}" | tr '\0' '\n' >> pruned.bib; done
 
               echo " 126 =========================="
               cat pruned.bib
