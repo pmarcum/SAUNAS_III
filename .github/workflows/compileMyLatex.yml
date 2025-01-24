@@ -88,19 +88,14 @@ jobs:
               citesstr=$( sed -r 's/\+/\\+/g' <<<"$citesstr" | sed -r 's/\-/\\-/g' | sed -r 's/\./\\\./g' )
               # break the references into individual entries that go into the array "cites"
               cites=( $(IFS=" " echo "$citesstr") )
-
-              echo "113 ========================="
-              printf "%s\n" ${cites[@]}
-              
               # get a sorted unique list
               cites=( $(echo "${cites[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ') )
 
-              echo "119 ==========================="
-              printf "%s\n" ${cites[@]}
+              printf '%s\n' ${cites[@]}
               
               # Search for each of the cites in the bibfile(s) and extract the relevant full bib item for that citation, to 
               # put into the pruned bibfile
-              for (( i=0; i<${#cites[@]}; i++ )); do -zoE "@[^{]+\{ *${cites[$i]}[^@]+" "${bibfiles[@]}" | tr '\0' '\n' >> pruned.bib; done
+              for (( i=0; i<${#cites[@]}; i++ )); do grep -zoE "@[^{]+\{ *${cites[$i]}[^@]+" "${bibfiles[@]}" | tr '\0' '\n' >> pruned.bib; done
 
               echo " 126 =========================="
               cat pruned.bib
