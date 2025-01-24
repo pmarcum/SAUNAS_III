@@ -250,9 +250,9 @@ jobs:
     outputs:
       joblink:   ${{ steps.createJoblink.outputs.JOBLINK }}
     env:
-      STARTFILE: ${{ needs.defineVariables.outputs.startfile }}
-      HTMLFILE:  ${{ needs.defineVariables.outputs.htmlfile }}
-      TIMESTAMP: ${{ needs.defineVariables.outputs.timestamp }}
+      STARTFILE: "${{ needs.defineVariables.outputs.startfile }}"
+      HTMLFILE:  "${{ needs.defineVariables.outputs.htmlfile }}"
+      TIMESTAMP: "${{ needs.defineVariables.outputs.timestamp }}"
       #
     steps:
         #
@@ -267,7 +267,7 @@ jobs:
        #
       - name: Post note showing that processing has started
         run: |
-           echo "${{ env.STARTFILE }}"
+           echo $STARTFILE
            rm -f $STARTFILE
            touch $STARTFILE
            echo "$TIMESTAMP" >> $STARTFILE
