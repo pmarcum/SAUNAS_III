@@ -267,6 +267,8 @@ jobs:
        #
       - name: Post note showing that processing has started
         run: |
+           echo $STARTFILE
+           echo ${env.STARTFILE}
            rm -f $STARTFILE
            touch $STARTFILE
            echo "$TIMESTAMP" >> $STARTFILE
