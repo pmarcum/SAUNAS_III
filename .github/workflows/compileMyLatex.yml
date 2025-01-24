@@ -180,7 +180,10 @@ jobs:
                   read -r origWidth origHeight <<< "$dimensions"
                   # determine which, if either, dimension exceeds the max desirable size (origWidth origHeight)
 
-                  echo "$origWidth $origHeight $maxWidth"
+                  echo $origWidth
+                  echo $origHeight
+                  echo $maxWidth
+                  echo $dimensions
 
                   
                   if [[ "$origWidth" -gt "$origHeight" && "$origWidth" -gt "$maxWidth" ]]; then
@@ -205,7 +208,8 @@ jobs:
                   fi
 
                   echo '213'
-                  echo "$newHeight $newWidth"
+                  echo $newHeight
+                  echo $newWidth
                   
                   qualityValue=82
                   # Note: the quality value seems to not matter at all.  The size seems to be the main factor behind the size of the file.
