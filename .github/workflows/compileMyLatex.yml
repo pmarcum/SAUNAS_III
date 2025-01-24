@@ -70,17 +70,9 @@ jobs:
                 sed -r 's/^ *\\bibliography[{]//i' | sed -r 's/} *$//' | sed -r 's/ *//g' )               
               # the .bib extension might not have been included in the bibfile name, so make sure the extension is there
               bibfilesstr=$( printf "%s" "${bibfiles[@]}" )
-              bibfilesstr=$( sed -r 's/\.bib//g' <<<$bibfilesstr | sed -r 's/,/\.bib,/g' )
+              bibfilesstr=$( sed -r 's/\.bib//g' <<<$bibfilesstr | sed -r 's/,/\.bib,/g' | sed -r 's/,/ /g' )
               bibfilesstr+='.bib'            
-
-              echo '80'
-              echo $bibfilesstr
-              
-              bibfiles=( $(IFS="," echo "$bibfilesstr") )
-
-              echo '85'
-              printf '%s\n' ${bibfiles[@]}
-              
+              bibfiles=( $(IFS=" " echo "$bibfilesstr") )
               # make sure the bib files are not duplicated
               readarray -t bibfiles < <(printf '%s\n' "${bibfiles[@]}" | awk '!seen[$0]++')
 
