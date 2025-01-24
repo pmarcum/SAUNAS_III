@@ -172,23 +172,17 @@ jobs:
            for imagefile in **/*UNCOMPRESSED.*; do
               newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
               pdfname=$(echo "${newname}" | sed 's/\..*$/\.pdf/')
-              fileSize=$( stat -c %s -- "${imagefile}"  )
-
-              echo $imagefile
-              echo $newname
-              echo $pdfname
-              echo $listOfCompressedFiles
-              echo '==============='
-              
+              fileSize=$( stat -c %s -- "${imagefile}"  )             
               compressionDone=true
-              if [[ -f "${imagefile}" && ! -L "${imagefile}" && "$fileSize" -gt "$bigfile" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
-
-                  echo '186'
-                  
+              if [[ -f "${imagefile}" && ! -L "${imagefile}" && "$fileSize" -gt "$bigfile" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then                 
                   # Get the current dimensions of the image
                   dimensions=$(identify -format "%w %h" "${imagefile}")
                   read -r origWidth origHeight <<< "$dimensions"
                   # determine which, if either, dimension exceeds the max desirable size (origWidth origHeight)
+
+                  echo "$origWidth $origHeight $maxWidth"
+
+                  
                   if [[ "$origWidth" -gt "$origHeight" && "$origWidth" -gt "$maxWidth" ]]; then
                       newWidth=$maxWidth
                       newHeight=$(echo "(($origHeight * $newWidth) / $origWidth) + 0.5" | bc)
@@ -211,8 +205,7 @@ jobs:
                   fi
 
                   echo '213'
-                  echo $newHeight
-                  echo $newWidth
+                  echo "$newHeight $newWidth"
                   
                   qualityValue=82
                   # Note: the quality value seems to not matter at all.  The size seems to be the main factor behind the size of the file.
