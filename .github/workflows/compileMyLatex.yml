@@ -180,10 +180,6 @@ jobs:
                   dimensions=$(magick identify -format "%w %h" "${imagefile}")
                   read -r origWidth origHeight <<< "$dimensions"
                   # determine which, if either, dimension exceeds the max desirable size (origWidth origHeight)
-
-                  echo $dimensions
-
-                  
                   if [[ "$origWidth" -gt "$origHeight" && "$origWidth" -gt "$maxWidth" ]]; then
                       newWidth=$maxWidth
                       newHeight=$(echo "(($origHeight * $newWidth) / $origWidth) + 0.5" | bc)
@@ -203,12 +199,7 @@ jobs:
                   else
                       newHeight=$origHeight
                       newWidth=$origWidth
-                  fi
-
-                  echo '213'
-                  echo $newHeight
-                  echo $newWidth
-                  
+                  fi                 
                   qualityValue=82
                   # Note: the quality value seems to not matter at all.  The size seems to be the main factor behind the size of the file.
                   mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality ''"${qualityValue}"'' \
