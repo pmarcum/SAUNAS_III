@@ -117,12 +117,12 @@ jobs:
       contents: write
       #
     outputs:
-      corename: ${{ steps.vardefn.outputs.CORENAME }}
-      texfile: ${{ steps.vardefn.outputs.TEXFILE }}
-      outfile: ${{ steps.vardefn.outputs.OUTFILE }}
-      pdffile: ${{ steps.vardefn.outputs.PDFFILE }}
-      pdfhires: ${{ steps.vardefn.outputs.PDFHIRES }}
-      htmlfile: ${{ steps.vardefn.outputs.HTMLFILE }}
+      corename:  ${{ steps.vardefn.outputs.CORENAME }}
+      texfile:   ${{ steps.vardefn.outputs.TEXFILE }}
+      outfile:   ${{ steps.vardefn.outputs.OUTFILE }}
+      pdffile:   ${{ steps.vardefn.outputs.PDFFILE }}
+      pdfhires:  ${{ steps.vardefn.outputs.PDFHIRES }}
+      htmlfile:  ${{ steps.vardefn.outputs.HTMLFILE }}
       startfile: ${{ steps.vardefn.outputs.STARTFILE }}
       timestamp: ${{ steps.vardefn.outputs.TIMESTAMP }}
     steps:
@@ -132,14 +132,14 @@ jobs:
       - name: Define environmental variables
         id: vardefn
         run: |
-           echo "CORENAME=${{ github.event.inputs.file2compile }}" >> $GITHUB_ENV
-           echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >> $GITHUB_ENV
-           echo "OUTFILE=${{ github.event.inputs.file2compile }}Out.txt" >> $GITHUB_ENV
-           echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
-           echo "PDFHIRES=${{ github.event.inputs.file2compile }}_hiRes.pdf" >> $GITHUB_ENV
-           echo "HTMLFILE=${{ github.event.inputs.file2compile }}.html" >> $GITHUB_ENV
-           echo "STARTFILE=${{ github.event.inputs.file2compile }}START.txt" >> $GITHUB_ENV
-           echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
+           echo "CORENAME=${{ github.event.inputs.file2compile }}" >>                   $GITHUB_OUTPUT
+           echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >>                $GITHUB_OUTPUT
+           echo "OUTFILE=${{ github.event.inputs.file2compile }}Out.txt" >>             $GITHUB_OUTPUT
+           echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >>                $GITHUB_OUTPUT
+           echo "PDFHIRES=${{ github.event.inputs.file2compile }}_hiRes.pdf" >>         $GITHUB_OUTPUT
+           echo "HTMLFILE=${{ github.event.inputs.file2compile }}.html" >>              $GITHUB_OUTPUT
+           echo "STARTFILE=${{ github.event.inputs.file2compile }}START.txt" >>         $GITHUB_OUTPUT
+           echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_OUTPUT
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -250,9 +250,9 @@ jobs:
     outputs:
       joblink:   ${{ steps.createJoblink.outputs.JOBLINK }}
     env:
-      STARTFILE: "${{ needs.defineVariables.outputs.startfile }}"
-      HTMLFILE:  "${{ needs.defineVariables.outputs.htmlfile }}"
-      TIMESTAMP: "${{ needs.defineVariables.outputs.timestamp }}"
+      STARTFILE: ${{ needs.defineVariables.outputs.startfile }}
+      HTMLFILE:  ${{ needs.defineVariables.outputs.htmlfile }}
+      TIMESTAMP: ${{ needs.defineVariables.outputs.timestamp }}
       #
     steps:
         #
@@ -263,17 +263,17 @@ jobs:
         id: createJoblink
         run: |
            link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
-           echo "JOBLINK=$link2job" >> $GITHUB_ENV
+           echo "JOBLINK=$link2job" >> $GITHUB_OUTPUT
        #
       - name: Post note showing that processing has started
         run: |
-           echo $STARTFILE
+           echo  $STARTFILE
            rm -f $STARTFILE
            touch $STARTFILE
-           echo "$TIMESTAMP" >> $STARTFILE
-           echo "$JOBLINK" >> $STARTFILE
-           echo "$HTMLFILE" >> $STARTFILE
-           echo "precomp" >> $STARTFILE
+           echo  $TIMESTAMP >> $STARTFILE
+           echo  $JOBLINK >>   $STARTFILE
+           echo  $HTMLFILE >>  $STARTFILE
+           echo "precomp" >>   $STARTFILE
         continue-on-error: true
         #
       - name: post the start file and removed files to repository
