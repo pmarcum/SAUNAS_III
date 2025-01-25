@@ -263,6 +263,10 @@ jobs:
         id: createJoblink
         run: |
            link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
+
+           echo '267'
+           echo $link2job
+           
            echo "JOBLINK=$link2job" >> $GITHUB_OUTPUT
        #
       - name: Post note showing that processing has started
