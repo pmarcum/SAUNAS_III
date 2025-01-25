@@ -274,13 +274,16 @@ jobs:
            echo  $JOBLINK >>   $STARTFILE
            echo  $HTMLFILE >>  $STARTFILE
            echo "precomp" >>   $STARTFILE
+
+           cat $STARTFILE
+           
         continue-on-error: true
         #
       - name: post the start file and removed files to repository
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
            commit_message: post initialized files/folders to repository
-           file_pattern: "$STARTFILE"
+           file_pattern: "${STARTFILE}"
         continue-on-error: true
 
   #_______________________________________________________________________
