@@ -270,12 +270,13 @@ jobs:
        #
       - name: Post note showing that processing has started
         run: |
-           rm -f $STARTFILE
-           touch $STARTFILE
-           echo  $TIMESTAMP >> $STARTFILE
-           echo  $JOBLNK >>   $STARTFILE
-           echo  $HTMLFILE >>  $STARTFILE
-           echo "precomp" >>   $STARTFILE
+           echo '273   ${STARTFILE}'
+           rm -f "${STARTFILE}"
+           touch "${STARTFILE}"
+           echo "${TIMESTAMP}" >> "${STARTFILE}"
+           echo "${JOBLNK}"    >> "${STARTFILE}"
+           echo "${HTMLFILE}"  >> "${STARTFILE}"
+           echo "precomp"      >> "${STARTFILE}"
         continue-on-error: true
         #
       - name: Upload start status file
