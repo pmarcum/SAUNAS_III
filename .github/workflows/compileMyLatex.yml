@@ -98,11 +98,11 @@ jobs:
             fi
         continue-on-error: true
         #
-      - name: post pruned bibfile on repository
-        uses: stefanzweifel/git-auto-commit-action@v5
+      - name: Upload pruned bibfile so it can be seen by other jobs
+        uses: actions/upload-artifact@v4
         with:
-           commit_message: Post modified pruned.bib file
-           file_pattern: pruned.bib
+           name: pruned
+           path: pruned.bib
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -177,11 +177,13 @@ jobs:
            maxHeight=$(echo "(($minDpi * $maxHeightInches)+0.5)/1" | bc)
            maxHeight=${maxHeight%.*}
            shopt -s globstar
+           nUncompressed=0
            for imagefile in **/*UNCOMPRESSED.*; do
               newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
               pdfname=$(echo "${newname}" | sed 's/\..*$/\.pdf/')
               fileSize=$( stat -c %s -- "${imagefile}"  )             
               compressionDone=true
+              nUncompressed+=1
               if [[ -f "${imagefile}" && ! -L "${imagefile}" && "$fileSize" -gt "$bigfile" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then                 
                   # Get the current dimensions of the image
                   magick identify -format "%w %h" "${imagefile}"
@@ -268,21 +270,21 @@ jobs:
        #
       - name: Post note showing that processing has started
         run: |
-           echo '271'
-           echo '===>'
-           echo  $STARTFILE
            rm -f $STARTFILE
            touch $STARTFILE
            echo  $TIMESTAMP >> $STARTFILE
            echo  $JOBLNK >>   $STARTFILE
            echo  $HTMLFILE >>  $STARTFILE
            echo "precomp" >>   $STARTFILE
-
-           cat $STARTFILE
-           
         continue-on-error: true
         #
-      - name: post the start file and removed files to repository
+      - name: Upload start status file
+        uses: actions/upload-artifact@v4
+        with: 
+           name: Setting path of start status file
+           path: "${STARTFILE}"
+        # 
+      - name: post the start file to repository
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
            commit_message: post initialized files/folders to repository
