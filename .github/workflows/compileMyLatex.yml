@@ -263,11 +263,8 @@ jobs:
         id: createJoblink
         run: |
            link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
-
-           echo '267'
-           echo $link2job
-           
            echo "JOBLINK=$link2job" >> $GITHUB_OUTPUT
+           echo "JOBLNK=$link2job" >> $GITHUB_ENV
        #
       - name: Post note showing that processing has started
         run: |
@@ -275,7 +272,7 @@ jobs:
            rm -f $STARTFILE
            touch $STARTFILE
            echo  $TIMESTAMP >> $STARTFILE
-           echo  $JOBLINK >>   $STARTFILE
+           echo  $JOBLNK >>   $STARTFILE
            echo  $HTMLFILE >>  $STARTFILE
            echo "precomp" >>   $STARTFILE
 
