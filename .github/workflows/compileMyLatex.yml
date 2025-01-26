@@ -274,8 +274,8 @@ jobs:
            echo "HTMLFILE=${{ needs.defineVariables.outputs.htmlfile }}" >> $GITHUB_ENV
            echo "TIMESTAMP=${{ needs.defineVariables.outputs.timestamp }}" >> $GITHUB_ENV
        #
-      #- name: Post note showing that processing has started
-      #  run: |
+      - name: Post note showing that processing has started
+        run: |
       #     echo '279'
       #     echo '$STARTFILE'
       #     echo '280 ${ STARTFILE }'
@@ -288,7 +288,7 @@ jobs:
       #     echo "${JOBLNK}"    >> "${STARTFILE}"
       #     echo "${HTMLFILE}"  >> "${STARTFILE}"
       #     echo "precomp"      >> "${STARTFILE}"
-      #  continue-on-error: true
+        continue-on-error: true
       #  #
       #- name: Upload start status file
       #  uses: actions/upload-artifact@v4
