@@ -268,10 +268,12 @@ jobs:
            echo "STARTFILE=${{ needs.defineVariables.outputs.startfile }}" >> $GITHUB_ENV
            echo "HTMLFILE=${{ needs.defineVariables.outputs.htmlfile }}" >> $GITHUB_ENV
            echo "TIMESTAMP=${{ needs.defineVariables.outputs.timestamp }}" >> $GITHUB_ENV
+        continue-on-error: true
 
-      #- name: Post note showing that processing has started
-      #  run: |
-      #     echo "279"
+      - name: Post note alerting start time
+        run: |
+           echo "279"
+        continue-on-error: true
       #     #echo '280 ${ STARTFILE }'
       #     #echo '281 ${{ STARTFILE }}'
       #     #echo '282 ${{ needs.defineVariables.outputs.startfile }}'
