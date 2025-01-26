@@ -285,7 +285,7 @@ jobs:
   #|                        COMPILE THE FILE                              |
   #|______________________________________________________________________|
   build_latex:
-    needs: [initializeFolder,compressImages]
+    needs: [defineVariables,initializeFolder,compressImages]
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
@@ -305,6 +305,7 @@ jobs:
            echo "PDFFILE=${{ needs.defineVariables.outputs.pdffile }}" >> $GITHUB_ENV
            echo "CORENAME=${{ needs.defineVariables.outputs.corename }}" >> $GITHUB_ENV
            echo "OUTFILE=${{ needs.defineVariables.outputs.outfile }}" >> $GITHUB_ENV
+           echo "STARTFILE=${{ needs.defineVariables.outputs.startfile }}" >> $GITHUB_ENV
         continue-on-error: true       
         #
       - name: Get Job ID from GH API
