@@ -391,7 +391,7 @@ jobs:
         #
       - name: add the job link to the START file
         run: |
-           sed -ri "/JOBIDPLACEHOLDER/${{ steps.job-id.outputs.JOBNUMBER }}/" $STARTFILE
+           sed -ri "s/JOBIDPLACEHOLDER/${{ steps.job-id.outputs.JOBNUMBER }}/" $STARTFILE
       - name: post raw latex compilation output to repository for further processing
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
