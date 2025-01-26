@@ -276,8 +276,7 @@ jobs:
        #
       - name: Post note showing that processing has started
         run: |
-           echo '279'
-           #echo '$STARTFILE'
+           echo '$STARTFILE'
            #echo '280 ${ STARTFILE }'
            #echo '281 ${{ STARTFILE }}'
            #echo '282 ${{ needs.defineVariables.outputs.startfile }}'
@@ -301,7 +300,7 @@ jobs:
       #  with:
       #     commit_message: post initialized files/folders to repository
       #     file_pattern: "${STARTFILE}"
-        continue-on-error: true
+      #  continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
