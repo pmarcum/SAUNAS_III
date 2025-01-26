@@ -1,7 +1,6 @@
 Rc files read:
   NONE
 Latexmk: This is Latexmk, John Collins, 31 Jan. 2024. Version 4.83.
-No existing .aux file, so I'll make a simple one, and require run of *latex.
 Force everything to be remade.
 Latexmk: applying rule 'pdflatex'...
 Rule 'pdflatex':  Reasons for rerun
@@ -38,7 +37,7 @@ Collected error summary (may duplicate other messages):
   pdflatex: Command for 'pdflatex' gave return code 1
       Refer to '.log' and/or above output for details
 'pdflatex': time = 0.12
-Processing time = 0.14, of which invoked processes = 0.12, other = 0.02.
-Elapsed clock time = 0.19.
+Processing time = 0.12, of which invoked processes = 0.12, other = 0.00.
+Elapsed clock time = 0.12.
 Number of rules run = 1
 
