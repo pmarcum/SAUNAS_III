@@ -415,10 +415,10 @@ jobs:
            mv -f "$PDFFILE" "$PDFHIRES"
            # clean up unneeded files from the compilation
            rm -f "$CORENAME.aux $CORENAME.bbl $CORENAME.blg $CORENAME.fdb_latexmk $CORENAME.fls $CORENAME.out $CORENAME.sync* $CORENAME.synctex.gz"
-           rm -f .aux
-           rm -f .fdb_latexmk
-           rm -f .fls
-           rm -f .log
+           rm -f \.aux
+           rm -f \.fdb_latexmk
+           rm -f \.fls
+           rm -f \.log
            rm -f $OUTFILE
            mv -f compileOut.txt $OUTFILE
            # replace the job id placeholder in the START file with the job id
