@@ -276,7 +276,7 @@ jobs:
        #
       - name: Post note showing that processing has started
         run: |
-           echo '279'
+           #echo '279'
            # echo '$STARTFILE'
            #  echo '280 ${ STARTFILE }'
            #  echo '281 ${{ STARTFILE }}'
