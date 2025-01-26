@@ -273,13 +273,9 @@ jobs:
       - name: Post note alerting start time
         run: |
            echo $STARTFILE
+           rm -f $STARTFILE
+           touch $STARTFILE
         continue-on-error: true
-      #     #echo '280 ${ STARTFILE }'
-      #     #echo '281 ${{ STARTFILE }}'
-      #     #echo '282 ${{ needs.defineVariables.outputs.startfile }}'
-      #     #echo '283 env.STARTFILE | $env.STARTFILE | ${{ env.STARTFILE }}'
-      #     #rm -f "${STARTFILE}"
-      #     #touch "${STARTFILE}"
       #     #echo "${TIMESTAMP}" >> "${STARTFILE}"
       #     #echo "${JOBLNK}"    >> "${STARTFILE}"
       #     #echo "${HTMLFILE}"  >> "${STARTFILE}"
