@@ -277,12 +277,7 @@ jobs:
            echo $TIMESTAMP >> $STARTFILE
            echo $JOBLNK    >> $STARTFILE
            echo $HTMLFILE  >> $STARTFILE
-           echo "precomp"  >> $STARTFILE
-
-           ls $STARTFILE
-
-           cat $STARTFILE
-           
+           echo "precomp"  >> $STARTFILE           
         continue-on-error: true
         #
       - name: Upload start status file
