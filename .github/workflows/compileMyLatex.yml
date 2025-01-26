@@ -299,6 +299,14 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         #
+      - name: Recall stored variables
+        run: |
+           echo "PDFHIRES=${{ needs.defineVariables.outputs.pdfhires }}" >> $GITHUB_ENV
+           echo "PDFFILE=${{ needs.defineVariables.outputs.pdffile }}" >> $GITHUB_ENV
+           echo "CORENAME=${{ needs.defineVariables.outputs.corename }}" >> $GITHUB_ENV
+           echo "OUTFILE=${{ needs.defineVariables.outputs.outfile }}" >> $GITHUB_ENV
+        continue-on-error: true       
+        #
       - name: Get Job ID from GH API
         id: job-id
         env:
@@ -358,30 +366,37 @@ jobs:
           cache: true
         continue-on-error: true
         #
-  #    - name: Compile paper
-  #      # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
-  #      id: compilation
-  #      run: |
-  #         rm -f "$CORENAME.aux $CORENAME.bbl $CORENAME.blg $CORENAME.fdb_latexmk $CORENAME.fls $CORENAME.out $CORENAME.sync* $CORENAME.synctex.gz"
-  #         rm -f compileOut.txt
-  #         latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" 2>&1 | tee compileOut.txt
-  #         echo "______________________________________________________________________________"
-  #         cat compileOut.txt
-  #         echo "______________________________________________________________________________"
-  #         rm -f "$PDFHIRES"
-  #         mv -f "$PDFFILE" "$PDFHIRES"
-  #         # clean up unneeded files from the compilation
-  #         rm -f "$CORENAME.aux $CORENAME.bbl $CORENAME.blg $CORENAME.fdb_latexmk $CORENAME.fls $CORENAME.out $CORENAME.sync* $CORENAME.synctex.gz"
-  #         rm -f $OUTFILE
-  #         mv -f compileOut.txt $OUTFILE
-  #      continue-on-error: true
-  #      #
-  #    - name: post the raw latex compilation output to repository for further processing
-  #      uses: stefanzweifel/git-auto-commit-action@v5
-  #      with:
-  #         commit_message: post high-res PDF and the raw latex compilation log output for additional processing
-  #         file_pattern: "$OUTFILE $PDFHIRES ${{ env.STARTFILE }}"
-  #      continue-on-error: true
+      - name: Compile paper
+        # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
+        id: compilation
+        run: |
+           rm -f "$CORENAME.aux $CORENAME.bbl $CORENAME.blg $CORENAME.fdb_latexmk $CORENAME.fls $CORENAME.out $CORENAME.sync* $CORENAME.synctex.gz"
+           rm -f compileOut.txt
+           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" 2>&1 | tee compileOut.txt
+           echo "______________________________________________________________________________"
+           cat compileOut.txt
+           echo "______________________________________________________________________________"
+        continue-on-error: true
+        #
+      - name: clean up after compilation
+        run: |
+           rm -f "$PDFHIRES"
+           mv -f "$PDFFILE" "$PDFHIRES"
+           # clean up unneeded files from the compilation
+           rm -f "$CORENAME.aux $CORENAME.bbl $CORENAME.blg $CORENAME.fdb_latexmk $CORENAME.fls $CORENAME.out $CORENAME.sync* $CORENAME.synctex.gz"
+           rm -f $OUTFILE
+           mv -f compileOut.txt $OUTFILE
+        continue-on-error: true
+        #
+      - name: add the job link to the START file
+        run: |
+           sed -ri "/JOBLINK PLACEHOLDER/${{ steps.createJoblink.outputs.JOBLINK }}/" $STARTFILE
+      - name: post raw latex compilation output to repository for further processing
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+           commit_message: post high-res PDF and the raw latex compilation log output for additional processing
+           file_pattern: "${{ env.OUTFILE }} ${{ env.PDFHIRES }} ${{ env.STARTFILE }}"
+        continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
