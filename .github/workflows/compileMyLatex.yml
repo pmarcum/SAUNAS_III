@@ -280,12 +280,12 @@ jobs:
            echo "precomp"  >> $STARTFILE           
         continue-on-error: true
         #
-      - name: Upload start status file
-        uses: actions/upload-artifact@v4
-        with: 
-           name: Setting path of start status file
-           path: ${{ env.STARTFILE }}
-        continue-on-error: true
+      #- name: Upload start status file
+      #  uses: actions/upload-artifact@v4
+      #  with: 
+      #     name: Setting path of start status file
+      #     path: ${{ env.STARTFILE }}
+      #  continue-on-error: true
         # 
       - name: post the start file to repository
         uses: stefanzweifel/git-auto-commit-action@v5
