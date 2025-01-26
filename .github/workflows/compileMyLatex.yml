@@ -100,15 +100,24 @@ jobs:
             fi
         continue-on-error: true
         #
-      - name:  post newly-made pruned bibfile to repository
+      - name: Make pruned bibfile available to other jobs
         if: ${{ steps.pruneBib.outputs.madePruned == 'T' }}
-        run: |
-           git config --global user.email "email@gmail.com"
-           git config --global user.name "github actions"
-           git add pruned.bib
-           git commit -m "Upload new pruned.bib file"
-           git push
+        uses: actions/upload-artifact@v4
+        with:
+          name: pruned-bibfile-artifact
+          path: pruned.bib
+          overwrite: true
         continue-on-error: true
+        #
+      #- name:  post newly-made pruned bibfile to repository
+      #  if: ${{ steps.pruneBib.outputs.madePruned == 'T' }}
+      #  run: |
+      #     git config --global user.email "email@gmail.com"
+      #     git config --global user.name "github actions"
+      #     git add pruned.bib
+      #     git commit -m "Upload new pruned.bib file"
+      #     git push
+      #  continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
@@ -285,13 +294,19 @@ jobs:
         continue-on-error: true
         #
       - name: post the start file to repository
-        run: |
-           git config --global user.email "email@gmail.com"
-           git config --global user.name "github actions"
-           git add ${{ env.STARTFILE }}
-           git commit -m "Upload new start notification file"
-           git push
+        uses: actions/upload-artifact@v4
+        with:
+          name: start-alert
+          path: ${{ env.STARTFILE }}
+          overwrite: true
         continue-on-error: true
+        #run: |
+        #   git config --global user.email "email@gmail.com"
+        #   git config --global user.name "github actions"
+        #   git add ${{ env.STARTFILE }}
+        #   git commit -m "Upload new start notification file"
+        #   git push
+        #continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
@@ -320,6 +335,10 @@ jobs:
            echo "OUTFILE=${{ needs.defineVariables.outputs.outfile }}" >> $GITHUB_ENV
            echo "STARTFILE=${{ needs.defineVariables.outputs.startfile }}" >> $GITHUB_ENV
         continue-on-error: true       
+        #
+      - uses: actions/download-artifact@v4
+        with:
+          name: pruned-bibfile-artifact
         #
       - name: Get Job ID from GH API
         id: job-id
@@ -401,7 +420,8 @@ jobs:
         run: |
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
-           git add "${{ env.OUTFILE }}" "${{ env.PDFHIRES }}" "${{ env.STARTFILE }}"
+           #git add "${{ env.OUTFILE }}" "${{ env.PDFHIRES }}" "${{ env.STARTFILE }}"
+           git add .
            git commit -m "post high-res PDF and raw latex compilation log for additional processing"
            git push
         continue-on-error: true
