@@ -1,0 +1,12 @@
+# Fdb version 4
+["pdflatex"] 1737916826.57753 "/home/runner/work/_temp/setup-texlive-action/2023/texmf-dist/tex/latex/tools/.tex" ".pdf" "" 1737916826.71722 2
+  ".aux" 1737916826.57592 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
+  "/home/runner/work/_temp/setup-texlive-action/2023/texmf-dist/tex/latex/tools/.tex" 1686341992 1386 e12910b1679ec687be15153859582c13 ""
+  "/home/runner/work/_temp/setup-texlive-action/2023/texmf-dist/web2c/texmf.cnf" 1697057529 41009 84b61f42d16d06bedb915f57aa2374cf ""
+  "/home/runner/work/_temp/setup-texlive-action/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1737881882 6812609 260574b6b12723a2a2d156f1a0001b46 ""
+  "/home/runner/work/_temp/setup-texlive-action/2023/texmf.cnf" 1737880022.65493 604 7335431bafe9c2659586e4fcfb7cf6cc ""
+  (generated)
+  ".aux"
+  ".log"
+  ".pdf"
+  (rewritten before read)
