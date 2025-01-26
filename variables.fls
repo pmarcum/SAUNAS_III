@@ -1,0 +1,6 @@
+PWD /home/runner/work/SAUNAS_III/SAUNAS_III
+INPUT /home/runner/work/_temp/setup-texlive-action/2020/texmf.cnf
+INPUT /home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/web2c/texmf.cnf
+INPUT /home/runner/work/_temp/setup-texlive-action/2020/texmf-var/web2c/pdftex/pdflatex.fmt
+INPUT variables.tex
+OUTPUT variables.log
