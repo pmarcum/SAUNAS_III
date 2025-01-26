@@ -252,9 +252,6 @@ jobs:
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
-    outputs:
-      joblink: ${{ steps.createJoblink.outputs.JOBLINK }}
-      #
     steps:
       - name: Clone repo
         uses: actions/checkout@v4
@@ -287,89 +284,84 @@ jobs:
   #|                                                                      |
   #|                        COMPILE THE FILE                              |
   #|______________________________________________________________________|
-  #build_latex:
-  #  needs: [initializeFolder,compressImages]
-  #  runs-on: ubuntu-latest
-  #  continue-on-error: true
-  #  permissions:
-  #    # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
-  #    contents: write
-  #    #
-  #  steps:
-  #    - name: Clone repo
-  #      uses: actions/checkout@v4
-  #      #
-  #      - name: Get Job ID from GH API
-  #      id: job-id
-  #      env:
-  #        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #        #
-  #      run: |
-  #         jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
-  #         job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
-  #         echo "the job id is: $job_id"
-  #         echo "job_id=$job_id" >> $GITHUB_OUTPUT
-  #      continue-on-error: true    
-  #      #
-  #    - name: create the job link
-  #      id: createJoblink
-  #      run: |
-  #         link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
-  #         echo "JOBLINK=$link2job" >> $GITHUB_OUTPUT
-  #         echo "JOBLNK=$link2job" >> $GITHUB_ENV
-  #         echo "STARTFILE=${{ needs.defineVariables.outputs.startfile }}" >> $GITHUB_ENV
-  #         echo "HTMLFILE=${{ needs.defineVariables.outputs.htmlfile }}" >> $GITHUB_ENV
-  #         echo "TIMESTAMP=${{ needs.defineVariables.outputs.timestamp }}" >> $GITHUB_ENV
-  #      continue-on-error: true
-  #
-  # 
-  #    - name: Get Job ID from GH API
-  #      id: job-id
-  #      env:
-  #        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #      run: |
-  #      continue-on-error: true
-  #      #
-  #      # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
-  #      # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
-  #      # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
-  #      # 
-  #      # array.sty is incompatable with latest version of texlive and/or aastex. Until aastex is fixed in mid-2025,
-  #      # will need to keep this fix of using version 2023 instead of latest version. array.sty is used in WorPT files.
-  #      # See more details here:   https://github.com/AASJournals/AASTeX60/issues/149
-  #    - name: Install texlive
-  #      uses: teatimeguest/setup-texlive-action@v3
-  #      with:
-  #        version: 2023
-  #        packages:
-  #           collection-basic
-  #           collection-bibtexextra
-  #           collection-binextra
-  #           collection-context
-  #           collection-fontsextra
-  #           collection-fontsrecommended
-  #           collection-formatsextra
-  #           collection-fontutils
-  #           collection-latex
-  #           collection-latexextra
-  #           collection-latexrecommended
-  #           collection-mathscience
-  #           collection-metapost
-  #           collection-pictures
-  #           collection-plaingeneric
-  #           collection-pstricks
-  #           collection-publishers
-  #           collection-texworks
-  #           amsfonts
-  #           graphics
-  #           scrextend
-  #           rotating
-  #           tools
-  #           threeparttable
-  #           units
-  #        cache: true
-  #      continue-on-error: true
-  #      #
+  build_latex:
+    needs: [initializeFolder,compressImages]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+      #
+    outputs:
+      joblink: ${{ steps.createJoblink.outputs.JOBLINK }}
+      #
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+        #
+      - name: Get Job ID from GH API
+        id: job-id
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          #
+        run: |
+           jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
+           job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
+           echo "the job id is: $job_id"
+           echo "job_id=$job_id" >> $GITHUB_OUTPUT
+        continue-on-error: true    
+        #
+      - name: create the job link
+        id: createJoblink
+        run: |
+           link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
+           echo "JOBLINK=$link2job" >> $GITHUB_OUTPUT
+           echo "JOBLNK=$link2job" >> $GITHUB_ENV
+           echo "STARTFILE=${{ needs.defineVariables.outputs.startfile }}" >> $GITHUB_ENV
+           echo "HTMLFILE=${{ needs.defineVariables.outputs.htmlfile }}" >> $GITHUB_ENV
+           echo "TIMESTAMP=${{ needs.defineVariables.outputs.timestamp }}" >> $GITHUB_ENV
+        continue-on-error: true
+        #
+        # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
+        # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
+        # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
+        # 
+        # array.sty is incompatable with latest version of texlive and/or aastex. Until aastex is fixed in mid-2025,
+        # will need to keep this fix of using version 2023 instead of latest version. array.sty is used in WorPT files.
+        # See more details here:   https://github.com/AASJournals/AASTeX60/issues/149
+      - name: Install texlive
+        uses: teatimeguest/setup-texlive-action@v3
+        with:
+          version: 2023
+          packages:
+             collection-basic
+             collection-bibtexextra
+             collection-binextra
+             collection-context
+             collection-fontsextra
+             collection-fontsrecommended
+             collection-formatsextra
+             collection-fontutils
+             collection-latex
+             collection-latexextra
+             collection-latexrecommended
+             collection-mathscience
+             collection-metapost
+             collection-pictures
+             collection-plaingeneric
+             collection-pstricks
+             collection-publishers
+             collection-texworks
+             amsfonts
+             graphics
+             scrextend
+             rotating
+             tools
+             threeparttable
+             units
+          cache: true
+        continue-on-error: true
+        #
   #    - name: Compile paper
   #      # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
   #      id: compilation
