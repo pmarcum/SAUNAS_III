@@ -301,7 +301,7 @@ jobs:
       #  with:
       #     commit_message: post initialized files/folders to repository
       #     file_pattern: "${STARTFILE}"
-      #  continue-on-error: true
+        continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
