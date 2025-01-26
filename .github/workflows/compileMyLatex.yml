@@ -269,7 +269,7 @@ jobs:
            touch $STARTFILE
            echo $TIMESTAMP >> $STARTFILE
            echo "JOBLINK PLACEHOLDER" >> $STARTFILE
-           echo $HTMLFILE  >> $STARTFILE
+           echo "HTMLLINK PLACEHOLDER" >> $STARTFILE
            echo "precomp"  >> $STARTFILE
         continue-on-error: true
         #
