@@ -263,21 +263,17 @@ jobs:
         id: job-id
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+          #
         run: |
            jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
            job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
            echo "the job id is: $job_id"
            echo "job_id=$job_id" >> $GITHUB_OUTPUT
         continue-on-error: true    
-      
+        #
       - name: create the job link
         id: createJoblink
         run: |
-           jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
-           job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
-           echo "the job id is: $job_id"
-           #echo "job_id=$job_id" >> $GITHUB_OUTPUT
            link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
            echo "JOBLINK=$link2job" >> $GITHUB_OUTPUT
            echo "JOBLNK=$link2job" >> $GITHUB_ENV
