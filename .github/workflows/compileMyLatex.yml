@@ -332,7 +332,7 @@ jobs:
         #
       - uses: actions/download-artifact@v4
         with:
-          name: pruned-bibfile-artifact
+          name: start-alert
         #
       - name: Get Job ID from GH API
         id: job-id
@@ -351,10 +351,10 @@ jobs:
            rm -f $PDFFILE
            rm -f $PDFHIRES
            rm -f $OUTFILE
-           rm -f .aux
-           rm -f .fdb_latexmk
-           rm -f .fls
-           rm -f .log
+           rm -f \.aux
+           rm -f \.fdb_latexmk
+           rm -f \.fls
+           rm -f \.log
         continue-on-error: true  
         #
         # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
