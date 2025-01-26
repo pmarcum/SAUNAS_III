@@ -272,13 +272,13 @@ jobs:
 
       - name: Post note alerting start time
         run: |
-           echo $JOBLNK
+           echo $HTMLFILE
            rm -f $STARTFILE
            touch $STARTFILE
            echo $TIMESTAMP >> $STARTFILE
            echo $JOBLNK    >> $STARTFILE
+           #echo "${HTMLFILE}"  >> $STARTFILE
         continue-on-error: true
-      #     #echo "${HTMLFILE}"  >> "${STARTFILE}"
       #     #echo "precomp"      >> "${STARTFILE}"
       #     #continue-on-error: true
       #     #
