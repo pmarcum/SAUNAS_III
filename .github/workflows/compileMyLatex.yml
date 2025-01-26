@@ -360,7 +360,6 @@ jobs:
         # array.sty is incompatable with latest version of texlive and/or aastex. Until aastex is fixed in mid-2025,
         # will need to keep this fix of using version 2023 instead of latest version. array.sty is used in WorPT files.
         # See more details here:   https://github.com/AASJournals/AASTeX60/issues/149
-        #     tools package not loaded because of errors
       - name: Install texlive
         uses: teatimeguest/setup-texlive-action@v3
         with:
@@ -389,6 +388,7 @@ jobs:
              scrextend
              rotating
              threeparttable
+             tools
              units
           cache: true
         continue-on-error: true
