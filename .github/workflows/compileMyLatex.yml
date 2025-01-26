@@ -272,7 +272,7 @@ jobs:
 
       - name: Post note alerting start time
         run: |
-           echo "279"
+           echo "279 $STARTFILE"
         continue-on-error: true
       #     #echo '280 ${ STARTFILE }'
       #     #echo '281 ${{ STARTFILE }}'
