@@ -277,7 +277,7 @@ jobs:
            touch $STARTFILE
            echo $TIMESTAMP >> $STARTFILE
            echo $JOBLNK    >> $STARTFILE
-           #echo "${HTMLFILE}"  >> $STARTFILE
+           echo $HTMLFILE  >> $STARTFILE
         continue-on-error: true
       #     #echo "precomp"      >> "${STARTFILE}"
       #     #continue-on-error: true
