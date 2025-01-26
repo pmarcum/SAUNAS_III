@@ -237,10 +237,12 @@ jobs:
         #
       - name: post newly compressed images to repository
         if: ${{ steps.compressImages.outputs.didCompression == 'T' }}
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-           commit_message: post compressed images
-           file_pattern: "${{ steps.compressImages.outputs.listOfImages }}"
+        run: |
+           git config --global user.email "email@gmail.com"
+           git config --global user.name "github actions"
+           git add "${{ steps.compressImages.outputs.listOfImages }}"
+           git commit -m "Upload new pruned.bib file"
+           git push
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -277,10 +279,12 @@ jobs:
         continue-on-error: true
         #
       - name: post the start file to repository
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-           commit_message: Post start alert to repository
-           file_pattern: ${{ env.STARTFILE }}
+        run: |
+           git config --global user.email "email@gmail.com"
+           git config --global user.name "github actions"
+           git add ${{ env.STARTFILE }}
+           git commit -m "Upload new pruned.bib file"
+           git push
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -388,10 +392,12 @@ jobs:
         continue-on-error: true
         #           
       - name: post raw latex compilation output to repository for further processing
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-           commit_message: post high-res PDF and the raw latex compilation log output for additional processing
-           file_pattern: "${{ env.OUTFILE }} ${{ env.PDFHIRES }} ${{ env.STARTFILE }}"
+        run: |
+           git config --global user.email "email@gmail.com"
+           git config --global user.name "github actions"
+           git add "${{ env.OUTFILE }} ${{ env.PDFHIRES }} ${{ env.STARTFILE }}"
+           git commit -m "post high-res PDF and raw latex compilation log for additional processing"
+           git push
         continue-on-error: true
 
   #_______________________________________________________________________
