@@ -61,9 +61,9 @@ jobs:
            if [[ "$(grep -Eq "^ *\\\\bibliography[{]" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then makeNewPrunedBib=true; fi
            # next, see if pruned.bib is already being used.  If so, then bail out now and dont try to recreate the pruned.bib
            if [[ "$(grep -Eq "^ *\\\\bibliography[{]pruned([.]bib)?" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then makeNewPrunedBib=false; fi
-           echo "MADEPRUNEDFILE=true" >> $GITHUB_OUTPUT
            #
            if $makeNewPrunedBib; then
+              echo "madePruned=T" >> $GITHUB_OUTPUT
               rm -f pruned.bib
               touch pruned.bib
               # get a list of bib files used in this document:
@@ -95,14 +95,17 @@ jobs:
               # put into the pruned bibfile              
               for (( i=0; i<${#cites[@]}; i++ )); do grep -zoE "@[^{]+\{ *${cites[$i]}[^@]+" "${bibfiles[@]}" | tr '\0' '\n' >> pruned.bib; done
               sed -ri 's/^[^@]+@/@/g;s/^([^@}])/  \1/g' pruned.bib
+            else
+              echo "madePruned=F" >> $GITHUB_OUTPUT
             fi
         continue-on-error: true
         #
-      - name: Upload pruned bibfile so it can be seen by other jobs
-        uses: actions/upload-artifact@v4
+      - name: post newly-made pruned bibfile to repository
+        if: ${{ steps.pruneBib.outputs.madePruned == 'T' }}
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
-           name: pruned
-           path: pruned.bib
+           commit_message: post pruned bibfile
+           file_pattern: "pruned.bib"
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -270,7 +273,7 @@ jobs:
        #
       - name: Post note showing that processing has started
         run: |
-           echo '273   ${STARTFILE}'
+           echo '273   $STARTFILE | ${ STARTFILE } | ${{ STARTFILE }} | ${{ needs.defineVariables.outputs.startfile }}'
            rm -f "${STARTFILE}"
            touch "${STARTFILE}"
            echo "${TIMESTAMP}" >> "${STARTFILE}"
