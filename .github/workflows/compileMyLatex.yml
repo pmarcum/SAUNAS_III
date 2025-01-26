@@ -100,12 +100,14 @@ jobs:
             fi
         continue-on-error: true
         #
-      - name: post newly-made pruned bibfile to repository
+      - name:  post newly-made pruned bibfile to repository
         if: ${{ steps.pruneBib.outputs.madePruned == 'T' }}
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-           commit_message: post pruned bibfile
-           file_pattern: "pruned.bib"
+        run: |
+           git config --global user.email "email@gmail.com"
+           git config --global user.name "github actions"
+           git add pruned.bib
+           git commit -m "Upload new pruned.bib file"
+           git push
         continue-on-error: true
 
   #_______________________________________________________________________
