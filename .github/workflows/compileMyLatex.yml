@@ -265,6 +265,9 @@ jobs:
            echo "STARTFILE=${{ needs.defineVariables.outputs.startfile }}" >> $GITHUB_ENV
            echo "HTMLFILE=${{ needs.defineVariables.outputs.htmlfile }}" >> $GITHUB_ENV
            echo "TIMESTAMP=${{ needs.defineVariables.outputs.timestamp }}" >> $GITHUB_ENV
+           echo "PDFFILE=${{ needs.defineVariables.outputs.pdffile }}" >> $GITHUB_ENV
+           echo "PDFHIRES=${{ needs.defineVariables.outputs.pdfhires }}" >> $GITHUB_ENV
+           echo "OUTFILE=${{ needs.defineVariables.outputs.outfile }}" >> $GITHUB_ENV
         continue-on-error: true
         #
       - name: Post note alerting start time
@@ -276,6 +279,9 @@ jobs:
            echo "$link2job" >> $STARTFILE
            echo "HTMLLINK PLACEHOLDER" >> $STARTFILE
            echo "precomp"  >> $STARTFILE
+           rm -f $PDFFILE
+           rm -f $PDFHIRES
+           rm -f $OUTFILE
         continue-on-error: true
         #
       - name: post the start file to repository
