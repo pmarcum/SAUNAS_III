@@ -278,6 +278,9 @@ jobs:
            echo $JOBLNK    >> $STARTFILE
            echo $HTMLFILE  >> $STARTFILE
            echo "precomp"  >> $STARTFILE
+
+           cat $STARTFILE
+           
         continue-on-error: true
         #
       - name: Upload start status file
@@ -290,7 +293,7 @@ jobs:
       - name: post the start file to repository
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-           commit_message: post initialized files/folders to repository
+           commit_message: Post start alert to repository
            file_pattern: $STARTFILE
         continue-on-error: true
 
