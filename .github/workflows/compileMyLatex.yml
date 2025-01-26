@@ -287,14 +287,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with: 
            name: Setting path of start status file
-           path: "${{ STARTFILE }}"
+           path: ${{ STARTFILE }}
         continue-on-error: true
         # 
       - name: post the start file to repository
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
            commit_message: Post start alert to repository
-           file_pattern: "${{ STARTFILE }}"
+           file_pattern: ${{ STARTFILE }}
         continue-on-error: true
 
   #_______________________________________________________________________
