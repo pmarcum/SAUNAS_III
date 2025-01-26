@@ -274,9 +274,6 @@ jobs:
            echo "STARTFILE=${{ needs.defineVariables.outputs.startfile }}" >> $GITHUB_ENV
            echo "HTMLFILE=${{ needs.defineVariables.outputs.htmlfile }}" >> $GITHUB_ENV
            echo "TIMESTAMP=${{ needs.defineVariables.outputs.timestamp }}" >> $GITHUB_ENV
-           echo "PDFFILE=${{ needs.defineVariables.outputs.pdffile }}" >> $GITHUB_ENV
-           echo "PDFHIRES=${{ needs.defineVariables.outputs.pdfhires }}" >> $GITHUB_ENV
-           echo "OUTFILE=${{ needs.defineVariables.outputs.outfile }}" >> $GITHUB_ENV
         continue-on-error: true
         #
       - name: Post note alerting start time
@@ -288,9 +285,6 @@ jobs:
            echo "$link2job" >> $STARTFILE
            echo "HTMLLINK PLACEHOLDER" >> $STARTFILE
            echo "precomp"  >> $STARTFILE
-           rm -f $PDFFILE
-           rm -f $PDFHIRES
-           rm -f $OUTFILE
         continue-on-error: true
         #
       - name: post the start file to repository
@@ -350,7 +344,14 @@ jobs:
            job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
            echo "the job id is: $job_id"
            echo "JOBNUMBER=$job_id" >> $GITHUB_OUTPUT
-        continue-on-error: true    
+        continue-on-error: true  
+        #
+      - name: Remove old files
+        run: |
+           rm -f $PDFFILE
+           rm -f $PDFHIRES
+           rm -f $OUTFILE
+        continue-on-error: true  
         #
         # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
         # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
