@@ -254,13 +254,8 @@ jobs:
       contents: write
     outputs:
       joblink:   ${{ steps.createJoblink.outputs.JOBLINK }}
-    #env:
-    #  STARTFILE: ${{ needs.defineVariables.outputs.startfile }}
-    #  HTMLFILE:  ${{ needs.defineVariables.outputs.htmlfile }}
-    #  TIMESTAMP: ${{ needs.defineVariables.outputs.timestamp }}
       #
     steps:
-        #
       - name: Clone repo
         uses: actions/checkout@v4
         #
