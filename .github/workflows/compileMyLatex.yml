@@ -245,55 +245,55 @@ jobs:
   #|                                                                      |
   #|           GET THE DIRECTORY SET UP BY REMOVING OLD FILES             |
   #|______________________________________________________________________|
-  initializeFolder:
-    runs-on: ubuntu-latest
-    needs: [defineVariables]
-    continue-on-error: true
-    permissions:
-      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
-      contents: write
-    outputs:
-      joblink:   ${{ steps.createJoblink.outputs.JOBLINK }}
-    env:
-      STARTFILE: ${{ needs.defineVariables.outputs.startfile }}
-      HTMLFILE:  ${{ needs.defineVariables.outputs.htmlfile }}
-      TIMESTAMP: ${{ needs.defineVariables.outputs.timestamp }}
-      #
-    steps:
-        #
-      - name: Clone repo
-        uses: actions/checkout@v4
-        #
-      - name: create the job link
-        id: createJoblink
-        run: |
-           link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
-           echo "JOBLINK=$link2job" >> $GITHUB_OUTPUT
-           echo "JOBLNK=$link2job" >> $GITHUB_ENV
-       #
-      - name: Post note showing that processing has started
-        run: |
-           echo '273   $STARTFILE | ${ STARTFILE } | ${{ STARTFILE }} | ${{ needs.defineVariables.outputs.startfile }}'
-           rm -f "${STARTFILE}"
-           touch "${STARTFILE}"
-           echo "${TIMESTAMP}" >> "${STARTFILE}"
-           echo "${JOBLNK}"    >> "${STARTFILE}"
-           echo "${HTMLFILE}"  >> "${STARTFILE}"
-           echo "precomp"      >> "${STARTFILE}"
-        continue-on-error: true
-        #
-      - name: Upload start status file
-        uses: actions/upload-artifact@v4
-        with: 
-           name: Setting path of start status file
-           path: "${STARTFILE}"
-        # 
-      - name: post the start file to repository
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-           commit_message: post initialized files/folders to repository
-           file_pattern: "${STARTFILE}"
-        continue-on-error: true
+  #initializeFolder:
+  #  runs-on: ubuntu-latest
+  #  needs: [defineVariables]
+  #  continue-on-error: true
+  #  permissions:
+  #    # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+  #    contents: write
+  #  outputs:
+  #    joblink:   ${{ steps.createJoblink.outputs.JOBLINK }}
+  #  env:
+  #    STARTFILE: ${{ needs.defineVariables.outputs.startfile }}
+  #    HTMLFILE:  ${{ needs.defineVariables.outputs.htmlfile }}
+  #    TIMESTAMP: ${{ needs.defineVariables.outputs.timestamp }}
+  #    #
+  #  steps:
+  #      #
+  #    - name: Clone repo
+  #      uses: actions/checkout@v4
+  #      #
+  #    - name: create the job link
+  #      id: createJoblink
+  #      run: |
+  #         link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
+  #         echo "JOBLINK=$link2job" >> $GITHUB_OUTPUT
+  #         echo "JOBLNK=$link2job" >> $GITHUB_ENV
+  #     #
+  #    - name: Post note showing that processing has started
+  #      run: |
+  #         echo '273   $STARTFILE | ${ STARTFILE } | ${{ STARTFILE }} | ${{ needs.defineVariables.outputs.startfile }}'
+  #         rm -f "${STARTFILE}"
+  #         touch "${STARTFILE}"
+  #         echo "${TIMESTAMP}" >> "${STARTFILE}"
+  #         echo "${JOBLNK}"    >> "${STARTFILE}"
+  #         echo "${HTMLFILE}"  >> "${STARTFILE}"
+  #         echo "precomp"      >> "${STARTFILE}"
+  #      continue-on-error: true
+  #      #
+  #    - name: Upload start status file
+  #      uses: actions/upload-artifact@v4
+  #      with: 
+  #         name: Setting path of start status file
+  #         path: "${STARTFILE}"
+  #      # 
+  #    - name: post the start file to repository
+  #      uses: stefanzweifel/git-auto-commit-action@v5
+  #      with:
+  #         commit_message: post initialized files/folders to repository
+  #         file_pattern: "${STARTFILE}"
+  #      continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
