@@ -269,21 +269,21 @@ jobs:
            #echo "HTMLFILE=${{ needs.defineVariables.outputs.htmlfile }}" >> $GITHUB_ENV
            #echo "TIMESTAMP=${{ needs.defineVariables.outputs.timestamp }}" >> $GITHUB_ENV
        
-      - name: Post note showing that processing has started
-        run: |
-           #echo '279'
-           #echo '280 ${ STARTFILE }'
-           #echo '281 ${{ STARTFILE }}'
-           #echo '282 ${{ needs.defineVariables.outputs.startfile }}'
-           #echo '283 env.STARTFILE | $env.STARTFILE | ${{ env.STARTFILE }}'
-           #rm -f "${STARTFILE}"
-           #touch "${STARTFILE}"
-           #echo "${TIMESTAMP}" >> "${STARTFILE}"
-           #echo "${JOBLNK}"    >> "${STARTFILE}"
-           #echo "${HTMLFILE}"  >> "${STARTFILE}"
-           #echo "precomp"      >> "${STARTFILE}"
-        continue-on-error: true
-        #
+      #- name: Post note showing that processing has started
+      #  run: |
+      #     #echo '279'
+      #     #echo '280 ${ STARTFILE }'
+      #     #echo '281 ${{ STARTFILE }}'
+      #     #echo '282 ${{ needs.defineVariables.outputs.startfile }}'
+      #     #echo '283 env.STARTFILE | $env.STARTFILE | ${{ env.STARTFILE }}'
+      #     #rm -f "${STARTFILE}"
+      #     #touch "${STARTFILE}"
+      #     #echo "${TIMESTAMP}" >> "${STARTFILE}"
+      #     #echo "${JOBLNK}"    >> "${STARTFILE}"
+      #     #echo "${HTMLFILE}"  >> "${STARTFILE}"
+      #     #echo "precomp"      >> "${STARTFILE}"
+      #  continue-on-error: true
+      #  #
       #- name: Upload start status file
       #  uses: actions/upload-artifact@v4
       #  with: 
