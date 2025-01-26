@@ -37,7 +37,7 @@ Collected error summary (may duplicate other messages):
   pdflatex: Command for 'pdflatex' gave return code 1
       Refer to '.log' and/or above output for details
 'pdflatex': time = 0.13
-Processing time = 0.15, of which invoked processes = 0.13, other = 0.02.
-Elapsed clock time = 0.14.
+Processing time = 0.14, of which invoked processes = 0.13, other = 0.01.
+Elapsed clock time = 0.13.
 Number of rules run = 1
 
