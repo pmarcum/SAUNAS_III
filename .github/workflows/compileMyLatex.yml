@@ -241,7 +241,7 @@ jobs:
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
            git add "${{ steps.compressImages.outputs.listOfImages }}"
-           git commit -m "Upload new pruned.bib file"
+           git commit -m "Upload newly compressed image files"
            git push
         continue-on-error: true
 
@@ -283,7 +283,7 @@ jobs:
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
            git add ${{ env.STARTFILE }}
-           git commit -m "Upload new pruned.bib file"
+           git commit -m "Upload new start notification file"
            git push
         continue-on-error: true
 
