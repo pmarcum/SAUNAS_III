@@ -256,11 +256,6 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         #
-      #- name: Get Job ID from GH API
-      #  id: job-id
-      #  env:
-      #    GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #    #
       - name: Recall stored variables
         run: |
            echo "STARTFILE=${{ needs.defineVariables.outputs.startfile }}" >> $GITHUB_ENV
@@ -326,7 +321,6 @@ jobs:
            echo "JOBNUMBER=$job_id" >> $GITHUB_OUTPUT
         continue-on-error: true    
         #
-        #
         # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
         # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
         # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
@@ -387,11 +381,10 @@ jobs:
            rm -f "$CORENAME.aux $CORENAME.bbl $CORENAME.blg $CORENAME.fdb_latexmk $CORENAME.fls $CORENAME.out $CORENAME.sync* $CORENAME.synctex.gz"
            rm -f $OUTFILE
            mv -f compileOut.txt $OUTFILE
+           # replace the job id placeholder in the START file with the job id
+           sed -ri "s/JOBIDPLACEHOLDER/${{ steps.job-id.outputs.JOBNUMBER }}/" ${{ env.STARTFILE }}
         continue-on-error: true
-        #
-      - name: add the job link to the START file
-        run: |
-           sed -ri "s/JOBIDPLACEHOLDER/${{ steps.job-id.outputs.JOBNUMBER }}/" $STARTFILE
+        #           
       - name: post raw latex compilation output to repository for further processing
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
