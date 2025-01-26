@@ -264,10 +264,10 @@ jobs:
         run: |
            link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
            echo "JOBLINK=$link2job" >> $GITHUB_OUTPUT
-           #echo "JOBLNK=$link2job" >> $GITHUB_ENV
-           #echo "STARTFILE=${{ needs.defineVariables.outputs.startfile }}" >> $GITHUB_ENV
-           #echo "HTMLFILE=${{ needs.defineVariables.outputs.htmlfile }}" >> $GITHUB_ENV
-           #echo "TIMESTAMP=${{ needs.defineVariables.outputs.timestamp }}" >> $GITHUB_ENV
+           echo "JOBLNK=$link2job" >> $GITHUB_ENV
+           echo "STARTFILE=${{ needs.defineVariables.outputs.startfile }}" >> $GITHUB_ENV
+           echo "HTMLFILE=${{ needs.defineVariables.outputs.htmlfile }}" >> $GITHUB_ENV
+           echo "TIMESTAMP=${{ needs.defineVariables.outputs.timestamp }}" >> $GITHUB_ENV
 
       #- name: Post note showing that processing has started
       #  run: |
