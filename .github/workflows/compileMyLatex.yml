@@ -259,24 +259,8 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         #
-      - name: Get Job ID from GH API
-        id: job-id
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          #
+      - name: Recall stored variables
         run: |
-           jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
-           job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
-           echo "the job id is: $job_id"
-           echo "job_id=$job_id" >> $GITHUB_OUTPUT
-        continue-on-error: true    
-        #
-      - name: create the job link
-        id: createJoblink
-        run: |
-           link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
-           echo "JOBLINK=$link2job" >> $GITHUB_OUTPUT
-           echo "JOBLNK=$link2job" >> $GITHUB_ENV
            echo "STARTFILE=${{ needs.defineVariables.outputs.startfile }}" >> $GITHUB_ENV
            echo "HTMLFILE=${{ needs.defineVariables.outputs.htmlfile }}" >> $GITHUB_ENV
            echo "TIMESTAMP=${{ needs.defineVariables.outputs.timestamp }}" >> $GITHUB_ENV
@@ -287,9 +271,9 @@ jobs:
            rm -f $STARTFILE
            touch $STARTFILE
            echo $TIMESTAMP >> $STARTFILE
-           echo $JOBLNK    >> $STARTFILE
+           echo "JOBLINK PLACEHOLDER" >> $STARTFILE
            echo $HTMLFILE  >> $STARTFILE
-           echo "precomp"  >> $STARTFILE           
+           echo "precomp"  >> $STARTFILE
         continue-on-error: true
         #
       - name: post the start file to repository
@@ -315,6 +299,30 @@ jobs:
   #    - name: Clone repo
   #      uses: actions/checkout@v4
   #      #
+  #      - name: Get Job ID from GH API
+  #      id: job-id
+  #      env:
+  #        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #        #
+  #      run: |
+  #         jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
+  #         job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
+  #         echo "the job id is: $job_id"
+  #         echo "job_id=$job_id" >> $GITHUB_OUTPUT
+  #      continue-on-error: true    
+  #      #
+  #    - name: create the job link
+  #      id: createJoblink
+  #      run: |
+  #         link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
+  #         echo "JOBLINK=$link2job" >> $GITHUB_OUTPUT
+  #         echo "JOBLNK=$link2job" >> $GITHUB_ENV
+  #         echo "STARTFILE=${{ needs.defineVariables.outputs.startfile }}" >> $GITHUB_ENV
+  #         echo "HTMLFILE=${{ needs.defineVariables.outputs.htmlfile }}" >> $GITHUB_ENV
+  #         echo "TIMESTAMP=${{ needs.defineVariables.outputs.timestamp }}" >> $GITHUB_ENV
+  #      continue-on-error: true
+  #
+  # 
   #    - name: Get Job ID from GH API
   #      id: job-id
   #      env:
@@ -384,7 +392,7 @@ jobs:
   #      uses: stefanzweifel/git-auto-commit-action@v5
   #      with:
   #         commit_message: post high-res PDF and the raw latex compilation log output for additional processing
-  #         file_pattern: "$OUTFILE $PDFHIRES"
+  #         file_pattern: "$OUTFILE $PDFHIRES ${{ env.STARTFILE }}"
   #      continue-on-error: true
 
   #_______________________________________________________________________
