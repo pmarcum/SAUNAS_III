@@ -1,9 +1,8 @@
 Rc files read:
   NONE
 Latexmk: This is Latexmk, John Collins, 29 September 2020, version: 4.70b.
-Rule 'pdflatex': File changes, etc:
-   Changed files, or newly in use since previous run(s):
-      '/home/runner/work/_temp/setup-texlive-action/2020/texmf-var/web2c/pdftex/pdflatex.fmt'
+Rule 'pdflatex': The following rules & subrules became out-of-date:
+      'pdflatex'
 ------------
 Run number 1 of rule 'pdflatex'
 ------------
@@ -153,5 +152,5 @@ Latexmk: Log file says output to 'myPaper.pdf'
 Latexmk: Examining 'myPaper.log'
 === TeX engine is 'pdfTeX'
 Latexmk: All targets (myPaper.pdf) are up-to-date
-'pdflatex  -file-line-error -synctex=1 -interaction=nonstopmode -recorder  "myPaper.tex"': time = 0.38
-Accumulated processing time = 0.44
+'pdflatex  -file-line-error -synctex=1 -interaction=nonstopmode -recorder  "myPaper.tex"': time = 0.42
+Accumulated processing time = 0.48
