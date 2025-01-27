@@ -314,13 +314,14 @@ jobs:
         #
       - name: Recall stored variables
         run: |
-           echo "CORENAME=${{ needs.defineVariables.outputs.corename }}" >> $GITHUB_ENV
-           echo "HTMLFILE=${{ needs.defineVariables.outputs.htmlfile }}" >> $GITHUB_ENV
-           echo "LOG=${{ needs.defineVariables.outputs.log }}" >> $GITHUB_ENV
-           echo "OUTFILE=${{ needs.defineVariables.outputs.outfile }}" >> $GITHUB_ENV
-           echo "PDFHIRES=${{ needs.defineVariables.outputs.pdfhires }}" >> $GITHUB_ENV
-           echo "PDFFILE=${{ needs.defineVariables.outputs.pdffile }}" >> $GITHUB_ENV
+           echo "CORENAME=${{ needs.defineVariables.outputs.corename }}"   >> $GITHUB_ENV
+           echo "HTMLFILE=${{ needs.defineVariables.outputs.htmlfile }}"   >> $GITHUB_ENV
+           echo "LOG=${{ needs.defineVariables.outputs.log }}"             >> $GITHUB_ENV
+           echo "OUTFILE=${{ needs.defineVariables.outputs.outfile }}"     >> $GITHUB_ENV
+           echo "PDFHIRES=${{ needs.defineVariables.outputs.pdfhires }}"   >> $GITHUB_ENV
+           echo "PDFFILE=${{ needs.defineVariables.outputs.pdffile }}"     >> $GITHUB_ENV
            echo "STARTFILE=${{ needs.defineVariables.outputs.startfile }}" >> $GITHUB_ENV
+           echo "TEXFILE=${{ needs.defineVariables.outputs.texfile }}"     >> $GITHUB_ENV
         continue-on-error: true       
         #
       - name: Remove old files
