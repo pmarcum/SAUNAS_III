@@ -480,13 +480,13 @@ jobs:
            arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
         continue-on-error: true
         #
-      #- name: post reduced resolution PDF on repository
+      - name: post reduced resolution PDF on repository
       #  #if: ${{ always() && hashFiles($PDFFILE) }}
-      #  uses: stefanzweifel/git-auto-commit-action@v5
-      #  with:
-      #     commit_message: post low-resolution version of PDF
-      #     file_pattern: ${{ env.PDFFILE }}
-      #  continue-on-error: true
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+           commit_message: post low-resolution version of PDF
+           file_pattern: ${{ env.PDFFILE }}
+        continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
