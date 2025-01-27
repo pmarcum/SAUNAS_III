@@ -448,45 +448,45 @@ jobs:
   #|                                                                      |
   #|     COMPRESS THE PDF FILE INTO LOWER RESOLUTION FILE FOR DISPLAY     |
   #|______________________________________________________________________|
-  compressPdf:
-    needs: [defineVariables,initializeFolder,build_latex]
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    permissions:
-      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
-      contents: write
-      #
-    steps:
-      - name: Clone repo
-        uses: actions/checkout@v4
-        #
-      - name: Recall stored variables
-        run: |
-           echo "PDFHIRES=${{ needs.defineVariables.outputs.pdfhires }}"   >> $GITHUB_ENV
-           echo "PDFFILE=${{ needs.defineVariables.outputs.pdffile }}"     >> $GITHUB_ENV
-        continue-on-error: true 
-        #
-      - name: remove the pdf file if it exists somehow
-        run: |
-           rm -f $PDFFILE
-        continue-on-error: true       
-        #
-      - name: compress PDF
-        if: ${{ always() && hashFiles("$PDFHIRES") }}
-        uses: jy95/ghostscript-action@v1
-        with:
-           file:   "$PDFHIRES"
-           output: "$PDFFILE"
-           arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
-        continue-on-error: true
-        #
-      - name: post reduced resolution PDF on repository
-        if: ${{ always() && hashFiles("$PDFFILE") }}
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-           commit_message: post low-resolution version of PDF
-           file_pattern: "$PDFFILE"
-        continue-on-error: true
+  #compressPdf:
+  #  needs: [defineVariables,initializeFolder,build_latex]
+  #  runs-on: ubuntu-latest
+  #  continue-on-error: true
+  #  permissions:
+  #    # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+  #    contents: write
+  #    #
+  #  steps:
+  #    - name: Clone repo
+  #      uses: actions/checkout@v4
+  #      #
+  #    - name: Recall stored variables
+  #      run: |
+  #         echo "PDFHIRES=${{ needs.defineVariables.outputs.pdfhires }}"   >> $GITHUB_ENV
+  #         echo "PDFFILE=${{ needs.defineVariables.outputs.pdffile }}"     >> $GITHUB_ENV
+  #      continue-on-error: true 
+  #      #
+  #    - name: remove the pdf file if it exists somehow
+  #      run: |
+  #         rm -f $PDFFILE
+  #      continue-on-error: true       
+  #      #
+  #    - name: compress PDF
+  #      if: ${{ always() && hashFiles("$PDFHIRES") }}
+  #      uses: jy95/ghostscript-action@v1
+  #      with:
+  #         file:   "$PDFHIRES"
+  #         output: "$PDFFILE"
+  #         arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
+  #      continue-on-error: true
+  #      #
+  #    - name: post reduced resolution PDF on repository
+  #      if: ${{ always() && hashFiles("$PDFFILE") }}
+  #      uses: stefanzweifel/git-auto-commit-action@v5
+  #      with:
+  #         commit_message: post low-resolution version of PDF
+  #         file_pattern: "$PDFFILE"
+  #      continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
