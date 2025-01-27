@@ -262,23 +262,8 @@ jobs:
       - name: Recall stored variables
         run: |
            echo "STARTFILE=${{ needs.defineVariables.outputs.startfile }}" >> $GITHUB_ENV
-           echo "HTMLFILE=${{ needs.defineVariables.outputs.htmlfile }}" >> $GITHUB_ENV
            echo "TIMESTAMP=${{ needs.defineVariables.outputs.timestamp }}" >> $GITHUB_ENV
-           echo "PDFHIRES=${{ needs.defineVariables.outputs.pdfhires }}" >> $GITHUB_ENV
-           echo "PDFFILE=${{ needs.defineVariables.outputs.pdffile }}" >> $GITHUB_ENV
-           echo "CORENAME=${{ needs.defineVariables.outputs.corename }}" >> $GITHUB_ENV
-           echo "OUTFILE=${{ needs.defineVariables.outputs.outfile }}" >> $GITHUB_ENV
         continue-on-error: true
-        #
-      - name: Remove old files
-        run: |
-           rm -f $STARTFILE
-           rm -f $PDFFILE
-           rm -f $PDFHIRES
-           rm -f $OUTFILE
-           rm -f $HTMLFILE
-           rm -f "$CORENAME.aux $CORENAME.bbl $CORENAME.blg $CORENAME.fdb_latexmk $CORENAME.fls $CORENAME.out $CORENAME.sync* $CORENAME.synctex.gz"
-        continue-on-error: true  
         #
       - name: Post note alerting start time
         run: |
@@ -321,10 +306,34 @@ jobs:
         run: |
            echo "PDFHIRES=${{ needs.defineVariables.outputs.pdfhires }}" >> $GITHUB_ENV
            echo "PDFFILE=${{ needs.defineVariables.outputs.pdffile }}" >> $GITHUB_ENV
-           echo "CORENAME=${{ needs.defineVariables.outputs.corename }}" >> $GITHUB_ENV
            echo "OUTFILE=${{ needs.defineVariables.outputs.outfile }}" >> $GITHUB_ENV
            echo "STARTFILE=${{ needs.defineVariables.outputs.startfile }}" >> $GITHUB_ENV
+           echo "HTMLFILE=${{ needs.defineVariables.outputs.htmlfile }}" >> $GITHUB_ENV
+           echo "CORENAME=${{ needs.defineVariables.outputs.corename }}" >> $GITHUB_ENV
         continue-on-error: true       
+        #
+      - name: Remove old files
+        run: |
+           rm -f $PDFHIRES
+           rm -f $PDFFILE
+           rm -f $OUTFILE
+           rm -f $STARTFILE
+           rm -f $HTMLFILE
+           rm -f $CORENAME.aux
+           rm -f $CORENAME.bbl
+           rm -f $CORENAME.blg
+           rm -f $CORENAME.fdb_latexmk
+           rm -f $CORENAME.fls
+           rm -f $CORENAME.out
+           rm -f $CORENAME.sync*
+           rm -f $CORENAME.synctex.gz
+           rm -f compileOut.txt
+           rm -f tmp.txt
+           rm -f errout.txt
+           rm -f html.txt
+           rm -f finHtml.txt
+           rm -f tout.txt
+        continue-on-error: true  
         #
       - uses: actions/download-artifact@v4
         with:
@@ -345,9 +354,9 @@ jobs:
         # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
         # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
         # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
-        # 
+        # >>>>>>>>>>>>>>>>>>>>>>>> IMPORTANT NOTE ABOUT TEMPORARY FIX <<<<<<<<<<<<<<<<<<<<<<<<<<
         # array.sty is incompatable with latest version of texlive and/or aastex. Until aastex is fixed in mid-2025,
-        # will need to keep this fix of using version 2023 instead of latest version. array.sty is used in WorPT files.
+        # will need to keep this fix of using version 2020 instead of latest version. array.sty is used in WorPT files.
         # See more details here:   https://github.com/AASJournals/AASTeX60/issues/149
       - name: Install texlive
         uses: teatimeguest/setup-texlive-action@v3
@@ -386,7 +395,6 @@ jobs:
         # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
         id: compilation
         run: |
-           rm -f "$CORENAME.aux $CORENAME.bbl $CORENAME.blg $CORENAME.fdb_latexmk $CORENAME.fls $CORENAME.out $CORENAME.sync* $CORENAME.synctex.gz"
            rm -f compileOut.txt
            latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" 2>&1 | tee compileOut.txt
            echo "______________________________________________________________________________"
