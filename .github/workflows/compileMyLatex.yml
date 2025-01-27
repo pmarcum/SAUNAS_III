@@ -363,6 +363,13 @@ jobs:
         with:
           version: 2022
           packages:
+             amsfonts
+             graphics
+             scrextend
+             rotating
+             threeparttable
+             tools
+             units
              collection-basic
              collection-bibtexextra
              collection-binextra
@@ -381,13 +388,6 @@ jobs:
              collection-pstricks
              collection-publishers
              collection-texworks
-             amsfonts
-             graphics
-             scrextend
-             rotating
-             threeparttable
-             tools
-             units
           cache: true
         continue-on-error: true
         #
