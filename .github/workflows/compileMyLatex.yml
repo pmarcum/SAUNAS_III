@@ -459,17 +459,17 @@ jobs:
     steps:
       - name: Clone repo
         uses: actions/checkout@v4
-  #      #
-  #    - name: Recall stored variables
-  #      run: |
-  #         echo "PDFHIRES=${{ needs.defineVariables.outputs.pdfhires }}"   >> $GITHUB_ENV
-  #         echo "PDFFILE=${{ needs.defineVariables.outputs.pdffile }}"     >> $GITHUB_ENV
-  #      continue-on-error: true 
-  #      #
-  #    - name: remove the pdf file if it exists somehow
-  #      run: |
-  #         rm -f $PDFFILE
-  #      continue-on-error: true       
+        #
+      - name: Recall stored variables
+        run: |
+           echo "PDFHIRES=${{ needs.defineVariables.outputs.pdfhires }}"   >> $GITHUB_ENV
+           echo "PDFFILE=${{ needs.defineVariables.outputs.pdffile }}"     >> $GITHUB_ENV
+        continue-on-error: true 
+        #
+      - name: remove the pdf file if it exists somehow
+        run: |
+           rm -f $PDFFILE
+        continue-on-error: true       
   #      #
   #    - name: compress PDF
   #      if: ${{ always() && hashFiles("$PDFHIRES") }}
