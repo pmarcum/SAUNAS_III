@@ -12,7 +12,7 @@ name: Build LaTeX document and Release PDF
 # https://mrturkmen.com/posts/build-release-latex/
 # https://github.com/PHPirates/travis-ci-latex-pdf/blob/master/.github/workflows/texlive.yml
 # https://github.com/teatimeguest/setup-texlive-action  includes caching
-
+#
 on:
   workflow_dispatch:
     inputs: 
@@ -21,125 +21,167 @@ on:
          required: true
          default: "myPaper"        
 # Allow only one concurrent deployment, skipping runs quesed between the run in progress and most recent queued
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
-  
+#concurrency:
+#  group: "pages"
+#  cancel-in-progress: true
+#  #
 jobs:
   # followed: https://dev.to/dessygil/
   # how-to-automatically-update-resume-on-your-personal-site-from-overleaf-1fld
   # https://superuser.com/questions/1455483/how-to-get-wsl-use-git-bash-to-run-a-latexmk-command
   # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
-  build_latex:
+
+  #_______________________________________________________________________
+  #|                                                                      |
+  #|     STRIP OUT UNUSED REFERENCES AND CONSTRUCT A PRUNED BIB FILE      |
+  #|______________________________________________________________________|
+  pruneBib:
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
-      
+      #
     steps:
       - name: Clone repo
         uses: actions/checkout@v4
-
-      - name: Get Job ID from GH API
-        id: job-id
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+        #
+      - name: Prune the bib file
+        # https://www.baeldung.com/linux/regex-matching
+        # https://askubuntu.com/questions/1502281/using-grep-to-search-for-line-that-begins-with-a-variable-whose-value-is-a-dolla
+        # https://stackoverflow.com/questions/13210880/replace-one-substring-for-another-string-in-shell-script
+        # going to strip out all used citations and make a pruned.bib file that can be used as final bib file for submission
+        # purposes rather than having to use whole master bib file.  based on stand-alone "pruneMyBibfile" github action file
+        id: pruneBib
         run: |
-           jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
-           job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
-           echo "the job id is: $job_id"
-           echo "job_id=$job_id" >> $GITHUB_OUTPUT
+           # determine if the pruned bib file is already being used in the document. If so, we should bypass 
+           # all the below because pruned bib file does not need to be created.
+           # First, make sure that there is a bibliography in the document.  Otherwise, don't even continue
+           makeNewPrunedBib=false
+           if [[ "$(grep -Eq "^ *\\\\bibliography[{]" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then makeNewPrunedBib=true; fi
+           # next, see if pruned.bib is already being used.  If so, then bail out now and dont try to recreate the pruned.bib
+           if [[ "$(grep -Eq "^ *\\\\bibliography[{]pruned([.]bib)?" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then makeNewPrunedBib=false; fi
+           #
+           if $makeNewPrunedBib; then
+              echo "madePruned=T" >> $GITHUB_OUTPUT
+              rm -f pruned.bib
+              touch pruned.bib
+              # get a list of bib files used in this document:
+              readarray -t bibfiles < <( grep -E "^ *\\\\bibliography[{][^}]+[}]" "${{ github.event.inputs.file2compile }}.tex" | \
+                sed -r 's/^ *\\bibliography[{]//i' | sed -r 's/} *$//' | sed -r 's/ *//g' )
+              # the .bib extension might not have been included in the bibfile name, so make sure the extension is there
+              bibfilesstr=$( printf "%s" "${bibfiles[@]}" )
+              bibfilesstr=$( sed -r 's/\.bib//g' <<<$bibfilesstr | sed -r 's/,/\.bib,/g' | sed -r 's/,/ /g' )
+              bibfilesstr+='.bib'
+              bibfiles=( $(IFS=" " echo "$bibfilesstr") )
+              # make sure the bib files are not duplicated
+              readarray -t bibfiles < <(printf '%s\n' "${bibfiles[@]}" | awk '!seen[$0]++')
+              #
+              # =========== Now go through the .tex files and gather up all cited references
+              readarray -t cites < <( grep "\cite" *.tex | sed -r 's/^[^ ]+\.tex: *//' | sed -r 's/^%.*$//' | \
+                sed -r 's/\a//g' | sed -r 's/\t//g' | sed -r 's/\\cite/\a/ig' | sed -r 's/\a[^{]*(\{[^}]*\})*\{([^}]+)\}/\a\2\t/g' | \
+                sed -r 's/^[^\a]+\a//' | sed -r 's/\t[^\a]+$//' | sed -r 's/\t[^\a]+\a/ /g' | sed -r 's/[,]/ /g' | sed -r 's/^[0-9]+$//g' )
+              citesstr=$( printf "%s " "${cites[@]}" )
+              citesstr=$( sed -r 's/[\a\t]/ /g' <<<$citesstr |  sed -r 's/  +/ /g' | sed -r 's/ [^ ]*[:(){}\\/]+[^ ]* / /g' )
+              # any plus signs in the citation bib code causes problems because they are not escaped. The  below substitutes all plus signs and 
+              # replaces with escaped pluses, so that grep will perform search on literal plus sign rather than interpret plus sign as meaning "search
+              # for 2 or more of the character to left of plus sign". Periods also cause problems, as do dashes, and have to likewise be treated. 
+              citesstr=$( sed -r 's/\+/\\+/g' <<<"$citesstr" | sed -r 's/\-/\\-/g' | sed -r 's/\./\\\./g' )
+              # break the references into individual entries that go into the array "cites"
+              cites=( $(IFS=" " echo "$citesstr") )
+              # get a sorted unique list
+              cites=( $(echo "${cites[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ') )
+              # Search for each of the cites in the bibfile(s) and extract the relevant full bib item for that citation, to 
+              # put into the pruned bibfile              
+              for (( i=0; i<${#cites[@]}; i++ )); do grep -zoE "@[^{]+\{ *${cites[$i]}[^@]+" "${bibfiles[@]}" | tr '\0' '\n' >> pruned.bib; done
+              sed -ri 's/^[^@]+@/@/g;s/^([^@}])/  \1/g' pruned.bib
+            else
+              echo "madePruned=F" >> $GITHUB_OUTPUT
+            fi
+        continue-on-error: true
+        #
+      - name: Make pruned bibfile available to other jobs
+        if: ${{ steps.pruneBib.outputs.madePruned == 'T' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: pruned-bibfile-artifact
+          path: pruned.bib
+          overwrite: true
         continue-on-error: true
 
+  #_______________________________________________________________________
+  #|                                                                      |
+  #|                  DEFINE THE ENVIRONMENTAL VARIABLES                  |
+  #|______________________________________________________________________|
+  defineVariables:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+      #
+    outputs:
+      corename:  ${{ steps.vardefn.outputs.CORENAME }}
+      htmlfile:  ${{ steps.vardefn.outputs.HTMLFILE }}
+      htmllink:  ${{ steps.vardefn.outputs.HTMLLINK }}
+      fulllog:   ${{ steps.vardefn.outputs.FULLLOG }}
+      log:       ${{ steps.vardefn.outputs.LOG }}
+      outfile:   ${{ steps.vardefn.outputs.OUTFILE }}
+      pdffile:   ${{ steps.vardefn.outputs.PDFFILE }}
+      pdfhires:  ${{ steps.vardefn.outputs.PDFHIRES }}
+      pdflink:   ${{ steps.vardefn.outputs.PDFLINK }}
+      startfile: ${{ steps.vardefn.outputs.STARTFILE }}
+      texfile:   ${{ steps.vardefn.outputs.TEXFILE }}
+      timestamp: ${{ steps.vardefn.outputs.TIMESTAMP }}
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+        #
       - name: Define environmental variables
+        id: vardefn
         run: |
-           link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.job-id.outputs.job_id }}"
-           echo "JOBLINK=$link2job" >> $GITHUB_ENV
-           echo "CORENAME=${{ github.event.inputs.file2compile }}" >> $GITHUB_ENV
-           echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >> $GITHUB_ENV
-           echo "OUTFILE=${{ github.event.inputs.file2compile }}Out.txt" >> $GITHUB_ENV
-           echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >> $GITHUB_ENV
-           echo "PDFHIRES=${{ github.event.inputs.file2compile }}_hiRes.pdf" >> $GITHUB_ENV
-           echo "HTMLFILE=${{ github.event.inputs.file2compile }}.html" >> $GITHUB_ENV
-           echo "STARTFILE=${{ github.event.inputs.file2compile }}START.txt" >> $GITHUB_ENV
-           echo "FULLLOG=${{ github.event.inputs.file2compile }}_full.log" >> $GITHUB_ENV
-           echo "LOG=${{ github.event.inputs.file2compile }}.log" >> $GITHUB_ENV
-           echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_ENV
-           pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
-           echo "PDFLINK=$pdflink" >> $GITHUB_ENV
            htmllink="https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"
-           echo "HTMLLINK=$htmllink" >> $GITHUB_ENV
-        continue-on-error: true
-        
-      - name: Remove files to initiate compilation process
-        run: |
-           cat $STARTFILE
-           rm -f fin.txt
-           rm -f $FULLLOG
-           rm -f $LOG
-           rm -f $CORENAME.aux
-           rm -f $CORENAME.bbl
-           rm -f $CORENAME.blg
-           rm -f $CORENAME.fdb_latexmk
-           rm -f $CORENAME.fls
-           rm -f $CORENAME.sync*
-           rm -f inpaperCites.txt
-           rm -f thereAreErrors.txt
-           rm -f noFatalErrors.txt
-           rm -f doesNotUsePruned.txt
-           rm -f usedBibfile.txt
-           rm -f compileOut.txt*
-           rm -f errout.txt*
-           rm -f cites.txt
-           rm -f html.txt
-           rm -f warnout.txt
-           rm -f bibout.txt
-           rm -f tout.txt
-           rm -f $CORENAME.synctex.gz
-           rm -f $CORENAME.out
-           rm -f $STARTFILE
-           rm -f $PDFFILE
-           rm -f $PDFHIRES
-           rm -f $HTMLFILE
-           rm -f $OUTFILE
-           rm -f uncompressed.list
-           # check to see if there are any images to be compressed
-           ls -la *UNCOMPRESSED.* > uncompressed.list
-           if [ ! -s uncompressed.list ]; then 
-               # the file is empty so remove it
-               rm -f uncompressed.list
-           fi
+           pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
+           echo "CORENAME=${{ github.event.inputs.file2compile }}" >>                   $GITHUB_OUTPUT
+           echo "HTMLFILE=${{ github.event.inputs.file2compile }}.html" >>              $GITHUB_OUTPUT
+           echo "HTMLLINK=$htmllink" >>                                                 $GITHUB_OUTPUT
+           echo "FULLLOG=${{ github.event.inputs.file2compile }}_full.log" >>           $GITHUB_OUTPUT
+           echo "LOG=${{ github.event.inputs.file2compile }}.log" >>                    $GITHUB_OUTPUT
+           echo "OUTFILE=${{ github.event.inputs.file2compile }}Out.txt" >>             $GITHUB_OUTPUT
+           echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >>                $GITHUB_OUTPUT
+           echo "PDFHIRES=${{ github.event.inputs.file2compile }}_hiRes.pdf" >>         $GITHUB_OUTPUT
+           echo "PDFLINK=$pdflink" >>                                                   $GITHUB_OUTPUT
+           echo "STARTFILE=${{ github.event.inputs.file2compile }}START.txt" >>         $GITHUB_OUTPUT
+           echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >>                $GITHUB_OUTPUT
+           echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_OUTPUT
         continue-on-error: true
 
-      - name: Post note showing that processing has started
-        run: |
-           touch $STARTFILE
-           echo $TIMESTAMP >> $STARTFILE
-           echo $JOBLINK   >> $STARTFILE
-           echo $HTMLLINK  >> $STARTFILE
-           echo "precomp"  >> $STARTFILE
-
-      - name: Post updated files and START action notice to folder
-        run: |
-           git config --global user.email "email@gmail.com"
-           git config --global user.name "github actions"
-           git add .
-           git commit -m "Upload changed files"
-           git push
-        continue-on-error: true
-         
+  #_______________________________________________________________________
+  #|                                                                      |
+  #|         COMPRESS THE IMAGES IF THERE ARE UNCOMPRESSED ONES           |
+  #|______________________________________________________________________|
+  compressImages:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+      #
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+        #
       - name: Install ImageMagick
         uses: mfinelli/setup-imagemagick@v5
         with:
           cache: true
         continue-on-error: true
-    
-      - name: Compress images to go into the paper
-        if: ${{ always() && hashFiles('uncompressed.list') }}
+        #
+      - name: Search for uncompressed images, and compress them
+        id: compressImages
         run: |
-           rm -f uncompressed.list
+           listOfCompressedFiles=''
+           compressionDone=false
            bigfile=500000
            minDpi=150  # optimal dpi for pdf files
            maxWidthInches=6.5   #inches
@@ -149,13 +191,17 @@ jobs:
            maxHeight=$(echo "(($minDpi * $maxHeightInches)+0.5)/1" | bc)
            maxHeight=${maxHeight%.*}
            shopt -s globstar
+           nUncompressed=0
            for imagefile in **/*UNCOMPRESSED.*; do
               newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
               pdfname=$(echo "${newname}" | sed 's/\..*$/\.pdf/')
-              fileSize=$( stat -c %s -- "${imagefile}"  )
-              if [[ -f "${imagefile}" && ! -L "${imagefile}" && "$fileSize" -gt "$bigfile" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
+              fileSize=$( stat -c %s -- "${imagefile}"  )             
+              compressionDone=true
+              nUncompressed+=1
+              if [[ -f "${imagefile}" && ! -L "${imagefile}" && "$fileSize" -gt "$bigfile" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then                 
                   # Get the current dimensions of the image
-                  dimensions=$(identify -format "%w %h" "${imagefile}")
+                  magick identify -format "%w %h" "${imagefile}"
+                  dimensions=$(magick identify -format "%w %h" "${imagefile}")
                   read -r origWidth origHeight <<< "$dimensions"
                   # determine which, if either, dimension exceeds the max desirable size (origWidth origHeight)
                   if [[ "$origWidth" -gt "$origHeight" && "$origWidth" -gt "$maxWidth" ]]; then
@@ -177,36 +223,154 @@ jobs:
                   else
                       newHeight=$origHeight
                       newWidth=$origWidth
-                  fi
+                  fi                 
                   qualityValue=82
                   # Note: the quality value seems to not matter at all.  The size seems to be the main factor behind the size of the file.
-                  mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality ''"${qualityValue}"'' \
+                  magick mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality ''"${qualityValue}"'' \
                     -define jpeg:fancy-upsampling=off -define png:compression=filter=5 -define png:compression-level=9 \
                     -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB \
                     -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
-                  mv -f "${imagefile}" "${newname}"
-              elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
-                  mv -f "${imagefile}" "${newname}"
+                  mv -f "${imagefile}" "${newname}"                  
+              elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then                  
+                  mv -f "${imagefile}" "${newname}"                  
               fi
+              listOfCompressedFiles+="${imagefile} ${newname} "
            done
+           echo "listOfImages=$listOfCompressedFiles" >> $GITHUB_OUTPUT
+           if [[ $compressionDone ]]; then
+              echo "didCompression=T" >> $GITHUB_OUTPUT
+           else
+              echo "didCompression=F" >> $GITHUB_OUTPUT
+           fi
         continue-on-error: true
-
-      - name: Complete initialization of folder
+        #
+      - name: post newly compressed images to repository
+        if: ${{ steps.compressImages.outputs.didCompression == 'T' }}
         run: |
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
-           git add .
-           git commit -m "Upload changed files"
+           git add "${{ steps.compressImages.outputs.listOfImages }}"
+           git commit -m "Upload newly compressed image files"
            git push
         continue-on-error: true
 
-      # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
-      # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
-      # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
-      # 
-      # array.sty is incompatable with latest version of texlive and/or aastex. Until aastex is fixed in mid-2025,
-      # will need to keep this fix of using version 2023 instead of latest version. array.sty is used in WorPT files.
-      # See more details here:   https://github.com/AASJournals/AASTeX60/issues/149
+  #_______________________________________________________________________
+  #|                                                                      |
+  #|           GET THE DIRECTORY SET UP BY REMOVING OLD FILES             |
+  #|______________________________________________________________________|
+  initializeFolder:
+    runs-on: ubuntu-latest
+    needs: [defineVariables]
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+        #
+      - name: Recall stored variables
+        run: |
+           echo "STARTFILE=${{ needs.defineVariables.outputs.startfile }}" >> $GITHUB_ENV
+           echo "TIMESTAMP=${{ needs.defineVariables.outputs.timestamp }}" >> $GITHUB_ENV
+        continue-on-error: true
+        #
+      - name: Post note alerting start time
+        run: |
+           touch $STARTFILE
+           echo $TIMESTAMP  >> $STARTFILE
+           link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/JOBIDPLACEHOLDER"
+           echo "$link2job" >> $STARTFILE
+           echo $HTMLLINK   >> $STARTFILE
+           echo "precomp"   >> $STARTFILE
+        continue-on-error: true
+        #
+      - name: post the start file to repository
+        uses: actions/upload-artifact@v4
+        with:
+          name: start-alert
+          path: ${{ env.STARTFILE }}
+          overwrite: true
+        continue-on-error: true
+
+  #_______________________________________________________________________
+  #|                                                                      |
+  #|                        COMPILE THE FILE                              |
+  #|______________________________________________________________________|
+  build_latex:
+    needs: [defineVariables,initializeFolder,compressImages]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+      #
+    outputs:
+      jobnumber: ${{ steps.job-id.outputs.JOBNUMBER }}
+      #
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+        #
+      - name: Recall stored variables
+        run: |
+           echo "CORENAME=${{ needs.defineVariables.outputs.corename }}" >> $GITHUB_ENV
+           echo "HTMLFILE=${{ needs.defineVariables.outputs.htmlfile }}" >> $GITHUB_ENV
+           echo "LOG=${{ needs.defineVariables.outputs.log }}" >> $GITHUB_ENV
+           echo "OUTFILE=${{ needs.defineVariables.outputs.outfile }}" >> $GITHUB_ENV
+           echo "PDFHIRES=${{ needs.defineVariables.outputs.pdfhires }}" >> $GITHUB_ENV
+           echo "PDFFILE=${{ needs.defineVariables.outputs.pdffile }}" >> $GITHUB_ENV
+           echo "STARTFILE=${{ needs.defineVariables.outputs.startfile }}" >> $GITHUB_ENV
+        continue-on-error: true       
+        #
+      - name: Remove old files
+        run: |
+           rm -f compileOut.txt
+           rm -f $CORENAME.aux
+           rm -f $CORENAME.bbl
+           rm -f $CORENAME.blg
+           rm -f $CORENAME.fdb_latexmk
+           rm -f $CORENAME.fls
+           rm -f $CORENAME.out
+           rm -f $CORENAME.sync*
+           rm -f $CORENAME.synctex.gz
+           rm -f errout.txt
+           rm -f fin.txt
+           rm -f finHtml.txt
+           rm -f html.txt
+           rm -f $HTMLFILE
+           rm -f $LOG
+           rm -f $OUTFILE
+           rm -f $PDFHIRES
+           rm -f $PDFFILE
+           rm -f $STARTFILE
+           rm -f tmp.txt
+           rm -f tout.txt
+        continue-on-error: true  
+        #
+      - uses: actions/download-artifact@v4
+        with:
+          name: start-alert
+        #
+      - name: Get Job ID from GH API
+        id: job-id
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          #
+        run: |
+           jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
+           job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
+           echo "the job id is: $job_id"
+           echo "JOBNUMBER=$job_id" >> $GITHUB_OUTPUT
+        continue-on-error: true  
+        #
+        # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
+        # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
+        # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
+        # >>>>>>>>>>>>>>>>>>>>>>>> IMPORTANT NOTE ABOUT TEMPORARY FIX <<<<<<<<<<<<<<<<<<<<<<<<<<
+        # array.sty is incompatable with latest version of texlive and/or aastex. Until aastex is fixed in mid-2025,
+        # will need to keep this fix of using version 2020 instead of latest version. array.sty is used in WorPT files.
+        # See more details here:   https://github.com/AASJournals/AASTeX60/issues/149
       - name: Install texlive
         uses: teatimeguest/setup-texlive-action@v3
         with:
@@ -239,303 +403,298 @@ jobs:
              units
           cache: true
         continue-on-error: true
-
+        #
       - name: Compile paper
         # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
         id: compilation
         run: |
+           rm -f compileOut.txt
            latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" 2>&1 | tee compileOut.txt
            echo "______________________________________________________________________________"
            cat compileOut.txt
            echo "______________________________________________________________________________"
-           mv -f "$PDFFILE" "$PDFHIRES"
         continue-on-error: true
-       
-      - name: Prune the bib file
-        # https://www.baeldung.com/linux/regex-matching
-        # https://askubuntu.com/questions/1502281/using-grep-to-search-for-line-that-begins-with-a-variable-whose-value-is-a-dolla
-        # https://stackoverflow.com/questions/13210880/replace-one-substring-for-another-string-in-shell-script
-        # going to strip out all used citations and make a pruned.bib file that can be used as final bib file for submission
-        # purposes rather than having to use whole master bib file.  based on stand-alone "pruneMyBibfile" github action file
-        id: pruneBib
+        #
+      - name: clean up after compilation
         run: |
-           makeNewPrunedBib=false
-           # determine if the pruned bib file is already being used in the document. If so, we should bypass 
-           # all the below because pruned bib file does not need to be created.
-           if [[ "$(grep -Eq "\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=true; fi
-           if [[ "$(grep -Eq "pruned\.bib" compileOut.txt)$?" == 0 ]]; then makeNewPrunedBib=false; fi
-           if $makeNewPrunedBib; then
-              rm -f pruned.bib
-              touch pruned.bib
-              # get a list of bib files used in this document:
-              readarray -t res < <(grep -Eo "Database file #[0-9]+: [^.]+\.bib" compileOut.txt | sed -r 's/^[^:][^:]*: ([^.][^.]*\.bib *$)/\1/g')
-              readarray -t bibfiles < <(printf '%s\n' "${res[@]}" | awk '!seen[$0]++')
-              # In the first one or two iterations of the latex compilation, bibliography references wont be resolved but rather
-              # will appear as errors in the compilation log.  Use those errors to get a list of all  citations in the paper
-              readarray -t cites < <( grep 'Package natbib Warning: Citation `' compileOut.txt | sed -r 's/^[^`][^`]*`//g;s/'\''.*$//g' | sort -f -u )
-              # stuff this list into a file to retrieve later for the output file
-              printf "%s\n" "${cites[@]}" > cites.txt
-              # any plus signs in the citation bib code causes problems because they are not escaped. The  below substitutes all plus signs and 
-              # replaces with escaped pluses, so that grep will perform search on literal plus sign rather than interpret plus sign as meaning "search
-              # for 2 or more of the character to left of plus sign". Periods also cause problems, as do dashes, and have to likewise be treated. 
-              modcites=( "${cites[@]//\+/\\+}" )
-              modcites=( "${modcites[@]//\-/\\-}" )
-              modcites=( "${modcites[@]//\./\\\.}" )
-              # Search for each of the cites in the bibfile(s) and extract the relevant full bib item for that citation, to 
-              # put into the pruned bibfile
-              for (( i=0; i<${#modcites[@]}; i++ )); do
-                  grep -zoE "@[^{]+\{[^a-zA-Z0-9]*${modcites[$i]}[^@]+" "${bibfiles[@]}" >> pruned.bib
-              done
-              sed -ri 's/^[^@]+@/@/g;s/^([^@}])/  \1/g' pruned.bib
-           fi
-        continue-on-error: true
-
-      - name: Capture full compilation output
-        run: |
-           # ....... if the pdf file was generated, then the errors must have NOT been fatal.
-           rm -f noFatalErrors.txt
-           if [[ "$(grep -Eq "output to '${PDFFILE}'" compileOut.txt)$?" == 0 ]]; then touch noFatalErrors.txt; fi
-           # ....... prepare the compilation log for processing by first removing all end-of-line characters
-           touch errout.txt
-           # ....... just to be safe, remove all \a, \t and \x0 because we use these as special markers later
-           sed -ri 's/[\x0\a\t]/ /g' compileOut.txt
-           # ....... before removing end of line carriage returns, mark the citations that could not be found in the bib file(s)
-           sed -r 's/^ *(Citation `[[:print:]]*on input line )([0-9][0-9]*) *$/ \x0\2-BIB-\1\2\.\a/g' compileOut.txt >> errout.txt
-           # ....... before removing end of line carriage returns, mark "on input line" phrases so they can be easily found (and/or avoided) later: 
-           rm -f tmp.txt && sed -r 's/on input line ([0-9][0-9]*)/on input line \t\1/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
-           # ....... also indicate any pdfTeX error that will not have a line number and involves explamation marks which mess sed up
-           rm -f tmp.txt && sed -r 's/pdfTeX error: / \x0 0-ERROR-pdfTeX error:/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
-           rm -f tmp.txt && sed -r 's/failed *$/failed\a/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
-           # ....... now remove all the end of line returns
-           rm -f tmp.txt && tr -d "\n" < errout.txt > tmp.txt && mv -f tmp.txt errout.txt
-           # ....... remove a lot of the lines that have noithing to do with errors and warnings, to make the next searches go faster
-           sed -ri 's/[(]\/home\/runner[^)][^)]*[)]/ /g' errout.txt
-           sed -ri 's/<\/home\/runner[^>][^>]*\>/ /g' errout.txt
-           # ....... remove [] [] that are just clutter in the file
-           sed -ri 's/\[ *\]/ /g' errout.txt
-           # ....... remove the ((( left behind in the above substitutions
-           sed -ri 's/[(] *[(]/ /g' errout.txt
-           # ....... remove the )))) left behind in above subs
-           sed -ri 's/[)] *[)]/ /g' errout.txt
-           # ....... remove all multiple white spaces to a single white space
-           sed -ri 's/  */ /g' errout.txt
-           rm -f tmp.txt
-           sed -r 's/(\.[^.][^.]*\.tex:[0-9][0-9]*:[^.\t][^.\t]*\t)([0-9][0-9]*)([^.]*\.)/\x0\2-ERROR-\1\2\3\a/g' errout.txt > tmp.txt
-           mv -f tmp.txt errout.txt
-           rm -f tmp.txt
-           sed -r 's/([^:][^:][^:])(LaTeX )((Error)|(Warning))(:[^.\t][^.\t]*\t)([0-9][0-9]*)([^.]*\.)/\1\x0\7-\3-\2\3\6\7\8\a/g' errout.txt >> tmp.txt
-           mv -f tmp.txt errout.txt
-           sed -ri 's/\-Error\-/-ERROR-/g' errout.txt
-           sed -ri 's/\-Warning\-/-WARNING-/g' errout.txt
-           rm -f tmp.txt
-           sed -r 's/([^-])(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.\t][^.\t]*\.)/\1\x0\3-ERROR-\2\3\4\a/g' errout.txt > tmp.txt
-           mv -f tmp.txt errout.txt
-           sed -ri 's/^[^\x0]*\x0//' errout.txt
-           sed -ri 's/\a[^\a]*$//' errout.txt
-           # ....... remove all the \t placeholders
-           sed -ri 's/\t//g' errout.txt
-           sed -ri 's/\a[^\x0]*\x0 */\n/g' errout.txt
-           # the next step, sorting the entries, does not work as expected unless all the white space is gone, so replace white space with \a
-           sed -ri 's/ /\a/g' errout.txt
-           # ....... sort and remove redundances in the error/warning list
-           rm -f tmp.txt
-           cat errout.txt | sort -r -t- -g -k1,1n -k2 -s | uniq | sed -r 's/\a/ /g' > tmp.txt
-           mv -f tmp.txt errout.txt
-        continue-on-error: true
-
-      - name: Process the errors and warnings
-        # remove lines in the output that are unrelated to the latex compilation itself
-        run: |
-           readarray -t sorted < errout.txt
-           #  #######################   START CONSOLIDATING THE ERRORS ###################
-           rm -f thereAreErrors.txt
-           touch tout.txt
-           errtypes=("ERROR" "WARNING" "BIB")
-           banners=("FATAL ERRORS" "WARNINGS" "CITATION ISSUES")
-           for (( i=0; i<${#errtypes[@]}; i++ )); do
-              echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-              echo "              ${banners[$i]} IN $TEXFILE" >> tout.txt
-              echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-              issue=""
-              for (( j=0; j<${#sorted[@]}; j++ )); do
-                  if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then 
-                     issue="${sorted[$j]}"
-                     if [[ "${errtypes[$i]}" =~ "ERROR" ]]; then touch thereAreErrors.txt; fi
-                     # if a pdf file was generated by the compiler, then consider the errors to not be fatal.
-                     if [[ hashFiles(noFatalErrors.txt) ]]; then rm -f thereAreErrors.txt; fi
-                     break;
-                  fi
-              done
-              # if there were no issues, then put 'none'
-              if [[ "$issue" = "" ]]; then echo "      none" >> tout.txt; fi
-              while  [ "$issue" != "" ]; do
-                  linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$issue" )
-                  if [[ $linenum > 0 ]]; then
-                     # look for all occurances of this line number in the error/warning list
-                     for (( j=0; j<${#sorted[@]}; j++ )); do
-                        if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$j]}" )$?" == 0 ]]; then
-                           line="$( echo "${sorted[$j]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' )"
-                           echo $line >> tout.txt
-                           # remove this item from the list
-                           sorted[$j]="DONE"
-                        fi
-                     done
-                     # now look up the line in the .tex file and place underneath
-                     echo "line #$linenum ----------------------- " >> tout.txt
-                     head -n $linenum "$TEXFILE" | tail -1 >> tout.txt
-                  else
-                     # look up where this line is in the list and remove it from the list
-                     for (( j=0; j<${#sorted[@]}; j++ )); do
-                        if [[ "${sorted[$j]}" =~ "$issue" ]]; then
-                           line="$( echo "${sorted[$j]}" | sed -r 's/^ *[0-9][0-9]*\-[A-Z][A-Z]*\-//' )"
-                           echo $line >> tout.txt
-                           # remove from list
-                          sorted[$j]="DONE"
-                         fi
-                     done
-                  fi
-                  # See if any more issue remain in the list and need to be processed in the next loop iteration
-                  issue=""
-                  for (( j=0; j<${#sorted[@]}; j++ )); do
-                     if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then issue="${sorted[$j]}"; break; fi
-                  done
-                  echo "._______________________________________________________________________" >> tout.txt
-              done
-              echo " " >> tout.txt
-           done
-        continue-on-error: true
-          
-      - name: Gather up list of references
-        run: |     
-           # https://stackoverflow.com/questions/57788813/grep-return-0-if-no-match
-           # squash.io/extracting=numbers-from-strings-in-bash
-           # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
-           # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
-           echo "" >> tout.txt
-           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-           echo "              LIST OF REFERENCES IN $TEXFILE" >> tout.txt
-           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-           # create an array of just the bibcodes
-           readarray -t res < cites.txt
-           if [[ ${#res[@]} -gt 0 ]]; then echo "Number of citations: ${#res[@]}" >> tout.txt; fi
-           for (( i=0; i<${#res[@]}; i++ )); do echo "${res[$i]}" >> tout.txt; done
-           if [[ ${#res[@]} == 0 ]]; then echo "        None"; fi
-           mv tout.txt "$OUTFILE"
-        continue-on-error: true
-
-      - name: Convert errors to html file
-        if: ${{ always() && hashFiles('thereAreErrors.txt') }}
-        run: |
-           # determine if there were no errors, meaning that errors.txt is empty file. If so, place the word none under the
-           # banner of this section in output file. But if there were errors, then remove the pdf file so that the pdf file
-           # that gets shown in gooTeX is the compilation errors rather than a mangled pdf.
-           # create a .html file from the out.txt file, then convert the html to pdf
-           rm -f tout.txt
-           rm -f html.txt
-           rm -f "$PDFFILE"
            rm -f "$PDFHIRES"
-           # make sure that long lines are split if they exceed 20 words
-           fold -sw 90 "$OUTFILE" > html.txt
-           echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
-           echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> finHtml.html
-           echo "<span style='color:blue;'><i>${JOBLINK}</i></span><br>" >> finHtml.html
-           echo "<hr><br>" >> finHtml.html
-           echo "$TIMESTAMP" >> finHtml.html
-           # Go through the html.txt file and make the errors red to stand out
-           touch red.txt
-           red=false
-           while IFS= read -r line; do
-              start='^line #[0-9]+'
-              end='^\.__________'
-              if [[ $line =~ $start ]]; then red=true; elif [[ $line =~ $end ]]; then red=false; fi
-              thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^\.__________/___________/g' )"
-              if $red; then
-                 echo "<span style='color:red;'>$thisline</span>" >> red.txt
-              else
-                 echo "$thisline" >> red.txt
-              fi
-           done < "html.txt"
-           sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
-           rm -f "$HTMLFILE"
-           mv -f finHtml.html "$HTMLFILE"
-           rm -f red.txt
-           rm -f $STARTFILE
-           touch $STARTFILE
-           echo $TIMESTAMP >> $STARTFILE
-           echo $JOBLINK   >> $STARTFILE
-           echo $HTMLLINK  >> $STARTFILE
-           echo "html"  >> $STARTFILE
+           mv -f "$PDFFILE" "$PDFHIRES"
+           # clean up unneeded files from the compilation
+           rm -f "$CORENAME.aux $CORENAME.bbl $CORENAME.blg $CORENAME.fdb_latexmk $CORENAME.fls $CORENAME.out $CORENAME.sync* $CORENAME.synctex.gz"
+           rm -f $OUTFILE
+           mv -f compileOut.txt $OUTFILE
+           # replace the job id placeholder in the START file with the job id
+           sed -ri "s/JOBIDPLACEHOLDER/${{ steps.job-id.outputs.JOBNUMBER }}/" ${{ env.STARTFILE }}
         continue-on-error: true
-
-      - name: compress PDF
-        if: ${{ always() && ! hashFiles('thereAreErrors.txt') }}
-        uses: jy95/ghostscript-action@v1
-        with:
-           file: "${{ github.event.inputs.file2compile }}_hiRes.pdf"
-           output: "${{ github.event.inputs.file2compile }}.pdf"
-           arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
-        continue-on-error: true
-
-      - name: update START status file if compilation successful
-        if: ${{ always() && ! hashFiles('thereAreErrors.txt') }}
-        run: |
-           rm -f $STARTFILE
-           touch $STARTFILE
-           echo $TIMESTAMP >> $STARTFILE
-           echo $JOBLINK   >> $STARTFILE
-           echo $HTMLLINK  >> $STARTFILE
-           echo "pdf"  >> $STARTFILE
-        continue-on-error: true
-        
-      - name: Finalize compilation warning and errors output
-        run: |
-           # finalize the compilation output file by putting a few sentences at the top
-           touch fin.txt
-           echo "$TIMESTAMP" >> fin.txt
-           echo "LATEX COMPILATION ERRORS and WARNINGS" >> fin.txt
-           echo "" >> fin.txt
-           echo "To view full GitHub Actions output, click on item at top of list here:" >> fin.txt
-           echo "$JOBLINK" >> fin.txt
-           echo "" >> fin.txt
-           while IFS= read -r line; do
-              thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
-              echo "$thisline" >> fin.txt
-           done < "$OUTFILE"
-           mv -f fin.txt "$OUTFILE"
-        continue-on-error: true
-
-      - name: Clean up folder before saving files
-        run: |
-           rm -f fin.txt
-           rm -f $FULLLOG
-           rm -f $LOG
-           rm -f $CORENAME.aux
-           rm -f $CORENAME.bbl
-           rm -f $CORENAME.blg
-           rm -f $CORENAME.fdb_latexmk
-           rm -f $CORENAME.fls
-           rm -f $CORENAME.sync*
-           rm -f inpaperCites.txt
-           rm -f thereAreErrors.txt
-           rm -f noFatalErrors.txt
-           rm -f doesNotUsePruned.txt
-           rm -f usedBibfile.txt
-           rm -f compileOut.txt*
-           rm -f errout.txt*
-           rm -f cites.txt
-           rm -f html.txt
-           rm -f warnout.txt
-           rm -f bibout.txt
-           rm -f $CORENAME.synctex.gz
-           rm -f $CORENAME.out
-           rm -f uncompressed.list
-        continue-on-error: true
-      
-      - name: Post new files to folder
+        #
+      - name: post raw latex compilation output to repository for further processing
         run: |
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
+           #git add "${{ env.OUTFILE }}" "${{ env.PDFHIRES }}" "${{ env.STARTFILE }}"
            git add .
-           git commit -m "Upload changed files"
+           git commit -m "post high-res PDF and raw latex compilation log for additional processing"
            git push
         continue-on-error: true
+
+  #_______________________________________________________________________
+  #|                                                                      |
+  #|     COMPRESS THE PDF FILE INTO LOWER RESOLUTION FILE FOR DISPLAY     |
+  #|______________________________________________________________________|
+  #compressPdf:
+  #  needs: build_latex
+  #  runs-on: ubuntu-latest
+  #  continue-on-error: true
+  #  permissions:
+  #    # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+  #    contents: write
+  #    #
+  #  steps:
+  #    - name: Clone repo
+  #      uses: actions/checkout@v4
+  #      #
+  #    - name: compress PDF
+  #      if: ${{ always() && hashFiles("${{ github.event.inputs.file2compile }}_hiRes.pdf") }}
+  #      uses: jy95/ghostscript-action@v1
+  #      with:
+  #         file: "$PDFHIRES"
+  #         output: "$PDFFILE"
+  #         arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
+  #      continue-on-error: true
+  #      #
+  #    - name: post reduced resolution PDF on repository
+  #      if: ${{ always() && hashFiles("$PDFFILE") }}
+  #      uses: stefanzweifel/git-auto-commit-action@v5
+  #      with:
+  #         commit_message: post low-resolution version of PDF
+  #         file_pattern: "$PDFFILE"
+  #      continue-on-error: true
+
+  #_______________________________________________________________________
+  #|                                                                      |
+  #|                     PROCESS COMPILATION OUTPUT                       |
+  #|______________________________________________________________________|
+  #processLogFile:
+  #  needs: build_latex
+  #  runs-on: ubuntu-latest
+  #  continue-on-error: true
+  #  permissions:
+  #    # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+  #    contents: write
+  #    #
+  #  steps:
+  #    - name: Clone repo
+  #      uses: actions/checkout@v4
+  #      #
+  #    - name: Capture full compilation output
+  #      run: |
+  #         #
+  #         # =============================================================================
+  #         # open up the compilation output log file and strip out a lot of unnecessary stuff
+  #         # =============================================================================
+  #         fatalErrors=false
+  #         fileliststr=''
+  #         # ....... if the pdf file was generated, then the errors must have NOT been fatal.
+  #         if [[ "$( -Eq "output to '${PDFFILE}'" compileOut.txt)$?" == 0 ]]; then fatalErrors=true; fi
+  #         # ....... prepare the compilation log for processing by first removing all end-of-line characters
+  #         rm -f errout.txt
+  #         rm -f compileOut.txt
+  #         touch errout.txt
+  #         mv -f $OUTFILE compileOut.txt
+  #         # ....... just to be safe, remove all \a, \t and \x0 because we use these as special markers later
+  #         sed -ri 's/[\x0\a\t]/ /g' compileOut.txt
+  #         # ....... before removing end of line carriage returns, mark the citations that could not be found in the bib file(s)
+  #         sed -r 's/^ *(Citation `[[:print:]]*on input line )([0-9][0-9]*) *$/ \x0\2-BIB-\1\2\.\a/g' compileOut.txt >> errout.txt
+  #         # ....... before removing end of line carriage returns, mark "on input line" phrases so they can be easily found (and/or avoided) later: 
+  #         rm -f tmp.txt && sed -r 's/on input line ([0-9][0-9]*)/on input line \t\1/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
+  #         # ....... also indicate any pdfTeX error that will not have a line number and involves explamation marks which mess sed up
+  #         rm -f tmp.txt && sed -r 's/pdfTeX error: / \x0 0-ERROR-pdfTeX error:/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
+  #         rm -f tmp.txt && sed -r 's/failed *$/failed\a/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
+  #         # ....... now remove all the end of line returns
+  #         rm -f tmp.txt && tr -d "\n" < errout.txt > tmp.txt && mv -f tmp.txt errout.txt
+  #         # ....... remove a lot of the lines that have noithing to do with errors and warnings, to make the next searches go faster
+  #         sed -ri 's/[(]\/home\/runner[^)][^)]*[)]/ /g' errout.txt
+  #         sed -ri 's/<\/home\/runner[^>][^>]*\>/ /g' errout.txt
+  #         # ....... remove [] [] that are just clutter in the file
+  #         sed -ri 's/\[ *\]/ /g' errout.txt
+  #         # ....... remove the ((( left behind in the above substitutions
+  #         sed -ri 's/[(] *[(]/ /g' errout.txt
+  #         # ....... remove the )))) left behind in above subs
+  #         sed -ri 's/[)] *[)]/ /g' errout.txt
+  #         # ....... remove all multiple white spaces to a single white space
+  #         sed -ri 's/  */ /g' errout.txt
+  #         rm -f tmp.txt
+  #         sed -r 's/(\.[^.][^.]*\.tex:[0-9][0-9]*:[^.\t][^.\t]*\t)([0-9][0-9]*)([^.]*\.)/\x0\2-ERROR-\1\2\3\a/g' errout.txt > tmp.txt
+  #         mv -f tmp.txt errout.txt
+  #         rm -f tmp.txt
+  #         sed -r 's/([^:][^:][^:])(LaTeX )((Error)|(Warning))(:[^.\t][^.\t]*\t)([0-9][0-9]*)([^.]*\.)/\1\x0\7-\3-\2\3\6\7\8\a/g' errout.txt >> tmp.txt
+  #         mv -f tmp.txt errout.txt
+  #         sed -ri 's/\-Error\-/-ERROR-/g' errout.txt
+  #         sed -ri 's/\-Warning\-/-WARNING-/g' errout.txt
+  #         rm -f tmp.txt
+  #         sed -r 's/([^-])(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.\t][^.\t]*\.)/\1\x0\3-ERROR-\2\3\4\a/g' errout.txt > tmp.txt
+  #         mv -f tmp.txt errout.txt
+  #         sed -ri 's/^[^\x0]*\x0//' errout.txt
+  #         sed -ri 's/\a[^\a]*$//' errout.txt
+  #         # ....... remove all the \t placeholders
+  #         sed -ri 's/\t//g' errout.txt
+  #         sed -ri 's/\a[^\x0]*\x0 */\n/g' errout.txt
+  #         # the next step, sorting the entries, does not work as expected unless all the white space is gone, so replace white space with \a
+  #         sed -ri 's/ /\a/g' errout.txt
+  #         # ....... sort and remove redundances in the error/warning list
+  #         rm -f tmp.txt
+  #         cat errout.txt | sort -r -t- -g -k1,1n -k2 -s | uniq | sed -r 's/\a/ /g' > tmp.txt
+  #         mv -f tmp.txt errout.txt
+  #         #
+  #         # =============================================================================
+  #         # remove lines in the output that are unrelated to the latex compilation itself
+  #         # =============================================================================
+  #         readarray -t sorted < errout.txt
+  #         #  #######################   START CONSOLIDATING THE ERRORS ###################
+  #         rm -f tout.txt
+  #         touch tout.txt
+  #         errtypes=("ERROR" "WARNING" "BIB")
+  #         banners=("FATAL ERRORS" "WARNINGS" "CITATION ISSUES")
+  #         for (( i=0; i<${#errtypes[@]}; i++ )); do
+  #            echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+  #            echo "              ${banners[$i]} IN $TEXFILE" >> tout.txt
+  #            echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+  #            issue=""
+  #            for (( j=0; j<${#sorted[@]}; j++ )); do
+  #                if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then 
+  #                   issue="${sorted[$j]}"
+  #                   if [[ "${errtypes[$i]}" =~ "ERROR" ]]; then fatalErrors=true; fi
+  #                   break;
+  #                fi
+  #            done
+  #            # if there were no issues, then put 'none'
+  #            if [[ "$issue" = "" ]]; then echo "      none" >> tout.txt; fi
+  #            while  [ "$issue" != "" ]; do
+  #                linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$issue" )
+  #                if [[ $linenum > 0 ]]; then
+  #                   # look for all occurances of this line number in the error/warning list
+  #                   for (( j=0; j<${#sorted[@]}; j++ )); do
+  #                      if [[ "$(  -q -E -- "^$linenum-" <<<"${sorted[$j]}" )$?" == 0 ]]; then
+  #                         line="$( echo "${sorted[$j]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' )"
+  #                         echo $line >> tout.txt
+  #                         # remove this item from the list
+  #                         sorted[$j]="DONE"
+  #                      fi
+  #                   done
+  #                   # now look up the line in the .tex file and place underneath
+  #                   echo "line #$linenum ----------------------- " >> tout.txt
+  #                   head -n $linenum "$TEXFILE" | tail -1 >> tout.txt
+  #                else
+  #                   # look up where this line is in the list and remove it from the list
+  #                   for (( j=0; j<${#sorted[@]}; j++ )); do
+  #                      if [[ "${sorted[$j]}" =~ "$issue" ]]; then
+  #                         line="$( echo "${sorted[$j]}" | sed -r 's/^ *[0-9][0-9]*\-[A-Z][A-Z]*\-//' )"
+  #                         echo $line >> tout.txt
+  #                         # remove from list
+  #                        sorted[$j]="DONE"
+  #                       fi
+  #                   done
+  #                fi
+  #                # See if any more issue remain in the list and need to be processed in the next loop iteration
+  #                issue=""
+  #                for (( j=0; j<${#sorted[@]}; j++ )); do
+  #                   if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then issue="${sorted[$j]}"; break; fi
+  #                done
+  #                echo "._______________________________________________________________________" >> tout.txt
+  #            done
+  #            echo " " >> tout.txt
+  #         done
+  #         echo "FATALERRORS=$fatalErrors" >> $GITHUB_ENV
+  #      continue-on-error: true
+  #      #
+  #    - name: Gather up list of references
+  #      run: |     
+  #         # https://stackoverflow.com/questions/57788813/-return-0-if-no-match
+  #         # squash.io/extracting=numbers-from-strings-in-bash
+  #         # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
+  #         # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
+  #         echo "" >> tout.txt
+  #         echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+  #         echo "              LIST OF REFERENCES IN $TEXFILE" >> tout.txt
+  #         echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+  #         # create an array of just the bibcodes
+  #         # extract just the bibcode from the pruned bibfile to use for another file that will be used in the summary
+  #         readarray -t cites < <( grep "@" pruned.bib | sed -r 's/^[^ ]+\.bib: *//' | sed -r 's/@[^\{]+\{//' | sed -r 's/,//' )
+  #         if [[ ${#cites[@]} -gt 0 ]]; then echo "Number of citations: ${#cites[@]}" >> tout.txt; fi
+  #         for (( i=0; i<${#cites[@]}; i++ )); do echo "${cites[$i]}" >> tout.txt; done
+  #         if [[ ${#cites[@]} == 0 ]]; then echo "        None"; fi
+  #         rm -f $OUTFILE
+  #         mv tout.txt "$OUTFILE"
+  #         rm -f html.txt
+  #         rm -f finHtml.html
+  #         rm -f $HTMLFILE
+  #         if [$fatalErrors]; then
+  #            #
+  #            # =======================================================================
+  #            #        construct the html file showing errors, if there were fatal ones
+  #            # =======================================================================
+  #            # There were errors - Create a .html file from the out.txt file
+  #            rm -f "$PDFFILE"
+  #            rm -f "$PDFHIRES"
+  #            # make sure that long lines are split if they exceed 20 words
+  #            fold -sw 90 "$OUTFILE" > html.txt
+  #            echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
+  #            echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> finHtml.html
+  #            echo "<span style='color:blue;'><i>${JOBLINK}</i></span><br>" >> finHtml.html
+  #            echo "<hr><br>" >> finHtml.html
+  #            echo "$TIMESTAMP" >> finHtml.html
+  #            # Go through the html.txt file and make the errors red to stand out
+  #            touch red.txt
+  #            red=false
+  #            while IFS= read -r line; do
+  #               start='^line #[0-9]+'
+  #               end='^\.__________'
+  #               if [[ $line =~ $start ]]; then red=true; elif [[ $line =~ $end ]]; then red=false; fi
+  #               thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^\.__________/___________/g' )"
+  #               if $red; then
+  #                  echo "<span style='color:red;'>$thisline</span>" >> red.txt
+  #               else
+  #                  echo "$thisline" >> red.txt
+  #               fi
+  #            done < "html.txt"
+  #            sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
+  #            rm -f $HTMLFILE
+  #            mv -f finHtml.html "$HTMLFILE"
+  #            rm -f red.txt
+  #            rm -f ${{ github.event.inputs.file2compile }}START.txt"
+  #            touch ${{ github.event.inputs.file2compile }}START.txt"
+  #            echo $TIMESTAMP >> ${{ github.event.inputs.file2compile }}START.txt"
+  #            echo $JOBLINK   >> ${{ github.event.inputs.file2compile }}START.txt"
+  #            echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"  >> ${{ github.event.inputs.file2compile }}START.txt"
+  #            echo "html"  >> ${{ github.event.inputs.file2compile }}START.txt"
+  #         else
+  #            rm -f ${{ github.event.inputs.file2compile }}START.txt"
+  #            touch ${{ github.event.inputs.file2compile }}START.txt"
+  #            echo $TIMESTAMP >> ${{ github.event.inputs.file2compile }}START.txt"
+  #            echo $JOBLINK   >> ${{ github.event.inputs.file2compile }}START.txt"
+  #            echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"  >> ${{ github.event.inputs.file2compile }}START.txt"
+  #            echo "pdf"  >> ${{ github.event.inputs.file2compile }}START.txt"
+  #            # finalize the compilation output file by putting a few sentences at the top
+  #            rm -f fin.txt
+  #            rm -f "$OUTFILE"
+  #            touch fin.txt
+  #            echo "$TIMESTAMP" >> fin.txt
+  #            echo "LATEX COMPILATION ERRORS and WARNINGS" >> fin.txt
+  #            echo "" >> fin.txt
+  #            echo "To view full GitHub Actions output, click on item at top of list here:" >> fin.txt
+  #            echo "$JOBLINK" >> fin.txt
+  #            echo "" >> fin.txt
+  #            while IFS= read -r line; do
+  #               thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
+  #               echo "$thisline" >> fin.txt
+  #            done < "$OUTFILE"
+  #            mv -f fin.txt "$OUTFILE"
+  #         fi
+  #      continue-on-error: true
+  #      #
+  #    - name: post finalized compilation errors and notice of completion to the repository
+  #      uses: stefanzweifel/git-auto-commit-action@v5
+  #      with:
+  #         commit_message: low-resolution version of PDF
+  #         file_pattern: "${{ github.event.inputs.file2compile }}START.txt" $OUTFILE $HTMLFILE"
+  #      continue-on-error: true
