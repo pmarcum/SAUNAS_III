@@ -2053,12 +2053,12 @@ Latexmk: Errors, in force_mode: so I tried finishing targets
 Collected error summary (may duplicate other messages):
   pdflatex: Command for 'pdflatex' gave return code 1
       Refer to 'myPaper.log' and/or above output for details
-'pdflatex': time = 1.06
+'pdflatex': time = 1.15
 'bibtex myPaper': time = 0.08
-'pdflatex': time = 1.05
-'bibtex myPaper': time = 0.07
-'pdflatex': time = 1.07
-Processing time = 4.25, of which invoked processes = 3.33, other = 0.92.
-Elapsed clock time = 4.25.
+'pdflatex': time = 1.17
+'bibtex myPaper': time = 0.08
+'pdflatex': time = 1.08
+Processing time = 4.57, of which invoked processes = 3.56, other = 1.01.
+Elapsed clock time = 4.59.
 Number of rules run = 5
 
