@@ -3,10 +3,14 @@ https://github.com/pmarcum/SAUNAS_III/actions/runs/12986207945/job/36212542353
 https://raw.githubusercontent.com/pmarcum/SAUNAS_III/main/myPaper.html
 pdf
 2025-01-27T09:53:23Z 1737971603389
-https://github.com/pmarcum/SAUNAS_III/actions/runs/12986305854/job/JOBIDPLACEHOLDER
+https://github.com/pmarcum/SAUNAS_III/actions/runs/12986305854/job/36215374864
 
 precomp
 2025-01-27T09:55:20Z 1737971720228
-https://github.com/pmarcum/SAUNAS_III/actions/runs/12986337728/job/JOBIDPLACEHOLDER
+https://github.com/pmarcum/SAUNAS_III/actions/runs/12986337728/job/36215374864
+
+precomp
+2025-01-27T10:38:59Z 1737974339017
+https://github.com/pmarcum/SAUNAS_III/actions/runs/12987124958/job/36215374864
 
 precomp
