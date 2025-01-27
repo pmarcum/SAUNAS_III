@@ -108,16 +108,6 @@ jobs:
           path: pruned.bib
           overwrite: true
         continue-on-error: true
-        #
-      #- name:  post newly-made pruned bibfile to repository
-      #  if: ${{ steps.pruneBib.outputs.madePruned == 'T' }}
-      #  run: |
-      #     git config --global user.email "email@gmail.com"
-      #     git config --global user.name "github actions"
-      #     git add pruned.bib
-      #     git commit -m "Upload new pruned.bib file"
-      #     git push
-      #  continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
@@ -274,11 +264,24 @@ jobs:
            echo "STARTFILE=${{ needs.defineVariables.outputs.startfile }}" >> $GITHUB_ENV
            echo "HTMLFILE=${{ needs.defineVariables.outputs.htmlfile }}" >> $GITHUB_ENV
            echo "TIMESTAMP=${{ needs.defineVariables.outputs.timestamp }}" >> $GITHUB_ENV
+           echo "PDFHIRES=${{ needs.defineVariables.outputs.pdfhires }}" >> $GITHUB_ENV
+           echo "PDFFILE=${{ needs.defineVariables.outputs.pdffile }}" >> $GITHUB_ENV
+           echo "CORENAME=${{ needs.defineVariables.outputs.corename }}" >> $GITHUB_ENV
+           echo "OUTFILE=${{ needs.defineVariables.outputs.outfile }}" >> $GITHUB_ENV
         continue-on-error: true
+        #
+      - name: Remove old files
+        run: |
+           rm -f $STARTFILE
+           rm -f $PDFFILE
+           rm -f $PDFHIRES
+           rm -f $OUTFILE
+           rm -f $HTMLFILE
+           rm -f "$CORENAME.aux $CORENAME.bbl $CORENAME.blg $CORENAME.fdb_latexmk $CORENAME.fls $CORENAME.out $CORENAME.sync* $CORENAME.synctex.gz"
+        continue-on-error: true  
         #
       - name: Post note alerting start time
         run: |
-           rm -f $STARTFILE
            touch $STARTFILE
            echo $TIMESTAMP >> $STARTFILE
            link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/JOBIDPLACEHOLDER"
@@ -294,13 +297,6 @@ jobs:
           path: ${{ env.STARTFILE }}
           overwrite: true
         continue-on-error: true
-        #run: |
-        #   git config --global user.email "email@gmail.com"
-        #   git config --global user.name "github actions"
-        #   git add ${{ env.STARTFILE }}
-        #   git commit -m "Upload new start notification file"
-        #   git push
-        #continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
@@ -344,13 +340,6 @@ jobs:
            job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
            echo "the job id is: $job_id"
            echo "JOBNUMBER=$job_id" >> $GITHUB_OUTPUT
-        continue-on-error: true  
-        #
-      - name: Remove old files
-        run: |
-           rm -f $PDFFILE
-           rm -f $PDFHIRES
-           rm -f $OUTFILE
         continue-on-error: true  
         #
         # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
@@ -416,7 +405,7 @@ jobs:
            # replace the job id placeholder in the START file with the job id
            sed -ri "s/JOBIDPLACEHOLDER/${{ steps.job-id.outputs.JOBNUMBER }}/" ${{ env.STARTFILE }}
         continue-on-error: true
-        #           
+        #
       - name: post raw latex compilation output to repository for further processing
         run: |
            git config --global user.email "email@gmail.com"
