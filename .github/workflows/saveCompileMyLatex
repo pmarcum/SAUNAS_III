@@ -122,12 +122,16 @@ jobs:
       #
     outputs:
       corename:  ${{ steps.vardefn.outputs.CORENAME }}
-      texfile:   ${{ steps.vardefn.outputs.TEXFILE }}
+      htmlfile:  ${{ steps.vardefn.outputs.HTMLFILE }}
+      htmllink:  ${{ steps.vardefn.outputs.HTMLLINK }}
+      fulllog:   ${{ steps.vardefn.outputs.FULLLOG }}
+      log:       ${{ steps.vardefn.outputs.LOG }}
       outfile:   ${{ steps.vardefn.outputs.OUTFILE }}
       pdffile:   ${{ steps.vardefn.outputs.PDFFILE }}
       pdfhires:  ${{ steps.vardefn.outputs.PDFHIRES }}
-      htmlfile:  ${{ steps.vardefn.outputs.HTMLFILE }}
+      pdflink:   ${{ steps.vardefn.outputs.PDFLINK }}
       startfile: ${{ steps.vardefn.outputs.STARTFILE }}
+      texfile:   ${{ steps.vardefn.outputs.TEXFILE }}
       timestamp: ${{ steps.vardefn.outputs.TIMESTAMP }}
     steps:
       - name: Clone repo
@@ -136,13 +140,19 @@ jobs:
       - name: Define environmental variables
         id: vardefn
         run: |
+           htmllink="https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"
+           pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
            echo "CORENAME=${{ github.event.inputs.file2compile }}" >>                   $GITHUB_OUTPUT
-           echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >>                $GITHUB_OUTPUT
+           echo "HTMLFILE=${{ github.event.inputs.file2compile }}.html" >>              $GITHUB_OUTPUT
+           echo "HTMLLINK=$htmllink" >>                                                 $GITHUB_OUTPUT
+           echo "FULLLOG=${{ github.event.inputs.file2compile }}_full.log" >>           $GITHUB_OUTPUT
+           echo "LOG=${{ github.event.inputs.file2compile }}.log" >>                    $GITHUB_OUTPUT
            echo "OUTFILE=${{ github.event.inputs.file2compile }}Out.txt" >>             $GITHUB_OUTPUT
            echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >>                $GITHUB_OUTPUT
            echo "PDFHIRES=${{ github.event.inputs.file2compile }}_hiRes.pdf" >>         $GITHUB_OUTPUT
-           echo "HTMLFILE=${{ github.event.inputs.file2compile }}.html" >>              $GITHUB_OUTPUT
+           echo "PDFLINK=$pdflink" >>                                                   $GITHUB_OUTPUT
            echo "STARTFILE=${{ github.event.inputs.file2compile }}START.txt" >>         $GITHUB_OUTPUT
+           echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >>                $GITHUB_OUTPUT
            echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_OUTPUT
         continue-on-error: true
 
@@ -268,11 +278,11 @@ jobs:
       - name: Post note alerting start time
         run: |
            touch $STARTFILE
-           echo $TIMESTAMP >> $STARTFILE
+           echo $TIMESTAMP  >> $STARTFILE
            link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/JOBIDPLACEHOLDER"
            echo "$link2job" >> $STARTFILE
-           echo "HTMLLINK PLACEHOLDER" >> $STARTFILE
-           echo "precomp"  >> $STARTFILE
+           echo $HTMLLINK   >> $STARTFILE
+           echo "precomp"   >> $STARTFILE
         continue-on-error: true
         #
       - name: post the start file to repository
@@ -304,21 +314,18 @@ jobs:
         #
       - name: Recall stored variables
         run: |
+           echo "CORENAME=${{ needs.defineVariables.outputs.corename }}" >> $GITHUB_ENV
+           echo "HTMLFILE=${{ needs.defineVariables.outputs.htmlfile }}" >> $GITHUB_ENV
+           echo "LOG=${{ needs.defineVariables.outputs.log }}" >> $GITHUB_ENV
+           echo "OUTFILE=${{ needs.defineVariables.outputs.outfile }}" >> $GITHUB_ENV
            echo "PDFHIRES=${{ needs.defineVariables.outputs.pdfhires }}" >> $GITHUB_ENV
            echo "PDFFILE=${{ needs.defineVariables.outputs.pdffile }}" >> $GITHUB_ENV
-           echo "OUTFILE=${{ needs.defineVariables.outputs.outfile }}" >> $GITHUB_ENV
            echo "STARTFILE=${{ needs.defineVariables.outputs.startfile }}" >> $GITHUB_ENV
-           echo "HTMLFILE=${{ needs.defineVariables.outputs.htmlfile }}" >> $GITHUB_ENV
-           echo "CORENAME=${{ needs.defineVariables.outputs.corename }}" >> $GITHUB_ENV
         continue-on-error: true       
         #
       - name: Remove old files
         run: |
-           rm -f $PDFHIRES
-           rm -f $PDFFILE
-           rm -f $OUTFILE
-           rm -f $STARTFILE
-           rm -f $HTMLFILE
+           rm -f compileOut.txt
            rm -f $CORENAME.aux
            rm -f $CORENAME.bbl
            rm -f $CORENAME.blg
@@ -327,11 +334,17 @@ jobs:
            rm -f $CORENAME.out
            rm -f $CORENAME.sync*
            rm -f $CORENAME.synctex.gz
-           rm -f compileOut.txt
-           rm -f tmp.txt
            rm -f errout.txt
-           rm -f html.txt
+           rm -f fin.txt
            rm -f finHtml.txt
+           rm -f html.txt
+           rm -f $HTMLFILE
+           rm -f $LOG
+           rm -f $OUTFILE
+           rm -f $PDFHIRES
+           rm -f $PDFFILE
+           rm -f $STARTFILE
+           rm -f tmp.txt
            rm -f tout.txt
         continue-on-error: true  
         #
@@ -361,15 +374,8 @@ jobs:
       - name: Install texlive
         uses: teatimeguest/setup-texlive-action@v3
         with:
-          version: 2022
+          version: 2023
           packages:
-             amsfonts
-             graphics
-             scrextend
-             rotating
-             threeparttable
-             tools
-             units
              collection-basic
              collection-bibtexextra
              collection-binextra
@@ -388,6 +394,13 @@ jobs:
              collection-pstricks
              collection-publishers
              collection-texworks
+             amsfonts
+             graphics
+             scrextend
+             rotating
+             tools
+             threeparttable
+             units
           cache: true
         continue-on-error: true
         #
