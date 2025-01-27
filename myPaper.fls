@@ -1604,8 +1604,10 @@ INPUT /home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/fonts/tfm/pub
 INPUT /home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/fonts/tfm/public/cm/cmtt10.tfm
 INPUT /home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/fonts/tfm/public/cm/cmtt8.tfm
 INPUT /home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/fonts/tfm/public/cm/cmtt8.tfm
+INPUT /home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
 INPUT /home/runner/work/_temp/setup-texlive-action/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map
 INPUT myPaper.aux
 INPUT ./myPaper.out
 INPUT ./myPaper.out
+INPUT /home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 INPUT /home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb

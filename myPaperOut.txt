@@ -512,6 +512,25 @@ s/umsa.fd)
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/amsfont
 s/umsb.fd)
 
+Package natbib Warning: Citation `biviano+2021aap650_105' on page 1 undefined o
+n input line 11.
+
+
+Package natbib Warning: Citation `bressan+1994apj94_63' on page 1 undefined on 
+input line 13.
+
+
+Package natbib Warning: Citation `anantharamaiah+1996apj466_13' on page 1 undef
+ined on input line 15.
+
+
+LaTeX Warning: Reference `tab:isANONtravel' on page 1 undefined on input line 1
+5.
+
+
+Package natbib Warning: There were undefined citations.
+
+
 Package caption Warning: Unused \captionsetup[table] on input line 55.
 See the caption package documentation for explanation.
 
@@ -522,6 +541,9 @@ See the caption package documentation for explanation.
 [1{/home/runner/work/_temp/setup-texlive-action/2020/texmf-var/fonts/map/pdftex
 /updmap/pdftex.map}] (./myPaper.aux)
 
+LaTeX Warning: There were undefined references.
+
+
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
 
@@ -531,13 +553,20 @@ Package rerunfilecheck Warning: File `myPaper.out' has changed.
 
  )
 (see the transcript file for additional information)</home/runner/work/_temp/se
-tup-texlive-action/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb>
-Output written on myPaper.pdf (1 page, 12173 bytes).
+tup-texlive-action/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></
+home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmr10.pfb>
+Output written on myPaper.pdf (1 page, 23866 bytes).
 SyncTeX written on myPaper.synctex.gz.
 Transcript written on myPaper.log.
 Latexmk: References changed.
 Latexmk: References changed.
 Latexmk: Log file says output to 'myPaper.pdf'
+Latexmk: List of undefined refs and citations:
+  Citation `anantharamaiah+1996apj466_13' on page 1 undefined on input line 15
+  Citation `biviano+2021aap650_105' on page 1 undefined on input line 11
+  Citation `bressan+1994apj94_63' on page 1 undefined on input line 13
+  Reference `tab:isANONtravel' on page 1 undefined on input line 15
 Rule 'pdflatex': File changes, etc:
    Changed files, or newly in use since previous run(s):
       'myPaper.aux'
@@ -1053,6 +1082,25 @@ s/umsa.fd)
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/amsfont
 s/umsb.fd)
 
+Package natbib Warning: Citation `biviano+2021aap650_105' on page 1 undefined o
+n input line 11.
+
+
+Package natbib Warning: Citation `bressan+1994apj94_63' on page 1 undefined on 
+input line 13.
+
+
+Package natbib Warning: Citation `anantharamaiah+1996apj466_13' on page 1 undef
+ined on input line 15.
+
+
+LaTeX Warning: Reference `tab:isANONtravel' on page 1 undefined on input line 1
+5.
+
+
+Package natbib Warning: There were undefined citations.
+
+
 Package caption Warning: Unused \captionsetup[table] on input line 55.
 See the caption package documentation for explanation.
 
@@ -1061,19 +1109,33 @@ Package caption Warning: Unused \captionsetup[figure] on input line 56.
 See the caption package documentation for explanation.
 
 [1{/home/runner/work/_temp/setup-texlive-action/2020/texmf-var/fonts/map/pdftex
-/updmap/pdftex.map}] (./myPaper.aux) )
+/updmap/pdftex.map}] (./myPaper.aux)
+
+LaTeX Warning: There were undefined references.
+
+ )
 (see the transcript file for additional information)</home/runner/work/_temp/se
-tup-texlive-action/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb>
-Output written on myPaper.pdf (1 page, 12173 bytes).
+tup-texlive-action/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></
+home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmr10.pfb>
+Output written on myPaper.pdf (1 page, 23866 bytes).
 SyncTeX written on myPaper.synctex.gz.
 Transcript written on myPaper.log.
 Latexmk: Log file says output to 'myPaper.pdf'
+Latexmk: List of undefined refs and citations:
+  Citation `anantharamaiah+1996apj466_13' on page 1 undefined on input line 15
+  Citation `biviano+2021aap650_105' on page 1 undefined on input line 11
+  Citation `bressan+1994apj94_63' on page 1 undefined on input line 13
+  Reference `tab:isANONtravel' on page 1 undefined on input line 15
+Latexmk: Summary of warnings from last run of *latex:
+  Latex failed to resolve 1 reference(s)
+  Latex failed to resolve 3 citation(s)
 Collected error summary (may duplicate other messages):
   pdflatex: Command for 'pdflatex' gave return code 1
       Refer to 'myPaper.log' for details
 Latexmk: Examining 'myPaper.log'
 === TeX engine is 'pdfTeX'
 Latexmk: Errors, in force_mode: so I tried finishing targets
-'pdflatex  -file-line-error -synctex=1 -interaction=nonstopmode -recorder  "myPaper.tex"': time = 0.99
+'pdflatex  -file-line-error -synctex=1 -interaction=nonstopmode -recorder  "myPaper.tex"': time = 0.98
 'pdflatex  -file-line-error -synctex=1 -interaction=nonstopmode -recorder  "myPaper.tex"': time = 1
-Accumulated processing time = 2.27
+Accumulated processing time = 2.26
