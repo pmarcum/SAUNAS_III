@@ -475,8 +475,8 @@ jobs:
         if: ${{ always() && hashFiles($PDFHIRES) }}
         uses: jy95/ghostscript-action@v1
         with:
-           file:   "$PDFHIRES"
-           output: "$PDFFILE"
+           file:   ${{ env.PDFHIRES }}
+           output: ${{ env.PDFFILE }}
            arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
         continue-on-error: true
         #
@@ -485,7 +485,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
            commit_message: post low-resolution version of PDF
-           file_pattern: ${{ PDFFILE }}
+           file_pattern: ${{ env.PDFFILE }}
         continue-on-error: true
 
   #_______________________________________________________________________
