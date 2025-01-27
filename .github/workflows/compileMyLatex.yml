@@ -439,7 +439,6 @@ jobs:
         run: |
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
-           #git add "${{ env.OUTFILE }}" "${{ env.PDFHIRES }}" "${{ env.STARTFILE }}"
            git add .
            git commit -m "post high-res PDF and raw latex compilation log for additional processing"
            git push
@@ -449,34 +448,34 @@ jobs:
   #|                                                                      |
   #|     COMPRESS THE PDF FILE INTO LOWER RESOLUTION FILE FOR DISPLAY     |
   #|______________________________________________________________________|
-  #compressPdf:
-  #  needs: build_latex
-  #  runs-on: ubuntu-latest
-  #  continue-on-error: true
-  #  permissions:
-  #    # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
-  #    contents: write
-  #    #
-  #  steps:
-  #    - name: Clone repo
-  #      uses: actions/checkout@v4
-  #      #
-  #    - name: compress PDF
-  #      if: ${{ always() && hashFiles("${{ github.event.inputs.file2compile }}_hiRes.pdf") }}
-  #      uses: jy95/ghostscript-action@v1
-  #      with:
-  #         file: "$PDFHIRES"
-  #         output: "$PDFFILE"
-  #         arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
-  #      continue-on-error: true
-  #      #
-  #    - name: post reduced resolution PDF on repository
-  #      if: ${{ always() && hashFiles("$PDFFILE") }}
-  #      uses: stefanzweifel/git-auto-commit-action@v5
-  #      with:
-  #         commit_message: post low-resolution version of PDF
-  #         file_pattern: "$PDFFILE"
-  #      continue-on-error: true
+  compressPdf:
+    needs: build_latex
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+      #
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+        #
+      - name: compress PDF
+        if: ${{ always() && hashFiles("${{ github.event.inputs.file2compile }}_hiRes.pdf") }}
+        uses: jy95/ghostscript-action@v1
+        with:
+           file: "$PDFHIRES"
+           output: "$PDFFILE"
+           arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
+        continue-on-error: true
+        #
+      - name: post reduced resolution PDF on repository
+        if: ${{ always() && hashFiles("$PDFFILE") }}
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+           commit_message: post low-resolution version of PDF
+           file_pattern: "$PDFFILE"
+        continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
