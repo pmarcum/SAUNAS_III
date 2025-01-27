@@ -472,7 +472,7 @@ jobs:
         continue-on-error: true       
         #
       - name: compress PDF
-        if: ${{ always() && hashFiles(${{ needs.defineVariables.outputs.pdfhires }}) }}
+        if: ${{ always() && hashFiles("${{ needs.defineVariables.outputs.pdfhires }}") }}
         uses: jy95/ghostscript-action@v1
         with:
            file:   "$PDFHIRES"
