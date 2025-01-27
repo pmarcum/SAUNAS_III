@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2025.1.27)  27 JAN 2025 02:05
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2025.1.27)  27 JAN 2025 05:02
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1737,10 +1737,343 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 7.
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/amsfont
 s/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
+) (./do_NOT_manually_edit/isANONtravel.tex)
 
-LaTeX Warning: Reference `tab:isANONtravel' on page 1 undefined on input line 1
-5.
+./myPaper.tex:22: Package xcolor Error: Undefined color `White'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.22 \begin{isANONtravel}
+                         
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./myPaper.tex:22: Package xcolor Error: Undefined color `Blue'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.22 \begin{isANONtravel}
+                         
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./myPaper.tex:22: Package xcolor Error: Undefined color `Blue'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.22 \begin{isANONtravel}
+                         
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./myPaper.tex:22: Undefined control sequence.
+\isANONtravel ...8} {\YearTripsDestLabelFontstyle 
+                                                  {\color {\YearTripsDestLab...
+l.22 \begin{isANONtravel}
+                         
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+./myPaper.tex:22: Package xcolor Error: Undefined color `Blue'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.22 \begin{isANONtravel}
+                         
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./myPaper.tex:22: Undefined control sequence.
+\isANONtravel ... & {\YearTripsDestLabelFontstyle 
+                                                  {\color {\YearTripsDestLab...
+l.22 \begin{isANONtravel}
+                         
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+./myPaper.tex:22: Package xcolor Error: Undefined color `Blue'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.22 \begin{isANONtravel}
+                         
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./myPaper.tex:22: Undefined control sequence.
+\isANONtravel ... & {\YearTripsDestLabelFontstyle 
+                                                  {\color {\YearTripsDestLab...
+l.22 \begin{isANONtravel}
+                         
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+./myPaper.tex:22: Package xcolor Error: Undefined color `Blue'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.22 \begin{isANONtravel}
+                         
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./myPaper.tex:22: Package xcolor Error: Undefined color `Blue'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.22 \begin{isANONtravel}
+                         
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./myPaper.tex:22: Package xcolor Error: Undefined color `Blue'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.22 \begin{isANONtravel}
+                         
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./myPaper.tex:22: Package xcolor Error: Undefined color `Blue'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.22 \begin{isANONtravel}
+                         
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./myPaper.tex:22: Package xcolor Error: Undefined color `Blue'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.22 \begin{isANONtravel}
+                         
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./myPaper.tex:22: Package xcolor Error: Undefined color `Blue'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.22 \begin{isANONtravel}
+                         
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./myPaper.tex:22: Package xcolor Error: Undefined color `Blue'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.22 \begin{isANONtravel}
+                         
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./myPaper.tex:22: Undefined control sequence.
+<recently read> \YearTripsDestLabelFontstyle 
+                                             
+l.22 \begin{isANONtravel}
+                         
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./myPaper.tex:22: Undefined control sequence.
+\isANONtravel ...} & \YearTripsDestLabelFontstyle 
+                                                  {} & \YearTripsDestLabelFo...
+l.22 \begin{isANONtravel}
+                         
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./myPaper.tex:22: Undefined control sequence.
+\isANONtravel ...} & \YearTripsDestLabelFontstyle 
+                                                  {} & {\PerTripLabelFontsty...
+l.22 \begin{isANONtravel}
+                         
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+./myPaper.tex:22: Package xcolor Error: Undefined color `Blue'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.22 \begin{isANONtravel}
+                         
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./myPaper.tex:22: Package xcolor Error: Undefined color `Blue'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.22 \begin{isANONtravel}
+                         
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./myPaper.tex:22: Package xcolor Error: Undefined color `Blue'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.22 \begin{isANONtravel}
+                         
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./myPaper.tex:22: Package xcolor Error: Undefined color `Blue'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.22 \begin{isANONtravel}
+                         
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./myPaper.tex:36: Undefined control sequence.
+\perPersonNumberTripsList ->\smallIndent 
+                                         \textbf {Sci-PI}: 2 domestic trips;...
+l.36 ...ve do not include institutional overhead.}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./myPaper.tex:36: Undefined control sequence.
+\perPersonNumberTripsList ...newline \smallIndent 
+                                                  \textbf {Admin-PI}: 3 dome...
+l.36 ...ve do not include institutional overhead.}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./myPaper.tex:36: Undefined control sequence.
+\perPersonNumberTripsList ->\smallIndent 
+                                         \textbf {Sci-PI}: 2 domestic trips;...
+l.36 ...ve do not include institutional overhead.}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./myPaper.tex:36: Undefined control sequence.
+\perPersonNumberTripsList ...newline \smallIndent 
+                                                  \textbf {Admin-PI}: 3 dome...
+l.36 ...ve do not include institutional overhead.}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--36
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--36
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--36
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--36
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--36
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--36
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--36
+
+ []
 
 (./myPaper.bbl
 
@@ -1758,38 +2091,36 @@ If that doesn't work, type  X <return>  to quit.
 ) [1{/home/runner/work/_temp/setup-texlive-action/2020/texmf-var/fonts/map/pdft
 ex/updmap/pdftex.map}]
 
-Package caption Warning: Unused \captionsetup[table] on input line 55.
-See the caption package documentation for explanation.
-
-
 Package caption Warning: Unused \captionsetup[figure] on input line 56.
 See the caption package documentation for explanation.
 
 (./myPaper.aux)
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `myPaper.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 35901 strings out of 480962
- 698863 string characters out of 5905051
- 1050149 words of memory out of 5000000
- 52490 multiletter control sequences out of 15000+600000
- 412620 words of font info for 66 fonts, out of 8000000 for 9000
+ 35966 strings out of 480962
+ 699962 string characters out of 5905051
+ 1069198 words of memory out of 5000000
+ 52546 multiletter control sequences out of 15000+600000
+ 414269 words of font info for 71 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  126i,11n,131p,1196b,736s stack positions out of 5000i,500n,10000p,200000b,80000s
-</home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmbx10.pfb></home/runner/work/_temp/setup-texlive-action/2020/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></home/runner/work/_temp/s
-etup-texlive-action/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
-home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmr9.pfb>
-Output written on myPaper.pdf (1 page, 52633 bytes).
+{/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/fonts/enc/dvips
+/cm-super/cm-super-ts1.enc}</home/runner/work/_temp/setup-texlive-action/2020/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></home/runner/work/_temp/se
+tup-texlive-action/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></h
+ome/runner/work/_temp/setup-texlive-action/2020/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmbxti10.pfb></home/runner/work/_temp/setup-texlive-action/2020/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></home/runner/work/_temp/setu
+p-texlive-action/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></hom
+e/runner/work/_temp/setup-texlive-action/2020/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmr9.pfb></home/runner/work/_temp/setup-texlive-action/2020/texmf-dist
+/fonts/type1/public/cm-super/sfrm1000.pfb>
+Output written on myPaper.pdf (1 page, 87499 bytes).
 PDF statistics:
- 48 PDF objects out of 1000 (max. 8388607)
- 40 compressed objects within 1 object stream
- 5 named destinations out of 1000 (max. 500000)
+ 63 PDF objects out of 1000 (max. 8388607)
+ 52 compressed objects within 1 object stream
+ 6 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
