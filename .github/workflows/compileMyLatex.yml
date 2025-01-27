@@ -472,21 +472,21 @@ jobs:
         continue-on-error: true       
         #
       - name: compress PDF
-        #if: ${{ always() && hashFiles("$PDFHIRES") }}
+        if: ${{ always() && hashFiles($PDFHIRES) }}
         uses: jy95/ghostscript-action@v1
         with:
            file:   "$PDFHIRES"
            output: "$PDFFILE"
            arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
         continue-on-error: true
-  #      #
-  #    - name: post reduced resolution PDF on repository
-  #      if: ${{ always() && hashFiles("$PDFFILE") }}
-  #      uses: stefanzweifel/git-auto-commit-action@v5
-  #      with:
-  #         commit_message: post low-resolution version of PDF
-  #         file_pattern: "$PDFFILE"
-  #      continue-on-error: true
+        #
+      - name: post reduced resolution PDF on repository
+        if: ${{ always() && hashFiles($PDFFILE) }}
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+           commit_message: post low-resolution version of PDF
+           file_pattern: "$PDFFILE"
+        continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
