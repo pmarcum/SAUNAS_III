@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2025.1.27)  27 JAN 2025 01:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2025.1.27)  27 JAN 2025 02:05
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1739,24 +1739,24 @@ s/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 
-Package natbib Warning: Citation `biviano+2021aap650_105' on page 1 undefined o
-n input line 11.
-
-
-Package natbib Warning: Citation `bressan+1994apj94_63' on page 1 undefined on 
-input line 13.
-
-
-Package natbib Warning: Citation `anantharamaiah+1996apj466_13' on page 1 undef
-ined on input line 15.
-
-
 LaTeX Warning: Reference `tab:isANONtravel' on page 1 undefined on input line 1
 5.
 
+(./myPaper.bbl
 
-Package natbib Warning: There were undefined citations.
+./myPaper.bbl:1: Package xcolor Error: Undefined color `NavyBlue'.
 
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1 \begin{thebibliography}{}
+                             
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+) [1{/home/runner/work/_temp/setup-texlive-action/2020/texmf-var/fonts/map/pdft
+ex/updmap/pdftex.map}]
 
 Package caption Warning: Unused \captionsetup[table] on input line 55.
 See the caption package documentation for explanation.
@@ -1765,8 +1765,7 @@ See the caption package documentation for explanation.
 Package caption Warning: Unused \captionsetup[figure] on input line 56.
 See the caption package documentation for explanation.
 
-[1{/home/runner/work/_temp/setup-texlive-action/2020/texmf-var/fonts/map/pdftex
-/updmap/pdftex.map}] (./myPaper.aux)
+(./myPaper.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -1774,20 +1773,23 @@ Package rerunfilecheck Info: File `myPaper.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 35841 strings out of 480962
- 697960 string characters out of 5905051
- 1045886 words of memory out of 5000000
- 52448 multiletter control sequences out of 15000+600000
- 407872 words of font info for 47 fonts, out of 8000000 for 9000
+ 35901 strings out of 480962
+ 698863 string characters out of 5905051
+ 1050149 words of memory out of 5000000
+ 52490 multiletter control sequences out of 15000+600000
+ 412620 words of font info for 66 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  126i,11n,131p,1196b,736s stack positions out of 5000i,500n,10000p,200000b,80000s
 </home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/fonts/type1/pub
 lic/amsfonts/cm/cmbx10.pfb></home/runner/work/_temp/setup-texlive-action/2020/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb>
-Output written on myPaper.pdf (1 page, 23866 bytes).
+exmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></home/runner/work/_temp/s
+etup-texlive-action/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
+home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmr9.pfb>
+Output written on myPaper.pdf (1 page, 52633 bytes).
 PDF statistics:
- 24 PDF objects out of 1000 (max. 8388607)
- 18 compressed objects within 1 object stream
- 2 named destinations out of 1000 (max. 500000)
+ 48 PDF objects out of 1000 (max. 8388607)
+ 40 compressed objects within 1 object stream
+ 5 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
