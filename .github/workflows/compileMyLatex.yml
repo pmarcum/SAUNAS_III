@@ -485,7 +485,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
            commit_message: post low-resolution version of PDF
-           file_pattern: "$PDFFILE"
+           file_pattern: $PDFFILE
         continue-on-error: true
 
   #_______________________________________________________________________
