@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2025.1.27)  27 JAN 2025 01:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2025.1.27)  27 JAN 2025 01:35
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1501,7 +1501,28 @@ Package tocloft Warning: \@starttoc has already been redefined; tocloft bailing
 Package: parskip 2021-03-14 v2.0h non-zero parskip adjustments
 
 Couldn't patch \@starttoc
+) (./FUformatting.sty
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/geometr
+y/geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/generic/iftex
+/ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 )
+\Gm@cnth=\count429
+\Gm@cntv=\count430
+\c@Gm@tempcnt=\count431
+\Gm@bindingoffset=\dimen351
+\Gm@wd@mp=\dimen352
+\Gm@odd@mp=\dimen353
+\Gm@even@mp=\dimen354
+\Gm@layoutwidth=\dimen355
+\Gm@layoutheight=\dimen356
+\Gm@layouthoffset=\dimen357
+\Gm@layoutvoffset=\dimen358
+\Gm@dimlist=\toks51
+))
 Class revtex4-1 Info: colortbl package is loaded. (Proceeding with fingers cros
 sed.) on input line 7.
 
@@ -1538,17 +1559,17 @@ LaTeX Font Info:    ... okay on input line 7.
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/context/base/
 mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count429
-\scratchdimen=\dimen351
+\scratchcounter=\count432
+\scratchdimen=\dimen359
 \scratchbox=\box141
-\nofMPsegments=\count430
-\nofMParguments=\count431
-\everyMPshowfont=\toks51
-\MPscratchCnt=\count432
-\MPscratchDim=\dimen352
-\MPnumerator=\count433
-\makeMPintoPDFobject=\count434
-\everyMPtoPDFconversion=\toks52
+\nofMPsegments=\count433
+\nofMParguments=\count434
+\everyMPshowfont=\toks52
+\MPscratchCnt=\count435
+\MPscratchDim=\dimen360
+\MPnumerator=\count436
+\makeMPintoPDFobject=\count437
+\everyMPtoPDFconversion=\toks53
 )
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/epstopd
 f-pkg/epstopdf-base.sty
@@ -1564,19 +1585,19 @@ e
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/lineno/
 lineno.sty
 Package: lineno 2005/11/02 line numbers on paragraphs v4.41
-\linenopenalty=\count435
-\output=\toks53
-\linenoprevgraf=\count436
-\linenumbersep=\dimen353
-\linenumberwidth=\dimen354
-\c@linenumber=\count437
-\c@pagewiselinenumber=\count438
-\c@LN@truepage=\count439
-\c@internallinenumber=\count440
-\c@internallinenumbers=\count441
-\quotelinenumbersep=\dimen355
-\bframerule=\dimen356
-\bframesep=\dimen357
+\linenopenalty=\count438
+\output=\toks54
+\linenoprevgraf=\count439
+\linenumbersep=\dimen361
+\linenumberwidth=\dimen362
+\c@linenumber=\count440
+\c@pagewiselinenumber=\count441
+\c@LN@truepage=\count442
+\c@internallinenumber=\count443
+\c@internallinenumbers=\count444
+\quotelinenumbersep=\dimen363
+\bframerule=\dimen364
+\bframesep=\dimen365
 \bframebox=\box142
 LaTeX Info: Redefining \\ on input line 3056.
 )
@@ -1594,7 +1615,7 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 tlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count442
+\c@section@level=\count445
 )
 LaTeX Info: Redefining \ref on input line 7.
 LaTeX Info: Redefining \pageref on input line 7.
@@ -1604,6 +1625,44 @@ LaTeX Info: Redefining \nameref on input line 7.
 \openout7 = `myPaper.out'.
 
 Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: Option `font=stretch' requires the `setspace' package on 
+input line 7.
+
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/setspac
+e/setspace.sty
+Package: setspace 2011/12/19 v6.7a set line spacing
+
+
+/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/setspace
+/setspace.sty:494: LaTeX Error: Command \singlespace already defined.
+               Or name \end... illegal, see p.192 of the manual.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.494 }
+       
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/setspace
+/setspace.sty:546: LaTeX Error: Command \doublespace already defined.
+               Or name \end... illegal, see p.192 of the manual.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.546 }
+       
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+)
 Package caption Info: End \AtBeginDocument code.
 
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/floatro
@@ -1612,7 +1671,7 @@ Package: fr-longtable 2007/11/28 v0.1b (beta) floatrow: additions for longtable
 
 \flrow@LT@lasthead=\box143
 \flrow@LT@prelastfoot=\box144
-\c@FBLTpage=\count443
+\c@FBLTpage=\count446
 )
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/siunitx
 /siunitx-abbreviations.cfg
@@ -1622,6 +1681,40 @@ File: siunitx-abbreviations.cfg 2017/11/26 v2.7k siunitx: Abbreviated units
 tor/translator-basic-dictionary-English.dict
 Dictionary: translator-basic-dictionary, Language: English 
 )
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: twoside asymmetric 
+* h-part:(L,W,R)=(72.26999pt, 469.75502pt, 72.26999pt)
+* v-part:(T,H,B)=(72.26999pt, 650.43001pt, 72.26999pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=469.75502pt
+* \textheight=650.43001pt
+* \oddsidemargin=0.0pt
+* \evensidemargin=0.0pt
+* \topmargin=-46.97505pt
+* \headheight=10.84006pt
+* \headsep=36.135pt
+* \topskip=12.5pt
+* \footskip=30.0pt
+* \marginparwidth=107.0pt
+* \marginparsep=6.0pt
+* \columnsep=28.58437pt
+* \skip\footins=24.0pt
+* \hoffset=-21.33955pt
+* \voffset=-56.9055pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidetrue
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
 Class revtex4-1 Info: Overriding lineo.sty, restoring output routine, on input 
 line 7.
 Class revtex4-1 Info: Line numbering not turned on yet on input line 7.
@@ -1644,22 +1737,31 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 7.
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/amsfont
 s/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [1{/home/runner/work/_temp/setup-texlive-action/2020/texmf-var/fonts/map/pdft
-ex/updmap/pdftex.map}] (./myPaper.aux)
+)
+
+Package caption Warning: Unused \captionsetup[table] on input line 55.
+See the caption package documentation for explanation.
+
+
+Package caption Warning: Unused \captionsetup[figure] on input line 56.
+See the caption package documentation for explanation.
+
+[1{/home/runner/work/_temp/setup-texlive-action/2020/texmf-var/fonts/map/pdftex
+/updmap/pdftex.map}] (./myPaper.aux)
 Package rerunfilecheck Info: File `myPaper.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 35331 strings out of 480962
- 690007 string characters out of 5905051
- 1030101 words of memory out of 5000000
- 51950 multiletter control sequences out of 15000+600000
- 407865 words of font info for 47 fonts, out of 8000000 for 9000
+ 35838 strings out of 480962
+ 697921 string characters out of 5905051
+ 1044886 words of memory out of 5000000
+ 52446 multiletter control sequences out of 15000+600000
+ 407564 words of font info for 46 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 126i,6n,131p,1196b,734s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 126i,11n,131p,1196b,736s stack positions out of 5000i,500n,10000p,200000b,80000s
 </home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/fonts/type1/pub
 lic/amsfonts/cm/cmr10.pfb>
-Output written on myPaper.pdf (1 page, 12133 bytes).
+Output written on myPaper.pdf (1 page, 12173 bytes).
 PDF statistics:
  20 PDF objects out of 1000 (max. 8388607)
  15 compressed objects within 1 object stream

@@ -446,7 +446,11 @@ Package tocloft Warning: \@starttoc has already been redefined; tocloft bailing
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/parskip
 /parskip.sty
 Couldn't patch \@starttoc
-)
+) (./FUformatting.sty
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/geometr
+y/geometry.sty
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/generic/iftex
+/ifvtex.sty)))
 
 Class revtex4-1 Warning: Failed to patch the float package.
 
@@ -467,19 +471,56 @@ f/nameref.sty
 t/refcount.sty)
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/generic/getti
 tlestring/gettitlestring.sty))
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/setspac
+e/setspace.sty
+
+/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/setspace
+/setspace.sty:494: LaTeX Error: Command \singlespace already defined.
+               Or name \end... illegal, see p.192 of the manual.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.494 }
+       
+
+/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/setspace
+/setspace.sty:546: LaTeX Error: Command \doublespace already defined.
+               Or name \end... illegal, see p.192 of the manual.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.546 }
+       
+)
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/floatro
 w/fr-longtable.sty)
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/siunitx
 /siunitx-abbreviations.cfg)
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/transla
 tor/translator-basic-dictionary-English.dict)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/base/ul
 asy.fd)
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/amsfont
 s/umsa.fd)
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/amsfont
-s/umsb.fd) [1{/home/runner/work/_temp/setup-texlive-action/2020/texmf-var/fonts
-/map/pdftex/updmap/pdftex.map}] (./myPaper.aux)
+s/umsb.fd)
+
+Package caption Warning: Unused \captionsetup[table] on input line 55.
+See the caption package documentation for explanation.
+
+
+Package caption Warning: Unused \captionsetup[figure] on input line 56.
+See the caption package documentation for explanation.
+
+[1{/home/runner/work/_temp/setup-texlive-action/2020/texmf-var/fonts/map/pdftex
+/updmap/pdftex.map}] (./myPaper.aux)
 
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
@@ -491,7 +532,7 @@ Package rerunfilecheck Warning: File `myPaper.out' has changed.
  )
 (see the transcript file for additional information)</home/runner/work/_temp/se
 tup-texlive-action/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb>
-Output written on myPaper.pdf (1 page, 12133 bytes).
+Output written on myPaper.pdf (1 page, 12173 bytes).
 SyncTeX written on myPaper.synctex.gz.
 Transcript written on myPaper.log.
 Latexmk: References changed.
@@ -946,7 +987,11 @@ Package tocloft Warning: \@starttoc has already been redefined; tocloft bailing
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/parskip
 /parskip.sty
 Couldn't patch \@starttoc
-)
+) (./FUformatting.sty
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/geometr
+y/geometry.sty
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/generic/iftex
+/ifvtex.sty)))
 
 Class revtex4-1 Warning: Failed to patch the float package.
 
@@ -967,22 +1012,59 @@ f/nameref.sty
 t/refcount.sty)
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/generic/getti
 tlestring/gettitlestring.sty)) (./myPaper.out) (./myPaper.out)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/setspac
+e/setspace.sty
+
+/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/setspace
+/setspace.sty:494: LaTeX Error: Command \singlespace already defined.
+               Or name \end... illegal, see p.192 of the manual.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.494 }
+       
+
+/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/setspace
+/setspace.sty:546: LaTeX Error: Command \doublespace already defined.
+               Or name \end... illegal, see p.192 of the manual.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.546 }
+       
+)
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/floatro
 w/fr-longtable.sty)
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/siunitx
 /siunitx-abbreviations.cfg)
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/transla
 tor/translator-basic-dictionary-English.dict)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/base/ul
 asy.fd)
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/amsfont
 s/umsa.fd)
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/amsfont
-s/umsb.fd) [1{/home/runner/work/_temp/setup-texlive-action/2020/texmf-var/fonts
-/map/pdftex/updmap/pdftex.map}] (./myPaper.aux) )
+s/umsb.fd)
+
+Package caption Warning: Unused \captionsetup[table] on input line 55.
+See the caption package documentation for explanation.
+
+
+Package caption Warning: Unused \captionsetup[figure] on input line 56.
+See the caption package documentation for explanation.
+
+[1{/home/runner/work/_temp/setup-texlive-action/2020/texmf-var/fonts/map/pdftex
+/updmap/pdftex.map}] (./myPaper.aux) )
 (see the transcript file for additional information)</home/runner/work/_temp/se
 tup-texlive-action/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb>
-Output written on myPaper.pdf (1 page, 12133 bytes).
+Output written on myPaper.pdf (1 page, 12173 bytes).
 SyncTeX written on myPaper.synctex.gz.
 Transcript written on myPaper.log.
 Latexmk: Log file says output to 'myPaper.pdf'
@@ -992,6 +1074,6 @@ Collected error summary (may duplicate other messages):
 Latexmk: Examining 'myPaper.log'
 === TeX engine is 'pdfTeX'
 Latexmk: Errors, in force_mode: so I tried finishing targets
-'pdflatex  -file-line-error -synctex=1 -interaction=nonstopmode -recorder  "myPaper.tex"': time = 1.04
-'pdflatex  -file-line-error -synctex=1 -interaction=nonstopmode -recorder  "myPaper.tex"': time = 1.01
-Accumulated processing time = 2.32
+'pdflatex  -file-line-error -synctex=1 -interaction=nonstopmode -recorder  "myPaper.tex"': time = 0.99
+'pdflatex  -file-line-error -synctex=1 -interaction=nonstopmode -recorder  "myPaper.tex"': time = 1
+Accumulated processing time = 2.27
