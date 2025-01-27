@@ -361,7 +361,7 @@ jobs:
       - name: Install texlive
         uses: teatimeguest/setup-texlive-action@v3
         with:
-          version: 2020
+          version: 2023
           packages:
              collection-basic
              collection-bibtexextra
