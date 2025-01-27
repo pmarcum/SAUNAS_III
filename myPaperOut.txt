@@ -141,6 +141,168 @@ f/nameref.sty
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/refcoun
 t/refcount.sty)
 (/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/generic/getti
+tlestring/gettitlestring.sty)) [1{/home/runner/work/_temp/setup-texlive-action/
+2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] (./myPaper.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `myPaper.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+ )</home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmr10.pfb>
+Output written on myPaper.pdf (1 page, 12063 bytes).
+SyncTeX written on myPaper.synctex.gz.
+Transcript written on myPaper.log.
+Latexmk: References changed.
+Latexmk: References changed.
+Latexmk: Log file says output to 'myPaper.pdf'
+Rule 'pdflatex': File changes, etc:
+   Changed files, or newly in use since previous run(s):
+      'myPaper.aux'
+      'myPaper.out'
+------------
+Run number 2 of rule 'pdflatex'
+------------
+------------
+Running 'pdflatex  -file-line-error -synctex=1 -interaction=nonstopmode -recorder  "myPaper.tex"'
+------------
+Latexmk: Examining 'myPaper.log'
+=== TeX engine is 'pdfTeX'
+Latexmk: applying rule 'pdflatex'...
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./myPaper.tex
+LaTeX2e <2020-10-01> patch level 4
+L3 programming layer <2021-02-18> (./CORE-AAS/aastex631.cls
+
+LaTeX Warning: You have requested document class `CORE-AAS/aastex631',
+               but the document class provides `aastex631'.
+
+Document Class: aastex631 2020/12/20 Version 6.3.1d/AAS markup document class
+
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/revtex4
+-1/revtex4-1.cls
+Document Class: revtex4-1 2020/09/30 4.1s (http://publish.aps.org/revtex4/ for 
+documentation)
+ltxutil[2020/09/30 4.1s utilities package (portions licensed from W. E. Baxter 
+web at superscript.com)]
+ltxfront[2020/09/30 4.1s frontmatter package (AO,DPC)]
+ltxgrid[2020/09/30 4.1s page grid package (portions licensed from W. E. Baxter 
+web at superscript.com)]
+
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/revtex4
+-1/aps4-1.rtx)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/revtex4
+-1/aps10pt4-1.rtx)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/textcas
+e/textcase.sty)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/url/url
+.sty)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/natbib/
+natbib.sty)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/revtex4
+-1/revsymb4-1.sty))
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/base/la
+texsym.sty)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/graphic
+s/graphicx.sty
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/graphic
+s/keyval.sty)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/graphic
+s/graphics.sty
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/graphic
+s/trig.sty)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/graphic
+s-cfg/graphics.cfg)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/graphic
+s-def/pdftex.def)))
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/amsfont
+s/amssymb.sty
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/amsfont
+s/amsfonts.sty))
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/generic/epsf/
+epsf.sty
+This is `epsf.tex' v2.7.4 <14 February 2011>
+)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/tools/l
+ongtable.sty)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/xcolor/
+xcolor.sty
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/graphic
+s-cfg/color.cfg))
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/hyperre
+f/hyperref.sty
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/generic/ltxcm
+ds/ltxcmds.sty)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/generic/iftex
+/iftex.sty)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/generic/pdfte
+xcmds/pdftexcmds.sty
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/generic/infwa
+rerr/infwarerr.sty))
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/generic/kvset
+keys/kvsetkeys.sty)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/generic/kvdef
+inekeys/kvdefinekeys.sty)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/generic/pdfes
+cape/pdfescape.sty)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/hycolor
+/hycolor.sty)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/letltxm
+acro/letltxmacro.sty)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/auxhook
+/auxhook.sty)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/kvoptio
+ns/kvoptions.sty)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/hyperre
+f/pd1enc.def)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/hyperre
+f/hyperref-langpatches.def)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/generic/intca
+lc/intcalc.sty)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/generic/etexc
+mds/etexcmds.sty)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/hyperre
+f/puenc.def)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/generic/bitse
+t/bitset.sty
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/generic/bigin
+tcalc/bigintcalc.sty))
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/base/at
+begshi-ltx.sty))
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/hyperre
+f/hpdftex.def
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/base/at
+veryend-ltx.sty)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/rerunfi
+lecheck/rerunfilecheck.sty
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/generic/uniqu
+ecounter/uniquecounter.sty)))
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/tools/a
+rray.sty)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/generic/ulem/
+ulem.sty))
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/l3backe
+nd/l3backend-pdftex.def) (./myPaper.aux)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/context/base/
+mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/epstopd
+f-pkg/epstopdf-base.sty
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/grfext/
+grfext.sty)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/latexco
+nfig/epstopdf-sys.cfg))
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/hyperre
+f/nameref.sty
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/latex/refcoun
+t/refcount.sty)
+(/home/runner/work/_temp/setup-texlive-action/2020/texmf-dist/tex/generic/getti
 tlestring/gettitlestring.sty)) (./myPaper.out) (./myPaper.out) [1{/home/runner/
 work/_temp/setup-texlive-action/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.m
 ap}] (./myPaper.aux) )</home/runner/work/_temp/setup-texlive-action/2020/texmf-
@@ -152,5 +314,6 @@ Latexmk: Log file says output to 'myPaper.pdf'
 Latexmk: Examining 'myPaper.log'
 === TeX engine is 'pdfTeX'
 Latexmk: All targets (myPaper.pdf) are up-to-date
+'pdflatex  -file-line-error -synctex=1 -interaction=nonstopmode -recorder  "myPaper.tex"': time = 0.41
 'pdflatex  -file-line-error -synctex=1 -interaction=nonstopmode -recorder  "myPaper.tex"': time = 0.42
-Accumulated processing time = 0.48
+Accumulated processing time = 0.94
