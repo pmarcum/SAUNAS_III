@@ -470,15 +470,15 @@ jobs:
         run: |
            rm -f $PDFFILE
         continue-on-error: true       
-  #      #
-  #    - name: compress PDF
-  #      if: ${{ always() && hashFiles("$PDFHIRES") }}
-  #      uses: jy95/ghostscript-action@v1
-  #      with:
-  #         file:   "$PDFHIRES"
-  #         output: "$PDFFILE"
-  #         arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
-  #      continue-on-error: true
+        #
+      - name: compress PDF
+        if: ${{ always() && hashFiles("$PDFHIRES") }}
+        uses: jy95/ghostscript-action@v1
+        with:
+           file:   "$PDFHIRES"
+           output: "$PDFFILE"
+           arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
+        continue-on-error: true
   #      #
   #    - name: post reduced resolution PDF on repository
   #      if: ${{ always() && hashFiles("$PDFFILE") }}
