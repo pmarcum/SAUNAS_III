@@ -464,9 +464,15 @@ jobs:
         run: |
            echo "PDFHIRES=${{ needs.defineVariables.outputs.pdfhires }}"   >> $GITHUB_ENV
            echo "PDFFILE=${{ needs.defineVariables.outputs.pdffile }}"     >> $GITHUB_ENV
+        continue-on-error: true 
+        #
+      - name: remove the pdf file if it exists somehow
+        run: |
+           rm -f $PDFFILE
         continue-on-error: true       
+        #
       - name: compress PDF
-        if: ${{ always() && hashFiles($PDFHIRES) }}
+        if: ${{ always() && hashFiles("$PDFHIRES") }}
         uses: jy95/ghostscript-action@v1
         with:
            file:   "$PDFHIRES"
