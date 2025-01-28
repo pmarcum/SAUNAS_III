@@ -421,28 +421,38 @@ jobs:
            rm -f "$PDFHIRES"
            mv -f "$PDFFILE" "$PDFHIRES"
            # clean up unneeded files from the compilation
-           rm -f $CORENAME.aux
-           rm -f $CORENAME.bbl
-           rm -f $CORENAME.blg
-           rm -f $CORENAME.fdb_latexmk
-           rm -f $CORENAME.fls
-           rm -f $CORENAME.out
-           rm -f $CORENAME.sync*
-           rm -f $CORENAME.synctex.gz
+           #rm -f $CORENAME.aux
+           #rm -f $CORENAME.bbl
+           #rm -f $CORENAME.blg
+           #rm -f $CORENAME.fdb_latexmk
+           #rm -f $CORENAME.fls
+           #rm -f $CORENAME.out
+           #rm -f $CORENAME.sync*
+           #rm -f $CORENAME.synctex.gz
            rm -f $OUTFILE
            mv -f compileOut.txt $OUTFILE
            # replace the job id placeholder in the START file with the job id
            sed -ri "s/JOBIDPLACEHOLDER/${{ steps.job-id.outputs.JOBNUMBER }}/" ${{ env.STARTFILE }}
         continue-on-error: true
         #
-      - name: post raw latex compilation output to repository for further processing
-        run: |
-           git config --global user.email "email@gmail.com"
-           git config --global user.name "github actions"
-           git add .
-           git commit -m "post high-res PDF and raw latex compilation log for additional processing"
-           git push
+      - name: post the start file to repository
+        uses: actions/upload-artifact@v4
+        with:
+          name: compile
+          path: |
+            ${{ env.STARTFILE }}
+            ${{ env.OUTFILE }}
+            ${{ env.PDFHIRES }}
+          overwrite: true
         continue-on-error: true
+      #- name: post raw latex compilation output to repository for further processing
+      #  run: |
+      #     git config --global user.email "email@gmail.com"
+      #     git config --global user.name "github actions"
+      #     git add .
+      #     git commit -m "post high-res PDF and raw latex compilation log for additional processing"
+      #     git push
+      #  continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
@@ -466,10 +476,9 @@ jobs:
            echo "PDFFILE=${{ needs.defineVariables.outputs.pdffile }}"     >> $GITHUB_ENV
         continue-on-error: true 
         #
-      - name: remove the pdf file if it exists somehow
-        run: |
-           rm -f $PDFFILE
-        continue-on-error: true       
+      - uses: actions/download-artifact@v4
+        with:
+          name: compile
         #
       - name: post reduced resolution PDF on repository
         if: ${{ always() && hashFiles(env.PDFHIRES) }}
