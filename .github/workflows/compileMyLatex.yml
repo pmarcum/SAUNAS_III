@@ -421,14 +421,6 @@ jobs:
            rm -f "$PDFHIRES"
            mv -f "$PDFFILE" "$PDFHIRES"
            # clean up unneeded files from the compilation
-           #rm -f $CORENAME.aux
-           #rm -f $CORENAME.bbl
-           #rm -f $CORENAME.blg
-           #rm -f $CORENAME.fdb_latexmk
-           #rm -f $CORENAME.fls
-           #rm -f $CORENAME.out
-           #rm -f $CORENAME.sync*
-           #rm -f $CORENAME.synctex.gz
            rm -f $OUTFILE
            mv -f compileOut.txt $OUTFILE
            # replace the job id placeholder in the START file with the job id
@@ -444,6 +436,7 @@ jobs:
             ${{ env.OUTFILE }}
             ${{ env.PDFHIRES }}
           overwrite: true
+          compression-level: 0 # no compression, 6 is default
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -499,7 +492,7 @@ jobs:
   #|                                                                      |
   #|                    RELEASE THE PRUNED BIB FILE                       |
   #|______________________________________________________________________|
-  releasePrunedBib:
+  #releasePrunedBib:
   #  needs: [defineVariables,initializeFolder,pruneBib]
   #  runs-on: ubuntu-latest
   #  continue-on-error: true
