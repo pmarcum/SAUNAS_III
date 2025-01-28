@@ -475,8 +475,8 @@ jobs:
         if: ${{ always() && hashFiles(env.PDFHIRES) }}
         uses: jy95/ghostscript-action@v1
         with:
-           file:   "${PDFHIRES}"
-           output: "${PDFFILE}"
+           file:   env.PDFHIRES
+           output: env.PDFFILE
            arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
         continue-on-error: true
         #
