@@ -445,14 +445,6 @@ jobs:
             ${{ env.PDFHIRES }}
           overwrite: true
         continue-on-error: true
-      #- name: post raw latex compilation output to repository for further processing
-      #  run: |
-      #     git config --global user.email "email@gmail.com"
-      #     git config --global user.name "github actions"
-      #     git add .
-      #     git commit -m "post high-res PDF and raw latex compilation log for additional processing"
-      #     git push
-      #  continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
@@ -507,7 +499,7 @@ jobs:
   #|                                                                      |
   #|                    RELEASE THE PRUNED BIB FILE                       |
   #|______________________________________________________________________|
-  #releasePrunedBib:
+  releasePrunedBib:
   #  needs: [defineVariables,initializeFolder,pruneBib]
   #  runs-on: ubuntu-latest
   #  continue-on-error: true
