@@ -480,20 +480,16 @@ jobs:
            arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
         continue-on-error: true
         #
-
-      - name: check pdf file
-        run: |
-          echo '--------------------------'
-          ls -la $PDFFILE
-          echo '======================='
-          
       - name: post reduced resolution PDF on repository
         if: ${{ always() && hashFiles(env.PDFHIRES) }}
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-           commit_message: post low-resolution version of PDF
-           file_pattern: ${{ env.PDFFILE }}
+        run: |
+           git config --global user.email "email@gmail.com"
+           git config --global user.name "github actions"
+           git add ${{ env.PDFFILE }}
+           git commit -m "post high-res PDF and raw latex compilation log for additional processing"
+           git push
         continue-on-error: true
+
 
   #_______________________________________________________________________
   #|                                                                      |
