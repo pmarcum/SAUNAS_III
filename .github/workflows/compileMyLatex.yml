@@ -480,16 +480,28 @@ jobs:
         with:
           name: compile
         #
+      - name: make sure pdffile is removed before writing it
+        run: rm -f $PDFFILE
+        continue-on-error: true
+        #
+      - name: compress PDF
+        if: ${{ always() && hashFiles(env.PDFHIRES) }}
+        uses: jy95/ghostscript-action@v1
+        with:
+           file:   ${{ env.PDFHIRES }}
+           output: ${{ env.PDFFILE }}
+           arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
+        continue-on-error: true
+        #
       - name: post reduced resolution PDF on repository
         if: ${{ always() && hashFiles(env.PDFHIRES) }}
         run: |
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
-           git add ${{ env.PDFFILE }}
+           git add .
            git commit -m "post high-res PDF and raw latex compilation log for additional processing"
            git push
         continue-on-error: true
-
 
   #_______________________________________________________________________
   #|                                                                      |
