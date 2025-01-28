@@ -471,15 +471,6 @@ jobs:
            rm -f $PDFFILE
         continue-on-error: true       
         #
-      - name: compress PDF
-        if: ${{ always() && hashFiles(env.PDFHIRES) }}
-        uses: jy95/ghostscript-action@v1
-        with:
-           file:   ${{ env.PDFHIRES }}
-           output: ${{ env.PDFFILE }}
-           arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
-        continue-on-error: true
-        #
       - name: post reduced resolution PDF on repository
         if: ${{ always() && hashFiles(env.PDFHIRES) }}
         run: |
