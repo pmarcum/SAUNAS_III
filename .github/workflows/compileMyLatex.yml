@@ -262,7 +262,7 @@ jobs:
         run: |
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
-           git add ${{ steps.fileCleanup.outputs.file-list }}
+           git add "${{ steps.fileCleanup.outputs.file-list }}"
            git commit -m "Upload changes to folder"
            git push
         continue-on-error: true
@@ -498,7 +498,7 @@ jobs:
   #      run: |
   #         git config --global user.email "email@gmail.com"
   #         git config --global user.name "github actions"
-  #         git add "${{ steps.filelisting.outputs.file-list }}"
+  #         "${{ steps.filelisting.outputs.file-list }}"
   #         git commit -m "Upload newly created pdf and compilation output"
   #         git push
   #      continue-on-error: true
@@ -538,7 +538,7 @@ jobs:
   #      run: |
   #         git config --global user.email "email@gmail.com"
   #         git config --global user.name "github actions"
-  #         git add ${{ github.event.inputs.file2compile }}.pdf
+  #         ${{ github.event.inputs.file2compile }}.pdf
   #         git commit -m "post low resolution pdf"
   #         git push
   #      continue-on-error: true
