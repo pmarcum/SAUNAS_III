@@ -421,7 +421,7 @@ jobs:
            listOfFiles+="${{ github.event.inputs.file2compile }}_hiRes.pdf"
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
-           git add ${listOfFiles}
+           git add "${listOfFiles}"
            git commit -m "Upload newly created pdf and compilation output"
            git push
         continue-on-error: true
