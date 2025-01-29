@@ -410,16 +410,24 @@ jobs:
       #    compression-level: 0 # no compression, 6 is default
       #  continue-on-error: true
         #
-      - name: post newly compiled high-resolution pdf to repository
-        if: ${{ always() && hashFiles(${{ github.event.inputs.file2compile }}_hiRes.pdf) }}
+      - name: put together list of files to be posted
+        id: filelisting
         run: |
            listOfFiles=""
            listOfFiles+="${{ github.event.inputs.file2compile }}START.txt "
            listOfFiles+="${{ github.event.inputs.file2compile }}Out.txt "
-           listOfFiles+="${{ github.event.inputs.file2compile }}_hiRes.pdf"
+           if [[ hashFiles(${{ github.event.inputs.file2compile }}_hiRes.pdf) ]]; then
+              listOfFiles+="${{ github.event.inputs.file2compile }}_hiRes.pdf"
+           fi
+           echo "file-list=$listOfFiles" >> $GITHUB_OUTPUT
+        continue-on-error: true
+        #
+      - name: post newly compiled high-resolution pdf to repository
+        if: ${{ always() && hashFiles(${{ github.event.inputs.file2compile }}_hiRes.pdf) }}
+        run: |
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
-           git add "${listOfFiles}"
+           git add "${{ steps.filelisting.outputs.file-list }}"
            git commit -m "Upload newly created pdf and compilation output"
            git push
         continue-on-error: true
