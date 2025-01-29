@@ -111,49 +111,98 @@ jobs:
 
   #_______________________________________________________________________
   #|                                                                      |
-  #|                  DEFINE THE ENVIRONMENTAL VARIABLES                  |
+  #|                           INITIALIZATION                             |
   #|______________________________________________________________________|
-  defineVariables:
+  initializeFolder:
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
       #
-    outputs:
-      corename:  ${{ steps.vardefn.outputs.CORENAME }}
-      htmlfile:  ${{ steps.vardefn.outputs.HTMLFILE }}
-      htmllink:  ${{ steps.vardefn.outputs.HTMLLINK }}
-      fulllog:   ${{ steps.vardefn.outputs.FULLLOG }}
-      log:       ${{ steps.vardefn.outputs.LOG }}
-      outfile:   ${{ steps.vardefn.outputs.OUTFILE }}
-      pdffile:   ${{ steps.vardefn.outputs.PDFFILE }}
-      pdfhires:  ${{ steps.vardefn.outputs.PDFHIRES }}
-      pdflink:   ${{ steps.vardefn.outputs.PDFLINK }}
-      startfile: ${{ steps.vardefn.outputs.STARTFILE }}
-      texfile:   ${{ steps.vardefn.outputs.TEXFILE }}
-      timestamp: ${{ steps.vardefn.outputs.TIMESTAMP }}
     steps:
       - name: Clone repo
         uses: actions/checkout@v4
         #
-      - name: Define environmental variables
-        id: vardefn
+        #   pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
+        #   echo "FULLLOG=${{ github.event.inputs.file2compile }}_full.log" >>           $GITHUB_OUTPUT
+        #   echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >>                $GITHUB_OUTPUT
+        #   echo "PDFLINK=$pdflink" >>                                                   $GITHUB_OUTPUT
+        #   echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >>                $GITHUB_OUTPUT
+        #
+      - name: Post note alerting start time
+        id: fileCleanup
         run: |
+           listOfFiles=''
+           if [ hashFiles("compileOut.txt") ]; then listOfFiles+="compileOut.txt"
+           rm -f compileOut.txt
+           if [ hashFiles("errout.txt") ]; then listOfFiles+="errout.txt"
+           rm -f errout.txt
+           if [ hashFiles("fin.txt") ]; then listOfFiles+="fin.txt"
+           rm -f fin.txt
+           if [ hashFiles("finHtml.txt") ]; then listOfFiles+="finHtml.txt"
+           rm -f finHtml.txt
+           if [ hashFiles("html.txt") ]; then listOfFiles+="html.txt"
+           rm -f html.txt
+           if [ hashFiles("tmp.txt") ]; then listOfFiles+="tmp.txt"
+           rm -f tmp.txt
+           if [ hashFiles("tout.txt") ]; then listOfFiles+="tout.txt"
+           rm -f tout.txt
+           if [ hashFiles("${{ github.event.inputs.file2compile }}.aux") ]; then listOfFiles+="${{ github.event.inputs.file2compile }}.aux"
+           rm -f "${{ github.event.inputs.file2compile }}.aux"
+           if [ hashFiles("${{ github.event.inputs.file2compile }}.bbl") ]; then listOfFiles+="${{ github.event.inputs.file2compile }}.bbl"
+           rm -f "${{ github.event.inputs.file2compile }}.bbl"
+           if [ hashFiles("${{ github.event.inputs.file2compile }}.blg") ]; then listOfFiles+="${{ github.event.inputs.file2compile }}.blg"
+           rm -f "${{ github.event.inputs.file2compile }}.blg"
+           if [ hashFiles("${{ github.event.inputs.file2compile }}.fdb_latexmk") ]; then listOfFiles+="${{ github.event.inputs.file2compile }}.fdb_latexmk"
+           rm -f "${{ github.event.inputs.file2compile }}.fdb_latexmk"
+           if [ hashFiles("${{ github.event.inputs.file2compile }}.fls") ]; then listOfFiles+="${{ github.event.inputs.file2compile }}.fls"
+           rm -f "${{ github.event.inputs.file2compile }}.fls"
+           if [ hashFiles("${{ github.event.inputs.file2compile }}.out") ]; then listOfFiles+="${{ github.event.inputs.file2compile }}.out"
+           rm -f "${{ github.event.inputs.file2compile }}.out"
+           if [ hashFiles("${{ github.event.inputs.file2compile }}.sync") ]; then listOfFiles+="${{ github.event.inputs.file2compile }}.sync"
+           rm -f "${{ github.event.inputs.file2compile }}.sync"
+           if [ hashFiles("${{ github.event.inputs.file2compile }}.synctex.gz") ]; then listOfFiles+="${{ github.event.inputs.file2compile }}.synctex.gz"
+           rm -f "${{ github.event.inputs.file2compile }}.synctex.gz"
+           if [ hashFiles("${{ github.event.inputs.file2compile }}.html") ]; then listOfFiles+="${{ github.event.inputs.file2compile }}.html"
+           rm -f "${{ github.event.inputs.file2compile }}.html"
+           if [ hashFiles("${{ github.event.inputs.file2compile }}.log") ]; then listOfFiles+="${{ github.event.inputs.file2compile }}.log"
+           rm -f "${{ github.event.inputs.file2compile }}.log"
+           if [ hashFiles("${{ github.event.inputs.file2compile }}Out.txt") ]; then listOfFiles+="${{ github.event.inputs.file2compile }}Out.txt"
+           rm -f "${{ github.event.inputs.file2compile }}Out.txt"
+           if [ hashFiles("${{ github.event.inputs.file2compile }}_hiRes.pdf") ]; then listOfFiles+="${{ github.event.inputs.file2compile }}_hiRes.pdf"
+           rm -f "${{ github.event.inputs.file2compile }}_hiRes.pdf"
+           if [ hashFiles("${{ github.event.inputs.file2compile }}.pdf") ]; then listOfFiles+="${{ github.event.inputs.file2compile }}.pdf"
+           rm -f "${{ github.event.inputs.file2compile }}.pdf"
+           listOfFiles+="${{ github.event.inputs.file2compile }}START.txt"
+           rm -f "${{ github.event.inputs.file2compile }}START.txt"
+           #================================================
+           # Create the start file
+           touch "${{ github.event.inputs.file2compile }}START.txt"
+           echo "$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> "${{ github.event.inputs.file2compile }}START.txt"
+           link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/JOBIDPLACEHOLDER"
+           echo "$link2job" >> "${{ github.event.inputs.file2compile }}START.txt"
            htmllink="https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"
-           pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
-           echo "CORENAME=${{ github.event.inputs.file2compile }}" >>                   $GITHUB_OUTPUT
-           echo "HTMLFILE=${{ github.event.inputs.file2compile }}.html" >>              $GITHUB_OUTPUT
-           echo "HTMLLINK=$htmllink" >>                                                 $GITHUB_OUTPUT
-           echo "FULLLOG=${{ github.event.inputs.file2compile }}_full.log" >>           $GITHUB_OUTPUT
-           echo "LOG=${{ github.event.inputs.file2compile }}.log" >>                    $GITHUB_OUTPUT
-           echo "OUTFILE=${{ github.event.inputs.file2compile }}Out.txt" >>             $GITHUB_OUTPUT
-           echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >>                $GITHUB_OUTPUT
-           echo "PDFHIRES=${{ github.event.inputs.file2compile }}_hiRes.pdf" >>         $GITHUB_OUTPUT
-           echo "PDFLINK=$pdflink" >>                                                   $GITHUB_OUTPUT
-           echo "STARTFILE=${{ github.event.inputs.file2compile }}START.txt" >>         $GITHUB_OUTPUT
-           echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >>                $GITHUB_OUTPUT
-           echo "TIMESTAMP=$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> $GITHUB_OUTPUT
+           echo $htmllink   >> "${{ github.event.inputs.file2compile }}START.txt"
+           echo "precomp"   >> "${{ github.event.inputs.file2compile }}START.txt"
+        continue-on-error: true
+        #
+      #- name: post the start file to repository
+      #  uses: actions/upload-artifact@v4
+      #  with:
+      #    name: start-alert
+      #    path: ${{ env.STARTFILE }}
+      #    overwrite: true
+      #  continue-on-error: true
+      #  #
+      - name: post newly compressed images to repository
+        if: ${{ steps.compressImages.outputs.didCompression == 'T' }}
+        run: |
+           git config --global user.email "email@gmail.com"
+           git config --global user.name "github actions"
+           git add "${{ steps.fileCleanup.outputs.listOfFiles }}"
+           git commit -m "Upload changes to folder"
+           git push
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -256,102 +305,19 @@ jobs:
 
   #_______________________________________________________________________
   #|                                                                      |
-  #|           GET THE DIRECTORY SET UP BY REMOVING OLD FILES             |
-  #|______________________________________________________________________|
-  initializeFolder:
-    runs-on: ubuntu-latest
-    needs: [defineVariables]
-    continue-on-error: true
-    permissions:
-      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
-      contents: write
-    steps:
-      - name: Clone repo
-        uses: actions/checkout@v4
-        #
-      - name: Recall stored variables
-        run: |
-           echo "STARTFILE=${{ needs.defineVariables.outputs.startfile }}" >> $GITHUB_ENV
-           echo "TIMESTAMP=${{ needs.defineVariables.outputs.timestamp }}" >> $GITHUB_ENV
-        continue-on-error: true
-        #
-      - name: Post note alerting start time
-        run: |
-           touch $STARTFILE
-           echo $TIMESTAMP  >> $STARTFILE
-           link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/JOBIDPLACEHOLDER"
-           echo "$link2job" >> $STARTFILE
-           echo $HTMLLINK   >> $STARTFILE
-           echo "precomp"   >> $STARTFILE
-        continue-on-error: true
-        #
-      - name: post the start file to repository
-        uses: actions/upload-artifact@v4
-        with:
-          name: start-alert
-          path: ${{ env.STARTFILE }}
-          overwrite: true
-        continue-on-error: true
-
-  #_______________________________________________________________________
-  #|                                                                      |
   #|                        COMPILE THE FILE                              |
   #|______________________________________________________________________|
   build_latex:
-    needs: [defineVariables,initializeFolder,compressImages]
+    needs: [initializeFolder,compressImages]
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
       #
-    outputs:
-      jobnumber: ${{ steps.job-id.outputs.JOBNUMBER }}
-      #
     steps:
       - name: Clone repo
         uses: actions/checkout@v4
-        #
-      - name: Recall stored variables
-        run: |
-           echo "CORENAME=${{ needs.defineVariables.outputs.corename }}"   >> $GITHUB_ENV
-           echo "HTMLFILE=${{ needs.defineVariables.outputs.htmlfile }}"   >> $GITHUB_ENV
-           echo "LOG=${{ needs.defineVariables.outputs.log }}"             >> $GITHUB_ENV
-           echo "OUTFILE=${{ needs.defineVariables.outputs.outfile }}"     >> $GITHUB_ENV
-           echo "PDFHIRES=${{ needs.defineVariables.outputs.pdfhires }}"   >> $GITHUB_ENV
-           echo "PDFFILE=${{ needs.defineVariables.outputs.pdffile }}"     >> $GITHUB_ENV
-           echo "STARTFILE=${{ needs.defineVariables.outputs.startfile }}" >> $GITHUB_ENV
-           echo "TEXFILE=${{ needs.defineVariables.outputs.texfile }}"     >> $GITHUB_ENV
-        continue-on-error: true       
-        #
-      - name: Remove old files
-        run: |
-           rm -f compileOut.txt
-           rm -f $CORENAME.aux
-           rm -f $CORENAME.bbl
-           rm -f $CORENAME.blg
-           rm -f $CORENAME.fdb_latexmk
-           rm -f $CORENAME.fls
-           rm -f $CORENAME.out
-           rm -f $CORENAME.sync*
-           rm -f $CORENAME.synctex.gz
-           rm -f errout.txt
-           rm -f fin.txt
-           rm -f finHtml.txt
-           rm -f html.txt
-           rm -f $HTMLFILE
-           rm -f $LOG
-           rm -f $OUTFILE
-           rm -f $PDFHIRES
-           rm -f $PDFFILE
-           rm -f $STARTFILE
-           rm -f tmp.txt
-           rm -f tout.txt
-        continue-on-error: true  
-        #
-      - uses: actions/download-artifact@v4
-        with:
-          name: start-alert
         #
       - name: Get Job ID from GH API
         id: job-id
@@ -361,8 +327,8 @@ jobs:
         run: |
            jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
            job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
-           echo "the job id is: $job_id"
-           echo "JOBNUMBER=$job_id" >> $GITHUB_OUTPUT
+           # replace the job id placeholder in the START file with the job id
+           sed -ri "s/JOBIDPLACEHOLDER/$job_id/" "${{ github.event.inputs.file2compile }}START.txt"
         continue-on-error: true  
         #
         # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
@@ -410,7 +376,8 @@ jobs:
         id: compilation
         run: |
            rm -f compileOut.txt
-           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "$TEXFILE" 2>&1 | tee compileOut.txt
+           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 \
+             -interaction=nonstopmode "${{ github.event.inputs.file2compile }}.tex" 2>&1 | tee compileOut.txt
            echo "______________________________________________________________________________"
            cat compileOut.txt
            echo "______________________________________________________________________________"
@@ -418,25 +385,37 @@ jobs:
         #
       - name: clean up after compilation
         run: |
-           rm -f "$PDFHIRES"
-           mv -f "$PDFFILE" "$PDFHIRES"
+           rm -f "${{ github.event.inputs.file2compile }}.pdf"
+           mv -f "${{ github.event.inputs.file2compile }}.pdf" "${{ github.event.inputs.file2compile }}_hiRes.pdf"
            # clean up unneeded files from the compilation
-           rm -f $OUTFILE
-           mv -f compileOut.txt $OUTFILE
-           # replace the job id placeholder in the START file with the job id
-           sed -ri "s/JOBIDPLACEHOLDER/${{ steps.job-id.outputs.JOBNUMBER }}/" ${{ env.STARTFILE }}
+           rm -f "${{ github.event.inputs.file2compile }}Out.txt"
+           mv -f compileOut.txt "${{ github.event.inputs.file2compile }}Out.txt"
         continue-on-error: true
         #
-      - name: post the start file to repository
-        uses: actions/upload-artifact@v4
-        with:
-          name: compile
-          path: |
-            ${{ env.STARTFILE }}
-            ${{ env.OUTFILE }}
-            ${{ env.PDFHIRES }}
-          overwrite: true
-          compression-level: 0 # no compression, 6 is default
+      #- name: post the start file to repository
+      #  uses: actions/upload-artifact@v4
+      #  with:
+      #    name: compile
+      #    path: |
+      #      "${{ github.event.inputs.file2compile }}START.txt"
+      #      "${{ github.event.inputs.file2compile }}Out.txt"
+      #      "${{ github.event.inputs.file2compile }}_hiRes.pdf"
+      #    overwrite: true
+      #    compression-level: 0 # no compression, 6 is default
+      #  continue-on-error: true
+        #
+      - name: post newly compiled high-resolution pdf to repository
+        if: ${{ always() && hashFiles(${{ github.event.inputs.file2compile }}_hiRes.pdf) }}
+        run: |
+           listOfFiles=""
+           listOfFiles+="${{ github.event.inputs.file2compile }}START.txt "
+           listOfFiles+="${{ github.event.inputs.file2compile }}Out.txt "
+           listOfFiles+="${{ github.event.inputs.file2compile }}_hiRes.pdf"
+           git config --global user.email "email@gmail.com"
+           git config --global user.name "github actions"
+           git add $listOfFiles
+           git commit -m "Upload newly created pdf and compilation output"
+           git push
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -444,7 +423,7 @@ jobs:
   #|     COMPRESS THE PDF FILE INTO LOWER RESOLUTION FILE FOR DISPLAY     |
   #|______________________________________________________________________|
   compressPdf:
-    needs: [defineVariables,initializeFolder,build_latex]
+    needs: [initializeFolder,build_latex]
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
@@ -455,36 +434,22 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         #
-      - name: Recall stored variables
-        run: |
-           echo "PDFHIRES=${{ needs.defineVariables.outputs.pdfhires }}"   >> $GITHUB_ENV
-           echo "PDFFILE=${{ needs.defineVariables.outputs.pdffile }}"     >> $GITHUB_ENV
-        continue-on-error: true 
-        #
-      - uses: actions/download-artifact@v4
-        with:
-          name: compile
-        #
-      - name: make sure pdffile is removed before writing it
-        run: rm -f $PDFFILE
-        continue-on-error: true
-        #
       - name: compress PDF
-        if: ${{ always() && hashFiles(env.PDFHIRES) }}
+        if: ${{ always() && hashFiles({{ github.event.inputs.file2compile }}_hiRes.pdf) }}
         uses: jy95/ghostscript-action@v1
         with:
-           file:   ${{ env.PDFHIRES }}
-           output: ${{ env.PDFFILE }}
+           file:   ${{ github.event.inputs.file2compile }}_hiRes.pdf
+           output: ${{ github.event.inputs.file2compile }}.pdf
            arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
         continue-on-error: true
         #
       - name: post reduced resolution PDF on repository
-        if: ${{ always() && hashFiles(env.PDFHIRES) }}
+        if: ${{ always() && hashFiles(${{ github.event.inputs.file2compile }}_hiRes.pdf) }}
         run: |
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
-           git add .
-           git commit -m "post high-res PDF and raw latex compilation log for additional processing"
+           git add ${{ github.event.inputs.file2compile }}.pdf
+           git commit -m "post low resolution pdf"
            git push
         continue-on-error: true
 
