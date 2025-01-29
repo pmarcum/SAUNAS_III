@@ -317,8 +317,18 @@ jobs:
            else
               echo "didCompression=F" >> $GITHUB_OUTPUT
            fi
+
+           echo '321'
+           echo $didCompression
+           
         continue-on-error: true
         #
+      - name: test
+        run: |
+          echo '==========='
+          echo steps.compressImages.outputs.didCompression
+          echo '- - - - - -'
+          
       - name: post newly compressed images to repository
         if: ${{ steps.compressImages.outputs.didCompression == 'T' }}
         run: |
