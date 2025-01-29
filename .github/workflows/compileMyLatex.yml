@@ -125,8 +125,6 @@ jobs:
         uses: actions/checkout@v4
         #
         #   pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
-        #   echo "FULLLOG=${{ github.event.inputs.file2compile }}_full.log" >>           $GITHUB_OUTPUT
-        #   echo "PDFFILE=${{ github.event.inputs.file2compile }}.pdf" >>                $GITHUB_OUTPUT
         #   echo "PDFLINK=$pdflink" >>                                                   $GITHUB_OUTPUT
         #   echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >>                $GITHUB_OUTPUT
         #
@@ -176,6 +174,7 @@ jobs:
            rm -f "${{ github.event.inputs.file2compile }}.pdf"
            listOfFiles+="${{ github.event.inputs.file2compile }}START.txt"
            rm -f "${{ github.event.inputs.file2compile }}START.txt"
+           echo "file-list=$listOfFiles" >> $GITHUB_OUTPUT
 
            echo $listOfFiles
            
@@ -199,11 +198,10 @@ jobs:
       #  continue-on-error: true
       #  #
       - name: post newly compressed images to repository
-        if: ${{ steps.compressImages.outputs.didCompression == 'T' }}
         run: |
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
-           git add "${{ steps.fileCleanup.outputs.listOfFiles }}"
+           git add "${{ steps.fileCleanup.outputs.file-list }}"
            git commit -m "Upload changes to folder"
            git push
         continue-on-error: true
