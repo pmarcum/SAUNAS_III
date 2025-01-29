@@ -176,6 +176,9 @@ jobs:
            rm -f "${{ github.event.inputs.file2compile }}.pdf"
            listOfFiles+="${{ github.event.inputs.file2compile }}START.txt"
            rm -f "${{ github.event.inputs.file2compile }}START.txt"
+
+           echo $listOfFiles
+           
            #================================================
            # Create the start file
            touch "${{ github.event.inputs.file2compile }}START.txt"
@@ -229,62 +232,66 @@ jobs:
       - name: Search for uncompressed images, and compress them
         id: compressImages
         run: |
+           # pop out if there are no uncompressed images
+           nimages=$(find . -type f -name 'UNCOMPRESSED' | wc -l)
            listOfCompressedFiles=''
            compressionDone=false
-           bigfile=500000
-           minDpi=150  # optimal dpi for pdf files
-           maxWidthInches=6.5   #inches
-           maxHeightInches=9.0  #inches
-           maxWidth=$(echo "(($minDpi * $maxWidthInches)+0.5)/1" | bc)
-           maxWidth=${maxWidth%.*}
-           maxHeight=$(echo "(($minDpi * $maxHeightInches)+0.5)/1" | bc)
-           maxHeight=${maxHeight%.*}
-           shopt -s globstar
-           nUncompressed=0
-           for imagefile in **/*UNCOMPRESSED.*; do
-              newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
-              pdfname=$(echo "${newname}" | sed 's/\..*$/\.pdf/')
-              fileSize=$( stat -c %s -- "${imagefile}"  )             
-              compressionDone=true
-              nUncompressed+=1
-              if [[ -f "${imagefile}" && ! -L "${imagefile}" && "$fileSize" -gt "$bigfile" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then                 
-                  # Get the current dimensions of the image
-                  magick identify -format "%w %h" "${imagefile}"
-                  dimensions=$(magick identify -format "%w %h" "${imagefile}")
-                  read -r origWidth origHeight <<< "$dimensions"
-                  # determine which, if either, dimension exceeds the max desirable size (origWidth origHeight)
-                  if [[ "$origWidth" -gt "$origHeight" && "$origWidth" -gt "$maxWidth" ]]; then
-                      newWidth=$maxWidth
-                      newHeight=$(echo "(($origHeight * $newWidth) / $origWidth) + 0.5" | bc)
-                      newHeight=${newHeight%.*}
-                  elif [[ "$origWidth" -lt "$origHeight" && "$origHeight" -gt "$maxHeight" ]]; then
-                      newHeight=$maxHeight
-                      newWidth=$(echo "(($origWidth * $newHeight) / $origHeight) + 0.5" | bc)
-                      newWidth=${newWidth%.*}
-                  elif [[ "$origWidth" -gt "$maxWidth" ]]; then
-                      newWidth=$maxWidth
-                      newHeight=$(echo "(($origHeight * $newWidth) / $origWidth) + 0.5" | bc)
-                      newHeight=${newHeight%.*}
-                  elif [[ "$origHeight" -gt "$maxHeight" ]]; then
-                      newHeight=$origHeight
-                      newWidth=$(echo "(($origWidth * $newHeight) / $origHeight) + 0.5" | bc)
-                      newWidth=${newWidth%.*}
-                  else
-                      newHeight=$origHeight
-                      newWidth=$origWidth
-                  fi                 
-                  qualityValue=82
-                  # Note: the quality value seems to not matter at all.  The size seems to be the main factor behind the size of the file.
-                  magick mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality ''"${qualityValue}"'' \
-                    -define jpeg:fancy-upsampling=off -define png:compression=filter=5 -define png:compression-level=9 \
-                    -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB \
-                    -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
-                  mv -f "${imagefile}" "${newname}"                  
-              elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then                  
-                  mv -f "${imagefile}" "${newname}"                  
-              fi
-              listOfCompressedFiles+="${imagefile} ${newname} "
-           done
+           if [$nimages -gt 0]; then
+             bigfile=500000
+             minDpi=150  # optimal dpi for pdf files
+             maxWidthInches=6.5   #inches
+             maxHeightInches=9.0  #inches
+             maxWidth=$(echo "(($minDpi * $maxWidthInches)+0.5)/1" | bc)
+             maxWidth=${maxWidth%.*}
+             maxHeight=$(echo "(($minDpi * $maxHeightInches)+0.5)/1" | bc)
+             maxHeight=${maxHeight%.*}
+             shopt -s globstar
+             nUncompressed=0
+             for imagefile in **/*UNCOMPRESSED.*; do
+                newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
+                pdfname=$(echo "${newname}" | sed 's/\..*$/\.pdf/')
+                fileSize=$( stat -c %s -- "${imagefile}"  )             
+                compressionDone=true
+                nUncompressed+=1
+                if [[ -f "${imagefile}" && ! -L "${imagefile}" && "$fileSize" -gt "$bigfile" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then                 
+                    # Get the current dimensions of the image
+                    magick identify -format "%w %h" "${imagefile}"
+                    dimensions=$(magick identify -format "%w %h" "${imagefile}")
+                    read -r origWidth origHeight <<< "$dimensions"
+                    # determine which, if either, dimension exceeds the max desirable size (origWidth origHeight)
+                    if [[ "$origWidth" -gt "$origHeight" && "$origWidth" -gt "$maxWidth" ]]; then
+                        newWidth=$maxWidth
+                        newHeight=$(echo "(($origHeight * $newWidth) / $origWidth) + 0.5" | bc)
+                        newHeight=${newHeight%.*}
+                    elif [[ "$origWidth" -lt "$origHeight" && "$origHeight" -gt "$maxHeight" ]]; then
+                        newHeight=$maxHeight
+                        newWidth=$(echo "(($origWidth * $newHeight) / $origHeight) + 0.5" | bc)
+                        newWidth=${newWidth%.*}
+                    elif [[ "$origWidth" -gt "$maxWidth" ]]; then
+                        newWidth=$maxWidth
+                        newHeight=$(echo "(($origHeight * $newWidth) / $origWidth) + 0.5" | bc)
+                        newHeight=${newHeight%.*}
+                    elif [[ "$origHeight" -gt "$maxHeight" ]]; then
+                        newHeight=$origHeight
+                        newWidth=$(echo "(($origWidth * $newHeight) / $origHeight) + 0.5" | bc)
+                        newWidth=${newWidth%.*}
+                    else
+                        newHeight=$origHeight
+                        newWidth=$origWidth
+                    fi                 
+                    qualityValue=82
+                    # Note: the quality value seems to not matter at all.  The size seems to be the main factor behind the size of the file.
+                    magick mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality ''"${qualityValue}"'' \
+                      -define jpeg:fancy-upsampling=off -define png:compression=filter=5 -define png:compression-level=9 \
+                      -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB \
+                      -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
+                    mv -f "${imagefile}" "${newname}"                  
+                elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then                  
+                    mv -f "${imagefile}" "${newname}"                  
+                fi
+                listOfCompressedFiles+="${imagefile} ${newname} "
+             done
+           fi
            echo "listOfImages=$listOfCompressedFiles" >> $GITHUB_OUTPUT
            if [[ $compressionDone ]]; then
               echo "didCompression=T" >> $GITHUB_OUTPUT
