@@ -128,9 +128,9 @@ jobs:
         id: fileCleanup
         run: |
            listOfFiles=''
-           if [[ hashFiles(compileOut.txt) ]]; then listOfFiles+="compileOut.txt "; fi
+           if [[ hashFiles("compileOut.txt") ]]; then listOfFiles+="compileOut.txt "; fi
            rm -f compileOut.txt
-           if [[ hashFiles(errout.txt) ]]; then listOfFiles+="errout.txt "; fi
+           if [[ hashFiles("errout.txt") ]]; then listOfFiles+="errout.txt "; fi
            rm -f errout.txt
            if [[ hashFiles(fin.txt) ]]; then listOfFiles+="fin.txt "; fi
            rm -f fin.txt
