@@ -168,30 +168,66 @@ jobs:
               rm -f "${{ github.event.inputs.file2compile }}.aux"
               listOfFiles+="${{ github.event.inputs.file2compile }}.aux "
            fi
-           if [[ hashFiles(${{ github.event.inputs.file2compile }}.bbl) ]]; then listOfFiles+="${{ github.event.inputs.file2compile }}.bbl "; fi
-           rm -f "${{ github.event.inputs.file2compile }}.bbl"
-           if [[ hashFiles("${{ github.event.inputs.file2compile }}.blg") ]]; then listOfFiles+="${{ github.event.inputs.file2compile }}.blg "; fi
-           rm -f "${{ github.event.inputs.file2compile }}.blg"
-           if [[ hashFiles("${{ github.event.inputs.file2compile }}.fdb_latexmk") ]]; then listOfFiles+="${{ github.event.inputs.file2compile }}.fdb_latexmk "; fi
-           rm -f "${{ github.event.inputs.file2compile }}.fdb_latexmk"
-           if [[ hashFiles("${{ github.event.inputs.file2compile }}.fls") ]]; then listOfFiles+="${{ github.event.inputs.file2compile }}.fls "; fi
-           rm -f "${{ github.event.inputs.file2compile }}.fls"
-           if [[ hashFiles("${{ github.event.inputs.file2compile }}.out") ]]; then listOfFiles+="${{ github.event.inputs.file2compile }}.out "; fi
-           rm -f "${{ github.event.inputs.file2compile }}.out"
-           if [[ hashFiles("${{ github.event.inputs.file2compile }}.sync") ]]; then listOfFiles+="${{ github.event.inputs.file2compile }}.sync "; fi
-           rm -f "${{ github.event.inputs.file2compile }}.sync "
-           if [[ hashFiles("${{ github.event.inputs.file2compile }}.synctex.gz") ]]; then listOfFiles+="${{ github.event.inputs.file2compile }}.synctex.gz "; fi
-           rm -f "${{ github.event.inputs.file2compile }}.synctex.gz"
-           if [[ hashFiles("${{ github.event.inputs.file2compile }}.html") ]]; then listOfFiles+="${{ github.event.inputs.file2compile }}.html "; fi
-           rm -f "${{ github.event.inputs.file2compile }}.html"
-           if [[ hashFiles("${{ github.event.inputs.file2compile }}.log") ]]; then listOfFiles+="${{ github.event.inputs.file2compile }}.log "; fi
-           rm -f "${{ github.event.inputs.file2compile }}.log"
-           if [[ hashFiles("${{ github.event.inputs.file2compile }}Out.txt") ]]; then listOfFiles+="${{ github.event.inputs.file2compile }}Out.txt "; fi
-           rm -f "${{ github.event.inputs.file2compile }}Out.txt"
-           if [[ hashFiles("${{ github.event.inputs.file2compile }}_hiRes.pdf") ]]; then listOfFiles+="${{ github.event.inputs.file2compile }}_hiRes.pdf "; fi
-           rm -f "${{ github.event.inputs.file2compile }}_hiRes.pdf"
-           if [[ hashFiles("${{ github.event.inputs.file2compile }}.pdf") ]]; then listOfFiles+="${{ github.event.inputs.file2compile }}.pdf "; fi
-           rm -f "${{ github.event.inputs.file2compile }}.pdf"
+           nfile=$(ls -1 tout.txt | wc -l)
+           if [[ $nfile -gt 0 ]]; then 
+              rm -f "${{ github.event.inputs.file2compile }}.bbl"
+              listOfFiles+="${{ github.event.inputs.file2compile }}.bbl "
+           fi
+           nfile=$(ls -1 tout.txt | wc -l)
+           if [[ $nfile -gt 0 ]]; then 
+              rm -f "${{ github.event.inputs.file2compile }}.blg"
+              listOfFiles+="${{ github.event.inputs.file2compile }}.blg "
+           fi
+           nfile=$(ls -1 tout.txt | wc -l)
+           if [[ $nfile -gt 0 ]]; then 
+              rm -f "${{ github.event.inputs.file2compile }}.fdb_latexmk"
+              listOfFiles+="${{ github.event.inputs.file2compile }}.fdb_latexmk "
+           fi
+           nfile=$(ls -1 tout.txt | wc -l)
+           if [[ $nfile -gt 0 ]]; then 
+              rm -f "${{ github.event.inputs.file2compile }}.fls"
+              listOfFiles+="${{ github.event.inputs.file2compile }}.fls "
+           fi
+           nfile=$(ls -1 tout.txt | wc -l)
+           if [[ $nfile -gt 0 ]]; then 
+              rm -f "${{ github.event.inputs.file2compile }}.out"
+              listOfFiles+="${{ github.event.inputs.file2compile }}.out "
+           fi
+           nfile=$(ls -1 tout.txt | wc -l)
+           if [[ $nfile -gt 0 ]]; then 
+             rm -f "${{ github.event.inputs.file2compile }}.sync "
+             listOfFiles+="${{ github.event.inputs.file2compile }}.sync "
+           fi
+           nfile=$(ls -1 tout.txt | wc -l)
+           if [[ $nfile -gt 0 ]]; then 
+             rm -f "${{ github.event.inputs.file2compile }}.synctex.gz"
+             listOfFiles+="${{ github.event.inputs.file2compile }}.synctex.gz "
+           fi
+           nfile=$(ls -1 tout.txt | wc -l)
+           if [[ $nfile -gt 0 ]]; then 
+             rm -f "${{ github.event.inputs.file2compile }}.html"
+             listOfFiles+="${{ github.event.inputs.file2compile }}.html "
+           fi
+           nfile=$(ls -1 tout.txt | wc -l)
+           if [[ $nfile -gt 0 ]]; then 
+             rm -f "${{ github.event.inputs.file2compile }}.log"
+             listOfFiles+="${{ github.event.inputs.file2compile }}.log "
+           fi
+           nfile=$(ls -1 tout.txt | wc -l)
+           if [[ $nfile -gt 0 ]]; then 
+             rm -f "${{ github.event.inputs.file2compile }}Out.txt"
+             listOfFiles+="${{ github.event.inputs.file2compile }}Out.txt "
+           fi
+           nfile=$(ls -1 tout.txt | wc -l)
+           if [[ $nfile -gt 0 ]]; then 
+             rm -f "${{ github.event.inputs.file2compile }}_hiRes.pdf"
+             listOfFiles+="${{ github.event.inputs.file2compile }}_hiRes.pdf "
+           fi
+           nfile=$(ls -1 tout.txt | wc -l)
+           if [[ $nfile -gt 0 ]]; then 
+             rm -f "${{ github.event.inputs.file2compile }}.pdf"
+             listOfFiles+="${{ github.event.inputs.file2compile }}.pdf "
+           fi
            listOfFiles+="${{ github.event.inputs.file2compile }}START.txt"
            rm -f "${{ github.event.inputs.file2compile }}START.txt"
            echo "file-list=$listOfFiles" >> $GITHUB_OUTPUT
@@ -217,11 +253,16 @@ jobs:
       #    overwrite: true
       #  continue-on-error: true
       #  #
+      - name: test
+        run: |
+          echo '- - - - - - '
+          echo ${{ steps.fileCleanup.outputs.file-list }}
+          
       - name: post newly compressed images to repository
         run: |
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
-           git add "${{ steps.fileCleanup.outputs.file-list }}"
+           git add ${{ steps.fileCleanup.outputs.file-list }}
            git commit -m "Upload changes to folder"
            git push
         continue-on-error: true
