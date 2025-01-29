@@ -283,7 +283,7 @@ jobs:
            fi
         #
       - name: Search for uncompressed images, and compress them
-        if: env.NEEDS_COMPILATION == 'T' }}
+        #if: env.NEEDS_COMPILATION == 'T' }}
         id: compressImages
         run: |
            listOfCompressedFiles=''
@@ -344,7 +344,7 @@ jobs:
         continue-on-error: true
         #         
       - name: post newly compressed images to repository
-        if: ${{ env.NEEDS_COMPILATION == 'T' }}
+        #if: ${{ env.NEEDS_COMPILATION == 'T' }}
         run: |
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
