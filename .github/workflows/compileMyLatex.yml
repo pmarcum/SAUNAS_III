@@ -228,11 +228,11 @@ jobs:
              rm -f "${{ github.event.inputs.file2compile }}.pdf"
              listOfFiles+="${{ github.event.inputs.file2compile }}.pdf "
            fi
+           #================================================
+           # Create the start file
            listOfFiles+="${{ github.event.inputs.file2compile }}START.txt"
            rm -f "${{ github.event.inputs.file2compile }}START.txt"
            echo "file-list=$listOfFiles" >> $GITHUB_OUTPUT         
-           #================================================
-           # Create the start file
            touch "${{ github.event.inputs.file2compile }}START.txt"
            echo "$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> "${{ github.event.inputs.file2compile }}START.txt"
            link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/JOBIDPLACEHOLDER"
