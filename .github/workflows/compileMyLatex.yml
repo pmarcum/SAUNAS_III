@@ -456,6 +456,7 @@ jobs:
         run: |
            rm -f "${{ github.event.inputs.file2compile }}_hiRes.pdf"
            mv -f "${{ github.event.inputs.file2compile }}.pdf" "${{ github.event.inputs.file2compile }}_hiRes.pdf"
+           echo '459'
         continue-on-error: true
         #
       - name: clean up compilation log files after compilation
@@ -464,6 +465,7 @@ jobs:
            # clean up unneeded files from the compilation
            rm -f "${{ github.event.inputs.file2compile }}Out.txt"
            mv -f compileOut.txt "${{ github.event.inputs.file2compile }}Out.txt"
+           echo '468'
         continue-on-error: true
         #
       - name: put together list of files to be posted
@@ -476,6 +478,7 @@ jobs:
               listOfFiles+="${{ github.event.inputs.file2compile }}_hiRes.pdf"
            fi
            echo "file-list=$listOfFiles" >> $GITHUB_OUTPUT
+           echo '481'
         continue-on-error: true
         #
       - name: post newly compiled high-resolution pdf to repository
@@ -486,6 +489,7 @@ jobs:
            git add "${{ steps.filelisting.outputs.file-list }}"
            git commit -m "Upload newly created pdf and compilation output"
            git push
+           echo '492'
         continue-on-error: true
         #
         #   pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
