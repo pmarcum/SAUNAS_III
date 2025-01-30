@@ -242,7 +242,7 @@ jobs:
            echo "precomp"   >> "${{ github.event.inputs.file2compile }}START.txt"
         continue-on-error: true
         #
-      - name: post newly compressed images to repository
+      - name: post initialized folder to repository
         run: |
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
@@ -271,19 +271,20 @@ jobs:
         run: |
            nimages=$(find . -type f -name 'UNCOMPRESSED' | wc -l)
            if [[ $nimages -gt 0 ]]; then 
-              echo "NEEDS_COMPILATION=T" >> "$GITHUB_ENV"
+              echo "NEEDS_COMPRESSION=T" >> "$GITHUB_ENV"
            else
-              echo "NEEDS_COMPILATION=F" >> "$GITHUB_ENV"
+              echo "NEEDS_COMPRESSION=F" >> "$GITHUB_ENV"
            fi
         #
       - name: Install ImageMagick
+        if: ${{ env.NEEDS_COMPRESSION == 'T' }}
         uses: mfinelli/setup-imagemagick@v5
         with:
           cache: true
         continue-on-error: true
         #
       - name: Search for uncompressed images, and compress them
-        if: ${{ env.NEEDS_COMPILATION == 'T' }}
+        if: ${{ env.NEEDS_COMPRESSION == 'T' }}
         id: compressImages
         run: |
            listOfCompressedFiles=''
@@ -344,7 +345,7 @@ jobs:
         continue-on-error: true
         #         
       - name: post newly compressed images to repository
-        #if: ${{ env.NEEDS_COMPILATION == 'T' }}
+        if: ${{ env.NEEDS_COMPRESSION == 'T' }}
         run: |
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
