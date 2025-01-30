@@ -433,15 +433,22 @@ jobs:
            echo "______________________________________________________________________________"
            cat compileOut.txt
            echo "______________________________________________________________________________"
+           out_Exists=$(ls compileOut.txt)
+           pdf_Exists=$(ls "${{ github.event.inputs.file2compile }}.pdf")
+           if [[ $out_Exists != '' ]]; then
+              echo "outexists=T" >> "$GITHUB_OUTPUT"
+           else
+              echo "outexists=F" >> "$GITHUB_OUTPUT"
+           fi
+           if [[ $pdf_Exists != '' ]]; then
+              echo "pdfexists=T" >> "$GITHUB_OUTPUT"
+           else
+              echo "pdfexists=F" >> "$GITHUB_OUTPUT"
+           fi
         continue-on-error: true
         #
-      - name: test
-        run: |
-          echo '----------------'
-          echo $env.HASPDF
-          
       - name: clean up pdf files after compilation
-        #if: ${{ always() && hashFiles(${{ github.event.inputs.file2compile }}.pdf) }}
+        if: ${{ always() && steps.compilation.outputs.pdfexists == 'T' }}
         run: |
            rm -f "${{ github.event.inputs.file2compile }}_hiRes.pdf"
            mv -f "${{ github.event.inputs.file2compile }}.pdf" "${{ github.event.inputs.file2compile }}_hiRes.pdf"
