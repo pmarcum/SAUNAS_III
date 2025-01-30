@@ -433,18 +433,6 @@ jobs:
            echo "______________________________________________________________________________"
            cat compileOut.txt
            echo "______________________________________________________________________________"
-           nfile=$(find . -type f -name "${{ github.event.inputs.file2compile }}.pdf" | wc -l)
-           if [[ $nfile -gt 0 ]]; then 
-              echo "HASPDF=T" >> "$GITHUB_ENV"
-           else
-              echo "HASPDF=F" >> "$GITHUB_ENV"
-           fi           
-           nfile=$(find . -type f -name "compileOut.txt" | wc -l)
-           if [[ $nfile -gt 0 ]]; then 
-              echo "HASOUT=T" >> "$GITHUB_ENV"
-           else
-              echo "HASOUT=F" >> "$GITHUB_ENV"
-           fi
         continue-on-error: true
         #
       - name: test
@@ -453,7 +441,7 @@ jobs:
           echo $env.HASPDF
           
       - name: clean up pdf files after compilation
-        #if: ${{ env.HASPDF == "T" }}
+        #if: ${{ always() && hashFiles(${{ github.event.inputs.file2compile }}.pdf) }}
         run: |
            rm -f "${{ github.event.inputs.file2compile }}_hiRes.pdf"
            mv -f "${{ github.event.inputs.file2compile }}.pdf" "${{ github.event.inputs.file2compile }}_hiRes.pdf"
