@@ -444,18 +444,23 @@ jobs:
               echo "HASOUT=T" >> "$GITHUB_ENV"
            else
               echo "HASOUT=F" >> "$GITHUB_ENV"
-           fi           
+           fi
         continue-on-error: true
-        #     
+        #
+      - name: test
+        run: |
+          echo '----------------'
+          echo $env.HASPDF
+          
       - name: clean up pdf files after compilation
-        if: ${{ always() && env.HASPDF == "T" }}
+        if: ${{ env.HASPDF == "T" }}
         run: |
            rm -f "${{ github.event.inputs.file2compile }}_hiRes.pdf"
            mv -f "${{ github.event.inputs.file2compile }}.pdf" "${{ github.event.inputs.file2compile }}_hiRes.pdf"
         continue-on-error: true
         #
       - name: clean up compilation log files after compilation
-        #if: ${{ always() && hashFiles("compileOut.txt") }}
+        #if: ${{ always() && hashFiles(${{ github.event.inputs.file2compile }}.pdf) }}
         run: |
            # clean up unneeded files from the compilation
            rm -f "${{ github.event.inputs.file2compile }}Out.txt"
