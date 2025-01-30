@@ -461,19 +461,19 @@ jobs:
   #         echo "file-list=$listOfFiles" >> $GITHUB_OUTPUT
   #      continue-on-error: true
   #      #
-      - name: post newly compiled high-resolution pdf to repository
-        if: ${{ always() && hashFiles(${{ github.event.inputs.file2compile }}Out.txt) }}
-        run: |
-           git config --global user.email "email@gmail.com"
-           git config --global user.name "github actions"
-           git add "${{ steps.filelisting.outputs.file-list }}"
-           git commit -m "Upload newly created pdf and compilation output"
-           git push
-        continue-on-error: true
-        #
-        #   pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
-        #   echo "PDFLINK=$pdflink" >>                                                   $GITHUB_OUTPUT
-        #   echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >>                $GITHUB_OUTPUT
+  #    - name: post newly compiled high-resolution pdf to repository
+  #      if: ${{ always() && hashFiles(${{ github.event.inputs.file2compile }}Out.txt) }}
+  #      run: |
+  #         git config --global user.email "email@gmail.com"
+  #         git config --global user.name "github actions"
+  #         git add "${{ steps.filelisting.outputs.file-list }}"
+  #         git commit -m "Upload newly created pdf and compilation output"
+  #         git push
+  #      continue-on-error: true
+  #      #
+  #      #   pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
+  #      #   echo "PDFLINK=$pdflink" >>                                                   $GITHUB_OUTPUT
+  #      #   echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >>                $GITHUB_OUTPUT
 
   #_______________________________________________________________________
   #|                                                                      |
