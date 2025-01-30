@@ -505,7 +505,7 @@ jobs:
         uses: actions/checkout@v4
         #
       - name: compress PDF
-        if: ${{ always() && {{ needs.compilation.inputs.PDFEXISTS }} == 'T' }}
+        if: ${{ always() && {{ needs.compilation.outputs.PDFEXISTS }} == 'T' }}
         uses: jy95/ghostscript-action@v1
         with:
            file:   ${{ github.event.inputs.file2compile }}_hiRes.pdf
@@ -514,7 +514,7 @@ jobs:
         continue-on-error: true
         #
       - name: post reduced resolution PDF on repository
-        if: ${{ always() && {{ needs.compilation.inputs.PDFEXISTS }} == 'T' }}
+        if: ${{ always() && {{ needs.compilation.outputs.PDFEXISTS }} == 'T' }}
         run: |
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
