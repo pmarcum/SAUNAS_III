@@ -449,7 +449,7 @@ jobs:
         #
       - name: clean up pdf files after compilation
         #if: ${{ always() && steps.compilation.outputs.pdfexists == 'T' }}
-        if: ${{ always() && ${{ env.pdfexists }} == 'T' }}
+        if: ${{ always() && "${{ env.pdfexists }}" == 'T' }}
         run: |
            rm -f "${{ github.event.inputs.file2compile }}_hiRes.pdf"
            mv -f "${{ github.event.inputs.file2compile }}.pdf" "${{ github.event.inputs.file2compile }}_hiRes.pdf"
