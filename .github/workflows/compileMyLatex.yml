@@ -101,7 +101,7 @@ jobs:
         continue-on-error: true
         #
       - name: Make pruned bibfile available to other jobs
-        if: ${{ steps.pruneBib.outputs.madePruned == 'T' }}
+        if: ${{ always() && steps.pruneBib.outputs.madePruned == 'T' }}
         uses: actions/upload-artifact@v4
         with:
           name: pruned-bibfile-artifact
@@ -277,14 +277,14 @@ jobs:
            fi
         #
       - name: Install ImageMagick
-        if: ${{ env.NEEDS_COMPRESSION == 'T' }}
+        if: ${{ always() && env.NEEDS_COMPRESSION == 'T' }}
         uses: mfinelli/setup-imagemagick@v5
         with:
           cache: true
         continue-on-error: true
         #
       - name: Search for uncompressed images, and compress them
-        if: ${{ env.NEEDS_COMPRESSION == 'T' }}
+        if: ${{ always() && env.NEEDS_COMPRESSION == 'T' }}
         id: compressImages
         run: |
            listOfCompressedFiles=''
@@ -345,7 +345,7 @@ jobs:
         continue-on-error: true
         #         
       - name: post newly compressed images to repository
-        if: ${{ env.NEEDS_COMPRESSION == 'T' }}
+        if: ${{ always() && env.NEEDS_COMPRESSION == 'T' }}
         run: |
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
@@ -436,7 +436,7 @@ jobs:
         continue-on-error: true
         #
       - name: clean up pdf files after compilation
-        if: ${{ always() && hashFiles("${{ github.event.inputs.file2compile }}.pdf") }}
+        if: ${{ always() && hashFiles({{ github.event.inputs.file2compile }}.pdf) }}
         run: |
            rm -f "${{ github.event.inputs.file2compile }}_hiRes.pdf"
            mv -f "${{ github.event.inputs.file2compile }}.pdf" "${{ github.event.inputs.file2compile }}_hiRes.pdf"
