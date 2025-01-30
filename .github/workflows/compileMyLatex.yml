@@ -436,27 +436,26 @@ jobs:
            out_Exists=$(ls compileOut.txt)
            pdf_Exists=$(ls "${{ github.event.inputs.file2compile }}.pdf")
            if [[ $out_Exists != '' ]]; then
-              echo "outexists=T" >> $GITHUB_ENV
+              echo "OUTEXISTS=T" >> $GITHUB_ENV
            else
-              echo "outexists=F" >> $GITHUB_ENV
+              echo "OUTEXISTS=F" >> $GITHUB_ENV
            fi
            if [[ $pdf_Exists != '' ]]; then
-              echo "pdfexists=T" >> $GITHUB_ENV
+              echo "PDFEXISTS=T" >> $GITHUB_ENV
            else
-              echo "pdfexists=F" >> $GITHUB_ENV
+              echo "PDFEXISTS=F" >> $GITHUB_ENV
            fi
         continue-on-error: true
         #
       - name: clean up pdf files after compilation
-        #if: ${{ always() && steps.compilation.outputs.pdfexists == 'T' }}
-        if: ${{ always() && '${{ env.pdfexists }}' == 'T' }}
+        if: ${{ always() && '${{ env.PDFEXISTS }}' == 'T' }}
         run: |
            rm -f "${{ github.event.inputs.file2compile }}_hiRes.pdf"
            mv -f "${{ github.event.inputs.file2compile }}.pdf" "${{ github.event.inputs.file2compile }}_hiRes.pdf"
         continue-on-error: true
         #
       - name: clean up compilation log files after compilation
-        if: ${{ always() && steps.compilation.outputs.outexists == 'T' }}
+        if: ${{ always() && '${{ env.OUTEXISTS }}' == 'T' }}
         run: |
            # clean up unneeded files from the compilation
            rm -f "${{ github.event.inputs.file2compile }}Out.txt"
@@ -464,7 +463,7 @@ jobs:
         continue-on-error: true
         #
       - name: put together list of files to be posted
-        if: ${{ always() && steps.compilation.outputs.outexists == 'T' }}
+        if: ${{ always() && '${{ env.OUTEXISTS }}' == 'T' }}
         id: filelisting
         run: |
            listOfFiles=""
@@ -476,7 +475,7 @@ jobs:
         continue-on-error: true
         #
       - name: post newly compiled high-resolution pdf to repository
-        if: ${{ always() && steps.compilation.outputs.outexists == 'T' }}
+        if: ${{ always() && '${{ env.OUTEXISTS }}' == 'T' }}
         run: |
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
@@ -494,7 +493,7 @@ jobs:
   #|     COMPRESS THE PDF FILE INTO LOWER RESOLUTION FILE FOR DISPLAY     |
   #|______________________________________________________________________|
   compressPdf:
-    needs: [build_latex]
+    needs: [compilation]
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
@@ -506,7 +505,7 @@ jobs:
         uses: actions/checkout@v4
         #
       - name: compress PDF
-        if: ${{ always() && hashFiles({{ github.event.inputs.file2compile }}_hiRes.pdf) }}
+        if: ${{ always() && {{ needs.compilation.inputs.PDFEXISTS }} == 'T' }}
         uses: jy95/ghostscript-action@v1
         with:
            file:   ${{ github.event.inputs.file2compile }}_hiRes.pdf
@@ -515,7 +514,7 @@ jobs:
         continue-on-error: true
         #
       - name: post reduced resolution PDF on repository
-        if: ${{ always() && hashFiles(${{ github.event.inputs.file2compile }}_hiRes.pdf) }}
+        if: ${{ always() && {{ needs.compilation.inputs.PDFEXISTS }} == 'T' }}
         run: |
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
