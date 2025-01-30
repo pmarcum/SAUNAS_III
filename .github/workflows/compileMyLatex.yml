@@ -439,6 +439,10 @@ jobs:
            echo "______________________________________________________________________________"
            out_Exists=$(ls compileOut.txt)
            pdf_Exists=$(ls "${{ github.event.inputs.file2compile }}.pdf")
+           echo '442'
+           echo $out_Exists
+           echo $pdf_Exists
+           echo '---------------'
            if [[ $out_Exists != '' ]]; then
               echo "LOGEXISTS=T" >> $GITHUB_OUTPUT
            else
