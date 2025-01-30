@@ -493,7 +493,7 @@ jobs:
   #|     COMPRESS THE PDF FILE INTO LOWER RESOLUTION FILE FOR DISPLAY     |
   #|______________________________________________________________________|
   compressPdf:
-    needs: [compilation]
+    needs: [build_latex]
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
