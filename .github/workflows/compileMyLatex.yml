@@ -225,7 +225,7 @@ jobs:
            # post newly compressed images to repository
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
-           git add "$listOfCompressedFiles"
+           git add $listOfCompressedFiles
            git commit -m "Upload newly compressed image files"
            git push
            echo '350'
