@@ -498,7 +498,7 @@ jobs:
   #|______________________________________________________________________|
   compressPdf:
     needs: [build_latex]
-    if: ${{ always() && {{ needs.build_latex.outputs.pdfexists }} == 'T' }}
+    #if: ${{ always() && {{ needs.build_latex.outputs.pdfexists }} == 'T' }}
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
