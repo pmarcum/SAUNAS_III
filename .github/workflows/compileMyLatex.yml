@@ -505,10 +505,10 @@ jobs:
       contents: write
       #
     steps:
-      - name: Clone repo
-        if: ${{ always() && {{ needs.build_latex.outputs.pdfexists }} == 'T' }}
-        uses: actions/checkout@v4
-        #
+      #- name: Clone repo
+      #  if: ${{ always() && {{ needs.build_latex.outputs.pdfexists }} == 'T' }}
+      #  uses: actions/checkout@v4
+      #  #
       #- name: compress PDF
       #  if: ${{ always() && {{ needs.build_latex.outputs.pdfexists }} == 'T' }}
       #  uses: jy95/ghostscript-action@v1
