@@ -362,10 +362,6 @@ jobs:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
       contents: write
       #
-    outputs:
-      pdfexists: ${{ steps.compilation.outputs.PDFEXISTS }}
-      logexists: ${{ steps.compilation.outputs.LOGEXISTS }}
-      #
     steps:
       - name: Clone repo
         uses: actions/checkout@v4
@@ -434,10 +430,8 @@ jobs:
            echo "______________________________________________________________________________"
            cat compileOut.txt
            echo "______________________________________________________________________________"
-        continue-on-error: true
-        #
-      - name: clean up pdf files after compilation
-        run: |
+           #
+           # clean up pdf files after compilation
            # move pdf into final filename
            rm -f "${{ github.event.inputs.file2compile }}_hiRes.pdf"
            mv -f "${{ github.event.inputs.file2compile }}.pdf" "${{ github.event.inputs.file2compile }}_hiRes.pdf"
