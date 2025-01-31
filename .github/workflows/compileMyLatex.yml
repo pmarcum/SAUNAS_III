@@ -249,10 +249,6 @@ jobs:
            git add "${{ steps.fileCleanup.outputs.file-list }}"
            git commit -m "Upload changes to folder"
            git push
-
-           echo '253'
-           echo "${{ steps.fileCleanup.outputs.file-list }}"
-           
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -349,17 +345,12 @@ jobs:
         continue-on-error: true
         #         
       - name: post newly compressed images to repository
-        if: ${{ always() && env.NEEDS_COMPRESSION == 'T' }}
         run: |
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
            git add "${{ steps.compressImages.outputs.listOfImages }}"
            git commit -m "Upload newly compressed image files"
            git push
-
-           echo '359'
-           echo "${{ steps.compressImages.outputs.listOfImages }}"
-           
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -445,33 +436,15 @@ jobs:
            echo "______________________________________________________________________________"
            cat compileOut.txt
            echo "______________________________________________________________________________"
-           out_Exists=$(ls compileOut.txt)
-           pdf_Exists=$(ls "${{ github.event.inputs.file2compile }}.pdf")
-           if [[ $out_Exists != '' ]]; then
-              echo "LOGEXISTS=T" >> $GITHUB_OUTPUT
-              echo "doesLogExist=T" >> $GITHUB_OUTPUT
-           else
-              echo "LOGEXISTS=F" >> $GITHUB_OUTPUT
-              echo "doesLogExist=F" >> $GITHUB_OUTPUT
-           fi
-           if [[ $pdf_Exists != '' ]]; then
-              echo "PDFEXISTS=T" >> $GITHUB_OUTPUT
-              echo "doesPdfExist=T" >> $GITHUB_OUTPUT
-           else
-              echo "PDFEXISTS=F" >> $GITHUB_OUTPUT
-              echo "doesPdfExist=F" >> $GITHUB_OUTPUT
-           fi
         continue-on-error: true
         #
       - name: clean up pdf files after compilation
-        if: ${{ always() && '${{ steps.compilation.outputs.doesPdfExist }}' == 'T' }}
         run: |
            rm -f "${{ github.event.inputs.file2compile }}_hiRes.pdf"
            mv -f "${{ github.event.inputs.file2compile }}.pdf" "${{ github.event.inputs.file2compile }}_hiRes.pdf"
         continue-on-error: true
         #
       - name: clean up compilation log files after compilation
-        if: ${{ always() && '${{ steps.compilation.outputs.doesLogExist }}' == 'T' }}
         run: |
            # clean up unneeded files from the compilation
            rm -f "${{ github.event.inputs.file2compile }}Out.txt"
@@ -479,7 +452,6 @@ jobs:
         continue-on-error: true
         #
       - name: put together list of files to be posted
-        if: ${{ always() && '${{ steps.compilation.outputs.doesLogExist }}' == 'T' }}
         id: filelisting
         run: |
            listOfFiles=""
@@ -488,10 +460,6 @@ jobs:
               listOfFiles+="${{ github.event.inputs.file2compile }}_hiRes.pdf"
            fi
            echo "file-list=$listOfFiles" >> $GITHUB_OUTPUT
-
-           echo '484'
-           echo $listOfFiles
-           
         continue-on-error: true
         #
       - name: post newly compiled high-resolution pdf to repository
@@ -502,9 +470,6 @@ jobs:
            git add "${{ steps.filelisting.outputs.file-list }}"
            git commit -m "Upload newly created pdf and compilation output"
            git push
-
-           echo '504'
-           
         continue-on-error: true
         #
         #   pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
@@ -535,10 +500,6 @@ jobs:
            arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
         continue-on-error: true
         #
-      - name: test
-        run: |
-          ls -la *.pdf
-          
       - name: post reduced resolution PDF on repository
         run: |
            git config --global user.email "email@gmail.com"
@@ -546,9 +507,6 @@ jobs:
            git add "${{ github.event.inputs.file2compile }}.pdf"
            git commit -m "post low resolution pdf"
            git push
-
-           echo '548'
-           
         continue-on-error: true
 
   #_______________________________________________________________________
