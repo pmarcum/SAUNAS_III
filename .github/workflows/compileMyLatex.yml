@@ -506,11 +506,11 @@ jobs:
       #
     steps:
       - name: Clone repo
-        if: ${{ always() && '${{ needs.build_latex.outputs.pdfexists }}' == 'T' }}
+        if: ${{ always() && '${{ steps.compilation.outputs.pdfexists }}' == 'T' }}
         uses: actions/checkout@v4
         #
       - name: compress PDF
-        if: ${{ always() && '${{ needs.build_latex.outputs.pdfexists }}' == 'T' }}
+        if: ${{ always() && '${{ steps.compilation.outputs.pdfexists }}' == 'T' }}
         uses: jy95/ghostscript-action@v1
         with:
            file:   ${{ github.event.inputs.file2compile }}_hiRes.pdf
