@@ -136,7 +136,8 @@ jobs:
            echo $htmllink   >> "${{ github.event.inputs.file2compile }}START.txt"
            echo "precomp"   >> "${{ github.event.inputs.file2compile }}START.txt"
            #
-           listOfCompressedFiles="${{ github.event.inputs.file2compile }}START.txt "
+           listOfCompressedFiles=''
+           listOfCompressedFiles+="${{ github.event.inputs.file2compile }}START.txt "
            listOfCompressedFiles+="${{ github.event.inputs.file2compile }}Out.txt "
            listOfCompressedFiles+="${{ github.event.inputs.file2compile }}.pdf "
            listOfCompressedFiles+="${{ github.event.inputs.file2compile }}_hiRes.pdf "
@@ -234,7 +235,6 @@ jobs:
            git add $listOfCompressedFiles
            git commit -m "Upload newly compressed image files"
            git push
-           echo '350'
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -259,7 +259,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           #
         run: |
-           echo '379'
            jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
            job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
            # replace the job id placeholder in the START file with the job id
