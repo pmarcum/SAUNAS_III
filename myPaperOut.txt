@@ -2059,9 +2059,9 @@ Collected error summary (may duplicate other messages):
 'pdflatex': time = 1.06
 'bibtex myPaper': time = 0.07
 'pdflatex': time = 1.06
-'bibtex myPaper': time = 0.07
-'pdflatex': time = 1.05
-Processing time = 4.19, of which invoked processes = 3.31, other = 0.88.
-Elapsed clock time = 4.19.
+'bibtex myPaper': time = 0.08
+'pdflatex': time = 1.06
+Processing time = 4.26, of which invoked processes = 3.33, other = 0.93.
+Elapsed clock time = 4.27.
 Number of rules run = 5
 
