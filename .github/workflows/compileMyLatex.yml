@@ -358,6 +358,7 @@ jobs:
            git push
 
            echo '359'
+           echo "${{ steps.compressImages.outputs.listOfImages }}"
            
         continue-on-error: true
 
