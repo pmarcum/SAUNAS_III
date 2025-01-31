@@ -516,6 +516,10 @@ jobs:
            arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
         continue-on-error: true
         #
+      - name: test
+        run: |
+          ls -la *.pdf
+          
       - name: post reduced resolution PDF on repository
         run: |
            git config --global user.email "email@gmail.com"
