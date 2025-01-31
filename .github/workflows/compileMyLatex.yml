@@ -251,6 +251,7 @@ jobs:
            git push
 
            echo '253'
+           echo "${{ steps.fileCleanup.outputs.file-list }}"
            
         continue-on-error: true
 
