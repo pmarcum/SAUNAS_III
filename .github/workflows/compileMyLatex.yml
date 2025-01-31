@@ -506,11 +506,9 @@ jobs:
       #
     steps:
       - name: Clone repo
-        if: ${{ always() && '${{ steps.compilation.outputs.pdfexists }}' == 'T' }}
         uses: actions/checkout@v4
         #
       - name: compress PDF
-        if: ${{ always() && '${{ steps.compilation.outputs.pdfexists }}' == 'T' }}
         uses: jy95/ghostscript-action@v1
         with:
            file:   ${{ github.event.inputs.file2compile }}_hiRes.pdf
@@ -518,24 +516,8 @@ jobs:
            arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
         continue-on-error: true
         #
-      - name: did a pdf file get compressed
-        if: ${{ always() && '${{ steps.compilation.outputs.pdfexists }}' == 'T' }}
-        id: compression
-        run: |
-          echo '525'
-          
-          nfile=$(ls -1 "${{ github.event.inputs.file2compile }}.pdf" | wc -l)
-          if [[ $nfile -gt 0 ]]; then
-            echo "compressed=T" >> $GITHUB_OUTPUT
-          else
-            echo "compressed=F" >> $GITHUB_OUTPUT
-          fi
-          #
       - name: post reduced resolution PDF on repository
-        if: ${{ always() && '${{ steps.compression.outputs.compressed }}' == 'T' }}
         run: |
-           echo '537'
-           
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
            git add ${{ github.event.inputs.file2compile }}.pdf
