@@ -2058,10 +2058,10 @@ Collected error summary (may duplicate other messages):
       Refer to 'myPaper.log' and/or above output for details
 'pdflatex': time = 1.06
 'bibtex myPaper': time = 0.07
-'pdflatex': time = 1.05
-'bibtex myPaper': time = 0.07
 'pdflatex': time = 1.06
-Processing time = 4.22, of which invoked processes = 3.31, other = 0.91.
-Elapsed clock time = 4.23.
+'bibtex myPaper': time = 0.07
+'pdflatex': time = 1.05
+Processing time = 4.19, of which invoked processes = 3.31, other = 0.88.
+Elapsed clock time = 4.19.
 Number of rules run = 5
 
