@@ -455,6 +455,11 @@ jobs:
            fi
         continue-on-error: true
         #
+      - name: test
+        run: |
+          echo '477'
+          echo '${{ steps.compilation.outputs.logexists }}'
+        
       - name: clean up pdf files after compilation
         if: ${{ always() && '${{ steps.compilation.outputs.PDFEXISTS }}' == 'T' }}
         run: |
