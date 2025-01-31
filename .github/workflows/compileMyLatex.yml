@@ -264,26 +264,13 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         #
-      - name: Determine if there are images that need compression
-        id: numimages
-        run: |
-           nimages=$(find . -type f -name 'UNCOMPRESSED' | wc -l)
-           if [[ $nimages -gt 0 ]]; then 
-              echo "NEEDS_COMPRESSION=T" >> "$GITHUB_ENV"
-           else
-              echo "NEEDS_COMPRESSION=F" >> "$GITHUB_ENV"
-           fi
-        #
       - name: Install ImageMagick
-        if: ${{ always() && env.NEEDS_COMPRESSION == 'T' }}
         uses: mfinelli/setup-imagemagick@v5
         with:
           cache: true
         continue-on-error: true
         #
       - name: Search for uncompressed images, and compress them
-        if: ${{ always() && env.NEEDS_COMPRESSION == 'T' }}
-        id: compressImages
         run: |
            echo '288'
            listOfCompressedFiles=''
