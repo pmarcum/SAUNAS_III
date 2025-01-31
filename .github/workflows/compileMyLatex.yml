@@ -519,20 +519,20 @@ jobs:
         continue-on-error: true
         #
       - name: did a pdf file get compressed
-        if: ${{ always() && '${{ needs.build_latex.outputs.pdfexists }}' == 'T' }}
+        if: ${{ always() && '${{ steps.compilation.outputs.pdfexists }}' == 'T' }}
         id: compression
         run: |
           echo '525'
           
           nfile=$(ls -1 "${{ github.event.inputs.file2compile }}.pdf" | wc -l)
           if [[ $nfile -gt 0 ]]; then
-            echo "COMPRESSED=T" >> $GITHUB_ENV
+            echo "compressed=T" >> $GITHUB_OUTPUT
           else
-            echo "COMPRESSED=F" >> $GITHUB_ENV
+            echo "compressed=F" >> $GITHUB_OUTPUT
           fi
           #
       - name: post reduced resolution PDF on repository
-        if: ${{ always() && env.COMPRESSED == 'T' }}
+        if: ${{ always() && '${{ steps.compression.outputs.compressed }}' == 'T' }}
         run: |
            echo '537'
            
