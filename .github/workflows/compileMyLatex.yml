@@ -127,9 +127,7 @@ jobs:
       - name: Post note alerting start time
         run: |
            # Create the start file
-           listOfFiles+="${{ github.event.inputs.file2compile }}START.txt"
            rm -f "${{ github.event.inputs.file2compile }}START.txt"
-           echo "file-list=$listOfFiles" >> $GITHUB_OUTPUT         
            touch "${{ github.event.inputs.file2compile }}START.txt"
            echo "$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> "${{ github.event.inputs.file2compile }}START.txt"
            link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/JOBIDPLACEHOLDER"
@@ -141,7 +139,7 @@ jobs:
            # post initialized folder to repository
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
-           git add *START.txt *Out.txt ${{ github.event.inputs.file2compile }}*.pdf ${{ github.event.inputs.file2compile }}*.html 
+           git add ${{ github.event.inputs.file2compile }}START.txt ${{ github.event.inputs.file2compile }}Out.txt ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}_hiRes.pdf ${{ github.event.inputs.file2compile }}.html 
            git commit -m "Upload changes to folder"
            git push
         continue-on-error: true
