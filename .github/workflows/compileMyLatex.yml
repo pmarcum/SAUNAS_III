@@ -498,6 +498,7 @@ jobs:
   #|______________________________________________________________________|
   compressPdf:
     needs: [build_latex]
+    if: ${{ always() && '${{ needs.build_latex.outputs.pdfexists }}' == 'T' }}
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
@@ -506,11 +507,11 @@ jobs:
       #
     steps:
       - name: Clone repo
-        if: ${{ always() && '${{ needs.build_latex.outputs.pdfexists }}' == 'T' }}
+        #if: ${{ always() && '${{ needs.build_latex.outputs.pdfexists }}' == 'T' }}
         uses: actions/checkout@v4
         #
       - name: compress PDF
-        if: ${{ always() && '${{ needs.build_latex.outputs.pdfexists }}' == 'T' }}
+        #if: ${{ always() && '${{ needs.build_latex.outputs.pdfexists }}' == 'T' }}
         uses: jy95/ghostscript-action@v1
         with:
            file:   ${{ github.event.inputs.file2compile }}_hiRes.pdf
@@ -519,7 +520,7 @@ jobs:
         continue-on-error: true
         #
       - name: post reduced resolution PDF on repository
-        if: ${{ always() && '${{ needs.build_latex.outputs.pdfexists }}' == 'T' }}
+        #if: ${{ always() && '${{ needs.build_latex.outputs.pdfexists }}' == 'T' }}
         run: |
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
