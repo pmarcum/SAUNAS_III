@@ -496,20 +496,24 @@ jobs:
   #|                                                                      |
   #|     COMPRESS THE PDF FILE INTO LOWER RESOLUTION FILE FOR DISPLAY     |
   #|______________________________________________________________________|
-  #compressPdf:
-  #  needs: [build_latex]
-  #  if: ${{ always() && {{ needs.build_latex.outputs.pdfexists }} == 'T' }}
-  #  runs-on: ubuntu-latest
-  #  continue-on-error: true
-  #  permissions:
-  #    # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
-  #    contents: write
-  #    #
-  #  steps:
-  #    - name: Clone repo
-  #      #if: ${{ always() && {{ needs.build_latex.outputs.pdfexists }} == 'T' }}
-  #      uses: actions/checkout@v4
-  #      #
+  compressPdf:
+    needs: [build_latex]
+    if: ${{ always() && {{ needs.build_latex.outputs.pdfexists }} == 'T' }}
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+      #
+    steps:
+      - name: Clone repo
+        #if: ${{ always() && {{ needs.build_latex.outputs.pdfexists }} == 'T' }}
+        uses: actions/checkout@v4
+        #
+      - name: test
+        run: |
+          echo '515'
+          
   #    - name: compress PDF
   #      #if: ${{ always() && {{ needs.build_latex.outputs.pdfexists }} == 'T' }}
   #      uses: jy95/ghostscript-action@v1
