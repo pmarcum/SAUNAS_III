@@ -125,110 +125,7 @@ jobs:
         uses: actions/checkout@v4
         #
       - name: Post note alerting start time
-        id: fileCleanup
         run: |
-           listOfFiles=''
-           nfile=$(ls -1 compileOut.txt | wc -l)
-           if [[ $nfile -gt 0 ]]; then 
-              listOfFiles+="compileOut.txt "
-              rm -f compileOut.txt
-           fi
-           nfile=$(ls -1 errout.txt | wc -l)
-           if [[ $nfile -gt 0 ]]; then
-              listOfFiles+="errout.txt "
-              rm -f errout.txt
-           fi
-           nfile=$(ls -1 fin.txt | wc -l)
-           if [[ $nfile -gt 0 ]]; then 
-              rm -f fin.txt
-              listOfFiles+="fin.txt "
-           fi
-           nfile=$(ls -1 finHtml.txt | wc -l)
-           if [[ $nfile -gt 0 ]]; then 
-              rm -f finHtml.txt
-              listOfFiles+="finHtml.txt "
-           fi
-           nfile=$(ls -1 html.txt | wc -l)
-           if [[ $nfile -gt 0 ]]; then 
-              listOfFiles+="html.txt "
-              rm -f html.txt
-           fi
-           nfile=$(ls -1 tmp.txt | wc -l)
-           if [[ $nfile -gt 0 ]]; then 
-              rm -f tmp.txt
-              listOfFiles+="tmp.txt "
-           fi
-           nfile=$(ls -1 tout.txt | wc -l)
-           if [[ $nfile -gt 0 ]]; then 
-              rm -f tout.txt
-              listOfFiles+="tout.txt "
-           fi
-           nfile=$(ls -1 tout.txt | wc -l)
-           if [[ $nfile -gt 0 ]]; then 
-              rm -f "${{ github.event.inputs.file2compile }}.aux"
-              listOfFiles+="${{ github.event.inputs.file2compile }}.aux "
-           fi
-           nfile=$(ls -1 tout.txt | wc -l)
-           if [[ $nfile -gt 0 ]]; then 
-              rm -f "${{ github.event.inputs.file2compile }}.bbl"
-              listOfFiles+="${{ github.event.inputs.file2compile }}.bbl "
-           fi
-           nfile=$(ls -1 tout.txt | wc -l)
-           if [[ $nfile -gt 0 ]]; then 
-              rm -f "${{ github.event.inputs.file2compile }}.blg"
-              listOfFiles+="${{ github.event.inputs.file2compile }}.blg "
-           fi
-           nfile=$(ls -1 tout.txt | wc -l)
-           if [[ $nfile -gt 0 ]]; then 
-              rm -f "${{ github.event.inputs.file2compile }}.fdb_latexmk"
-              listOfFiles+="${{ github.event.inputs.file2compile }}.fdb_latexmk "
-           fi
-           nfile=$(ls -1 tout.txt | wc -l)
-           if [[ $nfile -gt 0 ]]; then 
-              rm -f "${{ github.event.inputs.file2compile }}.fls"
-              listOfFiles+="${{ github.event.inputs.file2compile }}.fls "
-           fi
-           nfile=$(ls -1 tout.txt | wc -l)
-           if [[ $nfile -gt 0 ]]; then 
-              rm -f "${{ github.event.inputs.file2compile }}.out"
-              listOfFiles+="${{ github.event.inputs.file2compile }}.out "
-           fi
-           nfile=$(ls -1 tout.txt | wc -l)
-           if [[ $nfile -gt 0 ]]; then 
-             rm -f "${{ github.event.inputs.file2compile }}.sync "
-             listOfFiles+="${{ github.event.inputs.file2compile }}.sync "
-           fi
-           nfile=$(ls -1 tout.txt | wc -l)
-           if [[ $nfile -gt 0 ]]; then 
-             rm -f "${{ github.event.inputs.file2compile }}.synctex.gz"
-             listOfFiles+="${{ github.event.inputs.file2compile }}.synctex.gz "
-           fi
-           nfile=$(ls -1 tout.txt | wc -l)
-           if [[ $nfile -gt 0 ]]; then 
-             rm -f "${{ github.event.inputs.file2compile }}.html"
-             listOfFiles+="${{ github.event.inputs.file2compile }}.html "
-           fi
-           nfile=$(ls -1 tout.txt | wc -l)
-           if [[ $nfile -gt 0 ]]; then 
-             rm -f "${{ github.event.inputs.file2compile }}.log"
-             listOfFiles+="${{ github.event.inputs.file2compile }}.log "
-           fi
-           nfile=$(ls -1 tout.txt | wc -l)
-           if [[ $nfile -gt 0 ]]; then 
-             rm -f "${{ github.event.inputs.file2compile }}Out.txt"
-             listOfFiles+="${{ github.event.inputs.file2compile }}Out.txt "
-           fi
-           nfile=$(ls -1 tout.txt | wc -l)
-           if [[ $nfile -gt 0 ]]; then 
-             rm -f "${{ github.event.inputs.file2compile }}_hiRes.pdf"
-             listOfFiles+="${{ github.event.inputs.file2compile }}_hiRes.pdf "
-           fi
-           nfile=$(ls -1 tout.txt | wc -l)
-           if [[ $nfile -gt 0 ]]; then 
-             rm -f "${{ github.event.inputs.file2compile }}.pdf"
-             listOfFiles+="${{ github.event.inputs.file2compile }}.pdf "
-           fi
-           #================================================
            # Create the start file
            listOfFiles+="${{ github.event.inputs.file2compile }}START.txt"
            rm -f "${{ github.event.inputs.file2compile }}START.txt"
@@ -244,7 +141,7 @@ jobs:
            # post initialized folder to repository
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
-           git add "$listOfFiles"
+           git add *START.txt *Out.txt ${{ github.event.inputs.file2compile }}*.pdf ${{ github.event.inputs.file2compile }}*.html 
            git commit -m "Upload changes to folder"
            git push
         continue-on-error: true
@@ -272,7 +169,6 @@ jobs:
         #
       - name: Search for uncompressed images, and compress them
         run: |
-           echo '288'
            listOfCompressedFiles=''
            bigfile=500000
            minDpi=150  # optimal dpi for pdf files
@@ -426,19 +322,10 @@ jobs:
            rm -f "${{ github.event.inputs.file2compile }}Out.txt"
            mv -f compileOut.txt "${{ github.event.inputs.file2compile }}Out.txt"
            #
-           # put together list of files to be posted
-           listOfFiles=""
-           listOfFiles+="${{ github.event.inputs.file2compile }}Out.txt "
-           if [[ hashFiles(${{ github.event.inputs.file2compile }}_hiRes.pdf) ]]; then
-              listOfFiles+="${{ github.event.inputs.file2compile }}_hiRes.pdf"
-           fi
-           #
            # post newly compiled high-resolution pdf to repository
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
-           git add |
-             "${{ github.event.inputs.file2compile }}Out.txt"
-             "${{ github.event.inputs.file2compile }}_hiRes.pdf"
+           git add "${{ github.event.inputs.file2compile }}Out.txt" "${{ github.event.inputs.file2compile }}_hiRes.pdf"
            git commit -m "Upload newly created pdf and compilation output"
            git push
         continue-on-error: true
