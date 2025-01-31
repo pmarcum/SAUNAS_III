@@ -139,12 +139,7 @@ jobs:
            # post initialized folder to repository
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
-           git add |
-             '${{ github.event.inputs.file2compile }}START.txt'
-             '${{ github.event.inputs.file2compile }}Out.txt' 
-             '${{ github.event.inputs.file2compile }}.pdf' 
-             '${{ github.event.inputs.file2compile }}_hiRes.pdf' 
-             '${{ github.event.inputs.file2compile }}.html'
+           git add "${{ github.event.inputs.file2compile }}START.txt ${{ github.event.inputs.file2compile }}Out.txt ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}_hiRes.pdf ${{ github.event.inputs.file2compile }}.html"
            git commit -m "Upload changes to folder"
            git push
         continue-on-error: true
