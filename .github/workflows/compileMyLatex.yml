@@ -509,15 +509,15 @@ jobs:
         if: ${{ always() && {{ needs.build_latex.outputs.pdfexists }} == 'T' }}
         uses: actions/checkout@v4
         #
-      - name: compress PDF
-        if: ${{ always() && {{ needs.build_latex.outputs.pdfexists }} == 'T' }}
-        uses: jy95/ghostscript-action@v1
-        with:
-           file:   ${{ github.event.inputs.file2compile }}_hiRes.pdf
-           output: ${{ github.event.inputs.file2compile }}.pdf
-           arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
-        continue-on-error: true
-        #
+      #- name: compress PDF
+      #  if: ${{ always() && {{ needs.build_latex.outputs.pdfexists }} == 'T' }}
+      #  uses: jy95/ghostscript-action@v1
+      #  with:
+      #     file:   ${{ github.event.inputs.file2compile }}_hiRes.pdf
+      #     output: ${{ github.event.inputs.file2compile }}.pdf
+      #     arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
+      #  continue-on-error: true
+      #  #
       #- name: post reduced resolution PDF on repository
       #  if: ${{ always() && {{ needs.build_latex.outputs.pdfexists }} == 'T' }}
       #  run: |
