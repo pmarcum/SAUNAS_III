@@ -249,6 +249,9 @@ jobs:
            git add "${{ steps.fileCleanup.outputs.file-list }}"
            git commit -m "Upload changes to folder"
            git push
+
+           echo '253'
+           
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -352,6 +355,9 @@ jobs:
            git add "${{ steps.compressImages.outputs.listOfImages }}"
            git commit -m "Upload newly compressed image files"
            git push
+
+           echo '359'
+           
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -494,6 +500,9 @@ jobs:
            git add "${{ steps.filelisting.outputs.file-list }}"
            git commit -m "Upload newly created pdf and compilation output"
            git push
+
+           echo '504'
+           
         continue-on-error: true
         #
         #   pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
@@ -535,6 +544,9 @@ jobs:
            git add "${{ github.event.inputs.file2compile }}.pdf"
            git commit -m "post low resolution pdf"
            git push
+
+           echo '548'
+           
         continue-on-error: true
 
   #_______________________________________________________________________
