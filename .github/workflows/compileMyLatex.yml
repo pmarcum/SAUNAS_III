@@ -480,6 +480,10 @@ jobs:
               listOfFiles+="${{ github.event.inputs.file2compile }}_hiRes.pdf"
            fi
            echo "file-list=$listOfFiles" >> $GITHUB_OUTPUT
+
+           echo '484'
+           echo $listOfFiles
+           
         continue-on-error: true
         #
       - name: post newly compiled high-resolution pdf to repository
