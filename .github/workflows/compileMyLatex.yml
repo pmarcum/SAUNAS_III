@@ -136,10 +136,16 @@ jobs:
            echo $htmllink   >> "${{ github.event.inputs.file2compile }}START.txt"
            echo "precomp"   >> "${{ github.event.inputs.file2compile }}START.txt"
            #
+           listOfCompressedFiles="${{ github.event.inputs.file2compile }}START.txt "
+           listOfCompressedFiles+="${{ github.event.inputs.file2compile }}Out.txt "
+           listOfCompressedFiles+="${{ github.event.inputs.file2compile }}.pdf "
+           listOfCompressedFiles+="${{ github.event.inputs.file2compile }}_hiRes.pdf "
+           listOfCompressedFiles+="${{ github.event.inputs.file2compile }}.html"
+           #
            # post initialized folder to repository
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
-           git add "${{ github.event.inputs.file2compile }}START.txt ${{ github.event.inputs.file2compile }}Out.txt ${{ github.event.inputs.file2compile }}.pdf ${{ github.event.inputs.file2compile }}_hiRes.pdf ${{ github.event.inputs.file2compile }}.html"
+           git add $listOfCompressedFiles
            git commit -m "Upload changes to folder"
            git push
         continue-on-error: true
