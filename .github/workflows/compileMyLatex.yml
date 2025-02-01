@@ -142,7 +142,7 @@ jobs:
 
            cat "${{ github.event.inputs.file2compile }}START.txt"
            
-           listOfCompressedFiles=''
+           listOfCompressedFiles=""
            listOfCompressedFiles+="${{ github.event.inputs.file2compile }}START.txt "
            listOfCompressedFiles+="${{ github.event.inputs.file2compile }}Out.txt "
            listOfCompressedFiles+="${{ github.event.inputs.file2compile }}.pdf "
