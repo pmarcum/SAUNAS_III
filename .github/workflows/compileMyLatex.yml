@@ -265,7 +265,7 @@ jobs:
            jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
            job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
            # replace the job id placeholder in the START file with the job id
-           sed -ri "s/JOBIDPLACEHOLDER/$job_id/" "${{ github.event.inputs.file2compile }}START.txt"
+           ##sed -ri "s/JOBIDPLACEHOLDER/$job_id/" "${{ github.event.inputs.file2compile }}START.txt"
         continue-on-error: true  
         #
         # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
