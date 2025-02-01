@@ -149,8 +149,7 @@ jobs:
            # post initialized folder to repository
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
-           #git add $listOfCompressedFiles
-           git add ${{ github.event.inputs.file2compile }}START.txt ${{ github.event.inputs.file2compile }}_hiRes.pdf
+           git add "${listOfCompressedFiles}"
            git commit -m "Upload changes to folder"
            git push
         continue-on-error: true
