@@ -151,6 +151,9 @@ jobs:
            #
       - name: post initialized folder to repository
         run: |
+           echo '------------------------------'
+           cat "${{ github.event.inputs.file2compile }}START.txt"
+           echo '------------------------------'
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
            git add "${{ github.event.inputs.file2compile }}START.txt" "${{ github.event.inputs.file2compile }}Out.txt" 
