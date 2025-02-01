@@ -137,11 +137,11 @@ jobs:
            echo "precomp"   >> "${{ github.event.inputs.file2compile }}START.txt"
            #
            listOfCompressedFiles=''
-           listOfCompressedFiles+="${{ github.event.inputs.file2compile }}START.txt "
-           listOfCompressedFiles+="${{ github.event.inputs.file2compile }}Out.txt "
-           listOfCompressedFiles+="${{ github.event.inputs.file2compile }}.pdf "
-           listOfCompressedFiles+="${{ github.event.inputs.file2compile }}_hiRes.pdf "
-           listOfCompressedFiles+="${{ github.event.inputs.file2compile }}.html"
+           listOfCompressedFiles+="./${{ github.event.inputs.file2compile }}START.txt "
+           listOfCompressedFiles+="./${{ github.event.inputs.file2compile }}Out.txt "
+           listOfCompressedFiles+="./${{ github.event.inputs.file2compile }}.pdf "
+           listOfCompressedFiles+="./${{ github.event.inputs.file2compile }}_hiRes.pdf "
+           listOfCompressedFiles+="./${{ github.event.inputs.file2compile }}.html"
            #
            # post initialized folder to repository
            git config --global user.email "email@gmail.com"
