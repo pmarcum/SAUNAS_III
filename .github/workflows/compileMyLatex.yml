@@ -136,6 +136,9 @@ jobs:
            echo $htmllink   >> "${{ github.event.inputs.file2compile }}START.txt"
            echo "precomp"   >> "${{ github.event.inputs.file2compile }}START.txt"
            #
+
+           cat "${{ github.event.inputs.file2compile }}START.txt"
+           
            listOfCompressedFiles=''
            listOfCompressedFiles+="${{ github.event.inputs.file2compile }}START.txt "
            listOfCompressedFiles+="${{ github.event.inputs.file2compile }}Out.txt "
