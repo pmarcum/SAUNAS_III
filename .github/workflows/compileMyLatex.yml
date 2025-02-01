@@ -153,9 +153,7 @@ jobs:
         run: |
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
-           git add |
-             "${{ github.event.inputs.file2compile }}Out.txt"
-             "${{ github.event.inputs.file2compile }}START.txt" 
+           git add "${{ github.event.inputs.file2compile }}Out.txt" "${{ github.event.inputs.file2compile }}START.txt" 
            git commit -m "Upload changes to folder"
            git push
         continue-on-error: true
