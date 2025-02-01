@@ -139,6 +139,9 @@ jobs:
            #
       - name: Assemble list of files to update on repository
         run: |
+
+           cat "${{ github.event.inputs.file2compile }}START.txt"
+           
            listOfCompressedFiles=''
            listOfCompressedFiles+="${{ github.event.inputs.file2compile }}START.txt "
            listOfCompressedFiles+="${{ github.event.inputs.file2compile }}Out.txt "
