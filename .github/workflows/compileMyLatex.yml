@@ -148,6 +148,11 @@ jobs:
            listOfCompressedFiles+="${{ github.event.inputs.file2compile }}.pdf "
            listOfCompressedFiles+="${{ github.event.inputs.file2compile }}_hiRes.pdf "
            listOfCompressedFiles+="${{ github.event.inputs.file2compile }}.html"
+
+
+           touch "${{ github.event.inputs.file2compile }}Out.txt"
+
+           
            #
       - name: post initialized folder to repository
         run: |
