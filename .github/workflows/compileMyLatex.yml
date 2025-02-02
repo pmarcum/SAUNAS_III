@@ -222,33 +222,20 @@ jobs:
               elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then                  
                   mv -f "${imagefile}" "${newname}"                  
               fi
-              listOfCompressedFiles+="${imagefile} ${newname} "
+              listOfCompressedFiles+="${imagefile} ${newname} "            
+           done          
+           #
 
-
-              if [[ firstTimeThru ]]; then
-                firstTimeThru=false
-                git config --global user.email "email@gmail.com"
-                git config --global user.name "github actions"
-              fi
-              git add $imagefile
-              git commit -m "Remove UNcompressed image file"
-              git add $newname
-              git commit -m "Upload newly compressed image files"
-
-              
-           done
-
-           if [[ ! firstTimeThru ]]; then
-              git push
-           fi
+           echo '229'
+           echo $listOfCompressedFiles
+           echo '---------------------------------------------'
            
-           ##
-           ## post newly compressed images to repository
-           #git config --global user.email "email@gmail.com"
-           #git config --global user.name "github actions"
-           #git add $listOfCompressedFiles
-           #git commit -m "Upload newly compressed image files"
-           #git push
+           # post newly compressed images to repository
+           git config --global user.email "email@gmail.com"
+           git config --global user.name "github actions"
+           git add $listOfCompressedFiles
+           git commit -m "Upload newly compressed image files"
+           git push
         continue-on-error: true
 
   #_______________________________________________________________________
