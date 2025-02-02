@@ -184,7 +184,7 @@ jobs:
               if [[ $firstTimeThru == "T" ]]; then
                   echo '185'
                   ls -la 
-                  mkdir newlyCompressedImages
+                  mkdir ./newlyCompressedImages
                   echo '185'
                   ls -la newlyCompressedImages
                   firstTimeThru="F"
