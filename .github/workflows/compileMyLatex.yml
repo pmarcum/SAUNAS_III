@@ -241,21 +241,22 @@ jobs:
                   
               fi
               listOfCompressedFiles+="${imagefile} ${newname} "
-              if [[ $firstTimeThru == 'T' ]]; then
-                 firstTimeThru='F'
-                 git config --global user.email "email@gmail.com"
-                 git config --global user.name "github actions"
-              fi
+              
+              git config --global user.email "email@gmail.com"
+              git config --global user.name "github actions"
               git add $imagefile
               git add $newname
+              git commit -m "Upload newly compressed image files"
+              git push
+              
            done          
            #
            # post newly compressed images to repository
            #git config --global user.email "email@gmail.com"
            #git config --global user.name "github actions"
            #git add $listOfCompressedFiles
-           git commit -m "Upload newly compressed image files"
-           git push
+           #git commit -m "Upload newly compressed image files"
+           #git push
         continue-on-error: true
 
   #_______________________________________________________________________
