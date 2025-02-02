@@ -238,7 +238,7 @@ jobs:
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
            #git add $listOfCompressedFiles
-           git add -u
+           git add -A
            git commit -m "Upload newly compressed image files"
            git push
         continue-on-error: true
