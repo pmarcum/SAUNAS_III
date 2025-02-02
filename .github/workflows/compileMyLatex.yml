@@ -182,6 +182,8 @@ jobs:
            firstTimeThru="T"
            for imagefile in **/*UNCOMPRESSED.*; do
               if [[ $firstTimeThru == "T" ]]; then
+                  echo '185'
+                  ls -la 
                   mkdir newlyCompressedImages
                   echo '185'
                   ls -la newlyCompressedImages
