@@ -240,23 +240,16 @@ jobs:
                   ls -la "${newname}"
                   
               fi
-              listOfCompressedFiles+="${imagefile} ${newname} "
-              
-              git config --global user.email "email@gmail.com"
-              git config --global user.name "github actions"
-              #git add $imagefile
-              git add $newname
-              git commit -m "Upload newly compressed image files"
-              git push
-              
+              listOfCompressedFiles+="${imagefile} ${newname} "              
            done          
            #
            # post newly compressed images to repository
-           #git config --global user.email "email@gmail.com"
-           #git config --global user.name "github actions"
+           git config --global user.email "email@gmail.com"
+           git config --global user.name "github actions"
            #git add $listOfCompressedFiles
-           #git commit -m "Upload newly compressed image files"
-           #git push
+           git add -u
+           git commit -m "Upload newly compressed image files"
+           git push
         continue-on-error: true
 
   #_______________________________________________________________________
