@@ -137,13 +137,12 @@ jobs:
            echo "precomp"   >> "${{ github.event.inputs.file2compile }}START.txt"
         continue-on-error: true
            #
-      - name: post initialized folder to repository
-        run: |
-           git config --global user.email "email@gmail.com"
-           git config --global user.name "github actions"
-           git add "${{ github.event.inputs.file2compile }}START.txt"
-           git commit -m "Upload changes to folder"
-           git push
+      - name: Make initialized folder available to other jobs
+        uses: actions/upload-artifact@v4
+        with:
+          name: start-artifact
+          path: "${{ github.event.inputs.file2compile }}START.txt"
+          overwrite: true
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -170,7 +169,6 @@ jobs:
       - name: Search for uncompressed images, and compress them
         id: compressImages
         run: |
-           listOfCompressedFiles=''
            bigfile=500000
            minDpi=150  # optimal dpi for pdf files
            maxWidthInches=6.5   #inches
@@ -182,6 +180,9 @@ jobs:
            shopt -s globstar
            nUncompressed=0
            for imagefile in **/*UNCOMPRESSED.*; do
+              if [[ $nUncompressed == 0 ]]; then
+                  mkdir newlyCompressedImages
+              fi
               newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
               pdfname=$(echo "${newname}" | sed 's/\..*$/\.pdf/')
               fileSize=$( stat -c %s -- "${imagefile}"  )             
@@ -211,30 +212,26 @@ jobs:
                   else
                       newHeight=$origHeight
                       newWidth=$origWidth
-                  fi                 
+                  fi
                   qualityValue=82
                   # Note: the quality value seems to not matter at all.  The size seems to be the main factor behind the size of the file.
                   magick mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None -quality ''"${qualityValue}"'' \
                     -define jpeg:fancy-upsampling=off -define png:compression=filter=5 -define png:compression-level=9 \
                     -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB \
                     -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
-                  mv -f "${imagefile}" "${newname}"                  
-              elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then                  
-                  mv -f "${imagefile}" "${newname}"                  
+                  cp -f "${imagefile}" "newlyCompressedImages/${newname}"
+              elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
+                  cp -f "${imagefile}" "newlyCompressedImages/${newname}"
               fi
-              listOfCompressedFiles+="${imagefile} ${newname} "
            done
-           echo "listOfImages=$listOfCompressedFiles" >> $GITHUB_OUTPUT
         continue-on-error: true
-        #         
-      - name: post newly compressed images to repository
-        run: |
-           git config --global user.email "email@gmail.com"
-           git config --global user.name "github actions"
-           #git add ${{ steps.compressImages.outputs.listOfImages }}
-           git add .
-           git commit -m "Upload newly compressed image files"
-           git push
+        #
+      - name: Make newly compressed images folder available to other jobs
+        uses: actions/upload-artifact@v4
+        with:
+          name: compressed-images-artifact
+          path: ./newlyCompressedImages/
+          overwrite: true
         continue-on-error: true
         
   #_______________________________________________________________________
@@ -253,12 +250,24 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         #
+      - name: Download newly compressed images folder
+        uses: actions/download-artifact@v4
+        with:
+          name: compressed-images-artifact
+          overwrite: true
+        continue-on-error: true
+        #
       - name: Get Job ID from GH API
         id: job-id
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           #
         run: |
+           
+           echo '266'
+           ls ./newlyCompressedImages
+           echo '==========================='
+           
            jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
            job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
            # replace the job id placeholder in the START file with the job id
