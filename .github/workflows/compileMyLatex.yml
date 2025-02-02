@@ -231,7 +231,8 @@ jobs:
         run: |
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
-           git add ${{ steps.compressImages.outputs.listOfImages }}
+           #git add ${{ steps.compressImages.outputs.listOfImages }}
+           git add .
            git commit -m "Upload newly compressed image files"
            git push
         continue-on-error: true
