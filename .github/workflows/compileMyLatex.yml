@@ -179,9 +179,13 @@ jobs:
            maxHeight=${maxHeight%.*}
            shopt -s globstar
            nUncompressed=0
+           firstTimeThru="T"
            for imagefile in **/*UNCOMPRESSED.*; do
-              if [[ $nUncompressed == 0 ]]; then
+              if [[ $firstTimeThru == "T" ]]; then
                   mkdir newlyCompressedImages
+                  echo '185'
+                  ls -la newlyCompressedImages
+                  firstTimeThru="F"
               fi
               newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
               pdfname=$(echo "${newname}" | sed 's/\..*$/\.pdf/')
