@@ -223,11 +223,13 @@ jobs:
               fi
               listOfCompressedFiles+="${imagefile} ${newname} "
            done
+           echo "list=$listOfCompressedFiles" >> $GITHUB_ENV
            #
-           # post newly compressed images to repository
+      - name: update the repository with the compressed images
+        run: |
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
-           git add $listOfCompressedFiles
+           git add $list
            git commit -m "Upload newly compressed image files"
            git push
         continue-on-error: true
