@@ -180,7 +180,7 @@ jobs:
            maxHeight=${maxHeight%.*}
            shopt -s globstar
            nUncompressed=0
-           firstTimeThru=true
+           firstTimeThru="T"
            for imagefile in **/*UNCOMPRESSED.*; do
               newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
               pdfname=$(echo "${newname}" | sed 's/\..*$/\.pdf/')
@@ -222,18 +222,20 @@ jobs:
               elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then                  
                   mv -f "${imagefile}" "${newname}"                  
               fi
-              listOfCompressedFiles+="${imagefile} ${newname} "            
+              listOfCompressedFiles+="${imagefile} ${newname} "
+              if [[ $firstTimeThru == 'T' ]]; then
+                 firstTimeThru='F'
+                 git config --global user.email "email@gmail.com"
+                 git config --global user.name "github actions"
+              fi
+              git add $imagefile
+              git add $newname
            done          
            #
-
-           echo '229'
-           echo $listOfCompressedFiles
-           echo '---------------------------------------------'
-           
            # post newly compressed images to repository
-           git config --global user.email "email@gmail.com"
-           git config --global user.name "github actions"
-           git add $listOfCompressedFiles
+           #git config --global user.email "email@gmail.com"
+           #git config --global user.name "github actions"
+           #git add $listOfCompressedFiles
            git commit -m "Upload newly compressed image files"
            git push
         continue-on-error: true
