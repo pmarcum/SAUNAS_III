@@ -181,14 +181,6 @@ jobs:
            nUncompressed=0
            firstTimeThru="T"
            for imagefile in **/*UNCOMPRESSED.*; do
-              if [[ $firstTimeThru == "T" ]]; then
-                  echo '185'
-                  ls -la 
-                  mkdir ./newlyCompressedImages
-                  echo '185'
-                  ls -la newlyCompressedImages
-                  firstTimeThru="F"
-              fi
               newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
               pdfname=$(echo "${newname}" | sed 's/\..*$/\.pdf/')
               fileSize=$( stat -c %s -- "${imagefile}"  )             
@@ -225,10 +217,13 @@ jobs:
                     -define jpeg:fancy-upsampling=off -define png:compression=filter=5 -define png:compression-level=9 \
                     -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB \
                     -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
-                  cp -f "${imagefile}" "newlyCompressedImages/${newname}"
+                  #cp -f "${imagefile}" "newlyCompressedImages/${newname}"
               elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
-                  cp -f "${imagefile}" "newlyCompressedImages/${newname}"
+                  #cp -f "${imagefile}" "newlyCompressedImages/${newname}"
               fi
+              mv -f ${imagefile} newlyCompressedImages/${newname}
+              echo '185'
+              ls -la newlyCompressedImages
            done
         continue-on-error: true
         #
