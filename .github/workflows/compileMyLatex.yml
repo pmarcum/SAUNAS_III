@@ -244,7 +244,7 @@ jobs:
               
               git config --global user.email "email@gmail.com"
               git config --global user.name "github actions"
-              git add $imagefile
+              #git add $imagefile
               git add $newname
               git commit -m "Upload newly compressed image files"
               git push
