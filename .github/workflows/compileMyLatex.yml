@@ -218,14 +218,13 @@ jobs:
                     -quality ''"${qualityValue}"'' -define jpeg:fancy-upsampling=off -define png:compression=filter=5 \
                     -define png:compression-level=9 -define png:compression-strategy=1 -define png:exclude-chunk=all \
                     -interlace none -colorspace sRGB -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
-
+                  if [[ $firstTimeThru == 'T' ]]; then
+                     touch "compressedList.txt"
+                     firstTimeThru='F'
+                  fi
               fi
            done
            
-  #                #if [[ $firstTimeThru == 'T' ]]; then
-  #                #   touch "compressedList.txt"
-  #                #   firstTimeThru='F'
-  #                #fi
   #                #mv -f "${imagefile}" "${newname}"
   #                #echo "${newname}" >> "compressedList.txt"
   #                echo "${newname}"
