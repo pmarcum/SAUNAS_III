@@ -254,7 +254,7 @@ jobs:
   #|                        COMPILE THE FILE                              |
   #|______________________________________________________________________|
   build_latex:
-    needs: [compressImages]
+    #needs: [compressImages]
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
