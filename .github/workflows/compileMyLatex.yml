@@ -243,7 +243,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: compressed-images-artifact
-          path: compressedList.txt
+          path: compressedFiles.tar.gz
           overwrite: true
         continue-on-error: true
         
@@ -263,11 +263,11 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         #
-      - name: Download newly compressed images folder
+      - name: Make newly compressed images folder available to other jobs
         uses: actions/download-artifact@v4
         with:
           name: compressed-images-artifact
-          overwrite: true
+          path: compressedFiles.tar.gz
         continue-on-error: true
         #
       - name: Get Job ID from GH API
@@ -276,16 +276,22 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           #
         run: |
-           
-           echo '266'
-           ls ./newlyCompressedImages
-           echo '==========================='
-           
-           jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
-           job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
-           # replace the job id placeholder in the START file with the job id
-           ##sed -ri "s/JOBIDPLACEHOLDER/$job_id/" "${{ github.event.inputs.file2compile }}START.txt"
-        continue-on-error: true  
+          jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
+          job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
+          # replace the job id placeholder in the START file with the job id
+          ##sed -ri "s/JOBIDPLACEHOLDER/$job_id/" "${{ github.event.inputs.file2compile }}START.txt"
+        continue-on-error: true 
+        #
+      - name: get newly compressed images
+        if: ${{ always() && hashFiles("compressedFiles.tar.gz") }}
+        run: |
+          echo '288'
+          ls -la FIGURES
+          echo '==========================='
+          tar -xvzf compressedFiles.tar.gz
+          ls -la FIGURES
+          echo '---------------------------'
+          #
         #
         # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
         # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
