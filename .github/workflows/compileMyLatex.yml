@@ -149,256 +149,256 @@ jobs:
   #|                                                                      |
   #|         COMPRESS THE IMAGES IF THERE ARE UNCOMPRESSED ONES           |
   #|______________________________________________________________________|
-  compressImages:
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    permissions:
-      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
-      contents: write
-      #
-    steps:
-      - name: Clone repo
-        uses: actions/checkout@v4
-        #
-      - name: Install ImageMagick
-        uses: mfinelli/setup-imagemagick@v5
-        with:
-          cache: true
-        continue-on-error: true
-        #
-      - name: Search for uncompressed images, and compress them
-        id: compressImages
-        run: |
-           bigfile=500000
-           minDpi=150  # optimal dpi for pdf files
-           maxWidthInches=6.5   #inches
-           maxHeightInches=9.0  #inches
-           maxWidth=$(echo "(($minDpi * $maxWidthInches)+0.5)/1" | bc)
-           maxWidth=${maxWidth%.*}
-           maxHeight=$(echo "(($minDpi * $maxHeightInches)+0.5)/1" | bc)
-           maxHeight=${maxHeight%.*}
-           shopt -s globstar
-           nUncompressed=0
-           firstTimeThru="T"
-           for imagefile in **/*UNCOMPRESSED.*; do
-              echo 'the file being considered is: $imagefile'
-              newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
-              pdfname=$(echo "${newname}" | sed 's/\..*$/\.pdf/')
-              fileSize=$( stat -c %s -- "${imagefile}"  )             
-              nUncompressed+=1
-              if [[ -f "${imagefile}" && ! -L "${imagefile}" && "$fileSize" -gt "$bigfile" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then                 
-                  # Get the current dimensions of the image
-                  magick identify -format "%w %h" "${imagefile}"
-                  dimensions=$(magick identify -format "%w %h" "${imagefile}")
-                  read -r origWidth origHeight <<< "$dimensions"
-                  # determine which, if either, dimension exceeds the max desirable size (origWidth origHeight)
-                  if [[ "$origWidth" -gt "$origHeight" && "$origWidth" -gt "$maxWidth" ]]; then
-                      newWidth=$maxWidth
-                      newHeight=$(echo "(($origHeight * $newWidth) / $origWidth) + 0.5" | bc)
-                      newHeight=${newHeight%.*}
-                  elif [[ "$origWidth" -lt "$origHeight" && "$origHeight" -gt "$maxHeight" ]]; then
-                      newHeight=$maxHeight
-                      newWidth=$(echo "(($origWidth * $newHeight) / $origHeight) + 0.5" | bc)
-                      newWidth=${newWidth%.*}
-                  elif [[ "$origWidth" -gt "$maxWidth" ]]; then
-                      newWidth=$maxWidth
-                      newHeight=$(echo "(($origHeight * $newWidth) / $origWidth) + 0.5" | bc)
-                      newHeight=${newHeight%.*}
-                  elif [[ "$origHeight" -gt "$maxHeight" ]]; then
-                      newHeight=$origHeight
-                      newWidth=$(echo "(($origWidth * $newHeight) / $origHeight) + 0.5" | bc)
-                      newWidth=${newWidth%.*}
-                  else
-                      newHeight=$origHeight
-                      newWidth=$origWidth
-                  fi
-                  qualityValue=82
-                  # Note: the quality value seems to not matter at all.  The size seems to be the main factor behind the size of the file.
-                  magick mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None \
-                    -quality ''"${qualityValue}"'' -define jpeg:fancy-upsampling=off -define png:compression=filter=5 \
-                    -define png:compression-level=9 -define png:compression-strategy=1 -define png:exclude-chunk=all \
-                    -interlace none -colorspace sRGB -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
-                  #if [[ $firstTimeThru == 'T' ]]; then
-                  #   touch "compressedList.txt"
-                  #   firstTimeThru='F'
-                  #fi
-                  #mv -f "${imagefile}" "${newname}"
-                  #echo "${newname}" >> "compressedList.txt"
-                  echo "${newname}"
-              elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
-                  #if [[ $firstTimeThru == 'T' ]]; then
-                  #   touch "compressedList.txt"
-                  #   firstTimeThru='F'
-                  #fi
-                  #mv -f "${imagefile}" "${newname}"
-                  #echo "${newname}" >> "compressedList.txt"
-                  echo "${newname}"
-              fi
-           done
-           #if [[ $firstTimeThru == 'F' ]]; then
-           #   tar -T compressedList.txt -cvzf compressedFiles.tar.gz
-           #fi
-        continue-on-error: true
-        #
-      - name: Make newly compressed images folder available to other jobs
-        if: ${{ always() && hashFiles("compressedList.txt") }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: compressed-images-artifact
-          path: compressedFiles.tar.gz
-          overwrite: true
-        continue-on-error: true
+  #compressImages:
+  #  runs-on: ubuntu-latest
+  #  continue-on-error: true
+  #  permissions:
+  #    # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+  #    contents: write
+  #    #
+  #  steps:
+  #    - name: Clone repo
+  #      uses: actions/checkout@v4
+  #      #
+  #    - name: Install ImageMagick
+  #      uses: mfinelli/setup-imagemagick@v5
+  #      with:
+  #        cache: true
+  #      continue-on-error: true
+  #      #
+  #    - name: Search for uncompressed images, and compress them
+  #      id: compressImages
+  #      run: |
+  #         bigfile=500000
+  #         minDpi=150  # optimal dpi for pdf files
+  #         maxWidthInches=6.5   #inches
+  #         maxHeightInches=9.0  #inches
+  #         maxWidth=$(echo "(($minDpi * $maxWidthInches)+0.5)/1" | bc)
+  #         maxWidth=${maxWidth%.*}
+  #         maxHeight=$(echo "(($minDpi * $maxHeightInches)+0.5)/1" | bc)
+  #         maxHeight=${maxHeight%.*}
+  #         shopt -s globstar
+  #         nUncompressed=0
+  #         firstTimeThru="T"
+  #         for imagefile in **/*UNCOMPRESSED.*; do
+  #            echo 'the file being considered is: $imagefile'
+  #            newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
+  #            pdfname=$(echo "${newname}" | sed 's/\..*$/\.pdf/')
+  #            fileSize=$( stat -c %s -- "${imagefile}"  )             
+  #            nUncompressed+=1
+  #            if [[ -f "${imagefile}" && ! -L "${imagefile}" && "$fileSize" -gt "$bigfile" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then                 
+  #                # Get the current dimensions of the image
+  #                magick identify -format "%w %h" "${imagefile}"
+  #                dimensions=$(magick identify -format "%w %h" "${imagefile}")
+  #                read -r origWidth origHeight <<< "$dimensions"
+  #                # determine which, if either, dimension exceeds the max desirable size (origWidth origHeight)
+  #                if [[ "$origWidth" -gt "$origHeight" && "$origWidth" -gt "$maxWidth" ]]; then
+  #                    newWidth=$maxWidth
+  #                    newHeight=$(echo "(($origHeight * $newWidth) / $origWidth) + 0.5" | bc)
+  #                    newHeight=${newHeight%.*}
+  #                elif [[ "$origWidth" -lt "$origHeight" && "$origHeight" -gt "$maxHeight" ]]; then
+  #                    newHeight=$maxHeight
+  #                    newWidth=$(echo "(($origWidth * $newHeight) / $origHeight) + 0.5" | bc)
+  #                    newWidth=${newWidth%.*}
+  #                elif [[ "$origWidth" -gt "$maxWidth" ]]; then
+  #                    newWidth=$maxWidth
+  #                    newHeight=$(echo "(($origHeight * $newWidth) / $origWidth) + 0.5" | bc)
+  #                    newHeight=${newHeight%.*}
+  #                elif [[ "$origHeight" -gt "$maxHeight" ]]; then
+  #                    newHeight=$origHeight
+  #                    newWidth=$(echo "(($origWidth * $newHeight) / $origHeight) + 0.5" | bc)
+  #                    newWidth=${newWidth%.*}
+  #                else
+  #                    newHeight=$origHeight
+  #                    newWidth=$origWidth
+  #                fi
+  #                qualityValue=82
+  #                # Note: the quality value seems to not matter at all.  The size seems to be the main factor behind the size of the file.
+  #                magick mogrify -filter Triangle -define filter:support=2 -unsharp 0.25x0.08+8.3+0.045 -dither None \
+  #                  -quality ''"${qualityValue}"'' -define jpeg:fancy-upsampling=off -define png:compression=filter=5 \
+  #                  -define png:compression-level=9 -define png:compression-strategy=1 -define png:exclude-chunk=all \
+  #                  -interlace none -colorspace sRGB -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
+  #                #if [[ $firstTimeThru == 'T' ]]; then
+  #                #   touch "compressedList.txt"
+  #                #   firstTimeThru='F'
+  #                #fi
+  #                #mv -f "${imagefile}" "${newname}"
+  #                #echo "${newname}" >> "compressedList.txt"
+  #                echo "${newname}"
+  #            elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
+  #                #if [[ $firstTimeThru == 'T' ]]; then
+  #                #   touch "compressedList.txt"
+  #                #   firstTimeThru='F'
+  #                #fi
+  #                #mv -f "${imagefile}" "${newname}"
+  #                #echo "${newname}" >> "compressedList.txt"
+  #                echo "${newname}"
+  #            fi
+  #         done
+  #         #if [[ $firstTimeThru == 'F' ]]; then
+  #         #   tar -T compressedList.txt -cvzf compressedFiles.tar.gz
+  #         #fi
+  #      continue-on-error: true
+  #      #
+  #    - name: Make newly compressed images folder available to other jobs
+  #      if: ${{ always() && hashFiles("compressedList.txt") }}
+  #      uses: actions/upload-artifact@v4
+  #      with:
+  #        name: compressed-images-artifact
+  #        path: compressedFiles.tar.gz
+  #        overwrite: true
+  #      continue-on-error: true
         
   #_______________________________________________________________________
   #|                                                                      |
   #|                        COMPILE THE FILE                              |
   #|______________________________________________________________________|
-  build_latex:
-    needs: [compressImages]
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    permissions:
-      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
-      contents: write
-      #
-    steps:
-      - name: Clone repo
-        uses: actions/checkout@v4
-        #
-      #- name: Make newly compressed images folder available to other jobs
-      #  uses: actions/download-artifact@v4
-      #  with:
-      #    name: compressed-images-artifact
-      #    path: compressedFiles.tar.gz
-      #  continue-on-error: true
-        #
-      - name: Get Job ID from GH API
-        id: job-id
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          #
-        run: |
-          jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
-          job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
-          # replace the job id placeholder in the START file with the job id
-          ##sed -ri "s/JOBIDPLACEHOLDER/$job_id/" "${{ github.event.inputs.file2compile }}START.txt"
-        continue-on-error: true 
-        #
-      #- name: get newly compressed images
-      # if: ${{ always() && hashFiles("compressedFiles.tar.gz") }}
-      #  run: |
-      #    echo '288'
-      #    ls -la FIGURES
-      #    echo '==========================='
-      #    tar -xvzf compressedFiles.tar.gz
-      #    ls -la FIGURES
-      #    echo '---------------------------'
-      #    #
-        #
-        # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
-        # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
-        # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
-        # >>>>>>>>>>>>>>>>>>>>>>>> IMPORTANT NOTE ABOUT TEMPORARY FIX <<<<<<<<<<<<<<<<<<<<<<<<<<
-        # array.sty is incompatable with latest version of texlive and/or aastex. Until aastex is fixed in mid-2025,
-        # will need to keep this fix of using version 2020 instead of latest version. array.sty is used in WorPT files.
-        # See more details here:   https://github.com/AASJournals/AASTeX60/issues/149
-      - name: Install texlive
-        uses: teatimeguest/setup-texlive-action@v3
-        with:
-          version: 2023
-          packages:
-             collection-basic
-             collection-bibtexextra
-             collection-binextra
-             collection-context
-             collection-fontsextra
-             collection-fontsrecommended
-             collection-formatsextra
-             collection-fontutils
-             collection-latex
-             collection-latexextra
-             collection-latexrecommended
-             collection-mathscience
-             collection-metapost
-             collection-pictures
-             collection-plaingeneric
-             collection-pstricks
-             collection-publishers
-             collection-texworks
-             amsfonts
-             graphics
-             scrextend
-             rotating
-             tools
-             threeparttable
-             units
-          cache: true
-        continue-on-error: true
-        #
-      - name: Compile paper
-        # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
-        id: compilation
-        run: |
-           rm -f compileOut.txt
-           rm -f "${{ github.event.inputs.file2compile }}.pdf"
-           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 \
-             -interaction=nonstopmode "${{ github.event.inputs.file2compile }}.tex" 2>&1 | tee compileOut.txt
-           echo "______________________________________________________________________________"
-           cat compileOut.txt
-           echo "______________________________________________________________________________"
-           #
-           # clean up pdf files after compilation
-           # move pdf into final filename
-           rm -f "${{ github.event.inputs.file2compile }}_hiRes.pdf"
-           mv -f "${{ github.event.inputs.file2compile }}.pdf" "${{ github.event.inputs.file2compile }}_hiRes.pdf"
-           # clean up compilation log files after compilation
-           rm -f "${{ github.event.inputs.file2compile }}Out.txt"
-           mv -f compileOut.txt "${{ github.event.inputs.file2compile }}Out.txt"
-           #
-           # post newly compiled high-resolution pdf to repository
-           git config --global user.email "email@gmail.com"
-           git config --global user.name "github actions"
-           git add "${{ github.event.inputs.file2compile }}Out.txt" "${{ github.event.inputs.file2compile }}_hiRes.pdf"
-           git commit -m "Upload newly created pdf and compilation output"
-           git push
-        continue-on-error: true
-        #
-        #   pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
-        #   echo "PDFLINK=$pdflink" >>                                                   $GITHUB_OUTPUT
-        #   echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >>                $GITHUB_OUTPUT
+  #build_latex:
+  #  needs: [compressImages]
+  #  runs-on: ubuntu-latest
+  #  continue-on-error: true
+  #  permissions:
+  #    # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+  #    contents: write
+  #    #
+  #  steps:
+  #    - name: Clone repo
+  #      uses: actions/checkout@v4
+  #      #
+  #    #- name: Make newly compressed images folder available to other jobs
+  #    #  uses: actions/download-artifact@v4
+  #    #  with:
+  #    #    name: compressed-images-artifact
+  #    #    path: compressedFiles.tar.gz
+  #    #  continue-on-error: true
+  #      #
+  #    - name: Get Job ID from GH API
+  #      id: job-id
+  #      env:
+  #        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #        #
+  #      run: |
+  #        jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
+  #        job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
+  #        # replace the job id placeholder in the START file with the job id
+  #        ##sed -ri "s/JOBIDPLACEHOLDER/$job_id/" "${{ github.event.inputs.file2compile }}START.txt"
+  #      continue-on-error: true 
+  #      #
+  #    #- name: get newly compressed images
+  #    # if: ${{ always() && hashFiles("compressedFiles.tar.gz") }}
+  #    #  run: |
+  #    #    echo '288'
+  #    #    ls -la FIGURES
+  #    #    echo '==========================='
+  #    #    tar -xvzf compressedFiles.tar.gz
+  #    #    ls -la FIGURES
+  #    #    echo '---------------------------'
+  #    #    #
+  #      #
+  #      # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
+  #      # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
+  #      # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
+  #      # >>>>>>>>>>>>>>>>>>>>>>>> IMPORTANT NOTE ABOUT TEMPORARY FIX <<<<<<<<<<<<<<<<<<<<<<<<<<
+  #      # array.sty is incompatable with latest version of texlive and/or aastex. Until aastex is fixed in mid-2025,
+  #      # will need to keep this fix of using version 2020 instead of latest version. array.sty is used in WorPT files.
+  #      # See more details here:   https://github.com/AASJournals/AASTeX60/issues/149
+  #    - name: Install texlive
+  #      uses: teatimeguest/setup-texlive-action@v3
+  #      with:
+  #        version: 2023
+  #        packages:
+  #           collection-basic
+  #           collection-bibtexextra
+  #           collection-binextra
+  #           collection-context
+  #           collection-fontsextra
+  #           collection-fontsrecommended
+  #           collection-formatsextra
+  #           collection-fontutils
+  #           collection-latex
+  #           collection-latexextra
+  #           collection-latexrecommended
+  #           collection-mathscience
+  #           collection-metapost
+  #           collection-pictures
+  #           collection-plaingeneric
+  #           collection-pstricks
+  #           collection-publishers
+  #           collection-texworks
+  #           amsfonts
+  #           graphics
+  #           scrextend
+  #           rotating
+  #           tools
+  #           threeparttable
+  #           units
+  #        cache: true
+  #      continue-on-error: true
+  #      #
+  #    - name: Compile paper
+  #      # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
+  #      id: compilation
+  #      run: |
+  #         rm -f compileOut.txt
+  #         rm -f "${{ github.event.inputs.file2compile }}.pdf"
+  #         latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 \
+  #           -interaction=nonstopmode "${{ github.event.inputs.file2compile }}.tex" 2>&1 | tee compileOut.txt
+  #         echo "______________________________________________________________________________"
+  #         cat compileOut.txt
+  #         echo "______________________________________________________________________________"
+  #         #
+  #         # clean up pdf files after compilation
+  #         # move pdf into final filename
+  #         rm -f "${{ github.event.inputs.file2compile }}_hiRes.pdf"
+  #         mv -f "${{ github.event.inputs.file2compile }}.pdf" "${{ github.event.inputs.file2compile }}_hiRes.pdf"
+  #         # clean up compilation log files after compilation
+  #         rm -f "${{ github.event.inputs.file2compile }}Out.txt"
+  #         mv -f compileOut.txt "${{ github.event.inputs.file2compile }}Out.txt"
+  #         #
+  #         # post newly compiled high-resolution pdf to repository
+  #         git config --global user.email "email@gmail.com"
+  #         git config --global user.name "github actions"
+  #         git add "${{ github.event.inputs.file2compile }}Out.txt" "${{ github.event.inputs.file2compile }}_hiRes.pdf"
+  #         git commit -m "Upload newly created pdf and compilation output"
+  #         git push
+  #      continue-on-error: true
+  #      #
+  #      #   pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
+  #      #   echo "PDFLINK=$pdflink" >>                                                   $GITHUB_OUTPUT
+  #      #   echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >>                $GITHUB_OUTPUT
 
   #_______________________________________________________________________
   #|                                                                      |
   #|     COMPRESS THE PDF FILE INTO LOWER RESOLUTION FILE FOR DISPLAY     |
   #|______________________________________________________________________|
-  compressPdf:
-    needs: [build_latex]
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    permissions:
-      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
-      contents: write
-      #
-    steps:
-      - name: Clone repo
-        uses: actions/checkout@v4
-        #
-      - name: compress PDF
-        uses: jy95/ghostscript-action@v1
-        with:
-           file:   ${{ github.event.inputs.file2compile }}_hiRes.pdf
-           output: ${{ github.event.inputs.file2compile }}.pdf
-           arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
-        continue-on-error: true
-        #
-      - name: post reduced resolution PDF on repository
-        run: |
-           git config --global user.email "email@gmail.com"
-           git config --global user.name "github actions"
-           git add "${{ github.event.inputs.file2compile }}.pdf"
-           git commit -m "post low resolution pdf"
-           git push
-        continue-on-error: true
+  #compressPdf:
+  #  needs: [build_latex]
+  #  runs-on: ubuntu-latest
+  #  continue-on-error: true
+  #  permissions:
+  #    # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+  #    contents: write
+  #    #
+  #  steps:
+  #    - name: Clone repo
+  #      uses: actions/checkout@v4
+  #      #
+  #    - name: compress PDF
+  #      uses: jy95/ghostscript-action@v1
+  #      with:
+  #         file:   ${{ github.event.inputs.file2compile }}_hiRes.pdf
+  #         output: ${{ github.event.inputs.file2compile }}.pdf
+  #         arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
+  #      continue-on-error: true
+  #      #
+  #    - name: post reduced resolution PDF on repository
+  #      run: |
+  #         git config --global user.email "email@gmail.com"
+  #         git config --global user.name "github actions"
+  #         git add "${{ github.event.inputs.file2compile }}.pdf"
+  #         git commit -m "post low resolution pdf"
+  #         git push
+  #      continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
