@@ -218,24 +218,32 @@ jobs:
                     -quality ''"${qualityValue}"'' -define jpeg:fancy-upsampling=off -define png:compression=filter=5 \
                     -define png:compression-level=9 -define png:compression-strategy=1 -define png:exclude-chunk=all \
                     -interlace none -colorspace sRGB -strip -thumbnail ''"${newWidth}x${newHeight}>"'' "${imagefile}"
-                  #cp -f "${imagefile}" "newlyCompressedImages/${newname}"
-              #elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
-              #    #cp -f "${imagefile}" "newlyCompressedImages/${newname}"
+                  if [[ $firstTimeThru == 'T' ]]; then
+                     touch "compressedList.txt"
+                     firstTimeThru='F'
+                  fi
+                  mv -f "${imagefile}" "${newname}"
+                  echo "${newname}" >> "compressedList.txt"
+              elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
+                  if [[ $firstTimeThru == 'T' ]]; then
+                     touch "compressedList.txt"
+                     firstTimeThru='F'
+                  fi
+                  mv -f "${imagefile}" "${newname}"
+                  echo "${newname}" >> "compressedList.txt"
               fi
-              if [[ $firstTimeThur ]]; then
-                 sudo mkdir -p "newlyCompressedImages"
-              fi
-              mv -f "${imagefile}" "newlyCompressedImages/${newname}"
-              echo '185'
-              ls -la newlyCompressedImages
            done
+           if [[ $firstTimeThru == 'F' ]]; then
+              tar -T compressedList.txt -cvzf compressedFiles.tar.gz
+           fi
         continue-on-error: true
         #
       - name: Make newly compressed images folder available to other jobs
+        if: ${{ always() && hashFiles("compressedList.txt") }}
         uses: actions/upload-artifact@v4
         with:
           name: compressed-images-artifact
-          path: ./newlyCompressedImages/
+          path: compressedList.txt
           overwrite: true
         continue-on-error: true
         
