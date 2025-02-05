@@ -239,15 +239,15 @@ jobs:
               tar -cvf compressedFiles.tar -T compressedList.txt
            fi
         continue-on-error: true
-  #      #
-  #    - name: Make newly compressed images folder available to other jobs
-  #      if: ${{ always() && hashFiles("compressedList.txt") }}
-  #      uses: actions/upload-artifact@v4
-  #      with:
-  #        name: compressed-images-artifact
-  #        path: compressedFiles.tar.gz
-  #        overwrite: true
-  #      continue-on-error: true
+        #
+      - name: Make newly compressed images folder available to other jobs
+        if: ${{ always() && hashFiles("compressedList.txt") }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: images-tar-artifact
+          path: compressedFiles.tar
+          overwrite: true
+        continue-on-error: true
         
   #_______________________________________________________________________
   #|                                                                      |
