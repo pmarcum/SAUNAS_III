@@ -363,7 +363,10 @@ jobs:
            # clean up compilation log files after compilation
            rm -f "${{ github.event.inputs.file2compile }}Out.txt"
            mv -f compileOut.txt "${{ github.event.inputs.file2compile }}Out.txt"
+         continue-on-error: true
            #
+       - name: copy file to repository
+         run: |
            # post newly compiled high-resolution pdf to repository
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
