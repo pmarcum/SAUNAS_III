@@ -241,7 +241,7 @@ jobs:
         continue-on-error: true
         #
       - name: Make newly compressed images folder available to other jobs
-        if: ${{ always() && hashFiles("compressedFiles.tar") }}
+        #if: ${{ always() && hashFiles("compressedFiles.tar") }}
         run: |
           ls -l *tar
           tar -tvf compressedFiles.tar
