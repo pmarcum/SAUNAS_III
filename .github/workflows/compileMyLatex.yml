@@ -371,10 +371,6 @@ jobs:
            git commit -m "Upload newly created pdf and compilation output"
            git push
         continue-on-error: true
-        #
-        #   pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
-        #   echo "PDFLINK=$pdflink" >>                                                   $GITHUB_OUTPUT
-        #   echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >>                $GITHUB_OUTPUT
 
   #_______________________________________________________________________
   #|                                                                      |
@@ -408,6 +404,11 @@ jobs:
            git commit -m "post low resolution pdf"
            git push
         continue-on-error: true
+
+        #
+        #   pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
+        #   echo "PDFLINK=$pdflink" >>                                                   $GITHUB_OUTPUT
+        #   echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >>                $GITHUB_OUTPUT
 
   #_______________________________________________________________________
   #|                                                                      |
