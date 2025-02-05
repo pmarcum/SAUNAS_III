@@ -235,10 +235,9 @@ jobs:
                   echo "${newname}"
               fi
            done
-           
-  #         #if [[ $firstTimeThru == 'F' ]]; then
-  #         #   tar -T compressedList.txt -cvzf compressedFiles.tar.gz
-  #         #fi
+           if [[ $firstTimeThru == 'F' ]]; then
+              tar -cvf compressedFiles.tar -T compressedList.txt
+           fi
   #      continue-on-error: true
   #      #
   #    - name: Make newly compressed images folder available to other jobs
