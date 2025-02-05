@@ -286,6 +286,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           #
         run: |
+          ls -la *tar
+          ls -la *txt
           jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
           job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
           # replace the job id placeholder in the START file with the job id
