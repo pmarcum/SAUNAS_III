@@ -266,11 +266,18 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         #
-      - name: Make newly compressed images folder available to other jobs
+      - name: Download newly compressed images folder
         uses: actions/download-artifact@v4
         with:
           name: images-tar-artifact
           path: compressedFiles.tar
+        continue-on-error: true
+        #
+      - name: Download initialization file
+        uses: actions/download-artifact@v4
+        with:
+          name: start-artifact
+          path: "${{ github.event.inputs.file2compile }}START.txt"
         continue-on-error: true
         #
       - name: Get Job ID from GH API
