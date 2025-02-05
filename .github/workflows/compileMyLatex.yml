@@ -255,7 +255,7 @@ jobs:
   #|                        COMPILE THE FILE                              |
   #|______________________________________________________________________|
   build_latex:
-    #needs: [compressImages]
+    needs: [compressImages]
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
@@ -266,12 +266,12 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         #
-      #- name: Make newly compressed images folder available to other jobs
-      #  uses: actions/download-artifact@v4
-      #  with:
-      #    name: compressed-images-artifact
-      #    path: compressedFiles.tar.gz
-      #  continue-on-error: true
+      - name: Make newly compressed images folder available to other jobs
+        uses: actions/download-artifact@v4
+        with:
+          name: images-tar-artifact
+          path: compressedFiles.tar
+        continue-on-error: true
         #
       - name: Get Job ID from GH API
         id: job-id
