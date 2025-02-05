@@ -181,7 +181,7 @@ jobs:
            nUncompressed=0
            firstTimeThru="T"
            for imagefile in **/*UNCOMPRESSED.*; do
-              echo 'the file being considered is: $imagefile'
+              echo "the file being considered is: $imagefile"
               newname=$(echo "${imagefile}" | sed 's/UNCOMPRESSED//')
               pdfname=$(echo "${newname}" | sed 's/\..*$/\.pdf/')
               fileSize=$( stat -c %s -- "${imagefile}"  )             
