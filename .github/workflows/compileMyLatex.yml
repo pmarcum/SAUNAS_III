@@ -222,12 +222,12 @@ jobs:
                      touch "compressedList.txt"
                      firstTimeThru='F'
                   fi
+                  mv -f "${imagefile}" "${newname}"
+                  echo "${newname}" >> "compressedList.txt"
+                  echo "${newname}"
               fi
            done
            
-  #                #mv -f "${imagefile}" "${newname}"
-  #                #echo "${newname}" >> "compressedList.txt"
-  #                echo "${newname}"
   #            elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
   #                #if [[ $firstTimeThru == 'T' ]]; then
   #                #   touch "compressedList.txt"
