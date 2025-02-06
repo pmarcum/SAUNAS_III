@@ -569,13 +569,14 @@ jobs:
            rm -f html.txt
            rm -f finHtml.html
            rm -f $HTMLFILE
-#           if [$fatalErrors]; then
-#              #
-#              # =======================================================================
-#              #        construct the html file showing errors, if there were fatal ones
-#              # =======================================================================
-#              # There were errors - Create a .html file from the out.txt file
-#              rm -f "$PDFFILE"
+           if [$fatalErrors]; then
+              #
+              # =======================================================================
+              #        construct the html file showing errors, if there were fatal ones
+              # =======================================================================
+              # There were errors - Create a .html file from the out.txt file
+              rm -f "$PDFFILE"
+           fi
 #              rm -f "$PDFHIRES"
 #              # make sure that long lines are split if they exceed 20 words
 #              fold -sw 90 "$OUTFILE" > html.txt
