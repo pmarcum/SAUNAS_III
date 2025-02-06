@@ -476,25 +476,25 @@ jobs:
            mv -f tmp.txt errout.txt
            sed -ri 's/^[^\x0]*\x0//' errout.txt
            sed -ri 's/\a[^\a]*$//' errout.txt
-#           # ....... remove all the \t placeholders
-#           sed -ri 's/\t//g' errout.txt
-#           sed -ri 's/\a[^\x0]*\x0 */\n/g' errout.txt
-#           # the next step, sorting the entries, does not work as expected unless all the white space is gone, so replace white space with \a
-#           sed -ri 's/ /\a/g' errout.txt
-#           # ....... sort and remove redundances in the error/warning list
-#           rm -f tmp.txt
-#           cat errout.txt | sort -r -t- -g -k1,1n -k2 -s | uniq | sed -r 's/\a/ /g' > tmp.txt
-#           mv -f tmp.txt errout.txt
-#           #
-#           # =============================================================================
-#           # remove lines in the output that are unrelated to the latex compilation itself
-#           # =============================================================================
-#           readarray -t sorted < errout.txt
-#           #  #######################   START CONSOLIDATING THE ERRORS ###################
-#           rm -f tout.txt
-#           touch tout.txt
-#           errtypes=("ERROR" "WARNING" "BIB")
-#           banners=("FATAL ERRORS" "WARNINGS" "CITATION ISSUES")
+           # ....... remove all the \t placeholders
+           sed -ri 's/\t//g' errout.txt
+           sed -ri 's/\a[^\x0]*\x0 */\n/g' errout.txt
+           # the next step, sorting the entries, does not work as expected unless all the white space is gone, so replace white space with \a
+           sed -ri 's/ /\a/g' errout.txt
+           # ....... sort and remove redundances in the error/warning list
+           rm -f tmp.txt
+           cat errout.txt | sort -r -t- -g -k1,1n -k2 -s | uniq | sed -r 's/\a/ /g' > tmp.txt
+           mv -f tmp.txt errout.txt
+           #
+           # =============================================================================
+           # remove lines in the output that are unrelated to the latex compilation itself
+           # =============================================================================
+           readarray -t sorted < errout.txt
+           #  #######################   START CONSOLIDATING THE ERRORS ###################
+           rm -f tout.txt
+           touch tout.txt
+           errtypes=("ERROR" "WARNING" "BIB")
+           banners=("FATAL ERRORS" "WARNINGS" "CITATION ISSUES")
 #           for (( i=0; i<${#errtypes[@]}; i++ )); do
 #              echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
 #              echo "              ${banners[$i]} IN $TEXFILE" >> tout.txt
