@@ -598,17 +598,17 @@ jobs:
                     echo "$thisline" >> red.txt
                  fi
               done < "html.txt"
-           fi
-#              sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
-#              rm -f $HTMLFILE
-#              mv -f finHtml.html "$HTMLFILE"
-#              rm -f red.txt
-#              rm -f ${{ github.event.inputs.file2compile }}START.txt"
-#              touch ${{ github.event.inputs.file2compile }}START.txt"
-#              echo $TIMESTAMP >> ${{ github.event.inputs.file2compile }}START.txt"
-#              echo $JOBLINK   >> ${{ github.event.inputs.file2compile }}START.txt"
-#              echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"  >> ${{ github.event.inputs.file2compile }}START.txt"
-#              echo "html"  >> ${{ github.event.inputs.file2compile }}START.txt"
+              sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
+              rm -f $HTMLFILE
+              mv -f finHtml.html "$HTMLFILE"
+              rm -f red.txt
+              rm -f ${{ github.event.inputs.file2compile }}START.txt"
+              touch ${{ github.event.inputs.file2compile }}START.txt"
+              echo $TIMESTAMP >> ${{ github.event.inputs.file2compile }}START.txt"
+              echo $JOBLINK   >> ${{ github.event.inputs.file2compile }}START.txt"
+              echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"  >> ${{ github.event.inputs.file2compile }}START.txt"
+              echo "html"  >> ${{ github.event.inputs.file2compile }}START.txt"
+            fi
 #           else
 #              rm -f ${{ github.event.inputs.file2compile }}START.txt"
 #              touch ${{ github.event.inputs.file2compile }}START.txt"
