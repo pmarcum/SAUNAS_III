@@ -617,16 +617,16 @@ jobs:
               echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"  >> ${{ github.event.inputs.file2compile }}START.txt"
               echo "pdf"  >> ${{ github.event.inputs.file2compile }}START.txt"
               # finalize the compilation output file by putting a few sentences at the top
+              rm -f fin.txt
+              rm -f "$OUTFILE"
+              touch fin.txt
+              echo "$TIMESTAMP" >> fin.txt
+              echo "LATEX COMPILATION ERRORS and WARNINGS" >> fin.txt
+              echo "" >> fin.txt
+              echo "To view full GitHub Actions output, click on item at top of list here:" >> fin.txt
+              echo "$JOBLINK" >> fin.txt
+              echo "" >> fin.txt
            fi
-#              rm -f fin.txt
-#              rm -f "$OUTFILE"
-#              touch fin.txt
-#              echo "$TIMESTAMP" >> fin.txt
-#              echo "LATEX COMPILATION ERRORS and WARNINGS" >> fin.txt
-#              echo "" >> fin.txt
-#              echo "To view full GitHub Actions output, click on item at top of list here:" >> fin.txt
-#              echo "$JOBLINK" >> fin.txt
-#              echo "" >> fin.txt
 #              while IFS= read -r line; do
 #                 thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
 #                 echo "$thisline" >> fin.txt
