@@ -462,20 +462,20 @@ jobs:
            # ....... remove the )))) left behind in above subs
            sed -ri 's/[)] *[)]/ /g' errout.txt
            # ....... remove all multiple white spaces to a single white space
-#           sed -ri 's/  */ /g' errout.txt
-#           rm -f tmp.txt
-#           sed -r 's/(\.[^.][^.]*\.tex:[0-9][0-9]*:[^.\t][^.\t]*\t)([0-9][0-9]*)([^.]*\.)/\x0\2-ERROR-\1\2\3\a/g' errout.txt > tmp.txt
-#           mv -f tmp.txt errout.txt
-#           rm -f tmp.txt
-#           sed -r 's/([^:][^:][^:])(LaTeX )((Error)|(Warning))(:[^.\t][^.\t]*\t)([0-9][0-9]*)([^.]*\.)/\1\x0\7-\3-\2\3\6\7\8\a/g' errout.txt >> tmp.txt
-#           mv -f tmp.txt errout.txt
-#           sed -ri 's/\-Error\-/-ERROR-/g' errout.txt
-#           sed -ri 's/\-Warning\-/-WARNING-/g' errout.txt
-#           rm -f tmp.txt
-#           sed -r 's/([^-])(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.\t][^.\t]*\.)/\1\x0\3-ERROR-\2\3\4\a/g' errout.txt > tmp.txt
-#           mv -f tmp.txt errout.txt
-#           sed -ri 's/^[^\x0]*\x0//' errout.txt
-#           sed -ri 's/\a[^\a]*$//' errout.txt
+           sed -ri 's/  */ /g' errout.txt
+           rm -f tmp.txt
+           sed -r 's/(\.[^.][^.]*\.tex:[0-9][0-9]*:[^.\t][^.\t]*\t)([0-9][0-9]*)([^.]*\.)/\x0\2-ERROR-\1\2\3\a/g' errout.txt > tmp.txt
+           mv -f tmp.txt errout.txt
+           rm -f tmp.txt
+           sed -r 's/([^:][^:][^:])(LaTeX )((Error)|(Warning))(:[^.\t][^.\t]*\t)([0-9][0-9]*)([^.]*\.)/\1\x0\7-\3-\2\3\6\7\8\a/g' errout.txt >> tmp.txt
+           mv -f tmp.txt errout.txt
+           sed -ri 's/\-Error\-/-ERROR-/g' errout.txt
+           sed -ri 's/\-Warning\-/-WARNING-/g' errout.txt
+           rm -f tmp.txt
+           sed -r 's/([^-])(\.[^.][^.]*\.tex:)([0-9][0-9]*)(:[^.\t][^.\t]*\.)/\1\x0\3-ERROR-\2\3\4\a/g' errout.txt > tmp.txt
+           mv -f tmp.txt errout.txt
+           sed -ri 's/^[^\x0]*\x0//' errout.txt
+           sed -ri 's/\a[^\a]*$//' errout.txt
 #           # ....... remove all the \t placeholders
 #           sed -ri 's/\t//g' errout.txt
 #           sed -ri 's/\a[^\x0]*\x0 */\n/g' errout.txt
