@@ -626,14 +626,13 @@ jobs:
               echo "To view full GitHub Actions output, click on item at top of list here:" >> fin.txt
               echo "$JOBLINK" >> fin.txt
               echo "" >> fin.txt
+              while IFS= read -r line; do
+                 thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
+                 echo "$thisline" >> fin.txt
+              done < "$OUTFILE"
+              mv -f fin.txt "$OUTFILE"
            fi
-#              while IFS= read -r line; do
-#                 thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
-#                 echo "$thisline" >> fin.txt
-#              done < "$OUTFILE"
-#              mv -f fin.txt "$OUTFILE"
-#           fi
-#        continue-on-error: true
+        continue-on-error: true
 #        #
 #      - name: post finalized compilation errors and notice of completion to the repository
 #        uses: stefanzweifel/git-auto-commit-action@v5
