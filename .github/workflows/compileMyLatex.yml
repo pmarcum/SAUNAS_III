@@ -415,7 +415,7 @@ jobs:
   #|                     PROCESS COMPILATION OUTPUT                       |
   #|______________________________________________________________________|
   processLogFile:
-    needs: build_latex
+    needs: [pruneBib,build_latex]
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
@@ -548,27 +548,27 @@ jobs:
            echo "FATALERRORS=$fatalErrors" >> $GITHUB_ENV
         continue-on-error: true
         #
- #     - name: Gather up list of references
- #       run: |     
- #          # https://stackoverflow.com/questions/57788813/-return-0-if-no-match
- #          # squash.io/extracting=numbers-from-strings-in-bash
- #          # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
- #          # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
- #          echo "" >> tout.txt
- #          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
- #          echo "              LIST OF REFERENCES IN $TEXFILE" >> tout.txt
- #          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
- #          # create an array of just the bibcodes
- #          # extract just the bibcode from the pruned bibfile to use for another file that will be used in the summary
- #          readarray -t cites < <( grep "@" pruned.bib | sed -r 's/^[^ ]+\.bib: *//' | sed -r 's/@[^\{]+\{//' | sed -r 's/,//' )
- #          if [[ ${#cites[@]} -gt 0 ]]; then echo "Number of citations: ${#cites[@]}" >> tout.txt; fi
- #          for (( i=0; i<${#cites[@]}; i++ )); do echo "${cites[$i]}" >> tout.txt; done
- #          if [[ ${#cites[@]} == 0 ]]; then echo "        None"; fi
- #          rm -f $OUTFILE
- #          mv tout.txt "$OUTFILE"
- #          rm -f html.txt
- #          rm -f finHtml.html
- #          rm -f $HTMLFILE
+      - name: Gather up list of references
+        run: |     
+           # https://stackoverflow.com/questions/57788813/-return-0-if-no-match
+           # squash.io/extracting=numbers-from-strings-in-bash
+           # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
+           # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
+           echo "" >> tout.txt
+           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+           echo "              LIST OF REFERENCES IN $TEXFILE" >> tout.txt
+           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+           # create an array of just the bibcodes
+           # extract just the bibcode from the pruned bibfile to use for another file that will be used in the summary
+           readarray -t cites < <( grep "@" pruned.bib | sed -r 's/^[^ ]+\.bib: *//' | sed -r 's/@[^\{]+\{//' | sed -r 's/,//' )
+           if [[ ${#cites[@]} -gt 0 ]]; then echo "Number of citations: ${#cites[@]}" >> tout.txt; fi
+           for (( i=0; i<${#cites[@]}; i++ )); do echo "${cites[$i]}" >> tout.txt; done
+           if [[ ${#cites[@]} == 0 ]]; then echo "        None"; fi
+           rm -f $OUTFILE
+           mv tout.txt "$OUTFILE"
+           rm -f html.txt
+           rm -f finHtml.html
+           rm -f $HTMLFILE
 #           if [$fatalErrors]; then
 #              #
 #              # =======================================================================
