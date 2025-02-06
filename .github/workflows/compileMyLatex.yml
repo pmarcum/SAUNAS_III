@@ -576,18 +576,18 @@ jobs:
               # =======================================================================
               # There were errors - Create a .html file from the out.txt file
               rm -f "$PDFFILE"
+              rm -f "$PDFHIRES"
+              # make sure that long lines are split if they exceed 20 words
+              fold -sw 90 "$OUTFILE" > html.txt
+              echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
+              echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> finHtml.html
+              echo "<span style='color:blue;'><i>${JOBLINK}</i></span><br>" >> finHtml.html
+              echo "<hr><br>" >> finHtml.html
+              echo "$TIMESTAMP" >> finHtml.html
+              # Go through the html.txt file and make the errors red to stand out
+              touch red.txt
+              red=false
            fi
-#              rm -f "$PDFHIRES"
-#              # make sure that long lines are split if they exceed 20 words
-#              fold -sw 90 "$OUTFILE" > html.txt
-#              echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
-#              echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> finHtml.html
-#              echo "<span style='color:blue;'><i>${JOBLINK}</i></span><br>" >> finHtml.html
-#              echo "<hr><br>" >> finHtml.html
-#              echo "$TIMESTAMP" >> finHtml.html
-#              # Go through the html.txt file and make the errors red to stand out
-#              touch red.txt
-#              red=false
 #              while IFS= read -r line; do
 #                 start='^line #[0-9]+'
 #                 end='^\.__________'
