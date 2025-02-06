@@ -609,14 +609,15 @@ jobs:
               echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"  >> ${{ github.event.inputs.file2compile }}START.txt"
               echo "html"  >> ${{ github.event.inputs.file2compile }}START.txt"
             fi
-#           else
-#              rm -f ${{ github.event.inputs.file2compile }}START.txt"
-#              touch ${{ github.event.inputs.file2compile }}START.txt"
-#              echo $TIMESTAMP >> ${{ github.event.inputs.file2compile }}START.txt"
-#              echo $JOBLINK   >> ${{ github.event.inputs.file2compile }}START.txt"
-#              echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"  >> ${{ github.event.inputs.file2compile }}START.txt"
-#              echo "pdf"  >> ${{ github.event.inputs.file2compile }}START.txt"
-#              # finalize the compilation output file by putting a few sentences at the top
+           else
+              rm -f ${{ github.event.inputs.file2compile }}START.txt"
+              touch ${{ github.event.inputs.file2compile }}START.txt"
+              echo $TIMESTAMP >> ${{ github.event.inputs.file2compile }}START.txt"
+              echo $JOBLINK   >> ${{ github.event.inputs.file2compile }}START.txt"
+              echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"  >> ${{ github.event.inputs.file2compile }}START.txt"
+              echo "pdf"  >> ${{ github.event.inputs.file2compile }}START.txt"
+              # finalize the compilation output file by putting a few sentences at the top
+           fi
 #              rm -f fin.txt
 #              rm -f "$OUTFILE"
 #              touch fin.txt
