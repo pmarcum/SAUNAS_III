@@ -545,10 +545,10 @@ jobs:
                   echo "._______________________________________________________________________" >> tout.txt
               done
            done
-#              echo " " >> tout.txt
-#           done
-#           echo "FATALERRORS=$fatalErrors" >> $GITHUB_ENV
-#        continue-on-error: true
+              echo " " >> tout.txt
+           done
+           echo "FATALERRORS=$fatalErrors" >> $GITHUB_ENV
+        continue-on-error: true
 #        #
 #      - name: Gather up list of references
 #        run: |     
