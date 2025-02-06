@@ -495,11 +495,13 @@ jobs:
            touch tout.txt
            errtypes=("ERROR" "WARNING" "BIB")
            banners=("FATAL ERRORS" "WARNINGS" "CITATION ISSUES")
-#           for (( i=0; i<${#errtypes[@]}; i++ )); do
-#              echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-#              echo "              ${banners[$i]} IN $TEXFILE" >> tout.txt
-#              echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-#              issue=""
+           for (( i=0; i<${#errtypes[@]}; i++ )); do
+              echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+              echo "              ${banners[$i]} IN $TEXFILE" >> tout.txt
+              echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+              issue=""
+
+           done
 #              for (( j=0; j<${#sorted[@]}; j++ )); do
 #                  if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then 
 #                     issue="${sorted[$j]}"
