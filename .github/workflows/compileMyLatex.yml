@@ -501,14 +501,15 @@ jobs:
               echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
               issue=""
 
+           
+              for (( j=0; j<${#sorted[@]}; j++ )); do
+                  if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then 
+                     issue="${sorted[$j]}"
+                     if [[ "${errtypes[$i]}" =~ "ERROR" ]]; then fatalErrors=true; fi
+                     break;
+                  fi
+              done
            done
-#              for (( j=0; j<${#sorted[@]}; j++ )); do
-#                  if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then 
-#                     issue="${sorted[$j]}"
-#                     if [[ "${errtypes[$i]}" =~ "ERROR" ]]; then fatalErrors=true; fi
-#                     break;
-#                  fi
-#              done
 #              # if there were no issues, then put 'none'
 #              if [[ "$issue" = "" ]]; then echo "      none" >> tout.txt; fi
 #              while  [ "$issue" != "" ]; do
