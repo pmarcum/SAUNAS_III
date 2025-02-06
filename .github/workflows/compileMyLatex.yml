@@ -434,21 +434,21 @@ jobs:
            # =============================================================================
            fatalErrors=false
            fileliststr=''
-#           # ....... if the pdf file was generated, then the errors must have NOT been fatal.
-#           if [[ "$( -Eq "output to '${PDFFILE}'" compileOut.txt)$?" == 0 ]]; then fatalErrors=true; fi
-#           # ....... prepare the compilation log for processing by first removing all end-of-line characters
-#           rm -f errout.txt
-#           rm -f compileOut.txt
-#           touch errout.txt
-#           mv -f $OUTFILE compileOut.txt
-#           # ....... just to be safe, remove all \a, \t and \x0 because we use these as special markers later
-#           sed -ri 's/[\x0\a\t]/ /g' compileOut.txt
-#           # ....... before removing end of line carriage returns, mark the citations that could not be found in the bib file(s)
-#           sed -r 's/^ *(Citation `[[:print:]]*on input line )([0-9][0-9]*) *$/ \x0\2-BIB-\1\2\.\a/g' compileOut.txt >> errout.txt
-#           # ....... before removing end of line carriage returns, mark "on input line" phrases so they can be easily found (and/or avoided) later: 
-#           rm -f tmp.txt && sed -r 's/on input line ([0-9][0-9]*)/on input line \t\1/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
-#           # ....... also indicate any pdfTeX error that will not have a line number and involves explamation marks which mess sed up
-#           rm -f tmp.txt && sed -r 's/pdfTeX error: / \x0 0-ERROR-pdfTeX error:/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
+           # ....... if the pdf file was generated, then the errors must have NOT been fatal.
+           if [[ "$( -Eq "output to '${PDFFILE}'" compileOut.txt)$?" == 0 ]]; then fatalErrors=true; fi
+           # ....... prepare the compilation log for processing by first removing all end-of-line characters
+           rm -f errout.txt
+           rm -f compileOut.txt
+           touch errout.txt
+           mv -f $OUTFILE compileOut.txt
+           # ....... just to be safe, remove all \a, \t and \x0 because we use these as special markers later
+           sed -ri 's/[\x0\a\t]/ /g' compileOut.txt
+           # ....... before removing end of line carriage returns, mark the citations that could not be found in the bib file(s)
+           sed -r 's/^ *(Citation `[[:print:]]*on input line )([0-9][0-9]*) *$/ \x0\2-BIB-\1\2\.\a/g' compileOut.txt >> errout.txt
+           # ....... before removing end of line carriage returns, mark "on input line" phrases so they can be easily found (and/or avoided) later: 
+           rm -f tmp.txt && sed -r 's/on input line ([0-9][0-9]*)/on input line \t\1/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
+           # ....... also indicate any pdfTeX error that will not have a line number and involves explamation marks which mess sed up
+           rm -f tmp.txt && sed -r 's/pdfTeX error: / \x0 0-ERROR-pdfTeX error:/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
 #           rm -f tmp.txt && sed -r 's/failed *$/failed\a/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
 #           # ....... now remove all the end of line returns
 #           rm -f tmp.txt && tr -d "\n" < errout.txt > tmp.txt && mv -f tmp.txt errout.txt
