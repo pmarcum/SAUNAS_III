@@ -587,18 +587,18 @@ jobs:
               # Go through the html.txt file and make the errors red to stand out
               touch red.txt
               red=false
+              while IFS= read -r line; do
+                 start='^line #[0-9]+'
+                 end='^\.__________'
+                 if [[ $line =~ $start ]]; then red=true; elif [[ $line =~ $end ]]; then red=false; fi
+                 thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^\.__________/___________/g' )"
+                 if $red; then
+                    echo "<span style='color:red;'>$thisline</span>" >> red.txt
+                 else
+                    echo "$thisline" >> red.txt
+                 fi
+              done < "html.txt"
            fi
-#              while IFS= read -r line; do
-#                 start='^line #[0-9]+'
-#                 end='^\.__________'
-#                 if [[ $line =~ $start ]]; then red=true; elif [[ $line =~ $end ]]; then red=false; fi
-#                 thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^\.__________/___________/g' )"
-#                 if $red; then
-#                    echo "<span style='color:red;'>$thisline</span>" >> red.txt
-#                 else
-#                    echo "$thisline" >> red.txt
-#                 fi
-#              done < "html.txt"
 #              sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
 #              rm -f $HTMLFILE
 #              mv -f finHtml.html "$HTMLFILE"
