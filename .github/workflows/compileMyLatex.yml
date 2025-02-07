@@ -54,20 +54,21 @@ jobs:
         # purposes rather than having to use whole master bib file.  based on stand-alone "pruneMyBibfile" github action file
         id: pruneBib
         run: |
+           rootname=${{ github.event.inputs.file2compile }}
            # determine if the pruned bib file is already being used in the document. If so, we should bypass 
            # all the below because pruned bib file does not need to be created.
            # First, make sure that there is a bibliography in the document.  Otherwise, don't even continue
            makeNewPrunedBib=false
-           if [[ "$(grep -Eq "^ *\\\\bibliography[{]" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then makeNewPrunedBib=true; fi
+           if [[ "$(grep -Eq "^ *\\\\bibliography[{]" ${rootname}.tex)$?" == 0 ]]; then makeNewPrunedBib=true; fi
            # next, see if pruned.bib is already being used.  If so, then bail out now and dont try to recreate the pruned.bib
-           if [[ "$(grep -Eq "^ *\\\\bibliography[{]pruned([.]bib)?" ${{ github.event.inputs.file2compile }}.tex)$?" == 0 ]]; then makeNewPrunedBib=false; fi
+           if [[ "$(grep -Eq "^ *\\\\bibliography[{]pruned([.]bib)?" ${rootname}.tex)$?" == 0 ]]; then makeNewPrunedBib=false; fi
            #
            if $makeNewPrunedBib; then
               echo "madePruned=T" >> $GITHUB_OUTPUT
               rm -f pruned.bib
               touch pruned.bib
               # get a list of bib files used in this document:
-              readarray -t bibfiles < <( grep -E "^ *\\\\bibliography[{][^}]+[}]" "${{ github.event.inputs.file2compile }}.tex" | \
+              readarray -t bibfiles < <( grep -E "^ *\\\\bibliography[{][^}]+[}]" "${rootname}.tex" | \
                 sed -r 's/^ *\\bibliography[{]//i' | sed -r 's/} *$//' | sed -r 's/ *//g' )
               # the .bib extension might not have been included in the bibfile name, so make sure the extension is there
               bibfilesstr=$( printf "%s" "${bibfiles[@]}" )
@@ -129,22 +130,24 @@ jobs:
       - name: Post note alerting start time
         run: |
            # Create the start file
-           rm -f "${{ github.event.inputs.file2compile }}START.txt"
-           touch "${{ github.event.inputs.file2compile }}START.txt"
-           echo "$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> "${{ github.event.inputs.file2compile }}START.txt"
+           rootname=${{ github.event.inputs.file2compile }}
+           rm -f "${rootname}START.txt"
+           touch "${rootname}START.txt"
+           echo "$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> "${rootname}START.txt"
            link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/JOBIDPLACEHOLDER"
-           echo "$link2job" >> "${{ github.event.inputs.file2compile }}START.txt"
-           htmllink="https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"
-           echo $htmllink   >> "${{ github.event.inputs.file2compile }}START.txt"
-           echo "precomp"   >> "${{ github.event.inputs.file2compile }}START.txt"
+           echo "$link2job" >> "${rootname}START.txt"
+           htmllink="https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${rootname}.html"
+           echo $htmllink   >> "${rootname}START.txt"
+           echo "precomp"   >> "${rootname}START.txt"
         continue-on-error: true
            #
       - name: copy initialization file to repository
         run: |
            # post newly compiled high-resolution pdf to repository
+           rootname=${{ github.event.inputs.file2compile }}
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
-           git add "${{ github.event.inputs.file2compile }}START.txt"
+           git add "${rootname}START.txt"
            git commit -m "Upload newly created initialization file"
            git push
         continue-on-error: true
@@ -282,12 +285,13 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          rootname=${{ github.event.inputs.file2compile }}
           ls -la *tar
           ls -la *txt
           jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
           job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
           # replace the job id placeholder in the START file with the job id
-          sed -ri "s/JOBIDPLACEHOLDER/$job_id/" "${{ github.event.inputs.file2compile }}START.txt"
+          sed -ri "s/JOBIDPLACEHOLDER/$job_id/" "${rootname}START.txt"
         continue-on-error: true 
         #
       - name: get newly compressed images
@@ -345,29 +349,31 @@ jobs:
         # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
         id: compilation
         run: |
+           rootname=${{ github.event.inputs.file2compile }}
            rm -f compileOut.txt
-           rm -f "${{ github.event.inputs.file2compile }}.pdf"
+           rm -f "${rootname}.pdf"
            latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 \
-             -interaction=nonstopmode "${{ github.event.inputs.file2compile }}.tex" 2>&1 | tee compileOut.txt
+             -interaction=nonstopmode "${rootname}.tex" 2>&1 | tee compileOut.txt
            echo "______________________________________________________________________________"
            cat compileOut.txt
            echo "______________________________________________________________________________"
            #
            # clean up pdf files after compilation
            # move pdf into final filename
-           rm -f "${{ github.event.inputs.file2compile }}_hiRes.pdf"
-           mv -f "${{ github.event.inputs.file2compile }}.pdf" "${{ github.event.inputs.file2compile }}_hiRes.pdf"
+           rm -f "${rootname}_hiRes.pdf"
+           mv -f "${rootname}.pdf" "${rootname}_hiRes.pdf"
            # clean up compilation log files after compilation
-           rm -f "${{ github.event.inputs.file2compile }}Out.txt"
-           mv -f compileOut.txt "${{ github.event.inputs.file2compile }}Out.txt"
+           rm -f "${rootname}Out.txt"
+           mv -f compileOut.txt "${rootname}Out.txt"
         continue-on-error: true
            #
       - name: copy file to repository
         run: |
            # post newly compiled high-resolution pdf to repository
+           rootname=${{ github.event.inputs.file2compile }}
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
-           git add "${{ github.event.inputs.file2compile }}Out.txt" "${{ github.event.inputs.file2compile }}_hiRes.pdf" "${{ github.event.inputs.file2compile }}START.txt"
+           git add "${rootname}Out.txt" "${rootname}_hiRes.pdf" "${rootname}START.txt"
            git commit -m "Upload newly created pdf and compilation output"
            git push
         continue-on-error: true
@@ -398,9 +404,10 @@ jobs:
         #
       - name: post reduced resolution PDF on repository
         run: |
+           rootname=${{ github.event.inputs.file2compile }}
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
-           git add "${{ github.event.inputs.file2compile }}.pdf"
+           git add "${rootname}.pdf"
            git commit -m "post low resolution pdf"
            git push
         continue-on-error: true
@@ -408,7 +415,6 @@ jobs:
         #
         #   pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
         #   echo "PDFLINK=$pdflink" >>                                                   $GITHUB_OUTPUT
-        #   echo "TEXFILE=${{ github.event.inputs.file2compile }}.tex" >>                $GITHUB_OUTPUT
 
   #_______________________________________________________________________
   #|                                                                      |
@@ -432,19 +438,19 @@ jobs:
            # =============================================================================
            # open up the compilation output log file and strip out a lot of unnecessary stuff
            # =============================================================================
+           rootname=${{ github.event.inputs.file2compile }}
            fatalErrors=false
            fileliststr=''
            # ....... if the pdf file was generated, then the errors must have NOT been fatal.
-           if [[ "$( -Eq "output to '${PDFFILE}'" compileOut.txt)$?" == 0 ]]; then fatalErrors=true; fi
+           if [[ "$( -Eq "output to '${rootname}_hiRes.pdf'" ${rootname}Out.txt)$?" == 0 ]]; then fatalErrors=true; fi
+           #####if [[ "$( -Eq "output to '${PDFFILE}'" compileOut.txt)$?" == 0 ]]; then fatalErrors=true; fi
            # ....... prepare the compilation log for processing by first removing all end-of-line characters
            rm -f errout.txt
-           rm -f compileOut.txt
            touch errout.txt
-           mv -f $OUTFILE compileOut.txt
            # ....... just to be safe, remove all \a, \t and \x0 because we use these as special markers later
-           sed -ri 's/[\x0\a\t]/ /g' compileOut.txt
+           sed -ri 's/[\x0\a\t]/ /g' ${rootname}Out.txt
            # ....... before removing end of line carriage returns, mark the citations that could not be found in the bib file(s)
-           sed -r 's/^ *(Citation `[[:print:]]*on input line )([0-9][0-9]*) *$/ \x0\2-BIB-\1\2\.\a/g' compileOut.txt >> errout.txt
+           sed -r 's/^ *(Citation `[[:print:]]*on input line )([0-9][0-9]*) *$/ \x0\2-BIB-\1\2\.\a/g' ${rootname}Out.txt >> errout.txt
            # ....... before removing end of line carriage returns, mark "on input line" phrases so they can be easily found (and/or avoided) later: 
            rm -f tmp.txt && sed -r 's/on input line ([0-9][0-9]*)/on input line \t\1/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
            # ....... also indicate any pdfTeX error that will not have a line number and involves explamation marks which mess sed up
@@ -497,7 +503,7 @@ jobs:
            banners=("FATAL ERRORS" "WARNINGS" "CITATION ISSUES")
            for (( i=0; i<${#errtypes[@]}; i++ )); do
               echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-              echo "              ${banners[$i]} IN $TEXFILE" >> tout.txt
+              echo "              ${banners[$i]} IN ${rootname}.tex" >> tout.txt
               echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
               issue=""           
               for (( j=0; j<${#sorted[@]}; j++ )); do
@@ -523,7 +529,7 @@ jobs:
                      done
                      # now look up the line in the .tex file and place underneath
                      echo "line #$linenum ----------------------- " >> tout.txt
-                     head -n $linenum "$TEXFILE" | tail -1 >> tout.txt
+                     head -n $linenum "${rootname}.tex" | tail -1 >> tout.txt
                   else
                      # look up where this line is in the list and remove it from the list
                      for (( j=0; j<${#sorted[@]}; j++ )); do
@@ -554,9 +560,10 @@ jobs:
            # squash.io/extracting=numbers-from-strings-in-bash
            # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
            # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
+           rootname=${{ github.event.inputs.file2compile }}
            echo "" >> tout.txt
            echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-           echo "              LIST OF REFERENCES IN $TEXFILE" >> tout.txt
+           echo "              LIST OF REFERENCES IN ${rootname}.tex" >> tout.txt
            echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
            # create an array of just the bibcodes
            # extract just the bibcode from the pruned bibfile to use for another file that will be used in the summary
@@ -564,26 +571,28 @@ jobs:
            if [[ ${#cites[@]} -gt 0 ]]; then echo "Number of citations: ${#cites[@]}" >> tout.txt; fi
            for (( i=0; i<${#cites[@]}; i++ )); do echo "${cites[$i]}" >> tout.txt; done
            if [[ ${#cites[@]} == 0 ]]; then echo "        None"; fi
-           rm -f $OUTFILE
-           mv tout.txt "$OUTFILE"
+           rm -f ${rootname}Out.txt
+           mv tout.txt "${rootname}Out.txt"
            rm -f html.txt
            rm -f finHtml.html
-           rm -f $HTMLFILE
+           rm -f ${rootname}.html
+           timestamp=$(sed -n "1p" "${rootname}START.txt")
+           joblink=$(sed -n "2p" "${rootname}START.txt")
            if [$fatalErrors]; then
               #
               # =======================================================================
               #        construct the html file showing errors, if there were fatal ones
               # =======================================================================
               # There were errors - Create a .html file from the out.txt file
-              rm -f "$PDFFILE"
-              rm -f "$PDFHIRES"
+              rm -f "${rootname}.pdf"
+              rm -f "${rootname}_hiRes.pdf"
               # make sure that long lines are split if they exceed 20 words
-              fold -sw 90 "$OUTFILE" > html.txt
+              fold -sw 90 "${rootname}Out.txt" > html.txt
               echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
               echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> finHtml.html
-              echo "<span style='color:blue;'><i>${JOBLINK}</i></span><br>" >> finHtml.html
+              echo "<span style='color:blue;'><i>${joblink}</i></span><br>" >> finHtml.html
               echo "<hr><br>" >> finHtml.html
-              echo "$TIMESTAMP" >> finHtml.html
+              echo "$timestamp" >> finHtml.html
               # Go through the html.txt file and make the errors red to stand out
               touch red.txt
               red=false
@@ -599,44 +608,39 @@ jobs:
                  fi
               done < "html.txt"
               sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
-              rm -f $HTMLFILE
-              mv -f finHtml.html "$HTMLFILE"
+              rm -f ${rootname}.html
+              mv -f finHtml.html "${rootname}.html"
               rm -f red.txt
-              rm -f ${{ github.event.inputs.file2compile }}START.txt"
-              touch ${{ github.event.inputs.file2compile }}START.txt"
-              echo $TIMESTAMP >> ${{ github.event.inputs.file2compile }}START.txt"
-              echo $JOBLINK   >> ${{ github.event.inputs.file2compile }}START.txt"
-              echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"  >> ${{ github.event.inputs.file2compile }}START.txt"
-              echo "html"  >> ${{ github.event.inputs.file2compile }}START.txt"
+              # replace the last line with an "html" 
+              sed -ri "s/precomp/html/" "${rootname}START.txt"
             fi
            else
-              rm -f ${{ github.event.inputs.file2compile }}START.txt"
-              touch ${{ github.event.inputs.file2compile }}START.txt"
-              echo $TIMESTAMP >> ${{ github.event.inputs.file2compile }}START.txt"
-              echo $JOBLINK   >> ${{ github.event.inputs.file2compile }}START.txt"
-              echo "https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.html"  >> ${{ github.event.inputs.file2compile }}START.txt"
-              echo "pdf"  >> ${{ github.event.inputs.file2compile }}START.txt"
+              # replace the last line with an "html" 
+              sed -ri "s/precomp/pdf/" "${rootname}START.txt"
               # finalize the compilation output file by putting a few sentences at the top
               rm -f fin.txt
-              rm -f "$OUTFILE"
+              rm -f "${rootname}Out.txt"
               touch fin.txt
-              echo "$TIMESTAMP" >> fin.txt
+              echo "$timestamp" >> fin.txt
               echo "LATEX COMPILATION ERRORS and WARNINGS" >> fin.txt
               echo "" >> fin.txt
               echo "To view full GitHub Actions output, click on item at top of list here:" >> fin.txt
-              echo "$JOBLINK" >> fin.txt
+              echo "$joblink" >> fin.txt
               echo "" >> fin.txt
               while IFS= read -r line; do
                  thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
                  echo "$thisline" >> fin.txt
-              done < "$OUTFILE"
-              mv -f fin.txt "$OUTFILE"
+              done < "${rootname}Out.txt"
+              mv -f fin.txt "${rootname}Out.txt"
            fi
         continue-on-error: true
-#        #
-#      - name: post finalized compilation errors and notice of completion to the repository
-#        uses: stefanzweifel/git-auto-commit-action@v5
-#        with:
-#           commit_message: low-resolution version of PDF
-#           file_pattern: "${{ github.event.inputs.file2compile }}START.txt" "$OUTFILE" "$HTMLFILE"
-#        continue-on-error: true
+        #
+      - name: post finalized compilation errors and notice of completion to the repository
+        run: |
+           rootname=${{ github.event.inputs.file2compile }}
+           git config --global user.email "email@gmail.com"
+           git config --global user.name "github actions"
+           git add "${rootname}START.txt" "${rootname}Out.txt" "${rootname}.html"
+           git commit -m "low-resolution version of PDF"
+           git push
+        continue-on-error: true
