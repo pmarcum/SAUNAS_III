@@ -439,9 +439,6 @@ jobs:
            # open up the compilation output log file and strip out a lot of unnecessary stuff
            # =============================================================================
            rootname=${{ github.event.inputs.file2compile }}
-           echo ''
-           echo '442'
-           echo ${rootname}
            fatalErrors=false
            fileliststr=''
            # ....... if the pdf file was generated, then the errors must have NOT been fatal.
@@ -472,6 +469,10 @@ jobs:
            sed -ri 's/[)] *[)]/ /g' errout.txt
            # ....... remove all multiple white spaces to a single white space
            sed -ri 's/  */ /g' errout.txt
+
+           cat errout.txt 
+
+           
            rm -f tmp.txt
            sed -r 's/(\.[^.][^.]*\.tex:[0-9][0-9]*:[^.\t][^.\t]*\t)([0-9][0-9]*)([^.]*\.)/\x0\2-ERROR-\1\2\3\a/g' errout.txt > tmp.txt
            mv -f tmp.txt errout.txt
