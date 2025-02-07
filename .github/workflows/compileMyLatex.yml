@@ -439,6 +439,9 @@ jobs:
            # open up the compilation output log file and strip out a lot of unnecessary stuff
            # =============================================================================
            rootname=${{ github.event.inputs.file2compile }}
+           echo ''
+           echo '442'
+           echo ${rootname}
            fatalErrors=false
            fileliststr=''
            # ....... if the pdf file was generated, then the errors must have NOT been fatal.
