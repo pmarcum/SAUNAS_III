@@ -439,7 +439,7 @@ jobs:
            fatalErrors=false
            fileliststr=''
            # ....... if the pdf file was generated, then the errors must have NOT been fatal.
-           if [[ "$( -Eq 'output to "${rootname}.pdf"' compileOut.txt)$?" == 0 ]]; then fatalErrors=true; fi
+           if grep -Fxq "output to ${rootname}.pdf" compileOut.txt; then fatalErrors=true; fi
            # ....... prepare the compilation log for processing by first removing all end-of-line characters
            rm -f errout.txt
            touch errout.txt
