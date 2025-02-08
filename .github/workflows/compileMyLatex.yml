@@ -439,7 +439,7 @@ jobs:
            fatalErrors=false
            fileliststr=''
            # ....... if the pdf file was generated, then the errors must have NOT been fatal.
-           if [ -f  "${rootname}.pdf" ]; then fatalErrors=true; fi
+           if [ ! -f  "${rootname}.pdf" ]; then fatalErrors=true; fi
 
            echo '444'
            echo $fatalErrors
