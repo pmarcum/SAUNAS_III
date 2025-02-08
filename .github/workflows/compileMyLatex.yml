@@ -444,9 +444,9 @@ jobs:
            rm -f errout.txt
            touch errout.txt
            # ....... just to be safe, remove all \a, \t and \x0 because we use these as special markers later
-           sed -ri 's/[\x0\a\t]/ /g' ${rootname}Out.txt
+           sed -ri 's/[\x0\a\t]/ /g' compileOut.txt
            # ....... before removing end of line carriage returns, mark the citations that could not be found in the bib file(s)
-           sed -r 's/^ *(Citation `[[:print:]]*on input line )([0-9][0-9]*) *$/ \x0\2-BIB-\1\2\.\a/g' ${rootname}Out.txt >> errout.txt
+           sed -r 's/^ *(Citation `[[:print:]]*on input line )([0-9][0-9]*) *$/ \x0\2-BIB-\1\2\.\a/g' compileOut.txt >> errout.txt
            # ....... before removing end of line carriage returns, mark "on input line" phrases so they can be easily found (and/or avoided) later: 
            rm -f tmp.txt && sed -r 's/on input line ([0-9][0-9]*)/on input line \t\1/g' errout.txt > tmp.txt && mv -f tmp.txt errout.txt
            # ....... also indicate any pdfTeX error that will not have a line number and involves explamation marks which mess sed up
@@ -544,8 +544,6 @@ jobs:
                   done
                   echo "._______________________________________________________________________" >> tout.txt
               done
-           done
-              echo " " >> tout.txt
            done
            echo "FATALERRORS=$fatalErrors" >> $GITHUB_ENV
         continue-on-error: true
