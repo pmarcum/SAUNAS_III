@@ -352,6 +352,7 @@ jobs:
            rootname=${{ github.event.inputs.file2compile }}
            rm -f compileOut.txt
            rm -f "${rootname}.pdf"
+           rm -f "${rootname}_hiRes.pdf"
            latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 \
              -interaction=nonstopmode "${rootname}.tex" 2>&1 | tee compileOut.txt
            echo "______________________________________________________________________________"
@@ -360,7 +361,6 @@ jobs:
            #
            # clean up pdf files after compilation
            # move pdf into final filename
-           rm -f "${rootname}_hiRes.pdf"
            mv -f "${rootname}.pdf" "${rootname}_hiRes.pdf"
         continue-on-error: true
            #
@@ -431,6 +431,8 @@ jobs:
         #
       - name: Capture full compilation output
         run: |
+           echo '434'
+           ls -la compileOut.txt
            #
            # =============================================================================
            # open up the compilation output log file and strip out a lot of unnecessary stuff
@@ -439,11 +441,7 @@ jobs:
            fatalErrors=false
            fileliststr=''
            # ....... if the pdf file was generated, then the errors must have NOT been fatal.
-           if [ ! -f  "${rootname}.pdf" ]; then fatalErrors=true; fi
-
-           echo '444'
-           echo $fatalErrors
-           
+           if [ ! -f  "${rootname}_hiRes.pdf" ]; then fatalErrors=true; fi         
            # ....... prepare the compilation log for processing by first removing all end-of-line characters
            rm -f errout.txt
            touch errout.txt
