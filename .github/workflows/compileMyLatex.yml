@@ -488,153 +488,153 @@ jobs:
            cat errout.txt | sort -r -t- -g -k1,1n -k2 -s | uniq | sed -r 's/\a/ /g' > tmp.txt
            mv -f tmp.txt errout.txt
            #
-           # =============================================================================
-           # remove lines in the output that are unrelated to the latex compilation itself
-           # =============================================================================
-           readarray -t sorted < errout.txt
-           #  #######################   START CONSOLIDATING THE ERRORS ###################
-           rm -f tout.txt
-           touch tout.txt
-           errtypes=("ERROR" "WARNING" "BIB")
-           banners=("FATAL ERRORS" "WARNINGS" "CITATION ISSUES")
-           for (( i=0; i<${#errtypes[@]}; i++ )); do
-              echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-              echo "              ${banners[$i]} IN ${rootname}.tex" >> tout.txt
-              echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-              issue=""           
-              for (( j=0; j<${#sorted[@]}; j++ )); do
-                  if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then 
-                     issue="${sorted[$j]}"
-                     if [[ "${errtypes[$i]}" =~ "ERROR" ]]; then fatalErrors=true; fi
-                     break;
-                  fi
-              done
-              # if there were no issues, then put 'none'
-              if [[ "$issue" = "" ]]; then echo "      none" >> tout.txt; fi
-              while  [ "$issue" != "" ]; do
-                  linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$issue" )
-                  if [[ $linenum > 0 ]]; then
-                     # look for all occurances of this line number in the error/warning list
-                     for (( j=0; j<${#sorted[@]}; j++ )); do
-                        if [[ "$(  -q -E -- "^$linenum-" <<<"${sorted[$j]}" )$?" == 0 ]]; then
-                           line="$( echo "${sorted[$j]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' )"
-                           echo $line >> tout.txt
-                           # remove this item from the list
-                           sorted[$j]="DONE"
-                        fi
-                     done
-                     # now look up the line in the .tex file and place underneath
-                     echo "line #$linenum ----------------------- " >> tout.txt
-                     head -n $linenum "${rootname}.tex" | tail -1 >> tout.txt
-                  else
-                     # look up where this line is in the list and remove it from the list
-                     for (( j=0; j<${#sorted[@]}; j++ )); do
-                        if [[ "${sorted[$j]}" =~ "$issue" ]]; then
-                           line="$( echo "${sorted[$j]}" | sed -r 's/^ *[0-9][0-9]*\-[A-Z][A-Z]*\-//' )"
-                           echo $line >> tout.txt
-                           # remove from list
-                          sorted[$j]="DONE"
-                         fi
-                     done
-                  fi
-                  # See if any more issue remain in the list and need to be processed in the next loop iteration
-                  issue=""
-                  for (( j=0; j<${#sorted[@]}; j++ )); do
-                     if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then issue="${sorted[$j]}"; break; fi
-                  done
-                  echo "._______________________________________________________________________" >> tout.txt
-              done
-           done
-           echo "FATALERRORS=$fatalErrors" >> $GITHUB_ENV
-        continue-on-error: true
-        #
-      - name: Gather up list of references
-        run: |     
-           # https://stackoverflow.com/questions/57788813/-return-0-if-no-match
-           # squash.io/extracting=numbers-from-strings-in-bash
-           # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
-           # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
-           rootname=${{ github.event.inputs.file2compile }}
-           echo "" >> tout.txt
-           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-           echo "              LIST OF REFERENCES IN ${rootname}.tex" >> tout.txt
-           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-           # create an array of just the bibcodes
-           # extract just the bibcode from the pruned bibfile to use for another file that will be used in the summary
-           readarray -t cites < <( grep "@" pruned.bib | sed -r 's/^[^ ]+\.bib: *//' | sed -r 's/@[^\{]+\{//' | sed -r 's/,//' )
-           if [[ ${#cites[@]} -gt 0 ]]; then echo "Number of citations: ${#cites[@]}" >> tout.txt; fi
-           for (( i=0; i<${#cites[@]}; i++ )); do echo "${cites[$i]}" >> tout.txt; done
-           if [[ ${#cites[@]} == 0 ]]; then echo "        None"; fi
-           rm -f ${rootname}Out.txt
-           mv tout.txt "${rootname}Out.txt"
-           rm -f html.txt
-           rm -f finHtml.html
-           rm -f ${rootname}.html
-           timestamp=$(sed -n "1p" "${rootname}START.txt")
-           joblink=$(sed -n "2p" "${rootname}START.txt")
-           if [$FATALERRORS]; then
-              #
-              # =======================================================================
-              #        construct the html file showing errors, if there were fatal ones
-              # =======================================================================
-              # There were errors - Create a .html file from the out.txt file
-              rm -f "${rootname}.pdf"
-              rm -f "${rootname}_hiRes.pdf"
-              # make sure that long lines are split if they exceed 20 words
-              fold -sw 90 "${rootname}Out.txt" > html.txt
-              echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
-              echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> finHtml.html
-              echo "<span style='color:blue;'><i>${joblink}</i></span><br>" >> finHtml.html
-              echo "<hr><br>" >> finHtml.html
-              echo "$timestamp" >> finHtml.html
-              # Go through the html.txt file and make the errors red to stand out
-              touch red.txt
-              red=false
-              while IFS= read -r line; do
-                 start='^line #[0-9]+'
-                 end='^\.__________'
-                 if [[ $line =~ $start ]]; then red=true; elif [[ $line =~ $end ]]; then red=false; fi
-                 thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^\.__________/___________/g' )"
-                 if $red; then
-                    echo "<span style='color:red;'>$thisline</span>" >> red.txt
-                 else
-                    echo "$thisline" >> red.txt
-                 fi
-              done < "html.txt"
-              sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
-              rm -f ${rootname}.html
-              mv -f finHtml.html "${rootname}.html"
-              rm -f red.txt
-              # replace the last line with an "html" 
-              sed -ri "s/precomp/html/" "${rootname}START.txt"
-            fi
-           else
-              # replace the last line with an "html" 
-              sed -ri "s/precomp/pdf/" "${rootname}START.txt"
-              # finalize the compilation output file by putting a few sentences at the top
-              rm -f fin.txt
-              rm -f "${rootname}Out.txt"
-              touch fin.txt
-              echo "$timestamp" >> fin.txt
-              echo "LATEX COMPILATION ERRORS and WARNINGS" >> fin.txt
-              echo "" >> fin.txt
-              echo "To view full GitHub Actions output, click on item at top of list here:" >> fin.txt
-              echo "$joblink" >> fin.txt
-              echo "" >> fin.txt
-              while IFS= read -r line; do
-                 thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
-                 echo "$thisline" >> fin.txt
-              done < "${rootname}Out.txt"
-              mv -f fin.txt "${rootname}Out.txt"
-           fi
-        continue-on-error: true
-        #
-      - name: post finalized compilation errors and notice of completion to the repository
-        run: |
-           rootname=${{ github.event.inputs.file2compile }}
-           git config --global user.email "email@gmail.com"
-           git config --global user.name "github actions"
-           git add "${rootname}START.txt" "${rootname}Out.txt" "${rootname}.html"
-           git commit -m "low-resolution version of PDF"
-           git push
-        continue-on-error: true
+#           # =============================================================================
+#           # remove lines in the output that are unrelated to the latex compilation itself
+#           # =============================================================================
+#           readarray -t sorted < errout.txt
+#           #  #######################   START CONSOLIDATING THE ERRORS ###################
+#           rm -f tout.txt
+#           touch tout.txt
+#           errtypes=("ERROR" "WARNING" "BIB")
+#           banners=("FATAL ERRORS" "WARNINGS" "CITATION ISSUES")
+#           for (( i=0; i<${#errtypes[@]}; i++ )); do
+#              echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+#              echo "              ${banners[$i]} IN ${rootname}.tex" >> tout.txt
+#              echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+#              issue=""           
+#              for (( j=0; j<${#sorted[@]}; j++ )); do
+#                  if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then 
+#                     issue="${sorted[$j]}"
+#                     if [[ "${errtypes[$i]}" =~ "ERROR" ]]; then fatalErrors=true; fi
+#                     break;
+#                  fi
+#              done
+#              # if there were no issues, then put 'none'
+#              if [[ "$issue" = "" ]]; then echo "      none" >> tout.txt; fi
+#              while  [ "$issue" != "" ]; do
+#                  linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$issue" )
+#                  if [[ $linenum > 0 ]]; then
+#                     # look for all occurances of this line number in the error/warning list
+#                     for (( j=0; j<${#sorted[@]}; j++ )); do
+#                        if [[ "$(  -q -E -- "^$linenum-" <<<"${sorted[$j]}" )$?" == 0 ]]; then
+#                           line="$( echo "${sorted[$j]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' )"
+#                           echo $line >> tout.txt
+#                           # remove this item from the list
+#                           sorted[$j]="DONE"
+#                        fi
+#                     done
+#                     # now look up the line in the .tex file and place underneath
+#                     echo "line #$linenum ----------------------- " >> tout.txt
+#                     head -n $linenum "${rootname}.tex" | tail -1 >> tout.txt
+#                  else
+#                     # look up where this line is in the list and remove it from the list
+#                     for (( j=0; j<${#sorted[@]}; j++ )); do
+#                        if [[ "${sorted[$j]}" =~ "$issue" ]]; then
+#                           line="$( echo "${sorted[$j]}" | sed -r 's/^ *[0-9][0-9]*\-[A-Z][A-Z]*\-//' )"
+#                           echo $line >> tout.txt
+#                           # remove from list
+#                          sorted[$j]="DONE"
+#                         fi
+#                     done
+#                  fi
+#                  # See if any more issue remain in the list and need to be processed in the next loop iteration
+#                  issue=""
+#                  for (( j=0; j<${#sorted[@]}; j++ )); do
+#                     if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then issue="${sorted[$j]}"; break; fi
+#                  done
+#                  echo "._______________________________________________________________________" >> tout.txt
+#              done
+#           done
+#           echo "FATALERRORS=$fatalErrors" >> $GITHUB_ENV
+#        continue-on-error: true
+#        #
+#      - name: Gather up list of references
+#        run: |     
+#           # https://stackoverflow.com/questions/57788813/-return-0-if-no-match
+#           # squash.io/extracting=numbers-from-strings-in-bash
+#           # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
+#           # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
+#           rootname=${{ github.event.inputs.file2compile }}
+#           echo "" >> tout.txt
+#           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+#           echo "              LIST OF REFERENCES IN ${rootname}.tex" >> tout.txt
+#           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+#           # create an array of just the bibcodes
+#           # extract just the bibcode from the pruned bibfile to use for another file that will be used in the summary
+#           readarray -t cites < <( grep "@" pruned.bib | sed -r 's/^[^ ]+\.bib: *//' | sed -r 's/@[^\{]+\{//' | sed -r 's/,//' )
+#           if [[ ${#cites[@]} -gt 0 ]]; then echo "Number of citations: ${#cites[@]}" >> tout.txt; fi
+#           for (( i=0; i<${#cites[@]}; i++ )); do echo "${cites[$i]}" >> tout.txt; done
+#           if [[ ${#cites[@]} == 0 ]]; then echo "        None"; fi
+#           rm -f ${rootname}Out.txt
+#           mv tout.txt "${rootname}Out.txt"
+#           rm -f html.txt
+#           rm -f finHtml.html
+#           rm -f ${rootname}.html
+#           timestamp=$(sed -n "1p" "${rootname}START.txt")
+#           joblink=$(sed -n "2p" "${rootname}START.txt")
+#           if [$FATALERRORS]; then
+#              #
+#              # =======================================================================
+#              #        construct the html file showing errors, if there were fatal ones
+#              # =======================================================================
+#              # There were errors - Create a .html file from the out.txt file
+#              rm -f "${rootname}.pdf"
+#              rm -f "${rootname}_hiRes.pdf"
+#              # make sure that long lines are split if they exceed 20 words
+#              fold -sw 90 "${rootname}Out.txt" > html.txt
+#              echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
+#              echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> finHtml.html
+#              echo "<span style='color:blue;'><i>${joblink}</i></span><br>" >> finHtml.html
+#              echo "<hr><br>" >> finHtml.html
+#              echo "$timestamp" >> finHtml.html
+#              # Go through the html.txt file and make the errors red to stand out
+#              touch red.txt
+#              red=false
+#              while IFS= read -r line; do
+#                 start='^line #[0-9]+'
+#                 end='^\.__________'
+#                 if [[ $line =~ $start ]]; then red=true; elif [[ $line =~ $end ]]; then red=false; fi
+#                 thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^\.__________/___________/g' )"
+#                 if $red; then
+#                    echo "<span style='color:red;'>$thisline</span>" >> red.txt
+#                 else
+#                    echo "$thisline" >> red.txt
+#                 fi
+#              done < "html.txt"
+#              sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
+#              rm -f ${rootname}.html
+#              mv -f finHtml.html "${rootname}.html"
+#              rm -f red.txt
+#              # replace the last line with an "html" 
+#              sed -ri "s/precomp/html/" "${rootname}START.txt"
+#            fi
+#           else
+#              # replace the last line with an "html" 
+#              sed -ri "s/precomp/pdf/" "${rootname}START.txt"
+#              # finalize the compilation output file by putting a few sentences at the top
+#              rm -f fin.txt
+#              rm -f "${rootname}Out.txt"
+#              touch fin.txt
+#              echo "$timestamp" >> fin.txt
+#              echo "LATEX COMPILATION ERRORS and WARNINGS" >> fin.txt
+#              echo "" >> fin.txt
+#              echo "To view full GitHub Actions output, click on item at top of list here:" >> fin.txt
+#              echo "$joblink" >> fin.txt
+#              echo "" >> fin.txt
+#              while IFS= read -r line; do
+#                 thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
+#                 echo "$thisline" >> fin.txt
+#              done < "${rootname}Out.txt"
+#              mv -f fin.txt "${rootname}Out.txt"
+#           fi
+#        continue-on-error: true
+#        #
+#      - name: post finalized compilation errors and notice of completion to the repository
+#        run: |
+#           rootname=${{ github.event.inputs.file2compile }}
+#           git config --global user.email "email@gmail.com"
+#           git config --global user.name "github actions"
+#           git add "${rootname}START.txt" "${rootname}Out.txt" "${rootname}.html"
+#           git commit -m "low-resolution version of PDF"
+#           git push
+#        continue-on-error: true
