@@ -163,7 +163,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: start_file
-          path: "${rootname}START.txt"
+          path: "${{ github.event.inputs.file2compile }}START.txt"
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -298,7 +298,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: start_file
-          path: "${rootname}START.txt"
+          path: "${{ github.event.inputs.file2compile }}START.txt"
         continue-on-error: true
         #
       - name: Get Job ID from GH API
@@ -391,12 +391,16 @@ jobs:
            rootname=${{ github.event.inputs.file2compile }}
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
-           git add "compileOut.txt" "${rootname}_hiRes.pdf" "${rootname}START.txt"
+           git add "${rootname}_hiRes.pdf" "${rootname}START.txt"
            git commit -m "Upload newly created pdf and compilation output"
            git push
-
-           echo '377'
-           ls -la compileOut.txt
+        continue-on-error: true
+        #
+      - name: Make compilation log available to another function/job
+        uses: actions/download-artifact@v4
+        with:
+          name: compile_log
+          path: compileOut.txt
         continue-on-error: true
 
   #_______________________________________________________________________
