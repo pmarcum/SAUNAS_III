@@ -159,7 +159,7 @@ jobs:
           path: ${{ github.event.inputs.file2compile }}START.txt
           overwrite: true
         continue-on-error: true
-        #
+        # 
       #- name: copy initialization file to repository
       #  run: |
       #     # post newly compiled high-resolution pdf to repository
@@ -279,7 +279,6 @@ jobs:
           path: compressedFiles.tar
           overwrite: true
         continue-on-error: true
-        
   #_______________________________________________________________________
   #|                                                                      |
   #|                        COMPILE THE FILE                              |
@@ -419,7 +418,7 @@ jobs:
           path: compileOut.txt
           overwrite: true
         continue-on-error: true
-        #
+        # 
       #- name: add PDF, compilation output to repository
       #  run: |
       #     rootname=${{ github.event.inputs.file2compile }}
@@ -723,3 +722,58 @@ jobs:
 #           git commit -m "low-resolution version of PDF"
 #           git push
 #        continue-on-error: true
+  #_______________________________________________________________________
+  #|                                                                      |
+  #|     COMPRESS THE PDF FILE INTO LOWER RESOLUTION FILE FOR DISPLAY     |
+  #|______________________________________________________________________|
+  updateRepo:
+    needs: [build_latex]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+      #
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+        #
+      - name: Download hi res PDF
+        uses: actions/download-artifact@v4
+        with:
+          name: hires-artifact
+        continue-on-error: true
+        #
+      - name: Download pruned bibfile
+        uses: actions/download-artifact@v4
+        with:
+          name: pruned-bib-artifact
+        continue-on-error: true
+        #
+      - name: Download start file
+        uses: actions/download-artifact@v4
+        with:
+          name: postcompilation-start-artifact
+        continue-on-error: true
+        #
+      - name: Download compressed images
+        uses: actions/download-artifact@v4
+        with:
+          name:  images-tar-artifact
+        continue-on-error: true
+        #
+      - name: Download compilation log
+        uses: actions/download-artifact@v4
+        with:
+          name: postcompilation-log-artifact
+        continue-on-error: true
+        #
+      - name: post finalized compilation errors and notice of completion to the repository
+        run: |
+           git config --global user.email "email@gmail.com"
+           git config --global user.name "github actions"
+           git add .
+           git commit -m "freshly compiled files"
+           git push
+        continue-on-error: true
+ 
