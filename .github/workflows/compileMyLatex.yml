@@ -61,15 +61,9 @@ jobs:
            makeNewPrunedBib=false
            if [[ "$(grep -Eq "^ *\\\\bibliography[{]" ${rootname}.tex)$?" == 0 ]]; then makeNewPrunedBib=true; fi
            # next, see if pruned.bib is already being used.  If so, then bail out now and dont try to recreate the pruned.bib
-           if [[ "$(grep -Eq "^ *\\\\bibliography[{]pruned([.]bib)?" ${rootname}.tex)$?" == 0 ]]; then makeNewPrunedBib=false; fi
-
-           echo '66'
-           echo $makeNewPrunedBib
-           
+           if [[ "$(grep -Eq "^ *\\\\bibliography[{]pruned([.]bib)?" ${rootname}.tex)$?" == 0 ]]; then makeNewPrunedBib=false; fi         
            #
            if $makeNewPrunedBib; then
-              echo '71'
-              
               echo "madePruned=T" >> $GITHUB_OUTPUT
               rm -f pruned.bib
               touch pruned.bib
@@ -114,12 +108,10 @@ jobs:
            git config --global user.email "email@gmail.com"
            git config --global user.name "github actions"
            git add "pruned.bib"
-           git status
-           git commit --verbose -m "Upload newly created initialization file"
-           git status
+           git commit -m "Upload newly created initialization file"
            git fetch origin
-           git rebase --strategy-option=theirs origin/main --verbose
-           git push --verbose
+           git rebase --strategy-option=theirs origin/main
+           git push
         continue-on-error: true
 
   #_______________________________________________________________________
@@ -165,13 +157,6 @@ jobs:
            git rebase --strategy-option=theirs origin/main --verbose
            git push --verbose           
         continue-on-error: true
-        #
-      #- name: copy initialization file to repository
-      #  uses: actions/upload-artifact@v4
-      #  with:
-      #    name: start_file
-      #    path: ${{ github.event.inputs.file2compile }}START.txt
-      #  continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
@@ -300,12 +285,6 @@ jobs:
           name: images-tar-artifact
         continue-on-error: true
         #
-      #- name: Download newly compressed images folder
-      #  uses: actions/download-artifact@v4
-      #  with:
-      #    name: start_file
-      #  continue-on-error: true
-        #
       - name: Get Job ID from GH API
         id: job-id
         env:
@@ -320,16 +299,17 @@ jobs:
           sed -ri "s/JOBIDPLACEHOLDER/$job_id/" "${rootname}START.txt"
         continue-on-error: true 
         #
-      #- name: get newly compressed images
-      #  if: ${{ always() && hashFiles('compressedFiles.tar') }}
-      #  run: |
-      #    echo '288'
-      #    ls -la FIGURES
-      #    echo '==========================='
-      #    tar -xvf compressedFiles.tar
-      #    ls -la FIGURES
-      #    echo '---------------------------'
-      #  continue-on-error: true 
+      - name: get newly compressed images
+        if: ${{ always() && hashFiles('compressedFiles.tar') }}
+        run: |
+          echo '288'
+          ls -la FIGURES
+          echo '==========================='
+          tar -xvf compressedFiles.tar
+          ls -la FIGURES
+          echo '---------------------------'
+          tar -tvf compressedFiles.tar
+        continue-on-error: true 
         #
         # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
         # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
