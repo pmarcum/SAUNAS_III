@@ -396,16 +396,27 @@ jobs:
            mv -f "${rootname}.pdf" "${rootname}_hiRes.pdf"
         continue-on-error: true
            #
-      - name: Make PDF, compilation output available to other jobs
+      - name: Make PDF available to other jobs
         uses: actions/upload-artifact@v4
         with:
-          name: images-tar-artifact
-          path: |
-             ${{ github.event.inputs.file2compile }}_hiRes.pdf
-             ${{ github.event.inputs.file2compile }}START.txt
-             compileOut.txt
-             compressedFiles.tar
-             pruned.bib
+          name: hires-artifact
+          path: ${{ github.event.inputs.file2compile }}_hiRes.pdf
+          overwrite: true
+        continue-on-error: true
+        #
+      - name: Make compilation log available to other jobs
+        uses: actions/upload-artifact@v4
+        with:
+          name: postcompilation-start-artifact
+          path: ${{ github.event.inputs.file2compile }}START.txt
+          overwrite: true
+        continue-on-error: true
+        #
+      - name: Make compilation output available to other jobs
+        uses: actions/upload-artifact@v4
+        with:
+          name: postcompilation-log-artifact
+          path: compileOut.txt
           overwrite: true
         continue-on-error: true
         #
@@ -436,6 +447,12 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         #
+      - name: Download latex compilation files
+        uses: actions/download-artifact@v4
+        with:
+          name: hires-artifact
+        continue-on-error: true
+        #
       - name: compress PDF
         uses: jy95/ghostscript-action@v1
         with:
@@ -444,15 +461,23 @@ jobs:
            arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
         continue-on-error: true
         #
-      - name: post reduced resolution PDF on repository
-        run: |
-           rootname=${{ github.event.inputs.file2compile }}
-           git config --global user.email "email@gmail.com"
-           git config --global user.name "github actions"
-           git add "${rootname}.pdf"
-           git commit -m "post low resolution pdf"
-           git push
+      - name: Make compressed PDF and other compilation files available to other jobs
+        uses: actions/upload-artifact@v4
+        with:
+          name: compress-artifact
+          path: ${{ github.event.inputs.file2compile }}_hiRes.pdf
+          overwrite: true
         continue-on-error: true
+        #
+      #- name: post reduced resolution PDF on repository
+      #  run: |
+      #     rootname=${{ github.event.inputs.file2compile }}
+      #     git config --global user.email "email@gmail.com"
+      #     git config --global user.name "github actions"
+      #     git add "${rootname}.pdf"
+      #     git commit -m "post low resolution pdf"
+      #     git push
+      #  continue-on-error: true
 
         #
         #   pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
@@ -474,6 +499,18 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         #
+      - name: Download start file after compilation
+        uses: actions/download-artifact@v4
+        with:
+          name: postcompilation-start-artifact
+        continue-on-error: true
+        #
+      - name: Download log file after compilation
+        uses: actions/download-artifact@v4
+        with:
+          name: postcompilation-log-artifact
+        continue-on-error: true
+        #        
       - name: Capture full compilation output
         run: |
            echo '434'
