@@ -116,13 +116,6 @@ jobs:
            git rebase --strategy-option=theirs origin/main --verbose
            git push --verbose
         continue-on-error: true
-      #
-      #- name: copy pruned bibfile to repository
-      #  uses: actions/upload-artifact@v4
-      #  with:
-      #    name: pruned_bib
-      #    path: pruned.bib
-      #  continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
@@ -157,8 +150,8 @@ jobs:
         run: |
            # post newly compiled high-resolution pdf to repository
            rootname=${{ github.event.inputs.file2compile }}
-           git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
            git config --global user.email "email@gmail.com"
+           git config --global user.name "github actions"
            git add ${rootname}START.txt
            git status
            git commit --verbose -m "Upload newly created initialization file"
@@ -477,15 +470,10 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         #
-      #- name: download pruned bibfile
-      #  uses: actions/download-artifact@v4
-      #  with:
-      #    name: "pruned_bib"
-      #  continue-on-error: true
-        #
       - name: Capture full compilation output
         run: |
            echo '434'
+           ls -la pruned*
            ls -la compileOut.txt
            #
            # =============================================================================
