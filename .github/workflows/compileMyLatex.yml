@@ -302,7 +302,7 @@ jobs:
         run: |
           tar -xvf compressedFiles.tar > filelist.txt
           # remove the original images that were uncompressed
-          sed -ri "s/\.([^\n]+)(\n|$)/UNCOMPRESSED\.$1/g" "filelist.txt"
+          sed -ri "s/\.([^\n]+)(\n|$)/UNCOMPRESSED\.\1/g" "filelist.txt"
           cat filelist.txt
         continue-on-error: true 
         #
