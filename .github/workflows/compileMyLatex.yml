@@ -460,11 +460,11 @@ jobs:
            arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
         continue-on-error: true
         #
-      - name: Make compressed PDF and other compilation files available to other jobs
+      - name: Make low-resolution PDF available to other jobs 
         uses: actions/upload-artifact@v4
         with:
-          name: compress-artifact
-          path: ${{ github.event.inputs.file2compile }}_hiRes.pdf
+          name: lores-artifact
+          path: ${{ github.event.inputs.file2compile }}.pdf
           overwrite: true
         continue-on-error: true
         #
@@ -744,6 +744,12 @@ jobs:
           name: hires-artifact
         continue-on-error: true
         #
+      - name: Download lo res PDF
+        uses: actions/download-artifact@v4
+        with:
+          name: lores-artifact
+        continue-on-error: true
+        #
       - name: Download pruned bibfile
         uses: actions/download-artifact@v4
         with:
@@ -768,6 +774,18 @@ jobs:
           name: postcompilation-log-artifact
         continue-on-error: true
         #
+      - name: get newly compressed images
+        if: ${{ always() && hashFiles('compressedFiles.tar') }}
+        run: |
+          tar -xvf compressedFiles.tar > filelist.txt
+          # remove the original images that were uncompressed
+          sed -ri "s/\.([^\n]+)(\n|$)/UNCOMPRESSED\.\1/g" "filelist.txt"
+          # use the filelist to remove the files
+          rm -f $( cat filelist.txt )
+          rm -f compressedFiles.tar
+          ls -la FIGURES
+        continue-on-error: true
+        #
       - name: post finalized compilation errors and notice of completion to the repository
         run: |
            git config --global user.email "email@gmail.com"
@@ -776,4 +794,3 @@ jobs:
            git commit -m "freshly compiled files"
            git push
         continue-on-error: true
- 
