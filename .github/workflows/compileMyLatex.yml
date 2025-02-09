@@ -369,6 +369,9 @@ jobs:
            #
       - name: copy file to repository
         run: |
+           echo '372'
+           ls -la *pdf
+           
            # post newly compiled high-resolution pdf to repository
            rootname=${{ github.event.inputs.file2compile }}
            git config --global user.email "email@gmail.com"
