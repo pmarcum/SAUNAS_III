@@ -62,8 +62,14 @@ jobs:
            if [[ "$(grep -Eq "^ *\\\\bibliography[{]" ${rootname}.tex)$?" == 0 ]]; then makeNewPrunedBib=true; fi
            # next, see if pruned.bib is already being used.  If so, then bail out now and dont try to recreate the pruned.bib
            if [[ "$(grep -Eq "^ *\\\\bibliography[{]pruned([.]bib)?" ${rootname}.tex)$?" == 0 ]]; then makeNewPrunedBib=false; fi
+
+           echo '66'
+           echo $makeNewPrunedBib
+           
            #
            if $makeNewPrunedBib; then
+              echo '71'
+              
               echo "madePruned=T" >> $GITHUB_OUTPUT
               rm -f pruned.bib
               touch pruned.bib
@@ -104,6 +110,8 @@ jobs:
       - name: copy pruned bibfile to repository
         if: ${{ always() && steps.pruneBib.outputs.madePruned == 'T' }}
         run: |
+           echo '113'
+           
            rm -f pruned.bib
            # post newly compiled high-resolution pdf to repository
            git config --global user.email "email@gmail.com"
