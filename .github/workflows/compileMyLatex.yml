@@ -159,21 +159,6 @@ jobs:
           path: ${{ github.event.inputs.file2compile }}START.txt
           overwrite: true
         continue-on-error: true
-        # 
-      #- name: copy initialization file to repository
-      #  run: |
-      #     # post newly compiled high-resolution pdf to repository
-      #     rootname=${{ github.event.inputs.file2compile }}
-      #     git config --global user.email "email@gmail.com"
-      #     git config --global user.name "github actions"
-      #     git add ${rootname}START.txt
-      #     git status
-      #     git commit --verbose -m "Upload newly created initialization file"
-      #     git status
-      #     git fetch origin
-      #     git rebase --strategy-option=theirs origin/main --verbose
-      #     git push --verbose           
-      #  continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
@@ -418,17 +403,6 @@ jobs:
           path: compileOut.txt
           overwrite: true
         continue-on-error: true
-        # 
-      #- name: add PDF, compilation output to repository
-      #  run: |
-      #     rootname=${{ github.event.inputs.file2compile }}
-      #     git config --global user.email "email@gmail.com"
-      #     git config --global user.name "github actions"
-      #     git add "${rootname}_hiRes.pdf" "${rootname}START.txt" "compileOut.txt"
-      #     git commit -m "hi resolution pdf and compilation log"
-      #     git pull
-      #     git push
-      #  continue-on-error: true
 
   #_______________________________________________________________________
   #|                                                                      |
@@ -467,17 +441,6 @@ jobs:
           path: ${{ github.event.inputs.file2compile }}.pdf
           overwrite: true
         continue-on-error: true
-        #
-      #- name: post reduced resolution PDF on repository
-      #  run: |
-      #     rootname=${{ github.event.inputs.file2compile }}
-      #     git config --global user.email "email@gmail.com"
-      #     git config --global user.name "github actions"
-      #     git add "${rootname}.pdf"
-      #     git commit -m "post low resolution pdf"
-      #     git push
-      #  continue-on-error: true
-
         #
         #   pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
         #   echo "PDFLINK=$pdflink" >>                                                   $GITHUB_OUTPUT
@@ -572,15 +535,15 @@ jobs:
            cat errout.txt | sort -r -t- -g -k1,1n -k2 -s | uniq | sed -r 's/\a/ /g' > tmp.txt
            mv -f tmp.txt errout.txt
            #
-#           # =============================================================================
-#           # remove lines in the output that are unrelated to the latex compilation itself
-#           # =============================================================================
-#           readarray -t sorted < errout.txt
-#           #  #######################   START CONSOLIDATING THE ERRORS ###################
-#           rm -f tout.txt
-#           touch tout.txt
-#           errtypes=("ERROR" "WARNING" "BIB")
-#           banners=("FATAL ERRORS" "WARNINGS" "CITATION ISSUES")
+           # =============================================================================
+           # remove lines in the output that are unrelated to the latex compilation itself
+           # =============================================================================
+           readarray -t sorted < errout.txt
+           #  #######################   START CONSOLIDATING THE ERRORS ###################
+           rm -f tout.txt
+           touch tout.txt
+           errtypes=("ERROR" "WARNING" "BIB")
+           banners=("FATAL ERRORS" "WARNINGS" "CITATION ISSUES")
 #           for (( i=0; i<${#errtypes[@]}; i++ )); do
 #              echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
 #              echo "              ${banners[$i]} IN ${rootname}.tex" >> tout.txt
