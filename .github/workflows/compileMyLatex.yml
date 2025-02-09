@@ -367,11 +367,21 @@ jobs:
            mv -f "${rootname}.pdf" "${rootname}_hiRes.pdf"
         continue-on-error: true
            #
-      - name: copy file to repository
-        uses: EndBug/add-and-commit@v9
-        with:
-           message: "Newly created pdf, compilation output, start-file"
-           add: '["${{ github.event.inputs.file2compile }}_hiRes.pdf", "${{ github.event.inputs.file2compile }}START.txt", "compileOut.txt"]'
+      #- name: copy file to repository
+      #  uses: EndBug/add-and-commit@v9
+      #  with:
+      #     message: "Newly created pdf, compilation output, start-file"
+      #     add: '["${{ github.event.inputs.file2compile }}_hiRes.pdf", "${{ github.event.inputs.file2compile }}START.txt", "compileOut.txt"]'
+      #  continue-on-error: true
+      - name: add PDF, compilation output to repository
+        run: |
+           rootname=${{ github.event.inputs.file2compile }}
+           git config --global user.email "email@gmail.com"
+           git config --global user.name "github actions"
+           git add "${rootname}_hiRes.pdf" "${rootname}START.txt" "compileOut.txt"
+           git commit -m "hi resolution pdf and compilation log"
+           git pull
+           git push
         continue-on-error: true
 
   #_______________________________________________________________________
