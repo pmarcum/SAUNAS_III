@@ -303,7 +303,9 @@ jobs:
           tar -xvf compressedFiles.tar > filelist.txt
           # remove the original images that were uncompressed
           sed -ri "s/\.([^\n]+)(\n|$)/UNCOMPRESSED\.\1/g" "filelist.txt"
-          cat filelist.txt
+          # use the file to remove the files
+          rm $( cat filelist.txt )
+          ls -la FIGURES
         continue-on-error: true 
         #
         # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
