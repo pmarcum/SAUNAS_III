@@ -300,13 +300,9 @@ jobs:
       - name: get newly compressed images
         if: ${{ always() && hashFiles('compressedFiles.tar') }}
         run: |
-          echo '288'
-          ls -la FIGURES
-          echo '==========================='
-          tar -xvf compressedFiles.tar
-          ls -la FIGURES
-          echo '---------------------------'
-          ls -la FIGURES
+          tar -xvf compressedFiles.tar > filelist.txt
+          # remove the original images that were uncompressed
+          cat filelist.txt
         continue-on-error: true 
         #
         # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
