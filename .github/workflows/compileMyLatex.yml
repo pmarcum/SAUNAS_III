@@ -368,7 +368,7 @@ jobs:
         continue-on-error: true
            #
       - name: copy file to repository
-        uses: EndBug/add-and-commit@v0
+        uses: EndBug/add-and-commit@v9
         with:
            message: "Newly created pdf, compilation output, start-file"
            add: '["${{ github.event.inputs.file2compile }}_hiRes.pdf", "${{ github.event.inputs.file2compile }}START.txt", "compileOut.txt"]'
