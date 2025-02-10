@@ -2057,11 +2057,11 @@ Collected error summary (may duplicate other messages):
   pdflatex: Command for 'pdflatex' gave return code 1
       Refer to 'myPaper.log' and/or above output for details
 'pdflatex': time = 1.07
-'bibtex myPaper': time = 0.08
+'bibtex myPaper': time = 0.07
 'pdflatex': time = 1.07
-'bibtex myPaper': time = 0.08
-'pdflatex': time = 1.09
-Processing time = 4.30, of which invoked processes = 3.39, other = 0.91.
-Elapsed clock time = 4.31.
+'bibtex myPaper': time = 0.07
+'pdflatex': time = 1.06
+Processing time = 4.22, of which invoked processes = 3.34, other = 0.88.
+Elapsed clock time = 4.23.
 Number of rules run = 5
 
