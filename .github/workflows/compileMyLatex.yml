@@ -110,19 +110,6 @@ jobs:
           overwrite: true
         continue-on-error: true
 
-      #- name: copy pruned bibfile to repository
-      #  if: ${{ always() && steps.pruneBib.outputs.madePruned == 'T' }}
-      #  run: |
-      #     # post newly compiled high-resolution pdf to repository
-      #     git config --global user.email "email@gmail.com"
-      #     git config --global user.name "github actions"
-      #     git add "pruned.bib"
-      #     git commit -m "Upload newly created initialization file"
-      #     git fetch origin
-      #     git rebase --strategy-option=theirs origin/main
-      #     git push
-      #  continue-on-error: true
-
   #_______________________________________________________________________
   #|                                                                      |
   #|                           INITIALIZATION                             |
@@ -239,7 +226,6 @@ jobs:
                   fi
                   mv -f "${imagefile}" "${newname}"
                   echo "${newname}" >> "compressedList.txt"
-                  echo "${newname}"
               elif [[ -f "${imagefile}" && ! -L "${imagefile}" && "${imagefile}" =~ UNCOMPRESSED\. ]]; then
                   if [[ $firstTimeThru == 'T' ]]; then
                      touch "compressedList.txt"
@@ -247,10 +233,10 @@ jobs:
                   fi
                   mv -f "${imagefile}" "${newname}"
                   echo "${newname}" >> "compressedList.txt"
-                  echo "${newname}"
               fi
            done
            if [[ $firstTimeThru == 'F' ]]; then
+              # if firstTimeThru is F, means that the above loop never executed. 
               tar -cvf compressedFiles.tar -T compressedList.txt
               rm -f compressedList.txt
            fi
@@ -290,12 +276,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: initialization-file-artifact
-        continue-on-error: true
-        #
-      - name: Download newly compressed images folder
-        uses: actions/download-artifact@v4
-        with:
-          name: pruned-bib-artifact
         continue-on-error: true
         #
       - name: Get Job ID from GH API
@@ -475,10 +455,6 @@ jobs:
         #        
       - name: Capture full compilation output
         run: |
-           echo '434'
-           ls -la pruned*
-           ls -la compileOut.txt
-           #
            # =============================================================================
            # open up the compilation output log file and strip out a lot of unnecessary stuff
            # =============================================================================
@@ -544,19 +520,20 @@ jobs:
            touch tout.txt
            errtypes=("ERROR" "WARNING" "BIB")
            banners=("FATAL ERRORS" "WARNINGS" "CITATION ISSUES")
-#           for (( i=0; i<${#errtypes[@]}; i++ )); do
-#              echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-#              echo "              ${banners[$i]} IN ${rootname}.tex" >> tout.txt
-#              echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-#              issue=""           
-#              for (( j=0; j<${#sorted[@]}; j++ )); do
-#                  if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then 
-#                     issue="${sorted[$j]}"
-#                     if [[ "${errtypes[$i]}" =~ "ERROR" ]]; then fatalErrors=true; fi
-#                     break;
-#                  fi
-#              done
-#              # if there were no issues, then put 'none'
+           for (( i=0; i<${#errtypes[@]}; i++ )); do
+              echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+              echo "              ${banners[$i]} IN ${rootname}.tex" >> tout.txt
+              echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+              issue=""           
+              for (( j=0; j<${#sorted[@]}; j++ )); do
+                  if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then 
+                     issue="${sorted[$j]}"
+                     if [[ "${errtypes[$i]}" =~ "ERROR" ]]; then fatalErrors=true; fi
+                     break;
+                  fi
+              done
+           done
+              # if there were no issues, then put 'none'
 #              if [[ "$issue" = "" ]]; then echo "      none" >> tout.txt; fi
 #              while  [ "$issue" != "" ]; do
 #                  linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$issue" )
