@@ -543,7 +543,8 @@ jobs:
                   if [[ $linenum > 0 ]]; then
                      # look for all occurances of this line number in the error/warning list
                      for (( j=0; j<${#sorted[@]}; j++ )); do
-                        if [[ "$(  -q -E -- "^$linenum-" <<<"${sorted[$j]}" )$?" == 0 ]]; then
+                        echo "546: ${sorted[$j]} <?> $linenum"
+                        if [[ "$(  -q -E -- "^$linenum-" <<<"${sorted[$j]}" )$?" == 0 ]]; then  # <<<<<<<<<<<<<<<<<<
                            line="$( echo "${sorted[$j]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' )"
                            echo $line >> tout.txt
                            # remove this item from the list
