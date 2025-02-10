@@ -565,6 +565,8 @@ jobs:
                          fi
                      done
                   fi
+                  echo '568'
+                  printf "%s" "${sorted[@]}"
                   # See if any more issue remain in the list and need to be processed in the next loop iteration
                   issue=""
                   for (( j=0; j<${#sorted[@]}; j++ )); do
@@ -574,9 +576,9 @@ jobs:
                   echo "574: >>$issue<<"
               done
            done
-#           echo "FATALERRORS=$fatalErrors" >> $GITHUB_ENV
-#        continue-on-error: true
-#        #
+           echo "FATALERRORS=$fatalErrors" >> $GITHUB_ENV
+        continue-on-error: true
+        #
 #      - name: Gather up list of references
 #        run: |     
 #           # https://stackoverflow.com/questions/57788813/-return-0-if-no-match
