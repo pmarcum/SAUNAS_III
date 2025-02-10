@@ -560,8 +560,6 @@ jobs:
                          fi
                      done
                   fi
-                  echo '568'
-                  printf "%s" "${sorted[@]}"
                   # See if any more issue remain in the list and need to be processed in the next loop iteration
                   issue=""
                   for (( j=0; j<${#sorted[@]}; j++ )); do
@@ -570,8 +568,9 @@ jobs:
                   echo "._______________________________________________________________________" >> tout.txt
               done
            done
-           echo '573'
+           echo '********************************'
            cat tout.txt
+           echo '* * * * * * * * * * * * * * * * *'
            echo "FATALERRORS=$fatalErrors" >> $GITHUB_ENV
         continue-on-error: true
         #
