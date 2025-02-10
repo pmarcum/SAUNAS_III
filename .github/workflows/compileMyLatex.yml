@@ -534,6 +534,10 @@ jobs:
               done
               # if there were no issues, then put 'none'
               if [[ "$issue" = "" ]]; then echo "      none" >> tout.txt; fi
+
+              echo '538'
+              echo ">>$issue<<"
+              
               while  [ "$issue" != "" ]; do
                   linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$issue" )
                   if [[ $linenum > 0 ]]; then
@@ -560,10 +564,10 @@ jobs:
                          fi
                      done
                   fi
+                  # See if any more issue remain in the list and need to be processed in the next loop iteration
+                  issue=""
               done
            done
-#                  # See if any more issue remain in the list and need to be processed in the next loop iteration
-#                  issue=""
 #                  for (( j=0; j<${#sorted[@]}; j++ )); do
 #                     if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then issue="${sorted[$j]}"; break; fi
 #                  done
