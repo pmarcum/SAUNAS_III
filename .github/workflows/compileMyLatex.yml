@@ -534,16 +534,11 @@ jobs:
               done
               # if there were no issues, then put 'none'
               if [[ "$issue" = "" ]]; then echo "      none" >> tout.txt; fi
-
-              echo '538'
-              echo ">>$issue<<"
-              
               while  [ "$issue" != "" ]; do
                   linenum=$( sed -r 's/^([0-9][0-9]*)\-.*/\1/' <<<"$issue" )
                   if [[ $linenum > 0 ]]; then
                      # look for all occurances of this line number in the error/warning list
                      for (( j=0; j<${#sorted[@]}; j++ )); do
-                        echo "546: ${sorted[$j]} <?> $linenum"
                         if [[ "$( grep -q -E -- "^$linenum-" <<<"${sorted[$j]}" )$?" == 0 ]]; then
                            line="$( echo "${sorted[$j]}" | sed -r 's/^[0-9][0-9]*\-[A-Z][A-Z]*\-//' )"
                            echo $line >> tout.txt
@@ -573,36 +568,42 @@ jobs:
                      if [[ "${sorted[$j]}" =~ "-${errtypes[$i]}-" ]]; then issue="${sorted[$j]}"; break; fi
                   done
                   echo "._______________________________________________________________________" >> tout.txt
-                  echo "574: >>$issue<<"
               done
            done
            echo "FATALERRORS=$fatalErrors" >> $GITHUB_ENV
         continue-on-error: true
         #
-#      - name: Gather up list of references
-#        run: |     
-#           # https://stackoverflow.com/questions/57788813/-return-0-if-no-match
-#           # squash.io/extracting=numbers-from-strings-in-bash
-#           # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
-#           # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
-#           rootname=${{ github.event.inputs.file2compile }}
-#           echo "" >> tout.txt
-#           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-#           echo "              LIST OF REFERENCES IN ${rootname}.tex" >> tout.txt
-#           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
-#           # create an array of just the bibcodes
-#           # extract just the bibcode from the pruned bibfile to use for another file that will be used in the summary
-#           readarray -t cites < <( grep "@" pruned.bib | sed -r 's/^[^ ]+\.bib: *//' | sed -r 's/@[^\{]+\{//' | sed -r 's/,//' )
-#           if [[ ${#cites[@]} -gt 0 ]]; then echo "Number of citations: ${#cites[@]}" >> tout.txt; fi
-#           for (( i=0; i<${#cites[@]}; i++ )); do echo "${cites[$i]}" >> tout.txt; done
-#           if [[ ${#cites[@]} == 0 ]]; then echo "        None"; fi
-#           rm -f ${rootname}Out.txt
-#           mv tout.txt "${rootname}Out.txt"
-#           rm -f html.txt
-#           rm -f finHtml.html
-#           rm -f ${rootname}.html
-#           timestamp=$(sed -n "1p" "${rootname}START.txt")
-#           joblink=$(sed -n "2p" "${rootname}START.txt")
+      - name: Gather up list of references
+        run: |
+           echo '-- -- -- -- -- -- -- -- -- -- -- --'
+           cat tout.txt
+           echo '- - - - - - - - - - - - - - - - - -'
+           
+           # https://stackoverflow.com/questions/57788813/-return-0-if-no-match
+           # squash.io/extracting=numbers-from-strings-in-bash
+           # https://stackoverflow.com/questions/17883661/how-to-extract-numbers-from-a-string
+           # https://stackoverflow.com/questions/2624300/save-part-of-matching-pattern-to-variable
+           rootname=${{ github.event.inputs.file2compile }}
+           echo "" >> tout.txt
+           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+           echo "              LIST OF REFERENCES IN ${rootname}.tex" >> tout.txt
+           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> tout.txt
+           # create an array of just the bibcodes
+           # extract just the bibcode from the pruned bibfile to use for another file that will be used in the summary
+           readarray -t cites < <( grep "@" pruned.bib | sed -r 's/^[^ ]+\.bib: *//' | sed -r 's/@[^\{]+\{//' | sed -r 's/,//' )
+           if [[ ${#cites[@]} -gt 0 ]]; then echo "Number of citations: ${#cites[@]}" >> tout.txt; fi
+           for (( i=0; i<${#cites[@]}; i++ )); do echo "${cites[$i]}" >> tout.txt; done
+           if [[ ${#cites[@]} == 0 ]]; then echo "        None"; fi
+           rm -f ${rootname}Out.txt
+           mv tout.txt "${rootname}Out.txt"
+           rm -f html.txt
+           rm -f finHtml.html
+           rm -f ${rootname}.html
+           timestamp=$(sed -n "1p" "${rootname}START.txt")
+           joblink=$(sed -n "2p" "${rootname}START.txt")
+           echo '604'
+           echo $FATALERRORS
+           
 #           if [$FATALERRORS]; then
 #              #
 #              # =======================================================================
