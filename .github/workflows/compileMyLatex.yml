@@ -570,6 +570,8 @@ jobs:
                   echo "._______________________________________________________________________" >> tout.txt
               done
            done
+           echo '573'
+           cat tout.txt
            echo "FATALERRORS=$fatalErrors" >> $GITHUB_ENV
         continue-on-error: true
         #
@@ -601,66 +603,63 @@ jobs:
            rm -f ${rootname}.html
            timestamp=$(sed -n "1p" "${rootname}START.txt")
            joblink=$(sed -n "2p" "${rootname}START.txt")
-           echo '604'
-           echo $FATALERRORS
-           
-#           if [$FATALERRORS]; then
-#              #
-#              # =======================================================================
-#              #        construct the html file showing errors, if there were fatal ones
-#              # =======================================================================
-#              # There were errors - Create a .html file from the out.txt file
-#              rm -f "${rootname}.pdf"
-#              rm -f "${rootname}_hiRes.pdf"
-#              # make sure that long lines are split if they exceed 20 words
-#              fold -sw 90 "${rootname}Out.txt" > html.txt
-#              echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
-#              echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> finHtml.html
-#              echo "<span style='color:blue;'><i>${joblink}</i></span><br>" >> finHtml.html
-#              echo "<hr><br>" >> finHtml.html
-#              echo "$timestamp" >> finHtml.html
-#              # Go through the html.txt file and make the errors red to stand out
-#              touch red.txt
-#              red=false
-#              while IFS= read -r line; do
-#                 start='^line #[0-9]+'
-#                 end='^\.__________'
-#                 if [[ $line =~ $start ]]; then red=true; elif [[ $line =~ $end ]]; then red=false; fi
-#                 thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^\.__________/___________/g' )"
-#                 if $red; then
-#                    echo "<span style='color:red;'>$thisline</span>" >> red.txt
-#                 else
-#                    echo "$thisline" >> red.txt
-#                 fi
-#              done < "html.txt"
-#              sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
-#              rm -f ${rootname}.html
-#              mv -f finHtml.html "${rootname}.html"
-#              rm -f red.txt
-#              # replace the last line with an "html" 
-#              sed -ri "s/precomp/html/" "${rootname}START.txt"
-#            fi
-#           else
-#              # replace the last line with an "html" 
-#              sed -ri "s/precomp/pdf/" "${rootname}START.txt"
-#              # finalize the compilation output file by putting a few sentences at the top
-#              rm -f fin.txt
-#              rm -f "${rootname}Out.txt"
-#              touch fin.txt
-#              echo "$timestamp" >> fin.txt
-#              echo "LATEX COMPILATION ERRORS and WARNINGS" >> fin.txt
-#              echo "" >> fin.txt
-#              echo "To view full GitHub Actions output, click on item at top of list here:" >> fin.txt
-#              echo "$joblink" >> fin.txt
-#              echo "" >> fin.txt
-#              while IFS= read -r line; do
-#                 thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
-#                 echo "$thisline" >> fin.txt
-#              done < "${rootname}Out.txt"
-#              mv -f fin.txt "${rootname}Out.txt"
-#           fi
-#        continue-on-error: true
-#        #
+           if [$FATALERRORS]; then
+              #
+              # =======================================================================
+              #        construct the html file showing errors, if there were fatal ones
+              # =======================================================================
+              # There were errors - Create a .html file from the out.txt file
+              rm -f "${rootname}.pdf"
+              rm -f "${rootname}_hiRes.pdf"
+              # make sure that long lines are split if they exceed 20 words
+              fold -sw 90 "${rootname}Out.txt" > html.txt
+              echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
+              echo "<i>To view full GitHub Actions output, click on item at top of list here:</i><br>" >> finHtml.html
+              echo "<span style='color:blue;'><i>${joblink}</i></span><br>" >> finHtml.html
+              echo "<hr><br>" >> finHtml.html
+              echo "$timestamp" >> finHtml.html
+              # Go through the html.txt file and make the errors red to stand out
+              touch red.txt
+              red=false
+              while IFS= read -r line; do
+                 start='^line #[0-9]+'
+                 end='^\.__________'
+                 if [[ $line =~ $start ]]; then red=true; elif [[ $line =~ $end ]]; then red=false; fi
+                 thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^\.__________/___________/g' )"
+                 if $red; then
+                    echo "<span style='color:red;'>$thisline</span>" >> red.txt
+                 else
+                    echo "$thisline" >> red.txt
+                 fi
+              done < "html.txt"
+              sed ':a;N;$!ba;s/\n/<br>\n/g;s/ /\&nbsp;/g;s/span\&nbsp;style/span style/g' red.txt >> finHtml.html
+              rm -f ${rootname}.html
+              mv -f finHtml.html "${rootname}.html"
+              rm -f red.txt
+              # replace the last line with an "html" 
+              sed -ri "s/precomp/html/" "${rootname}START.txt"
+            fi
+           else
+              # replace the last line with an "html" 
+              sed -ri "s/precomp/pdf/" "${rootname}START.txt"
+              # finalize the compilation output file by putting a few sentences at the top
+              rm -f fin.txt
+              rm -f "${rootname}Out.txt"
+              touch fin.txt
+              echo "$timestamp" >> fin.txt
+              echo "LATEX COMPILATION ERRORS and WARNINGS" >> fin.txt
+              echo "" >> fin.txt
+              echo "To view full GitHub Actions output, click on item at top of list here:" >> fin.txt
+              echo "$joblink" >> fin.txt
+              echo "" >> fin.txt
+              while IFS= read -r line; do
+                 thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
+                 echo "$thisline" >> fin.txt
+              done < "${rootname}Out.txt"
+              mv -f fin.txt "${rootname}Out.txt"
+           fi
+        continue-on-error: true
+        #
 #      - name: post finalized compilation errors and notice of completion to the repository
 #        run: |
 #           rootname=${{ github.event.inputs.file2compile }}
