@@ -46,6 +46,13 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         #
+      - name: test upload to google drive
+        run: |
+           curl 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart' \
+             -X POST \
+             -F 'metadata={"name":"test4gdrive.txt","parents":["1038nIlD6kFTdJ_06Hcx14d8YJEdcC2Va"]};type=application/json' \
+             -F "file=@test4gdrive.txt"
+        #
       - name: Prune the bib file
         # https://www.baeldung.com/linux/regex-matching
         # https://askubuntu.com/questions/1502281/using-grep-to-search-for-line-that-begins-with-a-variable-whose-value-is-a-dolla
