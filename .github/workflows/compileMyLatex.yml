@@ -46,13 +46,28 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         #
-      - name: test upload to google drive
+      - name: setup python
+        uses: actions/setup-python@v5
+        with:
+           python-version: '3.13'
+           - name: Install dependencies
+           run: |
+             python -m pip install --upgrade pip
+             pip install PyDrive
+      - name: execute py script
         run: |
-           curl 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart' \
-             -X POST \
-             -F 'metadata={"name":"test4gdrive.txt","parents":["1038nIlD6kFTdJ_06Hcx14d8YJEdcC2Va"]};type=application/json' \
-             -F "file=@test4gdrive.txt"
-        #
+          python google_authentication.py
+          filelist = drive.ListFile({'q': "'root' in parents and trashed=false"}).GetList()
+          for file1 in filelist:
+             print('title: %s, id: %s' % (file1['title'],file1['id']))
+             
+      #- name: test upload to google drive
+      #  run: |
+      #     curl 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart' \
+      #       -X POST \
+      #       -F 'metadata={"name":"test4gdrive.txt","parents":["1038nIlD6kFTdJ_06Hcx14d8YJEdcC2Va"]};type=application/json' \
+      #       -F "file=@test4gdrive.txt"
+      #  #
       - name: Prune the bib file
         # https://www.baeldung.com/linux/regex-matching
         # https://askubuntu.com/questions/1502281/using-grep-to-search-for-line-that-begins-with-a-variable-whose-value-is-a-dolla
