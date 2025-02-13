@@ -52,7 +52,7 @@ jobs:
            python-version: '3.13'
            run: |
              python -m pip install --upgrade pip
-             pip3 install PyDrive
+             pip install git+https://github.com/googleworkspace/PyDrive.git#egg=PyDrive
       - name: execute py script
         run: |
           python google_authentication.py
