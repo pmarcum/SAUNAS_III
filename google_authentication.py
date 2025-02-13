@@ -5,9 +5,9 @@ from pydrive.auth import GoogleAuth
 gauth = GoogleAuth()
 
 # Load JSON credentials downloaded from Google
-GoogleAuth.DEFAULT_SETTINGS['client_config_file'] = 'credentials/client_secrets.json'
+GoogleAuth.DEFAULT_SETTINGS['client_config_file'] = 'client_secrets.json'
 # Try to use the credential .txt generated at the first 0Auth approval
-gauth.LoadCredentialsFile("credentials/mycreds.txt")
+gauth.LoadCredentialsFile("mycreds.txt")
 
 # If the app was not yet authenticated it will ask to get the authentication from Google
 if gauth.credentials is None:
