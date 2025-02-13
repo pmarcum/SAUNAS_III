@@ -24,5 +24,5 @@ else:
     gauth.Authorize()
 
 # Save current credentials into a TXT file for the future
-gauth.SaveCredentialsFile("credentials/mycreds.txt")
+gauth.SaveCredentialsFile("mycreds.txt")
 drive = GoogleDrive(gauth)
