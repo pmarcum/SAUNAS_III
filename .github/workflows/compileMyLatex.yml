@@ -54,6 +54,7 @@ jobs:
           name: 'aBigTest.txt' # optional string
           overwrite: 'true' # optional boolean
           mirrorDirectoryStructure: 'true'
+          useCompleteSourceFilenameAsName: 'false'
 
   #_______________________________________________________________________
   #|                                                                      |
