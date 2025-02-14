@@ -397,7 +397,7 @@ jobs:
       #    parent_folder_id: ${{ github.event.inputs.folderid }}
       #    #
       - name: Make PDF available to other jobs
-        if: ${{ always() && hashFiles(${{ github.event.inputs.file2compile }}_hiRes.pdf) }}
+        if: ${{ always() && hashFiles({{ github.event.inputs.file2compile }}_hiRes.pdf) }}
         uses: actions/upload-artifact@v4
         with:
           name: hires-artifact
