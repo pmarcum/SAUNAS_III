@@ -23,7 +23,7 @@ on:
       folderid:
          description: "Google ID number of the folder in which to upload the compiled files"
          required: true
-         default: "1_3kdWp3eQ8sC36GVSkeiP-Wz8HZhj0oA"
+         default: "1gs2IWLDL4FOIJLoNGGuUDnMPfGpyYmV1"
 # Allow only one concurrent deployment, skipping runs quesed between the run in progress and most recent queued
 #concurrency:
 #  group: "pages"
