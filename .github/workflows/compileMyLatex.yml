@@ -381,7 +381,7 @@ jobs:
         continue-on-error: true
         #
       #- name: upload hi res pdf to google drive
-      #  if: ${{ always() && hashFiles(${{ github.event.inputs.file2compile }}_hiRes.pdf) }}
+      #  if: ${{ always() && hashFiles({{ github.event.inputs.file2compile }}_hiRes.pdf) }}
       #  uses: nextDriveIoE/google-drive-upload-action@v2
       #  with:
       #    target: ${{ github.event.inputs.file2compile }}_hiRes.pdf
@@ -389,7 +389,7 @@ jobs:
       #    parent_folder_id: ${{ github.event.inputs.folderid }}
       #    #
       #- name: upload START file that signifies latex compilation to google drive
-      #  if: ${{ always() && hashFiles(${{ github.event.inputs.file2compile }}START.txt) }}
+      #  if: ${{ always() && hashFiles({{ github.event.inputs.file2compile }}START.txt) }}
       #  uses: nextDriveIoE/google-drive-upload-action@v2
       #  with:
       #    target: ${{ github.event.inputs.file2compile }}START.txt
@@ -406,7 +406,7 @@ jobs:
         continue-on-error: true
         #
       - name: Make revised START file available to other jobs
-        if: ${{ always() && hashFiles(${{ github.event.inputs.file2compile }}START.txt) }}
+        if: ${{ always() && hashFiles({{ github.event.inputs.file2compile }}START.txt) }}
         uses: actions/upload-artifact@v4
         with:
           name: postcompilation-start-artifact
@@ -454,7 +454,7 @@ jobs:
         continue-on-error: true
         #
       #- name: upload low res pdf to google drive
-      #  if: ${{ always() && hashFiles(${{ github.event.inputs.file2compile }}.pdf) }}
+      #  if: ${{ always() && hashFiles({{ github.event.inputs.file2compile }}.pdf) }}
       #  uses: nextDriveIoE/google-drive-upload-action@v2
       #  with:
       #    target: ${{ github.event.inputs.file2compile }}.pdf
@@ -700,7 +700,7 @@ jobs:
         continue-on-error: true
         #
       #- name: upload final version of START file to google drive
-      #  if: ${{ always() && hashFiles(${{ github.event.inputs.file2compile }}START.txt) }}
+      #  if: ${{ always() && hashFiles({{ github.event.inputs.file2compile }}START.txt) }}
       #  uses: nextDriveIoE/google-drive-upload-action@v2
       #  with:
       #    target: ${{ github.event.inputs.file2compile }}START.txt
