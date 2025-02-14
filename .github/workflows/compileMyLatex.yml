@@ -46,15 +46,11 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         #
-      - uses: logickoder/g-drive-upload@main
+      - uses: nextDriveIoE/google-drive-upload-action@v2
         with:
+          target: 'filelist.txt'
           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
-          filename: 'filelist.txt'
-          folderId: '1_3kdWp3eQ8sC36GVSkeiP-Wz8HZhj0oA'
-          name: 'aBigTest.txt' # optional string
-          overwrite: 'true' # optional boolean
-          mirrorDirectoryStructure: 'true'
-          useCompleteSourceFilenameAsName: 'false'
+          parent_folder_id: '1_3kdWp3eQ8sC36GVSkeiP-Wz8HZhj0oA'
 
   #_______________________________________________________________________
   #|                                                                      |
