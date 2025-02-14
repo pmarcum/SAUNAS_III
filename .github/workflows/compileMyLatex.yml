@@ -33,6 +33,27 @@ jobs:
 
   #_______________________________________________________________________
   #|                                                                      |
+  #|                       UPLOAD FILE TO GOOGLE DRIVE                    |
+  #|______________________________________________________________________|
+  uploadGdrive:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+      #
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+        #
+      - uses: willo32/google-drive-upload-action@v1
+        with:
+           target: filelist.txt
+           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
+           parent_folder_id: 1_3kdWp3eQ8sC36GVSkeiP-Wz8HZhj0oA
+
+  #_______________________________________________________________________
+  #|                                                                      |
   #|     STRIP OUT UNUSED REFERENCES AND CONSTRUCT A PRUNED BIB FILE      |
   #|______________________________________________________________________|
   pruneBib:
