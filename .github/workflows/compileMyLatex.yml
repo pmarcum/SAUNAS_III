@@ -46,11 +46,12 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         #
-      - uses: willo32/google-drive-upload-action@v1
+      - uses: logickoder/g-drive-upload@main
         with:
-           target: filelist.txt
-           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
-           parent_folder_id: 1_3kdWp3eQ8sC36GVSkeiP-Wz8HZhj0oA
+          credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
+          folderId: '1_3kdWp3eQ8sC36GVSkeiP-Wz8HZhj0oA'
+          name: 'aBigTest.txt' # optional string
+          overwrite: 'true' # optional boolean
 
   #_______________________________________________________________________
   #|                                                                      |
