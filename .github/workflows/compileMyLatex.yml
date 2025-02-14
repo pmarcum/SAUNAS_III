@@ -53,6 +53,7 @@ jobs:
           folderId: '1_3kdWp3eQ8sC36GVSkeiP-Wz8HZhj0oA'
           name: 'aBigTest.txt' # optional string
           overwrite: 'true' # optional boolean
+          mirrorDirectoryStructure: 'true'
 
   #_______________________________________________________________________
   #|                                                                      |
