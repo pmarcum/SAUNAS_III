@@ -282,6 +282,7 @@ jobs:
   #|                                                                      |
   #|                        COMPILE THE FILE                              |
   #|______________________________________________________________________|
+  #    when this is running, nothing else is running in parallel
   build_latex:
     needs: [initializeFolder,compressImages]
     runs-on: ubuntu-latest
@@ -442,6 +443,7 @@ jobs:
   #|                                                                      |
   #|     COMPRESS THE PDF FILE INTO LOWER RESOLUTION FILE FOR DISPLAY     |
   #|______________________________________________________________________|
+  #       run in parallel with processLogFile, right after compilation is complete
   compressPdf:
     needs: [build_latex]
     runs-on: ubuntu-latest
