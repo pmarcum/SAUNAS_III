@@ -39,6 +39,7 @@ jobs:
   #|                                                                      |
   #|     STRIP OUT UNUSED REFERENCES AND CONSTRUCT A PRUNED BIB FILE      |
   #|______________________________________________________________________|
+  #    runs parallel with initializeFolder and compressImages
   pruneBib:
     runs-on: ubuntu-latest
     continue-on-error: true
@@ -128,6 +129,7 @@ jobs:
   #|                                                                      |
   #|                           INITIALIZATION                             |
   #|______________________________________________________________________|
+  #    runs parallel with pruned-bib and compressImages
   initializeFolder:
     runs-on: ubuntu-latest
     continue-on-error: true
@@ -148,6 +150,7 @@ jobs:
            echo "$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> "${rootname}START.txt"
            link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/JOBIDPLACEHOLDER"
            echo "$link2job" >> "${rootname}START.txt"
+           # #############  figure out what the below should be for the very first pass-thru
            htmllink="https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${rootname}.html"
            echo $htmllink   >> "${rootname}START.txt"
            echo "precomp"   >> "${rootname}START.txt"
@@ -174,6 +177,7 @@ jobs:
   #|                                                                      |
   #|         COMPRESS THE IMAGES IF THERE ARE UNCOMPRESSED ONES           |
   #|______________________________________________________________________|
+  #    runs parallel with initializeFolder and pruned-bib
   compressImages:
     runs-on: ubuntu-latest
     continue-on-error: true
@@ -312,6 +316,10 @@ jobs:
           job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
           # replace the job id placeholder in the START file with the job id
           sed -ri "s/JOBIDPLACEHOLDER/$job_id/" "${rootname}START.txt"
+
+          echo '320'
+          cat ${rootname}START.txt
+          
         continue-on-error: true 
         #
       - name: upload START file that signifies latex compilation to google drive
@@ -458,6 +466,10 @@ jobs:
            rootname=${{ github.event.inputs.file2compile }}
            echo "HIRES=${rootname}_hiRes.pdf" >> $GITHUB_OUTPUT
            echo "LORES=${rootname}.pdf" >> $GITHUB_OUTPUT
+
+           echo '470'
+           ls -la *pdf
+           
         continue-on-error: true
         #
       - name: compress PDF
