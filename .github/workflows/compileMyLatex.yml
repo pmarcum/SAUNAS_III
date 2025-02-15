@@ -317,10 +317,6 @@ jobs:
           job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
           # replace the job id placeholder in the START file with the job id
           sed -ri "s/JOBIDPLACEHOLDER/$job_id/" "${rootname}START.txt"
-
-          echo '320'
-          cat ${rootname}START.txt
-          
         continue-on-error: true 
         #
       - name: upload START file that signifies latex compilation to google drive
@@ -481,6 +477,12 @@ jobs:
            file:   ${{ steps.defineLores.output.HIRES }}
            output: ${{ steps.defineLores.output.LORES }}
            arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
+        continue-on-error: true
+        #
+      - name: test
+        run: |
+           echo '483'
+           ls -la *pdf
         continue-on-error: true
         #
       - name: upload low res pdf to google drive
