@@ -151,13 +151,13 @@ jobs:
            echo "precomp"   >> "${rootname}START.txt"
         continue-on-error: true
         #
-      #- name: upload START file to google drive
-      #  uses: nextDriveIoE/google-drive-upload-action@v2
-      #  with:
-      #    target: ${{ github.event.inputs.file2compile }}START.txt
-      #    credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
-      #    parent_folder_id: ${{ github.event.inputs.folderid }}
-      #    #
+      - name: upload START file to google drive
+        uses: nextDriveIoE/google-drive-upload-action@v2
+        with:
+          target: ${{ github.event.inputs.file2compile }}START.txt
+          credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
+          parent_folder_id: ${{ github.event.inputs.folderid }}
+          #
       - name: Make initialization file available to other jobs
         uses: actions/upload-artifact@v4
         with:
@@ -390,14 +390,14 @@ jobs:
            echo "HIRES=${{ github.event.inputs.file2compile }}_hiRes.pdf" >> $GITHUB_OUTPUT
         continue-on-error: true
         #
-      #- name: upload hi res pdf to google drive
-      #  if: ${{ always() && hashFiles(steps.compilation.output.HIRES) }}
-      #  uses: nextDriveIoE/google-drive-upload-action@v2
-      #  with:
-      #    target:  ${{ steps.compilation.output.HIRES }}
-      #    credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
-      #    parent_folder_id: ${{ github.event.inputs.folderid }}
-      #    #
+      - name: upload hi res pdf to google drive
+        if: ${{ always() && hashFiles(steps.compilation.output.HIRES) }}
+        uses: nextDriveIoE/google-drive-upload-action@v2
+        with:
+          target:  ${{ steps.compilation.output.HIRES }}
+          credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
+          parent_folder_id: ${{ github.event.inputs.folderid }}
+          #
       - name: Make PDF available to other jobs
         if: ${{ always() && hashFiles(steps.compilation.output.HIRES) }}
         uses: actions/upload-artifact@v4
