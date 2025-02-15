@@ -308,13 +308,14 @@ jobs:
           job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
           # replace the job id placeholder in the START file with the job id
           sed -ri "s/JOBIDPLACEHOLDER/$job_id/" "${rootname}START.txt"
+          echo "START={{ github.event.inputs.file2compile }}START.txt" >> $GITHUB_OUTPUT
         continue-on-error: true 
         #
       - name: upload START file that signifies latex compilation to google drive
-        if: ${{ always() && hashFiles({{ github.event.inputs.file2compile }}START.txt) }}
+        if: ${{ always() && hashFiles(steps.job-id.output.START) }}
         uses: nextDriveIoE/google-drive-upload-action@v2
         with:
-          target: ${{ github.event.inputs.file2compile }}START.txt
+          target: ${{ steps.job-id.output.START }}
           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
           parent_folder_id: ${{ github.event.inputs.folderid }}
           #
