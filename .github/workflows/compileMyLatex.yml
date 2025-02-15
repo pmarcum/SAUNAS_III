@@ -112,7 +112,8 @@ jobs:
           target: 'pruned.bib'
           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
           parent_folder_id: ${{ github.event.inputs.folderid }}
-          #
+        continue-on-error: true
+        #
       - name: Make pruned bibfile available to other jobs
         if: ${{ always() && steps.pruneBib.outputs.madePruned == 'T' }}
         uses: actions/upload-artifact@v4
@@ -157,7 +158,8 @@ jobs:
           target: ${{ github.event.inputs.file2compile }}START.txt
           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
           parent_folder_id: ${{ github.event.inputs.folderid }}
-          #
+        continue-on-error: true
+        #
       - name: Make initialization file available to other jobs
         uses: actions/upload-artifact@v4
         with:
@@ -318,7 +320,16 @@ jobs:
           target: ${{ steps.job-id.output.START }}
           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
           parent_folder_id: ${{ github.event.inputs.folderid }}
-          #
+        continue-on-error: true
+        #
+      - name: Make revised START file available to other jobs
+        uses: actions/upload-artifact@v4
+        with:
+          name: postcompilation-start-artifact
+          path: ${{ github.event.inputs.file2compile }}START.txt
+          overwrite: true
+        continue-on-error: true
+        #
       - name: get newly compressed images
         if: ${{ always() && hashFiles('compressedFiles.tar') }}
         run: |
@@ -387,7 +398,7 @@ jobs:
            # clean up pdf files after compilation
            # move pdf into final filename
            mv -f "${rootname}.pdf" "${rootname}_hiRes.pdf"
-           echo "HIRES=${{ github.event.inputs.file2compile }}_hiRes.pdf" >> $GITHUB_OUTPUT
+           echo "HIRES=${rootname}_hiRes.pdf" >> $GITHUB_OUTPUT
         continue-on-error: true
         #
       - name: upload hi res pdf to google drive
@@ -403,15 +414,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: hires-artifact
-          path: $HIRES
-          overwrite: true
-        continue-on-error: true
-        #
-      - name: Make revised START file available to other jobs
-        uses: actions/upload-artifact@v4
-        with:
-          name: postcompilation-start-artifact
-          path: ${{ github.event.inputs.file2compile }}START.txt
+          path: ${{ steps.compilation.output.HIRES }}
           overwrite: true
         continue-on-error: true
         #
@@ -454,19 +457,27 @@ jobs:
            arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
         continue-on-error: true
         #
-      #- name: upload low res pdf to google drive
-      #  if: ${{ always() && hashFiles({{ github.event.inputs.file2compile }}.pdf) }}
-      #  uses: nextDriveIoE/google-drive-upload-action@v2
-      #  with:
-      #    target: ${{ github.event.inputs.file2compile }}.pdf
-      #    credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
-      #    parent_folder_id: ${{ github.event.inputs.folderid }}
-      #    #
+      - name: define lo res
+        id: define-lores
+        run: |
+           rootname=${{ github.event.inputs.file2compile }}
+           echo "LORES=${rootname}.pdf" >> $GITHUB_OUTPUT
+        continue-on-error: true
+        #
+      - name: upload low res pdf to google drive
+        if: ${{ always() && hashFiles(steps.define-lores.output.LORES) }}
+        uses: nextDriveIoE/google-drive-upload-action@v2
+        with:
+          target: ${{ steps.define-lores.output.LORES }}
+          credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
+          parent_folder_id: ${{ github.event.inputs.folderid }}
+          #
       - name: Make low-resolution PDF available to other jobs 
+        if: ${{ always() && hashFiles(steps.define-lores.output.LORES) }}
         uses: actions/upload-artifact@v4
         with:
           name: lores-artifact
-          path: ${{ github.event.inputs.file2compile }}.pdf
+          path: ${{ steps.define-lores.output.LORES }}
           overwrite: true
         continue-on-error: true
         #
