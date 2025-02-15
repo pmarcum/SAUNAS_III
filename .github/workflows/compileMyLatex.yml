@@ -708,7 +708,7 @@ jobs:
       #    parent_folder_id: ${{ github.event.inputs.folderid }}
       #    #
       #- name: upload final version of START file to google drive
-      #  if: ${{ always() && ( -f steps.pruneBib.outputs.madePruned == 'T' }}
+      #  if: ${{ always() && steps.pruneBib.outputs.madePruned == 'T' }}
       #  uses: nextDriveIoE/google-drive-upload-action@v2
       #  with:
       #    target: ${{ github.event.inputs.file2compile }}.html
@@ -732,7 +732,7 @@ jobs:
         continue-on-error: true
         #
       - name: Make html version of log file (if created) available to other jobs 
-        if: ${{ always() && ( -f steps.pruneBib.outputs.madePruned == 'T' }}
+        if: ${{ always() && steps.pruneBib.outputs.madePruned == 'T' }}
         uses: actions/upload-artifact@v4
         with:
           name: finalized-compilation-log-artifact
