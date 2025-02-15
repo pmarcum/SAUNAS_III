@@ -20,10 +20,10 @@ on:
          description: "Name of .tex file to compile, without the .tex part"
          required: true
          default: "myPaper"
-      #folderid:
-      #   description: "Google ID number of the folder in which to upload the compiled files"
-      #   required: true
-      #   default: "1gs2IWLDL4FOIJLoNGGuUDnMPfGpyYmV1"
+      folderid:
+         description: "Google ID number of the folder in which to upload the compiled files"
+         required: true
+         default: "1gs2IWLDL4FOIJLoNGGuUDnMPfGpyYmV1"
 # Allow only one concurrent deployment, skipping runs quesed between the run in progress and most recent queued
 #concurrency:
 #  group: "pages"
