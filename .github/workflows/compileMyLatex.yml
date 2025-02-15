@@ -315,11 +315,18 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          rootname=${{ github.event.inputs.file2compile }}
-          jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
-          job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
-          # replace the job id placeholder in the START file with the job id
-          sed -ri "s/JOBIDPLACEHOLDER/$job_id/" "${rootname}START.txt"
+           # Create the start file
+           rootname=${{ github.event.inputs.file2compile }}
+           rm -f "${rootname}START.txt"
+           touch "${rootname}START.txt"
+           echo "$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> "${rootname}START.txt"
+           jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
+           job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
+           link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${job_id}"
+           echo "$link2job" >> "${rootname}START.txt"
+           htmllink="https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${rootname}.html"
+           echo $htmllink   >> "${rootname}START.txt"
+           echo "precomp"   >> "${rootname}START.txt"
         continue-on-error: true 
         #
       - name: upload START file that signifies latex compilation to google drive
@@ -514,7 +521,8 @@ jobs:
   #|                                                                      |
   #|                     PROCESS COMPILATION OUTPUT                       |
   #|______________________________________________________________________|
-  #  The START file is 4 lines: timestamp, joblink, html link and "pdf"
+  #  The START file is 4 lines: timestamp, joblink, (pdf or html) link and ("pdf" or "html")
+  #  If there is a serious compilation error, html option is chosen. Otherwise, pdf. 
   processLogFile:
     needs: [pruneBib,build_latex]
     runs-on: ubuntu-latest
@@ -715,11 +723,11 @@ jobs:
               rm -f ${rootname}.html
               mv -f finHtml.html "${rootname}.html"
               rm -f red.txt
-              # replace the last line with an "html" 
+              # replace the last line with "html" 
               sed -ri "s/precomp/html/" "${rootname}START.txt"
             fi
            else
-              # replace the last line with an "html" 
+              # replace the last line with "pdf" 
               sed -ri "s/precomp/pdf/" "${rootname}START.txt"
               # finalize the compilation output file by putting a few sentences at the top
               rm -f fin.txt
