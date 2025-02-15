@@ -310,14 +310,12 @@ jobs:
           job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
           # replace the job id placeholder in the START file with the job id
           sed -ri "s/JOBIDPLACEHOLDER/$job_id/" "${rootname}START.txt"
-          echo "START={{ github.event.inputs.file2compile }}START.txt" >> $GITHUB_OUTPUT
         continue-on-error: true 
         #
       - name: upload START file that signifies latex compilation to google drive
-        if: ${{ always() && hashFiles(steps.job-id.output.START) }}
         uses: nextDriveIoE/google-drive-upload-action@v2
         with:
-          target: ${{ steps.job-id.output.START }}
+          target: ${{ github.event.inputs.file2compile }}START.txt
           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
           parent_folder_id: ${{ github.event.inputs.folderid }}
         continue-on-error: true
@@ -449,35 +447,37 @@ jobs:
           name: hires-artifact
         continue-on-error: true
         #
-      - name: compress PDF
-        uses: jy95/ghostscript-action@v1
-        with:
-           file:   ${{ github.event.inputs.file2compile }}_hiRes.pdf
-           output: ${{ github.event.inputs.file2compile }}.pdf
-           arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
-        continue-on-error: true
-        #
-      - name: define lo res
-        id: define-lores
+      - name: defineLoRes
+        id: defineLores
         run: |
            rootname=${{ github.event.inputs.file2compile }}
+           echo "HIRES=${rootname}_hiRes.pdf" >> $GITHUB_OUTPUT
            echo "LORES=${rootname}.pdf" >> $GITHUB_OUTPUT
         continue-on-error: true
         #
+      - name: compress PDF
+        if: ${{ always() && hashFiles(steps.defineLores.output.HIRES) }}
+        uses: jy95/ghostscript-action@v1
+        with:
+           file:   ${{ steps.defineLores.output.HIRES }}
+           output: ${{ steps.defineLores.output.LORES }}
+           arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
+        continue-on-error: true
+        #
       - name: upload low res pdf to google drive
-        if: ${{ always() && hashFiles(steps.define-lores.output.LORES) }}
+        if: ${{ always() && hashFiles(steps.defineLores.output.LORES) }}
         uses: nextDriveIoE/google-drive-upload-action@v2
         with:
-          target: ${{ steps.define-lores.output.LORES }}
+          target: ${{ steps.defineLores.output.LORES }}
           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
           parent_folder_id: ${{ github.event.inputs.folderid }}
           #
       - name: Make low-resolution PDF available to other jobs 
-        if: ${{ always() && hashFiles(steps.define-lores.output.LORES) }}
+        if: ${{ always() && hashFiles(steps.defineLores.output.LORES) }}
         uses: actions/upload-artifact@v4
         with:
           name: lores-artifact
-          path: ${{ steps.define-lores.output.LORES }}
+          path: ${{ steps.defineLores.output.LORES }}
           overwrite: true
         continue-on-error: true
         #
@@ -631,6 +631,7 @@ jobs:
         continue-on-error: true
         #
       - name: Gather up list of references
+        id: reflist
         run: |
            # https://stackoverflow.com/questions/57788813/-return-0-if-no-match
            # squash.io/extracting=numbers-from-strings-in-bash
@@ -709,29 +710,33 @@ jobs:
               done < "${rootname}Out.txt"
               mv -f fin.txt "${rootname}Out.txt"
            fi
+           echo "START=${rootname}START.txt" >> $GITHUB_OUTPUT
+           echo "HTML=${rootname}.html" >> $GITHUB_OUTPUT
+           echo "OUT=${rootname}OUT.txt" >> $GITHUB_OUTPUT
         continue-on-error: true
         #
-      #- name: upload final version of START file to google drive
-      #  if: ${{ always() && hashFiles({{ github.event.inputs.file2compile }}START.txt) }}
-      #  uses: nextDriveIoE/google-drive-upload-action@v2
-      #  with:
-      #    target: ${{ github.event.inputs.file2compile }}START.txt
-      #    credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
-      #    parent_folder_id: ${{ github.event.inputs.folderid }}
-      #    #
-      #- name: upload final version of START file to google drive
-      #  if: ${{ always() && steps.pruneBib.outputs.madePruned == 'T' }}
-      #  uses: nextDriveIoE/google-drive-upload-action@v2
-      #  with:
-      #    target: ${{ github.event.inputs.file2compile }}.html
-      #    credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
-      #    parent_folder_id: ${{ github.event.inputs.folderid }}
-      #    #
+      - name: upload final version of START file to google drive
+        if: ${{ always() && hashFiles(steps.reflist.output.START) }}
+        uses: nextDriveIoE/google-drive-upload-action@v2
+        with:
+          target: ${{ steps.reflist.output.START }}
+          credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
+          parent_folder_id: ${{ github.event.inputs.folderid }}
+          #
+      - name: upload final version of START file to google drive
+        if: ${{ always() && hashFiles(steps.reflist.output.HTML) }}
+        uses: nextDriveIoE/google-drive-upload-action@v2
+        with:
+          target: ${{ steps.reflist.output.HTML }}
+          credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
+          parent_folder_id: ${{ github.event.inputs.folderid }}
+          #
       - name: Make finalized compilation errors available to other jobs 
+        if: ${{ always() && hashFiles(steps.reflist.output.OUT) }}
         uses: actions/upload-artifact@v4
         with:
           name: finalized-compilation-log-artifact
-          path: ${{ github.event.inputs.file2compile }}Out.txt
+          path: ${{ steps.reflist.output.OUT }}
           overwrite: true
         continue-on-error: true
         #
