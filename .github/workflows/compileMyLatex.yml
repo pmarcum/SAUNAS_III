@@ -112,6 +112,7 @@ jobs:
           target: 'pruned.bib'
           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
           parent_folder_id: ${{ github.event.inputs.folderid }}
+          overwrite: true
         continue-on-error: true
         #
       - name: Make pruned bibfile available to other jobs
@@ -158,6 +159,7 @@ jobs:
           target: ${{ github.event.inputs.file2compile }}START.txt
           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
           parent_folder_id: ${{ github.event.inputs.folderid }}
+          overwrite: true
         continue-on-error: true
         #
       - name: Make initialization file available to other jobs
@@ -318,6 +320,7 @@ jobs:
           target: ${{ github.event.inputs.file2compile }}START.txt
           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
           parent_folder_id: ${{ github.event.inputs.folderid }}
+          overwrite: true
         continue-on-error: true
         #
       - name: Make revised START file available to other jobs
@@ -406,7 +409,9 @@ jobs:
           target:  ${{ steps.compilation.output.HIRES }}
           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
           parent_folder_id: ${{ github.event.inputs.folderid }}
-          #
+          overwrite: true
+        continue-on-error: true
+        #
       - name: Make PDF available to other jobs
         if: ${{ always() && hashFiles(steps.compilation.output.HIRES) }}
         uses: actions/upload-artifact@v4
@@ -471,7 +476,9 @@ jobs:
           target: ${{ steps.defineLores.output.LORES }}
           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
           parent_folder_id: ${{ github.event.inputs.folderid }}
-          #
+          overwrite: true
+        continue-on-error: true
+        #
       - name: Make low-resolution PDF available to other jobs 
         if: ${{ always() && hashFiles(steps.defineLores.output.LORES) }}
         uses: actions/upload-artifact@v4
@@ -722,7 +729,9 @@ jobs:
           target: ${{ steps.reflist.output.START }}
           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
           parent_folder_id: ${{ github.event.inputs.folderid }}
-          #
+          overwrite: true
+        continue-on-error: true
+        #
       - name: upload final version of START file to google drive
         if: ${{ always() && hashFiles(steps.reflist.output.HTML) }}
         uses: nextDriveIoE/google-drive-upload-action@v2
@@ -730,7 +739,9 @@ jobs:
           target: ${{ steps.reflist.output.HTML }}
           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
           parent_folder_id: ${{ github.event.inputs.folderid }}
-          #
+          overwrite: true
+        continue-on-error: true
+        #
       - name: Make finalized compilation errors available to other jobs 
         if: ${{ always() && hashFiles(steps.reflist.output.OUT) }}
         uses: actions/upload-artifact@v4
