@@ -130,6 +130,7 @@ jobs:
   #|                           INITIALIZATION                             |
   #|______________________________________________________________________|
   #    runs parallel with pruned-bib and compressImages
+  #  START file has 4 lines: timestamp, joblink, html link (if compilation error), "precomp"
   initializeFolder:
     runs-on: ubuntu-latest
     continue-on-error: true
@@ -283,6 +284,8 @@ jobs:
   #|                        COMPILE THE FILE                              |
   #|______________________________________________________________________|
   #    when this is running, nothing else is running in parallel
+  #  The START file is 4 lines, timestamp, joblink (w/ job link value inserted), html link, "html"
+  #   The START file is set up here in case compilation fails. 
   build_latex:
     needs: [initializeFolder,compressImages]
     runs-on: ubuntu-latest
@@ -511,6 +514,7 @@ jobs:
   #|                                                                      |
   #|                     PROCESS COMPILATION OUTPUT                       |
   #|______________________________________________________________________|
+  #  The START file is 4 lines: timestamp, joblink, html link and "pdf"
   processLogFile:
     needs: [pruneBib,build_latex]
     runs-on: ubuntu-latest
