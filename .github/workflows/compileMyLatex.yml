@@ -404,25 +404,25 @@ jobs:
            # clean up pdf files after compilation
            # move pdf into final filename
            mv -f "${rootname}.pdf" "${rootname}_hiRes.pdf"
-           echo "HIRES=${rootname}_hiRes.pdf" >> $GITHUB_OUTPUT
+           echo "HIRES=${rootname}_hiRes.pdf" >> $GITHUB_ENV
         continue-on-error: true
         #
       - name: upload hi res pdf to google drive
-        if: ${{ always() && hashFiles(steps.compilation.output.HIRES) }}
+        if: ${{ always() && hashFiles(env.HIRES) }}
         uses: nextDriveIoE/google-drive-upload-action@v2
         with:
-          target:  ${{ steps.compilation.output.HIRES }}
+          target:  ${{ env.HIRES }}
           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
           parent_folder_id: ${{ github.event.inputs.folderid }}
           overwrite: true
         continue-on-error: true
         #
       - name: Make PDF available to other jobs
-        if: ${{ always() && hashFiles(steps.compilation.output.HIRES) }}
+        if: ${{ always() && hashFiles(env.HIRES) }}
         uses: actions/upload-artifact@v4
         with:
           name: hires-artifact
-          path: ${{ steps.compilation.output.HIRES }}
+          path: ${{ env.HIRES }}
           overwrite: true
         continue-on-error: true
         #
@@ -462,8 +462,8 @@ jobs:
         id: defineLores
         run: |
            rootname=${{ github.event.inputs.file2compile }}
-           echo "HIRES=${rootname}_hiRes.pdf" >> $GITHUB_OUTPUT
-           echo "LORES=${rootname}.pdf" >> $GITHUB_OUTPUT
+           echo "HIRES=${rootname}_hiRes.pdf" >> $GITHUB_ENV
+           echo "LORES=${rootname}.pdf" >> $GITHUB_ENV
 
            echo '470'
            ls -la *pdf
@@ -471,11 +471,11 @@ jobs:
         continue-on-error: true
         #
       - name: compress PDF
-        if: ${{ always() && hashFiles(steps.defineLores.output.HIRES) }}
+        if: ${{ always() && hashFiles(env.HIRES) }}
         uses: jy95/ghostscript-action@v1
         with:
-           file:   ${{ steps.defineLores.output.HIRES }}
-           output: ${{ steps.defineLores.output.LORES }}
+           file:   ${{ env.HIRES }}
+           output: ${{ env.LORES }}
            arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
         continue-on-error: true
         #
@@ -486,21 +486,21 @@ jobs:
         continue-on-error: true
         #
       - name: upload low res pdf to google drive
-        if: ${{ always() && hashFiles(steps.defineLores.output.LORES) }}
+        if: ${{ always() && hashFiles(env.LORES) }}
         uses: nextDriveIoE/google-drive-upload-action@v2
         with:
-          target: ${{ steps.defineLores.output.LORES }}
+          target: ${{ env.LORES }}
           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
           parent_folder_id: ${{ github.event.inputs.folderid }}
           overwrite: true
         continue-on-error: true
         #
       - name: Make low-resolution PDF available to other jobs 
-        if: ${{ always() && hashFiles(steps.defineLores.output.LORES) }}
+        if: ${{ always() && hashFiles(env.LORES) }}
         uses: actions/upload-artifact@v4
         with:
           name: lores-artifact
-          path: ${{ steps.defineLores.output.LORES }}
+          path: ${{ env.LORES }}
           overwrite: true
         continue-on-error: true
         #
@@ -733,37 +733,37 @@ jobs:
               done < "${rootname}Out.txt"
               mv -f fin.txt "${rootname}Out.txt"
            fi
-           echo "START=${rootname}START.txt" >> $GITHUB_OUTPUT
-           echo "HTML=${rootname}.html" >> $GITHUB_OUTPUT
-           echo "OUT=${rootname}OUT.txt" >> $GITHUB_OUTPUT
+           echo "START=${rootname}START.txt" >> $GITHUB_ENV
+           echo "HTML=${rootname}.html" >> $GITHUB_ENV
+           echo "OUT=${rootname}OUT.txt" >> $GITHUB_ENV
         continue-on-error: true
         #
       - name: upload final version of START file to google drive
-        if: ${{ always() && hashFiles(steps.reflist.output.START) }}
+        if: ${{ always() && hashFiles(env.START) }}
         uses: nextDriveIoE/google-drive-upload-action@v2
         with:
-          target: ${{ steps.reflist.output.START }}
+          target: ${{ env.START }}
           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
           parent_folder_id: ${{ github.event.inputs.folderid }}
           overwrite: true
         continue-on-error: true
         #
       - name: upload final version of START file to google drive
-        if: ${{ always() && hashFiles(steps.reflist.output.HTML) }}
+        if: ${{ always() && hashFiles(env.HTML) }}
         uses: nextDriveIoE/google-drive-upload-action@v2
         with:
-          target: ${{ steps.reflist.output.HTML }}
+          target: ${{ env.HTML }}
           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
           parent_folder_id: ${{ github.event.inputs.folderid }}
           overwrite: true
         continue-on-error: true
         #
       - name: Make finalized compilation errors available to other jobs 
-        if: ${{ always() && hashFiles(steps.reflist.output.OUT) }}
+        if: ${{ always() && hashFiles(env.OUT) }}
         uses: actions/upload-artifact@v4
         with:
           name: finalized-compilation-log-artifact
-          path: ${{ steps.reflist.output.OUT }}
+          path: ${{ env.OUT }}
           overwrite: true
         continue-on-error: true
         #
@@ -771,12 +771,12 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: finalized-compilation-log-artifact
-          path: ${{ github.event.inputs.file2compile }}START.txt
+          path: ${{ env.START }}
           overwrite: true
         continue-on-error: true
         #
       - name: Make html version of log file (if created) available to other jobs 
-        if: ${{ always() && steps.pruneBib.outputs.madePruned == 'T' }}
+        if: ${{ always() && hashFiles(env.HTML) }}
         uses: actions/upload-artifact@v4
         with:
           name: finalized-compilation-log-artifact
