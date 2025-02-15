@@ -105,14 +105,14 @@ jobs:
             fi
         continue-on-error: true
         #
-      #- name: upload pruned.bib to google drive
-      #  uses: nextDriveIoE/google-drive-upload-action@v2
-      #  if: ${{ always() && steps.pruneBib.outputs.madePruned == 'T' }}
-      #  with:
-      #    target: 'pruned.bib'
-      #    credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
-      #    parent_folder_id: ${{ github.event.inputs.folderid }}
-      #    #
+      - name: upload pruned.bib to google drive
+        uses: nextDriveIoE/google-drive-upload-action@v2
+        if: ${{ always() && steps.pruneBib.outputs.madePruned == 'T' }}
+        with:
+          target: 'pruned.bib'
+          credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
+          parent_folder_id: ${{ github.event.inputs.folderid }}
+          #
       - name: Make pruned bibfile available to other jobs
         if: ${{ always() && steps.pruneBib.outputs.madePruned == 'T' }}
         uses: actions/upload-artifact@v4
@@ -310,6 +310,14 @@ jobs:
           sed -ri "s/JOBIDPLACEHOLDER/$job_id/" "${rootname}START.txt"
         continue-on-error: true 
         #
+      - name: upload START file that signifies latex compilation to google drive
+        if: ${{ always() && hashFiles({{ github.event.inputs.file2compile }}START.txt) }}
+        uses: nextDriveIoE/google-drive-upload-action@v2
+        with:
+          target: ${{ github.event.inputs.file2compile }}START.txt
+          credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
+          parent_folder_id: ${{ github.event.inputs.folderid }}
+          #
       - name: get newly compressed images
         if: ${{ always() && hashFiles('compressedFiles.tar') }}
         run: |
@@ -378,35 +386,27 @@ jobs:
            # clean up pdf files after compilation
            # move pdf into final filename
            mv -f "${rootname}.pdf" "${rootname}_hiRes.pdf"
+           echo "HIRES=${{ github.event.inputs.file2compile }}_hiRes.pdf" >> $GITHUB_OUTPUT
         continue-on-error: true
         #
       #- name: upload hi res pdf to google drive
-      #  if: ${{ always() && hashFiles({{ github.event.inputs.file2compile }}_hiRes.pdf) }}
+      #  if: ${{ always() && hashFiles(steps.compilation.output.HIRES) }}
       #  uses: nextDriveIoE/google-drive-upload-action@v2
       #  with:
-      #    target: ${{ github.event.inputs.file2compile }}_hiRes.pdf
-      #    credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
-      #    parent_folder_id: ${{ github.event.inputs.folderid }}
-      #    #
-      #- name: upload START file that signifies latex compilation to google drive
-      #  if: ${{ always() && hashFiles({{ github.event.inputs.file2compile }}START.txt) }}
-      #  uses: nextDriveIoE/google-drive-upload-action@v2
-      #  with:
-      #    target: ${{ github.event.inputs.file2compile }}START.txt
+      #    target:  ${{ steps.compilation.output.HIRES }}
       #    credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
       #    parent_folder_id: ${{ github.event.inputs.folderid }}
       #    #
       - name: Make PDF available to other jobs
-        if: ${{ always() && hashFiles({{ github.event.inputs.file2compile }}_hiRes.pdf) }}
+        if: ${{ always() && hashFiles(steps.compilation.output.HIRES) }}
         uses: actions/upload-artifact@v4
         with:
           name: hires-artifact
-          path: ${{ github.event.inputs.file2compile }}_hiRes.pdf
+          path: $HIRES
           overwrite: true
         continue-on-error: true
         #
       - name: Make revised START file available to other jobs
-        if: ${{ always() && hashFiles({{ github.event.inputs.file2compile }}START.txt) }}
         uses: actions/upload-artifact@v4
         with:
           name: postcompilation-start-artifact
