@@ -673,15 +673,8 @@ jobs:
               # replace the last line with "pdf" 
               echo "pdf" >> "${rootname}STATUS-2.txt"
            fi
-
-           echo '684'
-           ls -la *.txt
-           cat ${rootname}STATUS-2.txt 
-
-           
            # finalize the compilation output file by putting a few sentences at the top
            rm -f fin.txt
-           rm -f "${rootname}Out.txt"
            touch fin.txt
            echo "$timestamp" >> fin.txt
            echo "LATEX COMPILATION ERRORS and WARNINGS" >> fin.txt
@@ -696,7 +689,7 @@ jobs:
            mv -f fin.txt "${rootname}Out.txt"
            echo "STATUS2=${rootname}STATUS-2.txt" >> $GITHUB_ENV
            echo "HTML=${rootname}.html" >> $GITHUB_ENV
-           echo "OUT=${rootname}OUT.txt" >> $GITHUB_ENV
+           echo "OUT=${rootname}Out.txt" >> $GITHUB_ENV
         continue-on-error: true
         #
 
