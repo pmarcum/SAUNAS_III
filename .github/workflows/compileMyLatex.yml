@@ -691,14 +691,7 @@ jobs:
            echo "HTML=${rootname}.html" >> $GITHUB_ENV
            echo "OUT=${rootname}Out.txt" >> $GITHUB_ENV
         continue-on-error: true
-        #
-
-      - name: test
-        run: | 
-          echo '712'
-          echo ${{ env.STATUS2 }}
-          echo '714'
-          
+        #          
       - name: upload final version of STATUS-2 file to google drive
         if: ${{ always() && hashFiles(env.STATUS2) }}
         uses: nextDriveIoE/google-drive-upload-action@v2
