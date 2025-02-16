@@ -269,7 +269,7 @@ jobs:
            job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
            link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${job_id}"
            echo "$link2job" >> "${rootname}STATUS-1.txt"
-           echo "LINK_TO_COMPILATION_ERRORS_PLACEHOLDER" >> "${rootname}STATUS-1.txt"
+           echo "PLACEHOLDER" >> "${rootname}STATUS-1.txt"
            echo "precomp"   >> "${rootname}STATUS-1.txt"
         continue-on-error: true 
         #
@@ -632,7 +632,7 @@ jobs:
            echo ${outlink}
            cat  ${rootname}STATUS-2.txt
            
-           sed -ri "s/LINK_TO_COMPILATION_ERRORS_PLACEHOLDER/${outlink}/" "${rootname}STATUS-2.txt"
+           sed -ri "s/PLACEHOLDER/${outlink}/" "${rootname}STATUS-2.txt"
            
            echo '636'
            ls -la *.txt
