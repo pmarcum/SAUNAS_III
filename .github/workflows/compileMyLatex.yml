@@ -358,7 +358,6 @@ jobs:
         uses: nextDriveIoE/google-drive-upload-action@v2
         with:
           target: ${{ github.event.inputs.file2compile }}STATUS-1.txt
-          name: ${{ github.event.inputs.file2compile }}STATUS-1.txt
           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
           parent_folder_id: ${{ github.event.inputs.folderid }}
           overwrite: true
