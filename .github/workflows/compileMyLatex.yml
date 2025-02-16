@@ -623,28 +623,20 @@ jobs:
            timestamp=$(sed -n "1p" "${rootname}STATUS-1.txt")
            joblink=$(sed -n "2p" "${rootname}STATUS-1.txt")
            rm -f ${rootname}STATUS-2.txt
-           cp ${rootname}STATUS-1.txt ${rootname}STATUS-2.txt           
+           touch ${rootname}STATUS-2.txt
+           echo ${timestamp} >> ${rootname}STATUS-2.txt
+           echo ${joblink} >> ${rootname}STATUS-2.txt
            # If we made it to this point, means that we at least made an attempt at compilation and there was no
            # server or internet issues, so we will be able to publish an errors file.  Let's put the link to it now: 
            outlink="https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${rootname}OUT.txt"
-
-           echo '631'
-           echo ${outlink}
-           cat  ${rootname}STATUS-2.txt
-           
-           sed -ri "s/PLACEHOLDER/${outlink}/" "${rootname}STATUS-2.txt"
-           
-           echo '636'
-           ls -la *.txt
-           cat ${rootname}STATUS-2.txt 
-           
+           echo ${outlink} >> ${rootname}STATUS-2.txt
            #
            if [$FATALERRORS]; then
               # Create an html file with the compilation errors.  This file will be turned into a pdf file
               # by the gooTeX script and displayed in lieu of a pdf compilation of the document. 
               # 
-              # replace the last line of STATUS-2 file with "html" 
-              sed -ri "s/precomp/html/" "${rootname}STATUS-2.txt"
+              # replace the last line of STATUS-2 file with "html"
+              echo "html"  >> "${rootname}STATUS-2.txt"
               #
               # =======================================================================
               #        construct the html file showing errors, if there were fatal ones
@@ -679,7 +671,7 @@ jobs:
               rm -f red.txt
            else
               # replace the last line with "pdf" 
-              sed -ri "s/precomp/pdf/" "${rootname}STATUS-2.txt"
+              echo "pdf" >> "${rootname}STATUS-2.txt"
            fi
 
            echo '684'
