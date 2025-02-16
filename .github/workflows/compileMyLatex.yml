@@ -623,16 +623,17 @@ jobs:
            timestamp=$(sed -n "1p" "${rootname}STATUS-1.txt")
            joblink=$(sed -n "2p" "${rootname}STATUS-1.txt")
            rm -f ${rootname}STATUS-2.txt
-           cp ${rootname}STATUS-1.txt ${rootname}STATUS-2.txt
-
-           echo '628'
-           ls -la *.txt
-           
+           cp ${rootname}STATUS-1.txt ${rootname}STATUS-2.txt           
            # If we made it to this point, means that we at least made an attempt at compilation and there was no
            # server or internet issues, so we will be able to publish an errors file.  Let's put the link to it now: 
            outlink="https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${rootname}OUT.txt"
-           sed -ri "s/LINK_TO_COMPILATION_ERRORS_PLACEHOLDER/${outlink}/" "${rootname}STATUS-2.txt"
 
+           echo '631'
+           echo ${outlink}
+           cat  ${rootname}STATUS-2.txt
+           
+           sed -ri "s/LINK_TO_COMPILATION_ERRORS_PLACEHOLDER/${outlink}/" "${rootname}STATUS-2.txt"
+           
            echo '636'
            ls -la *.txt
            cat ${rootname}STATUS-2.txt 
