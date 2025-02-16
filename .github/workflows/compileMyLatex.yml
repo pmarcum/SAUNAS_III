@@ -235,8 +235,8 @@ jobs:
   #|                        COMPILE THE FILE                              |
   #|______________________________________________________________________|
   #    when this is running, nothing else is running in parallel
-  #  The START file is 4 lines, timestamp, joblink (w/ job link value inserted), html link, "html"
-  #  The START file is set up here in case compilation fails. 
+  #  The STATUS file is 4 lines, timestamp, joblink (w/ job link value inserted), "FAILED",  status**
+  #  If the compilation fails, the STATUS file will have a status of "precomp" for "precompile"
   build_latex:
     needs: [compressImages]
     runs-on: ubuntu-latest
@@ -249,16 +249,10 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         #
-      - name: Download newly compressed images folder
+      - name: Download newly compressed images tar file
         uses: actions/download-artifact@v4
         with:
           name: images-tar-artifact
-        continue-on-error: true
-        #
-      - name: Download newly compressed images folder
-        uses: actions/download-artifact@v4
-        with:
-          name: initialization-file-artifact
         continue-on-error: true
         #
       - name: Get Job ID from GH API
@@ -266,18 +260,17 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-           # Create the start file
+           # Create the status file
            rootname=${{ github.event.inputs.file2compile }}
-           rm -f "${rootname}START.txt"
-           touch "${rootname}START.txt"
-           echo "$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> "${rootname}START.txt"
+           rm -f ${rootname}STATUS*.txt
+           touch "${rootname}STATUS-1.txt"
+           echo "$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> "${rootname}STATUS-1.txt"
            jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
            job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
            link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${job_id}"
-           echo "$link2job" >> "${rootname}START.txt"
-           htmllink="https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${rootname}.html"
-           echo $htmllink   >> "${rootname}START.txt"
-           echo "precomp"   >> "${rootname}START.txt"
+           echo "$link2job" >> "${rootname}STATUS-1.txt"
+           echo "LINK_TO_COMPILATION_ERRORS_PLACEHOLDER" >> "${rootname}STATUS-1.txt"
+           echo "precomp"   >> "${rootname}STATUS-1.txt"
         continue-on-error: true 
         #
       - name: get newly compressed images
@@ -361,20 +354,21 @@ jobs:
           overwrite: true
         continue-on-error: true
         #
-      - name: upload START file that signifies latex compilation to google drive
+      - name: upload STATUS-1 file that signifies latex compilation to google drive
         uses: nextDriveIoE/google-drive-upload-action@v2
         with:
-          target: ${{ github.event.inputs.file2compile }}START.txt
+          target: ${{ github.event.inputs.file2compile }}STATUS-1.txt
+          name: ${{ github.event.inputs.file2compile }}STATUS-1.txt
           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
           parent_folder_id: ${{ github.event.inputs.folderid }}
           overwrite: true
         continue-on-error: true
         #
-      - name: Make revised START file available to other jobs
+      - name: Make STATUS-1 file available to other jobs
         uses: actions/upload-artifact@v4
         with:
-          name: postcompilation-start-artifact
-          path: ${{ github.event.inputs.file2compile }}START.txt
+          name: status1-artifact
+          path: ${{ github.event.inputs.file2compile }}STATUS-1.txt
           overwrite: true
         continue-on-error: true
         #
@@ -391,7 +385,7 @@ jobs:
         if: ${{ always() && hashFiles('compileOut.txt') }}
         uses: actions/upload-artifact@v4
         with:
-          name: postcompilation-log-artifact
+          name: postcompilation-rawLog-artifact
           path: compileOut.txt
           overwrite: true
         continue-on-error: true
@@ -413,7 +407,7 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         #
-      - name: Download latex compilation files
+      - name: Download high-resolution pdf file
         uses: actions/download-artifact@v4
         with:
           name: hires-artifact
@@ -454,16 +448,13 @@ jobs:
           path: ${{ env.LORES }}
           overwrite: true
         continue-on-error: true
-        #
-        #   pdflink="${{ github.server_url }}/${{ github.repository }}/blob/${GITHUB_REF_NAME}/${{ github.event.inputs.file2compile }}.pdf"
-        #   echo "PDFLINK=$pdflink" >>                                                   $GITHUB_OUTPUT
 
   #_______________________________________________________________________
   #|                                                                      |
   #|                     PROCESS COMPILATION OUTPUT                       |
   #|______________________________________________________________________|
-  #  The START file is 4 lines: timestamp, joblink, (pdf or html) link and ("pdf" or "html")
-  #  If there is a serious compilation error, html option is chosen. Otherwise, pdf. 
+  #  The STATUS file is 4 lines: timestamp, joblink, processed compilation error link and status**
+  #  **If there is a serious compilation error, html option is chosen. Otherwise, pdf. 
   processLogFile:
     needs: [pruneBib,build_latex]
     runs-on: ubuntu-latest
@@ -476,16 +467,16 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         #
-      - name: Download start file after compilation
+      - name: Download status-1 file after compilation
         uses: actions/download-artifact@v4
         with:
-          name: postcompilation-start-artifact
+          name: status1-artifact
         continue-on-error: true
         #
-      - name: Download log file after compilation
+      - name: Download raw log file after compilation
         uses: actions/download-artifact@v4
         with:
-          name: postcompilation-log-artifact
+          name: postcompilation-rawLog-artifact
         continue-on-error: true
         #        
       - name: Capture full compilation output
@@ -629,9 +620,22 @@ jobs:
            rm -f html.txt
            rm -f finHtml.html
            rm -f ${rootname}.html
-           timestamp=$(sed -n "1p" "${rootname}START.txt")
-           joblink=$(sed -n "2p" "${rootname}START.txt")
+           #
+           timestamp=$(sed -n "1p" "${rootname}STATUS-1.txt")
+           joblink=$(sed -n "2p" "${rootname}STATUS-1.txt")
+           rm -f ${rootname}STATUS-2.txt
+           cp ${rootname}STATUS-1.txt ${rootname}STATUS-2.txt
+           # If we made it to this point, means that we at least made an attempt at compilation and there was no
+           # server or internet issues, so we will be able to publish an errors file.  Let's put the link to it now: 
+           outlink="https://raw.githubusercontent.com/${{ github.repository }}/${GITHUB_REF_NAME}/${rootname}OUT.txt"
+           sed -ri "s/LINK_TO_COMPILATION_ERRORS_PLACEHOLDER/${outlink}/" "${rootname}STATUS-2.txt"
+           #
            if [$FATALERRORS]; then
+              # Create an html file with the compilation errors.  This file will be turned into a pdf file
+              # by the gooTeX script and displayed in lieu of a pdf compilation of the document. 
+              # 
+              # replace the last line of STATUS-2 file with "html" 
+              sed -ri "s/precomp/html/" "${rootname}STATUS-2.txt"
               #
               # =======================================================================
               #        construct the html file showing errors, if there were fatal ones
@@ -664,44 +668,49 @@ jobs:
               rm -f ${rootname}.html
               mv -f finHtml.html "${rootname}.html"
               rm -f red.txt
-              # replace the last line with "html" 
-              sed -ri "s/precomp/html/" "${rootname}START.txt"
-            fi
            else
               # replace the last line with "pdf" 
-              sed -ri "s/precomp/pdf/" "${rootname}START.txt"
-              # finalize the compilation output file by putting a few sentences at the top
-              rm -f fin.txt
-              rm -f "${rootname}Out.txt"
-              touch fin.txt
-              echo "$timestamp" >> fin.txt
-              echo "LATEX COMPILATION ERRORS and WARNINGS" >> fin.txt
-              echo "" >> fin.txt
-              echo "To view full GitHub Actions output, click on item at top of list here:" >> fin.txt
-              echo "$joblink" >> fin.txt
-              echo "" >> fin.txt
-              while IFS= read -r line; do
-                 thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
-                 echo "$thisline" >> fin.txt
-              done < "${rootname}Out.txt"
-              mv -f fin.txt "${rootname}Out.txt"
+              sed -ri "s/precomp/pdf/" "${rootname}STATUS-2.txt"
            fi
-           echo "START=${rootname}START.txt" >> $GITHUB_ENV
+           # finalize the compilation output file by putting a few sentences at the top
+           rm -f fin.txt
+           rm -f "${rootname}Out.txt"
+           touch fin.txt
+           echo "$timestamp" >> fin.txt
+           echo "LATEX COMPILATION ERRORS and WARNINGS" >> fin.txt
+           echo "" >> fin.txt
+           echo "To view full GitHub Actions output, click on item at top of list here:" >> fin.txt
+           echo "$joblink" >> fin.txt
+           echo "" >> fin.txt
+           while IFS= read -r line; do
+              thisline="$( echo "$line" | sed -r 's/^line #/Line #/g' | sed -r 's/^=----/-----/g' )"
+              echo "$thisline" >> fin.txt
+           done < "${rootname}Out.txt"
+           mv -f fin.txt "${rootname}Out.txt"
+           echo "STATUS2=${rootname}STATUS-2.txt" >> $GITHUB_ENV
            echo "HTML=${rootname}.html" >> $GITHUB_ENV
            echo "OUT=${rootname}OUT.txt" >> $GITHUB_ENV
         continue-on-error: true
         #
-      - name: upload final version of START file to google drive
-        if: ${{ always() && hashFiles(env.START) }}
+      - name: upload final version of STATUS-2 file to google drive
+        if: ${{ always() && hashFiles(env.STATUS2) }}
         uses: nextDriveIoE/google-drive-upload-action@v2
         with:
-          target: ${{ env.START }}
+          target: ${{ env.STATUS2 }}
           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
           parent_folder_id: ${{ github.event.inputs.folderid }}
           overwrite: true
         continue-on-error: true
         #
-      - name: upload final version of START file to google drive
+      - name: Make notice of completion available to other jobs 
+        uses: actions/upload-artifact@v4
+        with:
+          name: finalized-compilation-log-artifact
+          path: ${{ env.STATUS2 }}
+          overwrite: true
+        continue-on-error: true
+        #
+      - name: upload final version of HTML compilation error file to google drive
         if: ${{ always() && hashFiles(env.HTML) }}
         uses: nextDriveIoE/google-drive-upload-action@v2
         with:
@@ -711,29 +720,21 @@ jobs:
           overwrite: true
         continue-on-error: true
         #
-      - name: Make finalized compilation errors available to other jobs 
-        if: ${{ always() && hashFiles(env.OUT) }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: finalized-compilation-log-artifact
-          path: ${{ env.OUT }}
-          overwrite: true
-        continue-on-error: true
-        #
-      - name: Make notice of completion available to other jobs 
-        uses: actions/upload-artifact@v4
-        with:
-          name: finalized-compilation-log-artifact
-          path: ${{ env.START }}
-          overwrite: true
-        continue-on-error: true
-        #
       - name: Make html version of log file (if created) available to other jobs 
         if: ${{ always() && hashFiles(env.HTML) }}
         uses: actions/upload-artifact@v4
         with:
-          name: finalized-compilation-log-artifact
+          name: finalized-compilationlog-html-artifact
           path: ${{ github.event.inputs.file2compile }}.html
+          overwrite: true
+        continue-on-error: true
+        #
+      - name: Make finalized compilation errors available to other jobs 
+        if: ${{ always() && hashFiles(env.OUT) }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: finalized-compilationlog-out-artifact
+          path: ${{ env.OUT }}
           overwrite: true
         continue-on-error: true
 
@@ -742,7 +743,7 @@ jobs:
   #|     COMPRESS THE PDF FILE INTO LOWER RESOLUTION FILE FOR DISPLAY     |
   #|______________________________________________________________________|
   updateRepo:
-    needs: [build_latex]
+    needs: [build_latex,processLogFile,compressPdf]
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
@@ -753,16 +754,22 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         #
+      - name: download STATUS 1 file
+        uses: actions/download-artifact@v4
+        with:
+          name: status1-artifact
+          path: ${{ env.STATUS1 }}
+          #
+      - name: download STATUS 2 file
+        uses: actions/download-artifact@v4
+        with:
+          name: status2-artifact
+          path: ${{ env.STATUS2 }}
+          #
       - name: Download hi res PDF
         uses: actions/download-artifact@v4
         with:
           name: hires-artifact
-        continue-on-error: true
-        #
-      - name: Download lo res PDF
-        uses: actions/download-artifact@v4
-        with:
-          name: lores-artifact
         continue-on-error: true
         #
       - name: Download pruned bibfile
@@ -771,22 +778,22 @@ jobs:
           name: pruned-bib-artifact
         continue-on-error: true
         #
-      - name: Download start file
+      - name: Download html compilation error file (if exists)
         uses: actions/download-artifact@v4
         with:
-          name: postcompilation-start-artifact
+          name: finalized-compilationlog-html-artifact
         continue-on-error: true
         #
+      - name: Download txt compilation error OUT file (if exists)
+        uses: actions/download-artifact@v4
+        with:
+          name: finalized-compilationlog-out-artifact
+        continue-on-error: true
+        #        
       - name: Download compressed images
         uses: actions/download-artifact@v4
         with:
-          name:  images-tar-artifact
-        continue-on-error: true
-        #
-      - name: Download compilation log
-        uses: actions/download-artifact@v4
-        with:
-          name: postcompilation-log-artifact
+          name: images-tar-artifact
         continue-on-error: true
         #
       - name: get newly compressed images
