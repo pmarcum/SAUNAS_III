@@ -620,11 +620,10 @@ jobs:
            rm -f finHtml.html
            rm -f ${rootname}.html
            #
-           timestamp=$(sed -n "1p" "${rootname}STATUS-1.txt")
            joblink=$(sed -n "2p" "${rootname}STATUS-1.txt")
            rm -f ${rootname}STATUS-2.txt
            touch ${rootname}STATUS-2.txt
-           echo ${timestamp} >> ${rootname}STATUS-2.txt
+           echo "$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> "${rootname}STATUS-2.txt"
            echo ${joblink} >> ${rootname}STATUS-2.txt
            # If we made it to this point, means that we at least made an attempt at compilation and there was no
            # server or internet issues, so we will be able to publish an errors file.  Let's put the link to it now: 
