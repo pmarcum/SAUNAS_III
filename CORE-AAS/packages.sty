@@ -1,0 +1,19 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%% FREQUENTLY USED \usepackage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   Consolidates the \usepackage lines used almost universally in our 
+%   documents into a single file
+%   Note that one-off \usepackage are best put directly in the
+%   document's preamble
+%
+%  To incorporate these \usepackages, in the preamble of your 
+%  document, simply type:  
+%  \usepackage{FUpackages}
+% -------------------------------------------
+%%%% \usepackage{amsmath} % output loop 200 consecutive dead cycles nobreak nobreak false
+usepackage{multirow,hyperref,textcomp,fancyhdr,graphicx,amssymb,floatrow,nicefrac,array,fontawesome}
+\usepackage{tocloft,tcolorbox,wrapfig,blindtext,booktabs,varwidth,scrextend,colortbl,tablefootnote}
+\usepackage[abs]{overpic}
+\usepackage{cleveref}[2012/02/15]
+\let\tablenum\relax \usepackage{siunitx}  % deconflicts siunitx with aastex - see aastex guide
+
