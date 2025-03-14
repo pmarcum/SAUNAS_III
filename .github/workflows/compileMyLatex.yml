@@ -704,8 +704,8 @@ jobs:
       - name: Make notice of completion available to other jobs 
         uses: actions/upload-artifact@v4
         with:
-          name: finalized-compilation-log-artifact
-          path: ${{ env.STATUS2 }}
+          name: status2-artifact
+          path: ${{ ${{ github.event.inputs.file2compile }}STATUS-2.txt
           overwrite: true
         continue-on-error: true
         #
