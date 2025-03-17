@@ -1,4 +1,0 @@
-2025-03-17T05:50:33Z 1742190633620
-https://github.com/pmarcum/SAUNAS_III/actions/runs/13892499772/job/
-https://raw.githubusercontent.com/pmarcum/SAUNAS_III/main/myPaperOUT.txt
-pdf
