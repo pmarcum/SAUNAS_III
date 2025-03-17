@@ -429,6 +429,10 @@ jobs:
            arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
         continue-on-error: true
         #
+      - name: test if low res pdf is made
+        run: |
+          ls -la *pdf
+        #
       - name: upload low res pdf to google drive
         if: ${{ always() && hashFiles(env.LORES) }}
         uses: nextDriveIoE/google-drive-upload-action@v2
