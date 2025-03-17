@@ -680,7 +680,7 @@ jobs:
   #|                   UPLOAD THE FILES TO THE REPOSITRY                  |
   #|______________________________________________________________________|
   updateRepo:
-    needs: [build_latex,processLogFile,compressPdf]
+    needs: [build_latex,processLogFile]
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
