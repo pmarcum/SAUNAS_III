@@ -331,7 +331,6 @@ jobs:
            rootname=${{ github.event.inputs.file2compile }}
            rm -f compileOut.txt
            rm -f "${rootname}.pdf"
-           rm -f "${rootname}_hiRes.pdf"
            latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 \
              -interaction=nonstopmode "${rootname}.tex" 2>&1 | tee compileOut.txt
            echo "______________________________________________________________________________"
@@ -340,15 +339,14 @@ jobs:
            #
            # clean up pdf files after compilation
            # move pdf into final filename
-           mv -f "${rootname}.pdf" "${rootname}_hiRes.pdf"
-           echo "HIRES=${rootname}_hiRes.pdf" >> $GITHUB_ENV
+           echo "PDF=${rootname}.pdf" >> $GITHUB_ENV
         continue-on-error: true
         #
       - name: upload hi res pdf to google drive
-        if: ${{ always() && hashFiles(env.HIRES) }}
+        if: ${{ always() && hashFiles(env.PDF) }}
         uses: nextDriveIoE/google-drive-upload-action@v2
         with:
-          target:  ${{ env.HIRES }}
+          target:  ${{ env.PDF }}
           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
           parent_folder_id: ${{ github.event.inputs.folderid }}
           overwrite: true
@@ -372,11 +370,11 @@ jobs:
         continue-on-error: true
         #
       - name: Make PDF available to other jobs
-        if: ${{ always() && hashFiles(env.HIRES) }}
+        if: ${{ always() && hashFiles(env.PDF) }}
         uses: actions/upload-artifact@v4
         with:
-          name: hires-artifact
-          path: ${{ env.HIRES }}
+          name: pdf-artifact
+          path: ${{ env.PDF }}
           overwrite: true
         continue-on-error: true
         #
@@ -386,69 +384,6 @@ jobs:
         with:
           name: postcompilation-rawLog-artifact
           path: compileOut.txt
-          overwrite: true
-        continue-on-error: true
-
-  #_______________________________________________________________________
-  #|                                                                      |
-  #|     COMPRESS THE PDF FILE INTO LOWER RESOLUTION FILE FOR DISPLAY     |
-  #|______________________________________________________________________|
-  #       run in parallel with processLogFile, right after compilation is complete
-  compressPdf:
-    needs: [build_latex]
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    permissions:
-      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
-      contents: write
-      #
-    steps:
-      - name: Clone repo
-        uses: actions/checkout@v4
-        #
-      - name: Download high-resolution pdf file
-        uses: actions/download-artifact@v4
-        with:
-          name: hires-artifact
-        continue-on-error: true
-        #
-      - name: defineLoRes
-        id: defineLores
-        run: |
-           rootname=${{ github.event.inputs.file2compile }}
-           echo "HIRES=${rootname}_hiRes.pdf" >> $GITHUB_ENV
-           echo "LORES=${rootname}.pdf" >> $GITHUB_ENV
-        continue-on-error: true
-        #
-      - name: compress PDF
-        if: ${{ always() && hashFiles(env.HIRES) }}
-        uses: jy95/ghostscript-action@v1
-        with:
-           file:   ${{ env.HIRES }}
-           output: ${{ env.LORES }}
-           arbitrary-parameters: '-dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen'
-        continue-on-error: true
-        #
-      - name: test if low res pdf is made
-        run: |
-          ls -la *pdf
-        #
-      - name: upload low res pdf to google drive
-        if: ${{ always() && hashFiles(env.LORES) }}
-        uses: nextDriveIoE/google-drive-upload-action@v2
-        with:
-          target: ${{ env.LORES }}
-          credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
-          parent_folder_id: ${{ github.event.inputs.folderid }}
-          overwrite: true
-        continue-on-error: true
-        #
-      - name: Make low-resolution PDF available to other jobs 
-        if: ${{ always() && hashFiles(env.LORES) }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: lores-artifact
-          path: ${{ env.LORES }}
           overwrite: true
         continue-on-error: true
 
@@ -491,7 +426,7 @@ jobs:
            fatalErrors=false
            fileliststr=''
            # ....... if the pdf file was generated, then the errors must have NOT been fatal.
-           if [ ! -f  "${rootname}_hiRes.pdf" ]; then fatalErrors=true; fi         
+           if [ ! -f  "${rootname}.pdf" ]; then fatalErrors=true; fi         
            # ....... prepare the compilation log for processing by first removing all end-of-line characters
            rm -f errout.txt
            touch errout.txt
@@ -646,7 +581,6 @@ jobs:
               # =======================================================================
               # There were errors - Create a .html file from the out.txt file
               rm -f "${rootname}.pdf"
-              rm -f "${rootname}_hiRes.pdf"
               # make sure that long lines are split if they exceed 20 words
               fold -sw 90 "${rootname}Out.txt" > html.txt
               echo "<span style='color:blue;'>FATAL LATEX COMPILATION ERROR(s)</span><br><br>" > finHtml.html
@@ -743,7 +677,7 @@ jobs:
 
   #_______________________________________________________________________
   #|                                                                      |
-  #|     COMPRESS THE PDF FILE INTO LOWER RESOLUTION FILE FOR DISPLAY     |
+  #|                   UPLOAD THE FILES TO THE REPOSITRY                  |
   #|______________________________________________________________________|
   updateRepo:
     needs: [build_latex,processLogFile,compressPdf]
@@ -769,10 +703,10 @@ jobs:
           name: status2-artifact
           path: ${{ env.STATUS2 }}
           #
-      - name: Download hi res PDF
+      - name: Download PDF
         uses: actions/download-artifact@v4
         with:
-          name: hires-artifact
+          name: pdf-artifact
         continue-on-error: true
         #
       - name: Download pruned bibfile
