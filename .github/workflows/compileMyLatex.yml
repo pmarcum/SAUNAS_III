@@ -240,8 +240,6 @@ jobs:
   build_latex:
     needs: [compressImages]
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/moderncv/debian-texlive-docker:main
     continue-on-error: true
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
