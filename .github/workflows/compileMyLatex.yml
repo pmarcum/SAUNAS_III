@@ -42,6 +42,8 @@ jobs:
   #    runs parallel with compressImages
   pruneBib:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/moderncv/debian-texlive-docker:main
     continue-on-error: true
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
@@ -283,47 +285,47 @@ jobs:
           rm $( cat filelist.txt )
           ls -la FIGURES
         continue-on-error: true 
-        #
-        # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
-        # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
-        # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
-        # >>>>>>>>>>>>>>>>>>>>>>>> IMPORTANT NOTE ABOUT TEMPORARY FIX <<<<<<<<<<<<<<<<<<<<<<<<<<
-        # array.sty is incompatable with latest version of texlive and/or aastex. Until aastex is fixed in mid-2025,
-        # will need to keep this fix of using version 2020 instead of latest version. array.sty is used in WorPT files.
-        # See more details here:   https://github.com/AASJournals/AASTeX60/issues/149
-      - name: Install texlive
-        uses: teatimeguest/setup-texlive-action@v3
-        with:
-          version: 2023
-          packages:
-             collection-basic
-             collection-bibtexextra
-             collection-binextra
-             collection-context
-             collection-fontsextra
-             collection-fontsrecommended
-             collection-formatsextra
-             collection-fontutils
-             collection-latex
-             collection-latexextra
-             collection-latexrecommended
-             collection-mathscience
-             collection-metapost
-             collection-pictures
-             collection-plaingeneric
-             collection-pstricks
-             collection-publishers
-             collection-texworks
-             amsfonts
-             graphics
-             scrextend
-             rotating
-             tools
-             threeparttable
-             units
-          cache: true
-        continue-on-error: true
-        #
+      #  #
+      #  # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
+      #  # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
+      #  # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
+      #  # >>>>>>>>>>>>>>>>>>>>>>>> IMPORTANT NOTE ABOUT TEMPORARY FIX <<<<<<<<<<<<<<<<<<<<<<<<<<
+      #  # array.sty is incompatable with latest version of texlive and/or aastex. Until aastex is fixed in mid-2025,
+      #  # will need to keep this fix of using version 2020 instead of latest version. array.sty is used in WorPT files.
+      #  # See more details here:   https://github.com/AASJournals/AASTeX60/issues/149
+      #- name: Install texlive
+      #  uses: teatimeguest/setup-texlive-action@v3
+      #  with:
+      #    version: 2023
+      #    packages:
+      #       collection-basic
+      #       collection-bibtexextra
+      #       collection-binextra
+      #       collection-context
+      #       collection-fontsextra
+      #       collection-fontsrecommended
+      #       collection-formatsextra
+      #       collection-fontutils
+      #       collection-latex
+      #       collection-latexextra
+      #       collection-latexrecommended
+      #       collection-mathscience
+      #       collection-metapost
+      #       collection-pictures
+      #       collection-plaingeneric
+      #       collection-pstricks
+      #       collection-publishers
+      #       collection-texworks
+      #       amsfonts
+      #       graphics
+      #       scrextend
+      #       rotating
+      #       tools
+      #       threeparttable
+      #       units
+      #    cache: true
+      #  continue-on-error: true
+      #  #
       - name: Compile paper
         # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
         id: compilation
