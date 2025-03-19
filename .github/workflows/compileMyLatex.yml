@@ -268,6 +268,9 @@ jobs:
            #https://stackoverflow.com/questions/71240338/obtain-job-id-from-a-workflow-run-using-contexts
            jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
            job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
+           echo ''
+           echo $job_id
+           echo ''
            link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/$job_id"
            echo "$link2job" >> "${rootname}STATUS-1.txt"
            echo "PLACEHOLDER" >> "${rootname}STATUS-1.txt"
