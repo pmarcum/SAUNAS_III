@@ -2,7 +2,7 @@
 %\documentclass[linenumbers,twocolumn,tighten,times]{CORE-AAS/aastex631} 
 %!! user commands
 %\usepackage{CORE-AAS/variables} 
-\usepackage{datetime2} 
+\usepackage[en-US]{datetime2} 
 \newcommand{\vdag}{(v)^\dagger}
 \newcommand\aastex{AAS\TeX}
 \newcommand\latex{La\TeX}
@@ -33,10 +33,11 @@
 \newcommand{\bxa}{\textt}
 
 \begin{document}
-
+\DTMlangsetup[en-US]{dayyearsep={,\space}} 
+\DTMsetstyle{en-US}
 %!! The below puts a lightgrey "watermark" at top of manuscript to indicate compilation time. Comment out if not needed. 
-%%%%%%\vspace*{-0.8cm}\noindent{\textcolor{lightgray}{Compiled: \currenttime\ \today\ (UTC)}
-\vspace*{-0.8cm}\noindent{\textcolor{lightgray}{This PDF was created on \DTMnow.}}
+%%%%%%\vspace*{-0.8cm}\noindent{\textcolor{lightgray}{Compiled: \currenttime\ \today\ (UTC)}}
+\vspace*{-0.8cm}\noindent{\textcolor{lightgray}{Compiled: \DTMcurrenttime (Pacific)}}
  
 \title{SAUNAS II: Discovery of Cross-shaped X-ray Emission and a Rotating Circumnuclear Disk \\in the Supermassive S0 Galaxy NGC 5084}
 
