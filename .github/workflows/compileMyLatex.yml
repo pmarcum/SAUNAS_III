@@ -255,11 +255,12 @@ jobs:
           name: images-tar-artifact
         continue-on-error: true
         #
-      - name: Get Job ID from GH API
-        uses: qoomon/actions--context@v4
+      - uses: qoomon/actions--context@v4
+        #
+      - name: Create status files
         id: job-id
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        #env:
+        #  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Create the status file
            rootname=${{ github.event.inputs.file2compile }}
