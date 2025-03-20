@@ -2,7 +2,7 @@
 LATEX COMPILATION ERRORS and WARNINGS
 
 To view full GitHub Actions output, click on item at top of list here:
-https://github.com/pmarcum/SAUNAS_III/actions/runs/13978867752/job/39139343062
+https://github.com/pmarcum/SAUNAS_III/actions/runs/13978977158/job/39139721789
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               FATAL ERRORS IN myPaper.tex
@@ -180,7 +180,7 @@ Line #740 -----------------------
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               WARNINGS IN myPaper.tex
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-LaTeX Warning: Reference `fig:NGC5084' on page 4 undefined on input line 141.
+LaTeX Warning: Reference `fig:NGC5084' on page 3 undefined on input line 141.
 Line #141 ----------------------- 
 Looking at Figure\ref{fig:NGC5084} in Section\ref{subsec:results_xray_ima}.
 ._______________________________________________________________________
@@ -205,9 +205,9 @@ LaTeX Warning: Reference `fig:NGC5084_hst' on page 11 undefined on input line 31
 Line #318 ----------------------- 
 The results are shown in the right panel of Fig.\,\ref{fig:NGC5084_hst}. The model ellipse fit is shown displaced from the observed disk for clarity. The center of the ellipse is $\alpha, \delta = (200\fdg0701, -21\fdg8272) \pm 0.1$ arcsec, compatible with the location of the core of the galaxy. The disk diameter is  $D=304^{+10}_{-11}$ pc, with a median inclination of $i=71.2^{+1.8}_{-1.7}$ degrees, and a position angle of $\theta = -5.1^{+1.1}_{-1.0}$ degrees, indicating that the relative orientation of the circumnuclear disk is perpendicular to the galactic plane.
 ._______________________________________________________________________
-LaTeX Warning: Reference `fig:ALMA' on page 12 undefined on input line 325.
-Line #325 ----------------------- 
-Figure \ref{fig:ALMA} shows the results from the analysis of the ALMA Band 6 spectral data cube obtained in NGC\,5084. Initial inspection of the calibrated cube did not show sufficient emission per spaxel at the original spectral resolution of 1.3 km s$^{-1}$. After rebinning the datacube in the spectral axis to a velocity resolution of 12.9 km s$^{-1}$, emission lines with SNR$>3$ are detected. We fit Gaussian models along the spectral direction for each pixel in the cube, identifying the intensity, centroid, and dispersion of the CO(2-1) emission lines (moments 0, 1, and 2). 
+LaTeX Warning: Reference `fig:ALMA' on page 12 undefined on input line 327.
+Line #327 ----------------------- 
+The positions that do not contain emission with an associated intensity higher than the noise at a $95\%$ probability confidence level are masked. The velocity map (moment 1) of the CO(2-1) emission lines is represented in a color scale over the F702W HST/ACS image in the right panel of Fig.\,\ref{fig:ALMA}. The results show an unmistakable edge-on rotation pattern, with the north (south) edge of the disk moving towards (away from) the observer along the line of sight. The peaks of CO(2-1) emission are coincident with the edges of the circumnuclear disk, where the column density is expected to be highest due to projection effects.\\ 
 ._______________________________________________________________________
 LaTeX Warning: Reference `fig:ALMA' on page 12 undefined on input line 329.
 Line #329 ----------------------- 
@@ -221,7 +221,7 @@ LaTeX Warning: Command \r invalid in math mode on input line 444.
 Line #444 ----------------------- 
 using five regions: (1) the central 1.5 arcsec from the core of the galaxy; (2-5) north, south, east, and west sides of the galaxy, resp. (not including the core). The results are shown in Fig.\,\ref{fig:NGC5084_optical_spectra}. The APO/DIS spectra do not reveal any signs of H$\alpha$ [$\lambda=6562.8\AA$], H$\beta$ [$\lambda=4861.35\AA$], or H$\gamma$ [$\lambda=4340.47\AA$] absorption, in any of the regions analyzed, suggesting that the stellar population at the core is not dominated by a classic post-starburst stellar population. 
 ._______________________________________________________________________
-LaTeX Warning: Reference `subsec:discussion_fadedstarburst' on page 18 undefined on input line 476.
+LaTeX Warning: Reference `subsec:discussion_fadedstarburst' on page 17 undefined on input line 476.
 Line #476 ----------------------- 
 These scenarios are idealized; in reality, a mixture of these cases may be responsible for the observed phenomena. In particular, the HI tilt and the disk warp of NGC\,5084 suggest that the galaxy suffered a major merger at some point in its past. Rather than directly eliminating other scenarios, mergers serve as a potential triggering factor in two of the other cases (orientation change and faded starburst). The observational evidence for merger activity is gathered in Sec.\,\ref{subsec:discussion_merger}. Secs.\,\ref{subsec:discussion_fadedstarburst}, \ref{subsec:discussion_cocoon}, and \ref{subsec:discussion_realignment} discuss each of the scenarios presented in Fig.\,\ref{fig:NGC5084_scenarios}.
 ._______________________________________________________________________
@@ -237,7 +237,7 @@ LaTeX Warning: Reference `subsec:results_Optical_spectra' on page 20 undefined o
 Line #533 ----------------------- 
 Secondly, the optical spectra (see Sec.\,\ref{subsec:results_Optical_spectra}, Fig.\,\ref{fig:NGC5084_optical_spectra}) do not present any Balmer absorption lines typical of post-starburst objects \citep[also called E+A or K+A galaxies,][]{dressler+1983apj270_7}, not even in regions away from the core, where the AGN could dominate the emission. Given that the post-starburst phase lasts about 300\,Myr, the lack of a Balmer absorption line signal in the optical spectra suggest that the age of the stellar population in the core is older than a Gyr. 
 ._______________________________________________________________________
-LaTeX Warning: Reference `tab:Radio_Lobes' on page 22 undefined on input line 541.
+LaTeX Warning: Reference `tab:Radio_Lobes' on page 21 undefined on input line 541.
 Line #541 ----------------------- 
 Unfortunately, the systematic effects observed in radio observations along the vertical direction (Sec.\,\ref{subsec:results_radiopol}) prevent the identification of additional radio lobes along the minor axis of the galaxy, challenging the ability to determine whether NGC\,5084 also has an X-shape radio morphology. Given the detected radio-lobes, NGC\,5084 would be classified between high-luminosity LINER/Seyferts and FR~0 galaxies \citep[see Table \ref{tab:Radio_Lobes},][]{baldi2023aap31_3}, emitting $\sim$4--5 orders of magnitude less than the X-shaped radio galaxies from \citet{cheung+2009apj181_548}. This classification correlates with the prediction from \citet{hodgeskluck2011thesis} that X-shaped sources should be decaying AGN jets. 
 ._______________________________________________________________________
