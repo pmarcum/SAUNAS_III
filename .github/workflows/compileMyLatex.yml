@@ -255,28 +255,23 @@ jobs:
           name: images-tar-artifact
         continue-on-error: true
         #
-      - name: Get job id using action
-        uses: qoomon/actions--context@v4
-      - run: |
-          echo "${GITHUB_JOB_URL}"
-          echo "${GITHUB_RUN_URL}"
-          echo "${GITHUB_JOB_ID}"
-        #
       - name: Get Job ID from GH API
+        uses: qoomon/actions--context@v4
         id: job-id
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-           # Create the status file
+          # Create the status file
            rootname=${{ github.event.inputs.file2compile }}
            rm -f ${rootname}STATUS*.txt
            touch "${rootname}STATUS-1.txt"
            echo "$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> "${rootname}STATUS-1.txt"
            #https://stackoverflow.com/questions/71240338/obtain-job-id-from-a-workflow-run-using-contexts
-           jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
-           job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
-           link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/$job_id"
-           echo "$link2job" >> "${rootname}STATUS-1.txt"
+           #jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
+           #job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
+           #link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/$job_id"
+           echo "${GITHUB_JOB_URL}" >> "${rootname}STATUS-1.txt"
+           #echo "$link2job" >> "${rootname}STATUS-1.txt"
            echo "PLACEHOLDER" >> "${rootname}STATUS-1.txt"
            echo "precomp"   >> "${rootname}STATUS-1.txt"
         continue-on-error: true 
