@@ -256,12 +256,11 @@ jobs:
         continue-on-error: true
         #
       - name: Get job id using action
-        uses: Tiryoh/gha-jobid-action@v1
-        id: jobid
-        with: 
-          job_name: "Get Job ID"
-      - name: Output Current job log URL 
-        run: echo ${{ steps.jobid.outputs.html_url }}
+        uses: qoomon/actions--context@v4
+      - run: |
+          echo "${GITHUB_JOB_URL}"
+          echo "${GITHUB_RUN_URL}"
+          echo "${GITHUB_JOB_ID}"
         #
       - name: Get Job ID from GH API
         id: job-id
