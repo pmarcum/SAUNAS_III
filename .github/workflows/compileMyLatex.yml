@@ -267,6 +267,8 @@ jobs:
            echo "$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> "${rootname}STATUS-1.txt"
            #https://stackoverflow.com/questions/71240338/obtain-job-id-from-a-workflow-run-using-contexts
            jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
+           echo "270"
+           echo "${{ runner.name }}"
            job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
            echo ''
            echo $job_id
