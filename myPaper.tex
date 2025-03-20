@@ -2,7 +2,6 @@
 %\documentclass[linenumbers,twocolumn,tighten,times]{CORE-AAS/aastex631} 
 %!! user commands
 %\usepackage{CORE-AAS/variables} 
-%\usepackage[en-US]{datetime2} 
 \newcommand{\vdag}{(v)^\dagger}
 \newcommand\aastex{AAS\TeX}
 \newcommand\latex{La\TeX}
@@ -32,13 +31,16 @@
 \include{variables}
 \newcommand{\bxa}{\textt}
 
+%%%%%%%%%%%%%%%%%%%%%%%% START THE DOCUMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
 %!! The below puts a lightgrey "watermark" at top of manuscript to indicate compilation time. Comment out if not needed. 
-\vspace*{-1.5cm}\noindent{\textcolor{lightgray}{Compiled: Thursday, March 20, 2025 at 01:57 PM PDT}}
+\vspace*{-1.5cm}\noindent{\textcolor{lightgray}{Compiled: Thursday, March 20, 2025 at 04:00 PM PDT}}
 
+%%%%%%%%%%%%%%%%%%%%%  TITLE ---------------------------
 \title{SAUNAS II: Discovery of Cross-shaped X-ray Emission and a Rotating Circumnuclear Disk \\in the Supermassive S0 Galaxy NGC 5084}
 
+%%%%%%%%%%%%%%%%%%%% AUTHORS ------------------------
 \author[0000-0003-3249-4431]{Alejandro S. Borlaff}
 \thanks{}
 \affiliation{NASA Ames Research Center, Moffett Field, CA 94035, USA}
@@ -50,7 +52,6 @@
 \author[0000-0002-8341-342X]{Pasquale Temi}
 \affiliation{NASA Ames Research Center, Moffett Field, CA 94035, USA}
 
-% ---- suggest alphabetical order below ----% 
 \author[0000-0002-1598-5995]{Nushkia Chamba}
 \thanks{NASA Postdoctoral Program Fellow}
 \affiliation{NASA Ames Research Center, Moffett Field, CA 94035, USA}
@@ -87,6 +88,7 @@
 \author{Michael N. Fanelli}
 \affiliation{NASA Ames Research Center, Moffett Field, CA 94035, USA}
 
+%%%%%%%%%%%%%%%%%%%%%%%% ABSTRACT --------------------------
 \begin{abstract}
 Combining \Chandra, ALMA, EVLA, and \emph{Hubble} Space Telescope archival data  and newly acquired APO/DIS spectroscopy, we 
 detect a double-lobed 17~kpc X-ray emission with plumes oriented approximately perpendicular and parallel to the galactic plane of the massive lenticular galaxy NGC\,5084 at 0.3--2.0~keV. 
@@ -97,9 +99,10 @@ galactic minor axis, or 3) a starburst / supernovae driven outflow at the core o
 including \SAUNAS\ (Selective Amplification of Ultra Noisy Astronomical Signal), demonstrating the abundance of information still to be exploited in the vast and growing astronomical archives.
 \end{abstract}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%% KEYWORDS ---------------------
 \keywords{}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%% INTRODUCTION ----------------
 \section{Introduction} \label{sec:intro}
 Observational evidence suggests that supermassive black holes (SMBHs; $M_{\rm BH}=10^{6-9.5}$) are present at the core of most massive galaxies \citep{kormendy+2013araa51_511}. The accretion of material by SMBHs has been observed to be tightly connected with the evolution of the entire galaxy, enabling periods of nuclear activity in which the total luminosity of the galaxy is enhanced. 
 %"modified" does not imply a direction - the luminosity could increase or decrease. Active Galactic Nuclei \citep[AGNs,][]{mulchaey+1996apj467_197} are powered by the release of gravitational energy in a compact accretion disk surrounding the SMBH at the core of the galaxy, generating emission across the whole electromagnetic spectrum \citep{heckman+2014araa52_589}. 
@@ -584,6 +587,7 @@ Processes related to the environment (i.e., gas evaporation) may only play a sig
 \end{center}
 \end{figure*}
 
+%%%%%%%%%%%%%%%%%% CONCLUSIONS ----------------
 \section{Conclusions} \label{sec:CON}
 
 No single observatory has the capability to unveil the full picture of galaxy evolution. Multi-messenger studies\footnote{The term \emph{multi-messenger}, as opposed to \emph{multi-wavelength} includes new tracers of astrophysical phenomena, such as gravitational waves, not associated to the detection of light.} are the key to detecting the different layers of the galactic structure and inferring their formation mechanisms, and in understanding how the Universe transformed from relatively simple structures in the early Universe to the current observed complexity across Cosmic Time  \citep{beckman2021book}. \par 
@@ -597,7 +601,7 @@ The horizontal (in-plane) component of the X-ray emission is aligned with both t
 \textbf{The discovery of NGC\,5084 circumnuclear disk and hot gas cross-shaped emission} was based entirely on archival observations, some obtained almost three decades ago (see Table \ref{tab:Observations}), spanning seven orders of magnitude in wavelength range, and covering physical scales from several pc into the core to tens of kpc into the halo. This remarkable combination of observations reflects the importance of one of the foundational activities that pave the way to transformative science as recognized by the Decadal Survey on Astronomy and Astrophysics 2020 \citep{2021pdaa.book.....N}: the support of data archives. Curated archives are the pillar to future discoveries based on advanced techniques -- some of them tested in the present work, but most of them yet to be developed -- which will enable the detection of previously unseen phenomena from both old and new observations.
 
 
-
+%%%%%%%%%%%%%%%%%%%%% ACKNOWLEDGEMENTS --------------------
 \begin{acknowledgments}
 The authors thank the anonymous referee for the provided input that helped to improve this publication significantly. The list of Chandra datasets, obtained by the Chandra X-ray Observatory, are contained in~\dataset[DOI: 10.25574/cdc.273]{https://doi.org/10.25574/cdc.273}. The HST data presented in this paper were obtained from the Mikulski Archive for Space Telescopes (MAST) at the Space Telescope Science Institute. The specific observations analyzed can be accessed via \dataset[DOI: 10.17909/j04e-sq50]{https://doi.org/10.17909/j04e-sq50}. A.B. acknowledges the tireless support from 
 %Nicholas Lee, Tara Gokas, Kenny Glotfelty, Catherine Cranmer, and the rest of 
@@ -620,6 +624,7 @@ This work was co-authored by an employee of Caltech/IPAC under Contract No. 80GS
 %% list during copy editing.  Individual instruments can be provided in 
 %% parentheses, after the keyword, but they are not verified. 
 
+%%%%%%%%%%%%%%%%%%%%%%% FACILITIES -------------------
 \vspace{5mm}
 \facilities{HST (WFPC2, WFC3), \Chandra\ (ACIS), ALMA, EVLA}
 
@@ -628,7 +633,7 @@ This work was co-authored by an employee of Caltech/IPAC under Contract No. 80GS
 %% the manuscript. Authors should list each code and include either a 
 %% citation or url to the code inside ()s when available. 
 
-
+%%%%%%%%%%%%%%%%%%%%%%% SOFTWARE -----------------------
 \software{\texttt{aplpy} \citep{2012ascl.soft08017R}, \texttt{astropy} \citep{collaboration+2018aj156_123, collaboration+2013aap558_33, collaboration+2022apj935_167}, \ciao, \texttt{LIRA} \citep{donath+2022inproceedings_98}\footnote{\texttt{pyLIRA:} \url{https://github.com/astrostat/pylira}}, \texttt{Matplotlib} \citep{hunter2007sci9_90}, \texttt{VorBin} \citep{cappellari+2003mnras342_345}, \texttt{SAODS9} \citep{2000ascl.soft03002S}}
 %% Appendix material should be preceded with a single \appendix command. 
 %% There should be a \section command for each appendix. Mark appendix 
@@ -639,6 +644,7 @@ This work was co-authored by an employee of Caltech/IPAC under Contract No. 80GS
 %% command and will number appendix equations (A1), (A2), etc. The 
 %% Figure and Table counter will not reset. 
 
+%%%%%%%%%%%%%%%%%%%%%% APPENDIX ------------------------
 \appendix
 
 \section{Extended X-ray Emission Detection Tests}
@@ -765,9 +771,7 @@ Figure \ref{fig:NGC5084_multiband} shows the emission in each individual HST ban
 
 In this section we show the optical spectral energy distribution of the inner regions of NGC\,5084, as obtained by the 6dF Galaxy Survey \citep{jones+2004mnras355_747}. The spectral range covered is 4000-7500 $\AA$. The observations used an aperture of $R=6.7$ arcsec around the core of the galaxy. 
 
-%\bibliography{do_NOT_manually_edit/bibFile}\bibliographystyle{CORE-AAS/aasjournal} 
-
-
+%%%%%%%%%%%%%%%%%%%%%%%% BIBLIOGRAPHY ----------------
 \bibliography{Extragalactic}\bibliographystyle{CORE-AAS/aasjournal}
 
 %% This command is needed to show the entire author+affiliation list when 
@@ -782,4 +786,4 @@ In this section we show the optical spectral energy distribution of the inner re
 
 
 \end{document}
-
+%%%%%%%%%%%%%%%%%%%%%% END OF DOCUMENT -----------------
