@@ -330,8 +330,6 @@ jobs:
            rootname=${{ github.event.inputs.file2compile }}
            rm -f compileOut.txt
            rm -f "${rootname}.pdf"
-           rm -f latexmkrc
-           echo "$ENV{'TZ'}='America/Los_Angeles';" > latexmkrc
            latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 \
              -interaction=nonstopmode "${rootname}.tex" 2>&1 | tee compileOut.txt
            echo "______________________________________________________________________________"
