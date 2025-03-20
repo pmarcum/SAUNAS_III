@@ -255,6 +255,14 @@ jobs:
           name: images-tar-artifact
         continue-on-error: true
         #
+      - name: Get job id using action
+        uses: Tiryoh/gha-jobid-action@v1
+        id: jobid
+        with: 
+          job_name: "Get Job ID"
+      - name: Output Current job log URL 
+        run: echo ${{ steps.jobid.outputs.html_url }}
+        #
       - name: Get Job ID from GH API
         id: job-id
         env:
@@ -267,12 +275,7 @@ jobs:
            echo "$(date +'%Y-%m-%dT%H:%M:%SZ') $(($(date +%s%N)/1000000))" >> "${rootname}STATUS-1.txt"
            #https://stackoverflow.com/questions/71240338/obtain-job-id-from-a-workflow-run-using-contexts
            jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
-           echo "270"
-           echo "${{ runner.name }}"
            job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
-           echo ''
-           echo $job_id
-           echo ''
            link2job="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/$job_id"
            echo "$link2job" >> "${rootname}STATUS-1.txt"
            echo "PLACEHOLDER" >> "${rootname}STATUS-1.txt"
