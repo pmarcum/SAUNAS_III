@@ -129,7 +129,7 @@ jobs:
   #|                                                                      |
   #|         COMPRESS THE IMAGES IF THERE ARE UNCOMPRESSED ONES           |
   #|______________________________________________________________________|
-  #    runs parallel with pruned-bib
+  #    runs parallel with prunedBib
   compressImages:
     runs-on: ubuntu-latest
     continue-on-error: true
@@ -232,7 +232,7 @@ jobs:
         
   #_______________________________________________________________________
   #|                                                                      |
-  #|                        COMPILE THE FILE                              |
+  #|                  COMPILE THE PRINT-READY FILE                        |
   #|______________________________________________________________________|
   #    when this is running, nothing else is running in parallel
   #  The STATUS file is 4 lines, timestamp, joblink (w/ job link value inserted), "FAILED",  status**
@@ -259,8 +259,6 @@ jobs:
         #
       - name: Create status files
         id: job-id
-        #env:
-        #  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Create the status file
            rootname=${{ github.event.inputs.file2compile }}
@@ -289,13 +287,10 @@ jobs:
           # super tiny transparent font at beginning of the sentence in pdf file, so that these "landmarks" can be used
           # later by gooTex to identify lines called out in error log, so that those lines can be highlighted and noted.
           rootname=${{ github.event.inputs.file2compile }}
-          rm -f withlinenum.tex
-          cp ${rootname}.tex withlinenum.tex
+          rm -f ${rootname}DISPONLY.tex
+          cp ${rootname}.tex ${rootname}DISPONLY.tex
           linenumCode="\\\raisebox\{0.90em\}\{\\\scalebox\{0\.01\}\{\\\transparent\{1\.0\}\.\\\the\\\inputlineno\.\}\}"
-          sed -i "s/^/${linenumCode}/" withlinenum.tex
-          #sed ':a;N;$!ba;s/\n/\n${linenumCode}/g' withlinenum.tex
-          #sed -i "1s/^/${linenumCode}/" withlinenum.tex
-          cat withlinenum.tex
+          sed -i "s/^/${linenumCode}/" ${rootname}DISPONLY.tex
         #
         # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
         # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
@@ -337,29 +332,20 @@ jobs:
           cache: true
         continue-on-error: true
         #
-      - name: Compile paper
+      - name: Compile display-version paper with line numbers
         # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
-        id: compilation
+        id: displayCompilation
         run: |
            rootname=${{ github.event.inputs.file2compile }}
-           rm -f compileOut.txt
-           rm -f "${rootname}.pdf"
-           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 \
-             -interaction=nonstopmode "${rootname}.tex" 2>&1 | tee compileOut.txt
-           echo "______________________________________________________________________________"
-           cat compileOut.txt
-           echo "______________________________________________________________________________"
-           #
-           # clean up pdf files after compilation
-           # move pdf into final filename
-           echo "PDF=${rootname}.pdf" >> $GITHUB_ENV
+           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "${rootname}DISPONLY.tex"
+           echo "DISPPDF=${rootname}DISPONLY.pdf" >> $GITHUB_ENV
         continue-on-error: true
         #
-      - name: upload pdf to google drive
-        if: ${{ always() && hashFiles(env.PDF) }}
+      - name: upload display-only pdf to google drive
+        if: ${{ always() && hashFiles(env.DISPPDF) }}
         uses: nextDriveIoE/google-drive-upload-action@v2
         with:
-          target:  ${{ env.PDF }}
+          target:  ${{ env.DISPPDF }}
           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
           parent_folder_id: ${{ github.event.inputs.folderid }}
           overwrite: true
@@ -382,12 +368,40 @@ jobs:
           overwrite: true
         continue-on-error: true
         #
-      - name: Make PDF available to other jobs
-        if: ${{ always() && hashFiles(env.PDF) }}
+        # =========================================================
+        #
+      - name: Compile print-version paper WITHOUT line numbers
+        id: printCompilation
+        run: |
+           rootname=${{ github.event.inputs.file2compile }}
+           rm -f compileOut.txt
+           rm -f "${rootname}.pdf"
+           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 \
+             -interaction=nonstopmode "${rootname}.tex" 2>&1 | tee compileOut.txt
+           echo "______________________________________________________________________________"
+           cat compileOut.txt
+           echo "______________________________________________________________________________"
+           #
+           # clean up pdf files after compilation
+           echo "PRINTPDF=${rootname}.pdf" >> $GITHUB_ENV
+        continue-on-error: true       
+        #
+      - name: upload print-ready pdf to google drive
+        if: ${{ always() && hashFiles(env.PRINTPDF) }}
+        uses: nextDriveIoE/google-drive-upload-action@v2
+        with:
+          target:  ${{ env.PRINTPDF }}
+          credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
+          parent_folder_id: ${{ github.event.inputs.folderid }}
+          overwrite: true
+        continue-on-error: true
+        #
+      - name: Make PRINT-READY PDF available to other jobs
+        if: ${{ always() && hashFiles(env.PRINTPDF) }}
         uses: actions/upload-artifact@v4
         with:
-          name: pdf-artifact
-          path: ${{ env.PDF }}
+          name: printpdf-artifact
+          path: ${{ env.PRINTPDF }}
           overwrite: true
         continue-on-error: true
         #
@@ -429,6 +443,12 @@ jobs:
         with:
           name: postcompilation-rawLog-artifact
         continue-on-error: true
+        #
+      - name: Download print-ready pdf log file after compilation
+        uses: actions/download-artifact@v4
+        with:
+          name: printpdf-artifact
+        continue-on-error: true
         #        
       - name: Capture full compilation output
         run: |
@@ -439,7 +459,7 @@ jobs:
            fatalErrors=false
            fileliststr=''
            # ....... if the pdf file was generated, then the errors must have NOT been fatal.
-           if [ ! -f  "${rootname}.pdf" ]; then fatalErrors=true; fi         
+           if [ ! -f  "${rootname}DISPONLY.pdf" ]; then fatalErrors=true; fi         
            # ....... prepare the compilation log for processing by first removing all end-of-line characters
            rm -f errout.txt
            touch errout.txt
@@ -716,10 +736,10 @@ jobs:
           name: status2-artifact
           path: ${{ env.STATUS2 }}
           #
-      - name: Download PDF
+      - name: Download PRINT-READY PDF
         uses: actions/download-artifact@v4
         with:
-          name: pdf-artifact
+          name: printpdf-artifact
         continue-on-error: true
         #
       - name: Download pruned bibfile
