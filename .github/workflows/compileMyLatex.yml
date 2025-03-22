@@ -292,9 +292,9 @@ jobs:
           rm -f withlinenum.tex
           cp ${rootname}.tex withlinenum.tex
           linenumCode="\raisebox{0.90em}{\scalebox{0.01}{\transparent{1.0}.\the\inputlineno.}}"
-          echo ${linenumCode}
-          sed -r "s/\n/\n${linenumCode}/g" withlinenum.tex
-          sed -i "1s/^/${linenumCode}/" withlinenum.tex
+          sed -i "s/^/${linenumCode}/" withlinenum.tex
+          #sed ':a;N;$!ba;s/\n/\n${linenumCode}/g' withlinenum.tex
+          #sed -i "1s/^/${linenumCode}/" withlinenum.tex
           cat withlinenum.tex
         #
         # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
