@@ -290,7 +290,7 @@ jobs:
           # later by gooTex to identify lines called out in error log, so that those lines can be highlighted and noted.
           rootname=${{ github.event.inputs.file2compile }}
           cp ${rootname}.tex withlinenum.tex
-          linenumCode = "\raisebox{0.90em}{\scalebox{0.01}{\transparent{1.0}.\the\inputlineno.}}"
+          linenumCode="\raisebox{0.90em}{\scalebox{0.01}{\transparent{1.0}.\the\inputlineno.}}"
           sed -ri "s/\n/${linenumCode}/g" withlinenum.txt
           sed -i "1s/^/${linenumCode}/" withlinenum.txt
           cat withlinenum.txt
@@ -353,7 +353,7 @@ jobs:
            echo "PDF=${rootname}.pdf" >> $GITHUB_ENV
         continue-on-error: true
         #
-      - name: upload hi res pdf to google drive
+      - name: upload pdf to google drive
         if: ${{ always() && hashFiles(env.PDF) }}
         uses: nextDriveIoE/google-drive-upload-action@v2
         with:
