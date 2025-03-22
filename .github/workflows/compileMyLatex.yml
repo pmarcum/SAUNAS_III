@@ -289,9 +289,11 @@ jobs:
           # super tiny transparent font at beginning of the sentence in pdf file, so that these "landmarks" can be used
           # later by gooTex to identify lines called out in error log, so that those lines can be highlighted and noted.
           rootname=${{ github.event.inputs.file2compile }}
+          rm -f withlinenum.tex
           cp ${rootname}.tex withlinenum.tex
           linenumCode="\raisebox{0.90em}{\scalebox{0.01}{\transparent{1.0}.\the\inputlineno.}}"
-          sed -ri "s/\n/${linenumCode}/g" withlinenum.txt
+          echo ${linenumCode}
+          sed -r "s/\n/\n${linenumCode}/g" withlinenum.txt
           sed -i "1s/^/${linenumCode}/" withlinenum.txt
           cat withlinenum.txt
         #
