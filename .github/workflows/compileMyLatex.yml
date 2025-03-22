@@ -283,6 +283,18 @@ jobs:
           ls -la FIGURES
         continue-on-error: true 
         #
+      - name: Create temporary tex file with linenumbers
+        run: |
+          # need to create tex file that has latex code inserted at beginning of each line that will put line number in
+          # super tiny transparent font at beginning of the sentence in pdf file, so that these "landmarks" can be used
+          # later by gooTex to identify lines called out in error log, so that those lines can be highlighted and noted.
+          rootname=${{ github.event.inputs.file2compile }}
+          cp ${rootname}.tex withlinenum.tex
+          linenumCode = "\raisebox{0.90em}{\scalebox{0.01}{\transparent{1.0}.\the\inputlineno.}}"
+          sed -ri 's/\n/${linenumCode}/g' withlinenum.txt
+          sed -i '1s/^/${linenumCode}/' withlinenum.txt
+          cat withlinenum.txt         
+        #
         # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
         # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
         # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
