@@ -2,7 +2,7 @@
 LATEX COMPILATION ERRORS and WARNINGS
 
 To view full GitHub Actions output, click on item at top of list here:
-https://github.com/pmarcum/SAUNAS_III/actions/runs/14014399129/job/39238211750
+https://github.com/pmarcum/SAUNAS_III/actions/runs/14014440062/job/39238301600
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               FATAL ERRORS IN myPaper.tex
