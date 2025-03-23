@@ -251,7 +251,35 @@ jobs:
         #
       - uses: teatimeguest/setup-texlive-action@v3
         id: setup
-        #
+        with:
+          version: 2023
+          packages:
+             collection-basic
+             collection-bibtexextra
+             collection-binextra
+             collection-context
+             collection-fontsextra
+             collection-fontsrecommended
+             collection-formatsextra
+             collection-fontutils
+             collection-latex
+             collection-latexextra
+             collection-latexrecommended
+             collection-mathscience
+             collection-metapost
+             collection-pictures
+             collection-plaingeneric
+             collection-pstricks
+             collection-publishers
+             collection-texworks
+             amsfonts
+             graphics
+             scrextend
+             rotating
+             tools
+             threeparttable
+             units
+             #
       - if: fromJSON(steps.setup.outputs.cache-restored)
         run: echo 'A cache has been found'
         
