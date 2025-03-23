@@ -232,10 +232,12 @@ jobs:
 
   #_______________________________________________________________________
   #|                                                                      |
-  #|                           INSTALL LATEX                              |
+  #|                    INSTALL TEXLIVE INTO CACHE                        |
   #|______________________________________________________________________|
-  #  Runs in parallel with prunedBib and compressImages
-  #  installs latex compiler, which will be used by the jobs later
+  #  runs in parallel with prunedBib, compressImages
+  #  Checks to see if cache is found for texlive installation. If not found, then installs texlive and 
+  #  puts into cache so that the 2 jobs that perform compilation in parallel can start without worrying
+  #  about installation
   install_latex:
     runs-on: ubuntu-latest
     continue-on-error: true
@@ -247,59 +249,11 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         #
-        # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
-        # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
-        # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
-        # >>>>>>>>>>>>>>>>>>>>>>>> IMPORTANT NOTE ABOUT TEMPORARY FIX <<<<<<<<<<<<<<<<<<<<<<<<<<
-        # array.sty is incompatable with latest version of texlive and/or aastex. Until aastex is fixed in mid-2025,
-        # will need to keep this fix of using version 2020 instead of latest version. array.sty is used in WorPT files.
-        # See more details here:   https://github.com/AASJournals/AASTeX60/issues/149
-      - name: Install texlive
-        uses: teatimeguest/setup-texlive-action@v3
-        with:
-          version: 2023
-          packages:
-             collection-basic
-             collection-bibtexextra
-             collection-binextra
-             collection-context
-             collection-fontsextra
-             collection-fontsrecommended
-             collection-formatsextra
-             collection-fontutils
-             collection-latex
-             collection-latexextra
-             collection-latexrecommended
-             collection-mathscience
-             collection-metapost
-             collection-pictures
-             collection-plaingeneric
-             collection-pstricks
-             collection-publishers
-             collection-texworks
-             amsfonts
-             graphics
-             scrextend
-             rotating
-             tools
-             threeparttable
-             units
-          cache: true
-        continue-on-error: true
+      - uses: teatimeguest/setup-texlive-action@v3
+        id: setup
         #
-      #- name: store latex installation
-      #  run: |
-      #    tar -cvf texlive.tar /home/runner/work/_temp/setup-texlive-action
-      #  continue-on-error: true
-      #  #
-      #- name: Make newly compressed images folder available to other jobs
-      #  if: ${{ always() && hashFiles('texlive.tar') }}
-      #  uses: actions/upload-artifact@v4
-      #  with:
-      #    name: texlive-tar-artifact
-      #    path: texlive.tar
-      #    overwrite: true
-      #  continue-on-error: true
+      - if: fromJSON(steps.setup.outputs.cache-restored)
+        run: echo 'A cache has been found'
         
   #_______________________________________________________________________
   #|                                                                      |
@@ -309,7 +263,7 @@ jobs:
   #  The STATUS file is 4 lines, timestamp, joblink (w/ job link value inserted), "FAILED",  status**
   #  If the compilation fails, the STATUS file will have a status of "precomp" for "precompile"
   build_latex:
-    needs: [compressImages]
+    needs: [compressImages,install_latex]
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
@@ -362,47 +316,47 @@ jobs:
           cp ${rootname}.tex ${rootname}DISPONLY.tex
           linenumCode="\\\raisebox\{0.90em\}\{\\\scalebox\{0\.01\}\{\\\transparent\{1\.0\}\.\\\the\\\inputlineno\.\}\}"
           sed -i "s/^/${linenumCode}/" ${rootname}DISPONLY.tex
-      # #
-      # # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
-      # # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
-      # # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
-      # # >>>>>>>>>>>>>>>>>>>>>>>> IMPORTANT NOTE ABOUT TEMPORARY FIX <<<<<<<<<<<<<<<<<<<<<<<<<<
-      # # array.sty is incompatable with latest version of texlive and/or aastex. Until aastex is fixed in mid-2025,
-      # # will need to keep this fix of using version 2020 instead of latest version. array.sty is used in WorPT files.
-      # # See more details here:   https://github.com/AASJournals/AASTeX60/issues/149
-      #- name: Install texlive
-      #  uses: teatimeguest/setup-texlive-action@v3
-      #  with:
-      #    version: 2023
-      #    packages:
-      #       collection-basic
-      #       collection-bibtexextra
-      #       collection-binextra
-      #       collection-context
-      #       collection-fontsextra
-      #       collection-fontsrecommended
-      #       collection-formatsextra
-      #       collection-fontutils
-      #       collection-latex
-      #       collection-latexextra
-      #       collection-latexrecommended
-      #       collection-mathscience
-      #       collection-metapost
-      #       collection-pictures
-      #       collection-plaingeneric
-      #       collection-pstricks
-      #       collection-publishers
-      #       collection-texworks
-      #       amsfonts
-      #       graphics
-      #       scrextend
-      #       rotating
-      #       tools
-      #       threeparttable
-      #       units
-      #    cache: true
-      #  continue-on-error: true
-      #  #
+        #
+        # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
+        # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
+        # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
+        # >>>>>>>>>>>>>>>>>>>>>>>> IMPORTANT NOTE ABOUT TEMPORARY FIX <<<<<<<<<<<<<<<<<<<<<<<<<<
+        # array.sty is incompatable with latest version of texlive and/or aastex. Until aastex is fixed in mid-2025,
+        # will need to keep this fix of using version 2020 instead of latest version. array.sty is used in WorPT files.
+        # See more details here:   https://github.com/AASJournals/AASTeX60/issues/149
+      - name: Install texlive
+        uses: teatimeguest/setup-texlive-action@v3
+        with:
+          version: 2023
+          packages:
+             collection-basic
+             collection-bibtexextra
+             collection-binextra
+             collection-context
+             collection-fontsextra
+             collection-fontsrecommended
+             collection-formatsextra
+             collection-fontutils
+             collection-latex
+             collection-latexextra
+             collection-latexrecommended
+             collection-mathscience
+             collection-metapost
+             collection-pictures
+             collection-plaingeneric
+             collection-pstricks
+             collection-publishers
+             collection-texworks
+             amsfonts
+             graphics
+             scrextend
+             rotating
+             tools
+             threeparttable
+             units
+          cache: true
+        continue-on-error: true
+        #
       - name: Compile display-version paper with line numbers
         # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
         id: displayCompilation
