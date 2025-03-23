@@ -336,6 +336,7 @@ jobs:
         # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
         id: displayCompilation
         run: |
+           which latexmk
            rootname=${{ github.event.inputs.file2compile }}
            latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "${rootname}DISPONLY.tex"
            echo "DISPPDF=${rootname}DISPONLY.pdf" >> $GITHUB_ENV
