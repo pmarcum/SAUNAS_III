@@ -337,6 +337,7 @@ jobs:
         id: displayCompilation
         run: |
            which latexmk
+           pwd
            ls -la 
            ls -la *DISPONLY*
            rootname=${{ github.event.inputs.file2compile }}
