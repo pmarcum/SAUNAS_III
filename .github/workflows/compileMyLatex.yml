@@ -337,7 +337,7 @@ jobs:
         id: displayCompilation
         run: |
            which latexmk
-           ls -la /home/runner/work/
+           ls -la /home/runner/work/_temp
            ls -la *DISPONLY*
            rootname=${{ github.event.inputs.file2compile }}
            latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 \
