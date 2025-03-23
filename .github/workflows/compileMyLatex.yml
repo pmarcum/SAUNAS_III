@@ -337,7 +337,6 @@ jobs:
         id: displayCompilation
         run: |
            which latexmk
-           which "${{ github.event.inputs.file2compile }}.tex"
            ls -la setup-texlive-action
            ls -la *DISPONLY*
            rootname=${{ github.event.inputs.file2compile }}
