@@ -230,6 +230,77 @@ jobs:
           overwrite: true
         continue-on-error: true
 
+ #_______________________________________________________________________
+  #|                                                                      |
+  #|                           INSTALL LATEX                              |
+  #|______________________________________________________________________|
+  #  Runs in parallel with prunedBib and compressImages
+  #  installs latex compiler, which will be used by the jobs later
+  install_latex:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+      #
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+        #
+        # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
+        # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
+        # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
+        # >>>>>>>>>>>>>>>>>>>>>>>> IMPORTANT NOTE ABOUT TEMPORARY FIX <<<<<<<<<<<<<<<<<<<<<<<<<<
+        # array.sty is incompatable with latest version of texlive and/or aastex. Until aastex is fixed in mid-2025,
+        # will need to keep this fix of using version 2020 instead of latest version. array.sty is used in WorPT files.
+        # See more details here:   https://github.com/AASJournals/AASTeX60/issues/149
+      - name: Install texlive
+        uses: teatimeguest/setup-texlive-action@v3
+        with:
+          version: 2023
+          packages:
+             collection-basic
+             collection-bibtexextra
+             collection-binextra
+             collection-context
+             collection-fontsextra
+             collection-fontsrecommended
+             collection-formatsextra
+             collection-fontutils
+             collection-latex
+             collection-latexextra
+             collection-latexrecommended
+             collection-mathscience
+             collection-metapost
+             collection-pictures
+             collection-plaingeneric
+             collection-pstricks
+             collection-publishers
+             collection-texworks
+             amsfonts
+             graphics
+             scrextend
+             rotating
+             tools
+             threeparttable
+             units
+          cache: true
+        continue-on-error: true
+        #
+      - name: store latex installation
+        run: |
+          tar -cvf texlive.tar /home/runner/work/_temp/setup-texlive-action
+        continue-on-error: true
+        #
+      - name: Make newly compressed images folder available to other jobs
+        if: ${{ always() && hashFiles('texlive.tar') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: texlive-tar-artifact
+          path: texlive.tar
+          overwrite: true
+        continue-on-error: true
+        
   #_______________________________________________________________________
   #|                                                                      |
   #|                  COMPILE THE PRINT-READY FILE                        |
@@ -291,53 +362,53 @@ jobs:
           cp ${rootname}.tex ${rootname}DISPONLY.tex
           linenumCode="\\\raisebox\{0.90em\}\{\\\scalebox\{0\.01\}\{\\\transparent\{1\.0\}\.\\\the\\\inputlineno\.\}\}"
           sed -i "s/^/${linenumCode}/" ${rootname}DISPONLY.tex
-        #
-        # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
-        # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
-        # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
-        # >>>>>>>>>>>>>>>>>>>>>>>> IMPORTANT NOTE ABOUT TEMPORARY FIX <<<<<<<<<<<<<<<<<<<<<<<<<<
-        # array.sty is incompatable with latest version of texlive and/or aastex. Until aastex is fixed in mid-2025,
-        # will need to keep this fix of using version 2020 instead of latest version. array.sty is used in WorPT files.
-        # See more details here:   https://github.com/AASJournals/AASTeX60/issues/149
-      - name: Install texlive
-        uses: teatimeguest/setup-texlive-action@v3
-        with:
-          version: 2023
-          packages:
-             collection-basic
-             collection-bibtexextra
-             collection-binextra
-             collection-context
-             collection-fontsextra
-             collection-fontsrecommended
-             collection-formatsextra
-             collection-fontutils
-             collection-latex
-             collection-latexextra
-             collection-latexrecommended
-             collection-mathscience
-             collection-metapost
-             collection-pictures
-             collection-plaingeneric
-             collection-pstricks
-             collection-publishers
-             collection-texworks
-             amsfonts
-             graphics
-             scrextend
-             rotating
-             tools
-             threeparttable
-             units
-          cache: true
-        continue-on-error: true
-        #
+      # #
+      # # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
+      # # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
+      # # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
+      # # >>>>>>>>>>>>>>>>>>>>>>>> IMPORTANT NOTE ABOUT TEMPORARY FIX <<<<<<<<<<<<<<<<<<<<<<<<<<
+      # # array.sty is incompatable with latest version of texlive and/or aastex. Until aastex is fixed in mid-2025,
+      # # will need to keep this fix of using version 2020 instead of latest version. array.sty is used in WorPT files.
+      # # See more details here:   https://github.com/AASJournals/AASTeX60/issues/149
+      #- name: Install texlive
+      #  uses: teatimeguest/setup-texlive-action@v3
+      #  with:
+      #    version: 2023
+      #    packages:
+      #       collection-basic
+      #       collection-bibtexextra
+      #       collection-binextra
+      #       collection-context
+      #       collection-fontsextra
+      #       collection-fontsrecommended
+      #       collection-formatsextra
+      #       collection-fontutils
+      #       collection-latex
+      #       collection-latexextra
+      #       collection-latexrecommended
+      #       collection-mathscience
+      #       collection-metapost
+      #       collection-pictures
+      #       collection-plaingeneric
+      #       collection-pstricks
+      #       collection-publishers
+      #       collection-texworks
+      #       amsfonts
+      #       graphics
+      #       scrextend
+      #       rotating
+      #       tools
+      #       threeparttable
+      #       units
+      #    cache: true
+      #  continue-on-error: true
+      #  #
       - name: Compile display-version paper with line numbers
         # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
         id: displayCompilation
         run: |
            which latexmk
-           ls -la /home/runner/work/_temp
+           ls -la /home/runner/work/_temp/setup-texlive-action
            ls -la *DISPONLY*
            rootname=${{ github.event.inputs.file2compile }}
            latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 \
