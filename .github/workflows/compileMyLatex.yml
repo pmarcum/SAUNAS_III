@@ -338,7 +338,8 @@ jobs:
         run: |
            which latexmk
            which "${{ github.event.inputs.file2compile }}.tex"
-           ls *DISPONLY*
+           ls -la setup-texlive-action
+           ls -la *DISPONLY*
            rootname=${{ github.event.inputs.file2compile }}
            latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 \
              -interaction=nonstopmode "${rootname}DISPONLY.tex" > throwaway.txt
