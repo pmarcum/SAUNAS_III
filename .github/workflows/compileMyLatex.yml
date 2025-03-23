@@ -39,7 +39,7 @@ jobs:
   #|                                                                      |
   #|     STRIP OUT UNUSED REFERENCES AND CONSTRUCT A PRUNED BIB FILE      |
   #|______________________________________________________________________|
-  #    runs parallel with compressImages, install_latex
+  #    runs parallel with compressImages
   pruneBib:
     runs-on: ubuntu-latest
     continue-on-error: true
@@ -129,7 +129,7 @@ jobs:
   #|                                                                      |
   #|         COMPRESS THE IMAGES IF THERE ARE UNCOMPRESSED ONES           |
   #|______________________________________________________________________|
-  #  runs parallel with prunedBib, install_latex
+  #    runs parallel with prunedBib
   compressImages:
     runs-on: ubuntu-latest
     continue-on-error: true
@@ -232,66 +232,13 @@ jobs:
 
   #_______________________________________________________________________
   #|                                                                      |
-  #|                    INSTALL TEXLIVE INTO CACHE                        |
-  #|______________________________________________________________________|
-  #  runs in parallel with prunedBib, compressImages
-  #  Checks to see if cache is found for texlive installation. If not found, then installs texlive and 
-  #  puts into cache so that the 2 jobs that perform compilation in parallel can start without worrying
-  #  about installation
-  install_latex:
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    permissions:
-      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
-      contents: write
-      #
-    steps:
-      - name: Clone repo
-        uses: actions/checkout@v4
-        #
-      - uses: teatimeguest/setup-texlive-action@v3
-        id: setup
-        with:
-          version: 2023
-          packages:
-             collection-basic
-             collection-bibtexextra
-             collection-binextra
-             collection-context
-             collection-fontsextra
-             collection-fontsrecommended
-             collection-formatsextra
-             collection-fontutils
-             collection-latex
-             collection-latexextra
-             collection-latexrecommended
-             collection-mathscience
-             collection-metapost
-             collection-pictures
-             collection-plaingeneric
-             collection-pstricks
-             collection-publishers
-             collection-texworks
-             amsfonts
-             graphics
-             scrextend
-             rotating
-             tools
-             threeparttable
-             units
-             #
-      - if: fromJSON(steps.setup.outputs.cache-restored)
-        run: echo 'A cache has been found'
-        
-  #_______________________________________________________________________
-  #|                                                                      |
   #|                  COMPILE THE PRINT-READY FILE                        |
   #|______________________________________________________________________|
   #    when this is running, nothing else is running in parallel
   #  The STATUS file is 4 lines, timestamp, joblink (w/ job link value inserted), "FAILED",  status**
   #  If the compilation fails, the STATUS file will have a status of "precomp" for "precompile"
   build_latex:
-    needs: [compressImages,install_latex]
+    needs: [compressImages]
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
@@ -340,10 +287,11 @@ jobs:
           # super tiny transparent font at beginning of the sentence in pdf file, so that these "landmarks" can be used
           # later by gooTex to identify lines called out in error log, so that those lines can be highlighted and noted.
           rootname=${{ github.event.inputs.file2compile }}
-          rm -f ${rootname}DISPONLY.tex
-          cp ${rootname}.tex ${rootname}DISPONLY.tex
+          rm -f ${rootname}.tmp
+          cp ${rootname}.tex ${rootname}.tmp
           linenumCode="\\\raisebox\{0.90em\}\{\\\scalebox\{0\.01\}\{\\\transparent\{1\.0\}\.\\\the\\\inputlineno\.\}\}"
-          sed -i "s/^/${linenumCode}/" ${rootname}DISPONLY.tex
+          sed -i "s/^/${linenumCode}/" ${rootname}.tmp
+          mv -f ${rootname}.tmp ${rootname}.tex
         #
         # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
         # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
@@ -385,34 +333,41 @@ jobs:
           cache: true
         continue-on-error: true
         #
-      - name: Compile display-version paper with line numbers
+      - name: Compile latex paper
         # https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
-        id: displayCompilation
+        id: compilation
         run: |
-           which latexmk
-           ls -la /home/runner/work/_temp/setup-texlive-action
-           ls -la *DISPONLY*
            rootname=${{ github.event.inputs.file2compile }}
+           rm -f compileOut.txt
+           rm -f "${rootname}.pdf"
            latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 \
-             -interaction=nonstopmode "${rootname}DISPONLY.tex" > throwaway.txt
-           echo "DISPPDF=${rootname}DISPONLY.pdf" >> $GITHUB_ENV
-        continue-on-error: true
+             -interaction=nonstopmode "${rootname}.tex" 2>&1 | tee compileOut.txt
+           echo "______________________________________________________________________________"
+           cat compileOut.txt
+           echo "______________________________________________________________________________"
+           #
+           echo "PDF=${rootname}.pdf" >> $GITHUB_ENV
+        continue-on-error: true       
         #
-      - name: does display only pdf exist?
-        if: ${{ always() && hashFiles(env.DISPPDF) }}
-        run: |
-          echo 'the DISP ONLY pdf was created'
-        #
-      - name: upload display-only pdf to google drive
-        if: ${{ always() && hashFiles(env.DISPPDF) }}
+      - name: upload pdf to google drive
+        if: ${{ always() && hashFiles(env.PDF) }}
         uses: nextDriveIoE/google-drive-upload-action@v2
         with:
-          target:  ${{ env.DISPPDF }}
+          target:  ${{ env.PDF }}
           credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
           parent_folder_id: ${{ github.event.inputs.folderid }}
           overwrite: true
         continue-on-error: true
         #
+      - name: Make PDF available to other jobs
+        if: ${{ always() && hashFiles(env.PDF) }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: pdf-artifact
+          path: ${{ env.PDF }}
+          overwrite: true
+        continue-on-error: true
+        #      
       - name: upload STATUS-1 file that signifies latex compilation to google drive
         uses: nextDriveIoE/google-drive-upload-action@v2
         with:
@@ -427,43 +382,6 @@ jobs:
         with:
           name: status1-artifact
           path: ${{ github.event.inputs.file2compile }}STATUS-1.txt
-          overwrite: true
-        continue-on-error: true
-        #
-        # =========================================================
-        #
-      - name: Compile print-version paper WITHOUT line numbers
-        id: printCompilation
-        run: |
-           rootname=${{ github.event.inputs.file2compile }}
-           rm -f compileOut.txt
-           rm -f "${rootname}.pdf"
-           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 \
-             -interaction=nonstopmode "${rootname}.tex" 2>&1 | tee compileOut.txt
-           echo "______________________________________________________________________________"
-           cat compileOut.txt
-           echo "______________________________________________________________________________"
-           #
-           # clean up pdf files after compilation
-           echo "PRINTPDF=${rootname}.pdf" >> $GITHUB_ENV
-        continue-on-error: true       
-        #
-      - name: upload print-ready pdf to google drive
-        if: ${{ always() && hashFiles(env.PRINTPDF) }}
-        uses: nextDriveIoE/google-drive-upload-action@v2
-        with:
-          target:  ${{ env.PRINTPDF }}
-          credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
-          parent_folder_id: ${{ github.event.inputs.folderid }}
-          overwrite: true
-        continue-on-error: true
-        #
-      - name: Make PRINT-READY PDF available to other jobs
-        if: ${{ always() && hashFiles(env.PRINTPDF) }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: printpdf-artifact
-          path: ${{ env.PRINTPDF }}
           overwrite: true
         continue-on-error: true
         #
@@ -506,10 +424,10 @@ jobs:
           name: postcompilation-rawLog-artifact
         continue-on-error: true
         #
-      - name: Download print-ready pdf log file after compilation
+      - name: Download pdf file after compilation
         uses: actions/download-artifact@v4
         with:
-          name: printpdf-artifact
+          name: pdf-artifact
         continue-on-error: true
         #        
       - name: Capture full compilation output
@@ -521,7 +439,7 @@ jobs:
            fatalErrors=false
            fileliststr=''
            # ....... if the pdf file was generated, then the errors must have NOT been fatal.
-           if [ ! -f  "${rootname}DISPONLY.pdf" ]; then fatalErrors=true; fi         
+           if [ ! -f  "${rootname}.pdf" ]; then fatalErrors=true; fi         
            # ....... prepare the compilation log for processing by first removing all end-of-line characters
            rm -f errout.txt
            touch errout.txt
@@ -798,10 +716,10 @@ jobs:
           name: status2-artifact
           path: ${{ env.STATUS2 }}
           #
-      - name: Download PRINT-READY PDF
+      - name: Download PDF
         uses: actions/download-artifact@v4
         with:
-          name: printpdf-artifact
+          name: pdf-artifact
         continue-on-error: true
         #
       - name: Download pruned bibfile
