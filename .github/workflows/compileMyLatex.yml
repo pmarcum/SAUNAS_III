@@ -229,7 +229,7 @@ jobs:
           path: compressedFiles.tar
           overwrite: true
         continue-on-error: true
-        
+
   #_______________________________________________________________________
   #|                                                                      |
   #|                  COMPILE THE PRINT-READY FILE                        |
@@ -338,7 +338,8 @@ jobs:
         run: |
            which latexmk
            rootname=${{ github.event.inputs.file2compile }}
-           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 -interaction=nonstopmode "${rootname}DISPONLY.tex"
+           latexmk -bibtex -verbose -f -g -pdf -time -file-line-error -view=none -synctex=1 \
+             -interaction=nonstopmode "${rootname}DISPONLY.tex" > throwaway.txt
            echo "DISPPDF=${rootname}DISPONLY.pdf" >> $GITHUB_ENV
         continue-on-error: true
         #
