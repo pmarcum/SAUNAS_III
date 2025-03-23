@@ -39,7 +39,7 @@ jobs:
   #|                                                                      |
   #|     STRIP OUT UNUSED REFERENCES AND CONSTRUCT A PRUNED BIB FILE      |
   #|______________________________________________________________________|
-  #    runs parallel with compressImages
+  #    runs parallel with compressImages, install_latex
   pruneBib:
     runs-on: ubuntu-latest
     continue-on-error: true
@@ -129,7 +129,7 @@ jobs:
   #|                                                                      |
   #|         COMPRESS THE IMAGES IF THERE ARE UNCOMPRESSED ONES           |
   #|______________________________________________________________________|
-  #    runs parallel with prunedBib
+  #  runs parallel with prunedBib, install_latex
   compressImages:
     runs-on: ubuntu-latest
     continue-on-error: true
@@ -230,7 +230,7 @@ jobs:
           overwrite: true
         continue-on-error: true
 
- #_______________________________________________________________________
+  #_______________________________________________________________________
   #|                                                                      |
   #|                           INSTALL LATEX                              |
   #|______________________________________________________________________|
@@ -287,19 +287,19 @@ jobs:
           cache: true
         continue-on-error: true
         #
-      - name: store latex installation
-        run: |
-          tar -cvf texlive.tar /home/runner/work/_temp/setup-texlive-action
-        continue-on-error: true
-        #
-      - name: Make newly compressed images folder available to other jobs
-        if: ${{ always() && hashFiles('texlive.tar') }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: texlive-tar-artifact
-          path: texlive.tar
-          overwrite: true
-        continue-on-error: true
+      #- name: store latex installation
+      #  run: |
+      #    tar -cvf texlive.tar /home/runner/work/_temp/setup-texlive-action
+      #  continue-on-error: true
+      #  #
+      #- name: Make newly compressed images folder available to other jobs
+      #  if: ${{ always() && hashFiles('texlive.tar') }}
+      #  uses: actions/upload-artifact@v4
+      #  with:
+      #    name: texlive-tar-artifact
+      #    path: texlive.tar
+      #    overwrite: true
+      #  continue-on-error: true
         
   #_______________________________________________________________________
   #|                                                                      |
