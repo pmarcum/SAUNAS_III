@@ -1,0 +1,444 @@
+
+LATEX COMPILATION ERRORS and WARNINGS
+
+To view full GitHub Actions output, click on item at top of list here:
+https://github.com/pmarcum/SAUNAS_III/actions/runs/14028114493/job/39270302642
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              FATAL ERRORS IN myPaper.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+./myPaper.tex:1: LaTeX Error: Missing \begin{document}.
+./myPaper.tex:1: Undefined control sequence.
+./myPaper.tex:1: LaTeX Error: Missing \begin{document}.
+./myPaper.tex:1: Undefined control sequence.
+./myPaper.tex:1: LaTeX Error: Missing \begin{document}.
+./myPaper.tex:1: Undefined control sequence.
+Line #1 ----------------------- 
+\documentclass[modern]{CORE-AAS/aastex631} 
+._______________________________________________________________________
+./myPaper.tex:2: LaTeX Error: Missing \begin{document}.
+./myPaper.tex:2: Undefined control sequence.
+./myPaper.tex:2: LaTeX Error: Missing \begin{document}.
+./myPaper.tex:2: Undefined control sequence.
+./myPaper.tex:2: LaTeX Error: Missing \begin{document}.
+./myPaper.tex:2: Undefined control sequence.
+Line #2 ----------------------- 
+%\documentclass[linenumbers,twocolumn,tighten,times]{CORE-AAS/aastex631} 
+._______________________________________________________________________
+./myPaper.tex:3: Undefined control sequence.
+Line #3 ----------------------- 
+%!! user commands
+._______________________________________________________________________
+./myPaper.tex:4: Undefined control sequence.
+Line #4 ----------------------- 
+%\usepackage{CORE-AAS/variables} 
+._______________________________________________________________________
+./myPaper.tex:5: Undefined control sequence.
+Line #5 ----------------------- 
+\newcommand{\vdag}{(v)^\dagger}
+._______________________________________________________________________
+./myPaper.tex:6: Undefined control sequence.
+Line #6 ----------------------- 
+\newcommand\aastex{AAS\TeX}
+._______________________________________________________________________
+./myPaper.tex:7: Undefined control sequence.
+Line #7 ----------------------- 
+\newcommand\latex{La\TeX}
+._______________________________________________________________________
+./myPaper.tex:8: Undefined control sequence.
+Line #8 ----------------------- 
+\usepackage{amsmath}
+._______________________________________________________________________
+./myPaper.tex:9: LaTeX Error: Missing \begin{document}.
+./myPaper.tex:9: Undefined control sequence.
+./myPaper.tex:9: LaTeX Error: Missing \begin{document}.
+./myPaper.tex:9: Undefined control sequence.
+./myPaper.tex:9: LaTeX Error: Missing \begin{document}.
+./myPaper.tex:9: Undefined control sequence.
+Line #9 ----------------------- 
+\usepackage{multirow}
+._______________________________________________________________________
+./myPaper.tex:10: Undefined control sequence.
+Line #10 ----------------------- 
+\usepackage[abs]{overpic}
+._______________________________________________________________________
+./myPaper.tex:11: LaTeX Error: Missing \begin{document}.
+./myPaper.tex:11: Undefined control sequence.
+./myPaper.tex:11: LaTeX Error: Missing \begin{document}.
+./myPaper.tex:11: Undefined control sequence.
+./myPaper.tex:11: LaTeX Error: Missing \begin{document}.
+./myPaper.tex:11: Undefined control sequence.
+Line #11 ----------------------- 
+\usepackage{breakurl}
+._______________________________________________________________________
+./myPaper.tex:12: LaTeX Error: Missing \begin{document}.
+./myPaper.tex:12: Undefined control sequence.
+./myPaper.tex:12: LaTeX Error: Missing \begin{document}.
+./myPaper.tex:12: Undefined control sequence.
+./myPaper.tex:12: LaTeX Error: Missing \begin{document}.
+./myPaper.tex:12: Undefined control sequence.
+Line #12 ----------------------- 
+\usepackage{hyperref}
+._______________________________________________________________________
+./myPaper.tex:13: Undefined control sequence.
+Line #13 ----------------------- 
+\usepackage{textcomp}
+._______________________________________________________________________
+./myPaper.tex:14: LaTeX Error: Missing \begin{document}.
+./myPaper.tex:14: Undefined control sequence.
+./myPaper.tex:14: LaTeX Error: Missing \begin{document}.
+./myPaper.tex:14: Undefined control sequence.
+./myPaper.tex:14: LaTeX Error: Missing \begin{document}.
+./myPaper.tex:14: Undefined control sequence.
+Line #14 ----------------------- 
+\usepackage{fancyhdr}
+._______________________________________________________________________
+./myPaper.tex:15: Undefined control sequence.
+Line #15 ----------------------- 
+\usepackage{graphicx}
+._______________________________________________________________________
+./myPaper.tex:16: Undefined control sequence.
+Line #16 ----------------------- 
+\usepackage{amssymb}
+._______________________________________________________________________
+./myPaper.tex:17: Undefined control sequence.
+Line #17 ----------------------- 
+\usepackage[toc,page]{appendix}
+._______________________________________________________________________
+./myPaper.tex:18: LaTeX Error: Missing \begin{document}.
+./myPaper.tex:18: Undefined control sequence.
+./myPaper.tex:18: LaTeX Error: Missing \begin{document}.
+./myPaper.tex:18: Undefined control sequence.
+./myPaper.tex:18: LaTeX Error: Missing \begin{document}.
+./myPaper.tex:18: Undefined control sequence.
+Line #18 ----------------------- 
+%\usepackage{floatrow} % <=breaks deluxetable by making the table title appear at bottom instead of top of table 
+._______________________________________________________________________
+./myPaper.tex:19: Undefined control sequence.
+Line #19 ----------------------- 
+\usepackage{nicefrac}
+._______________________________________________________________________
+./myPaper.tex:20: Undefined control sequence.
+Line #20 ----------------------- 
+\usepackage{svg}
+._______________________________________________________________________
+./myPaper.tex:21: LaTeX Error: Missing \begin{document}.
+Line #21 ----------------------- 
+\usepackage[utf8]{inputenc}
+._______________________________________________________________________
+./myPaper.tex:22: LaTeX Error: Missing \begin{document}.
+Line #22 ----------------------- 
+% Table float box with bottom caption, box width adjusted to content 
+._______________________________________________________________________
+./myPaper.tex:24: LaTeX Error: Missing \begin{document}.
+Line #24 ----------------------- 
+\usepackage{scrextend}
+._______________________________________________________________________
+./myPaper.tex:28: LaTeX Error: Missing \begin{document}.
+Line #28 ----------------------- 
+\usepackage{array}
+._______________________________________________________________________
+./myPaper.tex:94: Undefined control sequence.
+Line #94 ----------------------- 
+Combining \Chandra, ALMA, EVLA, and \emph{Hubble} Space Telescope archival data  and newly acquired APO/DIS spectroscopy, we detect a double-lobed 17~kpc X-ray emission with plumes oriented approximately perpendicular and parallel to the galactic plane of the massive lenticular galaxy NGC\,5084 at 0.3--2.0~keV. 
+._______________________________________________________________________
+./myPaper.tex:99: Undefined control sequence.
+Line #99 ----------------------- 
+including \SAUNAS\ (Selective Amplification of Ultra Noisy Astronomical Signal), demonstrating the abundance of information still to be exploited in the vast and growing astronomical archives.
+._______________________________________________________________________
+./myPaper.tex:141: Undefined control sequence.
+Line #141 ----------------------- 
+\citet{osullivan+2017mnras472_1482} analyzed the \Chandra\ X-ray observations using the Advanced CCD Imaging Spectrometer (ACIS), concluding that the X-ray emission of NGC\,5084 is primarily generated by the central core\footnote{From \citet{osullivan+2017mnras472_1482}, about NGC\,5084: \emph{``show[ing] no evidence of a hot IGM, but does detect powerlaw emission extending $\sim100$" ($\sim$10 kpc), with a central point
+._______________________________________________________________________
+./myPaper.tex:146: Undefined control sequence.
+Line #146 ----------------------- 
+This project is the second publication in a series that will study the hot gas halos around galaxies using X-ray observations from the \Chandra\ X-ray observatory. The first paper \citep[first thing][\texttt{SAUNAS I}, hereafter]{borlaff+2024apj967_169} describes the \SAUNAS\ (Selective Amplification of Ultra Noisy Astronomical Signal) pipeline to detect low surface brightness emission in \Chandra/ACIS observations. See \texttt{SAUNAS I} for the details and description of the X-ray image reduction methodology.
+._______________________________________________________________________
+./myPaper.tex:185: Misplaced \omit.
+./myPaper.tex:185: Undefined control sequence.
+./myPaper.tex:185: Misplaced \noalign.
+./myPaper.tex:185: You can't use `\hrule' here except with leaders.
+./myPaper.tex:185: Missing number, treated as zero.
+./myPaper.tex:185: Illegal unit of measure (pt inserted).
+./myPaper.tex:185: Undefined control sequence.
+./myPaper.tex:185: Misplaced \omit.
+./myPaper.tex:185: Misplaced \noalign.
+./myPaper.tex:185: You can't use `\hrule' here except with leaders.
+./myPaper.tex:185: Missing number, treated as zero.
+./myPaper.tex:185: Illegal unit of measure (pt inserted).
+./myPaper.tex:185: Missing } inserted.
+./myPaper.tex:185: Missing \endgroup inserted.
+./myPaper.tex:185: Missing } inserted.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Missing { inserted.
+./myPaper.tex:185: Missing } inserted.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: ==> Fatal error occurred, no output PDF file produced!Transcript written on myPaper.
+./myPaper.tex:185: Misplaced \omit.
+./myPaper.tex:185: Undefined control sequence.
+./myPaper.tex:185: Misplaced \noalign.
+./myPaper.tex:185: You can't use `\hrule' here except with leaders.
+./myPaper.tex:185: Missing number, treated as zero.
+./myPaper.tex:185: Illegal unit of measure (pt inserted).
+./myPaper.tex:185: Undefined control sequence.
+./myPaper.tex:185: Misplaced \omit.
+./myPaper.tex:185: Misplaced \noalign.
+./myPaper.tex:185: You can't use `\hrule' here except with leaders.
+./myPaper.tex:185: Missing number, treated as zero.
+./myPaper.tex:185: Illegal unit of measure (pt inserted).
+./myPaper.tex:185: Missing } inserted.
+./myPaper.tex:185: Missing \endgroup inserted.
+./myPaper.tex:185: Missing } inserted.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Missing { inserted.
+./myPaper.tex:185: Missing } inserted.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: ==> Fatal error occurred, no output PDF file produced!Transcript written on myPaper.
+./myPaper.tex:185: Misplaced \omit.
+./myPaper.tex:185: Undefined control sequence.
+./myPaper.tex:185: Misplaced \noalign.
+./myPaper.tex:185: You can't use `\hrule' here except with leaders.
+./myPaper.tex:185: Missing number, treated as zero.
+./myPaper.tex:185: Illegal unit of measure (pt inserted).
+./myPaper.tex:185: Undefined control sequence.
+./myPaper.tex:185: Misplaced \omit.
+./myPaper.tex:185: Misplaced \noalign.
+./myPaper.tex:185: You can't use `\hrule' here except with leaders.
+./myPaper.tex:185: Missing number, treated as zero.
+./myPaper.tex:185: Illegal unit of measure (pt inserted).
+./myPaper.tex:185: Missing } inserted.
+./myPaper.tex:185: Missing \endgroup inserted.
+./myPaper.tex:185: Missing } inserted.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Missing { inserted.
+./myPaper.tex:185: Missing } inserted.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: Missing \cr inserted.
+./myPaper.tex:185: Misplaced \cr.
+./myPaper.tex:185: ==> Fatal error occurred, no output PDF file produced!Transcript written on myPaper.
+Line #185 ----------------------- 
+\enddata
+._______________________________________________________________________
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              WARNINGS IN myPaper.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+LaTeX Warning: Reference `fig:NGC5084' on page 2 undefined on input line 144.
+Line #144 ----------------------- 
+Looking at Figure\ref{fig:NGC5084} in Section\ref{subsec:results_xray_ima}.
+._______________________________________________________________________
+LaTeX Warning: Reference `sec:methods' on page 2 undefined on input line 148.
+LaTeX Warning: Reference `sec:DIS' on page 2 undefined on input line 148.
+LaTeX Warning: Reference `sec:methods' on page 2 undefined on input line 148.
+LaTeX Warning: Reference `sec:DIS' on page 2 undefined on input line 148.
+LaTeX Warning: Reference `sec:methods' on page 2 undefined on input line 148.
+LaTeX Warning: Reference `sec:DIS' on page 2 undefined on input line 148.
+Line #148 ----------------------- 
+This paper is organized as follows. The datasets and methodology pipeline is described in Sec.\,\ref{sec:methods}. The results are presented in Sec.\,\ref{sec:results}. The discussion and conclusions are presented in Sec.\,\ref{sec:DIS} and \ref{sec:CON}, respectively. All magnitudes are in the AB system \citep{oke1971apj170_193} unless otherwise noted.
+._______________________________________________________________________
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              CITATION ISSUES IN myPaper.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      none
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              LIST OF REFERENCES IN myPaper.tex
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
