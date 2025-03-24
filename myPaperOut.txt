@@ -2,7 +2,7 @@
 LATEX COMPILATION ERRORS and WARNINGS
 
 To view full GitHub Actions output, click on item at top of list here:
-https://github.com/pmarcum/SAUNAS_III/actions/runs/14029567224/job/39274172881
+https://github.com/pmarcum/SAUNAS_III/actions/runs/14029798850/job/39274822265
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               FATAL ERRORS IN myPaper.tex
@@ -119,7 +119,7 @@ Line #659 -----------------------
 \raisebox{0.90em}{\scalebox{0.01}{\transparent{1.0}.\the\inputlineno.}}One of the main advantages of \SAUNAS's spatial binning application to the X-ray event maps is the improvement in detectability of extended low surface brightness sources. Extended emission sensitivity limits in binned maps are considerably fainter than the reference point source sensitivity of \Chandra/ACIS\footnote{\Chandra/ACIS proposer guide: \url{https://cxc.harvard.edu/proposer/POG/html/chap6.html}} ($4\times10^{-15}$ erg cm$^{-2}$ s$^{-1}$ in 10$^4$ s, at 0.4--6.0 keV). In general, the sensitivity limit of \Chandra/ACIS ($f_{\rm lim}$) at a given signal-to-noise ratio ($\sigma$) detection level is a function of photon energy ($E$), binning area ($A$), exposure time ($t$), and equivalent effective area \citep[$M$, which has a complex variation with energy, see Fig.\,6 in][]{evans+2010apj189_37}:
 ._______________________________________________________________________
 ./myPaper.tex:666: Undefined control sequence.
-LaTeX Warning: Reference `eq:F_lim_Xray' on page 26 undefined on input line 666.
+LaTeX Warning: Reference `eq:F_lim_Xray' on page 27 undefined on input line 666.
 ./myPaper.tex:666: Undefined control sequence.
 Line #666 ----------------------- 
 \raisebox{0.90em}{\scalebox{0.01}{\transparent{1.0}.\the\inputlineno.}}At $E=1$ keV and $t=10$~ks, the equivalent exposure\footnote{\ciao/\Chandra\ exposure maps: \url{https://cxc.cfa.harvard.edu/ciao/threads/expmap_acis_single/}} ($\emph{M}\,\emph{t}$) is approximately $3.8\times10^{6}$ cm$^{2}$ s$^{1}$. For a point source detection of $\sigma=3$, with flux integration over an area associated with the PSF at the center of the ACIS detector ($FWHM\sim1.1"$), Eqn.\,\ref{eq:F_lim_Xray} implies a limiting sensitivity of $f_{\rm{lim}} = 4\times10^{-15}$ erg cm$^{-2}$ s$^{-1}$, equal to the reference instrument point source sensitivity limits.
@@ -161,9 +161,9 @@ Line #713 -----------------------
 \raisebox{0.90em}{\scalebox{0.01}{\transparent{1.0}.\the\inputlineno.}}The analysis indicates that the surface brightness X-ray emission in the apertures is significantly higher than that of the background. The null hypothesis that the surface brightness distributions of lobe emission and the background are sampled from a common parent population is rejected at a p-value of $p<0.05$ in all four lobe regions. In other words, this analysis provides strong statistical support for the existence of the lobe emission: north ($p=6.8\times10^{-7}$), east ($p=1.1\times10^{-6}$), south ($p=1.3\times10^{-4}$) and west ($p\sim0.01$). The fluxes integrated over the different apertures are tabulated in Table \ref{tab:Xray_flux}. This result supports and verifies the findings described in Sec.\,\ref{subsec:results_xray_ima} and Appendix \ref{Appendix:Xray_noPSFdeco_test}. We conclude that the extended X-ray emission detected by \SAUNAS\ around NGC\,5084 is (1) statistically significant; (2) independent of the PSF deconvolution process; and  (3) independent of the Voronoi binning methodology applied.
 ._______________________________________________________________________
 ./myPaper.tex:721: Undefined control sequence.
-LaTeX Warning: Reference `sec:methods' on page 28 undefined on input line 721.
+LaTeX Warning: Reference `sec:methods' on page 29 undefined on input line 721.
 ./myPaper.tex:721: Undefined control sequence.
-LaTeX Warning: Reference `sec:methods' on page 28 undefined on input line 721.
+LaTeX Warning: Reference `sec:methods' on page 29 undefined on input line 721.
 ./myPaper.tex:721: Undefined control sequence.
 Line #721 ----------------------- 
 \caption{Detection of the X-ray extended lobes around NGC\,5084 without Voronoi binning. \emph{Left:} \Chandra/ACIS X-ray flux ($0.3-2.0$ keV) map rebinned to $12.2\times12.2$ arcsec ($25\times25$ pixels) for visualization purposes. PSF deconvolution was applied \citep[see Sec.\,\ref{sec:methods}, and ][]{borlaff+2024apj967_169} \emph{Color rectangles:} Fixed apertures to measure X-ray emission in the North (blue), West (red), South (green), and East (orange) lobes. \emph{Yellow contours:} [$2$,$3$]$\sigma$ (dotted, dashed respectively) detection limits as estimated by \SAUNAS\ (see Sec.\,\ref{subsec:results_xray_ima}, for reference. \emph{Right:} Color coded histograms represent the event probability distributions for the background (grey) and the four lobe apertures. The $p$-values for the null hypothesis that the flux distributions in the lobe apertures are compatible with the background are represented in the legend.}
@@ -244,8 +244,8 @@ LaTeX Warning: Reference `sec:DIS' on page 24 undefined on input line 600.
 Line #600 ----------------------- 
 \raisebox{0.90em}{\scalebox{0.01}{\transparent{1.0}.\the\inputlineno.}}The horizontal (in-plane) component of the X-ray emission is aligned with both the rotation axis of the newly discovered circumnuclear disk and the symmetric radio lobes, identified by \citet{irwin+2019aj158_21} as part of a radio AGN jet. Taking into account all available observational evidence consolidated in this paper (see Fig.\,\ref{fig:NGC5084_scenarios}), we consider three potential hypotheses for the formation of the observed cross-shaped X-ray emission: (1) it is the remnant of a re-oriented AGN; (2) it is an outflow generated by an overpressured cocoon of hot gas powered by the AGN pointing into the dense ISM within midplane of the galactic disk; or (3) it is part of a faded starburst at the core of the galaxy. Spectroscopic observations on the core of NGC\,5084 do not support the latter scenario, given the lack of spectral evidence for recent (massive stars) or on-going star formation in the core.  Combining the new observational evidence presented in this paper with previous analysis based on environment and morphology (see Sec.\,\ref{sec:DIS}), we conclude that NGC\,5084 is with high probability the remnant of at least one merger in the past, which is actively accreting its multiple satellites.}
 ._______________________________________________________________________
-LaTeX Warning: Reference `tab:Xray_flux' on page 28 undefined on input line 711.
-LaTeX Warning: Reference `fig:NGC5084_Aperture_Histograms' on page 28 undefined on input line 711.
+LaTeX Warning: Reference `tab:Xray_flux' on page 29 undefined on input line 711.
+LaTeX Warning: Reference `fig:NGC5084_Aperture_Histograms' on page 29 undefined on input line 711.
 Line #711 ----------------------- 
 \raisebox{0.90em}{\scalebox{0.01}{\transparent{1.0}.\the\inputlineno.}}In this section we assess the statistical significance of the detection of the four X-ray emission lobes reported in Sec.\,\ref{subsec:results_xray_ima}, using the PSF deconvolved observations but without employing Voronoi binning. First, four simple box regions are defined, based on the contours detected in Sec.\,\ref{subsec:results_xray_ima} to isolate the emission from the brighter galactic core. The region parameters are listed in Table \ref{tab:Xray_flux} and represented in the left panel of Fig.\,\ref{fig:NGC5084_Aperture_Histograms} (see legend in the right panel). Second, a Poisson means test \citep[$E$-test, ][]{KRISHNAMOORTHY200423} evaluates the null hypothesis that the difference between the observed and background emission is statistically zero. We repeat the test 500 times using Monte Carlo and Bootstrapping simulations in order to obtain the probability distributions for the surface brightness represented in the right panel of Fig.\,\ref{fig:NGC5084_Aperture_Histograms}.
 ._______________________________________________________________________
