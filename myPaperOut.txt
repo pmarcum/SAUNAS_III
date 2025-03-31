@@ -2,7 +2,7 @@
 LATEX COMPILATION ERRORS and WARNINGS
 
 To view full GitHub Actions output, click on item at top of list here:
-https://github.com/pmarcum/SAUNAS_III/actions/runs/14167928885/job/39685112474
+https://github.com/pmarcum/SAUNAS_III/actions/runs/14168414919/job/39686626480
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
               FATAL ERRORS IN myPaper.tex
@@ -51,7 +51,7 @@ Line #196 -----------------------
 ._______________________________________________________________________
 ./myPaper.tex:207: Undefined control sequence.
 Line #207 ----------------------- 
-All observations were retrieved from MAST as level~3, after photometric and astrometric calibration, combination (drizzling) of the different exposures when available. The pixel scale for the final HST mosaics is 0.05~arcsec~px$^{-1}$. We detected a shift between the astrometric solution in the different filters (less than 0.5 arcsec). The offset is likely due to different guide-stars used for the various HST observations, combined with the uncertainties in the guide-star catalog. Due to high intensity of the central source and the reduced field of view of the Hubble frames, there are no sufficient reference stars or background sources to perform an automatic astrometric calibration the images. The images were therefore realigned by a simple translation of the reference pixel in the WCS, allowing the position of maximum flux to be recentered in the image (the galactic core). All analysis involving \Hubble\ images was performed on the individual filter frames (with exception of the color maps in Fig.\,\ref{fig:NGC5084_color}), and as a consequence their relative alignment does not impact the results of the present work.
+All observations were retrieved from MAST as level~3, after photometric and astrometric calibration, combination (drizzling) of the different exposures when available. The pixel scale for the final HST mosaics is 0.05~arcsec~px$^{-1}$. We detected a shift between the astrometric solution in the different filters (less than 0.5 arcsec). The offset is likely due to different guide-stars used for the various HST observations, combined with the uncertainties in the guide-star catalog. Due to high intensity of the central source and the reduced field of view of the Hubble frames, there are no sufficient reference stars or background sources to perform an automatic astrometric calibration the images. The images were therefore realigned by a simple translation of the reference pixel in the WCS, allowing the position of maximum flux to be recentered in the image (the galactic core). All analysis involving \Hubble\ images was performed on the individual filter frames (with exception of the color maps in Fig.\,\ref{fig:NGC5084_color}. As a consequence, their relative alignment does not impact the results of the present work.
 ._______________________________________________________________________
 ./myPaper.tex:248: Undefined control sequence.
 Line #248 ----------------------- 
