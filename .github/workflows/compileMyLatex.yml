@@ -281,18 +281,6 @@ jobs:
           ls -la FIGURES
         continue-on-error: true 
         #
-      #- name: Create temporary tex file with linenumbers
-      #  run: |
-          # need to create tex file that has latex code inserted at beginning of each line that will put line number in
-          # super tiny transparent font at beginning of the sentence in pdf file, so that these "landmarks" can be used
-          # later by gooTex to identify lines called out in error log, so that those lines can be highlighted and noted.
-          ##rootname=${{ github.event.inputs.file2compile }}
-          ##rm -f ${rootname}.tmp
-          ##cp ${rootname}.tex ${rootname}.tmp
-          ##linenumCode="\\\raisebox\{0.90em\}\{\\\scalebox\{0\.01\}\{\\\transparent\{1\.0\}\.\\\the\\\inputlineno\.\}\}"
-          ##sed -i "s/^/${linenumCode}/" ${rootname}.tmp
-          ##mv -f ${rootname}.tmp ${rootname}.tex
-        #
         # https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
         # https://www.overleaf.com/learn/latex/TeX_engine_command_line_options_for_pdfTeX%2C_XeTeX_and_LuaTeX
         # https://github.com/teatimeguest/setup-texlive-action/tree/v3.3.0
@@ -642,7 +630,16 @@ jobs:
            echo "HTML=${rootname}.html" >> $GITHUB_ENV
            echo "OUT=${rootname}Out.txt" >> $GITHUB_ENV
         continue-on-error: true
-        #          
+        # 
+      - name: upload finalized compilation errors file to google drive
+        if: ${{ always() && hashFiles(env.OUT) }}
+        uses: nextDriveIoE/google-drive-upload-action@v2
+        with:
+          target:  ${{ env.OUT }}
+          credentials: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS }}
+          parent_folder_id: ${{ github.event.inputs.folderid }}
+          overwrite: true
+        continue-on-error: true       
       - name: upload final version of STATUS-2 file to google drive
         if: ${{ always() && hashFiles(env.STATUS2) }}
         uses: nextDriveIoE/google-drive-upload-action@v2
@@ -679,7 +676,7 @@ jobs:
           path: ${{ github.event.inputs.file2compile }}.html
           overwrite: true
         continue-on-error: true
-        #
+        #       
       - name: Make finalized compilation errors available to other jobs 
         if: ${{ always() && hashFiles(env.OUT) }}
         uses: actions/upload-artifact@v4
