@@ -133,6 +133,8 @@ jobs:
         run: |
           echo "133"
           echo "madePruned is true"
+          ls pruned.bib
+          cat pruned.bib
         
       - name: upload pruned.bib to google drive
         uses: nextDriveIoE/google-drive-upload-action@v2
