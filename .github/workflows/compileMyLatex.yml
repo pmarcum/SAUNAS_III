@@ -702,42 +702,42 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v4
         #
-      - name: download STATUS 1 file
-        uses: actions/download-artifact@v4
-        with:
-          name: status1-artifact
-          path: ${{ env.STATUS1 }}
-          #
-      - name: download STATUS 2 file
-        uses: actions/download-artifact@v4
-        with:
-          name: status2-artifact
-          path: ${{ env.STATUS2 }}
-          #
-      - name: Download PDF
-        uses: actions/download-artifact@v4
-        with:
-          name: pdf-artifact
-        continue-on-error: true
-        #
-      - name: Download pruned bibfile
-        uses: actions/download-artifact@v4
-        with:
-          name: pruned-bib-artifact
-        continue-on-error: true
-        #
-      - name: Download html compilation error file (if exists)
-        uses: actions/download-artifact@v4
-        with:
-          name: finalized-compilationlog-html-artifact
-        continue-on-error: true
-        #
-      - name: Download txt compilation error OUT file (if exists)
-        uses: actions/download-artifact@v4
-        with:
-          name: finalized-compilationlog-out-artifact
-        continue-on-error: true
-        #        
+      #- name: download STATUS 1 file
+      #  uses: actions/download-artifact@v4
+      #  with:
+      #    name: status1-artifact
+      #    path: ${{ env.STATUS1 }}
+      #    #
+      #- name: download STATUS 2 file
+      #  uses: actions/download-artifact@v4
+      #  with:
+      #    name: status2-artifact
+      #    path: ${{ env.STATUS2 }}
+      #    #
+      #- name: Download PDF
+      #  uses: actions/download-artifact@v4
+      #  with:
+      #    name: pdf-artifact
+      #  continue-on-error: true
+      #  #
+      #- name: Download pruned bibfile
+      #  uses: actions/download-artifact@v4
+      #  with:
+      #    name: pruned-bib-artifact
+      #  continue-on-error: true
+      #  #
+      #- name: Download html compilation error file (if exists)
+      #  uses: actions/download-artifact@v4
+      #  with:
+      #    name: finalized-compilationlog-html-artifact
+      #  continue-on-error: true
+      #  #
+      #- name: Download txt compilation error OUT file (if exists)
+      #  uses: actions/download-artifact@v4
+      #  with:
+      #    name: finalized-compilationlog-out-artifact
+      #  continue-on-error: true
+      #  #        
       - name: Download compressed images
         uses: actions/download-artifact@v4
         with:
