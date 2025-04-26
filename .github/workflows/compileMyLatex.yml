@@ -68,10 +68,22 @@ jobs:
            # next, see if pruned.bib is already being used.  If so, then bail out now and dont try to recreate the pruned.bib
            if [[ "$(grep -Eq "^ *\\\\bibliography[{]pruned([.]bib)?" ${rootname}.tex)$?" == 0 ]]; then makeNewPrunedBib=false; fi         
            #
+
+
+
+           echo "72"
+           echo $makeNewPrunedBib
+
+
+           
            if $makeNewPrunedBib; then
               echo "madePruned=T" >> $GITHUB_OUTPUT
               rm -f pruned.bib
               touch pruned.bib
+
+              echo "84"
+
+              
               # get a list of bib files used in this document:
               readarray -t bibfiles < <( grep -E "^ *\\\\bibliography[{][^}]+[}]" "${rootname}.tex" | \
                 sed -r 's/^ *\\bibliography[{]//i' | sed -r 's/} *$//' | sed -r 's/ *//g' )
@@ -101,11 +113,27 @@ jobs:
               # put into the pruned bibfile              
               for (( i=0; i<${#cites[@]}; i++ )); do grep -zoE "@[^{]+\{ *${cites[$i]}[^@]+" "${bibfiles[@]}" | tr '\0' '\n' >> pruned.bib; done
               sed -ri 's/^[^@]+@/@/g;s/^([^@}])/  \1/g' pruned.bib
+
+              echo "117"
+              cat pruned.bib
+
+              
             else
               echo "madePruned=F" >> $GITHUB_OUTPUT
+
+              echo "124"
+              cat pruned.bib 
+              
             fi
         continue-on-error: true
         #
+        
+      - name: test
+        if: ${{ always() && steps.pruneBib.outputs.madePruned == 'T' }}
+        run: |
+          echo "133"
+          echo "madePruned is true"
+        
       - name: upload pruned.bib to google drive
         uses: nextDriveIoE/google-drive-upload-action@v2
         if: ${{ always() && steps.pruneBib.outputs.madePruned == 'T' }}
